@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Practical DS'
+project = 'Unifying DS'
 copyright = '2019, Nick Eubank'
 author = 'Nick Eubank'
 
@@ -89,7 +89,7 @@ html_theme = 'alabaster'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-html_theme_options = {'analytics_id': 'UA-133829453-1',
+html_theme_options = {'analytics_id': 'UA-151397036-1',
                       'font_family': 'Garamond',
                       'code_font_size': '12px',
                       'font_size': '17px'
@@ -117,8 +117,8 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'PracticalDS'
-html_title = "Practical Data Science"
+htmlhelp_basename = 'UnifyingDS'
+html_title = "Unifying Data Science"
 
 
 
@@ -146,7 +146,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'practicalDS.tex', 'Practical Data Science',
+    (master_doc, 'unifyingDS.tex', 'Unifying Data Science',
      'Nick Eubank', 'manual'),
 ]
 
@@ -156,7 +156,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'PracticalDS', 'Practical Data Science',
+    (master_doc, 'unifyingDS', 'Unifying Data Science',
      [author], 1)
 ]
 
@@ -167,8 +167,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'PracticalDS', 'PracticalDS',
-     author, 'PracticalDS', 'PracticalDS',
+    (master_doc, 'unifyingDS', 'unifyingDS',
+     author, 'unifyingDS', 'unifyingDS',
      'Miscellaneous'),
 ]
 
