@@ -1,0 +1,1036 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cleaning Data &#8212; Practical Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="section" id="Cleaning-Data">
+<h1>Cleaning Data<a class="headerlink" href="#Cleaning-Data" title="Permalink to this headline">¶</a></h1>
+<p><strong>1)</strong> For our data cleaning exercises, we will return one last time to our ACS data <a class="reference external" href="https://github.com/nickeubank/MIDS_Data/tree/master/US_AmericanCommunitySurvey">here</a>. Download and import the 10percent ACS sample.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1"># Download the data</span>
+<span class="n">acs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span><span class="s2">&quot;https://github.com/nickeubank/MIDS_Data/raw/master/US_AmericanCommunitySurvey/US_ACS_2017_10pct_sample.dta&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>2)</strong> For our exercises today, we’ll focus on <code class="docutils literal notranslate"><span class="pre">age</span></code>, <code class="docutils literal notranslate"><span class="pre">gender</span></code>, <code class="docutils literal notranslate"><span class="pre">educ</span></code>, and <code class="docutils literal notranslate"><span class="pre">inctot</span></code>. Subset your data to those variables, and quickly look at a sample of 10 rows.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">acs</span> <span class="o">=</span> <span class="n">acs</span><span class="p">[[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">,</span> <span class="s1">&#39;educ&#39;</span><span class="p">,</span> <span class="s1">&#39;inctot&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">acs</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>sex</th>
+      <th>educ</th>
+      <th>inctot</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>275821</th>
+      <td>46</td>
+      <td>female</td>
+      <td>4 years of college</td>
+      <td>90000</td>
+    </tr>
+    <tr>
+      <th>6930</th>
+      <td>68</td>
+      <td>male</td>
+      <td>n/a or no schooling</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>269370</th>
+      <td>less than 1 year old</td>
+      <td>female</td>
+      <td>n/a or no schooling</td>
+      <td>9999999</td>
+    </tr>
+    <tr>
+      <th>121293</th>
+      <td>72</td>
+      <td>male</td>
+      <td>4 years of college</td>
+      <td>49900</td>
+    </tr>
+    <tr>
+      <th>262364</th>
+      <td>50</td>
+      <td>female</td>
+      <td>4 years of college</td>
+      <td>100000</td>
+    </tr>
+    <tr>
+      <th>130572</th>
+      <td>68</td>
+      <td>female</td>
+      <td>grade 5, 6, 7, or 8</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>163613</th>
+      <td>68</td>
+      <td>female</td>
+      <td>grade 12</td>
+      <td>9700</td>
+    </tr>
+    <tr>
+      <th>136830</th>
+      <td>60</td>
+      <td>male</td>
+      <td>5+ years of college</td>
+      <td>60000</td>
+    </tr>
+    <tr>
+      <th>186955</th>
+      <td>50</td>
+      <td>female</td>
+      <td>grade 9</td>
+      <td>40000</td>
+    </tr>
+    <tr>
+      <th>37467</th>
+      <td>less than 1 year old</td>
+      <td>female</td>
+      <td>n/a or no schooling</td>
+      <td>9999999</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p><strong>3)</strong> First, replace all the values of <code class="docutils literal notranslate"><span class="pre">inctot</span></code> that are 9999999 with <code class="docutils literal notranslate"><span class="pre">np.nan</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;inctot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acs</span><span class="p">[</span><span class="s1">&#39;inctot&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="mi">9999999</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>4)</strong> Calculate the average age of people in our data. What do you get?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-6-43018bf34eca&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>acs<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;age&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>mean<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/miniconda3/lib/python3.7/site-packages/pandas/core/generic.py</span> in <span class="ansi-cyan-fg">stat_func</span><span class="ansi-blue-fg">(self, axis, skipna, level, numeric_only, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">  11618</span>             <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_agg_by_level<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> axis<span class="ansi-blue-fg">=</span>axis<span class="ansi-blue-fg">,</span> level<span class="ansi-blue-fg">=</span>level<span class="ansi-blue-fg">,</span> skipna<span class="ansi-blue-fg">=</span>skipna<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">  11619</span>         return self._reduce(
+<span class="ansi-green-fg">&gt; 11620</span><span class="ansi-red-fg">             </span>f<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">,</span> axis<span class="ansi-blue-fg">=</span>axis<span class="ansi-blue-fg">,</span> skipna<span class="ansi-blue-fg">=</span>skipna<span class="ansi-blue-fg">,</span> numeric_only<span class="ansi-blue-fg">=</span>numeric_only
+<span class="ansi-green-intense-fg ansi-bold">  11621</span>         )
+<span class="ansi-green-intense-fg ansi-bold">  11622</span>
+
+<span class="ansi-green-fg">~/miniconda3/lib/python3.7/site-packages/pandas/core/series.py</span> in <span class="ansi-cyan-fg">_reduce</span><span class="ansi-blue-fg">(self, op, name, axis, skipna, numeric_only, filter_type, **kwds)</span>
+<span class="ansi-green-intense-fg ansi-bold">   4062</span>             <span class="ansi-red-fg"># TODO deprecate numeric_only argument for Categorical and use</span>
+<span class="ansi-green-intense-fg ansi-bold">   4063</span>             <span class="ansi-red-fg"># skipna as well, see GH25303</span>
+<span class="ansi-green-fg">-&gt; 4064</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> delegate<span class="ansi-blue-fg">.</span>_reduce<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> numeric_only<span class="ansi-blue-fg">=</span>numeric_only<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwds<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   4065</span>         <span class="ansi-green-fg">elif</span> isinstance<span class="ansi-blue-fg">(</span>delegate<span class="ansi-blue-fg">,</span> ExtensionArray<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   4066</span>             <span class="ansi-red-fg"># dispatch to ExtensionArray interface</span>
+
+<span class="ansi-green-fg">~/miniconda3/lib/python3.7/site-packages/pandas/core/arrays/categorical.py</span> in <span class="ansi-cyan-fg">_reduce</span><span class="ansi-blue-fg">(self, name, axis, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2258</span>         <span class="ansi-green-fg">if</span> func <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   2259</span>             msg <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#34;Categorical cannot perform the operation {op}&#34;</span>
+<span class="ansi-green-fg">-&gt; 2260</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">raise</span> TypeError<span class="ansi-blue-fg">(</span>msg<span class="ansi-blue-fg">.</span>format<span class="ansi-blue-fg">(</span>op<span class="ansi-blue-fg">=</span>name<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2261</span>         <span class="ansi-green-fg">return</span> func<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2262</span>
+
+<span class="ansi-red-fg">TypeError</span>: Categorical cannot perform the operation mean
+</pre></div></div>
+</div>
+<p><strong>5)</strong> We want to be able to calculate things using age, so we need it to be a numeric type. Check the current type of <code class="docutils literal notranslate"><span class="pre">age</span></code>, and look at all the values of <code class="docutils literal notranslate"><span class="pre">age</span></code> to figure out why it’s categorical and not numeric. You should find two problematic categories.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>60    4950
+54    4821
+59    4776
+56    4776
+58    4734
+      ...
+93     476
+95     471
+92     355
+91     227
+96      10
+Name: age, Length: 97, dtype: int64
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">acs</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+60
+54
+59
+56
+58
+57
+55
+61
+62
+53
+18
+63
+52
+65
+19
+64
+50
+47
+16
+66
+46
+67
+17
+51
+10
+20
+9
+48
+70
+68
+15
+34
+49
+45
+30
+40
+27
+32
+31
+69
+37
+35
+14
+12
+36
+29
+28
+13
+11
+39
+26
+21
+33
+38
+25
+44
+8
+24
+22
+42
+43
+23
+7
+6
+5
+41
+2
+1
+4
+3
+less than 1 year old
+71
+72
+74
+73
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+94
+87
+88
+89
+90 (90+ in 1980 and 1990)
+93
+95
+92
+91
+96
+</pre></div></div>
+</div>
+<p><strong>6)</strong> In order to convert <code class="docutils literal notranslate"><span class="pre">age</span></code> into a numeric variable, we need to replace those problematic entries with values that <code class="docutils literal notranslate"><span class="pre">pandas</span></code> can later convert into numbers. Pick appropriate substitutions for the existing values and replace the current values. <strong>Hint 1:</strong> Categorical variables act like strings, so you might want to use string methods! <strong>Hint 2:</strong> Remember that characters like parentheses, pluses, asterices, etc. are special in Python strings, and you have to escape them if you want them
+to be interpreted literally!</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;less than 1 year old&quot;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span>
+<span class="n">acs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;90 \(90\+ in 1980 and 1990\)&quot;</span><span class="p">,</span> <span class="s1">&#39;90&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>60    4950
+54    4821
+56    4776
+59    4776
+58    4734
+      ...
+93     476
+95     471
+92     355
+91     227
+96      10
+Name: age, Length: 97, dtype: int64
+</pre></div>
+</div>
+</div>
+<p><strong>7)</strong> Now convert age from a categorical to numeric.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>8)</strong> Let’s now filter out anyone in our data whose age is less than 18. Note that before made <code class="docutils literal notranslate"><span class="pre">age</span></code> a numeric variable, we couldn’t do this!</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">acs</span> <span class="o">=</span> <span class="n">acs</span><span class="p">[</span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">18</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p><strong>9)</strong> Create an indicator variable for whether each person has at least a college degree called <code class="docutils literal notranslate"><span class="pre">college_degree</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;educ&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>grade 12                     89743
+4 years of college           47212
+1 year of college            38384
+5+ years of college          29801
+2 years of college           20731
+grade 5, 6, 7, or 8           5942
+grade 11                      4763
+grade 10                      3942
+n/a or no schooling           3627
+grade 9                       3105
+nursery school to grade 4     1288
+Name: educ, dtype: int64
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;college_degree&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;educ&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;4 years of college&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;educ&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;5\+ years of college&#39;</span><span class="p">)</span>
+<span class="n">acs</span><span class="p">[</span><span class="s1">&#39;college_degree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>False    201326
+True      47212
+Name: college_degree, dtype: int64
+</pre></div>
+</div>
+</div>
+<p><strong>10)</strong> Let’s examine how the educational gender gap. Use <code class="docutils literal notranslate"><span class="pre">pd.crosstab</span></code> to create a cross-tabulation of <code class="docutils literal notranslate"><span class="pre">sex</span></code> and <code class="docutils literal notranslate"><span class="pre">college_degree</span></code>. <code class="docutils literal notranslate"><span class="pre">pd.crosstab</span></code> will give you the number of people who have each combination of <code class="docutils literal notranslate"><span class="pre">sex</span></code> and <code class="docutils literal notranslate"><span class="pre">college_degree</span></code> (so in this case, it will give us a 2x2 table with Male and Female as rows, and <code class="docutils literal notranslate"><span class="pre">college_degree</span></code> True and False as columns, or vice versa.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;college_degree&#39;</span><span class="p">],</span> <span class="n">acs</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>sex</th>
+      <th>male</th>
+      <th>female</th>
+    </tr>
+    <tr>
+      <th>college_degree</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>False</th>
+      <td>97723</td>
+      <td>103603</td>
+    </tr>
+    <tr>
+      <th>True</th>
+      <td>22039</td>
+      <td>25173</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p><strong>11)</strong> Counts are kind of hard to interpret. <code class="docutils literal notranslate"><span class="pre">pd.crosstab</span></code> can also normalize values to give percentages. Look at the <code class="docutils literal notranslate"><span class="pre">pd.crosstab</span></code> help file to figure out how to normalize the values in the table. Normalize them so that you get the share of men with and without college degree, and the share of women with and without college degrees.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;college_degree&#39;</span><span class="p">],</span> <span class="n">acs</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>sex</th>
+      <th>male</th>
+      <th>female</th>
+    </tr>
+    <tr>
+      <th>college_degree</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>False</th>
+      <td>0.815977</td>
+      <td>0.804521</td>
+    </tr>
+    <tr>
+      <th>True</th>
+      <td>0.184023</td>
+      <td>0.195479</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p><strong>12)</strong> Now, let’s recreate that table for people over 40 and people under 40. Has the difference between men and women in terms of getting a college degree impoved, stayed the same, or worsened?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">older</span> <span class="o">=</span> <span class="n">acs</span><span class="p">[</span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">]</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">older</span><span class="p">[</span><span class="s1">&#39;college_degree&#39;</span><span class="p">],</span> <span class="n">older</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>sex</th>
+      <th>male</th>
+      <th>female</th>
+    </tr>
+    <tr>
+      <th>college_degree</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>False</th>
+      <td>0.819964</td>
+      <td>0.824193</td>
+    </tr>
+    <tr>
+      <th>True</th>
+      <td>0.180036</td>
+      <td>0.175807</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">older</span> <span class="o">=</span> <span class="n">acs</span><span class="p">[</span><span class="n">acs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">40</span><span class="p">]</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">older</span><span class="p">[</span><span class="s1">&#39;college_degree&#39;</span><span class="p">],</span> <span class="n">older</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>sex</th>
+      <th>male</th>
+      <th>female</th>
+    </tr>
+    <tr>
+      <th>college_degree</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>False</th>
+      <td>0.808985</td>
+      <td>0.763971</td>
+    </tr>
+    <tr>
+      <th>True</th>
+      <td>0.191015</td>
+      <td>0.236029</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="section" id="Want-More-Practice?">
+<h2>Want More Practice?<a class="headerlink" href="#Want-More-Practice?" title="Permalink to this headline">¶</a></h2>
+<p>Calculate the educational racial gap in the United States for White Americans, Black Americans, Hispanic Americans, and other groups.</p>
+<p>Note that to do these calculations, you’ll have to deal with the fact that unlike most Americans, the American Census Bureau treats “Hispanic” not as a racial category, but a linguistic one. As a result, the racial category “White” in <code class="docutils literal notranslate"><span class="pre">race</span></code> actually includes most Hispanic Americans. For this analysis, we wish to work with the mutually exclusive categories of “White, non-Hispanic”, “White, Hispanic”, “Black (Hispanic or non-Hispanic)”, and a category for everyone else.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Practical DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">PYTHON &amp; PANDAS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup_environment.html">Setting Up Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managing_python_packages.html">Managing Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_v_r.html">Python / R Differences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vars_v_objects.html">Python: Vars v Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ints_and_floats.html">Numbers in Computers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pandas_series.html">Pandas 1: Series</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pandas_dataframes.html">Pandas 2: DataFrames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting_part1.html">Plotting, Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting_part2.html">Plotting, Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../views_and_copies_in_pandas.html">Pandas 3: Views</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OTHER TOOLS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../command_line_part1.html">Command Line, Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line_part2.html">Command Line, Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../git_and_github.html">Git and Github</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SKILLS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_help.html">Getting Help Online</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../what_is_big_data.html">What is Big Data?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../big_data_strategies.html">Working with Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance_understanding.html">Understanding Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance_solutions.html">Solving Performance Probs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallelism.html">Parallel Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../defensive_programming.html">Defensive Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow.html">Workflow Management</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OTHER</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../not_a_mids_student.html">Not a MIDS Student?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheets.html">Cheat Sheets</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/Solutions_cleaning.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-133829453-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>

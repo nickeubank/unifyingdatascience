@@ -1,0 +1,908 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Groupby and Arrest Data\n",
+    "\n",
+    "In our merging exercises, we examined the relationship between county-level violent arrest totals and county-level drug arrest totals. In those exercises, you were given a dataset that provided you with county-level arrest totals. But that's not actually how the data is provided by the state of California. This week we will work with the *raw* California arrest data, which is not organized by county or even county-year. \n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**(1)** Download the raw California arrest data from the State Attorney General's office [here](https://openjustice.doj.ca.gov/data) by scrolling down to the \"Arrests\" category and downloading the \"Arrests - CSV, 5.8 MB\" file. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "#arrests = pd.read_csv(\"https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2019-06/OnlineArrestData1980-2018.csv\")\n",
+    "arrests = pd.read_csv(\"/users/nick/downloads/OnlineArrestData1980-2018.csv\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>YEAR</th>\n",
+       "      <th>GENDER</th>\n",
+       "      <th>RACE</th>\n",
+       "      <th>AGE_GROUP</th>\n",
+       "      <th>COUNTY</th>\n",
+       "      <th>VIOLENT</th>\n",
+       "      <th>PROPERTY</th>\n",
+       "      <th>F_DRUGOFF</th>\n",
+       "      <th>F_SEXOFF</th>\n",
+       "      <th>F_ALLOTHER</th>\n",
+       "      <th>F_TOTAL</th>\n",
+       "      <th>M_TOTAL</th>\n",
+       "      <th>S_TOTAL</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1980</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>Black</td>\n",
+       "      <td>Under 18</td>\n",
+       "      <td>Alameda County</td>\n",
+       "      <td>505</td>\n",
+       "      <td>1351</td>\n",
+       "      <td>188</td>\n",
+       "      <td>26</td>\n",
+       "      <td>79</td>\n",
+       "      <td>2149</td>\n",
+       "      <td>2286</td>\n",
+       "      <td>295</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1980</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>Black</td>\n",
+       "      <td>Under 18</td>\n",
+       "      <td>Butte County</td>\n",
+       "      <td>3</td>\n",
+       "      <td>5</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>8</td>\n",
+       "      <td>7</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>1980</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>Black</td>\n",
+       "      <td>Under 18</td>\n",
+       "      <td>Calaveras County</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>1980</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>Black</td>\n",
+       "      <td>Under 18</td>\n",
+       "      <td>Contra Costa County</td>\n",
+       "      <td>116</td>\n",
+       "      <td>446</td>\n",
+       "      <td>28</td>\n",
+       "      <td>2</td>\n",
+       "      <td>37</td>\n",
+       "      <td>629</td>\n",
+       "      <td>557</td>\n",
+       "      <td>31</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>1980</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>Black</td>\n",
+       "      <td>Under 18</td>\n",
+       "      <td>El Dorado County</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>6</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   YEAR GENDER   RACE AGE_GROUP               COUNTY  VIOLENT  PROPERTY  \\\n",
+       "0  1980   Male  Black  Under 18       Alameda County      505      1351   \n",
+       "1  1980   Male  Black  Under 18         Butte County        3         5   \n",
+       "2  1980   Male  Black  Under 18     Calaveras County        0         0   \n",
+       "3  1980   Male  Black  Under 18  Contra Costa County      116       446   \n",
+       "4  1980   Male  Black  Under 18     El Dorado County        0         1   \n",
+       "\n",
+       "   F_DRUGOFF  F_SEXOFF  F_ALLOTHER  F_TOTAL  M_TOTAL  S_TOTAL  \n",
+       "0        188        26          79     2149     2286      295  \n",
+       "1          0         0           0        8        7        0  \n",
+       "2          0         0           0        0        1        0  \n",
+       "3         28         2          37      629      557       31  \n",
+       "4          0         1           0        2        6        0  "
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "arrests.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "White       26590\n",
+       "Hispanic    23767\n",
+       "Other       23328\n",
+       "Black       21188\n",
+       "Name: RACE, dtype: int64"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "arrests.RACE.value_counts()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "20 to 29       17438\n",
+       "30 to 39       17258\n",
+       "40 to 69       17082\n",
+       "Under 18       16305\n",
+       "18 to 19       16040\n",
+       "70 and over    10750\n",
+       "Name: AGE_GROUP, dtype: int64"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "arrests.AGE_GROUP.value_counts()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Learning the Group Structure of Your Data\n",
+    "\n",
+    "**(2)** What is the unit of observation for this dataset? In other words, when row zero says that there were 505 arrests for `VIOLENT` crimes, what exactly is that telling you -- 505 arrests in 1980? 505 arrests in Alameda County?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Testing Your Assumptions\n",
+    "\n",
+    "It's important to be able to test whether the data you are working with really is organized the way you think it is, especially when working with groupby, so let's discuss how to check your answer to number 2 with `duplicated`. Consider the following data:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>social_security_numbers</th>\n",
+       "      <th>second_column</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>111111111</td>\n",
+       "      <td>a</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>222222222</td>\n",
+       "      <td>a</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>222222222</td>\n",
+       "      <td>a</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>333333333</td>\n",
+       "      <td>a</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>333333333</td>\n",
+       "      <td>b</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   social_security_numbers second_column\n",
+       "0                111111111             a\n",
+       "1                222222222             a\n",
+       "2                222222222             a\n",
+       "3                333333333             a\n",
+       "4                333333333             b"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df = pd.DataFrame({'social_security_numbers': [111111111, 222222222, 222222222, 333333333, 333333333], 'second_column': ['a', 'a', 'a', 'a', 'b']})\n",
+    "df"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "If we want to see if there are any duplicate rows in the dataset, we can use `.duplicated()`:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0    False\n",
+       "1    False\n",
+       "2     True\n",
+       "3    False\n",
+       "4    False\n",
+       "dtype: bool"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.duplicated()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "As you can see, `.duplicated()` looks at each row, and returns `True` if it has seen the row it is looking at before. Note that it doesn't tag *all* the rows that look similar -- it treats the first instance of a row as unique, and only tags subsequent repitions are \"duplicates\" (You can change this behavior with keyword arguments if you want all rows tagged).\n",
+    "\n",
+    "Duplicated can also be used to test for duplicates on a sub-set of rows. For example, if we want to test for rows with duplicate values of the variable `social_security_numbers`, we can type:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0    False\n",
+       "1    False\n",
+       "2     True\n",
+       "3    False\n",
+       "4     True\n",
+       "dtype: bool"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.duplicated(['social_security_numbers'])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Since `duplicated` is now only looking at the first column, the last row is now a duplicate (because 333333333 is duplicated), where when we considered all columns, it was not a duplicate (because the value in the second column varied. \n",
+    "\n",
+    "We can now pair `.duplicated()` with the `.any()` function to test for the presence of duplicates in your dataset, which is how we test if we really understand what constitutes a unique observation (i.e. if we think each row of our data is a unique person, then we shouldn't see any duplicated values of social security numbers, which are unique to each person in the United States). \n",
+    "\n",
+    "When you run `.any()` on an array of booleans, it returns a single value of `True` if *any* entries are `True`, and a single value of `False` if *no* entries are `True`. (You can also use `.all()` to test if all entries are false). \n",
+    "\n",
+    "Thus the command: `df.duplicated(['social_security_numbers'])` will return `False` if `social_security_numbers` uniquely idenfies every row in our dataset (since there are no duplicates)! If any rows are duplicated, then `social_security_numbers` doesn't uniquely identify our observations (i.e. each row does not represent a unique person):"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.duplicated(['social_security_numbers']).any()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This might feel backward, so you can also add a `not` before the test if you want. :) In fact, in my code I add an explicit test using the `assert` statement. The command `assert` says \"if the thing that follows this is `True`, don't do anything; if it's False, raise an exception. So in my code, I often write:  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "AssertionError",
+     "evalue": "",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mAssertionError\u001b[0m                            Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-9-f30d4b630726>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0;32massert\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0mdf\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mduplicated\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'social_security_numbers'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0many\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mAssertionError\u001b[0m: "
+     ]
+    }
+   ],
+   "source": [
+    "assert not df.duplicated(['social_security_numbers']).any()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "(which in this case raises an exception! Because the rows *aren't* unique!)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**(3)** Use `duplicated` to test if the variables *you* think uniquely identify rows in your data really do uniquely identify rows. If you were wrong, update your beliefs!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "assert not arrests.duplicated(['YEAR', 'GENDER', 'RACE', 'AGE_GROUP', 'COUNTY']).any()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**(4)** Once you have a handle on how the data looks now, please **collapse the data** to be one observation per county-year-racial group. \n",
+    "\n",
+    "**Hint:** Think carefully about the most appropriate aggregation function given the data we're working with!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "arrests_collapsed = arrests.groupby(['YEAR', 'RACE', 'COUNTY'], as_index=False).sum()\n",
+    "arrests_collapsed.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Note:** By default, `pandas` likes to make your grouping variables into a hierarchical index. Personally, I find hierarchical indices very weird and not worth dealing with. To avoid this, use the `as_index=False` option in `groupby`. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**(5)** Given your answer from 3, what groups were you collapsing in question 4?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Age and gender!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**(6)** Does the racial composition of arrests in each county vary by arrest type? In other words, do Blacks make up a larger portion of the people arrested for drug offenses than violent offenses? To answer this question, you will need to compute the proportion of all arrests in a county-year that occur within each racial group. \n",
+    "\n",
+    "In trying to do this, break the problem down into pieces: \n",
+    "\n",
+    "- What two variables do you want in your data you don't have now to answer this question?\n",
+    "- What two *intermediate* variables do you need in order to calculate those two final variables?\n",
+    "- How would you get those *intermediate* variables in your data?\n",
+    "\n",
+    "There is a temptation to try and use a function like `apply` to do this all in one big swing, but it's much safer, easier, and actually faster to do the problem in smaller steps. \n",
+    "\n",
+    "**Hint:** `transform` should probably make an appearance..."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for i in ['VIOLENT', 'F_DRUGOFF']:\n",
+    "    arrests_collapsed['{}_TOTAL'.format(i)] = arrests_collapsed.groupby(['YEAR', 'COUNTY'])[i].transform(sum)\n",
+    "\n",
+    "arrests_collapsed.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This merges are an easy place to do things wrong, so I'd also recommend eye-balling your data to be sure you did things right!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "arrests_collapsed = arrests_collapsed.sort_values(['YEAR', 'COUNTY', 'RACE'])\n",
+    "arrests_collapsed.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "2594 + 592 + 139 + 1179"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for i in ['VIOLENT', 'F_DRUGOFF']:\n",
+    "    arrests_collapsed['PCT_{}'.format(i)] = arrests_collapsed[i] / arrests_collapsed['{}_TOTAL'.format(i)]\n",
+    "arrests_collapsed.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**(7)** Plot the share of violent arrestees that are Black against the share of felony drug arrestees that are Black. Do they look proportionate?\n",
+    "\n",
+    "**Hint:** You can add a reference line with the code `geom_abline()`. Just specify an intercept and slope (`intercept=` and `slope=`) as keyword arguments. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from plotnine import *\n",
+    "black_arrests = arrests_collapsed[arrests_collapsed.RACE == \"Black\"]\n",
+    "(ggplot(black_arrests, aes(x='PCT_VIOLENT', y='PCT_F_DRUGOFF'))\n",
+    "        + geom_point() + geom_smooth(color='red', method='lowess') \n",
+    "        + geom_abline(intercept=0, slope=1, color='blue'))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "(A quick note of warning on interpretation: these results can tell you whether Black Californians make up a larger proportion of *arrests* for certain types of crimes, not whether they make up a larger proportion of people who *commit* a give type of crime! Those *might* be the same, but they might not... this data just can't answer that question.)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**(8)** Let's look at look at trends in arrests over time. For example, is the proportion of arrests for drug use that are Californians of Color categories changing over time? (for non-Americans: \"people of color\" is a term for people who do not identify as White, and includes a range of identities, including Black, Hispanic, Asian, Middle Eastern, etc...)\n",
+    "\n",
+    "Plot the proportion of drug arrestees that are White over time. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "white_arrests = arrests_collapsed[(arrests_collapsed.RACE == 'White')]\n",
+    "\n",
+    "(ggplot(white_arrests, aes(x='YEAR', y='PCT_F_DRUGOFF'))\n",
+    "        + geom_point() + geom_smooth(color='red', method='lowess'))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**(9)** As you look at the results you just plotted, you should see that the share of arrestees who are White has been declining over time. Does that necessary imply that police have been shifting their attention away from White Californians and towards Californians of Color? \n",
+    "\n",
+    "**Hint:** If you don't see the problem with that interpretation, [check out this table](https://en.wikipedia.org/wiki/Demographics_of_California#Native_American_Indians). "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**(10)** To address this, let's merge in demographic data for California over time. Download [this file with racial demographic breakdowns for the US](https://www.dropbox.com/s/3f4mnl6869je2pf/County_Demographics.zip?dl=0). In the zipped folder you download, you will find both data *and* a codebook you'll need to interpret your data. \n",
+    "\n",
+    "**Note:** In interpreting these variables, bear in mind that the US government considers \"Hispanic\" to be an identity that is distinct from \"race\". As such, most hispanic Americans are classified as \"White\". So if it is not explicitly stated otherwise, \"White\" includes Hispanic Californias. In our analysis, we wish to consider \"Hispanic\" as it's own category. \n",
+    "\n",
+    "Read in this data and find the variables you need to normalize racial arrest shares by population shares and merge it in to our arrest data, keeping all years of arrest data. \n",
+    "\n",
+    "**Note:** You will probably hit a problem when you try and import the CSV. The error you will likely get is something like `UnicodeDecodeError: 'utf-8' codec can't decode byte 0xf1 in position 2: invalid continuation byte`.\n",
+    "\n",
+    "This error occurs when file that pandas is trying to read isn't encoded with the format it expects by default (`utf-8`). You can learn more about string encodings by [watching this](https://www.youtube.com/watch?v=MijmeoH9LT4)! \n",
+    "\n",
+    "To fix this, you normally have to guess and check different formats by passing different encodings to the `encoding` option for `read_csv` and seeing what works. In this case, I'll tell you the encoding is 'latin-1', so pass that to `encoding'. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "census = pd.read_csv('/users/nick/dropbox/MIDS_Data_Prep/County_Demographics/census_ts_nominal_county.csv', encoding='latin-1')\n",
+    "census.head()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "census = census[census.STATE == \"California\"]\n",
+    "census = census[census.YEAR >= 1980]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "census.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "census.CV4AA.value_counts(dropna=False)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "census = census.drop(['GISJOIN', 'STATEFP', 'STATE', 'STATENH', 'COUNTYFP', 'COUNTYNH', 'NAME'], axis='columns')\n",
+    "census.sample(10)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "census.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "race_table_vars = census.columns[7:]\n",
+    "race_table_vars"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for i in race_table_vars:\n",
+    "    census[i] = census[i].fillna(0)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "census['total_population'] = (census.CV4AA + census.CV4AB + census.CV4AC + \n",
+    "                              census.CV4AD + census.CV4AE + census.CV4AF + \n",
+    "                              census.CV4AG + census.CV4AH + census.CV4AI + census.CV4AJ)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "census.total_population.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "census['share_white'] = census.CV4AA / census.total_population\n",
+    "census['share_white'].head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "census = census[['YEAR', 'COUNTY', 'share_white']]\n",
+    "census.YEAR.value_counts()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "white_arrests_w_pop = pd.merge(white_arrests, census, on=['COUNTY', 'YEAR'], how='left', validate='1:1', indicator=True)\n",
+    "white_arrests_w_pop._merge.value_counts()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "assert (white_arrests_w_pop._merge != 'right_only').all()\n",
+    "white_arrests_w_pop = white_arrests_w_pop.drop('_merge', axis='columns')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "white_arrests_w_pop.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**(11)** Because the US Census occurs once every 10 years, we only have population data for once every 10 years. To fill in the gaps in our data, we can *interpolate* the values between each census wave. For example, if a county is 75% White in 1990 and 25% in 2000, we could infer it was likely about 50% White in 1995.\n",
+    "\n",
+    "`pandas` offers an `interpolate` method that will do this for you, but `interpolate` just doesn't interpolations for one set of observations. In this case, however, we need to do our interpolations *within each group*, so you'll have to figure out how to use `interpolate` with groupby. (*Hint:* this is probably a job for `apply`). "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Let's clean up a little\n",
+    "white_arrests_w_pop = white_arrests_w_pop[['YEAR', 'COUNTY', 'PCT_VIOLENT', 'PCT_F_DRUGOFF', 'share_white']]\n",
+    "white_arrests_w_pop.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "white_arrests_w_pop = white_arrests_w_pop.sort_values(['COUNTY', 'YEAR'], ascending=True)\n",
+    "white_arrests_w_pop['int_share_white'] = white_arrests_w_pop.groupby('COUNTY')['share_white'].apply(lambda x: x.interpolate())\n",
+    "white_arrests_w_pop.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Check a few counties to make sure it worked!\n",
+    "white_arrests_w_pop[white_arrests_w_pop.COUNTY == 'Alameda County']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "white_arrests_w_pop[white_arrests_w_pop.COUNTY == 'Los Angeles County']"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**(12)** Now that we have the share of the population in each county that is White, and the share of drug arrestees who are White all in one dataset, we can look at how the *ratio* of these two numbers changes over time. Plot the trend, over time, in this ratio. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "white_arrests_w_pop['arrest_ratio'] = white_arrests_w_pop.PCT_F_DRUGOFF / white_arrests_w_pop.int_share_white\n",
+    "(ggplot(white_arrests_w_pop, aes(x='YEAR', y='arrest_ratio'))\n",
+    "        + geom_point() + geom_smooth(color='red', method='lowess'))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Do we see any substantial change in the racial incidence of drug arrests over the 40 years of this data, a period in which there have been several waves of changes in public attitudes and rhetoric around policing, including the rise of the war on drugs, the \"tough on crime 1990s\", and the more recent wave of concern about mass incarceration?\n",
+    "\n",
+    "![US_incarceration_rate_timeline](../images/US_incarceration_rate_timeline.gif)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

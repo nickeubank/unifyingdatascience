@@ -1,0 +1,724 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Machine Learning with Scikit-Learn &#8212; Practical Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="section" id="Machine-Learning-with-Scikit-Learn">
+<h1>Machine Learning with Scikit-Learn<a class="headerlink" href="#Machine-Learning-with-Scikit-Learn" title="Permalink to this headline">¶</a></h1>
+<p>In these exercises, we’ll learn to fit and evaluate (in a basic way) machine learning models using the package <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>.</p>
+<p>The emphasis of these exercises is to help you get comfortable with the data wrangling component of machine learning so that in future machine learning courses you can focus on the theory underling machine learning rather than struggling to figure out how to get your code to work. With that in mind, we will be quite cavalier with model fitting and evaluation. As with our <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> exercises, in which we quickly ran through a few models to practice <em>implementing</em> different models without
+thinking too much about model selection and specification, this is not to suggest that this is how you should do your data science work!</p>
+<p>Indeed, that is double true in the context of the exercises here, in which we will apply machine learning algorithms to the birth-weight data we used for our <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> exercises to predict birth weights. That is because machine learning algorithms are usually intrinsically opaque, meaning you can’t really tell <em>how</em> they are making their predictions, and that means they can be hard to audit. In school exercises, that’s rarely a big deal, but not being certain what your machine learning
+algorithm is doing in the real world can literally kill people.</p>
+<p>Take, for example, the case of a model distributed by the company Optum to providers who served millions of people. The goal of the model was to predict which patients who would be likely to consume more medical services in the future so doctors could give these patients – who presumably were having more health problems – extra preventive care.</p>
+<p>The problem with this strategy, <a class="reference external" href="https://www.washingtonpost.com/health/2019/10/24/racial-bias-medical-algorithm-favors-white-patients-over-sicker-black-patients/">as was recently described in a paper in the journal Science</a>, is that Black patients in the United States tend to use the medical system less for a variety of non-medical reasons (e.g. the history of Black Americans being used as <a class="reference external" href="https://en.wikipedia.org/wiki/Tuskegee_syphilis_experiment">unknowing test subjects for medical
+studies</a>, or the fact that Black Americans tend to have lower incomes and are less likely to be insured than White Americans). And so because these patients were less likely to return to doctors for financial or social reasons, the algorithm interpreted that as evidence they were healthier (not poorer, or skeptical of the medical system), and so were less likely to recommend additional preventative care for black patients.</p>
+<p>(<strong>Note: race wasn’t even a variable in the model.</strong> Presumably, the model simply found various inputs that were correlated with race, and when it saw those predicted lower need for extra medical attention. A variable that often implicitly codes for race, for example, is a person’s zipcode (that general area where they live).)</p>
+<p>And so as a result, this machine learning algorithm resulted in black patients receiving fewer preventative medical interventions than white patients, even after taking into account other (medically relevant) factors.</p>
+<p>So: in this exercise we’ll play with predict birth weights in infants. But do <strong>NOT</strong> think that just because it’s this easy to fit a model, it is appropriate to then go use these in the real world in contexts where people’s lives are affected.</p>
+<p><strong>(1)</strong> Load the data “smoking.csv”, which includes information on both biometrics of infants at birth, and information on mothers (variables prefixed with the letter “m”), from <a class="reference external" href="https://github.com/nickeubank/MIDS_Data">this MIDS repo</a>. We’ll be working with this data in this exercise.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">smoking_and_bw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/smoking.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Formatting-Your-Data">
+<h2>Formatting Your Data<a class="headerlink" href="#Formatting-Your-Data" title="Permalink to this headline">¶</a></h2>
+<p>Unlike in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, we can’t use <code class="docutils literal notranslate"><span class="pre">pandas</span></code> DataFrames in scikit-learn, so the first step in nearly any machine learning workflow (if you haven’t already been given a nice giant numpy array) is to convert our heterogeneous pandas array (which includes strings, categorical variables, integers, and floating point numbers) into a single large matrix that consists only of floating point numbers.</p>
+<p>While you can do this by hand, this is most easily accomplished using the <code class="docutils literal notranslate"><span class="pre">Patsy</span></code> library, which will take a pandas array and a special formula string and return numpy arrays for use in libraries like scikit-learn. (<code class="docutils literal notranslate"><span class="pre">patsy</span></code> is actually the library that implemented the formulas we used in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> to specify our regression models – here we’re just using it on its own).</p>
+<p>Let’s assume that for most of these exercises, we want to predict birth weight (<code class="docutils literal notranslate"><span class="pre">bwt.oz</span></code>) using:</p>
+<ul class="simple">
+<li><p>whether the mother is white, black, hispanic or of another ethnicity, (you have to code from <code class="docutils literal notranslate"><span class="pre">mrace</span></code> – make sure you treat this as categorical!).</p></li>
+<li><p>whether the mother smokes (<code class="docutils literal notranslate"><span class="pre">smoke</span></code>)</p></li>
+<li><p>Mother’s age (<code class="docutils literal notranslate"><span class="pre">mage</span></code>)</p></li>
+<li><p>Mother’s weight (<code class="docutils literal notranslate"><span class="pre">mpregwt</span></code>)</p></li>
+<li><p>Mother’s height (<code class="docutils literal notranslate"><span class="pre">mht</span></code>)</p></li>
+</ul>
+<p>For race, recall that in the raw data, <code class="docutils literal notranslate"><span class="pre">mrace</span></code> is coded as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mrace    mother’s race or ethnicity
+         0-5= white
+         6  = mexican
+         7 = black
+         8 = asian
+         9 = mix
+         99 = unknown
+</pre></div>
+</div>
+<p>(We’re ignoring <code class="docutils literal notranslate"><span class="pre">gestation</span></code> because we don’t really know the value of <code class="docutils literal notranslate"><span class="pre">gestation</span></code> before the child is born, so we can’t use it to predict the birthweight of not-yet-born children!)</p>
+<p><strong>(2)</strong> Begin by using <code class="docutils literal notranslate"><span class="pre">patsy.dmatrices()</span></code> to create two datasets (<code class="docutils literal notranslate"><span class="pre">y</span></code>, which is the birth weights, and <code class="docutils literal notranslate"><span class="pre">X</span></code>, which is a matrix with all your “features” in a nice numpy array).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Re-group race to be white (0), hispanic (6), black (7), other (8, 9, 99)</span>
+<span class="n">smoking_and_bw</span><span class="p">[</span><span class="s1">&#39;race_recoded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">smoking_and_bw</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">smoking_and_bw</span><span class="o">.</span><span class="n">mrace</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;race_recoded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">smoking_and_bw</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">smoking_and_bw</span><span class="o">.</span><span class="n">mrace</span> <span class="o">==</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;race_recoded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">smoking_and_bw</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">smoking_and_bw</span><span class="o">.</span><span class="n">mrace</span> <span class="o">==</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;race_recoded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">smoking_and_bw</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">smoking_and_bw</span><span class="o">.</span><span class="n">mrace</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;race_recoded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">smoking_and_bw</span><span class="p">[</span><span class="s1">&#39;race_recoded&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+<span class="c1"># Fix birth weight var name</span>
+<span class="n">smoking_and_bw</span> <span class="o">=</span> <span class="n">smoking_and_bw</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;bwt.oz&#39;</span><span class="p">:</span> <span class="s1">&#39;bwt_oz&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">patsy</span>
+<span class="n">y</span> <span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">patsy</span><span class="o">.</span><span class="n">dmatrices</span><span class="p">(</span><span class="s1">&#39;bwt_oz ~ C(race_recoded) + smoke + mage + mpregwt + mht&#39;</span><span class="p">,</span> <span class="n">smoking_and_bw</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>(3)</strong> Look at your features matrix <code class="docutils literal notranslate"><span class="pre">X</span></code>. How many columns does it have? How does that compare to the number of variables you used as inputs? (if they’re the same, you probably did something wrong…). Can you explain the difference?</p>
+<p>If not <a class="reference external" href="https://hackernoon.com/what-is-one-hot-encoding-why-and-when-do-you-have-to-use-it-e3c6186d008f">read this!</a>. This is one of the very nice things that <code class="docutils literal notranslate"><span class="pre">patsy</span></code> does for us!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(869, 8)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># I had 6 features going in, but I have 9 variables!</span>
+<span class="c1"># that&#39;s because the categorical variable &quot;race&quot;</span>
+<span class="c1"># was recoded into 3 indicator variables, so that</span>
+<span class="c1"># all 3 are zero if the person is white,</span>
+<span class="c1"># the first is 1 and the others are zero if the</span>
+<span class="c1"># person is hispanic, the second is 1 and the</span>
+<span class="c1"># others are zero if the person is black,</span>
+<span class="c1"># and the third is 1 and the others are zero if the</span>
+<span class="c1"># person is &quot;other&quot;.</span>
+
+<span class="c1"># This is called one-hot-encoding, and it&#39;s how we</span>
+<span class="c1"># represent categorical variables.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Splitting-Your-Data">
+<h2>Splitting Your Data<a class="headerlink" href="#Splitting-Your-Data" title="Permalink to this headline">¶</a></h2>
+<p>In machine learning, model selection is often accomplished by:</p>
+<ol class="arabic simple">
+<li><p>Splitting your data into two parts (a training set and a test set),</p></li>
+<li><p>Training your model on the training set (i.e. set the parameters of your model to best explain the training data).</p></li>
+<li><p>Test the model by using the parameters generated during that training to predict values for the testing data, then comparing the predicted values for the testing data to the actual values in the test data.</p></li>
+</ol>
+<p>So suppose we just wanted to use linear regression as our model. We’d randomly pick half the rows of our data, then regress birth weight on the various variables (“features” in machine learning terminology) we specified above. Then we’d use the coefficients from that regression to predict birth weights for the half of children we didn’t use in our estimation, and see how different those predictions are from actual birth weights. If we find a model that performs well on our testing data, then we
+<em>assume</em> / <em>hope</em> that that model will also work well on new data (i.e. on children who haven’t been born yet whose weight we want to predict).</p>
+<p>(Readers from a statistics background will recognize this is a kind of “cross-validation”, though a very simple version.)</p>
+<p>So the first step in machine learning is to split our sample! Thankfully this is easy to do with the <code class="docutils literal notranslate"><span class="pre">train_test_split</span></code> function. So import it with <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">sklearn.model_selection</span> <span class="pre">import</span> <span class="pre">train_test_split</span></code>, and split your data. To give you a sense of how it works, this is a common syntax:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">Y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                                                    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                                                    <span class="n">train_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                                                    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">X_train</span></code> is your training features, <code class="docutils literal notranslate"><span class="pre">Y_train</span></code> are your training birth weights, <code class="docutils literal notranslate"><span class="pre">X_test</span></code> are your test features, and <code class="docutils literal notranslate"><span class="pre">Y_test</span></code> are your test birth weights. The <code class="docutils literal notranslate"><span class="pre">random_state</span></code> var just ensures that you can re-create this split if you have to re-run your code (helpful for debugging).</p>
+<p><strong>(4)</strong> So start by splitting YOUR data.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                                                    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                                                    <span class="n">train_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                                                    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Training-your-Model">
+<h2>Training your Model<a class="headerlink" href="#Training-your-Model" title="Permalink to this headline">¶</a></h2>
+<p>And now it’s time to train our model!</p>
+<p><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> is much loved because it has, like… every model ever already built in, and it provides a common interface (API) for all of them. Seriously – go check out all the supervised machine learning models that come <a class="reference external" href="https://scikit-learn.org/stable/supervised_learning.html#supervised-learning">with scikit-learn here</a>.</p>
+<p>Moreover, unlike many open-source projects, all of its models are really well documented, so you can read all about them! And <a class="reference external" href="https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html">check out this nifty guide to choosing an appropriate model</a>.</p>
+<p>For this exercise, let’s start by fitting a LinearRegression model.</p>
+<p>Wait, you say: isn’t that what we did in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>? Yes!</p>
+<p>Data Science is a very fragmented little world, and some stuff gets recapitulated in slightly different wants in many different places, so it’s common to see different presentations of the same thing as you move from the world of statisticians to the world of computer scientists (i.e. machine learning).</p>
+<p><strong>(5)</strong> Import the Linear Regression model and instantiate it with code like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">LinearRegression</span>
+
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p><strong>(6)</strong> Now fit your model against X and y. (If you’re unsure how to do this, read the docs for the model and look at the examples at the bottom!</p>
+<p><strong>Note:</strong> In <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, the <code class="docutils literal notranslate"><span class="pre">.fit()</span></code> method returned a new fitted model. In <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>, by contrast, <code class="docutils literal notranslate"><span class="pre">.fit</span></code> modifies (mutates) the model in place.</p>
+<p>Machine learning, more than absolutely anything else, is concerned with predicting values, and that’s evident in what functionality is exposed by this linear model. As you may recall, in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, you could type <code class="docutils literal notranslate"><span class="pre">.summary()</span></code> and get something that looked like this:</p>
+<p><img alt="statsmodel_output" src="../_images/statsmodel_output.png" /></p>
+<p>A full printout of various dignostics, all your coefficients, estimates of confidence intervals for each coefficient, etc. etc. By contrast, <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> has no <code class="docutils literal notranslate"><span class="pre">summary</span></code> method. Indeed, the only output you really get for what the model has actually fit is `my_model.coef_</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">my_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">coef_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([[ 0.00000000e+00,  4.88967789e+00, -9.57549359e+00,
+        -7.78152768e+00, -8.15196740e+00,  8.70134871e-03,
+         1.31058392e-01,  1.01948361e+00]])
+</pre></div>
+</div>
+</div>
+<p>Which I think we can all agree is not nearly as informative a print-out!</p>
+<p>To be clear, you can recover many of the diagnostics for LinearRegression by digging around in other corners of <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>, but what is made available speaks to the prioritizes of different users: <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> is for making predictions; <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> is for statistics and understanding mechanisms (i.e. seeing if the coefficient on smoking is significant).</p>
+<p><strong>(7)</strong> OK, but we’re in the world of sklearn, so let’s do some prediction! Now that you’ve fit your model, use the <code class="docutils literal notranslate"><span class="pre">predict</span></code> method your data to create a set of predictions.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Evaluating-your-Model">
+<h2>Evaluating your Model<a class="headerlink" href="#Evaluating-your-Model" title="Permalink to this headline">¶</a></h2>
+<p>So we now have a trained model that we can use to predict birthweights. Yay! But is it any good?</p>
+<p>All <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> models have a method called <code class="docutils literal notranslate"><span class="pre">score</span></code> you can used to get the most basic evaluation of your model. The syntax is just:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">my_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you’re doing a classification model (something that tries to guess the category for each observation, like a model that evalutes a set of pictures and tries to figure out if the pictures are of cats, dogs, or humans), <code class="docutils literal notranslate"><span class="pre">score</span></code> will return an “accuracy” score (the percentage of observations you properly classified). For a regression model (trying to guess a continuous variable) it will give an R-squared score.</p>
+<p>As you get more sophisticated, you will discover these basic scores are often inadequate for evaluating models, and you can turn to other evaluation functions found in <a class="reference external" href="https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter">sklearn.metrics</a>. But for now we’ll just use the default <code class="docutils literal notranslate"><span class="pre">score</span></code> output of R-squared.</p>
+<p><strong>(8)</strong> What is the score of your model?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">my_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.11574796516106944
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Machine-Learning-Workflow-Summary">
+<h2>Machine Learning Workflow Summary<a class="headerlink" href="#Machine-Learning-Workflow-Summary" title="Permalink to this headline">¶</a></h2>
+<p>Congratulations! You just did you just fit your machine learning algorithm! And you also learned that sometimes what constitutes “machine learning” is in the eye of the beholder, given what you did today is the same thing you did in our last class without calling it machine learning. :)</p>
+<p>But hopefully that’s given you a general sense for the work-flow of scikit-learn:</p>
+<ol class="arabic simple">
+<li><p>Prep your data:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">patsy</span>
+<span class="n">y</span> <span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">patsy</span><span class="o">.</span><span class="n">dmatrices</span><span class="p">(</span><span class="s1">&#39;bwt_oz ~ C(race_recoded) + smoke + gestation + mage + mpregwt + mht&#39;</span><span class="p">,</span> <span class="n">smoking_and_bw</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Split your data:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">Y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                                                    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                                                    <span class="n">train_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                                                    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Import and fit a model:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Evaluate your model:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">my_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Use youre model to make predictions:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">my_predictions</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Comparing-Models">
+<h2>Comparing Models<a class="headerlink" href="#Comparing-Models" title="Permalink to this headline">¶</a></h2>
+<p>Now that we have a baseline estimate for the performance of <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> for this set of features and outputs, let’s try a different model and see how it compares!</p>
+<p><strong>(9)</strong> Now repeat your analysis using a Support Vector Regression (<code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">sklearn.svm</span> <span class="pre">import</span> <span class="pre">SVR</span></code>). How does the model perform? Is it better or worse than LinearRegression?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="k">import</span> <span class="n">SVR</span>
+<span class="n">my_svr_model</span> <span class="o">=</span> <span class="n">SVR</span><span class="p">()</span>
+<span class="n">my_svr_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># Otherwise get annoying warning, but doesn&#39;t actually matter.</span>
+<span class="n">my_svr_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/sklearn/svm/base.py:193: FutureWarning: The default value of gamma will change from &#39;auto&#39; to &#39;scale&#39; in version 0.22 to account better for unscaled features. Set gamma explicitly to &#39;auto&#39; or &#39;scale&#39; to avoid this warning.
+  &#34;avoid this warning.&#34;, FutureWarning)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.007397249096226743
+</pre></div>
+</div>
+</div>
+<p><strong>(10)</strong> One choice parameter for SVRs is the kernel it uses for weighting (again, this isn’t a class on machine learning, so don’t worry too much about what this means – just know that it’s a parameter of the model). Check the SVR documentation to figure out how to set the kernel to <code class="docutils literal notranslate"><span class="pre">linear</span></code> and see how it performs now.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="k">import</span> <span class="n">SVR</span>
+<span class="n">my_svr_model</span> <span class="o">=</span> <span class="n">SVR</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<span class="n">my_svr_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># Otherwise get annoying warning, but doesn&#39;t actually matter.</span>
+<span class="n">my_svr_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.10234916441731523
+</pre></div>
+</div>
+</div>
+<p><strong>(11)</strong> Now pick whatever regression model you’d like and see how it performs (<a class="reference external" href="https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html">some suggestions</a>). Play with your model specifications and see how well you can do with your new model of one of the ones we used above.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">Ridge</span>
+<span class="n">my_ridge_model</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">()</span>
+<span class="n">my_ridge_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">my_ridge_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.1163671199667089
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Practical DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">PYTHON &amp; PANDAS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup_environment.html">Setting Up Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managing_python_packages.html">Managing Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_v_r.html">Python / R Differences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vars_v_objects.html">Python: Vars v Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ints_and_floats.html">Numbers in Computers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pandas_series.html">Pandas 1: Series</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pandas_dataframes.html">Pandas 2: DataFrames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting_part1.html">Plotting, Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting_part2.html">Plotting, Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../views_and_copies_in_pandas.html">Pandas 3: Views</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OTHER TOOLS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../command_line_part1.html">Command Line, Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line_part2.html">Command Line, Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../git_and_github.html">Git and Github</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SKILLS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_help.html">Getting Help Online</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../what_is_big_data.html">What is Big Data?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../big_data_strategies.html">Working with Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance_understanding.html">Understanding Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance_solutions.html">Solving Performance Probs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallelism.html">Parallel Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../defensive_programming.html">Defensive Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow.html">Workflow Management</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OTHER</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../not_a_mids_student.html">Not a MIDS Student?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheets.html">Cheat Sheets</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/Solutions_scikit_learn-Copy1.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-133829453-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>

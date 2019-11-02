@@ -1,0 +1,2153 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Big Data Exercises &#8212; Practical Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="section" id="Big-Data-Exercises">
+<h1>Big Data Exercises<a class="headerlink" href="#Big-Data-Exercises" title="Permalink to this headline">¶</a></h1>
+<p>In these exercises we will work on data from a series of global weather monitoring stations used to measure climate trends to examine long-term trends in temperature for your home locality. This data comes from the Global Historical Climatology Network, and is the actual raw data provided by NOAA. The only changes I have made to this data are a few small formatting changes to help meet the learning goals of this exercise.</p>
+<p>To do these excercises, first please download the data for this exercise <a class="reference external" href="https://www.dropbox.com/s/oq36w90hm9ltgvc/global_climate_data.zip?dl=0">from here</a>. Note this is a big file (this is a big-data exercise, after all), so be patient.</p>
+<p><strong>(1)</strong> The data we’ll be working with can be found in the file <code class="docutils literal notranslate"><span class="pre">ghcnd_daily.tar.gz</span></code>. It includes daily weather data from thousands of weather stations around the work over many decades.</p>
+<p>Begin by unzipping the file and checking it’s size – it should come out to be <em>about</em> 4gb, but will expand to about 12 gb in RAM, which means there’s just no way most students (who usually have, at most, 16gb of RAM) can import this dataset into pandas and manipulate it directly.</p>
+<p>(Note: what we’re doing can be applied to much bigger datasets, but they sometimes takes hours to work with, so we’re working with data that’s just a <em>little</em> big so we can get exercises done in reasonable time).</p>
+<p><strong>(2)</strong> Thankfully, we aren’t going to be working with <em>all</em> the data today. Instead, everyone should pick two weather stations to examine during this analysis (so each pair should pick 4 – different weather stations have different data availability, so by grabbing two each hopefully at least 1 will have a long time series available…).</p>
+<p>To pick your stations, we’ll need to open the <code class="docutils literal notranslate"><span class="pre">ghcnd-stations.txt</span></code> file in the directory you’ve downloaded. It includes both station codes (which is what we’ll find in the <code class="docutils literal notranslate"><span class="pre">ghcnd_daily.csv</span></code> data, as well as the name and location of each station).</p>
+<p>When picking a weather station, make sure to pick one flagged as being in either GSN, HCN, or CRN (these designate more formalized stations that have been around a long time, ensuring you’ll get a station with data that has been recorded over a longer period).</p>
+<p>Note that Station IDs start with the two-letter code of the country in which they are located, and the “NAME” column often constains city names.</p>
+<p><strong>The ``ghcnd-stations.txt`` is a “fixed-width” dataset,</strong> meaning that instead of putting commas or tabs between observations, all columns have the same width (in terms of number of characters). So to import this data you’ll have to (a) read the notes about the data in the project README.txt, and (b) read about how to read in fixed-width data in pandas. When entering column specifications, remember that normal people count from 1 and include end points, while Python counts from 0 and doesn’t
+include end points (so if the readme says data is in columns 10-20, in Python that’d be 9 through 20).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/users/nick/downloads/global_climate_data&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">columns</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+           <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+           <span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
+           <span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">37</span><span class="p">),</span>
+           <span class="p">(</span><span class="mi">38</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span>
+           <span class="p">(</span><span class="mi">41</span><span class="p">,</span> <span class="mi">71</span><span class="p">),</span>
+           <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">75</span><span class="p">),</span>
+           <span class="p">(</span><span class="mi">76</span><span class="p">,</span> <span class="mi">79</span><span class="p">),</span>
+           <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">85</span><span class="p">)]</span>
+
+<span class="n">stations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_fwf</span><span class="p">(</span><span class="s1">&#39;ghcnd-stations.txt&#39;</span><span class="p">,</span>
+                       <span class="n">colspecs</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
+                       <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="s2">&quot;LATITUDE&quot;</span><span class="p">,</span> <span class="s2">&quot;LONGITUDE&quot;</span><span class="p">,</span> <span class="s2">&quot;ELEVATION&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;STATE&quot;</span><span class="p">,</span> <span class="s2">&quot;NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;GSN FLAG&quot;</span><span class="p">,</span> <span class="s2">&quot;HCN/CRN FLAG&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;WMO ID&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stations</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">stations</span> <span class="o">=</span> <span class="n">stations</span><span class="p">[</span><span class="n">stations</span><span class="p">[</span><span class="s1">&#39;HCN/CRN FLAG&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;HCN&#39;</span><span class="p">,</span> <span class="s2">&quot;CRN&quot;</span><span class="p">])</span> <span class="o">|</span> <span class="n">stations</span><span class="p">[</span><span class="s1">&#39;GSN FLAG&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;GSN&#39;</span><span class="p">])]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stations</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ID</th>
+      <th>LATITUDE</th>
+      <th>LONGITUDE</th>
+      <th>ELEVATION</th>
+      <th>STATE</th>
+      <th>NAME</th>
+      <th>GSN FLAG</th>
+      <th>HCN/CRN FLAG</th>
+      <th>WMO ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>AE000041196</td>
+      <td>25.3330</td>
+      <td>55.5170</td>
+      <td>34.0</td>
+      <td>NaN</td>
+      <td>SHARJAH INTER. AIRP</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>41196.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>AF000040930</td>
+      <td>35.3170</td>
+      <td>69.0170</td>
+      <td>3366.0</td>
+      <td>NaN</td>
+      <td>NORTH-SALANG</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>40930.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>AG000060390</td>
+      <td>36.7167</td>
+      <td>3.2500</td>
+      <td>24.0</td>
+      <td>NaN</td>
+      <td>ALGER-DAR EL BEIDA</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>60390.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>AG000060590</td>
+      <td>30.5667</td>
+      <td>2.8667</td>
+      <td>397.0</td>
+      <td>NaN</td>
+      <td>EL-GOLEA</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>60590.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>AG000060611</td>
+      <td>28.0500</td>
+      <td>9.6331</td>
+      <td>561.0</td>
+      <td>NaN</td>
+      <td>IN-AMENAS</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>60611.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stations</span><span class="p">[</span><span class="n">stations</span><span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;^IN&quot;</span><span class="p">)]</span> <span class="c1"># Let&#39;s do one from  New Delhi</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ID</th>
+      <th>LATITUDE</th>
+      <th>LONGITUDE</th>
+      <th>ELEVATION</th>
+      <th>STATE</th>
+      <th>NAME</th>
+      <th>GSN FLAG</th>
+      <th>HCN/CRN FLAG</th>
+      <th>WMO ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>35873</th>
+      <td>IN001080500</td>
+      <td>17.450</td>
+      <td>78.470</td>
+      <td>527.0</td>
+      <td>NaN</td>
+      <td>BEGUMPET        OBSY</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>43128.0</td>
+    </tr>
+    <tr>
+      <th>36198</th>
+      <td>IN003041800</td>
+      <td>26.100</td>
+      <td>91.583</td>
+      <td>54.0</td>
+      <td>NaN</td>
+      <td>GAUHATI</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>42410.0</td>
+    </tr>
+    <tr>
+      <th>36402</th>
+      <td>IN004091000</td>
+      <td>24.050</td>
+      <td>84.067</td>
+      <td>221.0</td>
+      <td>NaN</td>
+      <td>DALTONGANJ</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>42587.0</td>
+    </tr>
+    <tr>
+      <th>36607</th>
+      <td>IN005030100</td>
+      <td>24.200</td>
+      <td>72.200</td>
+      <td>136.0</td>
+      <td>NaN</td>
+      <td>DEESA</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>42539.0</td>
+    </tr>
+    <tr>
+      <th>36670</th>
+      <td>IN005090100</td>
+      <td>22.367</td>
+      <td>69.083</td>
+      <td>11.0</td>
+      <td>NaN</td>
+      <td>DWARKA</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>42731.0</td>
+    </tr>
+    <tr>
+      <th>36917</th>
+      <td>IN007101600</td>
+      <td>31.100</td>
+      <td>77.167</td>
+      <td>2202.0</td>
+      <td>NaN</td>
+      <td>SHIMLA</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>42083.0</td>
+    </tr>
+    <tr>
+      <th>36926</th>
+      <td>IN008010200</td>
+      <td>34.083</td>
+      <td>74.833</td>
+      <td>1587.0</td>
+      <td>NaN</td>
+      <td>SRINAGAR</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>42027.0</td>
+    </tr>
+    <tr>
+      <th>36980</th>
+      <td>IN009010100</td>
+      <td>12.967</td>
+      <td>77.583</td>
+      <td>921.0</td>
+      <td>NaN</td>
+      <td>BANGALORE</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>43295.0</td>
+    </tr>
+    <tr>
+      <th>37477</th>
+      <td>IN011020300</td>
+      <td>19.083</td>
+      <td>82.033</td>
+      <td>553.0</td>
+      <td>NaN</td>
+      <td>JAGDALPUR</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>43041.0</td>
+    </tr>
+    <tr>
+      <th>37513</th>
+      <td>IN011060800</td>
+      <td>22.767</td>
+      <td>81.900</td>
+      <td>625.0</td>
+      <td>NaN</td>
+      <td>PENDRA ROAD</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>42779.0</td>
+    </tr>
+    <tr>
+      <th>37733</th>
+      <td>IN011330900</td>
+      <td>23.850</td>
+      <td>78.750</td>
+      <td>551.0</td>
+      <td>NaN</td>
+      <td>SAGAR</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>42671.0</td>
+    </tr>
+    <tr>
+      <th>38003</th>
+      <td>IN012190100</td>
+      <td>18.533</td>
+      <td>73.850</td>
+      <td>559.0</td>
+      <td>NaN</td>
+      <td>POONA</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>43063.0</td>
+    </tr>
+    <tr>
+      <th>38119</th>
+      <td>IN014020800</td>
+      <td>25.250</td>
+      <td>91.733</td>
+      <td>1313.0</td>
+      <td>NaN</td>
+      <td>CHERRAPUNJI</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>42515.0</td>
+    </tr>
+    <tr>
+      <th>38451</th>
+      <td>IN019070100</td>
+      <td>28.000</td>
+      <td>73.300</td>
+      <td>224.0</td>
+      <td>NaN</td>
+      <td>BIKANER</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>42165.0</td>
+    </tr>
+    <tr>
+      <th>38778</th>
+      <td>IN020040900</td>
+      <td>13.000</td>
+      <td>80.183</td>
+      <td>16.0</td>
+      <td>NaN</td>
+      <td>MADRAS/MINAMBAKKAM</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>43279.0</td>
+    </tr>
+    <tr>
+      <th>38847</th>
+      <td>IN020081000</td>
+      <td>10.233</td>
+      <td>77.467</td>
+      <td>2343.0</td>
+      <td>NaN</td>
+      <td>KODAIKANAL</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>43339.0</td>
+    </tr>
+    <tr>
+      <th>38879</th>
+      <td>IN020100400</td>
+      <td>9.267</td>
+      <td>79.300</td>
+      <td>11.0</td>
+      <td>NaN</td>
+      <td>PAMBAN</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>43363.0</td>
+    </tr>
+    <tr>
+      <th>39039</th>
+      <td>IN022021900</td>
+      <td>28.583</td>
+      <td>77.200</td>
+      <td>216.0</td>
+      <td>NaN</td>
+      <td>NEW DELHI/SAFDARJUN</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>42182.0</td>
+    </tr>
+    <tr>
+      <th>39414</th>
+      <td>IN024050100</td>
+      <td>27.050</td>
+      <td>88.267</td>
+      <td>2128.0</td>
+      <td>NaN</td>
+      <td>DARJEELING</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>42295.0</td>
+    </tr>
+    <tr>
+      <th>39503</th>
+      <td>IN025010100</td>
+      <td>8.300</td>
+      <td>73.000</td>
+      <td>2.0</td>
+      <td>NaN</td>
+      <td>MINICOY         OBSY</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>43369.0</td>
+    </tr>
+    <tr>
+      <th>39512</th>
+      <td>IN099999901</td>
+      <td>11.667</td>
+      <td>92.717</td>
+      <td>79.0</td>
+      <td>NaN</td>
+      <td>PORT BLAIR</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>43333.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Let&#39;s do IN022021900. I used to live in Safdarjung Enclave in delhi!</span>
+<span class="c1"># IN007101600</span>
+
+<span class="c1"># and one from argentina</span>
+<span class="n">stations</span><span class="p">[</span><span class="n">stations</span><span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;^AR&quot;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ID</th>
+      <th>LATITUDE</th>
+      <th>LONGITUDE</th>
+      <th>ELEVATION</th>
+      <th>STATE</th>
+      <th>NAME</th>
+      <th>GSN FLAG</th>
+      <th>HCN/CRN FLAG</th>
+      <th>WMO ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>261</th>
+      <td>AR000087007</td>
+      <td>-22.100</td>
+      <td>-65.600</td>
+      <td>3479.0</td>
+      <td>NaN</td>
+      <td>LA QUIACA OBSERVATO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87007.0</td>
+    </tr>
+    <tr>
+      <th>262</th>
+      <td>AR000087065</td>
+      <td>-24.167</td>
+      <td>-62.900</td>
+      <td>205.0</td>
+      <td>NaN</td>
+      <td>RIVADAVIA</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87065.0</td>
+    </tr>
+    <tr>
+      <th>263</th>
+      <td>AR000087078</td>
+      <td>-24.700</td>
+      <td>-60.583</td>
+      <td>130.0</td>
+      <td>NaN</td>
+      <td>LAS LOMITAS</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87078.0</td>
+    </tr>
+    <tr>
+      <th>265</th>
+      <td>AR000087155</td>
+      <td>-27.450</td>
+      <td>-59.050</td>
+      <td>53.0</td>
+      <td>NaN</td>
+      <td>RESISTENCIA AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87155.0</td>
+    </tr>
+    <tr>
+      <th>266</th>
+      <td>AR000087217</td>
+      <td>-29.383</td>
+      <td>-66.817</td>
+      <td>438.0</td>
+      <td>NaN</td>
+      <td>LA RIOJA AERO.</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87217.0</td>
+    </tr>
+    <tr>
+      <th>267</th>
+      <td>AR000087257</td>
+      <td>-29.883</td>
+      <td>-61.950</td>
+      <td>88.0</td>
+      <td>NaN</td>
+      <td>CERES AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87257.0</td>
+    </tr>
+    <tr>
+      <th>268</th>
+      <td>AR000087270</td>
+      <td>-29.183</td>
+      <td>-59.700</td>
+      <td>53.0</td>
+      <td>NaN</td>
+      <td>RECONQUISTA AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87270.0</td>
+    </tr>
+    <tr>
+      <th>269</th>
+      <td>AR000087344</td>
+      <td>-31.317</td>
+      <td>-64.217</td>
+      <td>489.0</td>
+      <td>NaN</td>
+      <td>CORDOBA AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87344.0</td>
+    </tr>
+    <tr>
+      <th>270</th>
+      <td>AR000087374</td>
+      <td>-31.783</td>
+      <td>-60.483</td>
+      <td>74.0</td>
+      <td>NaN</td>
+      <td>PARANA AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87374.0</td>
+    </tr>
+    <tr>
+      <th>271</th>
+      <td>AR000087418</td>
+      <td>-32.833</td>
+      <td>-68.783</td>
+      <td>704.0</td>
+      <td>NaN</td>
+      <td>MENDOZA AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87418.0</td>
+    </tr>
+    <tr>
+      <th>272</th>
+      <td>AR000087534</td>
+      <td>-34.133</td>
+      <td>-63.367</td>
+      <td>137.0</td>
+      <td>NaN</td>
+      <td>LABOULAYE AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87534.0</td>
+    </tr>
+    <tr>
+      <th>273</th>
+      <td>AR000087623</td>
+      <td>-36.567</td>
+      <td>-64.266</td>
+      <td>192.0</td>
+      <td>NaN</td>
+      <td>SANTA ROSA AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87623.0</td>
+    </tr>
+    <tr>
+      <th>274</th>
+      <td>AR000087692</td>
+      <td>-37.933</td>
+      <td>-57.583</td>
+      <td>22.0</td>
+      <td>NaN</td>
+      <td>MAR DEL PLATA AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87692.0</td>
+    </tr>
+    <tr>
+      <th>275</th>
+      <td>AR000087715</td>
+      <td>-38.950</td>
+      <td>-68.133</td>
+      <td>273.0</td>
+      <td>NaN</td>
+      <td>NEUQUEN AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87715.0</td>
+    </tr>
+    <tr>
+      <th>276</th>
+      <td>AR000087803</td>
+      <td>-42.933</td>
+      <td>-71.150</td>
+      <td>799.0</td>
+      <td>NaN</td>
+      <td>ESQUEL AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87803.0</td>
+    </tr>
+    <tr>
+      <th>277</th>
+      <td>AR000087828</td>
+      <td>-43.200</td>
+      <td>-65.266</td>
+      <td>43.0</td>
+      <td>NaN</td>
+      <td>TRELEW AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87828.0</td>
+    </tr>
+    <tr>
+      <th>278</th>
+      <td>AR000087860</td>
+      <td>-45.783</td>
+      <td>-67.500</td>
+      <td>58.0</td>
+      <td>NaN</td>
+      <td>COMODORO RIVADAVIA</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87860.0</td>
+    </tr>
+    <tr>
+      <th>279</th>
+      <td>AR000087925</td>
+      <td>-51.617</td>
+      <td>-69.283</td>
+      <td>19.0</td>
+      <td>NaN</td>
+      <td>RIO GALLEGOS AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87925.0</td>
+    </tr>
+    <tr>
+      <th>280</th>
+      <td>AR000870470</td>
+      <td>-24.850</td>
+      <td>-65.483</td>
+      <td>1246.0</td>
+      <td>NaN</td>
+      <td>SALTA AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87047.0</td>
+    </tr>
+    <tr>
+      <th>281</th>
+      <td>AR000873050</td>
+      <td>-30.250</td>
+      <td>-68.750</td>
+      <td>1175.0</td>
+      <td>NaN</td>
+      <td>JACHAL</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87305.0</td>
+    </tr>
+    <tr>
+      <th>282</th>
+      <td>AR000875440</td>
+      <td>-35.867</td>
+      <td>-61.900</td>
+      <td>85.0</td>
+      <td>NaN</td>
+      <td>PEHUAJO AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87544.0</td>
+    </tr>
+    <tr>
+      <th>284</th>
+      <td>AR000877500</td>
+      <td>-38.733</td>
+      <td>-62.167</td>
+      <td>75.0</td>
+      <td>NaN</td>
+      <td>BAHIA BLANCA AERO</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87750.0</td>
+    </tr>
+    <tr>
+      <th>292</th>
+      <td>ARM00087178</td>
+      <td>-27.386</td>
+      <td>-55.971</td>
+      <td>131.1</td>
+      <td>NaN</td>
+      <td>POSADAS</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87178.0</td>
+    </tr>
+    <tr>
+      <th>296</th>
+      <td>ARM00087289</td>
+      <td>-29.689</td>
+      <td>-57.152</td>
+      <td>70.1</td>
+      <td>NaN</td>
+      <td>PASO DE LOS LIBRES</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87289.0</td>
+    </tr>
+    <tr>
+      <th>311</th>
+      <td>ARM00087497</td>
+      <td>-33.010</td>
+      <td>-58.613</td>
+      <td>22.9</td>
+      <td>NaN</td>
+      <td>GUALEGUAYCHU</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87497.0</td>
+    </tr>
+    <tr>
+      <th>312</th>
+      <td>ARM00087506</td>
+      <td>-35.494</td>
+      <td>-69.574</td>
+      <td>1430.1</td>
+      <td>NaN</td>
+      <td>MALARGUE</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87506.0</td>
+    </tr>
+    <tr>
+      <th>320</th>
+      <td>ARM00087593</td>
+      <td>-34.972</td>
+      <td>-57.895</td>
+      <td>21.9</td>
+      <td>NaN</td>
+      <td>LA PLATA</td>
+      <td>GSN</td>
+      <td>NaN</td>
+      <td>87593.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># ARM00087593 (I also briefly lived in La Plata!)</span>
+<span class="c1"># AR000087007</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stations</span><span class="p">[</span><span class="n">stations</span><span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;USC00050848&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ID</th>
+      <th>LATITUDE</th>
+      <th>LONGITUDE</th>
+      <th>ELEVATION</th>
+      <th>STATE</th>
+      <th>NAME</th>
+      <th>GSN FLAG</th>
+      <th>HCN/CRN FLAG</th>
+      <th>WMO ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>89825</th>
+      <td>USC00050848</td>
+      <td>39.9919</td>
+      <td>-105.2667</td>
+      <td>1671.5</td>
+      <td>CO</td>
+      <td>BOULDER</td>
+      <td>NaN</td>
+      <td>HCN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p><strong>(3)</strong> Now that we something about the observations we want to work with, we can now turn to our actual weather data.</p>
+<p>Our daily weather can be found in <code class="docutils literal notranslate"><span class="pre">ghcnd_daily.csv</span></code>, which you get by unzipping <code class="docutils literal notranslate"><span class="pre">ghcnd_daily.tar.gz</span></code>. Note that the README.txt talks about this being a fixed-width file. Since you’ve already dealt with one fixed-width file, I’ve just converted this to a CSV, and dropped all the data that isn’t “daily max temperatures”.</p>
+<p>Let’s start with the fun part. <strong>SAVE YOUR NOTEBOOK AND ANY OTHER OPEN FILES!</strong>. Then just try and import the data (<code class="docutils literal notranslate"><span class="pre">ghcnd_daily.csv</span></code>) while watching your Activity Monitor (Mac) or Resource Monitor (Windows) to see what happens.</p>
+<p>If you have 8GB of RAM, this should fail miserably.</p>
+<p>If you have 16GB of RAM, you might just get away with this. But if it <em>does</em> load, try sorting the data by year and see how things go.</p>
+<p>(If you have 32GB of RAM: you’re actually probably fine with data this size. Sorry – datasets big enough to cause big problems for people with 32GB take a long time to chunk on an 8GB computer, and these exercises have to be fast enough to finish in a class period! There are some exercises at the bottom with a REALLY big dataset you can work with.)</p>
+<p>You may have to kill your kernel, kill Jupyter Lab, and start over when this explodes…</p>
+<p><strong>(4)</strong> Now that we know that we can’t work with this directly, it’s good with these big datasets to just import ~200 lines so you can get a feel for the data. So load <em>just 200 lines</em> of <code class="docutils literal notranslate"><span class="pre">ghcnd_daily.csv</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/users/nick/dropbox/MIDS_Data_Prep&#39;</span>
+                 <span class="s1">&#39;/ClimateData/ghcnd_daily.csv&#39;</span><span class="p">,</span>
+                 <span class="n">nrows</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>year</th>
+      <th>month</th>
+      <th>element</th>
+      <th>value1</th>
+      <th>mflag1</th>
+      <th>qflag1</th>
+      <th>sflag1</th>
+      <th>value2</th>
+      <th>mflag2</th>
+      <th>...</th>
+      <th>qflag29</th>
+      <th>sflag29</th>
+      <th>value30</th>
+      <th>mflag30</th>
+      <th>qflag30</th>
+      <th>sflag30</th>
+      <th>value31</th>
+      <th>mflag31</th>
+      <th>qflag31</th>
+      <th>sflag31</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ACW00011604</td>
+      <td>1949</td>
+      <td>1</td>
+      <td>TMAX</td>
+      <td>289</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>X</td>
+      <td>289</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>X</td>
+      <td>272</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>X</td>
+      <td>272</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>X</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ACW00011604</td>
+      <td>1949</td>
+      <td>2</td>
+      <td>TMAX</td>
+      <td>267</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>X</td>
+      <td>278</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-9999</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-9999</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ACW00011604</td>
+      <td>1949</td>
+      <td>3</td>
+      <td>TMAX</td>
+      <td>272</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>X</td>
+      <td>289</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>X</td>
+      <td>278</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>X</td>
+      <td>267</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>X</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ACW00011604</td>
+      <td>1949</td>
+      <td>4</td>
+      <td>TMAX</td>
+      <td>278</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>X</td>
+      <td>283</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>X</td>
+      <td>289</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>X</td>
+      <td>-9999</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ACW00011604</td>
+      <td>1949</td>
+      <td>5</td>
+      <td>TMAX</td>
+      <td>283</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>X</td>
+      <td>283</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>X</td>
+      <td>294</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>X</td>
+      <td>300</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>X</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 128 columns</p>
+</div></div>
+</div>
+<p><strong>(5)</strong> Once you have a sense of the data, write code to chunk your data: i.e. code that reads in all blocks of the data that will fit in ram, keeps only the observations for the weather stations you’ve selected to focus on, and throws away everything else.</p>
+<p>In addition to your own 4 weather stations, please also include station USC00050848 (a weather station from near my home!) so you can generate results that we can all compare (to check for accuracy).</p>
+<p>Note you will probably have to play with your chunk sizes (probably while watching your RAM usage?) to find a chunk size that’s big enough you aren’t running chunks all day, but small enough you can work with it.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">my_stations</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;USC00050848&#39;</span><span class="p">,</span> <span class="s1">&#39;IN007101600&#39;</span><span class="p">,</span> <span class="s1">&#39;IN022021900&#39;</span><span class="p">,</span> <span class="s1">&#39;ARM00087593&#39;</span><span class="p">,</span> <span class="s1">&#39;AR000087007&#39;</span><span class="p">]</span>
+
+<span class="c1"># Setup chunking load</span>
+<span class="n">df_full</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/users/nick/dropbox/MIDS_Data_Prep&#39;</span>
+                      <span class="s1">&#39;/ClimateData/ghcnd_daily.csv&#39;</span><span class="p">,</span>
+                      <span class="n">iterator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                      <span class="n">chunksize</span><span class="o">=</span><span class="mi">5000000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># OK,small enough for me, but not ridiculously small.</span>
+<span class="n">keeping</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df_full</span><span class="p">):</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;starting chunk </span><span class="si">{idx}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">my_stations</span><span class="p">)]</span>
+    <span class="n">keeping</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/IPython/core/interactiveshell.py:3058: DtypeWarning: Columns (6,10,14,18,22,26,30,34,38,42,46,50,54,58,62,66,70,74,78,82,86,90,94,98,102,106,110,114,118,122,126) have mixed types. Specify dtype option on import or set low_memory=False.
+  interactivity=interactivity, compiler=compiler, result=result)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+starting chunk 0
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/IPython/core/interactiveshell.py:3058: DtypeWarning: Columns (6,7,10,11,14,15,18,19,22,23,26,27,30,31,34,35,38,39,42,43,46,47,50,51,54,55,58,59,62,63,66,67,70,71,74,75,78,79,82,83,86,87,90,91,94,95,98,99,102,103,106,107,110,111,114,115,118,119,122,123,126,127) have mixed types. Specify dtype option on import or set low_memory=False.
+  interactivity=interactivity, compiler=compiler, result=result)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+starting chunk 1
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/IPython/core/interactiveshell.py:3058: DtypeWarning: Columns (5,6,7,9,10,11,13,14,15,17,18,19,21,22,23,25,26,27,29,30,31,33,34,35,37,38,39,41,42,43,45,46,47,49,50,51,53,54,55,57,58,59,61,62,63,65,66,67,69,70,71,73,74,75,77,78,79,81,82,83,85,86,87,89,90,91,93,94,95,97,98,99,101,102,103,105,106,107,109,110,111,113,114,115,117,118,119,121,122,123,125,126,127) have mixed types. Specify dtype option on import or set low_memory=False.
+  interactivity=interactivity, compiler=compiler, result=result)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+starting chunk 2
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">weather_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">keeping</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">keeping</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">weather_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>year</th>
+      <th>month</th>
+      <th>element</th>
+      <th>value1</th>
+      <th>mflag1</th>
+      <th>qflag1</th>
+      <th>sflag1</th>
+      <th>value2</th>
+      <th>mflag2</th>
+      <th>...</th>
+      <th>qflag29</th>
+      <th>sflag29</th>
+      <th>value30</th>
+      <th>mflag30</th>
+      <th>qflag30</th>
+      <th>sflag30</th>
+      <th>value31</th>
+      <th>mflag31</th>
+      <th>qflag31</th>
+      <th>sflag31</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>58411</th>
+      <td>AR000087007</td>
+      <td>1956</td>
+      <td>4</td>
+      <td>TMAX</td>
+      <td>230</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>242</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>171</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>-9999</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>58412</th>
+      <td>AR000087007</td>
+      <td>1956</td>
+      <td>5</td>
+      <td>TMAX</td>
+      <td>180</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>172</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>138</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>148</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+    </tr>
+    <tr>
+      <th>58413</th>
+      <td>AR000087007</td>
+      <td>1956</td>
+      <td>6</td>
+      <td>TMAX</td>
+      <td>156</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>136</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>138</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>-9999</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>58414</th>
+      <td>AR000087007</td>
+      <td>1956</td>
+      <td>7</td>
+      <td>TMAX</td>
+      <td>132</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>136</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>128</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>128</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+    </tr>
+    <tr>
+      <th>58415</th>
+      <td>AR000087007</td>
+      <td>1956</td>
+      <td>8</td>
+      <td>TMAX</td>
+      <td>138</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>138</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>158</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>164</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 128 columns</p>
+</div></div>
+</div>
+<p><strong>(6)</strong> Now, for each weather station, figure out the <em>earliest</em> year with data. Keep <code class="docutils literal notranslate"><span class="pre">USC00050848</span></code> and the one weather station for each member of your team with the best data (i.e. each member of your pair should have picked two weather stations: keep the one from each pair with the best data).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">weather_data</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">min_year</span> <span class="o">=</span> <span class="n">weather_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">weather_data</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; for </span><span class="si">{name}</span><span class="s1">, earliest year is </span><span class="si">{min_year}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ for AR000087007, earliest year is 1956
+ for ARM00087593, earliest year is 1974
+ for IN007101600, earliest year is 1973
+ for IN022021900, earliest year is 1944
+ for USC00050848, earliest year is 1893
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">weather_data</span> <span class="o">=</span> <span class="n">weather_data</span><span class="p">[</span><span class="n">weather_data</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;USC00050848&#39;</span><span class="p">,</span> <span class="s1">&#39;IN022021900&#39;</span><span class="p">,</span> <span class="s1">&#39;AR000087007&#39;</span><span class="p">])]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">weather_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>year</th>
+      <th>month</th>
+      <th>element</th>
+      <th>value1</th>
+      <th>mflag1</th>
+      <th>qflag1</th>
+      <th>sflag1</th>
+      <th>value2</th>
+      <th>mflag2</th>
+      <th>...</th>
+      <th>qflag29</th>
+      <th>sflag29</th>
+      <th>value30</th>
+      <th>mflag30</th>
+      <th>qflag30</th>
+      <th>sflag30</th>
+      <th>value31</th>
+      <th>mflag31</th>
+      <th>qflag31</th>
+      <th>sflag31</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>58411</th>
+      <td>AR000087007</td>
+      <td>1956</td>
+      <td>4</td>
+      <td>TMAX</td>
+      <td>230</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>242</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>171</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>-9999</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>58412</th>
+      <td>AR000087007</td>
+      <td>1956</td>
+      <td>5</td>
+      <td>TMAX</td>
+      <td>180</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>172</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>138</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>148</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+    </tr>
+    <tr>
+      <th>58413</th>
+      <td>AR000087007</td>
+      <td>1956</td>
+      <td>6</td>
+      <td>TMAX</td>
+      <td>156</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>136</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>138</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>-9999</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>58414</th>
+      <td>AR000087007</td>
+      <td>1956</td>
+      <td>7</td>
+      <td>TMAX</td>
+      <td>132</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>136</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>128</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>128</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+    </tr>
+    <tr>
+      <th>58415</th>
+      <td>AR000087007</td>
+      <td>1956</td>
+      <td>8</td>
+      <td>TMAX</td>
+      <td>138</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>138</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>158</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>164</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 128 columns</p>
+</div></div>
+</div>
+<p><strong>(7)</strong> Now calculate the average max temp for each weather station / month in the data. Note that in a few weeks, we’ll have the skills to do this by reshaping our data so each row is a single day, rather than a month. But for the moment, just sum the columns, watching out for weird values.</p>
+<p>To sum across the value columns, we can combine:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">weather_data</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">like</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(to just get the columns whose names start with “value”) with <code class="docutils literal notranslate"><span class="pre">.mean(axis='columns')</span></code> (which averages across columns (along rows) rather than the usual averaging across rows (along columns).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">weather_data</span><span class="p">[</span><span class="s1">&#39;value1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>-9999    150
+ 189      39
+ 300      39
+ 200      39
+ 128      38
+        ...
+ 362       1
+ 249       1
+ 381       1
+ 255       1
+ 404       1
+Name: value1, Length: 336, dtype: int64
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># First get rid of garbarge entries.</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">):</span>
+    <span class="n">weather_data</span><span class="p">[</span><span class="n">f</span><span class="s1">&#39;value</span><span class="si">{i}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weather_data</span><span class="p">[</span><span class="n">f</span><span class="s1">&#39;value</span><span class="si">{i}</span><span class="s1">&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+<span class="n">weather_data</span><span class="p">[</span><span class="s1">&#39;avg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weather_data</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">like</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+<span class="n">weather_data</span><span class="p">[</span><span class="s1">&#39;avg_C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weather_data</span><span class="p">[</span><span class="s1">&#39;avg&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+<p><strong>(6)</strong> Now for each weather station, generate a separate plot of the daily temperatures over time. You should end up with a plot that looks something like this:</p>
+<p><img alt="temp_plots_Colorado" src="../_images/temp_plots_Boulder_CO.png" /></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">plotnine</span> <span class="k">import</span> <span class="o">*</span>
+<span class="n">weather_data</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weather_data</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">weather_data</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">12</span>
+
+<span class="n">names</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;USC00050848&#39;</span><span class="p">:</span> <span class="s2">&quot;Boulder, CO&quot;</span><span class="p">,</span>
+         <span class="s1">&#39;IN022021900&#39;</span><span class="p">:</span> <span class="s1">&#39;Safdarjung, New Delhi, India&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;AR000087007&#39;</span><span class="p">:</span> <span class="s1">&#39;Jujuy, Argentina&#39;</span>
+        <span class="p">}</span>
+
+<span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">weather_data</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">weather_data</span><span class="p">[</span><span class="n">weather_data</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">station</span><span class="p">],</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;avg_C&#39;</span><span class="p">))</span>
+                <span class="o">+</span> <span class="n">geom_line</span><span class="p">()</span>
+                <span class="o">+</span> <span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+                <span class="o">+</span> <span class="n">labs</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;Monthly Avg of Daily High Temps, </span><span class="si">{names[station]}</span><span class="s2">&quot;</span><span class="p">,</span>
+                       <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Year&quot;</span><span class="p">,</span>
+                       <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;Monthly Average of Daily High in Centigrade&quot;</span><span class="p">)</span>
+         <span class="p">)</span>
+    <span class="n">name_no_comma</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="n">station</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name_no_comma</span><span class="p">)</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;/users/nick/github/practicaldatascience/source/images/temp_plots_</span><span class="si">{name_no_comma}</span><span class="s1">.png&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Jujuy_Argentina
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/plotnine/ggplot.py:729: PlotnineWarning: Saving 6.4 x 4.8 in image.
+  from_inches(height, units), units), PlotnineWarning)
+/Users/Nick/miniconda3/lib/python3.7/site-packages/plotnine/ggplot.py:730: PlotnineWarning: Filename: /users/nick/github/practicaldatascience/source/images/temp_plots_Jujuy_Argentina.png
+  warn(&#39;Filename: {}&#39;.format(filename), PlotnineWarning)
+/Users/Nick/miniconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py:2495: FutureWarning: Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.
+  return ptp(axis=axis, out=out, **kwargs)
+/Users/Nick/miniconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py:2495: FutureWarning: Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.
+  return ptp(axis=axis, out=out, **kwargs)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;Figure size 640x480 with 1 Axes&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/plotnine/ggplot.py:729: PlotnineWarning: Saving 6.4 x 4.8 in image.
+  from_inches(height, units), units), PlotnineWarning)
+/Users/Nick/miniconda3/lib/python3.7/site-packages/plotnine/ggplot.py:730: PlotnineWarning: Filename: /users/nick/github/practicaldatascience/source/images/temp_plots_Safdarjung_New_Delhi_India.png
+  warn(&#39;Filename: {}&#39;.format(filename), PlotnineWarning)
+/Users/Nick/miniconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py:2495: FutureWarning: Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.
+  return ptp(axis=axis, out=out, **kwargs)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;ggplot: (8790525242737)&gt;
+Safdarjung_New_Delhi_India
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py:2495: FutureWarning: Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.
+  return ptp(axis=axis, out=out, **kwargs)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;Figure size 640x480 with 1 Axes&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/plotnine/ggplot.py:729: PlotnineWarning: Saving 6.4 x 4.8 in image.
+  from_inches(height, units), units), PlotnineWarning)
+/Users/Nick/miniconda3/lib/python3.7/site-packages/plotnine/ggplot.py:730: PlotnineWarning: Filename: /users/nick/github/practicaldatascience/source/images/temp_plots_Boulder_CO.png
+  warn(&#39;Filename: {}&#39;.format(filename), PlotnineWarning)
+/Users/Nick/miniconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py:2495: FutureWarning: Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.
+  return ptp(axis=axis, out=out, **kwargs)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;ggplot: (8790490358045)&gt;
+Boulder_CO
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py:2495: FutureWarning: Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.
+  return ptp(axis=axis, out=out, **kwargs)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;Figure size 640x480 with 1 Axes&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;ggplot: (-9223363246329102469)&gt;
+</pre></div></div>
+</div>
+<div class="section" id="Want-More-Practice?">
+<h2>Want More Practice?<a class="headerlink" href="#Want-More-Practice?" title="Permalink to this headline">¶</a></h2>
+<p>If you <em>really</em> want a challenge, the file <code class="docutils literal notranslate"><span class="pre">ghcnd_daily_30gb.tar.gz</span></code> will decompress into <code class="docutils literal notranslate"><span class="pre">ghcnd_daily.dat</span></code>, the full version of the GHCND daily data. It contains not only daily high temps, but also daily low temps, preciptionation, etc. Moreover, it is still in fixed-width format, and is about 30gb in raw form.</p>
+<p>Importing and chunking this data (with moderate optimizations) took about 2 hours on my computer.</p>
+<p>If you’re up for it, it’s a great dataset to wrestling with data in weird formats and chunking.</p>
+<p><strong>Pro-tip:</strong> strings take up <em>way</em> more space in RAM than numbers, so some columns can be converted to keep the memory footprint of the data down.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Practical DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">PYTHON &amp; PANDAS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup_environment.html">Setting Up Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managing_python_packages.html">Managing Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_v_r.html">Python / R Differences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vars_v_objects.html">Python: Vars v Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ints_and_floats.html">Numbers in Computers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pandas_series.html">Pandas 1: Series</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pandas_dataframes.html">Pandas 2: DataFrames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting_part1.html">Plotting, Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting_part2.html">Plotting, Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../views_and_copies_in_pandas.html">Pandas 3: Views</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OTHER TOOLS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../command_line_part1.html">Command Line, Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line_part2.html">Command Line, Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../git_and_github.html">Git and Github</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SKILLS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_help.html">Getting Help Online</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../what_is_big_data.html">What is Big Data?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../big_data_strategies.html">Working with Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance_understanding.html">Understanding Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance_solutions.html">Solving Performance Probs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallelism.html">Parallel Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../defensive_programming.html">Defensive Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow.html">Workflow Management</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OTHER</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../not_a_mids_student.html">Not a MIDS Student?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheets.html">Cheat Sheets</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/Solutions_bigdata.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-133829453-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>

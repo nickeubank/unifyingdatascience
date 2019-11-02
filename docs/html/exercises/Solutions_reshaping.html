@@ -1,0 +1,3291 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Reshaping Exercises &#8212; Practical Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="section" id="Reshaping-Exercises">
+<h1>Reshaping Exercises<a class="headerlink" href="#Reshaping-Exercises" title="Permalink to this headline">¶</a></h1>
+<p>Before we diving into actually doing some exercises, a few notes about reshaping in <code class="docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
+<p><strong>So many tools:</strong> As is so often the case with <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, when there are multiple ways that something can be done, <code class="docutils literal notranslate"><span class="pre">pandas</span></code> implements all of them, even it if results in a lot of duplication of funcationality. As a result, there are several sets of methods that do very similar things, and which can be hard to keep straights:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">melt</span></code> and <code class="docutils literal notranslate"><span class="pre">pivot</span></code>: Tools for moving a dataset from a wide-to-long (<code class="docutils literal notranslate"><span class="pre">pivot</span></code>) or long-to-wide (<code class="docutils literal notranslate"><span class="pre">melt</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pivot_table</span></code>: A more powerful and flexible version of <code class="docutils literal notranslate"><span class="pre">pivot</span></code> that allows for multiple index columns, and allows for aggregations if you want.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stack</span></code> and <code class="docutils literal notranslate"><span class="pre">unstack</span></code>: Like <code class="docutils literal notranslate"><span class="pre">melt</span></code> and <code class="docutils literal notranslate"><span class="pre">pivot</span></code>, but only for use when your variables are stored in indices. I don’t use these much.</p></li>
+</ul>
+<p>Personally, <strong>I find melt and pivot_table most useful.</strong> <code class="docutils literal notranslate"><span class="pre">pivot</span></code> can be nice, but only works if your “index” column is a single column, which is often not the case.</p>
+<p>Also, I have to go look at <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/reshaping.html">these pictures</a>… every time I reshape. Don’t hesistate to look them up for help!</p>
+<p><strong>What SHOULD I want my data to look like?</strong> Just a reminder that a natural question to ask is “in what format should I want my data?” Obviously this question is subjective, but as you read in the Hadley Wickham <a class="reference external" href="http://vita.had.co.nz/papers/tidy-data.html">piece I assigned</a>, this is a good standard definition for a “tidy” dataset to which we might aspire:</p>
+<ol class="arabic simple">
+<li><p>Each variable forms a column.</p></li>
+<li><p>Each observation forms a row.</p></li>
+<li><p>Each type of observational unit forms a table.</p></li>
+</ol>
+<p>In general, I’m a big fan of this approach, and I think it’s a good one to use (especially numbers 1 and 2).</p>
+<p>Note that the question of what forms an “observation” depends on the analysis you plan to run (which depends on the answer you seek to ask! See! EVERYTHING ALWAYS COMES BACK TO THE QUESTION YOU ARE SEEKING TO ANSWER!). Suppose you have data on GDP from different countries for many years. If you plan to run a panel analysis where each observation is a country-year, then each row should be a country-year. But if you plan to do a country-level analysis using measures of, say, GDP variation over
+time, then each row should be a country!</p>
+<div class="section" id="Exercises!">
+<h2>Exercises!<a class="headerlink" href="#Exercises!" title="Permalink to this headline">¶</a></h2>
+<p>So in this exercise, we’re going to work with data from the World Development Indicators. Unlike in previous exercises, however, where I cleaned up the data before giving it to you, we’ll be working with the raw data just as you would get it from the World Bank download site. You can find the data <a class="reference external" href="https://github.com/nickeubank/MIDS_Data/blob/master/World_Development_Indicators/raw_WDI_Data_csv.zip">here</a>.</p>
+<p><strong>(1)</strong> Download and import the data.</p>
+<p><em>NOTE:</em> This data downloads as a zip file. Try loading it into <code class="docutils literal notranslate"><span class="pre">pandas</span></code> without unzipping it…</p>
+<p><strong>(2)</strong> In this exercise, we’d like to look at the relationship between GDP and inequality across countries. So before anything else, thin down your dataset by getting only the rows related to:</p>
+<ul class="simple">
+<li><p>GDP per capita (in Constant US Dollars – the “constant” means values are have been adjusted for inflation, so values from 1970 can be directly compared with 2010)</p></li>
+<li><p>Gini coefficient</p></li>
+<li><p>Information on income shares (what percentage of total income goes to X% of the income distribution).</p></li>
+</ul>
+<p>NOTE: this is non-trivial. This is a big dataset with LOTS of variables, so you’ll have to use your data wrangling skills to see all the variables names. Remember that if you want to see all the entries in something but python compresses it (so it doesn’t take up too much space), you can loop over it and print each item separately to make it show everything!</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">wdi</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://github.com/nickeubank/MIDS_Data/raw/master/World_Development_Indicators/raw_WDI_Data_csv.zip&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">wdi</span><span class="p">[</span><span class="s1">&#39;Indicator Name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">sort_values</span><span class="p">():</span> <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2005 PPP conversion factor, GDP (LCU per international $)
+2005 PPP conversion factor, private consumption (LCU per international $)
+ARI treatment (% of children under 5 taken to a health provider)
+Access to clean fuels and technologies for cooking (% of population)
+Access to electricity (% of population)
+Access to electricity, rural (% of rural population)
+Access to electricity, urban (% of urban population)
+Account ownership at a financial institution or with a mobile-money-service provider (% of population ages 15+)
+Account ownership at a financial institution or with a mobile-money-service provider, female (% of population ages 15+)
+Account ownership at a financial institution or with a mobile-money-service provider, male (% of population ages 15+)
+Account ownership at a financial institution or with a mobile-money-service provider, older adults (% of population ages 25+)
+Account ownership at a financial institution or with a mobile-money-service provider, poorest 40% (% of population ages 15+)
+Account ownership at a financial institution or with a mobile-money-service provider, primary education or less (% of population ages 15+)
+Account ownership at a financial institution or with a mobile-money-service provider, richest 60% (% of population ages 15+)
+Account ownership at a financial institution or with a mobile-money-service provider, secondary education or more (% of population ages 15+)
+Account ownership at a financial institution or with a mobile-money-service provider, young adults (% of population ages 15-24)
+Adequacy of social insurance programs (% of total welfare of beneficiary households)
+Adequacy of social protection and labor programs (% of total welfare of beneficiary households)
+Adequacy of social safety net programs (% of total welfare of beneficiary households)
+Adequacy of unemployment benefits and ALMP (% of total welfare of beneficiary households)
+Adjusted net enrollment rate, primary (% of primary school age children)
+Adjusted net enrollment rate, primary, female (% of primary school age children)
+Adjusted net enrollment rate, primary, male (% of primary school age children)
+Adjusted net national income (annual % growth)
+Adjusted net national income (constant 2010 US$)
+Adjusted net national income (current US$)
+Adjusted net national income per capita (annual % growth)
+Adjusted net national income per capita (constant 2010 US$)
+Adjusted net national income per capita (current US$)
+Adjusted net savings, excluding particulate emission damage (% of GNI)
+Adjusted net savings, excluding particulate emission damage (current US$)
+Adjusted net savings, including particulate emission damage (% of GNI)
+Adjusted net savings, including particulate emission damage (current US$)
+Adjusted savings: carbon dioxide damage (% of GNI)
+Adjusted savings: carbon dioxide damage (current US$)
+Adjusted savings: consumption of fixed capital (% of GNI)
+Adjusted savings: consumption of fixed capital (current US$)
+Adjusted savings: education expenditure (% of GNI)
+Adjusted savings: education expenditure (current US$)
+Adjusted savings: energy depletion (% of GNI)
+Adjusted savings: energy depletion (current US$)
+Adjusted savings: gross savings (% of GNI)
+Adjusted savings: mineral depletion (% of GNI)
+Adjusted savings: mineral depletion (current US$)
+Adjusted savings: natural resources depletion (% of GNI)
+Adjusted savings: net forest depletion (% of GNI)
+Adjusted savings: net forest depletion (current US$)
+Adjusted savings: net national savings (% of GNI)
+Adjusted savings: net national savings (current US$)
+Adjusted savings: particulate emission damage (% of GNI)
+Adjusted savings: particulate emission damage (current US$)
+Adolescent fertility rate (births per 1,000 women ages 15-19)
+Adolescents out of school (% of lower secondary school age)
+Adolescents out of school, female (% of female lower secondary school age)
+Adolescents out of school, male (% of male lower secondary school age)
+Adults (ages 15+) and children (ages 0-14) newly infected with HIV
+Adults (ages 15+) newly infected with HIV
+Age dependency ratio (% of working-age population)
+Age dependency ratio, old (% of working-age population)
+Age dependency ratio, young (% of working-age population)
+Agricultural irrigated land (% of total agricultural land)
+Agricultural land (% of land area)
+Agricultural land (sq. km)
+Agricultural machinery, tractors
+Agricultural machinery, tractors per 100 sq. km of arable land
+Agricultural methane emissions (% of total)
+Agricultural methane emissions (thousand metric tons of CO2 equivalent)
+Agricultural nitrous oxide emissions (% of total)
+Agricultural nitrous oxide emissions (thousand metric tons of CO2 equivalent)
+Agricultural raw materials exports (% of merchandise exports)
+Agricultural raw materials imports (% of merchandise imports)
+Agriculture, forestry, and fishing, value added (% of GDP)
+Agriculture, forestry, and fishing, value added (annual % growth)
+Agriculture, forestry, and fishing, value added (constant 2010 US$)
+Agriculture, forestry, and fishing, value added (constant LCU)
+Agriculture, forestry, and fishing, value added (current LCU)
+Agriculture, forestry, and fishing, value added (current US$)
+Agriculture, forestry, and fishing, value added per worker (constant 2010 US$)
+Air transport, freight (million ton-km)
+Air transport, passengers carried
+Air transport, registered carrier departures worldwide
+Alternative and nuclear energy (% of total energy use)
+Annual freshwater withdrawals, agriculture (% of total freshwater withdrawal)
+Annual freshwater withdrawals, domestic (% of total freshwater withdrawal)
+Annual freshwater withdrawals, industry (% of total freshwater withdrawal)
+Annual freshwater withdrawals, total (% of internal resources)
+Annual freshwater withdrawals, total (billion cubic meters)
+Annualized average growth rate in per capita real survey mean consumption or income, bottom 40% of population (%)
+Annualized average growth rate in per capita real survey mean consumption or income, total population (%)
+Antiretroviral therapy coverage (% of people living with HIV)
+Antiretroviral therapy coverage for PMTCT (% of pregnant women living with HIV)
+Aquaculture production (metric tons)
+Arable land (% of land area)
+Arable land (hectares per person)
+Arable land (hectares)
+Armed forces personnel (% of total labor force)
+Armed forces personnel, total
+Arms exports (SIPRI trend indicator values)
+Arms imports (SIPRI trend indicator values)
+Automated teller machines (ATMs) (per 100,000 adults)
+Average grace period on new external debt commitments (years)
+Average grace period on new external debt commitments, official (years)
+Average grace period on new external debt commitments, private (years)
+Average grant element on new external debt commitments (%)
+Average grant element on new external debt commitments, official (%)
+Average grant element on new external debt commitments, private (%)
+Average interest on new external debt commitments (%)
+Average interest on new external debt commitments, official (%)
+Average interest on new external debt commitments, private (%)
+Average maturity on new external debt commitments (years)
+Average maturity on new external debt commitments, official (years)
+Average maturity on new external debt commitments, private (years)
+Average number of visits or required meetings with tax officials (for affected firms)
+Average precipitation in depth (mm per year)
+Average time to clear exports through customs (days)
+Average transaction cost of sending remittances from a specific country (%)
+Average transaction cost of sending remittances to a specific country (%)
+Average working hours of children, study and work, ages 7-14 (hours per week)
+Average working hours of children, study and work, female, ages 7-14 (hours per week)
+Average working hours of children, study and work, male, ages 7-14 (hours per week)
+Average working hours of children, working only, ages 7-14 (hours per week)
+Average working hours of children, working only, female, ages 7-14 (hours per week)
+Average working hours of children, working only, male, ages 7-14 (hours per week)
+Bank capital to assets ratio (%)
+Bank liquid reserves to bank assets ratio (%)
+Bank nonperforming loans to total gross loans (%)
+Battle-related deaths (number of people)
+Benefit incidence of social insurance programs to poorest quintile (% of total social insurance benefits)
+Benefit incidence of social protection and labor programs to poorest quintile (% of total SPL benefits)
+Benefit incidence of social safety net programs to poorest quintile (% of total safety net benefits)
+Benefit incidence of unemployment benefits and ALMP to poorest quintile (% of total U/ALMP benefits)
+Binding coverage, all products (%)
+Binding coverage, manufactured products (%)
+Binding coverage, primary products (%)
+Bird species, threatened
+Birth rate, crude (per 1,000 people)
+Births attended by skilled health staff (% of total)
+Borrowers from commercial banks (per 1,000 adults)
+Bound rate, simple mean, all products (%)
+Bound rate, simple mean, manufactured products (%)
+Bound rate, simple mean, primary products (%)
+Bribery incidence (% of firms experiencing at least one bribe payment request)
+Broad money (% of GDP)
+Broad money (current LCU)
+Broad money growth (annual %)
+Broad money to total reserves ratio
+Burden of customs procedure, WEF (1=extremely inefficient to 7=extremely efficient)
+Business extent of disclosure index (0=less disclosure to 10=more disclosure)
+CO2 emissions (kg per 2010 US$ of GDP)
+CO2 emissions (kg per 2011 PPP $ of GDP)
+CO2 emissions (kg per PPP $ of GDP)
+CO2 emissions (kt)
+CO2 emissions (metric tons per capita)
+CO2 emissions from electricity and heat production, total (% of total fuel combustion)
+CO2 emissions from gaseous fuel consumption (% of total)
+CO2 emissions from gaseous fuel consumption (kt)
+CO2 emissions from liquid fuel consumption (% of total)
+CO2 emissions from liquid fuel consumption (kt)
+CO2 emissions from manufacturing industries and construction (% of total fuel combustion)
+CO2 emissions from other sectors, excluding residential buildings and commercial and public services (% of total fuel combustion)
+CO2 emissions from residential buildings and commercial and public services (% of total fuel combustion)
+CO2 emissions from solid fuel consumption (% of total)
+CO2 emissions from solid fuel consumption (kt)
+CO2 emissions from transport (% of total fuel combustion)
+CO2 intensity (kg per kg of oil equivalent energy use)
+CPIA building human resources rating (1=low to 6=high)
+CPIA business regulatory environment rating (1=low to 6=high)
+CPIA debt policy rating (1=low to 6=high)
+CPIA economic management cluster average (1=low to 6=high)
+CPIA efficiency of revenue mobilization rating (1=low to 6=high)
+CPIA equity of public resource use rating (1=low to 6=high)
+CPIA financial sector rating (1=low to 6=high)
+CPIA fiscal policy rating (1=low to 6=high)
+CPIA gender equality rating (1=low to 6=high)
+CPIA macroeconomic management rating (1=low to 6=high)
+CPIA policies for social inclusion/equity cluster average (1=low to 6=high)
+CPIA policy and institutions for environmental sustainability rating (1=low to 6=high)
+CPIA property rights and rule-based governance rating (1=low to 6=high)
+CPIA public sector management and institutions cluster average (1=low to 6=high)
+CPIA quality of budgetary and financial management rating (1=low to 6=high)
+CPIA quality of public administration rating (1=low to 6=high)
+CPIA social protection rating (1=low to 6=high)
+CPIA structural policies cluster average (1=low to 6=high)
+CPIA trade rating (1=low to 6=high)
+CPIA transparency, accountability, and corruption in the public sector rating (1=low to 6=high)
+Capture fisheries production (metric tons)
+Cause of death, by communicable diseases and maternal, prenatal and nutrition conditions (% of total)
+Cause of death, by injury (% of total)
+Cause of death, by non-communicable diseases (% of total)
+Central government debt, total (% of GDP)
+Central government debt, total (current LCU)
+Cereal production (metric tons)
+Cereal yield (kg per hectare)
+Changes in inventories (constant LCU)
+Changes in inventories (current LCU)
+Changes in inventories (current US$)
+Charges for the use of intellectual property, payments (BoP, current US$)
+Charges for the use of intellectual property, receipts (BoP, current US$)
+Chemicals (% of value added in manufacturing)
+Child employment in agriculture (% of economically active children ages 7-14)
+Child employment in agriculture, female (% of female economically active children ages 7-14)
+Child employment in agriculture, male (% of male economically active children ages 7-14)
+Child employment in manufacturing (% of economically active children ages 7-14)
+Child employment in manufacturing, female (% of female economically active children ages 7-14)
+Child employment in manufacturing, male (% of male economically active children ages 7-14)
+Child employment in services (% of economically active children ages 7-14)
+Child employment in services, female (% of female economically active children ages 7-14)
+Child employment in services, male (% of male economically active children ages 7-14)
+Children (0-14) living with HIV
+Children (ages 0-14) newly infected with HIV
+Children in employment, female (% of female children ages 7-14)
+Children in employment, male (% of male children ages 7-14)
+Children in employment, self-employed (% of children in employment, ages 7-14)
+Children in employment, self-employed, female (% of female children in employment, ages 7-14)
+Children in employment, self-employed, male (% of male children in employment, ages 7-14)
+Children in employment, study and work (% of children in employment, ages 7-14)
+Children in employment, study and work, female (% of female children in employment, ages 7-14)
+Children in employment, study and work, male (% of male children in employment, ages 7-14)
+Children in employment, total (% of children ages 7-14)
+Children in employment, unpaid family workers (% of children in employment, ages 7-14)
+Children in employment, unpaid family workers, female (% of female children in employment, ages 7-14)
+Children in employment, unpaid family workers, male (% of male children in employment, ages 7-14)
+Children in employment, wage workers (% of children in employment, ages 7-14)
+Children in employment, wage workers, female (% of female children in employment, ages 7-14)
+Children in employment, wage workers, male (% of male children in employment, ages 7-14)
+Children in employment, work only (% of children in employment, ages 7-14)
+Children in employment, work only, female (% of female children in employment, ages 7-14)
+Children in employment, work only, male (% of male children in employment, ages 7-14)
+Children out of school (% of primary school age)
+Children out of school, female (% of female primary school age)
+Children out of school, male (% of male primary school age)
+Children out of school, primary
+Children out of school, primary, female
+Children out of school, primary, male
+Children with fever receiving antimalarial drugs (% of children under age 5 with fever)
+Claims on central government (annual growth as % of broad money)
+Claims on central government, etc. (% GDP)
+Claims on other sectors of the domestic economy (% of GDP)
+Claims on other sectors of the domestic economy (annual growth as % of broad money)
+Claims on private sector (annual growth as % of broad money)
+Coal rents (% of GDP)
+Combustible renewables and waste (% of total energy)
+Commercial bank branches (per 100,000 adults)
+Commercial banks and other lending (PPG + PNG) (NFL, current US$)
+Commercial service exports (current US$)
+Commercial service imports (current US$)
+Commitments, IBRD (COM, current US$)
+Commitments, IDA (COM, current US$)
+Commitments, official creditors (COM, current US$)
+Commitments, private creditors (COM, current US$)
+Commitments, public and publicly guaranteed (COM, current US$)
+Communications, computer, etc. (% of service exports, BoP)
+Communications, computer, etc. (% of service imports, BoP)
+Community health workers (per 1,000 people)
+Compensation of employees (% of expense)
+Compensation of employees (current LCU)
+Completeness of birth registration (%)
+Completeness of birth registration, female (%)
+Completeness of birth registration, male (%)
+Completeness of birth registration, rural (%)
+Completeness of birth registration, urban (%)
+Completeness of death registration with cause-of-death information (%)
+Completeness of infant death reporting (% of reported infant deaths to estimated infant deaths)
+Completeness of total death reporting (% of reported total deaths to estimated total deaths)
+Compulsory education, duration (years)
+Computer, communications and other services (% of commercial service exports)
+Computer, communications and other services (% of commercial service imports)
+Concessional debt (% of total external debt)
+Condom use, population ages 15-24, female (% of females ages 15-24)
+Condom use, population ages 15-24, male (% of males ages 15-24)
+Consumer price index (2010 = 100)
+Consumption of iodized salt (% of households)
+Container port traffic (TEU: 20 foot equivalent units)
+Contraceptive prevalence, any methods (% of women ages 15-49)
+Contraceptive prevalence, modern methods (% of women ages 15-49)
+Contributing family workers, female (% of female employment) (modeled ILO estimate)
+Contributing family workers, male (% of male employment) (modeled ILO estimate)
+Contributing family workers, total (% of total employment) (modeled ILO estimate)
+Cost of business start-up procedures (% of GNI per capita)
+Cost of business start-up procedures, female (% of GNI per capita)
+Cost of business start-up procedures, male (% of GNI per capita)
+Cost to export, border compliance (US$)
+Cost to export, documentary compliance (US$)
+Cost to import, border compliance (US$)
+Cost to import, documentary compliance (US$)
+Coverage of social insurance programs (% of population)
+Coverage of social insurance programs in 2nd quintile (% of population)
+Coverage of social insurance programs in 3rd quintile (% of population)
+Coverage of social insurance programs in 4th quintile (% of population)
+Coverage of social insurance programs in poorest quintile (% of population)
+Coverage of social insurance programs in richest quintile (% of population)
+Coverage of social protection and labor programs (% of population)
+Coverage of social safety net programs (% of population)
+Coverage of social safety net programs in 2nd quintile (% of population)
+Coverage of social safety net programs in 3rd quintile (% of population)
+Coverage of social safety net programs in 4th quintile (% of population)
+Coverage of social safety net programs in poorest quintile (% of population)
+Coverage of social safety net programs in richest quintile (% of population)
+Coverage of unemployment benefits and ALMP (% of population)
+Coverage of unemployment benefits and ALMP in 2nd quintile (% of population)
+Coverage of unemployment benefits and ALMP in 3rd quintile (% of population)
+Coverage of unemployment benefits and ALMP in 4th quintile (% of population)
+Coverage of unemployment benefits and ALMP in poorest quintile (% of population)
+Coverage of unemployment benefits and ALMP in richest quintile (% of population)
+Crop production index (2004-2006 = 100)
+Currency composition of PPG debt, Deutsche mark (%)
+Currency composition of PPG debt, Euro (%)
+Currency composition of PPG debt, French franc (%)
+Currency composition of PPG debt, Japanese yen (%)
+Currency composition of PPG debt, Multiple currencies (%)
+Currency composition of PPG debt, Pound sterling (%)
+Currency composition of PPG debt, SDR (%)
+Currency composition of PPG debt, Swiss franc (%)
+Currency composition of PPG debt, U.S. dollars (%)
+Currency composition of PPG debt, all other currencies (%)
+Current account balance (% of GDP)
+Current account balance (BoP, current US$)
+Current education expenditure, primary (% of total expenditure in primary public institutions)
+Current education expenditure, secondary (% of total expenditure in secondary public institutions)
+Current education expenditure, tertiary (% of total expenditure in tertiary public institutions)
+Current education expenditure, total (% of total expenditure in public institutions)
+Current health expenditure (% of GDP)
+Current health expenditure per capita (current US$)
+Current health expenditure per capita, PPP (current international $)
+Customs and other import duties (% of tax revenue)
+Customs and other import duties (current LCU)
+DEC alternative conversion factor (LCU per US$)
+Death rate, crude (per 1,000 people)
+Debt buyback (current US$)
+Debt forgiveness grants (current US$)
+Debt forgiveness or reduction (current US$)
+Debt service (PPG and IMF only, % of exports of goods, services and primary income)
+Debt service on external debt, long-term (TDS, current US$)
+Debt service on external debt, private nonguaranteed (PNG) (TDS, current US$)
+Debt service on external debt, public and publicly guaranteed (PPG) (TDS, current US$)
+Debt service on external debt, total (TDS, current US$)
+Debt stock reduction (current US$)
+Debt stock rescheduled (current US$)
+Demand for family planning satisfied by modern methods (% of married women with demand for family planning)
+Deposit interest rate (%)
+Depositors with commercial banks (per 1,000 adults)
+Depth of credit information index (0=low to 8=high)
+Diabetes prevalence (% of population ages 20 to 79)
+Diarrhea treatment (% of children under 5 receiving oral rehydration and continued feeding)
+Diarrhea treatment (% of children under 5 who received ORS packet)
+Disaster risk reduction progress score (1-5 scale; 5=best)
+Disbursements on external debt, long-term (DIS, current US$)
+Disbursements on external debt, long-term + IMF (DIS, current US$)
+Disbursements on external debt, private nonguaranteed (PNG) (DIS, current US$)
+Disbursements on external debt, public and publicly guaranteed (PPG) (DIS, current US$)
+Discrepancy in expenditure estimate of GDP (constant LCU)
+Discrepancy in expenditure estimate of GDP (current LCU)
+Distance to frontier score (0=lowest performance to 100=frontier)
+Domestic credit provided by financial sector (% of GDP)
+Domestic credit to private sector (% of GDP)
+Domestic credit to private sector by banks (% of GDP)
+Domestic general government health expenditure (% of GDP)
+Domestic general government health expenditure (% of current health expenditure)
+Domestic general government health expenditure (% of general government expenditure)
+Domestic general government health expenditure per capita (current US$)
+Domestic general government health expenditure per capita, PPP (current international $)
+Domestic private health expenditure (% of current health expenditure)
+Domestic private health expenditure per capita (current US$)
+Domestic private health expenditure per capita, PPP (current international $)
+Droughts, floods, extreme temperatures (% of population, average 1990-2009)
+EBRD, private nonguaranteed (NFL, current US$)
+Ease of doing business index (1=most business-friendly regulations)
+Educational attainment, Doctoral or equivalent, population 25+, female (%) (cumulative)
+Educational attainment, Doctoral or equivalent, population 25+, male (%) (cumulative)
+Educational attainment, Doctoral or equivalent, population 25+, total (%) (cumulative)
+Educational attainment, at least Bachelor&#39;s or equivalent, population 25+, female (%) (cumulative)
+Educational attainment, at least Bachelor&#39;s or equivalent, population 25+, male (%) (cumulative)
+Educational attainment, at least Bachelor&#39;s or equivalent, population 25+, total (%) (cumulative)
+Educational attainment, at least Master&#39;s or equivalent, population 25+, female (%) (cumulative)
+Educational attainment, at least Master&#39;s or equivalent, population 25+, male (%) (cumulative)
+Educational attainment, at least Master&#39;s or equivalent, population 25+, total (%) (cumulative)
+Educational attainment, at least completed lower secondary, population 25+, female (%) (cumulative)
+Educational attainment, at least completed lower secondary, population 25+, male (%) (cumulative)
+Educational attainment, at least completed lower secondary, population 25+, total (%) (cumulative)
+Educational attainment, at least completed post-secondary, population 25+, female (%) (cumulative)
+Educational attainment, at least completed post-secondary, population 25+, male (%) (cumulative)
+Educational attainment, at least completed post-secondary, population 25+, total (%) (cumulative)
+Educational attainment, at least completed primary, population 25+ years, female (%) (cumulative)
+Educational attainment, at least completed primary, population 25+ years, male (%) (cumulative)
+Educational attainment, at least completed primary, population 25+ years, total (%) (cumulative)
+Educational attainment, at least completed short-cycle tertiary, population 25+, female (%) (cumulative)
+Educational attainment, at least completed short-cycle tertiary, population 25+, male (%) (cumulative)
+Educational attainment, at least completed short-cycle tertiary, population 25+, total (%) (cumulative)
+Educational attainment, at least completed upper secondary, population 25+, female (%) (cumulative)
+Educational attainment, at least completed upper secondary, population 25+, male (%) (cumulative)
+Educational attainment, at least completed upper secondary, population 25+, total (%) (cumulative)
+Electric power consumption (kWh per capita)
+Electric power transmission and distribution losses (% of output)
+Electricity production from coal sources (% of total)
+Electricity production from hydroelectric sources (% of total)
+Electricity production from natural gas sources (% of total)
+Electricity production from nuclear sources (% of total)
+Electricity production from oil sources (% of total)
+Electricity production from oil, gas and coal sources (% of total)
+Electricity production from renewable sources, excluding hydroelectric (% of total)
+Electricity production from renewable sources, excluding hydroelectric (kWh)
+Employers, female (% of female employment) (modeled ILO estimate)
+Employers, male (% of male employment) (modeled ILO estimate)
+Employers, total (% of total employment) (modeled ILO estimate)
+Employment in agriculture (% of total employment) (modeled ILO estimate)
+Employment in agriculture, female (% of female employment) (modeled ILO estimate)
+Employment in agriculture, male (% of male employment) (modeled ILO estimate)
+Employment in industry (% of total employment) (modeled ILO estimate)
+Employment in industry, female (% of female employment) (modeled ILO estimate)
+Employment in industry, male (% of male employment) (modeled ILO estimate)
+Employment in services (% of total employment) (modeled ILO estimate)
+Employment in services, female (% of female employment) (modeled ILO estimate)
+Employment in services, male (% of male employment) (modeled ILO estimate)
+Employment to population ratio, 15+, female (%) (modeled ILO estimate)
+Employment to population ratio, 15+, female (%) (national estimate)
+Employment to population ratio, 15+, male (%) (modeled ILO estimate)
+Employment to population ratio, 15+, male (%) (national estimate)
+Employment to population ratio, 15+, total (%) (modeled ILO estimate)
+Employment to population ratio, 15+, total (%) (national estimate)
+Employment to population ratio, ages 15-24, female (%) (modeled ILO estimate)
+Employment to population ratio, ages 15-24, female (%) (national estimate)
+Employment to population ratio, ages 15-24, male (%) (modeled ILO estimate)
+Employment to population ratio, ages 15-24, male (%) (national estimate)
+Employment to population ratio, ages 15-24, total (%) (modeled ILO estimate)
+Employment to population ratio, ages 15-24, total (%) (national estimate)
+Energy imports, net (% of energy use)
+Energy intensity level of primary energy (MJ/$2011 PPP GDP)
+Energy related methane emissions (% of total)
+Energy use (kg of oil equivalent per capita)
+Energy use (kg of oil equivalent) per $1,000 GDP (constant 2011 PPP)
+Exclusive breastfeeding (% of children under 6 months)
+Expenditure on primary education (% of government expenditure on education)
+Expenditure on secondary education (% of government expenditure on education)
+Expenditure on tertiary education (% of government expenditure on education)
+Expense (% of GDP)
+Expense (current LCU)
+Export unit value index (2000 = 100)
+Export value index (2000 = 100)
+Export volume index (2000 = 100)
+Exports as a capacity to import (constant LCU)
+Exports of goods and services (% of GDP)
+Exports of goods and services (BoP, current US$)
+Exports of goods and services (annual % growth)
+Exports of goods and services (constant 2010 US$)
+Exports of goods and services (constant LCU)
+Exports of goods and services (current LCU)
+Exports of goods and services (current US$)
+Exports of goods, services and primary income (BoP, current US$)
+External balance on goods and services (% of GDP)
+External balance on goods and services (constant LCU)
+External balance on goods and services (current LCU)
+External balance on goods and services (current US$)
+External debt stocks (% of GNI)
+External debt stocks (% of exports of goods, services and primary income)
+External debt stocks, concessional (DOD, current US$)
+External debt stocks, long-term (DOD, current US$)
+External debt stocks, long-term private sector (DOD, current US$)
+External debt stocks, long-term public sector (DOD, current US$)
+External debt stocks, private nonguaranteed (PNG) (DOD, current US$)
+External debt stocks, public and publicly guaranteed (PPG) (DOD, current US$)
+External debt stocks, short-term (DOD, current US$)
+External debt stocks, total (DOD, current US$)
+External debt stocks, variable rate (DOD, current US$)
+External health expenditure (% of current health expenditure)
+External health expenditure per capita (current US$)
+External health expenditure per capita, PPP (current international $)
+Female genital mutilation prevalence (%)
+Female headed households (% of households with a female head)
+Female share of employment in senior and middle management (%)
+Fertility rate, total (births per woman)
+Fertilizer consumption (% of fertilizer production)
+Fertilizer consumption (kilograms per hectare of arable land)
+Final consumption expenditure (% of GDP)
+Final consumption expenditure (annual % growth)
+Final consumption expenditure (constant 2010 US$)
+Final consumption expenditure (constant LCU)
+Final consumption expenditure (current LCU)
+Final consumption expenditure (current US$)
+Financial intermediary services indirectly Measured (FISIM) (constant LCU)
+Financial intermediary services indirectly Measured (FISIM) (current LCU)
+Firms competing against unregistered firms (% of firms)
+Firms expected to give gifts in meetings with tax officials (% of firms)
+Firms experiencing electrical outages (% of firms)
+Firms experiencing losses due to theft and vandalism (% of firms)
+Firms formally registered when operations started (% of firms)
+Firms offering formal training (% of firms)
+Firms that do not report all sales for tax purposes (% of firms)
+Firms that spend on R&amp;D (% of firms)
+Firms using banks to finance investment (% of firms)
+Firms using banks to finance working capital (% of firms)
+Firms visited or required meetings with tax officials (% of firms)
+Firms with female participation in ownership (% of firms)
+Firms with female top manager (% of firms)
+Fish species, threatened
+Fixed broadband subscriptions
+Fixed broadband subscriptions (per 100 people)
+Fixed telephone subscriptions
+Fixed telephone subscriptions (per 100 people)
+Food exports (% of merchandise exports)
+Food imports (% of merchandise imports)
+Food production index (2004-2006 = 100)
+Food, beverages and tobacco (% of value added in manufacturing)
+Foreign direct investment, net (BoP, current US$)
+Foreign direct investment, net inflows (% of GDP)
+Foreign direct investment, net inflows (BoP, current US$)
+Foreign direct investment, net outflows (% of GDP)
+Foreign direct investment, net outflows (BoP, current US$)
+Forest area (% of land area)
+Forest area (sq. km)
+Forest rents (% of GDP)
+Fossil fuel energy consumption (% of total)
+Fuel exports (% of merchandise exports)
+Fuel imports (% of merchandise imports)
+GDP (constant 2010 US$)
+GDP (constant LCU)
+GDP (current LCU)
+GDP (current US$)
+GDP deflator (base year varies by country)
+GDP deflator: linked series (base year varies by country)
+GDP growth (annual %)
+GDP per capita (constant 2010 US$)
+GDP per capita (constant LCU)
+GDP per capita (current LCU)
+GDP per capita (current US$)
+GDP per capita growth (annual %)
+GDP per capita, PPP (constant 2011 international $)
+GDP per capita, PPP (current international $)
+GDP per person employed (constant 2011 PPP $)
+GDP per unit of energy use (PPP $ per kg of oil equivalent)
+GDP per unit of energy use (constant 2011 PPP $ per kg of oil equivalent)
+GDP, PPP (constant 2011 international $)
+GDP, PPP (current international $)
+GDP: linked series (current LCU)
+GHG net emissions/removals by LUCF (Mt of CO2 equivalent)
+GINI index (World Bank estimate)
+GNI (constant 2010 US$)
+GNI (constant LCU)
+GNI (current LCU)
+GNI (current US$)
+GNI growth (annual %)
+GNI per capita (constant 2010 US$)
+GNI per capita (constant LCU)
+GNI per capita (current LCU)
+GNI per capita growth (annual %)
+GNI per capita, Atlas method (current US$)
+GNI per capita, PPP (constant 2011 international $)
+GNI per capita, PPP (current international $)
+GNI, Atlas method (current US$)
+GNI, PPP (constant 2011 international $)
+GNI, PPP (current international $)
+General government final consumption expenditure (% of GDP)
+General government final consumption expenditure (annual % growth)
+General government final consumption expenditure (constant 2010 US$)
+General government final consumption expenditure (constant LCU)
+General government final consumption expenditure (current LCU)
+General government final consumption expenditure (current US$)
+Goods and services expense (% of expense)
+Goods and services expense (current LCU)
+Goods exports (BoP, current US$)
+Goods imports (BoP, current US$)
+Government expenditure on education, total (% of GDP)
+Government expenditure on education, total (% of government expenditure)
+Government expenditure per student, primary (% of GDP per capita)
+Government expenditure per student, secondary (% of GDP per capita)
+Government expenditure per student, tertiary (% of GDP per capita)
+Grants and other revenue (% of revenue)
+Grants and other revenue (current LCU)
+Grants, excluding technical cooperation (BoP, current US$)
+Gross capital formation (% of GDP)
+Gross capital formation (annual % growth)
+Gross capital formation (constant 2010 US$)
+Gross capital formation (constant LCU)
+Gross capital formation (current LCU)
+Gross capital formation (current US$)
+Gross domestic income (constant LCU)
+Gross domestic savings (% of GDP)
+Gross domestic savings (current LCU)
+Gross domestic savings (current US$)
+Gross fixed capital formation (% of GDP)
+Gross fixed capital formation (annual % growth)
+Gross fixed capital formation (constant 2010 US$)
+Gross fixed capital formation (constant LCU)
+Gross fixed capital formation (current LCU)
+Gross fixed capital formation (current US$)
+Gross fixed capital formation, private sector (% of GDP)
+Gross fixed capital formation, private sector (current LCU)
+Gross intake ratio in first grade of primary education, female (% of relevant age group)
+Gross intake ratio in first grade of primary education, male (% of relevant age group)
+Gross intake ratio in first grade of primary education, total (% of relevant age group)
+Gross national expenditure (% of GDP)
+Gross national expenditure (constant 2010 US$)
+Gross national expenditure (constant LCU)
+Gross national expenditure (current LCU)
+Gross national expenditure (current US$)
+Gross national expenditure deflator (base year varies by country)
+Gross savings (% of GDP)
+Gross savings (% of GNI)
+Gross savings (current LCU)
+Gross savings (current US$)
+Gross value added at basic prices (GVA) (constant 2010 US$)
+Gross value added at basic prices (GVA) (constant LCU)
+Gross value added at basic prices (GVA) (current LCU)
+Gross value added at basic prices (GVA) (current US$)
+HFC gas emissions (thousand metric tons of CO2 equivalent)
+High-technology exports (% of manufactured exports)
+High-technology exports (current US$)
+Hospital beds (per 1,000 people)
+Households and NPISHs Final consumption expenditure (annual % growth)
+Households and NPISHs Final consumption expenditure (constant 2010 US$)
+Households and NPISHs Final consumption expenditure (constant LCU)
+Households and NPISHs Final consumption expenditure (current LCU)
+Households and NPISHs Final consumption expenditure (current US$)
+Households and NPISHs Final consumption expenditure per capita (constant 2010 US$)
+Households and NPISHs Final consumption expenditure per capita growth (annual %)
+Households and NPISHs Final consumption expenditure, PPP (constant 2011 international $)
+Households and NPISHs Final consumption expenditure, PPP (current international $)
+Households and NPISHs final consumption expenditure (% of GDP)
+Human capital index (HCI) (scale 0-1)
+Human capital index (HCI), female (scale 0-1)
+Human capital index (HCI), female, lower bound (scale 0-1)
+Human capital index (HCI), female, upper bound (scale 0-1)
+Human capital index (HCI), lower bound (scale 0-1)
+Human capital index (HCI), male (scale 0-1)
+Human capital index (HCI), male, lower bound (scale 0-1)
+Human capital index (HCI), male, upper bound (scale 0-1)
+Human capital index (HCI), upper bound (scale 0-1)
+IBRD loans and IDA credits (DOD, current US$)
+ICT goods exports (% of total goods exports)
+ICT goods imports (% total goods imports)
+ICT service exports (% of service exports, BoP)
+ICT service exports (BoP, current US$)
+IDA grants (current US$)
+IDA resource allocation index (1=low to 6=high)
+IFC, private nonguaranteed (NFL, current US$)
+IMF charges (INT, current US$)
+IMF purchases (DIS, current US$)
+IMF repurchases (AMT, current US$)
+IMF repurchases and charges (TDS, current US$)
+Immunization, DPT (% of children ages 12-23 months)
+Immunization, HepB3 (% of one-year-old children)
+Immunization, measles (% of children ages 12-23 months)
+Import unit value index (2000 = 100)
+Import value index (2000 = 100)
+Import volume index (2000 = 100)
+Imports of goods and services (% of GDP)
+Imports of goods and services (BoP, current US$)
+Imports of goods and services (annual % growth)
+Imports of goods and services (constant 2010 US$)
+Imports of goods and services (constant LCU)
+Imports of goods and services (current LCU)
+Imports of goods and services (current US$)
+Imports of goods, services and primary income (BoP, current US$)
+Incidence of HIV (% of uninfected population ages 15-49)
+Incidence of malaria (per 1,000 population at risk)
+Incidence of tuberculosis (per 100,000 people)
+Income share held by fourth 20%
+Income share held by highest 10%
+Income share held by highest 20%
+Income share held by lowest 10%
+Income share held by lowest 20%
+Income share held by second 20%
+Income share held by third 20%
+Increase in poverty gap at $1.90 ($ 2011 PPP) poverty line due to out-of-pocket health care expenditure (% of poverty line)
+Increase in poverty gap at $1.90 ($ 2011 PPP) poverty line due to out-of-pocket health care expenditure (USD)
+Increase in poverty gap at $3.10 ($ 2011 PPP) poverty line due to out-of-pocket health care expenditure (% of poverty line)
+Increase in poverty gap at $3.10 ($ 2011 PPP) poverty line due to out-of-pocket health care expenditure (USD)
+Individuals using the Internet (% of population)
+Industrial design applications, nonresident, by count
+Industrial design applications, resident, by count
+Industry (including construction), value added (% of GDP)
+Industry (including construction), value added (annual % growth)
+Industry (including construction), value added (constant 2010 US$)
+Industry (including construction), value added (constant LCU)
+Industry (including construction), value added (current LCU)
+Industry (including construction), value added (current US$)
+Industry (including construction), value added per worker (constant 2010 US$)
+Inflation, GDP deflator (annual %)
+Inflation, GDP deflator: linked series (annual %)
+Inflation, consumer prices (annual %)
+Informal employment (% of total non-agricultural employment)
+Informal employment, female (% of total non-agricultural employment)
+Informal employment, male (% of total non-agricultural employment)
+Informal payments to public officials (% of firms)
+Insurance and financial services (% of commercial service exports)
+Insurance and financial services (% of commercial service imports)
+Insurance and financial services (% of service exports, BoP)
+Insurance and financial services (% of service imports, BoP)
+Intentional homicides (per 100,000 people)
+Intentional homicides, female (per 100,000 female)
+Intentional homicides, male (per 100,000 male)
+Interest arrears, long-term DOD (US$)
+Interest arrears, official creditors (current US$)
+Interest arrears, private creditors (current US$)
+Interest forgiven (current US$)
+Interest payments (% of expense)
+Interest payments (% of revenue)
+Interest payments (current LCU)
+Interest payments on external debt (% of GNI)
+Interest payments on external debt (% of exports of goods, services and primary income)
+Interest payments on external debt, long-term (INT, current US$)
+Interest payments on external debt, private nonguaranteed (PNG) (INT, current US$)
+Interest payments on external debt, public and publicly guaranteed (PPG) (INT, current US$)
+Interest payments on external debt, short-term (INT, current US$)
+Interest payments on external debt, total (INT, current US$)
+Interest rate spread (lending rate minus deposit rate, %)
+Interest rescheduled (capitalized) (current US$)
+Interest rescheduled, official (current US$)
+Interest rescheduled, private (current US$)
+Internally displaced persons, new displacement associated with conflict and violence (number of cases)
+Internally displaced persons, new displacement associated with disasters (number of cases)
+Internally displaced persons, total displaced by conflict and violence (number of people)
+International migrant stock (% of population)
+International migrant stock, total
+International tourism, expenditures (% of total imports)
+International tourism, expenditures (current US$)
+International tourism, expenditures for passenger transport items (current US$)
+International tourism, expenditures for travel items (current US$)
+International tourism, number of arrivals
+International tourism, number of departures
+International tourism, receipts (% of total exports)
+International tourism, receipts (current US$)
+International tourism, receipts for passenger transport items (current US$)
+International tourism, receipts for travel items (current US$)
+Investment in ICT with private participation (current US$)
+Investment in energy with private participation (current US$)
+Investment in transport with private participation (current US$)
+Investment in water and sanitation with private participation (current US$)
+Labor force participation rate for ages 15-24, female (%) (modeled ILO estimate)
+Labor force participation rate for ages 15-24, female (%) (national estimate)
+Labor force participation rate for ages 15-24, male (%) (modeled ILO estimate)
+Labor force participation rate for ages 15-24, male (%) (national estimate)
+Labor force participation rate for ages 15-24, total (%) (modeled ILO estimate)
+Labor force participation rate for ages 15-24, total (%) (national estimate)
+Labor force participation rate, female (% of female population ages 15+) (modeled ILO estimate)
+Labor force participation rate, female (% of female population ages 15+) (national estimate)
+Labor force participation rate, female (% of female population ages 15-64) (modeled ILO estimate)
+Labor force participation rate, male (% of male population ages 15+) (modeled ILO estimate)
+Labor force participation rate, male (% of male population ages 15+) (national estimate)
+Labor force participation rate, male (% of male population ages 15-64) (modeled ILO estimate)
+Labor force participation rate, total (% of total population ages 15+) (modeled ILO estimate)
+Labor force participation rate, total (% of total population ages 15+) (national estimate)
+Labor force participation rate, total (% of total population ages 15-64) (modeled ILO estimate)
+Labor force with advanced education (% of total working-age population with advanced education)
+Labor force with advanced education, female (% of female working-age population with advanced education)
+Labor force with advanced education, male (% of male working-age population with advanced education)
+Labor force with basic education (% of total working-age population with basic education)
+Labor force with basic education, female (% of female working-age population with basic education)
+Labor force with basic education, male (% of male working-age population with basic education)
+Labor force with intermediate education (% of total working-age population with intermediate education)
+Labor force with intermediate education, female (% of female working-age population with intermediate education)
+Labor force with intermediate education, male (% of male working-age population with intermediate education)
+Labor force, female (% of total labor force)
+Labor force, total
+Labor tax and contributions (% of commercial profits)
+Land area (sq. km)
+Land area where elevation is below 5 meters (% of total land area)
+Land under cereal production (hectares)
+Law mandates equal remuneration for females and males for work of equal value (1=yes; 0=no)
+Law mandates nondiscrimination based on gender in hiring (1=yes; 0=no)
+Law mandates paid or unpaid maternity leave (1=yes; 0=no)
+Law prohibits or invalidates child or early marriage (1=yes; 0=no)
+Lead time to export, median case (days)
+Lead time to import, median case (days)
+Legislation exists on domestic violence (1=yes; 0=no)
+Lending interest rate (%)
+Level of water stress: freshwater withdrawal as a proportion of available freshwater resources
+Life expectancy at birth, female (years)
+Life expectancy at birth, male (years)
+Life expectancy at birth, total (years)
+Lifetime risk of maternal death (%)
+Lifetime risk of maternal death (1 in: rate varies by country)
+Liner shipping connectivity index (maximum value in 2004 = 100)
+Listed domestic companies, total
+Literacy rate, adult female (% of females ages 15 and above)
+Literacy rate, adult male (% of males ages 15 and above)
+Literacy rate, adult total (% of people ages 15 and above)
+Literacy rate, youth (ages 15-24), gender parity index (GPI)
+Literacy rate, youth female (% of females ages 15-24)
+Literacy rate, youth male (% of males ages 15-24)
+Literacy rate, youth total (% of people ages 15-24)
+Livestock production index (2004-2006 = 100)
+Logistics performance index: Ability to track and trace consignments (1=low to 5=high)
+Logistics performance index: Competence and quality of logistics services (1=low to 5=high)
+Logistics performance index: Ease of arranging competitively priced shipments (1=low to 5=high)
+Logistics performance index: Efficiency of customs clearance process (1=low to 5=high)
+Logistics performance index: Frequency with which shipments reach consignee within scheduled or expected time (1=low to 5=high)
+Logistics performance index: Overall (1=low to 5=high)
+Logistics performance index: Quality of trade and transport-related infrastructure (1=low to 5=high)
+Losses due to theft and vandalism (% of annual sales of affected firms)
+Low-birthweight babies (% of births)
+Lower secondary completion rate, female (% of relevant age group)
+Lower secondary completion rate, male (% of relevant age group)
+Lower secondary completion rate, total (% of relevant age group)
+Lower secondary school starting age (years)
+Machinery and transport equipment (% of value added in manufacturing)
+Mammal species, threatened
+Manufactures exports (% of merchandise exports)
+Manufactures imports (% of merchandise imports)
+Manufacturing, value added (% of GDP)
+Manufacturing, value added (annual % growth)
+Manufacturing, value added (constant 2010 US$)
+Manufacturing, value added (constant LCU)
+Manufacturing, value added (current LCU)
+Manufacturing, value added (current US$)
+Marine protected areas (% of territorial waters)
+Market capitalization of listed domestic companies (% of GDP)
+Market capitalization of listed domestic companies (current US$)
+Maternal mortality ratio (modeled estimate, per 100,000 live births)
+Maternal mortality ratio (national estimate, per 100,000 live births)
+Medium and high-tech Industry (including construction) (% manufacturing value added)
+Medium and high-tech exports (% manufactured exports)
+Merchandise exports (current US$)
+Merchandise exports by the reporting economy (current US$)
+Merchandise exports by the reporting economy, residual (% of total merchandise exports)
+Merchandise exports to economies in the Arab World (% of total merchandise exports)
+Merchandise exports to high-income economies (% of total merchandise exports)
+Merchandise exports to low- and middle-income economies in East Asia &amp; Pacific (% of total merchandise exports)
+Merchandise exports to low- and middle-income economies in Europe &amp; Central Asia (% of total merchandise exports)
+Merchandise exports to low- and middle-income economies in Latin America &amp; the Caribbean (% of total merchandise exports)
+Merchandise exports to low- and middle-income economies in Middle East &amp; North Africa (% of total merchandise exports)
+Merchandise exports to low- and middle-income economies in South Asia (% of total merchandise exports)
+Merchandise exports to low- and middle-income economies in Sub-Saharan Africa (% of total merchandise exports)
+Merchandise exports to low- and middle-income economies outside region (% of total merchandise exports)
+Merchandise exports to low- and middle-income economies within region (% of total merchandise exports)
+Merchandise imports (current US$)
+Merchandise imports by the reporting economy (current US$)
+Merchandise imports by the reporting economy, residual (% of total merchandise imports)
+Merchandise imports from economies in the Arab World (% of total merchandise imports)
+Merchandise imports from high-income economies (% of total merchandise imports)
+Merchandise imports from low- and middle-income economies in East Asia &amp; Pacific (% of total merchandise imports)
+Merchandise imports from low- and middle-income economies in Europe &amp; Central Asia (% of total merchandise imports)
+Merchandise imports from low- and middle-income economies in Latin America &amp; the Caribbean (% of total merchandise imports)
+Merchandise imports from low- and middle-income economies in Middle East &amp; North Africa (% of total merchandise imports)
+Merchandise imports from low- and middle-income economies in South Asia (% of total merchandise imports)
+Merchandise imports from low- and middle-income economies in Sub-Saharan Africa (% of total merchandise imports)
+Merchandise imports from low- and middle-income economies outside region (% of total merchandise imports)
+Merchandise imports from low- and middle-income economies within region (% of total merchandise imports)
+Merchandise trade (% of GDP)
+Methane emissions (% change from 1990)
+Methane emissions (kt of CO2 equivalent)
+Methane emissions in energy sector (thousand metric tons of CO2 equivalent)
+Methodology assessment of statistical capacity (scale 0 - 100)
+Military expenditure (% of GDP)
+Military expenditure (% of general government expenditure)
+Military expenditure (current LCU)
+Military expenditure (current USD)
+Mineral rents (% of GDP)
+Mobile cellular subscriptions
+Mobile cellular subscriptions (per 100 people)
+Mortality caused by road traffic injury (per 100,000 people)
+Mortality from CVD, cancer, diabetes or CRD between exact ages 30 and 70 (%)
+Mortality from CVD, cancer, diabetes or CRD between exact ages 30 and 70, female (%)
+Mortality from CVD, cancer, diabetes or CRD between exact ages 30 and 70, male (%)
+Mortality rate attributed to household and ambient air pollution, age-standardized (per 100,000 population)
+Mortality rate attributed to household and ambient air pollution, age-standardized, female (per 100,000 female population)
+Mortality rate attributed to household and ambient air pollution, age-standardized, male (per 100,000 male population)
+Mortality rate attributed to unintentional poisoning (per 100,000 population)
+Mortality rate attributed to unintentional poisoning, female (per 100,000 female population)
+Mortality rate attributed to unintentional poisoning, male (per 100,000 male population)
+Mortality rate attributed to unsafe water, unsafe sanitation and lack of hygiene (per 100,000 population)
+Mortality rate, adult, female (per 1,000 female adults)
+Mortality rate, adult, male (per 1,000 male adults)
+Mortality rate, infant (per 1,000 live births)
+Mortality rate, infant, female (per 1,000 live births)
+Mortality rate, infant, male (per 1,000 live births)
+Mortality rate, neonatal (per 1,000 live births)
+Mortality rate, under-5 (per 1,000 live births)
+Mortality rate, under-5, female (per 1,000 live births)
+Mortality rate, under-5, male (per 1,000 live births)
+Mothers are guaranteed an equivalent position after maternity leave (1=yes; 0=no)
+Multilateral debt (% of total external debt)
+Multilateral debt service (% of public and publicly guaranteed debt service)
+Multilateral debt service (TDS, current US$)
+Natural gas rents (% of GDP)
+Net ODA provided to the least developed countries (% of GNI)
+Net ODA provided, to the least developed countries (current US$)
+Net ODA provided, total (% of GNI)
+Net ODA provided, total (constant 2015 US$)
+Net ODA provided, total (current US$)
+Net ODA received (% of GNI)
+Net ODA received (% of central government expense)
+Net ODA received (% of gross capital formation)
+Net ODA received (% of imports of goods, services and primary income)
+Net ODA received per capita (current US$)
+Net acquisition of financial assets (% of GDP)
+Net acquisition of financial assets (current LCU)
+Net barter terms of trade index (2000 = 100)
+Net bilateral aid flows from DAC donors, Australia (current US$)
+Net bilateral aid flows from DAC donors, Austria (current US$)
+Net bilateral aid flows from DAC donors, Belgium (current US$)
+Net bilateral aid flows from DAC donors, Canada (current US$)
+Net bilateral aid flows from DAC donors, Czech Republic (current US$)
+Net bilateral aid flows from DAC donors, Denmark (current US$)
+Net bilateral aid flows from DAC donors, European Union institutions (current US$)
+Net bilateral aid flows from DAC donors, Finland (current US$)
+Net bilateral aid flows from DAC donors, France (current US$)
+Net bilateral aid flows from DAC donors, Germany (current US$)
+Net bilateral aid flows from DAC donors, Greece (current US$)
+Net bilateral aid flows from DAC donors, Iceland (current US$)
+Net bilateral aid flows from DAC donors, Ireland (current US$)
+Net bilateral aid flows from DAC donors, Italy (current US$)
+Net bilateral aid flows from DAC donors, Japan (current US$)
+Net bilateral aid flows from DAC donors, Korea, Rep. (current US$)
+Net bilateral aid flows from DAC donors, Luxembourg (current US$)
+Net bilateral aid flows from DAC donors, Netherlands (current US$)
+Net bilateral aid flows from DAC donors, New Zealand (current US$)
+Net bilateral aid flows from DAC donors, Norway (current US$)
+Net bilateral aid flows from DAC donors, Poland (current US$)
+Net bilateral aid flows from DAC donors, Portugal (current US$)
+Net bilateral aid flows from DAC donors, Slovak Republic (current US$)
+Net bilateral aid flows from DAC donors, Slovenia (current US$)
+Net bilateral aid flows from DAC donors, Spain (current US$)
+Net bilateral aid flows from DAC donors, Sweden (current US$)
+Net bilateral aid flows from DAC donors, Switzerland (current US$)
+Net bilateral aid flows from DAC donors, Total (current US$)
+Net bilateral aid flows from DAC donors, United Kingdom (current US$)
+Net bilateral aid flows from DAC donors, United States (current US$)
+Net capital account (BoP, current US$)
+Net change in interest arrears (current US$)
+Net domestic credit (current LCU)
+Net errors and omissions (BoP, current US$)
+Net financial account (BoP, current US$)
+Net financial flows, IBRD (NFL, current US$)
+Net financial flows, IDA (NFL, current US$)
+Net financial flows, IMF concessional (NFL, current US$)
+Net financial flows, IMF nonconcessional (NFL, current US$)
+Net financial flows, RDB concessional (NFL, current US$)
+Net financial flows, RDB nonconcessional (NFL, current US$)
+Net financial flows, bilateral (NFL, current US$)
+Net financial flows, multilateral (NFL, current US$)
+Net financial flows, others (NFL, current US$)
+Net flows on external debt, long-term (NFL, current US$)
+Net flows on external debt, private nonguaranteed (PNG) (NFL, current US$)
+Net flows on external debt, public and publicly guaranteed (PPG) (NFL, current US$)
+Net flows on external debt, short-term (NFL, current US$)
+Net flows on external debt, total (NFL, current US$)
+Net foreign assets (current LCU)
+Net incurrence of liabilities, total (% of GDP)
+Net incurrence of liabilities, total (current LCU)
+Net intake rate in grade 1 (% of official school-age population)
+Net intake rate in grade 1, female (% of official school-age population)
+Net intake rate in grade 1, male (% of official school-age population)
+Net investment in nonfinancial assets (% of GDP)
+Net investment in nonfinancial assets (current LCU)
+Net lending (+) / net borrowing (-) (% of GDP)
+Net lending (+) / net borrowing (-) (current LCU)
+Net migration
+Net official aid received (constant 2015 US$)
+Net official aid received (current US$)
+Net official development assistance and official aid received (constant 2015 US$)
+Net official development assistance and official aid received (current US$)
+Net official development assistance received (constant 2015 US$)
+Net official development assistance received (current US$)
+Net official flows from UN agencies, FAO (current US$)
+Net official flows from UN agencies, IAEA (current US$)
+Net official flows from UN agencies, IFAD (current US$)
+Net official flows from UN agencies, ILO (current US$)
+Net official flows from UN agencies, UNAIDS (current US$)
+Net official flows from UN agencies, UNDP (current US$)
+Net official flows from UN agencies, UNECE (current US$)
+Net official flows from UN agencies, UNFPA (current US$)
+Net official flows from UN agencies, UNHCR (current US$)
+Net official flows from UN agencies, UNICEF (current US$)
+Net official flows from UN agencies, UNPBF (current US$)
+Net official flows from UN agencies, UNRWA (current US$)
+Net official flows from UN agencies, UNTA (current US$)
+Net official flows from UN agencies, UNWTO (current US$)
+Net official flows from UN agencies, WFP (current US$)
+Net official flows from UN agencies, WHO (current US$)
+Net primary income (BoP, current US$)
+Net primary income (Net income from abroad) (constant LCU)
+Net primary income (Net income from abroad) (current LCU)
+Net primary income (Net income from abroad) (current US$)
+Net secondary income (BoP, current US$)
+Net secondary income (Net current transfers from abroad) (constant LCU)
+Net secondary income (Net current transfers from abroad) (current LCU)
+Net secondary income (Net current transfers from abroad) (current US$)
+Net trade in goods (BoP, current US$)
+Net trade in goods and services (BoP, current US$)
+Net transfers on external debt, long-term (NTR, current US$)
+Net transfers on external debt, private nonguaranteed (PNG) (NTR, current US$)
+Net transfers on external debt, public and publicly guaranteed (PPG) (NTR, current US$)
+Net transfers on external debt, total (NTR, current US$)
+New business density (new registrations per 1,000 people ages 15-64)
+New businesses registered (number)
+Newborns protected against tetanus (%)
+Nitrous oxide emissions (% change from 1990)
+Nitrous oxide emissions (thousand metric tons of CO2 equivalent)
+Nitrous oxide emissions in energy sector (% of total)
+Nitrous oxide emissions in energy sector (thousand metric tons of CO2 equivalent)
+Nondiscrimination clause mentions gender in the constitution (1=yes; 0=no)
+Nonpregnant and nonnursing women can do the same jobs as men (1=yes; 0=no)
+Number of deaths ages 5-14 years
+Number of infant deaths
+Number of maternal deaths
+Number of neonatal deaths
+Number of people pushed below the $1.90 ($ 2011 PPP) poverty line by out-of-pocket health care expenditure
+Number of people pushed below the $3.10 ($ 2011 PPP) poverty line by out-of-pocket health care expenditure
+Number of people spending more than 10% of household consumption or income on out-of-pocket health care expenditure
+Number of people spending more than 25% of household consumption or income on out-of-pocket health care expenditure
+Number of surgical procedures (per 100,000 population)
+Number of under-five deaths
+Nurses and midwives (per 1,000 people)
+Official exchange rate (LCU per US$, period average)
+Oil rents (% of GDP)
+Ores and metals exports (% of merchandise exports)
+Ores and metals imports (% of merchandise imports)
+Other expense (% of expense)
+Other expense (current LCU)
+Other greenhouse gas emissions (% change from 1990)
+Other greenhouse gas emissions, HFC, PFC and SF6 (thousand metric tons of CO2 equivalent)
+Other manufacturing (% of value added in manufacturing)
+Other taxes (% of revenue)
+Other taxes (current LCU)
+Other taxes payable by businesses (% of commercial profits)
+Out-of-pocket expenditure (% of current health expenditure)
+Out-of-pocket expenditure per capita (current US$)
+Out-of-pocket expenditure per capita, PPP (current international $)
+Over-age students, primary (% of enrollment)
+Over-age students, primary, female (% of female enrollment)
+Over-age students, primary, male (% of male enrollment)
+PFC gas emissions (thousand metric tons of CO2 equivalent)
+PM2.5 air pollution, mean annual exposure (micrograms per cubic meter)
+PM2.5 air pollution, population exposed to levels exceeding WHO guideline value (% of total)
+PM2.5 pollution, population exposed to levels exceeding WHO Interim Target-1 value (% of total)
+PM2.5 pollution, population exposed to levels exceeding WHO Interim Target-2 value (% of total)
+PM2.5 pollution, population exposed to levels exceeding WHO Interim Target-3 value (% of total)
+PNG, bonds (AMT, current US$)
+PNG, bonds (DIS, current US$)
+PNG, bonds (DOD, current US$)
+PNG, bonds (INT, current US$)
+PNG, bonds (NFL, current US$)
+PNG, bonds (NTR, current US$)
+PNG, bonds (TDS, current US$)
+PNG, commercial banks and other creditors (AMT, current US$)
+PNG, commercial banks and other creditors (DIS, current US$)
+PNG, commercial banks and other creditors (DOD, current US$)
+PNG, commercial banks and other creditors (INT, current US$)
+PNG, commercial banks and other creditors (NFL, current US$)
+PNG, commercial banks and other creditors (NTR, current US$)
+PNG, commercial banks and other creditors (TDS, current US$)
+PPG, IBRD (AMT, current US$)
+PPG, IBRD (DIS, current US$)
+PPG, IBRD (DOD, current US$)
+PPG, IBRD (INT, current US$)
+PPG, IBRD (NTR, current US$)
+PPG, IBRD (TDS, current US$)
+PPG, IDA (AMT, current US$)
+PPG, IDA (DIS, current US$)
+PPG, IDA (DOD, current US$)
+PPG, IDA (INT, current US$)
+PPG, IDA (NTR, current US$)
+PPG, IDA (TDS, current US$)
+PPG, bilateral (AMT, current US$)
+PPG, bilateral (DIS, current US$)
+PPG, bilateral (DOD, current US$)
+PPG, bilateral (INT, current US$)
+PPG, bilateral (NTR, current US$)
+PPG, bilateral (TDS, current US$)
+PPG, bilateral concessional (AMT, current US$)
+PPG, bilateral concessional (DIS, current US$)
+PPG, bilateral concessional (DOD, current US$)
+PPG, bilateral concessional (INT, current US$)
+PPG, bilateral concessional (NFL, current US$)
+PPG, bilateral concessional (NTR, current US$)
+PPG, bilateral concessional (TDS, current US$)
+PPG, bonds (AMT, current US$)
+PPG, bonds (DIS, current US$)
+PPG, bonds (DOD, current US$)
+PPG, bonds (INT, current US$)
+PPG, bonds (NFL, current US$)
+PPG, bonds (NTR, current US$)
+PPG, bonds (TDS, current US$)
+PPG, commercial banks (AMT, current US$)
+PPG, commercial banks (DIS, current US$)
+PPG, commercial banks (DOD, current US$)
+PPG, commercial banks (INT, current US$)
+PPG, commercial banks (NFL, current US$)
+PPG, commercial banks (NTR, current US$)
+PPG, commercial banks (TDS, current US$)
+PPG, multilateral (AMT, current US$)
+PPG, multilateral (DIS, current US$)
+PPG, multilateral (DOD, current US$)
+PPG, multilateral (INT, current US$)
+PPG, multilateral (NTR, current US$)
+PPG, multilateral concessional (AMT, current US$)
+PPG, multilateral concessional (DIS, current US$)
+PPG, multilateral concessional (DOD, current US$)
+PPG, multilateral concessional (INT, current US$)
+PPG, multilateral concessional (NFL, current US$)
+PPG, multilateral concessional (NTR, current US$)
+PPG, multilateral concessional (TDS, current US$)
+PPG, official creditors (AMT, current US$)
+PPG, official creditors (DIS, current US$)
+PPG, official creditors (DOD, current US$)
+PPG, official creditors (INT, current US$)
+PPG, official creditors (NFL, current US$)
+PPG, official creditors (NTR, current US$)
+PPG, official creditors (TDS, current US$)
+PPG, other private creditors (AMT, current US$)
+PPG, other private creditors (DIS, current US$)
+PPG, other private creditors (DOD, current US$)
+PPG, other private creditors (INT, current US$)
+PPG, other private creditors (NFL, current US$)
+PPG, other private creditors (NTR, current US$)
+PPG, other private creditors (TDS, current US$)
+PPG, private creditors (AMT, current US$)
+PPG, private creditors (DIS, current US$)
+PPG, private creditors (DOD, current US$)
+PPG, private creditors (INT, current US$)
+PPG, private creditors (NFL, current US$)
+PPG, private creditors (NTR, current US$)
+PPG, private creditors (TDS, current US$)
+PPP conversion factor, GDP (LCU per international $)
+PPP conversion factor, private consumption (LCU per international $)
+Part time employment, female (% of total female employment)
+Part time employment, male (% of total male employment)
+Part time employment, total (% of total employment)
+Patent applications, nonresidents
+Patent applications, residents
+People practicing open defecation (% of population)
+People practicing open defecation, rural (% of rural population)
+People practicing open defecation, urban (% of urban population)
+People using at least basic drinking water services (% of population)
+People using at least basic drinking water services, rural (% of rural population)
+People using at least basic drinking water services, urban (% of urban population)
+People using at least basic sanitation services (% of population)
+People using at least basic sanitation services, rural (% of rural population)
+People using at least basic sanitation services, urban (% of urban population)
+People using safely managed drinking water services (% of population)
+People using safely managed drinking water services, rural (% of rural population)
+People using safely managed drinking water services, urban (% of urban population)
+People using safely managed sanitation services (% of population)
+People using safely managed sanitation services, rural (% of rural population)
+People using safely managed sanitation services, urban (% of urban population)
+People with basic handwashing facilities including soap and water (% of population)
+People with basic handwashing facilities including soap and water, rural (% of rural population)
+People with basic handwashing facilities including soap and water, urban (% of urban population)
+Periodicity and timeliness assessment of statistical capacity (scale 0 - 100)
+Permanent cropland (% of land area)
+Persistence to grade 5, female (% of cohort)
+Persistence to grade 5, male (% of cohort)
+Persistence to grade 5, total (% of cohort)
+Persistence to last grade of primary, female (% of cohort)
+Persistence to last grade of primary, male (% of cohort)
+Persistence to last grade of primary, total (% of cohort)
+Personal remittances, paid (current US$)
+Personal remittances, received (% of GDP)
+Personal remittances, received (current US$)
+Personal transfers, receipts (BoP, current US$)
+Physicians (per 1,000 people)
+Plant species (higher), threatened
+Population ages 0-14 (% of total population)
+Population ages 0-14, female
+Population ages 0-14, female (% of female population)
+Population ages 0-14, male
+Population ages 0-14, male (% of male population)
+Population ages 0-14, total
+Population ages 00-04, female (% of female population)
+Population ages 00-04, male (% of male population)
+Population ages 05-09, female (% of female population)
+Population ages 05-09, male (% of male population)
+Population ages 10-14, female (% of female population)
+Population ages 10-14, male (% of male population)
+Population ages 15-19, female (% of female population)
+Population ages 15-19, male (% of male population)
+Population ages 15-64 (% of total population)
+Population ages 15-64, female
+Population ages 15-64, female (% of female population)
+Population ages 15-64, male
+Population ages 15-64, male (% of male population)
+Population ages 15-64, total
+Population ages 20-24, female (% of female population)
+Population ages 20-24, male (% of male population)
+Population ages 25-29, female (% of female population)
+Population ages 25-29, male (% of male population)
+Population ages 30-34, female (% of female population)
+Population ages 30-34, male (% of male population)
+Population ages 35-39, female (% of female population)
+Population ages 35-39, male (% of male population)
+Population ages 40-44, female (% of female population)
+Population ages 40-44, male (% of male population)
+Population ages 45-49, female (% of female population)
+Population ages 45-49, male (% of male population)
+Population ages 50-54, female (% of female population)
+Population ages 50-54, male (% of male population)
+Population ages 55-59, female (% of female population)
+Population ages 55-59, male (% of male population)
+Population ages 60-64, female (% of female population)
+Population ages 60-64, male (% of male population)
+Population ages 65 and above (% of total population)
+Population ages 65 and above, female
+Population ages 65 and above, female (% of female population)
+Population ages 65 and above, male
+Population ages 65 and above, male (% of male population)
+Population ages 65 and above, total
+Population ages 65-69, female (% of female population)
+Population ages 65-69, male (% of male population)
+Population ages 70-74, female (% of female population)
+Population ages 70-74, male (% of male population)
+Population ages 75-79, female (% of female population)
+Population ages 75-79, male (% of male population)
+Population ages 80 and above, female (% of female population)
+Population ages 80 and above, male (% of male population)
+Population density (people per sq. km of land area)
+Population growth (annual %)
+Population in largest city
+Population in the largest city (% of urban population)
+Population in urban agglomerations of more than 1 million
+Population in urban agglomerations of more than 1 million (% of total population)
+Population living in areas where elevation is below 5 meters (% of total population)
+Population living in slums (% of urban population)
+Population, female
+Population, female (% of total population)
+Population, male
+Population, male (% of total population)
+Population, total
+Portfolio equity, net inflows (BoP, current US$)
+Portfolio investment, bonds (PPG + PNG) (NFL, current US$)
+Portfolio investment, net (BoP, current US$)
+Poverty gap at $1.90 a day (2011 PPP) (%)
+Poverty gap at $3.20 a day (2011 PPP) (%)
+Poverty gap at $5.50 a day (2011 PPP) (%)
+Poverty gap at national poverty lines (%)
+Poverty headcount ratio at $1.90 a day (2011 PPP) (% of population)
+Poverty headcount ratio at $3.20 a day (2011 PPP) (% of population)
+Poverty headcount ratio at $5.50 a day (2011 PPP) (% of population)
+Poverty headcount ratio at national poverty lines (% of population)
+Power outages in firms in a typical month (number)
+Pregnant women receiving prenatal care (%)
+Preprimary education, duration (years)
+Presence of peace keepers (number of troops, police, and military observers in mandate)
+Present value of external debt (% of GNI)
+Present value of external debt (% of exports of goods, services and primary income)
+Present value of external debt (current US$)
+Prevalence of HIV, female (% ages 15-24)
+Prevalence of HIV, male (% ages 15-24)
+Prevalence of HIV, total (% of population ages 15-49)
+Prevalence of anemia among children (% of children under 5)
+Prevalence of anemia among non-pregnant women (% of women ages 15-49)
+Prevalence of anemia among pregnant women (%)
+Prevalence of anemia among women of reproductive age (% of women ages 15-49)
+Prevalence of overweight, weight for height (% of children under 5)
+Prevalence of overweight, weight for height, female (% of children under 5)
+Prevalence of overweight, weight for height, male (% of children under 5)
+Prevalence of severe wasting, weight for height (% of children under 5)
+Prevalence of severe wasting, weight for height, female (% of children under 5)
+Prevalence of severe wasting, weight for height, male (% of children under 5)
+Prevalence of stunting, height for age (% of children under 5)
+Prevalence of stunting, height for age, female (% of children under 5)
+Prevalence of stunting, height for age, male (% of children under 5)
+Prevalence of undernourishment (% of population)
+Prevalence of underweight, weight for age (% of children under 5)
+Prevalence of underweight, weight for age, female (% of children under 5)
+Prevalence of underweight, weight for age, male (% of children under 5)
+Prevalence of wasting, weight for height (% of children under 5)
+Prevalence of wasting, weight for height, female (% of children under 5)
+Prevalence of wasting, weight for height, male (% of children under 5)
+Price level ratio of PPP conversion factor (GDP) to market exchange rate
+Primary completion rate, female (% of relevant age group)
+Primary completion rate, male (% of relevant age group)
+Primary completion rate, total (% of relevant age group)
+Primary education, duration (years)
+Primary education, pupils
+Primary education, pupils (% female)
+Primary education, teachers
+Primary education, teachers (% female)
+Primary government expenditures as a proportion of original approved budget (%)
+Primary income on FDI, payments (current US$)
+Primary income payments (BoP, current US$)
+Primary income receipts (BoP, current US$)
+Primary school starting age (years)
+Principal arrears, long-term DOD (US$)
+Principal arrears, official creditors (current US$)
+Principal arrears, private creditors (current US$)
+Principal forgiven (current US$)
+Principal repayments on external debt, long-term (AMT, current US$)
+Principal repayments on external debt, long-term + IMF (AMT, current US$)
+Principal repayments on external debt, private nonguaranteed (PNG) (AMT, current US$)
+Principal repayments on external debt, public and publicly guaranteed (PPG) (AMT, current US$)
+Principal rescheduled (current US$)
+Principal rescheduled, official (current US$)
+Principal rescheduled, private (current US$)
+Private credit bureau coverage (% of adults)
+Probability of dying at age 5-14 years (per 1,000 children age 5)
+Procedures to build a warehouse (number)
+Procedures to register property (number)
+Profit tax (% of commercial profits)
+Progression to secondary school (%)
+Progression to secondary school, female (%)
+Progression to secondary school, male (%)
+Proportion of population pushed below the $1.90 ($ 2011 PPP) poverty line by out-of-pocket health care expenditure (%)
+Proportion of population pushed below the $3.10 ($ 2011 PPP) poverty line by out-of-pocket health care expenditure (%)
+Proportion of population spending more than 10% of household consumption or income on out-of-pocket health care expenditure (%)
+Proportion of population spending more than 25% of household consumption or income on out-of-pocket health care expenditure (%)
+Proportion of seats held by women in national parliaments (%)
+Proportion of time spent on unpaid domestic and care work, female (% of 24 hour day)
+Proportion of time spent on unpaid domestic and care work, male (% of 24 hour day)
+Proportion of women subjected to physical and/or sexual violence in the last 12 months (% of women age 15-49)
+Public and publicly guaranteed debt service (% of GNI)
+Public and publicly guaranteed debt service (% of exports of goods, services and primary income)
+Public credit registry coverage (% of adults)
+Public private partnerships investment in ICT (current US$)
+Public private partnerships investment in energy (current US$)
+Public private partnerships investment in transport (current US$)
+Public private partnerships investment in water and sanitation (current US$)
+Pump price for diesel fuel (US$ per liter)
+Pump price for gasoline (US$ per liter)
+Pupil-teacher ratio, lower secondary
+Pupil-teacher ratio, preprimary
+Pupil-teacher ratio, primary
+Pupil-teacher ratio, secondary
+Pupil-teacher ratio, tertiary
+Pupil-teacher ratio, upper secondary
+Quality of port infrastructure, WEF (1=extremely underdeveloped to 7=well developed and efficient by international standards)
+Rail lines (total route-km)
+Railways, goods transported (million ton-km)
+Railways, passengers carried (million passenger-km)
+Ratio of female to male labor force participation rate (%) (modeled ILO estimate)
+Ratio of female to male labor force participation rate (%) (national estimate)
+Real effective exchange rate index (2010 = 100)
+Real interest rate (%)
+Refugee population by country or territory of asylum
+Refugee population by country or territory of origin
+Renewable electricity output (% of total electricity output)
+Renewable energy consumption (% of total final energy consumption)
+Renewable internal freshwater resources per capita (cubic meters)
+Renewable internal freshwater resources, total (billion cubic meters)
+Repeaters, primary, female (% of female enrollment)
+Repeaters, primary, male (% of male enrollment)
+Repeaters, primary, total (% of total enrollment)
+Research and development expenditure (% of GDP)
+Researchers in R&amp;D (per million people)
+Reserves and related items (BoP, current US$)
+Residual, debt stock-flow reconciliation (current US$)
+Revenue, excluding grants (% of GDP)
+Revenue, excluding grants (current LCU)
+Risk of catastrophic expenditure for surgical care (% of people at risk)
+Risk of impoverishing expenditure for surgical care (% of people at risk)
+Risk premium on lending (lending rate minus treasury bill rate, %)
+Rural land area (sq. km)
+Rural land area where elevation is below 5 meters (% of total land area)
+Rural land area where elevation is below 5 meters (sq. km)
+Rural population
+Rural population (% of total population)
+Rural population growth (annual %)
+Rural population living in areas where elevation is below 5 meters (% of total population)
+Rural poverty gap at national poverty lines (%)
+Rural poverty headcount ratio at national poverty lines (% of rural population)
+S&amp;P Global Equity Indices (annual % change)
+SF6 gas emissions (thousand metric tons of CO2 equivalent)
+School enrollment, preprimary (% gross)
+School enrollment, preprimary, female (% gross)
+School enrollment, preprimary, male (% gross)
+School enrollment, primary (% gross)
+School enrollment, primary (% net)
+School enrollment, primary (gross), gender parity index (GPI)
+School enrollment, primary and secondary (gross), gender parity index (GPI)
+School enrollment, primary, female (% gross)
+School enrollment, primary, female (% net)
+School enrollment, primary, male (% gross)
+School enrollment, primary, male (% net)
+School enrollment, primary, private (% of total primary)
+School enrollment, secondary (% gross)
+School enrollment, secondary (% net)
+School enrollment, secondary (gross), gender parity index (GPI)
+School enrollment, secondary, female (% gross)
+School enrollment, secondary, female (% net)
+School enrollment, secondary, male (% gross)
+School enrollment, secondary, male (% net)
+School enrollment, secondary, private (% of total secondary)
+School enrollment, tertiary (% gross)
+School enrollment, tertiary (gross), gender parity index (GPI)
+School enrollment, tertiary, female (% gross)
+School enrollment, tertiary, male (% gross)
+Scientific and technical journal articles
+Secondary education, duration (years)
+Secondary education, general pupils
+Secondary education, general pupils (% female)
+Secondary education, pupils
+Secondary education, pupils (% female)
+Secondary education, teachers
+Secondary education, teachers (% female)
+Secondary education, teachers, female
+Secondary education, vocational pupils
+Secondary education, vocational pupils (% female)
+Secondary income receipts (BoP, current US$)
+Secondary income, other sectors, payments (BoP, current US$)
+Secure Internet servers
+Secure Internet servers (per 1 million people)
+Self-employed, female (% of female employment) (modeled ILO estimate)
+Self-employed, male (% of male employment) (modeled ILO estimate)
+Self-employed, total (% of total employment) (modeled ILO estimate)
+Service exports (BoP, current US$)
+Service imports (BoP, current US$)
+Services, value added (% of GDP)
+Services, value added (annual % growth)
+Services, value added (constant 2010 US$)
+Services, value added (constant LCU)
+Services, value added (current LCU)
+Services, value added (current US$)
+Services, value added per worker (constant 2010 US$)
+Sex ratio at birth (male births per female births)
+Share of tariff lines with international peaks, all products (%)
+Share of tariff lines with international peaks, manufactured products (%)
+Share of tariff lines with international peaks, primary products (%)
+Share of tariff lines with specific rates, all products (%)
+Share of tariff lines with specific rates, manufactured products (%)
+Share of tariff lines with specific rates, primary products (%)
+Share of youth not in education, employment or training, female (% of female youth population)
+Share of youth not in education, employment or training, male (% of male youth population)
+Share of youth not in education, employment or training, total (% of youth population)
+Short-term debt (% of exports of goods, services and primary income)
+Short-term debt (% of total external debt)
+Short-term debt (% of total reserves)
+Smoking prevalence, females (% of adults)
+Smoking prevalence, males (% of adults)
+Smoking prevalence, total (ages 15+)
+Social contributions (% of revenue)
+Social contributions (current LCU)
+Source data assessment of statistical capacity (scale 0 - 100)
+Specialist surgical workforce (per 100,000 population)
+Start-up procedures to register a business (number)
+Start-up procedures to register a business, female (number)
+Start-up procedures to register a business, male (number)
+Statistical Capacity score (Overall average)
+Stocks traded, total value (% of GDP)
+Stocks traded, total value (current US$)
+Stocks traded, turnover ratio of domestic shares (%)
+Strength of legal rights index (0=weak to 12=strong)
+Subsidies and other transfers (% of expense)
+Subsidies and other transfers (current LCU)
+Suicide mortality rate (per 100,000 population)
+Suicide mortality rate, female (per 100,000 female population)
+Suicide mortality rate, male (per 100,000 male population)
+Surface area (sq. km)
+Survey mean consumption or income per capita, bottom 40% of population (2011 PPP $ per day)
+Survey mean consumption or income per capita, total population (2011 PPP $ per day)
+Survival to age 65, female (% of cohort)
+Survival to age 65, male (% of cohort)
+Tariff rate, applied, simple mean, all products (%)
+Tariff rate, applied, simple mean, manufactured products (%)
+Tariff rate, applied, simple mean, primary products (%)
+Tariff rate, applied, weighted mean, all products (%)
+Tariff rate, applied, weighted mean, manufactured products (%)
+Tariff rate, applied, weighted mean, primary products (%)
+Tariff rate, most favored nation, simple mean, all products (%)
+Tariff rate, most favored nation, simple mean, manufactured products (%)
+Tariff rate, most favored nation, simple mean, primary products (%)
+Tariff rate, most favored nation, weighted mean, all products (%)
+Tariff rate, most favored nation, weighted mean, manufactured products (%)
+Tariff rate, most favored nation, weighted mean, primary products (%)
+Tax payments (number)
+Tax revenue (% of GDP)
+Tax revenue (current LCU)
+Taxes less subsidies on products (constant LCU)
+Taxes less subsidies on products (current LCU)
+Taxes less subsidies on products (current US$)
+Taxes on exports (% of tax revenue)
+Taxes on exports (current LCU)
+Taxes on goods and services (% of revenue)
+Taxes on goods and services (% value added of industry and services)
+Taxes on goods and services (current LCU)
+Taxes on income, profits and capital gains (% of revenue)
+Taxes on income, profits and capital gains (% of total taxes)
+Taxes on income, profits and capital gains (current LCU)
+Taxes on international trade (% of revenue)
+Taxes on international trade (current LCU)
+Technical cooperation grants (BoP, current US$)
+Technicians in R&amp;D (per million people)
+Teenage mothers (% of women ages 15-19 who have had children or are currently pregnant)
+Terms of trade adjustment (constant LCU)
+Terrestrial and marine protected areas (% of total territorial area)
+Terrestrial protected areas (% of total land area)
+Tertiary education, academic staff (% female)
+Textiles and clothing (% of value added in manufacturing)
+Time required to build a warehouse (days)
+Time required to enforce a contract (days)
+Time required to get electricity (days)
+Time required to obtain an operating license (days)
+Time required to register property (days)
+Time required to start a business (days)
+Time required to start a business, female (days)
+Time required to start a business, male (days)
+Time spent dealing with the requirements of government regulations (% of senior management time)
+Time to export, border compliance (hours)
+Time to export, documentary compliance (hours)
+Time to import, border compliance (hours)
+Time to import, documentary compliance (hours)
+Time to obtain an electrical connection (days)
+Time to prepare and pay taxes (hours)
+Time to resolve insolvency (years)
+Total alcohol consumption per capita (liters of pure alcohol, projected estimates, 15+ years of age)
+Total alcohol consumption per capita, female (liters of pure alcohol, projected estimates, female 15+ years of age)
+Total alcohol consumption per capita, male (liters of pure alcohol, projected estimates, male 15+ years of age)
+Total amount of debt rescheduled (current US$)
+Total change in external debt stocks (current US$)
+Total debt service (% of GNI)
+Total debt service (% of exports of goods, services and primary income)
+Total fisheries production (metric tons)
+Total greenhouse gas emissions (% change from 1990)
+Total greenhouse gas emissions (kt of CO2 equivalent)
+Total natural resources rents (% of GDP)
+Total reserves (% of total external debt)
+Total reserves (includes gold, current US$)
+Total reserves in months of imports
+Total reserves minus gold (current US$)
+Total tax and contribution rate (% of profit)
+Trade (% of GDP)
+Trade in services (% of GDP)
+Trademark applications, direct nonresident
+Trademark applications, direct resident
+Trademark applications, nonresident, by count
+Trademark applications, resident, by count
+Trademark applications, total
+Trained teachers in lower secondary education (% of total teachers)
+Trained teachers in lower secondary education, female (% of female teachers)
+Trained teachers in lower secondary education, male (% of male teachers)
+Trained teachers in preprimary education (% of total teachers)
+Trained teachers in preprimary education, female (% of female teachers)
+Trained teachers in preprimary education, male (% of male teachers)
+Trained teachers in primary education (% of total teachers)
+Trained teachers in primary education, female (% of female teachers)
+Trained teachers in primary education, male (% of male teachers)
+Trained teachers in secondary education (% of total teachers)
+Trained teachers in secondary education, female (% of female teachers)
+Trained teachers in secondary education, male (% of male teachers)
+Trained teachers in upper secondary education (% of total teachers)
+Trained teachers in upper secondary education, female (% of female teachers)
+Trained teachers in upper secondary education, male (% of male teachers)
+Transport services (% of commercial service exports)
+Transport services (% of commercial service imports)
+Transport services (% of service exports, BoP)
+Transport services (% of service imports, BoP)
+Travel services (% of commercial service exports)
+Travel services (% of commercial service imports)
+Travel services (% of service exports, BoP)
+Travel services (% of service imports, BoP)
+Tuberculosis case detection rate (%, all forms)
+Tuberculosis treatment success rate (% of new cases)
+UHC service coverage index
+Undisbursed external debt, official creditors (UND, current US$)
+Undisbursed external debt, private creditors (UND, current US$)
+Undisbursed external debt, total (UND, current US$)
+Unemployment with advanced education (% of total labor force with advanced education)
+Unemployment with advanced education, female (% of female labor force with advanced education)
+Unemployment with advanced education, male (% of male labor force with advanced education)
+Unemployment with basic education (% of total labor force with basic education)
+Unemployment with basic education, female (% of female labor force with basic education)
+Unemployment with basic education, male (% of male labor force with basic education)
+Unemployment with intermediate education (% of total labor force with intermediate education)
+Unemployment with intermediate education, female (% of female labor force with intermediate education)
+Unemployment with intermediate education, male (% of male labor force with intermediate education)
+Unemployment, female (% of female labor force) (modeled ILO estimate)
+Unemployment, female (% of female labor force) (national estimate)
+Unemployment, male (% of male labor force) (modeled ILO estimate)
+Unemployment, male (% of male labor force) (national estimate)
+Unemployment, total (% of total labor force) (modeled ILO estimate)
+Unemployment, total (% of total labor force) (national estimate)
+Unemployment, youth female (% of female labor force ages 15-24) (modeled ILO estimate)
+Unemployment, youth female (% of female labor force ages 15-24) (national estimate)
+Unemployment, youth male (% of male labor force ages 15-24) (modeled ILO estimate)
+Unemployment, youth male (% of male labor force ages 15-24) (national estimate)
+Unemployment, youth total (% of total labor force ages 15-24) (modeled ILO estimate)
+Unemployment, youth total (% of total labor force ages 15-24) (national estimate)
+Unmet need for contraception (% of married women ages 15-49)
+Urban land area (sq. km)
+Urban land area where elevation is below 5 meters (% of total land area)
+Urban land area where elevation is below 5 meters (sq. km)
+Urban population
+Urban population (% of total population)
+Urban population growth (annual %)
+Urban population living in areas where elevation is below 5 meters (% of total population)
+Urban poverty gap at national poverty lines (%)
+Urban poverty headcount ratio at national poverty lines (% of urban population)
+Use of IMF credit (DOD, current US$)
+Use of insecticide-treated bed nets (% of under-5 population)
+Value lost due to electrical outages (% of sales for affected firms)
+Vitamin A supplementation coverage rate (% of children ages 6-59 months)
+Vulnerable employment, female (% of female employment) (modeled ILO estimate)
+Vulnerable employment, male (% of male employment) (modeled ILO estimate)
+Vulnerable employment, total (% of total employment) (modeled ILO estimate)
+Wage and salaried workers, female (% of female employment) (modeled ILO estimate)
+Wage and salaried workers, male (% of male employment) (modeled ILO estimate)
+Wage and salaried workers, total (% of total employment) (modeled ILO estimate)
+Wanted fertility rate (births per woman)
+Water productivity, total (constant 2010 US$ GDP per cubic meter of total freshwater withdrawal)
+Wholesale price index (2010 = 100)
+Women making their own informed decisions regarding sexual relations, contraceptive use and reproductive health care  (% of women age 15-49)
+Women participating in the three decisions (own health care, major household purchases, and visiting family) (% of women age 15-49)
+Women who believe a husband is justified in beating his wife (any of five reasons) (%)
+Women who believe a husband is justified in beating his wife when she argues with him (%)
+Women who believe a husband is justified in beating his wife when she burns the food (%)
+Women who believe a husband is justified in beating his wife when she goes out without telling him (%)
+Women who believe a husband is justified in beating his wife when she neglects the children (%)
+Women who believe a husband is justified in beating his wife when she refuses sex with him (%)
+Women who were first married by age 15 (% of women ages 20-24)
+Women who were first married by age 18 (% of women ages 20-24)
+Women&#39;s share of population ages 15+ living with HIV (%)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">wdi</span><span class="p">[</span><span class="s1">&#39;Indicator Name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;.*GDP.*&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2005 PPP conversion factor, GDP (LCU per international $)
+Agriculture, forestry, and fishing, value added (% of GDP)
+Broad money (% of GDP)
+Central government debt, total (% of GDP)
+Claims on central government, etc. (% GDP)
+Claims on other sectors of the domestic economy (% of GDP)
+CO2 emissions (kg per 2010 US$ of GDP)
+CO2 emissions (kg per 2011 PPP $ of GDP)
+CO2 emissions (kg per PPP $ of GDP)
+Coal rents (% of GDP)
+Current account balance (% of GDP)
+Current health expenditure (% of GDP)
+Discrepancy in expenditure estimate of GDP (constant LCU)
+Discrepancy in expenditure estimate of GDP (current LCU)
+Domestic credit provided by financial sector (% of GDP)
+Domestic credit to private sector (% of GDP)
+Domestic credit to private sector by banks (% of GDP)
+Domestic general government health expenditure (% of GDP)
+Energy intensity level of primary energy (MJ/$2011 PPP GDP)
+Energy use (kg of oil equivalent) per $1,000 GDP (constant 2011 PPP)
+Expense (% of GDP)
+Exports of goods and services (% of GDP)
+External balance on goods and services (% of GDP)
+Final consumption expenditure (% of GDP)
+Foreign direct investment, net inflows (% of GDP)
+Foreign direct investment, net outflows (% of GDP)
+Forest rents (% of GDP)
+GDP (constant 2010 US$)
+GDP (constant LCU)
+GDP (current LCU)
+GDP (current US$)
+GDP deflator (base year varies by country)
+GDP deflator: linked series (base year varies by country)
+GDP growth (annual %)
+GDP per capita (constant 2010 US$)
+GDP per capita (constant LCU)
+GDP per capita (current LCU)
+GDP per capita (current US$)
+GDP per capita growth (annual %)
+GDP per capita, PPP (constant 2011 international $)
+GDP per capita, PPP (current international $)
+GDP per person employed (constant 2011 PPP $)
+GDP per unit of energy use (constant 2011 PPP $ per kg of oil equivalent)
+GDP per unit of energy use (PPP $ per kg of oil equivalent)
+GDP, PPP (constant 2011 international $)
+GDP, PPP (current international $)
+GDP: linked series (current LCU)
+General government final consumption expenditure (% of GDP)
+Government expenditure on education, total (% of GDP)
+Government expenditure per student, primary (% of GDP per capita)
+Government expenditure per student, secondary (% of GDP per capita)
+Government expenditure per student, tertiary (% of GDP per capita)
+Gross capital formation (% of GDP)
+Gross domestic savings (% of GDP)
+Gross fixed capital formation (% of GDP)
+Gross fixed capital formation, private sector (% of GDP)
+Gross national expenditure (% of GDP)
+Gross savings (% of GDP)
+Households and NPISHs final consumption expenditure (% of GDP)
+Imports of goods and services (% of GDP)
+Industry (including construction), value added (% of GDP)
+Inflation, GDP deflator (annual %)
+Inflation, GDP deflator: linked series (annual %)
+Manufacturing, value added (% of GDP)
+Market capitalization of listed domestic companies (% of GDP)
+Merchandise trade (% of GDP)
+Military expenditure (% of GDP)
+Mineral rents (% of GDP)
+Natural gas rents (% of GDP)
+Net acquisition of financial assets (% of GDP)
+Net incurrence of liabilities, total (% of GDP)
+Net investment in nonfinancial assets (% of GDP)
+Net lending (+) / net borrowing (-) (% of GDP)
+Oil rents (% of GDP)
+Personal remittances, received (% of GDP)
+PPP conversion factor, GDP (LCU per international $)
+Price level ratio of PPP conversion factor (GDP) to market exchange rate
+Research and development expenditure (% of GDP)
+Revenue, excluding grants (% of GDP)
+Services, value added (% of GDP)
+Stocks traded, total value (% of GDP)
+Tax revenue (% of GDP)
+Total natural resources rents (% of GDP)
+Trade (% of GDP)
+Trade in services (% of GDP)
+Water productivity, total (constant 2010 US$ GDP per cubic meter of total freshwater withdrawal)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">keepers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;GDP per capita (constant 2010 US$)&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;GINI index (World Bank estimate)&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Income share held by fourth 20%&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Income share held by highest 10%&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Income share held by highest 20%&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Income share held by lowest 10%&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Income share held by lowest 20%&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Income share held by second 20%&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Income share held by third 20%&#39;</span><span class="p">]</span>
+<span class="n">wdi</span> <span class="o">=</span> <span class="n">wdi</span><span class="p">[</span><span class="n">wdi</span><span class="p">[</span><span class="s1">&#39;Indicator Name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">keepers</span><span class="p">)]</span>
+<span class="n">wdi</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Country Name</th>
+      <th>Country Code</th>
+      <th>Indicator Name</th>
+      <th>Indicator Code</th>
+      <th>1960</th>
+      <th>1961</th>
+      <th>1962</th>
+      <th>1963</th>
+      <th>1964</th>
+      <th>1965</th>
+      <th>...</th>
+      <th>2010</th>
+      <th>2011</th>
+      <th>2012</th>
+      <th>2013</th>
+      <th>2014</th>
+      <th>2015</th>
+      <th>2016</th>
+      <th>2017</th>
+      <th>2018</th>
+      <th>Unnamed: 63</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>520</th>
+      <td>Arab World</td>
+      <td>ARB</td>
+      <td>GDP per capita (constant 2010 US$)</td>
+      <td>NY.GDP.PCAP.KD</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>5945.678558</td>
+      <td>6021.163952</td>
+      <td>6278.734889</td>
+      <td>6336.581939</td>
+      <td>6354.885748</td>
+      <td>6430.464609</td>
+      <td>6507.882895</td>
+      <td>6447.294731</td>
+      <td>6458.734486</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>540</th>
+      <td>Arab World</td>
+      <td>ARB</td>
+      <td>GINI index (World Bank estimate)</td>
+      <td>SI.POV.GINI</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>655</th>
+      <td>Arab World</td>
+      <td>ARB</td>
+      <td>Income share held by fourth 20%</td>
+      <td>SI.DST.04TH.20</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>656</th>
+      <td>Arab World</td>
+      <td>ARB</td>
+      <td>Income share held by highest 10%</td>
+      <td>SI.DST.10TH.10</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>657</th>
+      <td>Arab World</td>
+      <td>ARB</td>
+      <td>Income share held by highest 20%</td>
+      <td>SI.DST.05TH.20</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 64 columns</p>
+</div></div>
+</div>
+<p><strong>(3)</strong> OK, that makes our data a lot more manageable, but it’s still pretty heinous.</p>
+<p>In our analysis, we know that we’ll want to have country-years as our units of observation, so let’s start reshaping. Come up with a strategy that gets our inequality variables as columns, and makes each of our future observations (i.e. each country-year) a row.</p>
+<p><em>Hint:</em> It can sometimes be helpful to drop useless columns before a reshape.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">wdi</span> <span class="o">=</span> <span class="n">wdi</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;Country Code&#39;</span><span class="p">,</span> <span class="s1">&#39;Indicator Code&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">wdi_melted</span> <span class="o">=</span> <span class="n">wdi</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Country Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Indicator Name&#39;</span><span class="p">])</span>
+<span class="n">wdi_melted</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Country Name</th>
+      <th>Indicator Name</th>
+      <th>variable</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Arab World</td>
+      <td>GDP per capita (constant 2010 US$)</td>
+      <td>1960</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Arab World</td>
+      <td>GINI index (World Bank estimate)</td>
+      <td>1960</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Arab World</td>
+      <td>Income share held by fourth 20%</td>
+      <td>1960</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Arab World</td>
+      <td>Income share held by highest 10%</td>
+      <td>1960</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Arab World</td>
+      <td>Income share held by highest 20%</td>
+      <td>1960</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">wdi_melted</span> <span class="o">=</span> <span class="n">wdi_melted</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;year&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+<span class="n">wdi_melted</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Country Name</th>
+      <th>Indicator Name</th>
+      <th>year</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Arab World</td>
+      <td>GDP per capita (constant 2010 US$)</td>
+      <td>1960</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Arab World</td>
+      <td>GINI index (World Bank estimate)</td>
+      <td>1960</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Arab World</td>
+      <td>Income share held by fourth 20%</td>
+      <td>1960</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Arab World</td>
+      <td>Income share held by highest 10%</td>
+      <td>1960</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Arab World</td>
+      <td>Income share held by highest 20%</td>
+      <td>1960</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">wdi_reshaped</span> <span class="o">=</span> <span class="n">wdi_melted</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Country Name&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;Indicator Name&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+<span class="n">wdi_reshaped</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Indicator Name</th>
+      <th>GDP per capita (constant 2010 US$)</th>
+      <th>GINI index (World Bank estimate)</th>
+      <th>Income share held by fourth 20%</th>
+      <th>Income share held by highest 10%</th>
+      <th>Income share held by highest 20%</th>
+      <th>Income share held by lowest 10%</th>
+      <th>Income share held by lowest 20%</th>
+      <th>Income share held by second 20%</th>
+      <th>Income share held by third 20%</th>
+    </tr>
+    <tr>
+      <th>Country Name</th>
+      <th>year</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">Afghanistan</th>
+      <th>2002</th>
+      <td>330.303553</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2003</th>
+      <td>343.080890</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2004</th>
+      <td>333.216684</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2005</th>
+      <td>357.234720</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2006</th>
+      <td>365.284495</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">wdi_reshaped</span> <span class="o">=</span> <span class="n">wdi_reshaped</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">wdi_reshaped</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Indicator Name</th>
+      <th>Country Name</th>
+      <th>year</th>
+      <th>GDP per capita (constant 2010 US$)</th>
+      <th>GINI index (World Bank estimate)</th>
+      <th>Income share held by fourth 20%</th>
+      <th>Income share held by highest 10%</th>
+      <th>Income share held by highest 20%</th>
+      <th>Income share held by lowest 10%</th>
+      <th>Income share held by lowest 20%</th>
+      <th>Income share held by second 20%</th>
+      <th>Income share held by third 20%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Afghanistan</td>
+      <td>2002</td>
+      <td>330.303553</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Afghanistan</td>
+      <td>2003</td>
+      <td>343.080890</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Afghanistan</td>
+      <td>2004</td>
+      <td>333.216684</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Afghanistan</td>
+      <td>2005</td>
+      <td>357.234720</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Afghanistan</td>
+      <td>2006</td>
+      <td>365.284495</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p><strong>(4)</strong> Now that you’ve done your reshapes, subset for observations since 1980.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">wdi_reshaped</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wdi_reshaped</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">wdi_reshaped</span> <span class="o">=</span> <span class="n">wdi_reshaped</span><span class="p">[</span><span class="n">wdi_reshaped</span><span class="o">.</span><span class="n">year</span> <span class="o">&gt;</span> <span class="mi">1980</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">wdi_reshaped</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Indicator Name</th>
+      <th>Country Name</th>
+      <th>year</th>
+      <th>GDP per capita (constant 2010 US$)</th>
+      <th>GINI index (World Bank estimate)</th>
+      <th>Income share held by fourth 20%</th>
+      <th>Income share held by highest 10%</th>
+      <th>Income share held by highest 20%</th>
+      <th>Income share held by lowest 10%</th>
+      <th>Income share held by lowest 20%</th>
+      <th>Income share held by second 20%</th>
+      <th>Income share held by third 20%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Afghanistan</td>
+      <td>2002</td>
+      <td>330.303553</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Afghanistan</td>
+      <td>2003</td>
+      <td>343.080890</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Afghanistan</td>
+      <td>2004</td>
+      <td>333.216684</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Afghanistan</td>
+      <td>2005</td>
+      <td>357.234720</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Afghanistan</td>
+      <td>2006</td>
+      <td>365.284495</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p><strong>(5)</strong> Subset for observations for which we have GINI index estimates.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">wdi_reshaped</span> <span class="o">=</span> <span class="n">wdi_reshaped</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">notnull</span><span class="p">(</span><span class="n">wdi_reshaped</span><span class="p">[</span><span class="s1">&#39;GINI index (World Bank estimate)&#39;</span><span class="p">])]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">wdi_reshaped</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Indicator Name</th>
+      <th>Country Name</th>
+      <th>year</th>
+      <th>GDP per capita (constant 2010 US$)</th>
+      <th>GINI index (World Bank estimate)</th>
+      <th>Income share held by fourth 20%</th>
+      <th>Income share held by highest 10%</th>
+      <th>Income share held by highest 20%</th>
+      <th>Income share held by lowest 10%</th>
+      <th>Income share held by lowest 20%</th>
+      <th>Income share held by second 20%</th>
+      <th>Income share held by third 20%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6279</th>
+      <td>Lithuania</td>
+      <td>2006</td>
+      <td>11500.529151</td>
+      <td>34.4</td>
+      <td>22.1</td>
+      <td>26.8</td>
+      <td>42.0</td>
+      <td>2.4</td>
+      <td>6.9</td>
+      <td>12.5</td>
+      <td>16.5</td>
+    </tr>
+    <tr>
+      <th>10317</th>
+      <td>Sweden</td>
+      <td>2009</td>
+      <td>49606.838490</td>
+      <td>27.3</td>
+      <td>23.0</td>
+      <td>21.4</td>
+      <td>36.2</td>
+      <td>3.2</td>
+      <td>8.6</td>
+      <td>14.3</td>
+      <td>17.8</td>
+    </tr>
+    <tr>
+      <th>392</th>
+      <td>Armenia</td>
+      <td>2001</td>
+      <td>1548.059613</td>
+      <td>35.4</td>
+      <td>20.9</td>
+      <td>29.1</td>
+      <td>43.9</td>
+      <td>3.2</td>
+      <td>7.7</td>
+      <td>11.9</td>
+      <td>15.6</td>
+    </tr>
+    <tr>
+      <th>8718</th>
+      <td>Portugal</td>
+      <td>2012</td>
+      <td>21353.230257</td>
+      <td>36.0</td>
+      <td>22.1</td>
+      <td>27.7</td>
+      <td>43.2</td>
+      <td>2.2</td>
+      <td>6.5</td>
+      <td>12.1</td>
+      <td>16.2</td>
+    </tr>
+    <tr>
+      <th>10930</th>
+      <td>Ukraine</td>
+      <td>2002</td>
+      <td>2131.729166</td>
+      <td>29.0</td>
+      <td>22.6</td>
+      <td>23.2</td>
+      <td>38.0</td>
+      <td>3.6</td>
+      <td>8.8</td>
+      <td>13.3</td>
+      <td>17.3</td>
+    </tr>
+    <tr>
+      <th>783</th>
+      <td>Belarus</td>
+      <td>2013</td>
+      <td>6707.621530</td>
+      <td>26.6</td>
+      <td>22.5</td>
+      <td>22.1</td>
+      <td>36.2</td>
+      <td>4.0</td>
+      <td>9.5</td>
+      <td>14.0</td>
+      <td>17.8</td>
+    </tr>
+    <tr>
+      <th>1246</th>
+      <td>Brazil</td>
+      <td>1995</td>
+      <td>8540.076878</td>
+      <td>59.6</td>
+      <td>17.9</td>
+      <td>47.5</td>
+      <td>63.8</td>
+      <td>0.8</td>
+      <td>2.4</td>
+      <td>5.8</td>
+      <td>10.1</td>
+    </tr>
+    <tr>
+      <th>7303</th>
+      <td>Moldova</td>
+      <td>2010</td>
+      <td>1958.133697</td>
+      <td>32.1</td>
+      <td>22.4</td>
+      <td>25.4</td>
+      <td>40.3</td>
+      <td>3.3</td>
+      <td>8.1</td>
+      <td>12.5</td>
+      <td>16.6</td>
+    </tr>
+    <tr>
+      <th>6288</th>
+      <td>Lithuania</td>
+      <td>2015</td>
+      <td>15381.348733</td>
+      <td>37.4</td>
+      <td>22.1</td>
+      <td>28.6</td>
+      <td>44.1</td>
+      <td>2.1</td>
+      <td>6.1</td>
+      <td>11.6</td>
+      <td>15.9</td>
+    </tr>
+    <tr>
+      <th>7867</th>
+      <td>Niger</td>
+      <td>2014</td>
+      <td>384.900656</td>
+      <td>34.3</td>
+      <td>22.0</td>
+      <td>27.0</td>
+      <td>42.4</td>
+      <td>3.2</td>
+      <td>7.8</td>
+      <td>11.8</td>
+      <td>16.0</td>
+    </tr>
+    <tr>
+      <th>2573</th>
+      <td>Dominican Republic</td>
+      <td>2013</td>
+      <td>5968.743699</td>
+      <td>47.7</td>
+      <td>19.9</td>
+      <td>37.9</td>
+      <td>53.6</td>
+      <td>1.9</td>
+      <td>4.8</td>
+      <td>8.7</td>
+      <td>13.0</td>
+    </tr>
+    <tr>
+      <th>364</th>
+      <td>Armenia</td>
+      <td>2002</td>
+      <td>1761.841234</td>
+      <td>34.8</td>
+      <td>20.8</td>
+      <td>29.0</td>
+      <td>43.5</td>
+      <td>3.3</td>
+      <td>8.0</td>
+      <td>12.0</td>
+      <td>15.6</td>
+    </tr>
+    <tr>
+      <th>2205</th>
+      <td>Costa Rica</td>
+      <td>2015</td>
+      <td>9219.390235</td>
+      <td>48.4</td>
+      <td>20.6</td>
+      <td>36.8</td>
+      <td>53.9</td>
+      <td>1.5</td>
+      <td>4.3</td>
+      <td>8.4</td>
+      <td>12.8</td>
+    </tr>
+    <tr>
+      <th>3151</th>
+      <td>Eswatini</td>
+      <td>2000</td>
+      <td>3117.816255</td>
+      <td>53.1</td>
+      <td>17.5</td>
+      <td>44.1</td>
+      <td>59.5</td>
+      <td>1.8</td>
+      <td>4.5</td>
+      <td>7.5</td>
+      <td>10.9</td>
+    </tr>
+    <tr>
+      <th>319</th>
+      <td>Argentina</td>
+      <td>2016</td>
+      <td>10239.481348</td>
+      <td>42.4</td>
+      <td>22.7</td>
+      <td>30.9</td>
+      <td>47.6</td>
+      <td>1.8</td>
+      <td>5.0</td>
+      <td>9.6</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>10497</th>
+      <td>Thailand</td>
+      <td>2015</td>
+      <td>5741.339664</td>
+      <td>36.0</td>
+      <td>21.9</td>
+      <td>28.4</td>
+      <td>43.8</td>
+      <td>3.2</td>
+      <td>7.5</td>
+      <td>11.3</td>
+      <td>15.5</td>
+    </tr>
+    <tr>
+      <th>8396</th>
+      <td>Panama</td>
+      <td>2014</td>
+      <td>10357.504182</td>
+      <td>50.5</td>
+      <td>20.7</td>
+      <td>38.5</td>
+      <td>54.8</td>
+      <td>1.0</td>
+      <td>3.4</td>
+      <td>8.1</td>
+      <td>13.1</td>
+    </tr>
+    <tr>
+      <th>6722</th>
+      <td>Maldives</td>
+      <td>2002</td>
+      <td>5673.456862</td>
+      <td>41.3</td>
+      <td>19.4</td>
+      <td>34.8</td>
+      <td>48.7</td>
+      <td>2.7</td>
+      <td>6.8</td>
+      <td>10.7</td>
+      <td>14.4</td>
+    </tr>
+    <tr>
+      <th>9467</th>
+      <td>Slovak Republic</td>
+      <td>2007</td>
+      <td>15868.804410</td>
+      <td>24.7</td>
+      <td>22.3</td>
+      <td>20.7</td>
+      <td>34.5</td>
+      <td>3.6</td>
+      <td>9.5</td>
+      <td>15.1</td>
+      <td>18.5</td>
+    </tr>
+    <tr>
+      <th>2987</th>
+      <td>El Salvador</td>
+      <td>2014</td>
+      <td>3252.593055</td>
+      <td>41.6</td>
+      <td>21.4</td>
+      <td>32.2</td>
+      <td>48.0</td>
+      <td>2.2</td>
+      <td>5.8</td>
+      <td>10.2</td>
+      <td>14.7</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p><strong>(6)</strong> Plot the relationship between <strong>log</strong> GDP per capita and Gini scores for all country years and add a linear fit as well.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">wdi_reshaped</span><span class="p">[</span><span class="s1">&#39;log_gdp_percap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">wdi_reshaped</span><span class="p">[</span><span class="s1">&#39;GDP per capita (constant 2010 US$)&#39;</span><span class="p">])</span>
+<span class="kn">from</span> <span class="nn">plotnine</span> <span class="k">import</span> <span class="o">*</span>
+<span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">wdi_reshaped</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;log_gdp_percap&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;GINI index (World Bank estimate)&#39;</span><span class="p">))</span> <span class="o">+</span>
+        <span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+        <span class="n">geom_smooth</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py:2495: FutureWarning: Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.
+  return ptp(axis=axis, out=out, **kwargs)
+/Users/Nick/miniconda3/lib/python3.7/site-packages/plotnine/layer.py:452: PlotnineWarning: geom_point : Removed 12 rows containing missing values.
+  self.data = self.geom.handle_na(self.data)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;Figure size 640x480 with 1 Axes&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;ggplot: (8762282951677)&gt;
+</pre></div>
+</div>
+</div>
+<p><strong>(7)</strong> It’s important to not always rely too much on a single measure of something like inequality. To check the robustness of our result, let’s be sure to also look at the relationship between inequality and income by using the income share of the richest 10% instead of just the GINI coefficient. Plot that relationship.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">wdi_reshaped</span><span class="p">[</span><span class="s1">&#39;log_gdp_percap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">wdi_reshaped</span><span class="p">[</span><span class="s1">&#39;GDP per capita (constant 2010 US$)&#39;</span><span class="p">])</span>
+<span class="kn">from</span> <span class="nn">plotnine</span> <span class="k">import</span> <span class="o">*</span>
+<span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">wdi_reshaped</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;log_gdp_percap&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Income share held by highest 10%&#39;</span><span class="p">))</span> <span class="o">+</span>
+        <span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+        <span class="n">geom_smooth</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py:2495: FutureWarning: Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.
+  return ptp(axis=axis, out=out, **kwargs)
+/Users/Nick/miniconda3/lib/python3.7/site-packages/plotnine/layer.py:452: PlotnineWarning: geom_point : Removed 12 rows containing missing values.
+  self.data = self.geom.handle_na(self.data)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/exercises_Solutions_reshaping_23_1.png" src="../_images/exercises_Solutions_reshaping_23_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;ggplot: (-9223363274571819064)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Practical DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">PYTHON &amp; PANDAS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup_environment.html">Setting Up Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managing_python_packages.html">Managing Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_v_r.html">Python / R Differences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vars_v_objects.html">Python: Vars v Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ints_and_floats.html">Numbers in Computers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pandas_series.html">Pandas 1: Series</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pandas_dataframes.html">Pandas 2: DataFrames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting_part1.html">Plotting, Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting_part2.html">Plotting, Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../views_and_copies_in_pandas.html">Pandas 3: Views</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OTHER TOOLS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../command_line_part1.html">Command Line, Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line_part2.html">Command Line, Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../git_and_github.html">Git and Github</a></li>
+</ul>
+<p class="caption"><span class="caption-text">SKILLS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_help.html">Getting Help Online</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../what_is_big_data.html">What is Big Data?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../big_data_strategies.html">Working with Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance_understanding.html">Understanding Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance_solutions.html">Solving Performance Probs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallelism.html">Parallel Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../defensive_programming.html">Defensive Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow.html">Workflow Management</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OTHER</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../not_a_mids_student.html">Not a MIDS Student?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheets.html">Cheat Sheets</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/Solutions_reshaping.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-133829453-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>
