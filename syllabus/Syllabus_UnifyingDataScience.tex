@@ -1,0 +1,322 @@
+\documentclass[12pt]{article}
+
+
+
+\usepackage[T1]{fontenc}
+\usepackage{amsfonts, amsmath, amssymb}
+\usepackage{multirow}
+\usepackage{epsfig}
+\usepackage{subfigure}
+\usepackage{subfloat}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+% \usepackage[document]{ragged2e}
+\usepackage{verbatim, rotating, paralist}
+\usepackage{enumerate}
+
+\usepackage{natbib}
+
+
+\usepackage{pdfsync}
+\usepackage{latexsym}
+\usepackage{amsthm}
+\usepackage{mathabx}
+
+\usepackage{stmaryrd}
+\usepackage{mathrsfs}
+\usepackage{dsfont}
+\usepackage{fancyhdr}
+\usepackage{color}
+
+\usepackage{parskip}
+\usepackage{anysize, indentfirst, setspace}
+\usepackage[right=1.75cm, left=1.75cm, top=3cm, bottom=3cm]{geometry}
+\usepackage{appendix}
+
+\usepackage{enumitem}
+\setlist{nosep}
+
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\renewcommand{\dbltopfraction}{.66}
+\renewcommand{\dblfloatpagefraction}{.66}
+
+
+
+
+% \pagestyle{fancyplain}
+% \rhead{\hfill \small \emph{MIDS NUMBER -- Fall 2019}}
+\cfoot{}
+
+% \renewcommand{\headrulewidth}{0pt}
+
+
+
+%-------------------------- BEGIN DOCUMENT ----------------------------------%
+\begin{document}
+
+
+\singlespacing
+
+
+
+
+
+
+%------------------------- HEADER ---------------------------------%
+\thispagestyle{empty}
+\begin{minipage}[t]{.5\textwidth}
+	Nicholas Eubank \\
+	 Assistant Research Professor\\
+	 Office Hours: TBD\\
+	 Gross Hall, Room TBD
+     \vspace*{0.1cm}
+\end{minipage}
+\begin{minipage}[t]{.5\textwidth}
+	\begin{flushright}  IDS 690-04\\
+	Spring 2019\\
+	Monday / Wednesday 10:05-11:20 \\
+	Gross Hall, Room 230
+    \vspace*{0.1cm}
+\end{flushright}
+\end{minipage}
+
+
+% line
+\line(1,0){499}
+
+\vspace{.35in}
+
+\begin{center}
+	\textbf{\LARGE{Unifying Data Science} }
+\end{center}
+
+
+
+
+
+
+
+%--------------------------------------------COURSE DESCRIPTION--------------------------------------------------%
+
+\section{Course Description}
+
+The aim of the course is to provide students with a conceptual framework for understanding the relationship between the many tools that are currently taught under the "data science" umbrella. This course takes the view that data science is fundamentally about answering questions with data, and so is organized around helping students identify different classes of questions (descriptive, causal, and predictive). Over the course of the semester, we will explore each of these types of questions in turn, learning which tools are appropriate for each, and what what pitfalls are common to efforts to answer each type of question.
+
+As this course is primarily designed for students in the MIDS program, it will assume familiarity with statistical modeling (basic statistics, linear regression, logistitic regression, model selection) and the basics of both supervised and unsupervised machine learning. The goal of this course will not be to teach these topics, but rather to help *contextualize* them.
+
+Of the three types of questions we will cover, methods for answering causal questions will receive the greatest attention. This course assumes no familiarity with causal inference, and will cover everything from the basic problem of causal inference to experiments, and to the range of tools available for making causal inferences from observational data.
+
+In addition to learning to how the range of tools available to the modern data scientist relate, over the course of the semester students will have the opportunity to develop their own data science projects in small teams. These projects will be developed incrementally over the course of the semester with instructor guidance. By the end of the semester, students will have picked a topic area, developed a (tractable) question, decided what an answer to that question would actually look like, developed a work plan for generating that answer, and finally executed and presented their project.
+
+\subsection{Pre-Requisites}
+
+This course will assume that enrolled students have a good grasp of inferential statistics, statistical modeling, and have experience with machine learning (or be concurrently enrolled in an applied machine learning course).
+
+This course will also assume students are comfortable manipulating real-world data in either Python or R. The substantive content of this course is language-independent, but because students will be required to work on their projects in teams, comfort with one of these two languages will be required to facilitate collaboration (MIDS students are, generally, "bilingual" in R and Python). Where code examples are provided in class, they will use Python (\texttt{pandas}), but both the instructor and TA are also capable of providing support in R.
+
+Finally, students will also be expected to be comfortable collaborating using git and github. If you meet the other requirements for this course but are not familiar with git and github, this is a skill you should be able to pickup on your own in advance of the course without too much difficulty. You can read more about \href{https://www.practicaldatascience.org/html/git_and_github.html}{git and github here}. The \href{https://library.duke.edu/data/}{Duke Center for Data and Visualization Science} also hosts git and github workshops for Duke students.
+
+
+\section{Types of Questions}
+
+The instructional material for this course will be organized around a three-fold taxonomy of questions one may seek to answer as a data scientist: Descriptive Questions, Causal Questions, and Predictive Questions.
+
+\subsection{Descriptive Questions}
+
+Descriptive questions are often the least respected in the data science realm, but in my view good descriptive analyses are both one of the hardest things to do well, and also are often the most important to generating new knowledge.
+
+In this course, we will discuss a range of different methods for descriptive analysis, ranging from summary statistics (means, medians, standard deviations), to data visualization, and to unsupervised machine learning algorithms (such as tools clustering and dimensionality reduction).
+
+\textbf{The Big Idea}
+
+As we explore these tools, we will continually come back to the fundamental problem of descriptive analysis: descriptive analysis is about summarizing data, but the process of summarization requires discarding information, and it is \emph{always} up to the data scientist to determine what information can be discarded as extraneous, and what data cannot. Descriptive analysis tools will always provide ``an answer,'' but it is up to the data scientist to know if that answer is a faithful representation of the structure of the data.
+
+\subsection{Causal Questions}
+
+[Coming soon]
+
+
+
+\subsection{Predictive Questions}
+
+Making predictions is perhaps the hottest corner of data science today. Supervised machine learning -- in which one feeds an algorithm examples of the behavior one wishes the algorithm to emulate, then points the algorithm at new sources of data and asks it to make novel predictions  -- is viewed by some as synonymous with ``data science.''
+
+\textbf{The Big Idea}
+
+As we will discuss in this portion of the class, however, the scope for supervised machine learning is often much more narrow than is generally assumed, and \emph{mis-application} of machine learning can have disastrous (and often extremely discriminatory) results.
+
+With that in mind, we will split our discussion of predictive questions into two halves: predictive questions in stable contexts and predictive questions in \emph{unstable} contexts.
+
+Stable contexts are situations where we plan to make predictions in situations where the behavior observed during training is nearly identical to the context in which we will apply our algorithm. For example, a stable context is one in which we might use machine learning to predict the likely future value of new customers at a big box store (like Target) on the basis of the behavior of current customers. In these contexts, supervised machine learning algorithms can be very helpful.
+
+In unstable contexts, by contrast, supervised machine learning algorithms struggle, and better predictions may often come from more robust causal analyses. For example, we if wanted to plan a major change to US insurance subsidies, it is unlikely that a machine algorithm would be able to predict how Americans would respond to this kind of novel change.
+
+Finally, we will also discuss what makes a context stable or unstable, which is not always obvious. One major problem with the use of machine learning algorithms, for example, is that they sometimes fail not because the context in which agents operate is unstable, but because the subjects of machine learning algorithms (i.e. people) may change their behavior once they are aware that they are interacting with algorithms (so called ``adversarial users''), a phenomenon that comes up not only in information security, but also when algorithms are used to grade elementary student essays.
+
+\section{Class Organization}
+
+Data science is an applied discipline, and so this will be an intensely applied class with \emph{lots} of hands-on exercises.
+
+
+
+%
+%
+% %--------------------------------------------COURSE ASSIGNMENTS------------------------------------------------%
+% \section{Assignments \& Grading}
+%
+% \subsection{Participation (25\% of Grade)}
+%
+% Note that a major component of good participation is good \emph{preparation}. Because we will mostly reserve class time for hands-on exercises, it is absolutely critical that students do their assigned readings before \emph{every} class. Students who do not work through the instructional materials they have been assigned before class will not only get very little out of the hands-on exercises designed to reinforce the assigned materials, but they will also undermine the learning of the students they are asked to work with. With that in mind, students who do not complete their assigned readings before every class should expected to see this reflected in their participation grades.
+%
+% Participation will be graded as follows:\footnote{This rubric is adapted from that of Duke Political Science Professor Adriane Fresh.}
+%
+% \textbf{A range.}  You are fully \emph{and consistently} engaged in class discussion and exercises.  You both listen and contribute actively.  You are well prepared for class.  Having done more than merely read the material, you have spent time thinking \emph{carefully and deeply} about the material's relationship to other materials and ideas presented in previous classes. You are not only able to answer questions about the material, but also come to class with thoughtful questions.  When working in teams, you work \emph{with} your partner. If your partner is struggling with an exercise, you help them understand the material rather than just completing the material on your own. If you are struggling with material, you ask for help (both from the instructor and your fellow students) and do not simply lean on your partner to complete the exercise. \\
+%
+% \textbf{B range.}  You are engaged in class discussion and exercises.  You listen and contribute regularly.  You come well-prepared to class having read the material and your contributions show your familiarity, but your level of engagement lacks the depth accumulated through extra time spent thinking about the material.  When working in teams, you work \emph{with} your partner when they have a similar level of understanding, but do not always invest in helping a struggling partner to understand the material. You often ask for help when you are struggling, but other times you let your partner just complete the exercise. \\
+%
+% \textbf{C range.}  You have met the minimum requirements of participation.  You are usually, but not always prepared.  You participate sometimes, but not regularly.  The comments that you offer show a basic familiarity with the materials, but do not help to build a coherent or productive discussion.  When working in teams, you only sometimes work \emph{with} your partner. When your partner is struggling, you often just do the exercise yourself. If you are struggling, you often do not ask for help and allow your partner to take over the exercise. \\
+%
+% \textbf{D range.}  You have not met the minimum requirements of participation.  You are unprepared for class.  You have not read with the material with sufficient engagement to know even the most basic elements.  When working in teams, you do not attempt to work \emph{with} your partner. When your partner is struggling, you just do the exercise yourself. If you are struggling, you do not ask for help and allow your partner to take over the exercise.\\
+%
+% \textbf{As should be clear from this rubric, above all it is important to emphasize that participation is evaluated on the basis of \emph{quality} and \emph{consistently}, \emph{not} quantity. Moreover, when completing in-class exercises, good participation is not about finishing first or without ever asking for help; good participation in in-class exercises is about helping your partner understand the material, and asking for help when you need it.}
+%
+% If students consistently fail to come to class prepared, the instructor reserves the right to introduce quizzes at that start of each class to directly evaluate class preparation.
+%
+% \subsection{Interim Assignments (25\% of Grade)}
+%
+% Over the course of the semester, students will be asked to complete a number of small assignments as homework. These assignments will, in total, be worth 25\% of student grades.
+%
+% \subsection{Mid-Semester Data Science Project.  25\%}
+%
+% At the end of Part 1 of this course, students will be assigned a mid-term Data Science Project. The goal and general framework for this team project will be provided to students, but the project will require students to complete the analysis component of a full data science project, including gathering data, cleaning and merging that data, analyzing the data, and presenting results.
+%
+% \subsection{Final Data Science Project Proposal. 25\%}
+%
+% At the end of Part 2 of this course, students will be required to submit a Data Science Project Proposal. Using backwards-design principles, this proposal will include not only a tractable, answerable question, but also specification of what the answer to that question will look like, what data will be required to generate that answer, and a strategy for managing project workflow.
+%
+% \subsection{Late Assignments, Make Up Exams and Extra Credit}
+%
+%
+% \textbf{Grading}
+% All assignments will be given a numerical score on a 0-100 scale.  These scores will be multiplied by the value of the assignment (see above) and the following scale will be used to assign a final letter grade.  \\
+%
+% \hspace*{.2in} 98-100 A+ 	\hspace*{.6in}  88-80.9 B+  	\hspace*{.57in} 78-79.9 C+  		\hspace*{.44in} 60-70 D  	\\
+% \hspace*{.2in} 93-97.9 A	\hspace*{.68in} 83-87.9 B  	\hspace*{.695in} 73-77.9 C		\hspace*{.57in} below 60 D\\
+% \hspace*{.2in} 90-92.9 A- 	\hspace*{.63in} 	80-82.9 B- 	\hspace*{.64in} 70-72.9 C-	\\
+%
+% \section{Texts}
+%
+% We will rely on two primary texts for this course (both of which, thankfully, are reasonably priced):
+%
+% \begin{itemize}
+% 	\item \href{https://www.amazon.com/Python-Data-Science-Handbook-Essential-dp-1491912057/dp/1491912057}{\emph{Python Data Science Handbook: Essential Tools for Working with Data}} by Jake VanderPlas. Referred to in the syllabus as JVP.
+% 	\item \href{https://www.amazon.com/gp/product/1491957662}{\emph{Python for Data Analysis: Data Wrangling with Pandas, NumPy, and IPython, Second Edition}} by Wes McKinney. Referred to in the syllabus as WM. \\
+% 	\textbf{Make sure to buy the Second Edition!}.
+% \end{itemize}
+%
+% We will also do some readings from \href{https://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319}{Code: The Hidden Language of Computer Hardware and Software} by Petzold, Charles. It's a fun book and not very expensive, but we won't use it a lot so copies of relevant chapters will be provided if you don't want to buy it.
+%
+% \section{Course Schedule}
+%
+% Because one aim of this course is to ensure that all MIDS students have a solid foundation for their time at Duke, the exact organization of this course is likely to change regularly as the course proceeds. Students will therefore be expected to regularly (i.e. before every class) check on the updated course schedule (which will include assignments for the next class) at \href{https://www.practicaldatascience.org}{www.practicaldatascience.org}.
+
+
+\section{Honor Policy}
+
+Duke University is a community dedicated to scholarship, leadership, and service and to the principles of honesty, fairness, respect, and accountability. Citizens of this community commit to reflect upon and uphold these principles in all academic and nonacademic endeavors, and to protect and promote a culture of integrity.
+
+Remember the \href{https://studentaffairs.duke.edu/conduct/about-us/duke-community-standard}{Duke Community Standard} that you have agreed to abide by:
+
+\begin{itemize}
+	\item I will not lie, cheat, or steal in my academic endeavors;
+	\item I will conduct myself honorably in all my endeavors; and
+	\item I will act if the Standard is compromised.
+\end{itemize}
+
+Cheating on exams or plagiarism on homework assignments, lying about an illness or absence and other forms of academic dishonesty are a breach of trust with classmates and faculty, violate the Duke Community Standard, and will not be tolerated. Such incidences will result in a 0 grade for all parties involved. Additionally, there may be penalties to your final class grade along with being reported to the MIDS program directors.
+
+\section{Disability Statement}
+
+In an effort to prevent students with disabilities from having to explain and justify their condition separately to each of their various instructors, Duke has centralized disability management in the \href{https://access.duke.edu/students}{Student Disabilities Access Office}. If you think there is a possibility you may need an accommodation during this course, please reach out to their office as soon as possible (processing can take a little time).
+
+Medical information shared with the SDAO are strictly confidential, and if SDAO determines an accommodation is appropriate, faculty members will simply be informed of the accommodation they are required to provide, not the underlying medical reason for the accommodation.
+
+If you have any problems with SDAO, please let me know as soon as possible.
+
+% \section{Learning Goals}
+%
+% In Data Science today, the only constant is change. With that in mind, in this course we will not only learn \emph{how} popular tools work, but also:
+% \begin{itemize}
+% 	\item the logic that underlies their operation (so when new situations arise you will have a \emph{generalized} understanding of the tool you can use to reason through your problem), and
+% 	\item how to find help on your own.
+% \end{itemize}
+%
+% In particular, by the end of this course, you will have developed the following abilities in each topic area:
+%
+% \textbf{The Command Line}\\
+% \emph{Main Takeaway: The Command Line is just a way to interact with your operating system with text instead of with a mouse.}
+% \begin{itemize}
+% 	\item Explain the value of the command line
+% 	\item Manipulate files and work with command-line-only tools
+% 	\item Anticipate the likely syntax of new tools you may come across
+% \end{itemize}
+%
+% \textbf{\texttt{numpy}}\\
+% \emph{Main Takeaway: numpy is what makes Python useable for data science.}
+% \begin{itemize}
+% 	\item Explain \emph{why} numpy and pandas are so crucial to data science in Python
+% 	\item Manipulate vectors and matrices with \texttt{numpy}
+% \end{itemize}
+%
+% \textbf{\texttt{pandas}}\\
+% \emph{Main Takeaway: pandas is a hack, so if it drives you nuts, it's not your fault.}
+% \begin{itemize}
+% 	\item Read in data of various formats with \texttt{pandas}
+% 	\item Clean, organize, and reshape real-world data with \texttt{pandas}
+% 	\item Move back and forth from \texttt{pandas} to \texttt{numpy}
+% 	\item Pass data from \texttt{pandas} and \texttt{numpy} to \texttt{scikit-learn} functions
+% \end{itemize}
+%
+% \textbf{Git and Github}\\
+% \emph{Main Takeaway: Bundling changes into discrete chunks is incredibly powerful}
+% \begin{itemize}
+% 	\item Not sure yet...
+% \end{itemize}
+%
+%
+% \textbf{Getting Help Online}\\
+% \emph{Main Takeaway: Asking for help effectively takes effort}
+% \begin{itemize}
+% 	\item Find appropriate forums for different types of questions
+% 	\item Compose requests for help that are likely to get useful responses using Minimal Working Examples (MWEs) and proofs of effort.
+% \end{itemize}
+%
+% \textbf{Debugging}\\
+% \emph{Main Takeaway: Debugging as an \textbf{active} exercise}
+% \begin{itemize}
+% 	\item Isolate and analyze bugs quickly
+% \end{itemize}
+%
+% \textbf{Workflow Management}\\
+% \emph{Main Takeaway: Projects change, so a good workflow must be adaptive}
+% \begin{itemize}
+% 	\item Organize data science projects in a manner that is robust to future changes
+% 	\item Organize, document, and comment projects to allow others (and your future self) to easily understand project organization
+% \end{itemize}
+%
+% \textbf{Defensive Programming}\\
+% \emph{Main Takeaway: To err is human, so we must develop practices to protect ourselves from ourselves}
+% \begin{itemize}
+% 	\item Understand the futility of ``just trying to be careful''
+% 	\item Compose code that is less likely to contains errors, and where errors that do occur are more likely to be caught.
+% \end{itemize}
+
+\end{document}
