@@ -29,15 +29,6 @@ To learn more about the course, please `read the course syllabus available here.
 
 
 
-Class Schedule
---------------
-
-.. csv-table::
-   :file: class_schedule.csv
-   :widths: 10, 32, 32, 5
-   :header-rows: 1
-
-
 .. toctree::
    :maxdepth: 2
    :hidden:
