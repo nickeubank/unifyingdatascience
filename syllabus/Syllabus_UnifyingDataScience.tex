@@ -125,7 +125,7 @@ This course will also assume students are comfortable manipulating real-world da
 Finally, students will also be expected to be comfortable collaborating using git and github. If you meet the other requirements for this course but are not familiar with git and github, this is a skill you should be able to pickup on your own in advance of the course without too much difficulty. You can read more about \href{https://www.practicaldatascience.org/html/git_and_github.html}{git and github here}. The \href{https://library.duke.edu/data/}{Duke Center for Data and Visualization Science} also hosts git and github workshops for Duke students.
 
 
-\section{Types of Questions}
+\section{Big Ideas of the Course}
 
 The instructional material for this course will be organized around a three-fold taxonomy of questions one may seek to answer as a data scientist: Descriptive Questions, Causal Questions, and Predictive Questions.
 
@@ -135,21 +135,25 @@ Descriptive questions are often the least respected in the data science realm, b
 
 In this course, we will discuss a range of different methods for descriptive analysis, ranging from summary statistics (means, medians, standard deviations), to data visualization, and to unsupervised machine learning algorithms (such as tools clustering and dimensionality reduction).
 
-\textbf{The Big Idea}
-
 As we explore these tools, we will continually come back to the fundamental problem of descriptive analysis: descriptive analysis is about summarizing data, but the process of summarization requires discarding information, and it is \emph{always} up to the data scientist to determine what information can be discarded as extraneous, and what data cannot. Descriptive analysis tools will always provide ``an answer,'' but it is up to the data scientist to know if that answer is a faithful representation of the structure of the data.
 
 \subsection{Causal Questions}
 
-[Coming soon]
+[Note that this section is stolen shamelessly from the syllabus of \href{http://www.adrianefresh.com}{\underline{Adriane Fresh}}, whose research design course provides the basis of the organization of this portion of the class.]
+
+A few big ideas and enduring understandings will facilitate our exploration of causal inference in this course.  The first big idea is that \emph{causality is fundamentally unknowable, and we must therefore} approximate \emph{an unobserved and unobserv}able \emph{outcome} in order to draw causal inferences.  This is sometimes referred to as the fundamental problem of causal inference --- the idea that an understanding of cause and effect depends on our ability to understand outcomes that never happened.  In this way, I (personally) think the study and application of causality is about as close as science gets to magical thinking, which, when you think about it deeply, is pretty cool.  Thus, our work as empirical social scientists is in how we \emph{approximate} the unobserved counterfactual outcome, with the understanding that it will \emph{always be} an approximation.
+
+The second big idea is that \emph{causal inference is a} logical \emph{process of making comparisons, not a quantitative nor a qualitative process.}  Regardless of which type of evidence you are utilizing, causality depends on making thoughtful comparisons that allow you the best opportunity to approximate an unobservable occurrence.  In understanding what this means, we will hopefully dispel (or ward off) notions that one type of research is inherently better than another, and see that the choice of evidentiary approach, and research design more broadly, are question-driven rather than ideological.
+
+Finally, the third big idea is that \emph{causal inference always requires assumptions, and evaluating those assumptions requires judgement}.  The extent to which we think the necessary assumptions are \emph{true} will dictate how confident we are in a given causal inference.  But we will always need assumptions, because our approaches are only approximating the counterfactual.  Yet evaluating those assumptions is an inherently subjective process --- there is no test, no summary statistic, no one number or set of numbers that will tell you exactly whether an assumption is true or not.\footnote{\rmfamily As an aside, this is the same as statistical inference in the frequentist tradition of statistics.  The choice, for instance, of which \emph{p-value} one is willing to accept in order to believe that an estimate of a parameter is different from some null hypothesis value is a personal, subjective choice.  It is a choice that balances the probability of two types of opposing errors --- Type I and Type II.  While there may be \emph{norms} that see groups converge on being willing to accept a particular value --- say, 5\% --- there is no objective truth that makes that choice of a value ``better'' than another.}  And although some of the assumptions we'll study have statistical analogues, we'll the learn the importance of recognizing (in the vein of the big idea above) that assumptions for causal inference are logical assumptions, not necessarily statistical assumptions.
 
 
 
 \subsection{Predictive Questions}
 
-Making predictions is perhaps the hottest corner of data science today. Supervised machine learning -- in which one feeds an algorithm examples of the behavior one wishes the algorithm to emulate, then points the algorithm at new sources of data and asks it to make novel predictions  -- is viewed by some as synonymous with ``data science.''
+Making predictions is perhaps the hottest corner of data science today. Supervised machine learning -- in which one feeds an algorithm examples of the predictive behavior one wishes the algorithm to emulate, then points the algorithm at new sources of data and asks it to make novel predictions -- is viewed by some as synonymous with ``data science.''
 
-\textbf{The Big Idea}
+(Note that throughout this course, I will use the term ``predictive'' not to refer specifically to trying to make a guess about what will happen \emph{in the future}, but rather as a general term for the behavior that we ask a supervised machine learning model to exercise. That is because on some level, what a machine learning model is trying to do is predict \emph{what the agent that generated its training data (usually a person) would do if the agent were do it itself}. For example, if you wanted a machine learning algorithm to identify cats in pictures, you would likely start by training the algorithm by showing it lots of pictures that have already been labeled as containing cats or not by humans. The algorithm would then do its best to build a model that accurately predicts, for a new set of pictures that haven't been labeled by humans, what label a human  would apply if humans were to also label the new pictures.)
 
 As we will discuss in this portion of the class, however, the scope for supervised machine learning is often much more narrow than is generally assumed, and \emph{mis-application} of machine learning can have disastrous (and often extremely discriminatory) results.
 
