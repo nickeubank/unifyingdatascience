@@ -35,7 +35,7 @@
 
 \usepackage{parskip}
 \usepackage{anysize, indentfirst, setspace}
-\usepackage[right=1.75cm, left=1.75cm, top=3cm, bottom=3cm]{geometry}
+\usepackage[right=2cm, left=2cm, top=3cm, bottom=3cm]{geometry}
 \usepackage{appendix}
 
 \usepackage{enumitem}
@@ -108,13 +108,16 @@
 
 \section{Course Description}
 
-The aim of the course is to provide students with a conceptual framework for understanding the relationship between the many tools that are currently taught under the "data science" umbrella. This course takes the view that data science is fundamentally about answering questions with data, and so is organized around helping students identify different classes of questions (descriptive, causal, and predictive). Over the course of the semester, we will explore each of these types of questions in turn, learning which tools are appropriate for each, and what what pitfalls are common to efforts to answer each type of question.
+The aim of the course is to two-fold. First, it aims to provide students with a conceptual framework for understanding the relationship between the many tools that are currently taught under the ``data science'' umbrella. This course takes the view that data science is fundamentally about answering questions with data, and so is organized around helping students identify different classes of questions (descriptive, causal, and predictive). Over the course of the semester, we will explore each of these types of questions in turn, learning which tools are appropriate for each, and what what pitfalls are common to efforts to answer each type of question.
+
+Second, it aims to provide students with experience both developing and actually answering real questions. Data science is a fundamentally applied field, and so while it is important to have the conceptual framework described above to aid your work, there is no substitute for learning to put these principles into action through practice.
+
+To achieve this second learning goal, over the course of the semester students will develop their own data science projects in small teams. These projects will be developed incrementally over the course of the semester with instructor guidance. By the end of the semester, students will have picked a topic area, developed a (tractable) question, decided what an answer to that question would actually look like, developed a work plan for generating that answer, and executed and presented their project, and then iterated the project based on feedback from their initial presentation.
 
 As this course is primarily designed for students in the MIDS program, it will assume familiarity with statistical modeling (basic statistics, linear regression, logistitic regression, model selection) and the basics of both supervised and unsupervised machine learning. The goal of this course will not be to teach these topics, but rather to help *contextualize* them.
 
 Of the three types of questions we will cover, methods for answering causal questions will receive the greatest attention. This course assumes no familiarity with causal inference, and will cover everything from the basic problem of causal inference to experiments, and to the range of tools available for making causal inferences from observational data.
 
-In addition to learning to how the range of tools available to the modern data scientist relate, over the course of the semester students will have the opportunity to develop their own data science projects in small teams. These projects will be developed incrementally over the course of the semester with instructor guidance. By the end of the semester, students will have picked a topic area, developed a (tractable) question, decided what an answer to that question would actually look like, developed a work plan for generating that answer, and finally executed and presented their project.
 
 \subsection{Pre-Requisites}
 
@@ -125,7 +128,7 @@ This course will also assume students are comfortable manipulating real-world da
 Finally, students will also be expected to be comfortable collaborating using git and github. If you meet the other requirements for this course but are not familiar with git and github, this is a skill you should be able to pickup on your own in advance of the course without too much difficulty. You can read more about \href{https://www.practicaldatascience.org/html/git_and_github.html}{git and github here}. The \href{https://library.duke.edu/data/}{Duke Center for Data and Visualization Science} also hosts git and github workshops for Duke students.
 
 
-\section{Big Ideas of the Course}
+\section{Types of Questions: The Big Ideas}
 
 The instructional material for this course will be organized around a three-fold taxonomy of questions one may seek to answer as a data scientist: Descriptive Questions, Causal Questions, and Predictive Questions.
 
@@ -164,6 +167,30 @@ Stable contexts are situations where we plan to make predictions in situations w
 In unstable contexts, by contrast, supervised machine learning algorithms struggle, and better predictions may often come from more robust causal analyses. For example, we if wanted to plan a major change to US insurance subsidies, it is unlikely that a machine algorithm would be able to predict how Americans would respond to this kind of novel change.
 
 Finally, we will also discuss what makes a context stable or unstable, which is not always obvious. One major problem with the use of machine learning algorithms, for example, is that they sometimes fail not because the context in which agents operate is unstable, but because the subjects of machine learning algorithms (i.e. people) may change their behavior once they are aware that they are interacting with algorithms (so called ``adversarial users''), a phenomenon that comes up not only in information security, but also when algorithms are used to grade elementary student essays.
+
+\section{Developing and Answering Questions: The Big Ideas}
+
+Perhaps the hardest job of a data scientist is not answering a question, but coming up the with right question to ask in the first place. And so over the course of the semester, students will be repeatedly asked to practice generating tractable questions (and plans for answering those questions).
+
+\emph{But wait, I thought the job of a data scientist was to make recommendations?}
+
+If you are working in the public policy or private sector realms, making a recommendation is often the last step of your data science project. However, I will posit that the key to making a good recommendation is to ask yourself:
+
+\textbf{What question, if answered, would make deciding what to do next easy?}
+
+Suppose, for example, you are hired by a company that gives you its customer data and says ``we want you to use machine learning to help us target customers.'' That certainly doesn't sound like a question. But if you think about it for a little while, you come to realize that there is a question implicit in the task you've been given: \emph{Which of our customers are most likely to respond positively to targeting?}
+
+A core idea of this course is that converting your task into a question should be both the first step of your work, and perhaps the most important. The question you seek to answer is what motivates everything you do with your data. And if you haven't clearly defined the question you're seeking to answer, I can absolutely guarantee that when you turn to your data, you will find yourself unsure of what to look at, and you will not be able to use your time efficiently.
+
+With that in mind, in this course we will focus on using \emph{backwards design} to develop your data science projects, in which you:
+
+\begin{itemize}
+	\item begin by identifying a topic area of interest (if you're a researcher) or a problem to be solved (if you're of a more applied mindset),
+	\item decide what question, if answered, would either improve your understanding of the topic that motivates you (if you're a researcher) or allow you to solve the problem you identified (if you're in an applied setting),
+	\item decide what an answer to your question would look like in concrete terms (what figure, regression, or machine learning output would constitute an ``answer'' to your question),
+	\item figure out what data you need to generate that answer, and finally
+	\item figure out where you will find the data you need and merge / manipulate it to allow you to generate your answer.
+\end{itemize}
 
 \section{Class Organization}
 
@@ -232,6 +259,16 @@ Data science is an applied discipline, and so this will be an intensely applied 
 %
 % Because one aim of this course is to ensure that all MIDS students have a solid foundation for their time at Duke, the exact organization of this course is likely to change regularly as the course proceeds. Students will therefore be expected to regularly (i.e. before every class) check on the updated course schedule (which will include assignments for the next class) at \href{https://www.practicaldatascience.org}{www.practicaldatascience.org}.
 
+\section{Laptop Policy}
+
+
+The causal evidence from the teaching and learning field clearly shows that we retain information better when we write with paper and a pen, rather than type our notes.  This is primarily a function of the information synthesis that has to occur when we write because we are not fast enough writers to transcribe everything being said.  Most typists, on the other hand, can conceivably transcribe word for word for what's being said, but this requires little to no mental processing of the information.
+
+Moreover, research also makes clear that the presence of laptops in the classroom undermines learning not only for the person with the laptop, but also for other students in the room (presumably it is distracting to have the computer next to you jumping back and forth from instagram to facebook).
+
+For these reasons, during portions of the class when I am speaking and when you are not actively engaged in programming exercises, I do not allow laptops out in class. (When I use slides, those will be provided online so you can refer back to them later if you would like).
+
+
 
 \section{Honor Policy}
 
@@ -255,72 +292,5 @@ Medical information shared with the SDAO are strictly confidential, and if SDAO 
 
 If you have any problems with SDAO, please let me know as soon as possible.
 
-% \section{Learning Goals}
-%
-% In Data Science today, the only constant is change. With that in mind, in this course we will not only learn \emph{how} popular tools work, but also:
-% \begin{itemize}
-% 	\item the logic that underlies their operation (so when new situations arise you will have a \emph{generalized} understanding of the tool you can use to reason through your problem), and
-% 	\item how to find help on your own.
-% \end{itemize}
-%
-% In particular, by the end of this course, you will have developed the following abilities in each topic area:
-%
-% \textbf{The Command Line}\\
-% \emph{Main Takeaway: The Command Line is just a way to interact with your operating system with text instead of with a mouse.}
-% \begin{itemize}
-% 	\item Explain the value of the command line
-% 	\item Manipulate files and work with command-line-only tools
-% 	\item Anticipate the likely syntax of new tools you may come across
-% \end{itemize}
-%
-% \textbf{\texttt{numpy}}\\
-% \emph{Main Takeaway: numpy is what makes Python useable for data science.}
-% \begin{itemize}
-% 	\item Explain \emph{why} numpy and pandas are so crucial to data science in Python
-% 	\item Manipulate vectors and matrices with \texttt{numpy}
-% \end{itemize}
-%
-% \textbf{\texttt{pandas}}\\
-% \emph{Main Takeaway: pandas is a hack, so if it drives you nuts, it's not your fault.}
-% \begin{itemize}
-% 	\item Read in data of various formats with \texttt{pandas}
-% 	\item Clean, organize, and reshape real-world data with \texttt{pandas}
-% 	\item Move back and forth from \texttt{pandas} to \texttt{numpy}
-% 	\item Pass data from \texttt{pandas} and \texttt{numpy} to \texttt{scikit-learn} functions
-% \end{itemize}
-%
-% \textbf{Git and Github}\\
-% \emph{Main Takeaway: Bundling changes into discrete chunks is incredibly powerful}
-% \begin{itemize}
-% 	\item Not sure yet...
-% \end{itemize}
-%
-%
-% \textbf{Getting Help Online}\\
-% \emph{Main Takeaway: Asking for help effectively takes effort}
-% \begin{itemize}
-% 	\item Find appropriate forums for different types of questions
-% 	\item Compose requests for help that are likely to get useful responses using Minimal Working Examples (MWEs) and proofs of effort.
-% \end{itemize}
-%
-% \textbf{Debugging}\\
-% \emph{Main Takeaway: Debugging as an \textbf{active} exercise}
-% \begin{itemize}
-% 	\item Isolate and analyze bugs quickly
-% \end{itemize}
-%
-% \textbf{Workflow Management}\\
-% \emph{Main Takeaway: Projects change, so a good workflow must be adaptive}
-% \begin{itemize}
-% 	\item Organize data science projects in a manner that is robust to future changes
-% 	\item Organize, document, and comment projects to allow others (and your future self) to easily understand project organization
-% \end{itemize}
-%
-% \textbf{Defensive Programming}\\
-% \emph{Main Takeaway: To err is human, so we must develop practices to protect ourselves from ourselves}
-% \begin{itemize}
-% 	\item Understand the futility of ``just trying to be careful''
-% 	\item Compose code that is less likely to contains errors, and where errors that do occur are more likely to be caught.
-% \end{itemize}
 
 \end{document}
