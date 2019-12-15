@@ -1,0 +1,762 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Using and Interpreting Indicator (Dummy) Variables &#8212; Unifying Data Science</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="section" id="Using-and-Interpreting-Indicator-(Dummy)-Variables">
+<h1>Using and Interpreting Indicator (Dummy) Variables<a class="headerlink" href="#Using-and-Interpreting-Indicator-(Dummy)-Variables" title="Permalink to this headline">¶</a></h1>
+<p>Oh, man – Indicator Variables. We give them so little time in econometrics courses, and yet I can think of few topics I’ve seen cause problems for established scholars. So let’s see if we can give them the treatment they deserve, and hoepfully by the end of this, you’ve have a firm understanding not only of how to use Indicator Variables, but also (and more importantly) how to interpet them.</p>
+<p>This tutorial proceeds as follows:</p>
+<ol class="arabic simple">
+<li><p>Discussion of indicator variables for categorical variables with only two values (like gender, at least as it is implemented in most surveys)</p></li>
+<li><p>Discussion of indicator variables for categorical variables with more than two values (like race or party)</p></li>
+<li><p>Discussion of indicator variables interacted with continuous variables</p></li>
+</ol>
+<div class="section" id="What-are-indicator-variables?">
+<h2>What are indicator variables?<a class="headerlink" href="#What-are-indicator-variables?" title="Permalink to this headline">¶</a></h2>
+<p>Indicator variables – sometimes also referred to as dummy variables, though I dont know why – are variables that take on only the value of 0 and 1, and are used to <em>indicate</em> whether a given observation belongs to a discrete category in a way that can be used in regression models.</p>
+<p>For example, indicator variables can be used to indicate if an survey respondent is a woman (if the variable is 1 for women, 0 otherwise) or a democrat (if the variable is 1 for democrats, 0 otherwise). In addition, as discussed in more detail below, a collection of indicator variables can also be used for categorical variables that take on more than 2 variables – for example, a <em>collection</em> of indicator variables can be used to represented individual’s political party registration.</p>
+</div>
+<div class="section" id="The-TWO-things-that-you-must-understand-when-using-indicator-variables">
+<h2>The TWO things that you must understand when using indicator variables<a class="headerlink" href="#The-TWO-things-that-you-must-understand-when-using-indicator-variables" title="Permalink to this headline">¶</a></h2>
+<p>When you put an indicator variable in a regression model, there are two things you must always keep in mind about interpreting the coefficients associated with the indicator variable:</p>
+<ol class="arabic simple">
+<li><p>The coefficient on an indicator variable is an estimate of the average <strong>DIFFERENCE</strong> in the dependent variable for the group identified by the indicator variable (after taking into account other variables in the regression) and</p></li>
+<li><p>the <strong>REFERENCE GROUP</strong>, which is the set of observations for which the indicator variable is always zero.</p></li>
+</ol>
+<p>If you always remember that the coefficient on an indicator variable is an estimate of a <strong>DIFFERENCE</strong> with respect to a <strong>REFERENCE GROUP</strong> (also sometimes referred to as the “omitted category”), you’re 90% of the way to understanding indicator variables.</p>
+<p>OK, let’s get concrete.</p>
+</div>
+</div>
+<div class="section" id="Indicator-Variables-with-Two-Category-Variable">
+<h1>Indicator Variables with Two Category Variable<a class="headerlink" href="#Indicator-Variables-with-Two-Category-Variable" title="Permalink to this headline">¶</a></h1>
+<p>Let’s do a simple example predicting voter turnout using data from North Carolina. Suppose in particular we’re interested in looking at how turnout varies by gender, which is dichotomous in the North Carolina voter file (obviously this is somewhat problematic given what we’ve come to know about gender, but in most datasets you’ll find a dichotomous coding).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Load data we&#39;ll use. Should work for anyone.</span>
+<span class="n">voters</span> <span class="o">=</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/nickeubank/css_tutorials/master/exercise_data/voter_turnout.csv&quot;</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">voters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<thead><tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th></tr></thead>
+<tbody>
+    <tr><td>71                       </td><td>FEMALE                   </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td></tr>
+    <tr><td>47                       </td><td>MALE                     </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td></tr>
+    <tr><td>29                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td></tr>
+    <tr><td>60                       </td><td>MALE                     </td><td>1                        </td><td>REPUBLICAN               </td><td>WHITE                    </td></tr>
+    <tr><td>84                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td></tr>
+    <tr><td>56                       </td><td>MALE                     </td><td>1                        </td><td>DEMOCRATIC               </td><td>BLACK or AFRICAN AMERICAN</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Create a 0/1 variable for female.</span>
+<span class="n">voters</span><span class="o">$</span><span class="n">female</span> <span class="o">=</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="n">voters</span><span class="o">$</span><span class="n">gender</span> <span class="o">==</span> <span class="s">&quot;FEMALE&quot;</span><span class="p">)</span> <span class="c1"># you can also leave as TRUE / FALSE,</span>
+                                                      <span class="c1"># but easier to see this way.</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">voters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<thead><tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th></tr></thead>
+<tbody>
+    <tr><td>71                       </td><td>FEMALE                   </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>1                        </td></tr>
+    <tr><td>47                       </td><td>MALE                     </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>0                        </td></tr>
+    <tr><td>29                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td></tr>
+    <tr><td>60                       </td><td>MALE                     </td><td>1                        </td><td>REPUBLICAN               </td><td>WHITE                    </td><td>0                        </td></tr>
+    <tr><td>84                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td></tr>
+    <tr><td>56                       </td><td>MALE                     </td><td>1                        </td><td>DEMOCRATIC               </td><td>BLACK or AFRICAN AMERICAN</td><td>0                        </td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">female</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+
+<span></span>Call:
+lm(formula = voted ~ female, data = voters)
+
+Coefficients:
+(Intercept)       female
+    0.74610      0.00754
+
+</pre></div>
+</div>
+</div>
+<p>OK, so how do we interpret this coefficient of 0.021 on female? As we said before, it is the average <strong>DIFFERENCE</strong> in the dependent variable (Whether the person votes) with respect to a <strong>REFERENCE GROUP</strong>. In this case, the reference group is anyone for whom the indicator is always equal to zero, which is the set of male voters.</p>
+<p>So this says that women are 0.7% <em>more likely to vote (in North Carolina) then men.</em></p>
+<p>Now let’s try a more interesting example: Democrats.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="nf">unique</span><span class="p">(</span><span class="n">voters</span><span class="o">$</span><span class="n">party</span><span class="p">)</span> <span class="c1"># OK, note here that there are THREE party registrations in this data.</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>UNAFFILIATED</li>
+    <li>DEMOCRATIC</li>
+    <li>REPUBLICAN</li>
+</ol>
+
+<details>
+    <summary style=display:list-item;cursor:pointer>
+            <strong>Levels</strong>:
+    </summary>
+    <ol class=list-inline>
+            <li>'DEMOCRATIC'</li>
+            <li>'REPUBLICAN'</li>
+            <li>'UNAFFILIATED'</li>
+    </ol>
+</details></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># So let&#39;s do the same thing as before for democrats</span>
+<span class="n">voters</span><span class="o">$</span><span class="n">democrat</span> <span class="o">=</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="n">voters</span><span class="o">$</span><span class="n">party</span> <span class="o">==</span> <span class="s">&quot;DEMOCRATIC&quot;</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">voters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<thead><tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th><th scope=col>democrat</th></tr></thead>
+<tbody>
+    <tr><td>71                       </td><td>FEMALE                   </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>1                        </td><td>0                        </td></tr>
+    <tr><td>47                       </td><td>MALE                     </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>0                        </td><td>0                        </td></tr>
+    <tr><td>29                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td><td>1                        </td></tr>
+    <tr><td>60                       </td><td>MALE                     </td><td>1                        </td><td>REPUBLICAN               </td><td>WHITE                    </td><td>0                        </td><td>0                        </td></tr>
+    <tr><td>84                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td><td>1                        </td></tr>
+    <tr><td>56                       </td><td>MALE                     </td><td>1                        </td><td>DEMOCRATIC               </td><td>BLACK or AFRICAN AMERICAN</td><td>0                        </td><td>1                        </td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">democrat</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+
+<span></span>Call:
+lm(formula = voted ~ democrat, data = voters)
+
+Coefficients:
+(Intercept)     democrat
+    0.77535     -0.05619
+
+</pre></div>
+</div>
+</div>
+<p>So now how do we interpret this coefficient on Democrats (-0.05)? As before it’s the average <strong>DIFFERENCE</strong> in the dependent variable between the indicated group (democrats) and the reference group. But what’s the reference group? Republicans?</p>
+<p>No – the <strong>reference group</strong> or <strong>omitted category</strong> is anyone for whom the indicator variable is always zero – in this case, all non-democrats, whether they’re Republicans or Unaffiliated.</p>
+<p>So this result says that Democrats are less likely to vote than non-democrats, but NOT that they’re less likely to vote than republicans per se.</p>
+<p>So how do we deal with multiple categories? With multiple indicator variables!</p>
+</div>
+<div class="section" id="Indicator-Variables-for-variables-with-more-than-2-categories">
+<h1>Indicator Variables for variables with more than 2 categories<a class="headerlink" href="#Indicator-Variables-for-variables-with-more-than-2-categories" title="Permalink to this headline">¶</a></h1>
+<p>To deal with categorical variables with more than 2 categories, we create indicator variables for all values of the variable <em>except one</em>. The one group for which we do not create an indicator variable will become the <strong>reference group</strong> for the regression. The choice of which value to make the referee category won’t substantively change the results of the regression – for example, if you also have a control for age, the coefficient on age will always be the same regardless of the reference
+group used – but it does influence how easily you can interpret the results of the regression.</p>
+<p>So since we’re interested in the difference in turnout between Democrats and Republicans, let’s make Republicans the reference category, and make dummies for democrats and unaffiliated voters.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="n">voters</span><span class="o">$</span><span class="n">unaffiliated</span> <span class="o">=</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="n">voters</span><span class="o">$</span><span class="n">party</span> <span class="o">==</span> <span class="s">&quot;UNAFFILIATED&quot;</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">voters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<thead><tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th><th scope=col>democrat</th><th scope=col>unaffiliated</th></tr></thead>
+<tbody>
+    <tr><td>71                       </td><td>FEMALE                   </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>1                        </td><td>0                        </td><td>1                        </td></tr>
+    <tr><td>47                       </td><td>MALE                     </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>0                        </td><td>0                        </td><td>1                        </td></tr>
+    <tr><td>29                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td><td>1                        </td><td>0                        </td></tr>
+    <tr><td>60                       </td><td>MALE                     </td><td>1                        </td><td>REPUBLICAN               </td><td>WHITE                    </td><td>0                        </td><td>0                        </td><td>0                        </td></tr>
+    <tr><td>84                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td><td>1                        </td><td>0                        </td></tr>
+    <tr><td>56                       </td><td>MALE                     </td><td>1                        </td><td>DEMOCRATIC               </td><td>BLACK or AFRICAN AMERICAN</td><td>0                        </td><td>1                        </td><td>0                        </td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">democrat</span> <span class="o">+</span> <span class="n">unaffiliated</span><span class="p">,</span> <span class="n">voters</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+
+<span></span>Call:
+lm(formula = voted ~ democrat + unaffiliated, data = voters)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-0.7988  0.2012  0.2012  0.2808  0.2808
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)   0.798811   0.007438 107.399  &lt; 2e-16 ***
+democrat     -0.079652   0.009868  -8.072 7.74e-16 ***
+unaffiliated -0.060559   0.011950  -5.068 4.10e-07 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.4315 on 9916 degrees of freedom
+Multiple R-squared:  0.006737,      Adjusted R-squared:  0.006536
+F-statistic: 33.63 on 2 and 9916 DF,  p-value: 2.786e-15
+
+</pre></div>
+</div>
+</div>
+<p>So how do we interpret this?</p>
+<p>First, we see that the coefficient on democrat is -0.08. That means that the DIFFERENCE in turnout between democrats and the reference group (here, Republicans) is 8%. So democrats have 8 percent point lower turnout on average in this data than Republicans.</p>
+<p>Second, we see that the coefficient on unaffiliated is -0.06. That means that the DIFFERENCE in turnout between unaffiliated voters and the reference group (here, Republicans) is 6%. So democrats have 6 percent point lower turnout on average in this data than Republicans.</p>
+<p>Moreover, the p-value on these indicator variables tells us if these differences are significant. And indeed, they show clearly that the difference between democrats and republicans is significant (p-value = 7.7e-16), and the difference between unaffiliated voters and republicans is significanct (p-value = 4.1e-07).</p>
+<p>But what about the difference between democrats and unaffiliated voters? Well, turns out the regression doesn’t give us that directly. To get that, we have to do some additional math.</p>
+<p>For example, the difference between democrats and unaffiliated voters is equal to:</p>
+<p>dem - unaffiliated = (dem - republican) - (unaffiliated - republican) = -0.079652 - -0.060559 = -0.019093</p>
+<p>So in other words, dems have 2 percentage point lower turnout than unaffiliated voters.</p>
+<p>But is this difference statistically significant? For that we use the LinearHypothesis function from the <code class="docutils literal notranslate"><span class="pre">car</span></code> library:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#install.packages(&quot;car&quot;)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">car</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">democrat</span> <span class="o">+</span> <span class="n">unaffiliated</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span>
+<span class="nf">linearHypothesis</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">&quot;democrat = unaffiliated&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<thead><tr><th scope=col>Res.Df</th><th scope=col>RSS</th><th scope=col>Df</th><th scope=col>Sum of Sq</th><th scope=col>F</th><th scope=col>Pr(&gt;F)</th></tr></thead>
+<tbody>
+    <tr><td>9917      </td><td>1846.441  </td><td>NA        </td><td>      NA  </td><td>      NA  </td><td>        NA</td></tr>
+    <tr><td>9916      </td><td>1845.917  </td><td> 1        </td><td>0.523837  </td><td>2.813977  </td><td>0.09347796</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>Voila – p-value of 0.09.</p>
+<p>Wanna confirm it? let’s change our reference group to unaffiliated. then look at the coefficient on democrat, which will then be the difference between democrats and the new reference group (unaffiliated voters)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="n">voters</span><span class="o">$</span><span class="n">republican</span> <span class="o">=</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="n">voters</span><span class="o">$</span><span class="n">party</span> <span class="o">==</span> <span class="s">&quot;REPUBLICAN&quot;</span><span class="p">)</span>
+<span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">democrat</span> <span class="o">+</span> <span class="n">republican</span><span class="p">,</span> <span class="n">voters</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+
+<span></span>Call:
+lm(formula = voted ~ democrat + republican, data = voters)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-0.7988  0.2012  0.2012  0.2808  0.2808
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  0.738252   0.009353  78.932  &lt; 2e-16 ***
+democrat    -0.019092   0.011382  -1.677   0.0935 .
+republican   0.060559   0.011950   5.068  4.1e-07 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.4315 on 9916 degrees of freedom
+Multiple R-squared:  0.006737,      Adjusted R-squared:  0.006536
+F-statistic: 33.63 on 2 and 9916 DF,  p-value: 2.786e-15
+
+</pre></div>
+</div>
+</div>
+<p>As we can now see, the coefficient on democrat (now difference between democrat and unaffiliated) is what we’d calculated above (-0.019) and has the p-value we calculated previously (0.09). This just goes to show that the choice of reference group doesn’t change what’s actually being estimated, it just changes the interpretation of coefficients and what statistics pop right out of the regression output, and which values require a little extra work.</p>
+<p>One other quick note: indicator variables as so common that there’s a shorthand to ask R to just make the indicators when it’s running the regression – <code class="docutils literal notranslate"><span class="pre">factor()</span></code>. This often works well, but by default it makes the first value in the variable the reference group, which can be annoying. So to run a regression with indicator variables for party, instead of <code class="docutils literal notranslate"><span class="pre">lm(voted</span> <span class="pre">~</span> <span class="pre">democrat</span> <span class="pre">+</span> <span class="pre">unaffiliated,</span> <span class="pre">voters)</span></code>, you can run:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="nf">factor</span><span class="p">(</span><span class="n">party</span><span class="p">),</span> <span class="n">voters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+
+<span></span>Call:
+lm(formula = voted ~ factor(party), data = voters)
+
+Coefficients:
+              (Intercept)    factor(party)REPUBLICAN
+                  0.71916                    0.07965
+factor(party)UNAFFILIATED
+                  0.01909
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Interactions:-Like-plain-indicators,-but-for-differences-in-SLOPE-rather-than-differences-in-LEVELS">
+<h1>Interactions: Like plain indicators, but for differences in SLOPE rather than differences in LEVELS<a class="headerlink" href="#Interactions:-Like-plain-indicators,-but-for-differences-in-SLOPE-rather-than-differences-in-LEVELS" title="Permalink to this headline">¶</a></h1>
+<p>Congratulations! You’re a pro at indicator variables. But now let’s say you want to do INTERACTIONS!</p>
+<p>Interactions (where you interact an indicator variable with a continuous variable) is just like a regular interaction variable, except that instead of reporting the difference in <strong>average value</strong> of the dependent variable between the indicated group and the reference group, the coefficient on an interaction term is the <strong>DIFFERENCE</strong> in the <strong>SLOPE</strong> associated with the continous variable between the indicated group and the reference group.</p>
+<p>Let’s be concrete: let’s suppose we think that turnout among men increases as they get older by a larger amount than for women. In other words, we think that turnout increases with age for both groups, but that there’s a <strong>DIFFERENCE</strong> in the amount it increases with age.</p>
+<p>To test this, we need to create some interaction terms. But first, a quick note: when doing interactions, it’s critical to not only include all the interaction terms that interest you, but also all the variables in the interaction as stand-alone variables. So for this we want <code class="docutils literal notranslate"><span class="pre">age</span></code> interacted with <code class="docutils literal notranslate"><span class="pre">female</span></code>. But while the coefficient on that estimate is what we’re interested in, to get the right results we also need to include just <code class="docutils literal notranslate"><span class="pre">age</span></code> and just <code class="docutils literal notranslate"><span class="pre">female</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="n">voters</span><span class="o">$</span><span class="n">age_x_female</span> <span class="o">=</span> <span class="n">voters</span><span class="o">$</span><span class="n">age</span> <span class="o">*</span> <span class="n">voters</span><span class="o">$</span><span class="n">female</span>
+<span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">female</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="n">age_x_female</span><span class="p">,</span> <span class="n">voters</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+
+<span></span>Call:
+lm(formula = voted ~ female + age + age_x_female, data = voters)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-0.7953  0.2047  0.2443  0.2535  0.2817
+
+Coefficients:
+               Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)   0.6960718  0.0246740  28.211  &lt; 2e-16 ***
+female        0.0933369  0.0330511   2.824  0.00475 **
+age           0.0008553  0.0004069   2.102  0.03559 *
+age_x_female -0.0014570  0.0005411  -2.693  0.00710 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.4328 on 9915 degrees of freedom
+Multiple R-squared:  0.0008071,     Adjusted R-squared:  0.0005047
+F-statistic:  2.67 on 3 and 9915 DF,  p-value: 0.04589
+
+</pre></div>
+</div>
+</div>
+<p>Ok, so the coefficient on our interaction is -0.001457. Does that mean that as women get older, their turnout rate declines by -0.145 percentage points per year? <strong>NO!</strong></p>
+<p>It says that women’s turnout rate declines by -0.145 percentage points per year LESS THAN MEN’S DECLINE. It is the <strong>DIFFERENCE</strong> in slopes between the two groups.</p>
+<p>The coefficient on <code class="docutils literal notranslate"><span class="pre">age</span></code> tells us how turnout varies with age <strong>for the reference group</strong>. So it says that for men, turnout increases by 0.09 percentage points per year.</p>
+<p>But if you want to know how women’s turnout varies with age, you have to <strong>ADD</strong> the coefficient on <code class="docutils literal notranslate"><span class="pre">age</span></code> (the rate of change for me) plus the coefficient on <code class="docutils literal notranslate"><span class="pre">age_x_female</span></code> (the difference between the rate of men and women).</p>
+<p>So going through all these coefficients, we have:</p>
+<p><code class="docutils literal notranslate"><span class="pre">female</span></code> (0.09): Controlling for age, women are 9 percentage points more likely to vote than men. <code class="docutils literal notranslate"><span class="pre">age</span></code> (0.0009): As men get one year older, they become 0.1 percentage point more likely to vote. <code class="docutils literal notranslate"><span class="pre">age_x_female</span></code> (-0.0015): As women get one year older, the likelihood they vote increases by -0.1 percentage point <em>less</em> than men.</p>
+<p>So how much does women’s turnout increase if they age one year? 0.0008553 + -0.0014570 = -0.0006. So it actually declines by 0.06 percentage points a year.</p>
+<p>Now let’s talk statistical significance. The p-value on age shows us that there’s a statistically significant relationship between age and turnout <strong>for men</strong>. The p-value for <code class="docutils literal notranslate"><span class="pre">age_x_female</span></code> tells us that there’s a statistically significant <strong>difference</strong> between men and women in how turnout varies with age. But is there a statistically significant relationship between age and turnout for women?</p>
+<p>Again, we don’t actually get an answer from our regression. To see, we have to run the following:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="n">result</span> <span class="o">=</span> <span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">female</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="n">age_x_female</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span>
+<span class="nf">linearHypothesis</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">&quot;age + age_x_female = 0&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<thead><tr><th scope=col>Res.Df</th><th scope=col>RSS</th><th scope=col>Df</th><th scope=col>Sum of Sq</th><th scope=col>F</th><th scope=col>Pr(&gt;F)</th></tr></thead>
+<tbody>
+    <tr><td>9916      </td><td>1857.470  </td><td>NA        </td><td>       NA </td><td>     NA   </td><td>        NA</td></tr>
+    <tr><td>9915      </td><td>1856.937  </td><td> 1        </td><td>0.5331515 </td><td>2.84673   </td><td>0.09159147</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>So the p-value is 0.09 for the relationship between female and age.</p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Unifying DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/interpreting_indicator_vars.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-151397036-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>

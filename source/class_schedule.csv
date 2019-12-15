@@ -1,64 +1,44 @@
-﻿"Date, Rm",Topic,Do Before Class,In-Class Exercise
-"Tues, Aug 27, Rm 270",Intro,N/A,
-"Thurs, Aug 29, Rm CC",Command Line Basics,"- `Command Line Basics <command_line_part1.ipynb>`_
-- Read and sign syllabus
-- `Register with IPUMS <https://uma.pop.umn.edu/usa/user/new>`_
-- `Register for DataCamp <https://www.datacamp.com/home>`_",`Link <exercises/Exercise_CommandLine_1_Basics.ipynb>`_
-"Tues, Sep 03, Rm 270","- Advanced Command Line
-- Jupyter Lab / Notebooks","- `Advanced Command Line <command_line_part2.ipynb>`_
-- `Setup Python <setup_environment.ipynb>`_
-- `Jupyter Tutorial <jupyter.ipynb>`_
-","`Link <exercises/Exercise_CommandLine_2_Advanced.ipynb>`_
-`Link 2 <exercises/Exercise_jupyterlab.ipynb>`_"
-"Thurs, Sep 05, Rm 270","- Ipython
-- Packages
-- Python v. R / variables as pointers","- `Follow this link <https://gke.mybinder.org/v2/gh/ipython/ipython-in-depth/master?filepath=binder/Index.ipynb>`_ , then click ""Ipython - Beyond plain python"" and read that notebook. 
-- `Python packages <managing_python_packages.ipynb>`_
-- `variables v objects <vars_v_objects.ipynb>`_",`Link <exercises/Exercise_variables_v_objects.ipynb>`_
-"Tues, Sep 10, Rm 330",Numpy Basics,"- JVP pp 33-77
-- IF did not complete DataCamp: Do Numpy Section
-- `Numbers in Computer <ints_and_floats.ipynb>`_",`Link <exercises/Exercise_numpy.ipynb>`_
-"Thurs, Sep 12, Rm 270",Pandas: Series,- `Pandas 1: Series <pandas_series.ipynb>`_,`Link <exercises/Exercise_series.ipynb>`_
-"Tues, Sep 17, Rm CC",Pandas: DataFrames,- `Pandas 2: DataFrames <pandas_dataframes.ipynb>`_,`Link <exercises/Exercise_dataframe.ipynb>`_
-"Thurs, Sep 19, Rm CC",Intro to Plotting with PlotNine,"- `Plotting in Python, Part 1 <plotting_part1.ipynb>`_",`Link <exercises/Exercise_plotting_part1.ipynb>`_
-"Tues, Sep 24, Rm 330",Advanced Plotting,"- `Plotting in Python, Part 2 <plotting_part2.ipynb>`_",`Link <exercises/Exercise_plotting_part2.ipynb>`_
-"Thurs, Sep 26, Rm 270",Pandas: Indices & Missing,"- WM pp 136-142
-- JVP pp 115-139
-- `Views and Copies in Pandas <views_and_copies_in_pandas.ipynb>`_","`Link 1 <exercises/Exercise_indices.ipynb>`_
-`Link 2 <exercises/Exercise_missing.ipynb>`_"
-"Tues, Oct 01, Rm 270","- Pandas: Loading and saving data
-- Pandas: Cleaning","- WM Chapter 6
-- WM Chapter 7
-- `Python Strings <https://realpython.com/python-data-types/#strings>`_",`Link <exercises/Exercise_cleaning.ipynb>`_
-"Thurs, Oct 03, Rm 330",- Pandas: Merging,- JVP pp 149 - 157,`Link <exercises/Exercise_merging.ipynb>`_
-"Tues, Oct 08, Rm ",FALL BREAK,,
-"Thurs, Oct 10, Rm 330",Collaborating using Github,- `Git and Github <git_and_github.ipynb>`_,"`Link <exercises/Exercise_git.ipynb>`_
-`Link <exercises/Exercise_git_2.ipynb>`_"
-"Tues, Oct 15, Rm 270",Git and Github 2,,
-"Thurs, Oct 17, Rm 330","Big Data: What is it, how do I work with it?","- `What is Big Data? <what_is_big_data.ipynb>`_
-- `Strategies for Big Data <big_data_strategies.ipynb>`_
-- Download the dataset linked at the top of the linked exercise before class.",`Link <exercises/Exercise_bigdata.ipynb>`_
-"Tues, Oct 22, Rm 330","- Defensive Programming
-- Workflow
-- Getting Help Online","- `Defensive Programming <defensive_programming.ipynb>`_
-- `Workflow Management <workflow.ipynb>`_
-- `Getting Help <getting_help.ipynb>`_",[Discuss mid-semester project in class]
-"Thurs, Oct 24, Rm 330",Groupby / Split-Apply-Combine,"- WM pp Chpt 10, 10.1, 10.2, 10.3",`Link <exercises/Exercise_groupby.ipynb>`_
-"Tues, Oct 29, Rm 270","- Pandas: Reshaping
-- Pandas: Categoricals","- WM 8.3
-- `Pandas reshaping (with pics!) <https://pandas.pydata.org/pandas-docs/stable/user_guide/reshaping.html>`_
-- `What is goal of reshaping? <https://www.jstatsoft.org/index.php/jss/article/view/v059i10/v59i10.pdf>`_
-- Categoricals: WM 12.1",`Link <exercises/Exercise_reshaping.ipynb>`_
-"Thurs, Oct 31, Rm 330",Speed and Performance in Python,"- `Understanding Performance <performance_understanding.ipynb>`_
-- `Improving Performance <performance_solutions.ipynb>`_",[finish groupby and reshaping exercises]
-"Tues, Nov 05, Rm 270",Statistics with statsmodels,"- WM Chapter 13, 13.1, 13.2, 13.3
-- `Skim ""Linear Models"" <https://www.statsmodels.org/stable/regression.html>`_
-- `Skim ""Discrete Dep Var Models"" <https://www.statsmodels.org/stable/discretemod.html>`_
-- `Patsy: Differences from R <https://patsy.readthedocs.io/en/latest/R-comparison.html>`_",`Link <exercises/Exercise_statsmodels.ipynb>`_
-"Thurs, Nov 07, Rm 330",Machine Learning with sckikit-learn,- JVP pp 331 - 359,`Link <exercises/Exercise_scikit_learn.ipynb>`_
-"Tues, Nov 12, Rm 330",Parallelism,- `Parallel Computing <parallelism.ipynb>`_,
-"Thurs, Nov 14, Rm 330",Data Science: Questions,,
-"Tues, Nov 19, Rm 270",Data Science: Tool Selection,,
-"Thurs, Nov 21, Rm 330",Data Science: Backwards Design,,
-"Tues, Nov 26, Rm 270",Project Proposal Workshopping,,
-"Thurs, Nov 28, Rm ",THANKSGIVING BREAK,,
+﻿Date,Topic,Do Before Class,In-Class Exercise
+"Wed, Jan 8",Course Overview,,
+"Mon, Jan 13",Taxonomy of Questions,"- Read and sign syllabus
+- Submit substantive interest survey",Taxonomy of questions
+"Wed, Jan 15",Answering Questions,,Converting stakeholder prompts to questions
+"Mon, Jan 20",NO CLASS; MLK DAY,,
+"Wed, Jan 22",Descriptive Questions,- Descriptive Questions,- Exercises
+"Mon, Jan 27",Descriptive Questions,"- Visual Display of Quantitative Information
+- **Topic and 3 Questions Due**",- Plotting / Choice Parameter Exercises
+"Wed, Jan 29",CI: Potential Outcomes Framework,"- Morgan and Winship. Pages 37-58. 
+- `The Ghost Map <https://www.amazon.com/Ghost-Map-Londons-Terrifying-Epidemic/dp/1594482691>`_
+- `Causality in the Time of Cholera <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3262234>`_",
+"Mon, Feb 3",CI: Experiments,"Angrist and Piscke, Pages 3-24. ",Specifying Counter-Factuals
+"Wed, Feb 5",CI: Matching,`Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_ ,Specifying Ideal Experiments
+"Mon, Feb 10",CI: Regression,"Angrist and Piscke, Pages 249- 268. ",
+"Wed, Feb 12",CI: Fixed Effects,"- `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
+- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
+",
+"Mon, Feb 17",CI: Difference-in-Differences,Angrist and Piscke Pages 222-247. ,
+"Wed, Feb 19",Backwards Project Design,- **Causal Inference Pset Due**,
+"Mon, Feb 24",CI: Natural Experiments,"- Dunning (2008). `Improving Causal Inference: Strengths and Limitations of Natural Experiments <http://www.thaddunning.com/wp-content/uploads/2010/03/Dunning_PRQ.pdf>`_
+- 99% Invisible, `Episode 352: Uptown Squirrel. <https://99percentinvisible.org/episode/uptown-squirrel>`_",
+"Wed, Feb 26",Prediction: ML versus Casual Inference,"- Fragility
+- Adversarial Users
+- Lucas Critique
+- `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_
+- **Project Proposal Draft Due**",
+"Mon, Mar 2",Prediction: ML Bias,"- `ProPublica: Machine Bias <https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing>`_
+- `Racial Bias in Medical Algorithm <https://www.washingtonpost.com/health/2019/10/24/racial-bias-medical-algorithm-favors-white-patients-over-sicker-black-patients/>`_
+- `Amazon scraps secret AI recruiting tool due to bias <https://www.reuters.com/article/us-amazon-com-jobs-automation-insight/amazon-scraps-secret-ai-recruiting-tool-that-showed-bias-against-women-idUSKCN1MK08G>`_
+- `Diversity in AI is not your problem, it's hers <https://medium.com/@robert.munro/bias-in-ai-3ea569f79d6a>`_",
+"Wed, Mar 4",,,
+"Mon, Mar 9",SPRING RECESS,,
+"Wed, Mar 11",SPRING RECESS,,
+"Mon, Mar 16",,,
+"Wed, Mar 18",,- **Final Project Proposal Due**,
+"Mon, Mar 23",,,
+"Wed, Mar 25",,,
+"Mon, Mar 30",,,
+"Wed, Apr 1",Project Presentations,,
+"Mon, Apr 6",Project Presentations,,
+"Wed, Apr 8",Project Presentations,,
+"Mon, Apr 13",Project Presentations,,
+"Wed, Apr 15",,,

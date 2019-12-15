@@ -95,7 +95,7 @@
 \vspace{.35in}
 
 \begin{center}
-	\textbf{\LARGE{Unifying Data Science} }
+	\textbf{\LARGE{Unifying Data Science: Asking and Answering Questions with Data} }
 \end{center}
 
 
@@ -108,13 +108,15 @@
 
 \section{Course Description}
 
-The aim of the course is to two-fold. First, it aims to provide students with a conceptual framework for understanding the relationship between the many tools that are currently taught under the ``data science'' umbrella. This course takes the view that data science is fundamentally about answering questions with data, and so is organized around helping students identify different classes of questions (descriptive, causal, and predictive). Over the course of the semester, we will explore each of these types of questions in turn, learning which tools are appropriate for each, and what what pitfalls are common to efforts to answer each type of question.
+The aim of the course is to two-fold. First, it aims to provide students with a conceptual framework for understanding the relationship between the many tools that are currently taught under the ``data science'' umbrella. This course takes the view that data science is fundamentally about answering questions with data, and so is organized around helping students identify different classes of questions (descriptive, causal, and predictive). Over the course of the semester, we will explore each of these types of questions in turn, learning which tools are appropriate for each, and what pitfalls are common to efforts to answer each type of question.
 
-Second, it aims to provide students with experience both developing and actually answering real questions. Data science is a fundamentally applied field, and so while it is important to have the conceptual framework described above to aid your work, there is no substitute for learning to put these principles into action through practice.
+Second, it also aims to give students experience both developing and actually answering real questions. Data science is a fundamentally applied field, and so while it is important to have the conceptual framework described above to aid your work, there is no substitute for practicing putting these principles into action.
 
 To achieve this second learning goal, over the course of the semester students will develop their own data science projects in small teams. These projects will be developed incrementally over the course of the semester with instructor guidance. By the end of the semester, students will have picked a topic area, developed a (tractable) question, decided what an answer to that question would actually look like, developed a work plan for generating that answer, and executed and presented their project, and then iterated the project based on feedback from their initial presentation.
 
-As this course is primarily designed for students in the MIDS program, it will assume familiarity with statistical modeling (basic statistics, linear regression, logistitic regression, model selection) and the basics of both supervised and unsupervised machine learning. The goal of this course will not be to teach these topics, but rather to help *contextualize* them.
+In addition, to help students who plan to go into industry or the public policy realm, students will have multiple opportunities to reformulate vague prompts from simulated ``stakeholders'' (based on real stakeholder requests) into tractable questions that can form the basis of actual empirical investigations.
+
+As this course is primarily designed for students in the MIDS program, it will assume familiarity with statistical modeling (basic statistics, linear regression, logistic regression, model selection) and the basics of both supervised and unsupervised machine learning. The goal of this course will not be to teach these topics, but rather to help \emph{contextualize} them.
 
 Of the three types of questions we will cover, methods for answering causal questions will receive the greatest attention. This course assumes no familiarity with causal inference, and will cover everything from the basic problem of causal inference to experiments, and to the range of tools available for making causal inferences from observational data.
 
@@ -195,60 +197,51 @@ But if you think about it for a little while, you come to realize that there is 
 
 If this seems strange, don't worry: question generation is something we'll practice repeatedly in this class.
 
-\section{Class Organization}
+%--------------------------------------------COURSE ASSIGNMENTS------------------------------------------------%
+\section{Assignments \& Grading}
 
-Data science is an applied discipline, and so this will be an intensely applied class with \emph{lots} of hands-on exercises.
+\subsection{Participation (25\% of Grade)}
 
-\begin{itemize}
-	\item Exercises in question generation! I'll pretend to be a stakeholder, and you'll have to generate a question which, when answered, would please the stakeholder.
-	\item One big data science project.
-\end{itemize}
-%
-%
-%
-% %--------------------------------------------COURSE ASSIGNMENTS------------------------------------------------%
-% \section{Assignments \& Grading}
-%
-% \subsection{Participation (25\% of Grade)}
-%
-% Note that a major component of good participation is good \emph{preparation}. Because we will mostly reserve class time for hands-on exercises, it is absolutely critical that students do their assigned readings before \emph{every} class. Students who do not work through the instructional materials they have been assigned before class will not only get very little out of the hands-on exercises designed to reinforce the assigned materials, but they will also undermine the learning of the students they are asked to work with. With that in mind, students who do not complete their assigned readings before every class should expected to see this reflected in their participation grades.
-%
-% Participation will be graded as follows:\footnote{This rubric is adapted from that of Duke Political Science Professor Adriane Fresh.}
-%
-% \textbf{A range.}  You are fully \emph{and consistently} engaged in class discussion and exercises.  You both listen and contribute actively.  You are well prepared for class.  Having done more than merely read the material, you have spent time thinking \emph{carefully and deeply} about the material's relationship to other materials and ideas presented in previous classes. You are not only able to answer questions about the material, but also come to class with thoughtful questions.  When working in teams, you work \emph{with} your partner. If your partner is struggling with an exercise, you help them understand the material rather than just completing the material on your own. If you are struggling with material, you ask for help (both from the instructor and your fellow students) and do not simply lean on your partner to complete the exercise. \\
-%
-% \textbf{B range.}  You are engaged in class discussion and exercises.  You listen and contribute regularly.  You come well-prepared to class having read the material and your contributions show your familiarity, but your level of engagement lacks the depth accumulated through extra time spent thinking about the material.  When working in teams, you work \emph{with} your partner when they have a similar level of understanding, but do not always invest in helping a struggling partner to understand the material. You often ask for help when you are struggling, but other times you let your partner just complete the exercise. \\
-%
-% \textbf{C range.}  You have met the minimum requirements of participation.  You are usually, but not always prepared.  You participate sometimes, but not regularly.  The comments that you offer show a basic familiarity with the materials, but do not help to build a coherent or productive discussion.  When working in teams, you only sometimes work \emph{with} your partner. When your partner is struggling, you often just do the exercise yourself. If you are struggling, you often do not ask for help and allow your partner to take over the exercise. \\
-%
-% \textbf{D range.}  You have not met the minimum requirements of participation.  You are unprepared for class.  You have not read with the material with sufficient engagement to know even the most basic elements.  When working in teams, you do not attempt to work \emph{with} your partner. When your partner is struggling, you just do the exercise yourself. If you are struggling, you do not ask for help and allow your partner to take over the exercise.\\
-%
-% \textbf{As should be clear from this rubric, above all it is important to emphasize that participation is evaluated on the basis of \emph{quality} and \emph{consistently}, \emph{not} quantity. Moreover, when completing in-class exercises, good participation is not about finishing first or without ever asking for help; good participation in in-class exercises is about helping your partner understand the material, and asking for help when you need it.}
-%
-% If students consistently fail to come to class prepared, the instructor reserves the right to introduce quizzes at that start of each class to directly evaluate class preparation.
-%
-% \subsection{Interim Assignments (25\% of Grade)}
-%
-% Over the course of the semester, students will be asked to complete a number of small assignments as homework. These assignments will, in total, be worth 25\% of student grades.
-%
-% \subsection{Mid-Semester Data Science Project.  25\%}
-%
-% At the end of Part 1 of this course, students will be assigned a mid-term Data Science Project. The goal and general framework for this team project will be provided to students, but the project will require students to complete the analysis component of a full data science project, including gathering data, cleaning and merging that data, analyzing the data, and presenting results.
-%
-% \subsection{Final Data Science Project Proposal. 25\%}
-%
-% At the end of Part 2 of this course, students will be required to submit a Data Science Project Proposal. Using backwards-design principles, this proposal will include not only a tractable, answerable question, but also specification of what the answer to that question will look like, what data will be required to generate that answer, and a strategy for managing project workflow.
-%
-% \subsection{Late Assignments, Make Up Exams and Extra Credit}
-%
-%
-% \textbf{Grading}
-% All assignments will be given a numerical score on a 0-100 scale.  These scores will be multiplied by the value of the assignment (see above) and the following scale will be used to assign a final letter grade.  \\
-%
-% \hspace*{.2in} 98-100 A+ 	\hspace*{.6in}  88-80.9 B+  	\hspace*{.57in} 78-79.9 C+  		\hspace*{.44in} 60-70 D  	\\
-% \hspace*{.2in} 93-97.9 A	\hspace*{.68in} 83-87.9 B  	\hspace*{.695in} 73-77.9 C		\hspace*{.57in} below 60 D\\
-% \hspace*{.2in} 90-92.9 A- 	\hspace*{.63in} 	80-82.9 B- 	\hspace*{.64in} 70-72.9 C-	\\
-%
+A major component of good participation is good \emph{preparation}. Because we will often use class time for exercises, it is absolutely critical that students do their assigned readings before \emph{every} class. Students who do not work through the instructional materials they have been assigned before class will not only get very little out of in-class exercises designed to reinforce the assigned materials, but they will also undermine the learning of the students they are asked to work with. With that in mind, students who do not complete their assigned readings before every class should expected to see this reflected in their participation grades.
+
+Participation will be graded as follows:
+
+\textbf{A range.}  You are fully \emph{and consistently} engaged in class discussion and exercises.  You both listen and contribute actively.  You are well prepared for class.  Having done more than merely read the material, you have spent time thinking \emph{carefully and deeply} about the material's relationship to other materials and ideas presented in previous classes. You are not only able to answer questions about the material, but also come to class with thoughtful questions.  When working in teams, you work \emph{with} your partner. If your partner is struggling with an exercise, you help them understand the material rather than just completing the material on your own. If you are struggling with material, you ask for help (both from the instructor and your fellow students) and do not simply lean on your partner to complete the exercise. \\
+
+\textbf{B range.}  You are engaged in class discussion and exercises.  You listen and contribute regularly.  You come well-prepared to class having read the material and your contributions show your familiarity, but your level of engagement lacks the depth accumulated through extra time spent thinking about the material.  When working in teams, you work \emph{with} your partner when they have a similar level of understanding, but do not always invest in helping a struggling partner to understand the material. You often ask for help when you are struggling, but other times you let your partner just complete the exercise. \\
+
+\textbf{C range.}  You have met the minimum requirements of participation.  You are usually, but not always prepared.  You participate sometimes, but not regularly.  The comments that you offer show a basic familiarity with the materials, but do not help to build a coherent or productive discussion.  When working in teams, you only sometimes work \emph{with} your partner. When your partner is struggling, you often just do the exercise yourself. If you are struggling, you often do not ask for help and allow your partner to take over the exercise. \\
+
+\textbf{D range.}  You have not met the minimum requirements of participation.  You are unprepared for class.  You have not read with the material with sufficient engagement to know even the most basic elements.  When working in teams, you do not attempt to work \emph{with} your partner. When your partner is struggling, you just do the exercise yourself. If you are struggling, you do not ask for help and allow your partner to take over the exercise.\\
+
+\textbf{As should be clear from this rubric, above all it is important to emphasize that participation is evaluated on the basis of \emph{quality} and \emph{consistently}, \emph{not} quantity. Moreover, when completing in-class exercises, good participation is not about finishing first or without ever asking for help; good participation in in-class exercises is about helping your partner understand the material, and asking for help when you need it.}
+
+\subsection{Interim Assignments (20\% of Grade)}
+
+Over the course of the semester, students will be asked to complete a number of small assignments as homework. These assignments will, in total, be worth 25\% of student grades.
+
+\subsection{Reading Quizzes (20\% of Grade)}
+
+Unfortunately, experience suggests that short, closed-book quizzes given regularly at the start of class are necessary to ensure students stay on top of their readings. Your scores on these reading quizzes will form 20\% of your course grade.
+
+\subsection{Team Data Science Project (35\% of Grade)}
+
+Over the course of the semester, you and your team will develop a full data science project -- from conception to execution and presentation. Your scores on the various components of this project -- including graded drafts, intermediate work, teamwork, and project management skills -- will jointly constitute 35\% of your overall grade.
+
+\subsection{Late Assignments, Make Up Exams and Extra Credit}
+
+
+\textbf{Grading}
+All assignments will be given a numerical score on a 0-1 scale.  These scores will then be combined and weighted to form you final course grade.
+
+\textbf{Late Assignment}
+
+All students get one ``freebie'' -- they may submit \emph{one} assignment \emph{one} school day late without penalty (so an assignment due Friday may be submitted Monday without penalty).
+
+Freebie's may be used for team assignments, but only if all team members have a freebie to use, and all agree to use their freebie for the team assignment.
+
+After that, because of the difficulty associated with managing late assignment in large classes, all late assignments will be penalized 20\% per late day. Exceptions may be made for students dealing with exceptional circumstances (illness for themselves or family, etc.) -- if you are dealing with a difficult situation, please feel free to contact me to discuss your situation.
+
 % \section{Texts}
 %
 % We will rely on two primary texts for this course (both of which, thankfully, are reasonably priced):
@@ -267,14 +260,20 @@ Data science is an applied discipline, and so this will be an intensely applied 
 
 \section{Laptop Policy}
 
-
-The causal evidence from the teaching and learning field clearly shows that we retain information better when we write with paper and a pen, rather than type our notes.  This is primarily a function of the information synthesis that has to occur when we write because we are not fast enough writers to transcribe everything being said.  Most typists, on the other hand, can conceivably transcribe word for word for what's being said, but this requires little to no mental processing of the information.
+The causal evidence from the teaching and learning field clearly shows that learning outcomes are worse when students have laptops in the classroom. This appears to be due in part to computers allowing students to become easily distracted (e.g. Facebook), and also in part because significant information synthesis occurs when we take notes by hand because we are not fast enough writers to transcribe everything being said.  Most typists, on the other hand, can conceivably transcribe word for word for what's being said, but this requires little to no mental processing of the information.\footnote{For excellent work on this topic as well as a nice summary of existing literature on the impact of laptops on learning outcomes, see \href{https://cpb-us-w2.wpmucdn.com/sites.udel.edu/dist/6/132/files/2010/11/Psychological-Science-2014-Mueller-0956797614524581-1u0h0yu.pdf}{Mueller and Oppenheimer (2014, \emph{The Pen Is Mightier Than the Keyboard: Advantages of Longhand Over Laptop  Note Taking})}. \href{https://www.winona.edu/psychology/media/friedlaptopfinal.pdf}{Fried (2007, \emph{In-class laptop use and its effects on student learning})} and  \href{https://www.ncbi.nlm.nih.gov/pubmed/28182528}{Ravizza et. al. (2017, \emph{Logged In and Zoned Out})} are also worth reading.}
 
 Moreover, research also makes clear that the presence of laptops in the classroom undermines learning not only for the person with the laptop, but also for other students in the room (presumably it is distracting to have the computer next to you jumping back and forth from instagram to facebook).
 
 For these reasons, during portions of the class when I am speaking and when you are not actively engaged in programming exercises, I do not allow laptops out in class. (When I use slides, those will be provided online so you can refer back to them later if you would like).
 
+However, please \textbf{do bring your laptops every day}, as we will use them for in-class quizzes, and some in-class exercises.
+
 \textbf{Note:} If you would like an exception to this rule for medical reasons or due to learning differences, please speak to me and/or follow the directions in the Disability Policy section below, and we will be sure to find an arrangement that works for you.
+
+\section{Submitting Homework}
+
+Homework will generally be submitted through Gradescope. When submitting your homework please {\color{red}\textbf{do not}} put your name on the assignment itself -- when you submit your homework, Gradescope will ask you to identify the submitting students, but does not show this data during grading. Thus not putting your name on your paper means that grading is relatively anonymous, improving the objectively of grading.\footnote{Obviously neither my TA nor I would ever knowingly grade in a less-than-objective manner. For example, we'd never knowingly let what we know about students' past performance influence grading of assignments. But human biases are pernicious, and even the best intentioned graders can be influenced by biases (like the ``halo effect,'' in which graders are more generous with students who have previously performed well). Blind grading helps reduce the opportunity for bias.}
+
 
 \section{Honor Policy}
 

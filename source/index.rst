@@ -19,7 +19,7 @@ Of the three types of questions we will cover, methods for answering causal ques
 Pre-Requisites
 --------------
 
-This course will assume that enrolled students have a good grasp of inferential statistics, statistical modelling, and have experience with machine learning (or be concurrently enrolled in an applied machine learning course).
+This course will assume that enrolled students have a good grasp of inferential statistics, statistical modelling, and have experience with machine learning (or are concurrently enrolled in an applied machine learning course).
 
 This course will also assume students are comfortable manipulating real-world data in either Python or R. The substantive content of this course is language-independent, but because students will be required to work on their projects in teams, comfort with one of these two languages will be required to facilitate collaboration (MIDS students are, generally, "bilingual" in R and Python). Where code examples are provided in class, they will use Python (`pandas`), but both the instructor and TA are also capable of providing support in R. 
 
@@ -37,3 +37,4 @@ To learn more about the course, please `read the PRELIMINARY course syllabus ava
    :hidden:
 
    CLASS SCHEDULE <class_schedule>
+
