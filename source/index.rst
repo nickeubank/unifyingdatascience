@@ -28,7 +28,7 @@ Finally, students will also be expected to be comfortable collaborating using gi
 Syllabus
 --------
 
-To learn more about the course, please `read the PRELIMINARY course syllabus available here. <https://github.com/nickeubank/unifyingdatascience/raw/master/syllabus/Syllabus_UnifyingDataScience.pdf>`_ and see a `preliminary schedule and texts we'll be using here <class_schedule>`. These are both subject to change, but should give you a good sense of the material we will cover. 
+To learn more about the course, please `read the PRELIMINARY course syllabus available here. <https://github.com/nickeubank/unifyingdatascience/raw/master/syllabus/Syllabus_UnifyingDataScience.pdf>`_ and see a `preliminary schedule and texts we'll be using here <class_schedule.rst>`_. These are both subject to change, but should give you a good sense of the material we will cover. 
 
 
 
