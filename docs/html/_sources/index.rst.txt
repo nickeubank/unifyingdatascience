@@ -41,5 +41,6 @@ To learn more about the course, please `read the PRELIMINARY course syllabus ava
 .. toctree::
    :maxdepth: 2
    :hidden:
+   :caption:QUESTIONS
 
    Taxonomy of Questions <taxonomy_of_questions>
