@@ -38,3 +38,8 @@ To learn more about the course, please `read the PRELIMINARY course syllabus ava
 
    CLASS SCHEDULE <class_schedule>
 
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+   Taxonomy of Questions <taxonomy_of_questions>
