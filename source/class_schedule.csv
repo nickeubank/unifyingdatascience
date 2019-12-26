@@ -1,10 +1,11 @@
 ﻿Date,Topic,Do Before Class,In-Class Exercise
 "Wed, Jan 8",Course Overview,,
 "Mon, Jan 13",Taxonomy of Questions,"- Read and sign syllabus
-- Submit substantive interest survey",Taxonomy of questions
+- Submit substantive interest survey
+- `Taxonomy of Questions <taxonomy_of_questions.ipynb>`_",Taxonomy of questions
 "Wed, Jan 15",Answering Questions,,Converting stakeholder prompts to questions
 "Mon, Jan 20",NO CLASS; MLK DAY,,
-"Wed, Jan 22",Descriptive Questions,- Descriptive Questions,- Exercises
+"Wed, Jan 22",Descriptive Questions,- `Mere Description <https://doi.org/10.1017/S0007123412000130>`_,- Exercises
 "Mon, Jan 27",Descriptive Questions,"- Tufte, pp. xx-xx
 - **Topic and 3 Questions Due**",- Plotting / Choice Parameter Exercises
 "Wed, Jan 29",CI: Potential Outcomes Framework,"- Morgan and Winship. Pages 37-58. 
@@ -13,9 +14,10 @@
 "Mon, Feb 3",CI: Experiments,"Angrist and Piscke, Pages 3-24. ",Specifying Counter-Factuals
 "Wed, Feb 5","CI: ATE, LATE, TTT",,
 "Mon, Feb 10",CI: Matching,`Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_ ,Specifying Ideal Experiments
-"Wed, Feb 12",CI: Regression,"Angrist and Piscke, Pages 249- 268. ",
+"Wed, Feb 12",CI: Regression,"- Angrist and Piscke, Pages 249- 268. ",
 "Mon, Feb 17",CI: Fixed Effects,"- `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
 - `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
+- Callahan, pp. 72-89 
 ",
 "Wed, Feb 19",CI: Difference-in-Differences,Angrist and Piscke Pages 222-247. ,
 "Mon, Feb 24",Backwards Project Design,- **Causal Inference Pset Due**,

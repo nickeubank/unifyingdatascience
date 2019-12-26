@@ -34,20 +34,95 @@
             
   <div class="section" id="Taxonomy-of-Questions">
 <h1>Taxonomy of Questions<a class="headerlink" href="#Taxonomy-of-Questions" title="Permalink to this headline">¶</a></h1>
+<p>A central focus of this course will be in thinking about how the tools of data science can best be brought to bear on different <em>types</em> of questions about the world. To that end, we must begin by introducing a framework for differentiating types of questions – a taxonomy of questions.</p>
+<p>It should be made clear that this taxonomy is my own, and thus you may not find that everyone you encounter will immediately recognize the distinctions between them that, by the end of this class, I hope will be clear to you. Indeed, part of the reason that data science is so fragmented is that different disciplines tend to focus almost myopically on certain classes of questions, and fail to recognize that while the tools they use may be effect for <em>their</em> preferred questions, different tools
+may be required by those interested in different questions. In this class, we will strive to recognize the merits of all form of inquiry, and develop the skills necessary to properly approach any questions that comes our way.</p>
+<p>In this course, we will use a three-fold taxonomy of questions:</p>
+<ul class="simple">
+<li><p><strong>Descriptive Questions</strong>: Questions about the current (or past) state of the world. Descriptive questions are often about measuring things that haven’t previously been measured, or looking for previously unseen patterns.</p></li>
+<li><p><strong>Causal Questions</strong>: Questions about causes and effects – <em>why</em> does the world look the way it does? What <em>caused</em> the current state of the world? What is the <em>effect</em> of, say, a drug?</p></li>
+<li><p><strong>Predictive Questions</strong>: Questions about the future, or questions that require extrapolation beyond current data.</p></li>
+</ul>
+<p>Let’s discuss each in more detail.</p>
 <div class="section" id="Descriptive-Questions">
 <h2>Descriptive Questions<a class="headerlink" href="#Descriptive-Questions" title="Permalink to this headline">¶</a></h2>
+<p>Descriptive questions are questions about the current or past state of the world. In the words of <a class="reference external" href="https://doi.org/10.1017/S0007123412000130">John Gerring (we’ll read more of his work for next class)</a>:</p>
+<blockquote>
+<div><p>A descriptive argument describes some aspect of the world. In doing so, it aims to answer <em>what</em> questions (e.g., when, whom, out of what, in what manner) about a phenomenon or a set of phenomena. Descriptive arguments are about what is/was. For example: “Over the course of the past two centuries there have been three major waves ofdemocratization.”</p>
+</div></blockquote>
+<p>Of all the types of questions we will study in this class, descriptive questions tend to be the least appreciated, but I would argue that in many ways they are the most important. That is because descriptive analysis are often the foundations for all other work. After all, it is only by first understanding the patterns in our world can we then move on to asking questions about how they arrose.</p>
+<p>To illustrate, let’s consider a few important descriptive analysis:</p>
+<div class="section" id="Descriptive-Example-1:-Nope,-This-Time-Isn’t-Different">
+<h3>Descriptive Example 1: Nope, This Time Isn’t Different<a class="headerlink" href="#Descriptive-Example-1:-Nope,-This-Time-Isn’t-Different" title="Permalink to this headline">¶</a></h3>
+<p>A great example of descriptive analysis comes from economics. In 2011, Carmen Reinhart and Kenneth Rogoff published a book called <a class="reference external" href="https://www.amazon.com/This-Time-Different-Centuries-Financial/dp/0691152640">This Time Is Different: Eight Centuries of Financial Folly</a>. In it, they comprehensively analyses hundreds of years of economic history across more than sixty countries to document how, despite pundits regularly decrying that “this time things are different”, financial crises occur with
+remarkable frequency, duration, and ferocity. They offer some theories about why this may be, but their core contribution is documenting clearly that whatever drives financial crises, it is not something specific to any geography or period, but rather something common to human economic systems the world over, wiping away dozens of attempts to explain specific financial crises as special cases in the process.</p>
+</div>
+<div class="section" id="Descriptive-Example-2:-The-Discovery-of-Dark-Matter">
+<h3>Descriptive Example 2: The Discovery of Dark Matter<a class="headerlink" href="#Descriptive-Example-2:-The-Discovery-of-Dark-Matter" title="Permalink to this headline">¶</a></h3>
+<p>In the mid-1970s, an astronomer by the name of Vera Rubin published a paper that <em>described</em> how the speed of rotation of stars in a spiral galaxy varied with the distance of stars from the center of the galaxy.</p>
+<p>Traditional theories suggested that as one moves farther from the center of a galaxy, the speed of rotation of stars should decrease. This dynamic is similar to what happens if throw a marble around the side of a funnel – when it is at the top of the funnel, it will move around slowly, but as it approches the bottom of the funnel, it will speed up more and more. (The funnel is actually a close analogy for the curve of space-time, so this is more than just a crude metaphor – the geometric
+mechanism is the same). (<a class="reference external" href="https://en.wikipedia.org/wiki/Galaxy_rotation_curve">More on galactic rotational curves here</a>.)</p>
+<p>But when Vera actually measured the rate at which stars rotated around spiral galaxies, this is not what she saw. Instead, she found that the stars that were far from the center of the galaxy were actually rotating at <em>higher</em> speed than those close to the center of the galaxy, something that was simply not predicted given current physics. It was like the marble wasn’t spinning around in a funnel, but rather like the marble was attached to a solid disk – whether the marble was close to the
+middle or out on the edge, it would always take the same amount of time to go around once, meaning it was moving faster the farther it was from the center.</p>
+<p>This observation threw cosmology on its head, because it simply couldn’t be explained with current models of cosmology and gravity. After many subsequent studies confirmed the finding, the only explanation cosmologists could come up with was that galaxies were full of lots of mass we couldn’t see that was holding the galaxy together more like a solid disk than like individual marbles rolling around in a funnel. And that mass we’ve come to call “dark matter”.</p>
+<p>Yup: dark matter, that puzzle of modern physics that <a class="reference external" href="https://en.wikipedia.org/wiki/Category:Experiments_for_dark_matter_search">has spawned dozens</a> of <em>massive</em> experiments owes its origins to a descriptive analysis.</p>
+</div>
+<div class="section" id="Descriptive-Example-3:-Disease-Surveillance">
+<h3>Descriptive Example 3: Disease Surveillance<a class="headerlink" href="#Descriptive-Example-3:-Disease-Surveillance" title="Permalink to this headline">¶</a></h3>
+<p>It is hard to think of a public health discovery that didn’t start with disease surveillance – the practice of keeping <em>descriptive</em> statistics about causes of death or disease. Efforts to understand HIV began when public health officials saw a huge rise in gay men dying from diseases that shouldn’t have been fatal for young otherwise healthy men, and research into the role of cigarettes in causing lung cancer started when data showed that lung cancer rates were exploding across the world.</p>
+</div>
+<div class="section" id="Descriptive-Example-4:-Global-Warming">
+<h3>Descriptive Example 4: Global Warming<a class="headerlink" href="#Descriptive-Example-4:-Global-Warming" title="Permalink to this headline">¶</a></h3>
+<p>Before we began to develop a rigorous understanding of the dynamics that were causing our climate to warm, we first had to become aware that, well, our climate was warming! Yup, yet another current discipline that began with a “simple” (I put “simple” in quotes because there’s nothing actually simple about measuring the temperature of the entire world over (initially) decades and (later) centuries) descriptive analysis: what is the temperature of the Earth, and how has it changed over time?</p>
+<div class="section" id="Last-Thoughts">
+<h4>Last Thoughts<a class="headerlink" href="#Last-Thoughts" title="Permalink to this headline">¶</a></h4>
+<p>By now you can hopefully recognize the importance of descriptive analyses. Description is rarely the <em>end</em> of the scientific inquiry, but it is often the <em>start</em>, and without it, it is hard to imagine where we would be today.</p>
+<p>And while parts of descriptive analysis may seem simple (e.g. Vera Rubin <em>just</em> measured the rate of rotation of stars in a galaxy, and Carmen Reinhart and Ken Rogoff <em>just</em> documented every financial crisis in the past several hundred years), in truth they rarely are. By their nature, descriptive analyses generally require innovations in measurement, and massive data collection efforts. And as we will also discuss in future classes, in some ways that put even greater demands on the researcher
+than some of the questions we will discuss later.</p>
+</div>
+</div>
 </div>
 <div class="section" id="Causal-Questions">
 <h2>Causal Questions<a class="headerlink" href="#Causal-Questions" title="Permalink to this headline">¶</a></h2>
+<p>Causal questions are questions about <em>why</em> we see certain patterns in the world, and about causes and effects. They often take the form of “What is the effect of X on Y”, where X could be a drug and Y is a disease, or where X is a goverment policy and Y is a public health outcome.</p>
+<p>In many cases, as described above, causal questions are prompted by the answers to descriptive questions. Vera Rubin discovered that the rotational curves of galaxies couldn’t be explained by current physics, so now dozens of experiments are trying to find particles whose presence would <em>cause</em> the patterns she has documented.</p>
+<p>To borrow once more from <a class="reference external" href="https://doi.org/10.1017/S0007123412000130">John Gerring</a>:</p>
+<blockquote>
+<div><p>[C]ausal arguments attempt to answer <em>why</em> questions. Specifically, they assert that one or more factors generate change in some outcome, or generated change on some particular outcome. They imply a counterfactual. For example: “The third wave of democratization was caused, in part, by the end of the Cold War.” It will be seen that descriptive arguments are nested within causal arguments. Both X and Y are descriptive statements about the world upon which the causal argument rests.</p>
+</div></blockquote>
+<p>Causal questions are, honestly, some of the easiest to come up with:</p>
+<ul class="simple">
+<li><p>What is the effect of minimum wage laws on unemployment?</p></li>
+<li><p>What is the effect of DRUG X on DISEASE Y?</p></li>
+<li><p>What is the effect of Iowa voting first in US Presidential Primaries on the types of politicians who become president?</p></li>
+</ul>
+<p>At the same time, though, they can also be awfully hard to answer…</p>
+<p>As we will explore in <em>lots</em> of detail, causal questions can be very hard to answer. To understand why, suppose we were interested in the effect of increasing the taxes on cigarettes on smoking rates in the city of Durham in 2020.</p>
+<p>In a magical, idealized world, the way we would answer a causal question is to create two world: one in which our causal factor (e.g. an increase in taxes on cigarettes) takes place, and one where it does not. Then we can say “how did things turnout differently for Durham in 2020 (one of our cases) in the world with the policy change <em>as compared to the world where no policy change took place in Durham in 2020?</em></p>
+<p>In the real world, however, we can never actually see both a world with the policy change and a world without the policy change <em>for the same unit of observation at the same moment in time</em>. In the language of causal inference, we can never directly observe our <em>counter factual</em> (Durham <em>without</em> a policy change in 2020) – we only get to see Durham with the policy change in 2020 (This is what is referred to as the <em>fundamental problem of causal inference</em>).</p>
+<p>With that in mind, we have to find a way to <em>estimate</em> what we think <em>would</em> have happened in Durham had there been no policy change. And this, in a nutshell, is the art of causal inference.</p>
 </div>
 <div class="section" id="Prediction-/-Extrapolation">
 <h2>Prediction / Extrapolation<a class="headerlink" href="#Prediction-/-Extrapolation" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Prediction-Based-on-Causal-Methods">
-<h3>Prediction Based on Causal Methods<a class="headerlink" href="#Prediction-Based-on-Causal-Methods" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="Prediction-Based-on-Machine-Learning">
-<h3>Prediction Based on Machine Learning<a class="headerlink" href="#Prediction-Based-on-Machine-Learning" title="Permalink to this headline">¶</a></h3>
-</div>
+<p>Finally, we come to what is likely the most trendy topic in data science: prediction!</p>
+<p>In this course, we will use the terms “prediction” and “extrapolation” pretty interchangably. Thus when we say “prediction”, we won’t just mean “offering guesses about what will happen <em>in the future</em>,” but also “what might happen if we considered cases that were outside the domain for which we currently have data.” That means that not only does building a model future stock market returns count as prediction, but so too does using data from a set of mammogram scans that have already been
+analyzed by human radiologists to build a model to analyze mammograms that haven’t been reviewed by human radiologists.</p>
+<p>Examples of predictive questions include things like:</p>
+<ul class="simple">
+<li><p>In what parts of the city are we most likely to see opioid overdoses tomorrow?</p></li>
+<li><p>What features of customers predict the likelihood they will actually buy something when they come to my website?</p></li>
+<li><p>What features of MIR scans predict alzheimers?</p></li>
+</ul>
+<p>In this course, we will discuss two general forms of predictive analyses: predictive analyses based on causal inference, and predictive analyses based on supervised machine learning.</p>
+<p>When one answers a causal question, one is generating an answer that by its very nature should be safe to use for prediction. If we run an experiment to test the effects of, say, statins on cholesterol, and we find that statins <em>cause</em> a reduction in cholesterol, then presumably we know what will happen if we give statins to more people.</p>
+<p>As we will discuss in detail in this course, however, while causal methods often give us a very good basis for prediction, it is also important to understand their limitations. A drug study that only examined the effects of statins on white men between 45 and 75 with dangerously high cholesterol, for example, is probably a good basis for predicting the effect of stats on a 65 year-old white man with sky-high cholesterol; but how likely is to to predict outcomes for a 65 year-old black man with
+sky-high cholesterol, or a 45 year-old woman with sky-high cholesterol, or a 65 year-old white man with only moderately high cholesterol?</p>
+<p>If prediction is trendy right now, supervised machine learning is out-of-this-world trendy.</p>
+<p>In this class, we’ll treat all supervised machine learning (SML) models as tools for “prediction”, since in essence all a supervised machine learning tool is designed to do is to <em>predict</em> what the agent that labeled it’s training data would do when given unlabeled data.</p>
+<p>As we’ll discuss, this can be <em>deeply</em> problematic, as the behavior of supervised machine learning algorithms thus becomes deeply intertwined with the nature of the training data it has been given. For example, if a SML algorithm is trained on arrest data that reflects racial biases in policing, it will make predictions about the likelihood an individual is a risk for future arrest that reflects those racial biases in its training data.</p>
+<p>And to be clear, this type of bias doesn’t find its way into SML models because the people training them were careless in writing their SML; the tendency of SML to reflect biases is intrinsic to SML itself. What makes SML exciting is that it’s designed to find variation in the data with predictive power <em>that we don’t have to identify explicitly</em>. But that means that so long as we live in a society where race, gender, nationality, etc. shape outcomes in our society, SML algorithms will do their
+best to use these sources of variation in their predictions.</p>
+<p>But don’t worry – we won’t only talk about SML bias. We’ll also discuss – using the framework we develop in our discussion of causal inference – when SML algorithms can be safely used to make predictions, and when they tend to be very “fragile”, and unable to adapt to new contexts.</p>
 </div>
 </div>
 
