@@ -19,6 +19,7 @@ source/.ipynb_checkpoints/*
 *.log
 *.nav 
 *.toc 
+*.snm 
 
 .ipynb_checkpoints/*
 **/.ipynb_checkpoints/*
