@@ -23,10 +23,12 @@
 \end{frame}
 
 \begin{frame}[c]{}
+  By the end of this class, you will be able to:
 \begin{enumerate}
-  \item Provide unified conceptual framework for relating data science tools
-  \item Learn causal inference
-  \item Get practice developing data science project start-to-finish
+  \item Understand how data science tools relate to one another using a unified conceptual framework,
+  \item Answer causal questions\\
+  \emph{Does X cause Y?}
+  \item Execute a data science project from conception to delivery
 \end{enumerate}
 \end{frame}
 
@@ -39,7 +41,7 @@
 		\item Computer Science
 		\item Statistics
 		\item Economics
-		\item Political science
+		\item Political Science
 		\item Engineering
 	\end{itemize}
 \end{itemize}
@@ -60,12 +62,12 @@ Very little cross-pollination across silos
 \end{itemize}
 \end{frame}
 
-\begin{frame}[c]{}
-\includegraphics[width=\textwidth]{blindmenelephant.jpg}
-$\Rightarrow$ This is where we are \emph{now.}
+\begin{frame}[c]{Blind Men and the Elephant}
+\pause \includegraphics[width=\textwidth]{blindmenelephant.jpg}
+\pause $\Rightarrow$ This is where data science is \emph{now.}
 \end{frame}
 
-\begin{frame}[c]{What is (empirically) Data Science?}
+\begin{frame}[c]{What do I think Data Science should be?}
 \pause An effort to unify the development of quantitative methods \\
 \pause $\rightarrow$ Recognize the elephant
 \end{frame}
@@ -78,7 +80,13 @@ Discipline of learning how best to \alert{answer questions} using \alert{quantit
 \begin{enumerate}
   \item Introduce a taxonomy of questions \\
   {\color{gray} Descriptive, causal, predictive}
-  \pause \item \alert{For each class of questions}, we will discuss the relative strengths and weaknesses of different empirical approaches
+  \pause \item \alert{For each class of questions}, we will discuss:
+  \begin{itemize}
+    \item Intrinsic challenges to answering each class of questions
+    \item What tools are best suited to each type of question
+  \end{itemize}
+\end{enumerate}
+  \pause   By the end of the course, you should know when to reach for...
   \begin{itemize}
     \pause \item Unsupervised machine learning
     \item Supervised machine learning
@@ -86,7 +94,6 @@ Discipline of learning how best to \alert{answer questions} using \alert{quantit
     {\color{gray}e.g. experiments, matching, regression, differences-in-differences}
     \item Other approaches to descriptive analysis
   \end{itemize}
-\end{enumerate}
 \end{frame}
 
 
@@ -96,21 +103,21 @@ The tool you use should be dictated by the question you seek to answer
 
 \begin{frame}[c]{This Class}
 \begin{enumerate}
-  \item Provide unified conceptual framework for relating data science tools\\
-  \only<2->{\color{gray} Practice generating questions}
+  \item Introduce taxonomy of questions\\
+  \uncover<2->{{\color{gray}Practice generating questions}}
   \item Discuss descriptive questions \\
-  \only<3->{\color{gray} Relatively brief}
+  \uncover<3->{{\color{gray}Relatively brief}}
   \item Learn causal inference \\
-  {\color{gray} Deep dive -- $\sim$ half the semester}
+  \uncover<4->{{\color{gray}{ Deep dive -- $\sim$ half the semester}}}
   \item Discuss prediction \\
-  \only<4->{\color{gray} Relative merits of supervised machine learning v. causal methods}
+  \uncover<5->{{\color{gray}Relative merits of supervised machine learning v. causal methods}}
 \end{enumerate}
 \end{frame}
 
 \begin{frame}[c]{Data Science Project}
 Over semester, you will also develop a data science project from start-to-finish
 \begin{itemize}
-  \item Teams of 2-3, grouped by interest and experience
+  \item Teams of 3-4, grouped by interest and experience
   \item On topic of your own choosing
 \end{itemize}
 \pause $\rightarrow$ Nice portfolio piece\\
@@ -130,6 +137,23 @@ Over semester, you will also develop a data science project from start-to-finish
        \item Studies Chinese politics
        \item Strong background in causal inference and machine learning
     \end{itemize}
+\end{frame}
+
+\begin{frame}[c]{Last Notes On This Class}
+\begin{itemize}
+  \pause \item First time this class has been taught \\
+  (Familiar material; but new audience)
+  \pause \item We'll do several evaluations over the semester of how things are going, and adjust as we go.
+  \pause \item First few weeks won't be full representative.
+  \begin{itemize}
+    \pause \item If you're deciding whether to take this class, I'd suggest buying \emph{Mostly Harmless Econometrics} and skimming a few chapters to get a sense of material we'll focus on for much of semester.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[c]{}
+Course site: \url{http://www.unifyingdatascience.org}
+
 \end{frame}
 
 
