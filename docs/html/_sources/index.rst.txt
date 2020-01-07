@@ -28,7 +28,7 @@ Finally, students will also be expected to be comfortable collaborating using gi
 Syllabus
 --------
 
-To learn more about the course, please `read the PRELIMINARY course syllabus available here. <https://github.com/nickeubank/unifyingdatascience/raw/master/syllabus/Syllabus_UnifyingDataScience.pdf>`_ and see a `preliminary schedule and texts we'll be using here <class_schedule.rst>`_. These are both subject to change, but should give you a good sense of the material we will cover. 
+To learn more about the course, please `read the course syllabus available here. <https://github.com/nickeubank/unifyingdatascience/raw/master/syllabus/Syllabus_UnifyingDataScience.pdf>`_ and see a `preliminary schedule and texts we'll be using here <class_schedule.rst>`_. Note that our schedule is subject to change, but should give you a good sense of the material we will cover. 
 
 
 
@@ -44,3 +44,4 @@ To learn more about the course, please `read the PRELIMINARY course syllabus ava
    :caption:QUESTIONS
 
    Taxonomy of Questions <taxonomy_of_questions>
+   From Problems to Questions <moving_from_problems_to_questions>

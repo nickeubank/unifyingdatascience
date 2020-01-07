@@ -4,8 +4,87 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Generating Questions"
+    "# Converting Stakeholder Prompts into Actionable Questions\n",
+    "\n",
+    "As we've discussed, interpreting the needs of stakeholders and deriving answerable questions from their problem statements can be *really* hard. Yesterday, I gave some pretty simple, clean prompts. Today, let's try working with some much uglier (and thus more realistic) prompts!"
    ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exercise 1\n",
+    "\n",
+    "Congratulations! You've been hired by International Motors Conglomerate of America, a leading car manufacturor. In your first meeting, they announced the following: \n",
+    "\n",
+    "> In recent years, we've found that our customers are really excited about \"driver safety enhancements\" like emergency braking, or lane departure warnings. We want to keep innovating in this area. It seems like drowsy driving would be a cool thing to address. Can you design an eye tracking system that uses machine learning to see when people are drowsy and then squirts water in their face to wake them up?\n",
+    "\n",
+    "**What is the *core need / problem* of your stakeholder?**\n",
+    "\n",
+    "```\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n",
+    "```\n",
+    "\n",
+    "**What solutions have they proposed to address their core need?**\n",
+    "\n",
+    "```\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n",
+    "```\n",
+    "\n",
+    "**What descriptive question, if answered, would help you address the core need of your stakeholder?**\n",
+    "\n",
+    "```\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n",
+    "```\n",
+    "\n",
+    "\n",
+    "**What causal question, if answered, would help you address the core need of your stakeholder?**\n",
+    "\n",
+    "\n",
+    "```\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n",
+    "```\n",
+    "\n",
+    "\n",
+    "**What predictive question, if answered, would help you address the core need of your stakeholder?**\n",
+    "\n",
+    "\n",
+    "```\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n",
+    "```\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exercise 2:\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
   }
  ],
  "metadata": {
