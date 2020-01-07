@@ -75,16 +75,8 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Exercise 2:\n",
-    "\n"
+    "## Exercise 2:\n"
    ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": []
   }
  ],
  "metadata": {
