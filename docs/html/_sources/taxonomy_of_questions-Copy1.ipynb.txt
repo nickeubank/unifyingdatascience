@@ -105,7 +105,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "**Why Causal Inference is Hard**"
+    "### Why Causal Inference is Hard"
    ]
   },
   {
@@ -151,7 +151,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "**Prediction Based on Causal Methods**\n",
+    "### Prediction Based on Causal Methods\n",
     "\n",
     "When one answers a causal question, one is generating an answer that, by its very nature, should be safe to use for prediction. If we run an experiment to test the effects of, say, statins on cholesterol, and we find that statins *cause* a reduction in cholesterol, then presumably we know what will happen if we give statins to more people. \n",
     "\n",
@@ -162,7 +162,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "**Prediction Based on Supervised Machine Learning**\n",
+    "### Prediction Based on Supervised Machine Learning\n",
     "\n",
     "If prediction is trendy right now, supervised machine learning is out-of-this-world trendy. \n",
     "\n",

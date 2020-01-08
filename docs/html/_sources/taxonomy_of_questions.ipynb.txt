@@ -38,34 +38,15 @@
     "\n",
     "Descriptive questions are questions about the current or past state of the world. In the words of [John Gerring (we'll read more of his work for a future class)](https://doi.org/10.1017/S0007123412000130): \n",
     "\n",
-    "> A descriptive argument describes some aspect of the world. In doing so, it aims to answer *what* questions (e.g., when, whom, out of what, in what manner) about a phenomenon or a set of phenomena. Descriptive arguments are about what is/was. For example: \"Over the course of the past two centuries there have been three major waves ofdemocratization.\"\n",
+    "> A descriptive argument describes some aspect of the world. In doing so, it aims to answer *what* questions (e.g., when, whom, out of what, in what manner) about a phenomenon or a set of phenomena. Descriptive arguments are about what is/was. For example: \"Over the course of the past two centuries there have been three major waves of democratization.\n",
     "\n",
     "Of all the types of questions we will study in this class, descriptive questions tend to be the least appreciated, but I would argue that in many ways they are the most important. That is because descriptive analyses are often the foundation for all other work. After all, it is only by first understanding the patterns in our world can we then move on to asking questions about how they arrose, or how they may evolve in the future. \n",
     "\n",
     "To illustrate, let's consider a few important descriptive analysis: \n",
     "\n",
-    "\n",
     "#### Descriptive Example 1: Nope, This Time Isn't Different\n",
     "\n",
-    "\n",
     "A great example of descriptive analysis comes from economics. In 2011, Carmen Reinhart and Kenneth Rogoff published a book called [This Time Is Different: Eight Centuries of Financial Folly](https://www.amazon.com/This-Time-Different-Centuries-Financial/dp/0691152640). In it, they comprehensively analyze hundreds of years of economic history across more than sixty countries to document how, despite pundits regularly decrying that \"this time things are different,\" financial crises occur with remarkable frequency, duration, and ferocity. They offer some theories about why this may be, but their core contribution is documenting clearly that whatever it is that drives financial crises, it is not something specific to any geography or period, but rather something common to human economic systems the world over, wiping away dozens of attempts to explain specific financial crises as special cases in the process."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "#### Descriptive Example 2: The Discovery of Dark Matter\n",
-    "\n",
-    "In the mid-1970s, an astronomer by the name of Vera Rubin published a paper that *described* how the speed of rotation of stars in a spiral galaxy varied with the distance of stars from the center of the galaxy. \n",
-    "\n",
-    "Traditional theories suggested that if one looks at the speed with which stars in a galaxy rotate, the speed of rotation should decrease as you move farther from the center of the galaxy. That is because most of the visible mass in the galaxy is at the center of the galaxy, and so Kepler's laws of orbital mechanics suggest that stars father from the mass at the center of the galaxy should orbit more slowly, just as distant planets in our solar system orbit more slowly than those close to the sun. \n",
-    "\n",
-    "But when Vera actually measured the rate that stars rotated around spiral galaxies, this is not what she saw. Instead, she found that the stars that were far from the center of the galaxy were actually rotating at *higher* speed than those close to the center of the galaxy, something that was simply not predicted by our physical theories. That's because the only way this could happen is if there was lots of mass distributed throughout the galaxy, holding all the stars together as though they were all sitting on a solid spinning disk, with the stars farther from the center moving faster to complete a revolution in the same period as those close to the center. ([More on galactic rotational curves here.](https://en.wikipedia.org/wiki/Galaxy_rotation_curve)) \n",
-    "\n",
-    "This observation threw cosmology on its head, because it simply couldn't be explained with existing models of cosmology and gravity. After many subsequent studies confirmed the finding, the only explanation cosmologists could come up with was that galaxies were full of lots of mass we couldn't see that was holding the galaxy together. And that mass is what is what we've come to call \"dark matter.\" \n",
-    "\n",
-    "Yup: dark matter, that puzzle of modern physics that [has spawned dozens](https://en.wikipedia.org/wiki/Category:Experiments_for_dark_matter_search) of *massive* experiments owes its origins to a descriptive analysis. "
    ]
   },
   {
@@ -109,7 +90,7 @@
     "\n",
     "To borrow once more from [John Gerring](https://doi.org/10.1017/S0007123412000130): \n",
     "\n",
-    "> \\[C\\]ausal arguments attempt to answer *why* questions. Specifically, they assert that one or more factors generate change in some outcome, or generated change on some particular outcome. They imply a counterfactual. For example: \"The third wave of democratization was caused, in part, by the end of the Cold War.\" It will be seen that descriptive arguments are nested within causal arguments. Both X and Y are descriptive statements about the world upon which the causal argument rests.\n",
+    "> causal arguments attempt to answer *why* questions. Specifically, they assert that one or more factors generate change in some outcome, or generated change on some particular outcome. They imply a counterfactual. For example: \"The third wave of democratization was caused, in part, by the end of the Cold War.\" It will be seen that descriptive arguments are nested within causal arguments. Both X and Y are descriptive statements about the world upon which the causal argument rests.\n",
     "\n",
     "Causal questions are, honestly, some of the easiest to come up with: \n",
     "\n",
@@ -117,10 +98,20 @@
     "- What is the effect of DRUG X on DISEASE Y?\n",
     "- What is the effect of Iowa voting first in US Presidential Primaries on the types of politicians who become president?\n",
     "\n",
-    "At the same time, though, they can also be awfully hard to answer...\n",
-    "\n",
-    "### Why Causal Inference is Hard\n",
-    "\n",
+    "At the same time, though, they can also be awfully hard to answer..."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Why Causal Inference is Hard**"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "As we will explore in *lots* of detail, causal questions can be very hard to answer. To understand why, suppose we were interested in the effect of an increase in cigarette taxes that took place in Durham in 2019 on smoking rates. \n",
     "\n",
     "In a magical, idealized world, the way we would answer this causal question is by creating two worlds: one in which our causal treatment (e.g. the tax increase) was enacted, and one where it was not. Then we could ask \"were smoking rates different in the 2019 Durham with a policy change *as compared to the world where no policy change took place in Durham in 2019*?\"\n",
@@ -136,7 +127,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Prediction / Extrapolation"
+    "## Prediction / Extrapolation Questions"
    ]
   },
   {
@@ -151,7 +142,7 @@
     "\n",
     "- In what parts of the city are we most likely to see opioid overdoses tomorrow?\n",
     "- What features of customers predict the likelihood they will actually buy something when they come to my website?\n",
-    "- What features of MIR scans predict alzheimers?\n",
+    "- What features of MRI scans predict alzheimers?\n",
     "\n",
     "In this course, we will discuss two general forms of predictive analyses: predictive analyses based on causal inference, and predictive analyses based on supervised machine learning. "
    ]
@@ -160,7 +151,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Prediction Based on Causal Methods\n",
+    "**Prediction Based on Causal Methods**\n",
     "\n",
     "When one answers a causal question, one is generating an answer that, by its very nature, should be safe to use for prediction. If we run an experiment to test the effects of, say, statins on cholesterol, and we find that statins *cause* a reduction in cholesterol, then presumably we know what will happen if we give statins to more people. \n",
     "\n",
@@ -171,7 +162,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Prediction Based on Supervised Machine Learning\n",
+    "**Prediction Based on Supervised Machine Learning**\n",
     "\n",
     "If prediction is trendy right now, supervised machine learning is out-of-this-world trendy. \n",
     "\n",

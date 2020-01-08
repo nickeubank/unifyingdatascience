@@ -17,8 +17,6 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Converting Stakeholder Prompts into Questions" href="moving_from_problems_to_questions.html" />
-    <link rel="prev" title="Class Schedule" href="class_schedule.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -97,7 +95,6 @@ something that hasn’t been measured before, descriptive analyses generally req
 <li><p>What is the effect of Iowa voting first in US Presidential Primaries on the types of politicians who become president?</p></li>
 </ul>
 <p>At the same time, though, they can also be awfully hard to answer…</p>
-<p><strong>Why Causal Inference is Hard</strong></p>
 <p>As we will explore in <em>lots</em> of detail, causal questions can be very hard to answer. To understand why, suppose we were interested in the effect of an increase in cigarette taxes that took place in Durham in 2019 on smoking rates.</p>
 <p>In a magical, idealized world, the way we would answer this causal question is by creating two worlds: one in which our causal treatment (e.g. the tax increase) was enacted, and one where it was not. Then we could ask “were smoking rates different in the 2019 Durham with a policy change <em>as compared to the world where no policy change took place in Durham in 2019</em>?”</p>
 <p>In the real world, however, we can never actually see both the world with the policy change and a world without the policy change <em>for the same unit of observation at the same moment in time</em>. In the language of causal inference, we can never directly observe our <em>counter factual</em> – the outcome that didn’t actually occur. This is what is referred to as the <em>fundamental problem of causal inference.</em></p>
@@ -116,11 +113,9 @@ by human radiologists to build a model for analyze mammograms that haven’t bee
 <li><p>What features of MRI scans predict alzheimers?</p></li>
 </ul>
 <p>In this course, we will discuss two general forms of predictive analyses: predictive analyses based on causal inference, and predictive analyses based on supervised machine learning.</p>
-<p><strong>Prediction Based on Causal Methods</strong></p>
 <p>When one answers a causal question, one is generating an answer that, by its very nature, should be safe to use for prediction. If we run an experiment to test the effects of, say, statins on cholesterol, and we find that statins <em>cause</em> a reduction in cholesterol, then presumably we know what will happen if we give statins to more people.</p>
 <p>As we will discuss in detail in this course, however, while causal methods often give us a very good basis for prediction, it is also important to understand their limitations. A drug study that only examined the effects of statins on white men between 45 and 75 with dangerously high cholesterol, for example, is probably a good basis for predicting the effect of statins on a 65 year-old white man with sky-high cholesterol; but how likely is it to predict outcomes for a 65 year-old black man with
 sky-high cholesterol, or a 45 year-old woman with sky-high cholesterol, or a 65 year-old white man with only moderately high cholesterol?</p>
-<p><strong>Prediction Based on Supervised Machine Learning</strong></p>
 <p>If prediction is trendy right now, supervised machine learning is out-of-this-world trendy.</p>
 <p>In this class, we’ll treat all supervised machine learning (SML) models as tools for “prediction”, since in essence all a supervised machine learning tool is designed to do is to <em>predict</em> what the agent that labeled the SML’s training data would do when given unlabeled data. For example, what a SML model that is trained using mammogram scans and diagnoses provided by human radiologists if fundamentally trying to do is guess, when given a new mammogram scan, what a human radiologist would label
 that data. (Note: there are some machine learning approaches – like reinforcement learning – that don’t fit this model, but those are currently pretty rare in data science applications.)</p>
@@ -158,15 +153,8 @@ internalized everything this covers.</p>
 <li class="toctree-l1"><a class="reference internal" href="class_schedule.html">CLASS SCHEDULE</a></li>
 </ul>
 <p class="caption"><span class="caption-text">QUESTIONS</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Taxonomy of Questions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#Positive-versus-Normative-Questions">Positive versus Normative Questions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Descriptive-Questions">Descriptive Questions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Causal-Questions">Causal Questions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Prediction-/-Extrapolation-Questions">Prediction / Extrapolation Questions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="taxonomy_of_questions.html">Taxonomy of Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 </ul>
 
@@ -174,8 +162,6 @@ internalized everything this covers.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="class_schedule.html" title="previous chapter">Class Schedule</a></li>
-      <li>Next: <a href="moving_from_problems_to_questions.html" title="next chapter">Converting Stakeholder Prompts into Questions</a></li>
   </ul></li>
 </ul>
 </div>
@@ -209,7 +195,7 @@ internalized everything this covers.</p>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="_sources/taxonomy_of_questions.ipynb.txt"
+      <a href="_sources/taxonomy_of_questions-Copy1.ipynb.txt"
           rel="nofollow">Page source</a>
     </div>
 

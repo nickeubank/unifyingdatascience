@@ -12,6 +12,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -37,16 +38,16 @@
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput div.prompt,
-div.nbinput div.input_area,
-div.nbinput div[class*=highlight],
-div.nbinput div[class*=highlight] pre,
-div.nboutput,
-div.nbinput div.prompt,
-div.nbinput div.output_area,
-div.nboutput div[class*=highlight],
-div.nboutput div[class*=highlight] pre {
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
     background: none;
     border: none;
     padding: 0 0;
@@ -55,13 +56,13 @@ div.nboutput div[class*=highlight] pre {
 }
 
 /* avoid gaps between output lines */
-div.nboutput div[class*=highlight] pre {
+div.nboutput.container div[class*=highlight] pre {
     line-height: normal;
 }
 
 /* input/output containers */
-div.nbinput,
-div.nboutput {
+div.nbinput.container,
+div.nboutput.container {
     display: -webkit-flex;
     display: flex;
     align-items: flex-start;
@@ -69,35 +70,35 @@ div.nboutput {
     width: 100%;
 }
 @media (max-width: 540px) {
-    div.nbinput,
-    div.nboutput {
+    div.nbinput.container,
+    div.nboutput.container {
         flex-direction: column;
     }
 }
 
 /* input container */
-div.nbinput {
+div.nbinput.container {
     padding-top: 5px;
 }
 
 /* last container */
-div.nblast {
+div.nblast.container {
     padding-bottom: 5px;
 }
 
 /* input prompt */
-div.nbinput div.prompt pre {
+div.nbinput.container div.prompt pre {
     color: #307FC1;
 }
 
 /* output prompt */
-div.nboutput div.prompt pre {
+div.nboutput.container div.prompt pre {
     color: #BF5B3D;
 }
 
 /* all prompts */
-div.nbinput div.prompt,
-div.nboutput div.prompt {
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
     min-width: 5ex;
     padding-top: 0.4em;
     padding-right: 0.4em;
@@ -105,56 +106,56 @@ div.nboutput div.prompt {
     flex: 0;
 }
 @media (max-width: 540px) {
-    div.nbinput div.prompt,
-    div.nboutput div.prompt {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
         text-align: left;
         padding: 0.4em;
     }
-    div.nboutput div.prompt.empty {
+    div.nboutput.container div.prompt.empty {
         padding: 0;
     }
 }
 
 /* disable scrollbars on prompts */
-div.nbinput div.prompt pre,
-div.nboutput div.prompt pre {
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
     overflow: hidden;
 }
 
 /* input/output area */
-div.nbinput div.input_area,
-div.nboutput div.output_area {
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
     padding: 0.4em;
     -webkit-flex: 1;
     flex: 1;
     overflow: auto;
 }
 @media (max-width: 540px) {
-    div.nbinput div.input_area,
-    div.nboutput div.output_area {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
         width: 100%;
     }
 }
 
 /* input area */
-div.nbinput div.input_area {
+div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
     background: #f5f5f5;
 }
 
 /* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
+div.nboutput.container div[class*=MathJax] {
     text-align: left !important;
 }
 
 /* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput div.math p {
+div.nboutput.container div.math p {
     text-align: left;
 }
 
 /* standard error */
-div.nboutput div.output_area.stderr {
+div.nboutput.container div.output_area.stderr {
     background: #fdd;
 }
 
@@ -327,17 +328,17 @@ div.rendered_html tbody tr:hover {
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
 
-<span></span>Call:
+Call:
 lm(formula = voted ~ female, data = voters)
 
 Coefficients:
 (Intercept)       female
     0.74610      0.00754
 
-</pre></div>
-</div>
+</pre></div></div>
 </div>
 <p>OK, so how do we interpret this coefficient of 0.021 on female? As we said before, it is the average <strong>DIFFERENCE</strong> in the dependent variable (Whether the person votes) with respect to a <strong>REFERENCE GROUP</strong>. In this case, the reference group is anyone for whom the indicator is always equal to zero, which is the set of male voters.</p>
 <p>So this says that women are 0.7% <em>more likely to vote (in North Carolina) then men.</em></p>
@@ -411,17 +412,17 @@ Coefficients:
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
 
-<span></span>Call:
+Call:
 lm(formula = voted ~ democrat, data = voters)
 
 Coefficients:
 (Intercept)     democrat
     0.77535     -0.05619
 
-</pre></div>
-</div>
+</pre></div></div>
 </div>
 <p>So now how do we interpret this coefficient on Democrats (-0.05)? As before it’s the average <strong>DIFFERENCE</strong> in the dependent variable between the indicated group (democrats) and the reference group. But what’s the reference group? Republicans?</p>
 <p>No – the <strong>reference group</strong> or <strong>omitted category</strong> is anyone for whom the indicator variable is always zero – in this case, all non-democrats, whether they’re Republicans or Unaffiliated.</p>
@@ -471,9 +472,10 @@ group used – but it does influence how easily you can interpret the results of
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
 
-<span></span>Call:
+Call:
 lm(formula = voted ~ democrat + unaffiliated, data = voters)
 
 Residuals:
@@ -489,11 +491,10 @@ unaffiliated -0.060559   0.011950  -5.068 4.10e-07 ***
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.4315 on 9916 degrees of freedom
-Multiple R-squared:  0.006737,      Adjusted R-squared:  0.006536
+Multiple R-squared:  0.006737,  Adjusted R-squared:  0.006536
 F-statistic: 33.63 on 2 and 9916 DF,  p-value: 2.786e-15
 
-</pre></div>
-</div>
+</pre></div></div>
 </div>
 <p>So how do we interpret this?</p>
 <p>First, we see that the coefficient on democrat is -0.08. That means that the DIFFERENCE in turnout between democrats and the reference group (here, Republicans) is 8%. So democrats have 8 percent point lower turnout on average in this data than Republicans.</p>
@@ -543,9 +544,10 @@ F-statistic: 33.63 on 2 and 9916 DF,  p-value: 2.786e-15
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
 
-<span></span>Call:
+Call:
 lm(formula = voted ~ democrat + republican, data = voters)
 
 Residuals:
@@ -561,11 +563,10 @@ republican   0.060559   0.011950   5.068  4.1e-07 ***
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.4315 on 9916 degrees of freedom
-Multiple R-squared:  0.006737,      Adjusted R-squared:  0.006536
+Multiple R-squared:  0.006737,  Adjusted R-squared:  0.006536
 F-statistic: 33.63 on 2 and 9916 DF,  p-value: 2.786e-15
 
-</pre></div>
-</div>
+</pre></div></div>
 </div>
 <p>As we can now see, the coefficient on democrat (now difference between democrat and unaffiliated) is what we’d calculated above (-0.019) and has the p-value we calculated previously (0.09). This just goes to show that the choice of reference group doesn’t change what’s actually being estimated, it just changes the interpretation of coefficients and what statistics pop right out of the regression output, and which values require a little extra work.</p>
 <p>One other quick note: indicator variables as so common that there’s a shorthand to ask R to just make the indicators when it’s running the regression – <code class="docutils literal notranslate"><span class="pre">factor()</span></code>. This often works well, but by default it makes the first value in the variable the reference group, which can be annoying. So to run a regression with indicator variables for party, instead of <code class="docutils literal notranslate"><span class="pre">lm(voted</span> <span class="pre">~</span> <span class="pre">democrat</span> <span class="pre">+</span> <span class="pre">unaffiliated,</span> <span class="pre">voters)</span></code>, you can run:</p>
@@ -581,9 +582,10 @@ F-statistic: 33.63 on 2 and 9916 DF,  p-value: 2.786e-15
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
 
-<span></span>Call:
+Call:
 lm(formula = voted ~ factor(party), data = voters)
 
 Coefficients:
@@ -592,8 +594,7 @@ Coefficients:
 factor(party)UNAFFILIATED
                   0.01909
 
-</pre></div>
-</div>
+</pre></div></div>
 </div>
 </div>
 <div class="section" id="Interactions:-Like-plain-indicators,-but-for-differences-in-SLOPE-rather-than-differences-in-LEVELS">
@@ -615,9 +616,10 @@ factor(party)UNAFFILIATED
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
 
-<span></span>Call:
+Call:
 lm(formula = voted ~ female + age + age_x_female, data = voters)
 
 Residuals:
@@ -634,11 +636,10 @@ age_x_female -0.0014570  0.0005411  -2.693  0.00710 **
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.4328 on 9915 degrees of freedom
-Multiple R-squared:  0.0008071,     Adjusted R-squared:  0.0005047
+Multiple R-squared:  0.0008071, Adjusted R-squared:  0.0005047
 F-statistic:  2.67 on 3 and 9915 DF,  p-value: 0.04589
 
-</pre></div>
-</div>
+</pre></div></div>
 </div>
 <p>Ok, so the coefficient on our interaction is -0.001457. Does that mean that as women get older, their turnout rate declines by -0.145 percentage points per year? <strong>NO!</strong></p>
 <p>It says that women’s turnout rate declines by -0.145 percentage points per year LESS THAN MEN’S DECLINE. It is the <strong>DIFFERENCE</strong> in slopes between the two groups.</p>
