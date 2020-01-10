@@ -74,12 +74,12 @@ remarkable frequency, duration, and ferocity. They offer some theories about why
 <div class="section" id="Descriptive-Example-4:-Global-Warming">
 <h3>Descriptive Example 4: Global Warming<a class="headerlink" href="#Descriptive-Example-4:-Global-Warming" title="Permalink to this headline">¶</a></h3>
 <p>Before we began to develop a rigorous understanding of the dynamics that were causing our climate to warm, we first had to become aware that, well, our climate was warming! Yup, yet another current discipline that began with a “simple” (I put “simple” in quotes because there’s nothing actually simple about measuring the temperature of the entire world over (initially) decades and (later) centuries) descriptive analysis: what is the temperature of the Earth, and how has it changed over time?</p>
+</div>
 <div class="section" id="Last-Thoughts">
-<h4>Last Thoughts<a class="headerlink" href="#Last-Thoughts" title="Permalink to this headline">¶</a></h4>
+<h3>Last Thoughts<a class="headerlink" href="#Last-Thoughts" title="Permalink to this headline">¶</a></h3>
 <p>By now you can hopefully recognize the importance of descriptive analyses. Description is rarely the <em>end</em> of the scientific inquiry, but it is often the <em>start</em>, and without it, it is hard to imagine where we would be today.</p>
 <p>And while descriptive analyses may seem simple (e.g. Vera Rubin <em>just</em> measured the rate of rotation of stars in a galaxy, and Carmen Reinhart and Ken Rogoff <em>just</em> documented every financial crisis in the past several hundred years) because they often don’t entail sophisticated machine learning algorithms or extremely complicated statistical models, in truth descriptive analyses are often extremely difficult to undertake in their own way. For example, because they usually entail measuring
 something that hasn’t been measured before, descriptive analyses generally require massive data collection efforts and innovations in measurement. And as we will also discuss in future classes, in some ways that put even greater demands on the researcher (and the researcher’s judgement and case knowledge) than some of the other types of questions we will discuss.</p>
-</div>
 </div>
 </div>
 <div class="section" id="Causal-Questions">
@@ -97,12 +97,14 @@ something that hasn’t been measured before, descriptive analyses generally req
 <li><p>What is the effect of Iowa voting first in US Presidential Primaries on the types of politicians who become president?</p></li>
 </ul>
 <p>At the same time, though, they can also be awfully hard to answer…</p>
-<p><strong>Why Causal Inference is Hard</strong></p>
+<div class="section" id="Why-Causal-Inference-is-Hard">
+<h3>Why Causal Inference is Hard<a class="headerlink" href="#Why-Causal-Inference-is-Hard" title="Permalink to this headline">¶</a></h3>
 <p>As we will explore in <em>lots</em> of detail, causal questions can be very hard to answer. To understand why, suppose we were interested in the effect of an increase in cigarette taxes that took place in Durham in 2019 on smoking rates.</p>
 <p>In a magical, idealized world, the way we would answer this causal question is by creating two worlds: one in which our causal treatment (e.g. the tax increase) was enacted, and one where it was not. Then we could ask “were smoking rates different in the 2019 Durham with a policy change <em>as compared to the world where no policy change took place in Durham in 2019</em>?”</p>
 <p>In the real world, however, we can never actually see both the world with the policy change and a world without the policy change <em>for the same unit of observation at the same moment in time</em>. In the language of causal inference, we can never directly observe our <em>counter factual</em> – the outcome that didn’t actually occur. This is what is referred to as the <em>fundamental problem of causal inference.</em></p>
 <p>To get around this fundamental problem, we must instead estimate what we think <em>would</em> have happened in Durham had there been no tax increase. For example, we might assume that Durham in 2018 (before the tax increase) is a good stand-in for a 2019 Durham without a tax increase; or we might think other counties in North Carolina in 2019 are a good model for what Durham would have been like absent a policy change.</p>
 <p>But because we can never see Durham in 2019 absent the policy change, we can never really be sure if we’ve modelled our counter-factual accurately. We can only use our knowledge of the cases and circumstantial evidence to <em>argue</em> that we’ve estimated is a good stand-in for our counter-factual world. And that, in a nutshell, is the art of causal inference.</p>
+</div>
 </div>
 <div class="section" id="Prediction-/-Extrapolation-Questions">
 <h2>Prediction / Extrapolation Questions<a class="headerlink" href="#Prediction-/-Extrapolation-Questions" title="Permalink to this headline">¶</a></h2>
@@ -116,11 +118,14 @@ by human radiologists to build a model for analyze mammograms that haven’t bee
 <li><p>What features of MRI scans predict alzheimers?</p></li>
 </ul>
 <p>In this course, we will discuss two general forms of predictive analyses: predictive analyses based on causal inference, and predictive analyses based on supervised machine learning.</p>
-<p><strong>Prediction Based on Causal Methods</strong></p>
+<div class="section" id="Prediction-Based-on-Causal-Methods">
+<h3>Prediction Based on Causal Methods<a class="headerlink" href="#Prediction-Based-on-Causal-Methods" title="Permalink to this headline">¶</a></h3>
 <p>When one answers a causal question, one is generating an answer that, by its very nature, should be safe to use for prediction. If we run an experiment to test the effects of, say, statins on cholesterol, and we find that statins <em>cause</em> a reduction in cholesterol, then presumably we know what will happen if we give statins to more people.</p>
 <p>As we will discuss in detail in this course, however, while causal methods often give us a very good basis for prediction, it is also important to understand their limitations. A drug study that only examined the effects of statins on white men between 45 and 75 with dangerously high cholesterol, for example, is probably a good basis for predicting the effect of statins on a 65 year-old white man with sky-high cholesterol; but how likely is it to predict outcomes for a 65 year-old black man with
 sky-high cholesterol, or a 45 year-old woman with sky-high cholesterol, or a 65 year-old white man with only moderately high cholesterol?</p>
-<p><strong>Prediction Based on Supervised Machine Learning</strong></p>
+</div>
+<div class="section" id="Prediction-Based-on-Supervised-Machine-Learning">
+<h3>Prediction Based on Supervised Machine Learning<a class="headerlink" href="#Prediction-Based-on-Supervised-Machine-Learning" title="Permalink to this headline">¶</a></h3>
 <p>If prediction is trendy right now, supervised machine learning is out-of-this-world trendy.</p>
 <p>In this class, we’ll treat all supervised machine learning (SML) models as tools for “prediction”, since in essence all a supervised machine learning tool is designed to do is to <em>predict</em> what the agent that labeled the SML’s training data would do when given unlabeled data. For example, what a SML model that is trained using mammogram scans and diagnoses provided by human radiologists if fundamentally trying to do is guess, when given a new mammogram scan, what a human radiologist would label
 that data. (Note: there are some machine learning approaches – like reinforcement learning – that don’t fit this model, but those are currently pretty rare in data science applications.)</p>
@@ -129,6 +134,7 @@ on bond pending tiral, then that algorithm will say that a Black defendant is mo
 <p>And to be clear, this type of bias doesn’t find its way into SML models because the people training them were careless in writing their SML; the tendency of SML to reflect biases is intrinsic to SML itself. What makes SML exciting as a prediction tool is that it’s designed to find patterns in the data <em>that programmers don’t have to identify explicitly</em> that explain variations in outcomes. But that means that so long as we live in a society where race, gender, nationality, etc. shape outcomes,
 SML algorithms will do their best to use these sources of variation because they explain variation. And the only goal of a SML is to explain variation.</p>
 <p>But don’t worry – we won’t only talk about SML bias. We’ll also discuss – using the framework we develop in our discussion of causal inference – when SML algorithms can be safely used to make predictions, and when they tend to be very “fragile”, and unable to adapt to new contexts.</p>
+</div>
 </div>
 <div class="section" id="Conclusion">
 <h2>Conclusion<a class="headerlink" href="#Conclusion" title="Permalink to this headline">¶</a></h2>
