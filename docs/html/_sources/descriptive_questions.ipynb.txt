@@ -4,15 +4,45 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Descriptive Questions"
+    "# Researcher Discretion in Descriptive Analysis\n",
+    "\n",
+    "More than anything else, the goal of descriptive analyses is to extract patterns from otherwise incomprehensably messy data. But intrinsic to this exercise is the practice is choosing what constitutes a pattern (and is thus something worth reporting), and what information can be safely discarded. Descriptive analysis, in other words, *always* entails setting aside lots of information -- indeed, the only way to not set aside information would be to literally just hand your original dataset over to the reader. All summarization for descriptive analysis -- be that reporting summary statistics and  plotting simple distributions, or running sophisticated clustering algorithms or dimensionality reduction tools -- is fundamentally about figuring out what data you can set aside to make your data more comprehensible. \n",
+    "\n",
+    "But herein lies the hazard of descriptive analysis: because readers are counting on you, the researcher to present the meaningful patterns in the data and filter out presumably irrelevant variation, it is incumbent upon you to ensure that you are highlighting *meaningful* patterns, and only setting aside *irrelevant* information. "
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
+   "cell_type": "markdown",
    "metadata": {},
-   "outputs": [],
-   "source": []
+   "source": [
+    "## Descriptive Analyses as Dimensionality Reduction"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## The Problem of Choice\n",
+    "\n",
+    "### Summary Statistics\n",
+    "\n",
+    "### Clustering Algorithms\n",
+    "\n",
+    "Clustering (e.g. kNN)\n",
+    "\n",
+    "Topic modelling\n",
+    "\n",
+    "Community detection in networks\n",
+    "\n",
+    "### Continuous Dimensionality Reduction Algorithms\n",
+    "\n",
+    "Weighting!\n",
+    "\n",
+    "IRT, PCA, \n",
+    "\n",
+    "### Plotting\n",
+    "\n"
+   ]
   }
  ],
  "metadata": {
