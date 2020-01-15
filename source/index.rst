@@ -44,4 +44,4 @@ To learn more about the course, please `read the course syllabus available here.
 
    Taxonomy of Questions <taxonomy_of_questions>
    From Problems to Questions <moving_from_problems_to_questions>
-   
+   Discretion and Description <descriptive_questions.ipynb>
