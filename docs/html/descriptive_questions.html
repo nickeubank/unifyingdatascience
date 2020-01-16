@@ -17,6 +17,7 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Converting Stakeholder Prompts into Questions" href="moving_from_problems_to_questions.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -35,48 +36,65 @@
             
   <div class="section" id="Researcher-Discretion-in-Descriptive-Analysis">
 <h1>Researcher Discretion in Descriptive Analysis<a class="headerlink" href="#Researcher-Discretion-in-Descriptive-Analysis" title="Permalink to this headline">¶</a></h1>
-<p>More than anything, the goal of descriptive analyses is to extract patterns from otherwise incomprehensably messy data and present them to readers in a digestable manner.</p>
+<p>More than anything, the goal of descriptive analyses is to extract patterns from otherwise incomprehensibly messy data and present them to readers in a digestible manner.</p>
 <p>But intrinsic to this is choosing what constitutes a pattern (and is thus something worth reporting), and what information can be safely discarded. Descriptive analysis, in other words, <em>always</em> entails setting aside lots of information. After all, the only way to <em>not</em> set aside information would be to literally hand your original dataset over to the reader. All summarization for descriptive analysis – be that reporting summary statistics and plotting simple distributions, or running
 sophisticated clustering algorithms or dimensionality reduction tools – therefore requires the researcher to decide what is and what is not important.</p>
 <p>But herein lies the hazard of descriptive analysis: readers are counting on <em>you</em>, the data scientist, to determine the meaningful patterns in the data and filter out presumably irrelevant variation. And thus it is incumbent upon you to ensure that you are highlighting <em>meaningful</em> patterns, and only setting aside things that do not matter.</p>
-<p>This may seem obvious, but in practice, this is often a place that students struggle. That is because most tools (be those functions for calculating means and standard deviations, or unsupervised machine learning algorithms like Principle Component Analyses (PCAs) or clustering algorithms) always “work” in the sense that they will always provide you with a result. And so these tools always make available the “easy route” of running the tool and reporting the result.</p>
-<p>But in doing so, it is easy to provide readers with a false sense of the world. Readers (in almost any context except during academic peer review), will generally assume that if you have decided to present a statistic, it must be meaningful, important, and informative. And so in choosing what to include in your reports, papers, or presentations, you have influence for how readers interpret your results. In other words, when presenting data, you aren’t <em>just</em> communicating the specific values of
-a set of of statistics; you’re also implicitly communicating a lot about the importance of those statistics for understanding the data.</p>
-<p>With that in mind, in this reader we will discuss <strong>two questions</strong> you should ask yourself whenever you are presenting a descriptive analysis:</p>
+<p>This may seem obvious, but in practice, this is often a place that students struggle. That is because most tools (be those functions for calculating means and standard deviations, or unsupervised machine learning algorithms like Principle Component Analyses (PCAs) or clustering algorithms) always “work” in the sense that they will always provide you with a result. And so it is always possible to just run your tool and report the result.</p>
+<p>The problem is that just because these tools provide a result doesn’t mean the result is meaningful. As a result, it is easy to provide readers with a false sense of the data. Readers (in almost any context except during academic peer review) will generally assume that if you have decided to present a statistic, it must be meaningful, important, and informative. You may know that a mean is just <span class="math notranslate nohighlight">\(\frac{1}{N} \Sigma x_i\)</span>, but if you present it to the reader, they will generally assume that
+it is a meaningful characterization of the central tendency of the data. Moreover, if you provide averages of specific variables, readers will interpret those variables as important.</p>
+<p>And so in choosing what to include in your reports, papers, or presentations, you are not just a neutral pipeline for delivering statistics – your choices for what to include will also be taken as signals of importance by your reader. In other words, you aren’t <em>just</em> communicating the values of a set of statistics; you’re also implicitly communicating a lot about the importance of those statistics for understanding the data.</p>
+<p>With that in mind, in this reading we will discuss <strong>two questions</strong> you should ask yourself whenever you are presenting a descriptive analysis:</p>
 <ol class="arabic simple">
 <li><p>Am I faithfully representing the full data?</p></li>
 <li><p>Am I presenting the data that is most important?</p></li>
 </ol>
 <div class="section" id="Faithful-Representation">
 <h2>Faithful Representation<a class="headerlink" href="#Faithful-Representation" title="Permalink to this headline">¶</a></h2>
-<p>The fundamental goal of descriptive analysis is to take messy, incomprehensable data in its raw form, and extract from it a kind of summary of the most critical features of that data. When you are doing this, it is sometimes helpful to think of yourself as acting as a guide for the eventual reader of your analysis. Your goal, in the end, is to ensure that they <em>understand</em> the essential nature of your data without having to dive into themselves.</p>
-<p>With this in mind, it can be helpful when presenting data to ask yourself whether what you have presented gives a faithful representation of the data.</p>
-<p>Suppose, for example, you have been asked to evaluate the performance of an instructor. You recieve that professor’s final exam scores, and you find that the average grade in the class was an 85. Great! Sounds like things are going well.</p>
-<p>But let’s suppose that when you dig in a little more, you find that the actual grades in the class are bimodal – all the grades in the class were either 100s or 0s. Now ask yourself: is just reporting the average grade in the class really communicating the nature of this data? I would argue not.</p>
+<p>The fundamental goal of descriptive analysis is to take messy, incomprehensible data in its raw form and extract from it summaries of the most critical features of that data. When you are doing this, it is sometimes helpful to think of yourself as a guide for the eventual reader of your analysis. And as a guide, your goal is to ensure that they <em>understand</em> the essential nature of your data without having to dive into themselves.</p>
+<p>With this in mind, it can be helpful when presenting data to ask yourself whether what you have presented gives a faithful representation of the data, and to think about what the reader may infer after seeing just what you present.</p>
+<p>Suppose, for example, you have been asked to evaluate the performance of an instructor. You receive that professor’s final exam scores, and you find that the average grade in the class was an 85. Great! Sounds like things are going well.</p>
+<p>But let’s suppose that when you dig in a little more, you find that the actual grades in the class are bimodal – all the grades in the class were either 100s or 0s. Now ask yourself: is just reporting the average grade in the class really communicating the nature of this data? I would argue not – most readers will likely assume the data has a somewhat normal distribution around that mean value of 85 (given that is often what occurs in test scores), and so are likely to infer that the professor
+is doing a reasonable job teach their students, and not have reason to suspect that 15% of the class failed in the worst possible way for some reason.</p>
 <p>This is a simple example, but the principle generalizes. Suppose, for example, I ran a linear model that showed that income rose with age, and that a person 10 years older than another likely earns $10,000 more on average. Imagine, in your mind, what you think of when you hear that.</p>
 <p>Now supposed I showed you the following plot, where <span class="math notranslate nohighlight">\(x_2\)</span> is age in 5 year bins and <span class="math notranslate nohighlight">\(y_2\)</span> is income in 10 thousand dollar increments:</p>
 <p><img alt="anscombes_quartet_number_2" src="_images/anscombes_2.png" /></p>
-<p>Yup… that linear fit may be what I told you it was, but clearly the data is doing something not captured in a simple linear correlation. That’s because linear models estimate linear trends; applied to non-linear data they still give you an answer, but I don’t think anyone would say that telling the reader that people who are ten years older earn $10,000 more on average is faithfully representing the data.</p>
+<p>Yup… my characterization of the linear fit is technically accurate, but clearly the data is doing something not captured in that summarization. That’s because linear models estimate linear trends; applied to non-linear data they still give you an answer, but I don’t think anyone would say that telling the reader that people who are ten years older earn $10,000 more on average is faithfully representing the non-monotonic nature of the data.</p>
 <p>So how do you protect yourself from these kind of errors? The specific answer often depends on the method in question (e.g. for linear regressions, you might want to look at residual plots; for simple means you might want to plot a histogram), but a general rule of thumb is that <strong>you should always do analyses that go beyond what you’re presenting to the reader.</strong> Plot your data. See if your mean and median are radically different. Check your residual plots. Correlate your primary variable of
-interest with other variables just to see if there’s some story there you’re missing. Basically until you’ve explored your data to the point that you’re not finding anything new and important during your explorations (i.e. until your new results are boring and stop surprising you), you probably don’t know enough about the data to know if your summary statistics are faithfully representing the data.</p>
+interest with other variables just to see if there’s some story there you’re missing. Explored your data to the point that you’re not finding anything new and important during your explorations that add substantive meaning to the summary statistics you would like to provide the reader. If you just present a summary statistic without digging around behind it, you really can’t know if your summary statistic is faithfully representing the data.</p>
 </div>
-<div class="section" id="Choosing-What-To-Present">
-<h2>Choosing What To Present<a class="headerlink" href="#Choosing-What-To-Present" title="Permalink to this headline">¶</a></h2>
-<p>OK… by now you’ve probably noticed that I’ve been sneaking around using terms like “important” and “critical” to describe the properties that you want to faithfully represent in your descriptive analyses without ever defining the terms. And here’s why: there are no objective definitions of these terms. What is <em>important</em> depends both (a) on the context, and (b) on the value system of you (the data scientist) and your stakeholder.</p>
+<div class="section" id="Choosing-What-To-Ask-and-Present">
+<h2>Choosing What To Ask and Present<a class="headerlink" href="#Choosing-What-To-Ask-and-Present" title="Permalink to this headline">¶</a></h2>
+<p>OK… by now you’ve probably noticed that I’ve been saying you want to make sure you faithfully represent the “important” and “critical” properties of your data, but I haven’t defined those terms. And here’s why: there are no objective definitions of these terms. What is <em>important</em> depends both (a) on the context, and (b) on the value system of you (the data scientist) and your stakeholder.</p>
+<div class="section" id="Context">
+<h3>Context<a class="headerlink" href="#Context" title="Permalink to this headline">¶</a></h3>
 <p>To illustrate the importance of context, suppose you have data on antibiotic resistant infections in a hospital. If you were brought in by the hospital facilities director who wanted to learn what could be done to reduce infections by, say, removing fabric chairs that are hard to disinfect, the location of infections is likely important. If, by contrast, you were brought in by someone studying how the ways antibiotics were prescribed impacted infections, you would instead want to focus on the
 treatment histories of patients. And if you were hired by the hospital itself who just wanted to reduce infections by any means possible, you’d want to study both to know where future efforts might be best targeted.</p>
+<p>The features of the data that are important, in other words, depends on what we may be able to do in response to what we learn. Telling the hospital facilities manager that one of the biggest contributors to antibiotic resistance is the <a class="reference external" href="https://www.who.int/news-room/detail/07-11-2017-stop-using-antibiotics-in-healthy-animals-to-prevent-the-spread-of-antibiotic-resistance">use of antibiotics in raising livestock</a> may be true, and important to society, but not in the context of your
+stakeholder.</p>
+</div>
+<div class="section" id="Values">
+<h3>Values<a class="headerlink" href="#Values" title="Permalink to this headline">¶</a></h3>
 <p>The role of values is more subtle, but no less important.</p>
-<p>Suppose you are a policy maker choosing between two possible policies for reducing <span class="math notranslate nohighlight">\(CO_2\)</span> emmissions in the United States. You are told that Policy A would reduce <span class="math notranslate nohighlight">\(CO_2\)</span> emmissions by 95%, have only a minimal impact on unemployment and business profits, and would require a 100 million dollar tax. You are also told Policy B would reduce <span class="math notranslate nohighlight">\(CO_2\)</span> emmissions by only 90%, would have a medium impact on unemployment and business profits, and would require a 200 million dollar tax.
-Which would you choose?</p>
-<p>Now suppose I also told you that the 100 million dollar in taxes from Policy A would come entirely from taxing people who live below the poverty line, while the 200 million dollar tax for Policy B would be collected from all Americans at a fixed tax rate. Does that change how you see the issue?</p>
-<p>People tend to make decisions on the basis of the information that is available to them, and so what questions get asked (and what data is thus presented) can have a <em>huge</em> impact on how decisions are made. And as a data scientist, you will often be in control of what questions are being asked, and so it is incumbent upon you to ensure that your stakeholders are presented with all the data that <em>you</em> feel is important to know.</p>
-<p>This is actually one of the big reasons that the lack of diversity in data science is such a big problem – not because white men are intrinsically misogynistic or racist, but because our life experiences influence what we think is important, and thus what we ask our data.</p>
-<p>Consider this infamous (though thankfully low stakes) illustrative example of a major tech failure (seriously, <a class="reference external" href="https://www.youtube.com/watch?v=t4DT3tQqgRM">go watch the video</a>): the camera that only sees White people. We can’t know exactly what went wrong, but I think it’s safe to say that were there more black developers working at HP, surely <em>one</em> of them would have stopped to ask the question “does this work as well for black faces as white faces?” And maybe this wouldn’t have shipped.</p>
-<p>OK, fine, but that was a silly webcam and HP is not exactly at the forefront of technological innovation. A more serious tech company would never make that kind of mistake. <a class="reference external" href="https://www.theverge.com/2018/1/12/16882408/google-racist-gorillas-photo-recognition-algorithm-ai">Oh wait… they did.</a></p>
-<p>To be clear, it’s not <em>just</em> that these companies created racist algorithms – as we’ll discuss later in this class, almost any machine learning tool trained on public data will end up reflecting all the biases of our society – it’s that <em>they shipped the racist products!</em> No one in these companies thought to stop and ask the question “hey, before we roll these out, should we check to see if they’re racist?”</p>
-<p>(And yes, these are awful but relatively low stakes examples – later in this course we’ll discuss how the real-world use of biased algorithms has resulted in <a class="reference external" href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing">more Black people being unfairly sent to jail</a> and <a class="reference external" href="https://www.reuters.com/article/us-amazon-com-jobs-automation-insight/amazon-scraps-secret-ai-recruiting-tool-that-showed-bias-against-women-idUSKCN1MK08G">women being discriminated against in
-hiring</a>.)</p>
-<p>So remember: when deciding what to look at and report in your analyses, remember that people will make decisions on the basis of the data you provide, so if you don’t stop to ask a question about, say, gender or racial bias and include that in your report, odds are it won’t be something considered by policy makers.</p>
+<p>Suppose you are a policy maker choosing between two possible policies for reducing <span class="math notranslate nohighlight">\(CO_2\)</span> emissions in the United States. You are told:</p>
+<ul class="simple">
+<li><p>Policy A would reduce <span class="math notranslate nohighlight">\(CO_2\)</span> emissions by 95%, have only a minimal impact on unemployment and business profits, and would require a 100 million dollar tax.</p></li>
+<li><p>Policy B would reduce <span class="math notranslate nohighlight">\(CO_2\)</span> emissions by only 90%, would have a moderate impact on unemployment and business profits, and would require a 200 million dollar tax.</p></li>
+</ul>
+<p>Which would you choose?</p>
+<p>Now suppose I also told you that the 100 million dollar in taxes from Policy A would come entirely from taxing people who live below the poverty line, while the 200 million dollar tax for Policy B would be collected from all Americans in proportion to their income. Does that change how you see the issue?</p>
+<p><strong>People tend to make decisions on the basis of the information that is available to them,</strong> and so what questions get asked (and what data is thus presented) can have a <em>huge</em> impact on how decisions are made. And as a data scientist, you will often be in control of what questions are being asked, and so it is incumbent upon you to ensure that your stakeholders are presented with all the data that <em>you</em> feel is important for them to know.</p>
+<p>This is actually one of the big reasons that the lack of diversity in data science is such a problem – not white men are intrinsically misogynistic or racist, but because our life experiences influence what we think is important, and thus what we ask our data (Context for non-Duke students reading this: I am a white male).</p>
+<p>Consider this infamous (though thankfully low stakes) illustrative example of a major tech failure (seriously, <a class="reference external" href="https://www.youtube.com/watch?v=t4DT3tQqgRM">go watch the video</a>): the camera that only sees White people. We can’t know exactly what went wrong, but I think it’s safe to say that were there more black developers working at HP, surely <em>one</em> of them would have stopped to ask the question “does this work as well for black faces as white faces?” But no one did, and so this product
+shipped.</p>
+<p>OK, fine, you say – but that was a silly web-cam and HP is not exactly at the forefront of technological innovation. A more serious tech company would <em>never</em> make that kind of mistake, would it? <a class="reference external" href="https://www.theverge.com/2018/1/12/16882408/google-racist-gorillas-photo-recognition-algorithm-ai">Oh wait… Google did!</a> Their Google Photos product tagged photos of dark-skinned people as “Gorillas”. And how to we know? Yup, because they released that product too.</p>
+<p>To be clear, the problem is not <em>just</em> that these companies created racist algorithms – as we’ll discuss later in this class, almost any machine learning tools trained on public data will end up reflecting all the racist and misogynistic biases of our society. The problem is that <em>they shipped the racist products!</em> No one in these companies thought to stop and ask the question: “hey, before we roll this out, should we check to see how this behaves with people who don’t look like our
+predominantly light-skinned workforce?”</p>
+<p>And yes, these are relatively low stake examples. But sadly these mistakes are not limited to low-stakes contexts. Later in this course we’ll discuss how the real-world use of biased algorithms has resulted in <a class="reference external" href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing">more Black people being unfairly sent to jail</a> and <a class="reference external" href="https://www.reuters.com/article/us-amazon-com-jobs-automation-insight/amazon-scraps-secret-ai-recruiting-tool-that-showed-bias-against-women-idUSKCN1MK08G">women being discriminated against in
+hiring</a>.</p>
+<p>(And it is also the case that these are machine learning examples, not descriptive analyses per se. Machine learning examples get a lot more press, so it’s easy to point to these kinds of news stories. But while the principle that the questions we ask reflect our values is especially important in descriptive analyses, it also has broad salience, as illustrated here.)</p>
+<p>So remember: when deciding what to look at and report in your analyses, remember that people will make decisions on the basis of the data you provide, so if you don’t stop to ask a question about, say, gender or racial bias, odds are it won’t be something considered by your stakeholders.</p>
+</div>
 </div>
 </div>
 
@@ -101,15 +119,21 @@ hiring</a>.)</p>
 <li class="toctree-l1"><a class="reference internal" href="class_schedule.html">CLASS SCHEDULE</a></li>
 </ul>
 <p class="caption"><span class="caption-text">QUESTIONS</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="taxonomy_of_questions.html">Taxonomy of Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="moving_from_problems_to_questions.html">From Problems to Questions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Discretion and Description</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Faithful-Representation">Faithful Representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Choosing-What-To-Ask-and-Present">Choosing What To Ask and Present</a></li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="moving_from_problems_to_questions.html" title="previous chapter">Converting Stakeholder Prompts into Questions</a></li>
   </ul></li>
 </ul>
 </div>
