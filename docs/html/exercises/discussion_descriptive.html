@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Discussion of Descriptive Exercises &#8212; Unifying Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="Discussion-of-Descriptive-Exercises">
+<h1>Discussion of Descriptive Exercises<a class="headerlink" href="#Discussion-of-Descriptive-Exercises" title="Permalink to this headline">¶</a></h1>
+<p>By now you’ve probably realized that these data are <em>not</em> actually data on police expenditures and crime from Massachusetts, but rather a set of datasets that have been constructed to illustrate how easily summary statistics can lead you wrong.</p>
+<p>Indeed, <em>all</em> of the “counties” in this dataset are actually different datasets with the same means, standard deviations, and correlation between the two variables. And yet…</p>
+<div class="section" id="Exercise-8">
+<h2>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h2>
+<p>Write a loop that plots the relationship between <code class="docutils literal notranslate"><span class="pre">policeexpenditures</span></code> and <code class="docutils literal notranslate"><span class="pre">crimeindex</span></code> for all 13 counties in the dataset separately!</p>
+</div>
+<div class="section" id="Takeaways">
+<h2>Takeaways<a class="headerlink" href="#Takeaways" title="Permalink to this headline">¶</a></h2>
+<p>Yup. All remarkably different.</p>
+<p>While these are especially cute, they are in fact just fancy versions of <a class="reference external" href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet">Anscombe’s Quartet</a> – a set of four ways in which standard analyses of simple, bi-variate regressions can go wrong. Each of these datasets have the same mean, same variance, same correlation, and same regression line. And yet they are obviously very different – the first is reasonable, the second doesn’t have a linear functional form, the third has an outlier in <code class="docutils literal notranslate"><span class="pre">y</span></code>,
+and the fourth has a constant <code class="docutils literal notranslate"><span class="pre">x</span></code>, save a single outlier.</p>
+<p><img alt="anscombes_quartet" src="../_images/Anscombes_quartet.png" /></p>
+<p>And these are just some of the ways that your summary statistics can betray you when you’re working with <em>only two variables!</em> Now thing about some of the real datasets you’ve worked with where you may have a dozen explanatory variables.</p>
+<p>So what should you take away from this?</p>
+<ul class="simple">
+<li><p>First, never be too trusting of your data or your summary statistics. It takes forever to get a feel for real datasets, so explore, explore, explore.</p></li>
+<li><p>Second, plot your data. Plotting is an incredibly information-rich, and is one of the best ways to diagnose problems in your data.</p></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Unifying DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">QUESTIONS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../taxonomy_of_questions.html">Taxonomy of Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/discussion_descriptive.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-151397036-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>
