@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Counter-Factuals and Experimental Ideals &#8212; Unifying Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="Counter-Factuals-and-Experimental-Ideals">
+<h1>Counter-Factuals and Experimental Ideals<a class="headerlink" href="#Counter-Factuals-and-Experimental-Ideals" title="Permalink to this headline">¶</a></h1>
+<p><em>These exercises are adapted with permission from exercises written by</em><a class="reference external" href="https://www.adrianefresh.com">Adriane Fresh</a></p>
+<div class="section" id="What-is-a-Counterfactual?">
+<h2>What is a Counterfactual?<a class="headerlink" href="#What-is-a-Counterfactual?" title="Permalink to this headline">¶</a></h2>
+<p>Consider the causal relationship “X caused Y,” where X is the causal factor of interest (independent variable), and Y is the outcome of interest (dependent variable). A counterfactual statement follows from (or, is related to) such a causal statement. The counterfactual is a logical statement about what outcome would have occurred if X had not occurred. For X to have caused Y, logically it must be the case that the following is true: Had X not occurred, then Y also would not have occurred. That
+underlined statement is the counterfactual statement.</p>
+<p>You may find it helpful to first form a counterfactual question (embedded above) that leads you to the counterfactual statement. This counterfactual question takes the following form: What would have occurred had X not occurred?</p>
+</div>
+<div class="section" id="What-is-a-randomized-experiment?">
+<h2>What is a randomized experiment?<a class="headerlink" href="#What-is-a-randomized-experiment?" title="Permalink to this headline">¶</a></h2>
+<p>A randomized experiment is the gold standard for making high quality causal inferences given that we live in a world in which the counterfactual condition is always impossible to observe. In a randomized experiment we randomize our units of study (individuals, classrooms, states, etc.) into (typically) two groups. One group receives the causal factor of interest (usually referred to as a “treatment,” with the group referred to as the “treatment group”), and the other group does not (referred to
+as the “control group”). The outcome of interest is measured in each group, and the causal effect of having received the treatment is the difference in average outcome between each of the groups.</p>
+<p>The fact that the groups are determined randomly ensures (by the Law of Large Numbers, a pretty cool statistical law) that although no two individuals from each the treatment and control group represent a counterfactual for the other, the entire control group on average represents the counterfactual for the entire treatment group. That is, the two groups are the same, on average, except for the presence or absence of the causal factor of interest. And thus, any differences on average between the
+groups in the outcome of interest can only have arisen as a consequence of the causal factor of interest.</p>
+</div>
+<div class="section" id="Identifying-Counter-Factuals">
+<h2>Identifying Counter-Factuals<a class="headerlink" href="#Identifying-Counter-Factuals" title="Permalink to this headline">¶</a></h2>
+<p><strong>Instructions:</strong> Take the causal statement given and identify (a) the causal factor of interest, and (b) the outcome of interest. Then state (c) the counterfactual question, and (d) the counterfactual statement that must be true for the causal statement to be true. Finally, even if it is absolutely infeasible in the real world, very briefly describe the randomized experiment that would represent the best way of approximating the counterfactual condition.</p>
+<p><strong>Example:</strong> <strong>Afghani villages that were bombed by coalition forces during the War in Afghanistan were more likely to harbor Taliban insurgents.</strong></p>
+<p><em>Causal factor:</em> Bombing by coalition forces</p>
+<p><em>Dependent variable:</em> Harboring Taliban insurgents</p>
+<p><em>Counterfactual question:</em> How likely would villages have been to harbor Taliban insurgents had they not been bombed by coalition forces?</p>
+<p><em>Counterfactual statement:</em> Had a village not been bombed by coalition forces, it would not have harbored Taliban insurgents.</p>
+<p><em>Idealized hypothetical even-if-farfetched-and-wildly-unethical randomized experiment:</em> Randomize bombing some villages but not others. Observe any differences in Taliban insurgency operations out of the two groups of villages.</p>
+<p>(side note: while the randomized version of this clearly can’t be done, and so this may seem unanswerable, there are ways to answer this kind of question causally – e.g. <a class="reference external" href="http://www.jasonlyall.com/wp-content/uploads/2013/01/Artillery_Final.pdf">this</a>, <a class="reference external" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3212804">this</a>, <a class="reference external" href="https://scholar.princeton.edu/sites/default/files/jns/files/statistical_analysis_final.pdf">this</a>, or really anything by <a class="reference external" href="https://www.jasonlyall.com/publications-data-2/">Jason
+Lyall</a>.))</p>
+</div>
+<div class="section" id="Exercise-1:">
+<h2>Exercise 1:<a class="headerlink" href="#Exercise-1:" title="Permalink to this headline">¶</a></h2>
+<p><strong>Living in proximity to immigrants caused individuals in Great Britain to be more likely to vote in favor of leaving the EU in the 2016 Brexit vote.</strong></p>
+<p><em>Causal factor:</em></p>
+<p><em>Dependent variable:</em></p>
+<p><em>Counterfactual question:</em></p>
+<p><em>Counterfactual statement:</em></p>
+<p><em>Idealized hypothetical even-if-farfetched randomized experiment:</em></p>
+</div>
+<div class="section" id="Exercise-2:">
+<h2>Exercise 2:<a class="headerlink" href="#Exercise-2:" title="Permalink to this headline">¶</a></h2>
+<p><strong>Does paying social media influencers to feature your product result in more sales?</strong></p>
+<p><em>Causal factor:</em></p>
+<p><em>Dependent variable:</em></p>
+<p><em>Counterfactual question:</em></p>
+<p><em>Counterfactual statement:</em></p>
+<p><em>Idealized hypothetical even-if-farfetched randomized experiment:</em></p>
+</div>
+<div class="section" id="Exercise-3:">
+<h2>Exercise 3:<a class="headerlink" href="#Exercise-3:" title="Permalink to this headline">¶</a></h2>
+<p><strong>Does offering free bed-nets to families in rural Kenya reduce malaria infection rates?</strong></p>
+<p><em>Causal factor:</em></p>
+<p><em>Dependent variable:</em></p>
+<p><em>Counterfactual question:</em></p>
+<p><em>Counterfactual statement:</em></p>
+<p><em>Idealized hypothetical even-if-farfetched randomized experiment:</em></p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Unifying DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">QUESTIONS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../taxonomy_of_questions.html">Taxonomy of Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/exercise_counterfactuals.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-151397036-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>
