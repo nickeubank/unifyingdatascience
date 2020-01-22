@@ -45,7 +45,7 @@
     "\n",
     "*Give a reason that it might be a problem to just look at the correlation between your causal factor and dependent variable in the world?* Coalition forces are likely to target communities harboring insurgents, so bombing and support are likely to be positively correlated even if bombing doesn't increase or decrease civilian support for militants.\n",
     "\n",
-    "(side note: while the randomized version of this clearly can't be done, and so this may seem unanswerable, there are ways to answer this kind of question causally -- e.g. [this](http://www.jasonlyall.com/wp-content/uploads/2013/01/Artillery_Final.pdf), [this](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3212804), [this](https://scholar.princeton.edu/sites/default/files/jns/files/statistical_analysis_final.pdf), or really anything by [Jason Lyall](https://www.jasonlyall.com/publications-data-2/).))"
+    "(side note: while the randomized version of this clearly can't be done (and would be insanely unethical), and so this may seem unanswerable, there are ways to answer this kind of question causally -- e.g. [this](http://www.jasonlyall.com/wp-content/uploads/2013/01/Artillery_Final.pdf), [this](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3212804), [this](https://scholar.princeton.edu/sites/default/files/jns/files/statistical_analysis_final.pdf), or really anything by [Jason Lyall](https://www.jasonlyall.com/publications-data-2/).))"
    ]
   },
   {
