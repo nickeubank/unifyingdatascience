@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Limitations of Average Treatment Effects (ATE) &#8212; Unifying Data Science</title>
+    <title>Limitations of Experiments (and Average Treatment Effects) &#8212; Unifying Data Science</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -33,215 +33,53 @@
 
           <div class="body" role="main">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* avoid gaps between output lines */
-div.nboutput.container div[class*=highlight] pre {
-    line-height: normal;
-}
-
-/* input/output containers */
-div.nbinput.container,
-div.nboutput.container {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    width: 100%;
-}
-@media (max-width: 540px) {
-    div.nbinput.container,
-    div.nboutput.container {
-        flex-direction: column;
-    }
-}
-
-/* input container */
-div.nbinput.container {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast.container {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput.container div.prompt pre {
-    color: #307FC1;
-}
-
-/* output prompt */
-div.nboutput.container div.prompt pre {
-    color: #BF5B3D;
-}
-
-/* all prompts */
-div.nbinput.container div.prompt,
-div.nboutput.container div.prompt {
-    min-width: 5ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-@media (max-width: 540px) {
-    div.nbinput.container div.prompt,
-    div.nboutput.container div.prompt {
-        text-align: left;
-        padding: 0.4em;
-    }
-    div.nboutput.container div.prompt.empty {
-        padding: 0;
-    }
-}
-
-/* disable scrollbars on prompts */
-div.nbinput.container div.prompt pre,
-div.nboutput.container div.prompt pre {
-    overflow: hidden;
-}
-
-/* input/output area */
-div.nbinput.container div.input_area,
-div.nboutput.container div.output_area {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-    overflow: auto;
-}
-@media (max-width: 540px) {
-    div.nbinput.container div.input_area,
-    div.nboutput.container div.output_area {
-        width: 100%;
-    }
-}
-
-/* input area */
-div.nbinput.container div.input_area {
-    border: 1px solid #e0e0e0;
-    border-radius: 2px;
-    background: #f5f5f5;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput.container div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput.container div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput.container div.output_area.stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansi-black-fg { color: #3E424D; }
-.ansi-black-bg { background-color: #3E424D; }
-.ansi-black-intense-fg { color: #282C36; }
-.ansi-black-intense-bg { background-color: #282C36; }
-.ansi-red-fg { color: #E75C58; }
-.ansi-red-bg { background-color: #E75C58; }
-.ansi-red-intense-fg { color: #B22B31; }
-.ansi-red-intense-bg { background-color: #B22B31; }
-.ansi-green-fg { color: #00A250; }
-.ansi-green-bg { background-color: #00A250; }
-.ansi-green-intense-fg { color: #007427; }
-.ansi-green-intense-bg { background-color: #007427; }
-.ansi-yellow-fg { color: #DDB62B; }
-.ansi-yellow-bg { background-color: #DDB62B; }
-.ansi-yellow-intense-fg { color: #B27D12; }
-.ansi-yellow-intense-bg { background-color: #B27D12; }
-.ansi-blue-fg { color: #208FFB; }
-.ansi-blue-bg { background-color: #208FFB; }
-.ansi-blue-intense-fg { color: #0065CA; }
-.ansi-blue-intense-bg { background-color: #0065CA; }
-.ansi-magenta-fg { color: #D160C4; }
-.ansi-magenta-bg { background-color: #D160C4; }
-.ansi-magenta-intense-fg { color: #A03196; }
-.ansi-magenta-intense-bg { background-color: #A03196; }
-.ansi-cyan-fg { color: #60C6C8; }
-.ansi-cyan-bg { background-color: #60C6C8; }
-.ansi-cyan-intense-fg { color: #258F8F; }
-.ansi-cyan-intense-bg { background-color: #258F8F; }
-.ansi-white-fg { color: #C5C1B4; }
-.ansi-white-bg { background-color: #C5C1B4; }
-.ansi-white-intense-fg { color: #A1A6B2; }
-.ansi-white-intense-bg { background-color: #A1A6B2; }
-
-.ansi-default-inverse-fg { color: #FFFFFF; }
-.ansi-default-inverse-bg { background-color: #000000; }
-
-.ansi-bold { font-weight: bold; }
-.ansi-underline { text-decoration: underline; }
-
-/* Some additional styling taken form the Jupyter notebook CSS */
-div.rendered_html table {
-  border: none;
-  border-collapse: collapse;
-  border-spacing: 0;
-  color: black;
-  font-size: 12px;
-  table-layout: fixed;
-}
-div.rendered_html thead {
-  border-bottom: 1px solid black;
-  vertical-align: bottom;
-}
-div.rendered_html tr,
-div.rendered_html th,
-div.rendered_html td {
-  text-align: right;
-  vertical-align: middle;
-  padding: 0.5em 0.5em;
-  line-height: normal;
-  white-space: normal;
-  max-width: none;
-  border: none;
-}
-div.rendered_html th {
-  font-weight: bold;
-}
-div.rendered_html tbody tr:nth-child(odd) {
-  background: #f5f5f5;
-}
-div.rendered_html tbody tr:hover {
-  background: rgba(66, 165, 245, 0.2);
-}
-</style>
-<div class="section" id="Limitations-of-Average-Treatment-Effects-(ATE)">
-<h1>Limitations of Average Treatment Effects (ATE)<a class="headerlink" href="#Limitations-of-Average-Treatment-Effects-(ATE)" title="Permalink to this headline">¶</a></h1>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
+  <div class="section" id="Limitations-of-Experiments-(and-Average-Treatment-Effects)">
+<h1>Limitations of Experiments (and Average Treatment Effects)<a class="headerlink" href="#Limitations-of-Experiments-(and-Average-Treatment-Effects)" title="Permalink to this headline">¶</a></h1>
+<p>We’ve now discussed at length what is required to estimate causal Average Treatment Effects for a given population (and we’ll continue to do so for several more weeks). But it’s worth pausing for a moment to also discuss some of the limitations – both practical and conceptual – of the “average treatment effect” framework.</p>
+<div class="section" id="Who’s-Average?">
+<h2>Who’s Average?<a class="headerlink" href="#Who’s-Average?" title="Permalink to this headline">¶</a></h2>
+<p>Of all the potential problems with ATE, perhaps the biggest is that <em>it’s just an average</em>.</p>
+<p>If everyone in our data has the same response to treatment (in the lingo, if we have “homogeneous treatment effects”), then this isn’t a problem – then estimating the average treatment amounts to estimating every individual’s treatment effect.</p>
+<p>In the real world, however, there are almost always heterogeneous (varying) treatment effects across groups and individuals.</p>
+<p>Consider the following example: In 2018, the FDA approved a new drug for treating chronic migraines (Aimovig) that is being hailed by some as a “game changer” in migraine treatment. As is required for drug approval in the US, the pharmaceutical companies developing Aimovig had to undergo clinical trials in which a random sample of people with chronic migraines were given Aimovig (treatment), and a random sample was not (control). And if you see an add for Aimovig, you’ll probably see the
+following result from those trials:</p>
+<p><img alt="migraine_average_effect" src="_images/migraine_average_effect.png" /></p>
+<p>Cool! Setting aside the fact the companies selling Aimovig are pushing the reduction in migraines count from before the trial to after (and hiding the actual difference between control and treatment in the fine print – <em>any</em> medical intervention tends to reduces symptoms, so you really do have to compare outcomes between treatment and control groups), the ATE of the drug appears to be about 2-3 fewer days of migraine a month (reduction of 6-7 in treatment minus 4 in control) for people who have
+15+ headaches and &gt;8 migraines a month.</p>
+<p>That’s good – chronic migraines can be a crippling disability, and any improvements are exciting – but you’d be excused for asking why people are so excited about what seems like a relatively small reduction.</p>
+<p>The answer is that the treatment effect of Aimovig is <em>extremely</em> heterogeneous. <em>Most</em> people who take Aimovig see little to no benefit, but <em>some</em> (depending on your criteria, something like 40%) see their migraine frequency fall by 50% or more.</p>
+<p>And herein lies the problem of ATE: it doesn’t tell us about the <em>distribution</em> of effects.</p>
+<p>To help understand heterogeneous effects, it is common in analyzing experiments to look for differences in outcomes among sub-populations. For example, we might split our sample into men and women, and see if the treatment effect among men is different from the treatment effect among women.</p>
+<p>This can be especially important in interventions that may have disproportionate impacts. A sales tax, for example, may have a low average effect on the amount of money households have to spend on their children’s education, but among low-income households, that effect may be very large. And here, again, is where values come into data science – if you <em>just</em> present someone with an average treatment effect, they will generally interpret it as “the” treatment effect, so it’s up to you to ensure
+that decision makers are aware of not just the <em>average</em> effect of an action, but also the distribution of consequences.</p>
+<p>(On a technical note: splitting your sample also reduces the sample size in each bucket, so it reduces your statistical power. That means that you can generally only do it for proportionately large groups in your data (unless you’re working with massive datasets).)</p>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
+<div class="section" id="The-Fine-Print-of-ATE">
+<h2>The Fine Print of ATE<a class="headerlink" href="#The-Fine-Print-of-ATE" title="Permalink to this headline">¶</a></h2>
+<p>In addition to these conceptual issues, there are also a handful of technical issues to be aware of when calculating treatment effects.</p>
+<div class="section" id="SUTVA">
+<h3>SUTVA<a class="headerlink" href="#SUTVA" title="Permalink to this headline">¶</a></h3>
+<p>Implicit in our discussion of the potential outcomes framework and definition of ATE is the idea that when we assign one unit to treatment or control, it has no impact on the outcomes of other units. (If you’re a math person: in the potential outcome derivations we’ve done, this is embodied by the way we made our outcomes additively separable.)</p>
+<p>The cleanest example of where this holds is in something like a medical trial where we give people cholesterol medicine – me getting cholesterol medicine does not affect the health of someone in the control group. There are no “spillovers” to my treatment assignment / people in the control group have a “stable” treatment assignment.</p>
+<p>By contrast, if we were doing a medical trial of vaccines, then my assignment to treatment (getting a vaccine) <em>might</em> have an impact on the health of people in the control group (if we live or work in the same place) because the reduced likelihood of me getting sick also makes them less likely to get sick. As a result, even a perfect randomized experiment will not allow you to estimate ATE of vaccines in this situation because you aren’t <em>really</em> comparing treated individuals to control
+individuals, you’re comparing treated individuals to kinda treated individuals.</p>
+<p>Where does this matter?</p>
+<p>In industry, it matters on any platform with lots of interactions between users. If you run an AB test on the matches some people see in a dating app, their change in behavior will also change the behavior of users in your control group. Similarly, changing a Facebook users’ Newsfeed will change what they share, resulting in changes to the experience of other users.</p>
+<p>There are ways around this – for Facebook experiments, you can pick treatment and control individuals who are <em>very</em> far apart from one another socially in the hope that changes in treatment behavior won’t ever reach your control individuals. But even this is problematic – if you’re testing a new feature, giving it to one person may not accurately reflect what would happen if you gave it to one person <em>and</em> all their friends. In those cases, you can “block randomize”, randomly assigning big
+groups to control or treatment instead of individuals, while also trying to make sure treatment and control groups are far from one another.</p>
+<p>ATE is best defined when you have a clear units of analysis that is relatively isolated from other units. This doesn’t always mean you need <em>individuals</em> to be independent. For example, it is common in development economics to assign <em>rural villages as a whole</em> to either treatment or control, since we think that if we assigned some individuals within a village to treatment and some to control, those people would likely interact in ways that violate SUTVA. But since rural villages in developing
+countries are <em>relatively</em> isolated from one another, we think that the treatment assignment of each <em>village</em> should be independent of outcomes for other villages.</p>
+</div>
+<div class="section" id="Endogenous-stopping">
+<h3>Endogenous stopping<a class="headerlink" href="#Endogenous-stopping" title="Permalink to this headline">¶</a></h3>
+<p>There is often a temptation when running experiments to watch the data roll in as the experiment runs. In AB testing, you may watch because it’s easy; in medical studies, you may watch because the trial is expensive and you’d like to stop as soon as you can, or because you want to know if lots of patients start experiencing negative side effects.</p>
+<p>But it turns out that it is critically important to the legitimacy of experiments that you not stop an experiment because the data looks good (or bad).</p>
+<p>Ending an experiment because of the intermediate results is what’s called “stopping endogenously”, and it will render your experiment statistically invalid. The math on this gets very complicated, but the basic idea is that the apparent results of your experiment will fluctuate over time, and the law of large numbers only guarantees that in the long run, your <span class="math notranslate nohighlight">\(\widehat{ATE}\)</span> will probably be equal to the true <span class="math notranslate nohighlight">\(ATE\)</span>. The results for short periods are likely to show your treatment is
+more amazing than it really is, or more terrible than it really is; probability only ensures those moments will be relatively rare. But if you choose to stop an experiment <em>because</em> you’ve hit on of those moments (that should be fleeting), you’ll end up with erroneous results.</p>
+<p>To illustrate this point, <a class="reference external" href="https://arxiv.org/pdf/1512.04922.pdf">Ramesh Johari, Leo Pekelis†, and David Walsh</a> ran an experiment where they ran an “A/B test” on a large website where the two treatment conditions A and B were exactly the same. They ran this over several days, then plotted – for each moment in time – what an analysis of the experiment would say about whether A is better than B if they stopped the experiment at any given point. As the figure shows, the result is generally
+accurate that there’s no significant difference between A and B; but there are moments where random fluctuations make the difference <em>look</em> significant, and so if you chose to stop the experiment because those spikes occurred, you’d be in deep trouble!</p>
+<p><img alt="ab_significance_over_time" src="_images/ab_significance_over_time.png" /></p>
+<p>To be clear, that doesn’t mean there <em>aren’t</em> ways you can stop experiments based on results – see Johari, Pekelist, and Walsh’s paper for ways to do so in a statistically sound sense – but don’t do it unless you really understand the statistics (even if your boss really wants to!).</p>
 </div>
 </div>
 </div>
