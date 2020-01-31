@@ -13,7 +13,7 @@
 - `Read first homework <https://github.com/nickeubank/unifyingdatascience/blob/master/project/UDS_Topics_And_Questions/UDS_Topics_And_Questions.pdf>`_",`Potential Outcome Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Eubank_UDS_PotentialOutcomes_Handout.pdf>`_
 "Wed, Jan 29",CI: Potential Outcomes Framework,- `Potential Outcomes <https://www.dropbox.com/s/l85ci4au234jtff/Causal_inference_Materials.zip?dl=0&file_subpath=%2FCausal_inference_Materials%2FPotential_Outcomes.pdf>`_,`Link <exercises/exercise_counterfactuals.ipynb>`_
 "Mon, Feb 3",CI: Experiments,"- Angrist and Piscke (MHE) Chapter 1 (pages 3-24)
-- Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3)",Experimental Analysis Exercise
+- Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3)",`Link <exercises/exercise_abtesting.ipynb>`_
 "Wed, Feb 5",- Limitations of Experiments and ATE," - `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
 - **Topic and 3 Questions Due**",Experimental Analysis Exercise
 "Mon, Feb 10",CI: Ghost Map,"- `The Ghost Map <https://www.amazon.com/Ghost-Map-Londons-Terrifying-Epidemic/dp/1594482691>`_ pp. 25-54, 111-230",Ghost map exercises
