@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>A/B Testing the Udacity Website &#8212; Unifying Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="A/B-Testing-the-Udacity-Website">
+<h1>A/B Testing the Udacity Website<a class="headerlink" href="#A/B-Testing-the-Udacity-Website" title="Permalink to this headline">¶</a></h1>
+<p>In these exercises, we’ll be analyzing data on user behavior during an A/B test of the onboarding process for Udacity (Udacity generously provides this data under an Apache open-source license <a class="reference external" href="https://www.kaggle.com/tammyrotem/ab-tests-with-python/notebook">here</a>. Also, if you’re interested in learning more on A/B testing, it seems only fair while we use their data to flag they have a full course on the subject <a class="reference external" href="https://www.udacity.com/course/ab-testing--ud257">here</a>.</p>
+<p>The test <a class="reference external" href="https://www.kaggle.com/tammyrotem/ab-tests-with-python/notebook">is described as follows</a>:</p>
+<p>At the time of this experiment, Udacity courses currently have two options on the course overview page: “start free trial”, and “access course materials”.</p>
+<p><strong>Current Conditions Before Change</strong></p>
+<ul class="simple">
+<li><p>If the student clicks “start free trial”, they will be asked to enter their credit card information, and then they will be enrolled in a free trial for the paid version of the course. After 14 days, they will automatically be charged unless they cancel first.</p></li>
+<li><p>If the student clicks “access course materials”, they will be able to view the videos and take the quizzes for free, but they will not receive coaching support or a verified certificate, and they will not submit their final project for feedback.</p></li>
+</ul>
+<p><strong>Description of Experimented Change</strong></p>
+<ul class="simple">
+<li><p>In the experiment, Udacity tested a change where if the student clicked “start free trial”, they were asked how much time they had available to devote to the course.</p></li>
+<li><p>If the student indicated 5 or more hours per week, they would be taken through the checkout process as usual. If they indicated fewer than 5 hours per week, a message would appear indicating that Udacity courses usually require a greater time commitment for successful completion, and suggesting that the student might like to access the course materials for free.</p></li>
+<li><p>At this point, the student would have the option to continue enrolling in the free trial, or access the course materials for free instead. This <a class="reference external" href="images/udacity_checkyoureready.png">screenshot</a> shows what the experiment looks like.</p></li>
+</ul>
+<p><strong>Udacity’s Hope is that…</strong>:</p>
+<blockquote>
+<div><p>this might set clearer expectations for students upfront, thus reducing the number of frustrated students who left the free trial because they didn’t have enough time – without significantly reducing the number of students to continue past the free trial and eventually complete the course. If this hypothesis held true, Udacity could improve the overall student experience and improve coaches’ capacity to support students who are likely to complete the course.</p>
+</div></blockquote>
+<div class="section" id="Exercise-1">
+<h2>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h2>
+<p>Begin by importing Udacity’s data on user behavior by going to <a class="reference external" href="http://www.github/nickeubank/MIDS_Data/">http://www.github/nickeubank/MIDS_Data/</a> and using the <code class="docutils literal notranslate"><span class="pre">udacity_AB_testing</span></code>folder, or by clicking <a class="reference external" href="https://github.com/nickeubank/MIDS_Data/tree/master/udacity_AB_testing">here.</a> Note that there are TWO datasets for this test – one for the control data (users who saw the original design), and one for treatment data (users who saw the experimental design).</p>
+</div>
+<div class="section" id="Exercise-2">
+<h2>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h2>
+<p>Explore the data. Can you identifying the unit of observation of the data (e.g. what is represented by each row)?</p>
+</div>
+<div class="section" id="Exercise-3">
+<h2>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h2>
+<p>The easiest way to analyze this data is to stack it into a single dataset where each observation is a day-treatment-arm (so you should end up with two rows per day, one for those who are in the treated groups, and one for those who were in the control group). Note that currently nothing in the data identifies whether a given observation is a treatment group observation or a control group observation, so you’ll want to make sure to add a “treatment” indicator variable.</p>
+<p>The variables in the data are:</p>
+<ul class="simple">
+<li><p>Pageviews: number of unique users visiting homepage</p></li>
+<li><p>Clicks: number of those users clicking “Start Free Trial”</p></li>
+<li><p>Enrollments: Number of people enrolling in trial</p></li>
+<li><p>Payments: Number of people who eventually pay for the service</p></li>
+</ul>
+</div>
+<div class="section" id="Exercise-4">
+<h2>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h2>
+<p>Whenever you are working with experimental data, the first thing you want to do is verify that users actually were randomly sorted into the two arms of the experiment. In this data, half of users were supposed to be shown the old version of the site and half were supposed to see the new version.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Pageviews</span></code> tells you how many unique users visited the welcome site we are experimenting on. <code class="docutils literal notranslate"><span class="pre">Pageviews</span></code> is what is sometimes called an “invariant” variable, meaning that it shouldn’t vary across treatment arms – after all, people have to visit the site before they get a chance to see the treatment, so there’s no way that being assigned to treatment or control should affect the number of pageviews assigned to each group.</p>
+<p>This is also what’s known as a “pre-treatment” variable, because it was determined before users were manipulated in any way. That makes it analogous to gender or age in experiments where you have demographic data – a person’s age and gender are determined before they experience any manipulations, so the value of any invariant / pre-treatment attributes should be the same across the two arms of our experiment. This is what is called “checking for balance.” If pre-treatment attributes aren’t
+balanced, then we know our attempt to randomly assign people to different groups failed.</p>
+<p>To test the quality of the randomization, calculate the average number of pageviews for the treated group and for the control group. Do they look similar?</p>
+</div>
+<div class="section" id="Exercise-5">
+<h2>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h2>
+<p>“Similar” is a tricky concept – obviously, we expect <em>some</em> differences across groups. The question is whether the differences between groups are larger than we’d expect to emerge randomly. To evaluate this, let’s use a <code class="docutils literal notranslate"><span class="pre">ttest</span></code>.</p>
+<p>If you’re using R, just use <code class="docutils literal notranslate"><span class="pre">t.test</span></code>.</p>
+<p>If you’re using Python, you can use the <code class="docutils literal notranslate"><span class="pre">ttest</span></code> function from scipy, which you can import as <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">scipy.stats</span> <span class="pre">import</span> <span class="pre">ttest_ind</span></code>.</p>
+<p><strong>Note</strong>: Remember that scipy functions don’t accept <code class="docutils literal notranslate"><span class="pre">pandas</span></code> objects, so you have to pass the numpy vectors underlying your data with the <code class="docutils literal notranslate"><span class="pre">.values</span></code> operator (e.g. <code class="docutils literal notranslate"><span class="pre">df.my_column.values</span></code>).</p>
+<p>Does the difference in <code class="docutils literal notranslate"><span class="pre">pageviews</span></code> look statistically significant?</p>
+</div>
+<div class="section" id="Exercise-6">
+<h2>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Pageviews</span></code> is not the only pre-treatment variable in this data. What other measure is pre-treatment? Review the description of the experiment if you’re not sure.</p>
+</div>
+<div class="section" id="Exercise-7">
+<h2>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h2>
+<p>Check if the other pre-treatment variable is also balanced.</p>
+</div>
+<div class="section" id="Exercise-8">
+<h2>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h2>
+<p>Now that we’ve established we have good balance (meaning we think randomization was likely successful), we can evaluate the effects of the experiment. Decide on two metrics you want to use to evaluate the success of the trial, and test whether those values are different in the control group and treatment group. Because we’ve randomized, this is a consistent estimate of the Average Treatment Effect of Udacity’s website change.</p>
+<p>What is the ATE on Enrollments, and what is the ATE on Payments? Did Udacity achieve their goal?</p>
+<p><strong>Note:</strong> You may discover some issues with your data. Can you figure out what’s going on, and adjust?</p>
+</div>
+<div class="section" id="Exercise-9">
+<h2>Exercise 9<a class="headerlink" href="#Exercise-9" title="Permalink to this headline">¶</a></h2>
+<p>One of the magic things about experiments is that all you have to do is compare averages to get an average treatment effect. However, you <em>can</em> do other things to try and increase the statistical power of your experiments, like add controls in a linear regression model.</p>
+<p>As you likely know, a bivariate regression is exactly equivalent to a t-test, so let’s start by re-estimating the effect of treatment on <code class="docutils literal notranslate"><span class="pre">Payments</span></code> using a linear regression. Can you replicate the results from your t-test?</p>
+</div>
+<div class="section" id="Exercise-10">
+<h2>Exercise 10<a class="headerlink" href="#Exercise-10" title="Permalink to this headline">¶</a></h2>
+<p>Now add indicator variables for the day of each observation. Do the standard errors on your <code class="docutils literal notranslate"><span class="pre">treatment</span></code> variable change? If so, in what direction?</p>
+</div>
+<div class="section" id="Exercise-11">
+<h2>Exercise 11<a class="headerlink" href="#Exercise-11" title="Permalink to this headline">¶</a></h2>
+<p>You should have found that your standard errors decreased by about a third – this is why, although just comparing means <em>works</em>, if you have additional variables you should add them as covariates in your analysis. Moreover, in other settings you may find this effect is even larger – the date indicators we added to our data are perfectly balanced between treatment and control, so we aren’t adding a lot of data to the model by adding them as variables. As we’ll see in later exercises, adding
+variables like “gender” or “age” (which will never be perfectly balanced across treatment and control) will help even more.</p>
+<p>As a last exercise, instead of adding indicators for each date, add indicators for <em>day of the week</em> (e.g. Monday, Tuesday, etc.). This is just for data manipulation practice!</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Unifying DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">QUESTIONS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../taxonomy_of_questions.html">Taxonomy of Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../limitations_of_ATE.html">Limitations of Experiments</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/exercise_abtesting.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-151397036-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>
