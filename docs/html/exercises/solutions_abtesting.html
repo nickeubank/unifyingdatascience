@@ -235,8 +235,13 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="A/B-Testing-the-Udacity-Website">
 <h1>A/B Testing the Udacity Website<a class="headerlink" href="#A/B-Testing-the-Udacity-Website" title="Permalink to this headline">¶</a></h1>
-<p>In these exercises, we’ll be analyzing data on user behavior during an A/B test of the onboarding process for Udacity (Udacity generously provides this data under an Apache open-source license <a class="reference external" href="https://www.kaggle.com/tammyrotem/ab-tests-with-python/notebook">here</a>. Also, if you’re interested in learning more on A/B testing, it seems only fair while we use their data to flag they have a full course on the subject <a class="reference external" href="https://www.udacity.com/course/ab-testing--ud257">here</a>.</p>
-<p>The test <a class="reference external" href="https://www.kaggle.com/tammyrotem/ab-tests-with-python/notebook">is described as follows</a>:</p>
+<p>In these exercises, we’ll be analyzing data on user behavior from an experiment run by Udacity, the online education company. More specifically, we’ll be looking at a test Udacity ran to improve the onboarding process on their site.</p>
+<p>Udacity’s test is an example of an “A/B” test, in which some portion of users visiting a website (or using an app) are randomly selected to see a new version of the site. An analyst can then compare the behavior of users who see a new website design to users seeing their normal website to estimate the effect of rolling out the proposed changes to all users. While this kind of experiment has it’s own name in industry (A/B testing), to be clear it’s just a randomized experiment, and so everything
+we’ve learned about potential outcomes and randomized experiments apply here.</p>
+<p>(Udacity has generously provides the data from this test under an Apache open-source license, and you can find their <a class="reference external" href="https://www.kaggle.com/tammyrotem/ab-tests-with-python/notebook">original writeup here</a>. If you’re interested in learning more on A/B testing in particular, it seems only fair while we use their data to flag they have a full course on the subject <a class="reference external" href="https://www.udacity.com/course/ab-testing--ud257">here</a>.)</p>
+<div class="section" id="Udacity’s-Test">
+<h2>Udacity’s Test<a class="headerlink" href="#Udacity’s-Test" title="Permalink to this headline">¶</a></h2>
+<p>The test <a class="reference external" href="https://www.kaggle.com/tammyrotem/ab-tests-with-python/notebook">is described by Udacity as follows</a>:</p>
 <p>At the time of this experiment, Udacity courses currently have two options on the course overview page: “start free trial”, and “access course materials”.</p>
 <p><strong>Current Conditions Before Change</strong></p>
 <ul class="simple">
@@ -253,9 +258,13 @@ div.rendered_html tbody tr:hover {
 <blockquote>
 <div><p>this might set clearer expectations for students upfront, thus reducing the number of frustrated students who left the free trial because they didn’t have enough time – without significantly reducing the number of students to continue past the free trial and eventually complete the course. If this hypothesis held true, Udacity could improve the overall student experience and improve coaches’ capacity to support students who are likely to complete the course.</p>
 </div></blockquote>
+</div>
+<div class="section" id="Import-the-Data">
+<h2>Import the Data<a class="headerlink" href="#Import-the-Data" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="Exercise-1">
-<h2>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h2>
-<p>Begin by importing Udacity’s data on user behavior by going to <a class="reference external" href="http://www.github/nickeubank/MIDS_Data/">http://www.github/nickeubank/MIDS_Data/</a> and using the <code class="docutils literal notranslate"><span class="pre">udacity_AB_testing</span></code>folder, or by clicking <a class="reference external" href="https://github.com/nickeubank/MIDS_Data/tree/master/udacity_AB_testing">here.</a> Note that there are TWO datasets for this test – one for the control data (users who saw the original design), and one for treatment data (users who saw the experimental design).</p>
+<h3>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h3>
+<p>Begin by importing Udacity’s data on user behavior by going to <a class="reference external" href="http://www.github/nickeubank/MIDS_Data/">http://www.github/nickeubank/MIDS_Data/</a> and using the <code class="docutils literal notranslate"><span class="pre">udacity_AB_testing</span></code>folder, or by clicking <a class="reference external" href="https://github.com/nickeubank/MIDS_Data/tree/master/udacity_AB_testing">here.</a> Note that there are TWO datasets for this test – one for the control data (users who saw the original design), and one for treatment data (users who saw the experimental design). Udacity decided to show their test site to 1/2 of visitors, so there are
+roughly the same number of users appearing in each dataset (though this is not a requirement of AB tests).</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -269,7 +278,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="section" id="Exercise-2">
-<h2>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h2>
+<h3>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h3>
 <p>Explore the data. Can you identifying the unit of observation of the data (e.g. what is represented by each row)?</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -281,8 +290,11 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="Pick-your-measures">
+<h2>Pick your measures<a class="headerlink" href="#Pick-your-measures" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="Exercise-3">
-<h2>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h2>
+<h3>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h3>
 <p>The easiest way to analyze this data is to stack it into a single dataset where each observation is a day-treatment-arm (so you should end up with two rows per day, one for those who are in the treated groups, and one for those who were in the control group). Note that currently nothing in the data identifies whether a given observation is a treatment group observation or a control group observation, so you’ll want to make sure to add a “treatment” indicator variable.</p>
 <p>The variables in the data are:</p>
 <ul class="simple">
@@ -396,14 +408,50 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="section" id="Exercise-4">
-<h2>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h2>
+<h3>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h3>
+<p>Given the outcomes of interest to Udacity, what outcomes do you want to measure? (In the language of the Potential Outcomes Framework, what are your <span class="math notranslate nohighlight">\(Y\)</span> variables?). Add these to your data.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Udacity wants a decline in the number of users who enroll</span>
+<span class="c1"># in the number of people who enroll in a trial but don&#39;t</span>
+<span class="c1"># end up continuing (paying) at the end of the trial.</span>
+<span class="c1"># So first we want the number of enrollments that end in</span>
+<span class="c1"># non-payment per person who sees trial page.</span>
+
+<span class="n">users</span><span class="p">[</span><span class="s1">&#39;enroll_but_nopayment_per_click&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;Enrollments&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">users</span><span class="p">[</span><span class="s1">&#39;Payments&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">users</span><span class="p">[</span><span class="s1">&#39;Clicks&#39;</span><span class="p">]</span>
+
+<span class="c1"># Second, they don&#39;t actually want to see a decline in enrollees, so we also want to measure</span>
+<span class="c1"># the conversion rate from clicks to payments. Ideally, this won&#39;t change.</span>
+
+<span class="n">users</span><span class="p">[</span><span class="s1">&#39;payments_per_click&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="s1">&#39;Payments&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">users</span><span class="p">[</span><span class="s1">&#39;Clicks&#39;</span><span class="p">]</span>
+
+<span class="c1"># However, one could ALSO measure share of clicks that become enrollments. This</span>
+<span class="c1"># is actually the metric Udacity used, though honestly I think it&#39;s the wrong metric --</span>
+<span class="c1"># the goal isn&#39;t to reduce enrollments, it&#39;s to reduce enrollments that don&#39;t end in</span>
+<span class="c1"># payment!</span>
+
+<span class="c1"># But I&#39;ll include for completeness.</span>
+
+<span class="n">users</span><span class="p">[</span><span class="s1">&#39;enrollments_per_click&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="s1">&#39;Enrollments&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">users</span><span class="p">[</span><span class="s1">&#39;Clicks&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Validating-The-Data">
+<h2>Validating The Data<a class="headerlink" href="#Validating-The-Data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Exercise-5">
+<h3>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h3>
 <p>Whenever you are working with experimental data, the first thing you want to do is verify that users actually were randomly sorted into the two arms of the experiment. In this data, half of users were supposed to be shown the old version of the site and half were supposed to see the new version.</p>
 <p><code class="docutils literal notranslate"><span class="pre">Pageviews</span></code> tells you how many unique users visited the welcome site we are experimenting on. <code class="docutils literal notranslate"><span class="pre">Pageviews</span></code> is what is sometimes called an “invariant” variable, meaning that it shouldn’t vary across treatment arms – after all, people have to visit the site before they get a chance to see the treatment, so there’s no way that being assigned to treatment or control should affect the number of pageviews assigned to each group.</p>
-<p>This is also what’s known as a “pre-treatment” variable, because it was determined before users were manipulated in any way. That makes it analogous to gender or age in experiments where you have demographic data – a person’s age and gender are determined before they experience any manipulations, so the value of any invariant / pre-treatment attributes should be the same across the two arms of our experiment. This is what is called “checking for balance.” If pre-treatment attributes aren’t
-balanced, then we know our attempt to randomly assign people to different groups failed.</p>
+<p>“Invariant” variables are also an example of what are known as a “pre-treatment” variable, because pageviews are determined before users are manipulated in any way. That makes it analogous to gender or age in experiments where you have demographic data – a person’s age and gender are determined before they experience any manipulations, so the value of any pre-treatment attributes should be the same across the two arms of our experiment. This is what is called “checking for balance.” If
+pre-treatment attributes aren’t balanced, then we know our attempt to randomly assign people to different groups failed.</p>
 <p>To test the quality of the randomization, calculate the average number of pageviews for the treated group and for the control group. Do they look similar?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -412,7 +460,7 @@ balanced, then we know our attempt to randomly assign people to different groups
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -421,7 +469,7 @@ balanced, then we know our attempt to randomly assign people to different groups
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -430,7 +478,7 @@ balanced, then we know our attempt to randomly assign people to different groups
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -439,25 +487,26 @@ balanced, then we know our attempt to randomly assign people to different groups
 </pre></div></div>
 </div>
 </div>
-<div class="section" id="Exercise-5">
-<h2>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h2>
-<p>“Similar” is a tricky concept – obviously, we expect <em>some</em> differences across groups. The question is whether the differences between groups are larger than we’d expect to emerge randomly. To evaluate this, let’s use a <code class="docutils literal notranslate"><span class="pre">ttest</span></code>.</p>
-<p>If you’re using R, just use <code class="docutils literal notranslate"><span class="pre">t.test</span></code>.</p>
+<div class="section" id="Exercise-6">
+<h3>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h3>
+<p>“Similar” is a tricky concept – obviously, we expect <em>some</em> differences across groups since users were <em>randomly</em> divided across treatment arms. The question is whether the differences between groups are larger than we’d expect to emerge given our random assignment process. To evaluate this, let’s use a <code class="docutils literal notranslate"><span class="pre">ttest</span></code> to test the statistical significance of the differences we see.</p>
+<p>If you’re using R, you can just use the <code class="docutils literal notranslate"><span class="pre">t.test</span></code> function.</p>
 <p>If you’re using Python, you can use the <code class="docutils literal notranslate"><span class="pre">ttest</span></code> function from scipy, which you can import as <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">scipy.stats</span> <span class="pre">import</span> <span class="pre">ttest_ind</span></code>.</p>
 <p><strong>Note</strong>: Remember that scipy functions don’t accept <code class="docutils literal notranslate"><span class="pre">pandas</span></code> objects, so you have to pass the numpy vectors underlying your data with the <code class="docutils literal notranslate"><span class="pre">.values</span></code> operator (e.g. <code class="docutils literal notranslate"><span class="pre">df.my_column.values</span></code>).</p>
 <p>Does the difference in <code class="docutils literal notranslate"><span class="pre">pageviews</span></code> look statistically significant?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">ttest_ind</span>
-<span class="n">ttest_ind</span><span class="p">(</span><span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Pageviews&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Pageviews&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">ttest_ind</span><span class="p">(</span><span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Pageviews&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+          <span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Pageviews&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -466,7 +515,7 @@ Ttest_indResult(statistic=-0.1417118298287496, pvalue=0.8877034068650902)
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -475,11 +524,11 @@ Ttest_indResult(statistic=-0.1417118298287496, pvalue=0.8877034068650902)
 </div>
 </div>
 </div>
-<div class="section" id="Exercise-6">
-<h2>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Exercise-7">
+<h3>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">Pageviews</span></code> is not the only pre-treatment variable in this data. What other measure is pre-treatment? Review the description of the experiment if you’re not sure.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -488,20 +537,21 @@ Ttest_indResult(statistic=-0.1417118298287496, pvalue=0.8877034068650902)
 </div>
 </div>
 </div>
-<div class="section" id="Exercise-7">
-<h2>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Exercise-8">
+<h3>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h3>
 <p>Check if the other pre-treatment variable is also balanced.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Clicks&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Clicks&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span></span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Clicks&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+          <span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Clicks&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -510,7 +560,7 @@ Ttest_indResult(statistic=-0.09270642968639531, pvalue=0.9263942642482703)
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -519,13 +569,16 @@ Ttest_indResult(statistic=-0.09270642968639531, pvalue=0.9263942642482703)
 </div>
 </div>
 </div>
-<div class="section" id="Exercise-8">
-<h2>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h2>
-<p>Now that we’ve established we have good balance (meaning we think randomization was likely successful), we can evaluate the effects of the experiment. Decide on two metrics you want to use to evaluate the success of the trial, and test whether those values are different in the control group and treatment group. Because we’ve randomized, this is a consistent estimate of the Average Treatment Effect of Udacity’s website change.</p>
-<p>What is the ATE on Enrollments, and what is the ATE on Payments? Did Udacity achieve their goal?</p>
+</div>
+<div class="section" id="Estimating-the-Effect-of-Experiment">
+<h2>Estimating the Effect of Experiment<a class="headerlink" href="#Estimating-the-Effect-of-Experiment" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Exercise-9">
+<h3>Exercise 9<a class="headerlink" href="#Exercise-9" title="Permalink to this headline">¶</a></h3>
+<p>Now that we’ve established we have good balance (meaning we think randomization was likely successful), we can evaluate the effects of the experiment. Test whether the two metrics you picked have different average values in the control group and treatment group. Because we’ve randomized, this is a consistent estimate of the Average Treatment Effect of Udacity’s website change.</p>
+<p>Did Udacity achieve their goal?</p>
 <p><strong>Note:</strong> You may discover some issues with your data. Can you figure out what’s going on, and adjust?</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -536,109 +589,108 @@ Ttest_indResult(statistic=-0.09270642968639531, pvalue=0.9263942642482703)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Enrollments&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Enrollments&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Ttest_indResult(statistic=-1.686512674290538, pvalue=0.09877614030153456)
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Enrollments fall -- unsurprising given you added a layer before enrollment</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Payments&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Payments&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="s1">&#39;enroll_but_nopayment_per_click&#39;</span><span class="p">,</span> <span class="s1">&#39;payments_per_click&#39;</span><span class="p">,</span> <span class="s1">&#39;enrollments_per_click&#39;</span><span class="p">:</span>
+    <span class="n">wo_change</span> <span class="o">=</span> <span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">w_change</span> <span class="o">=</span> <span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">pvalue</span> <span class="o">=</span> <span class="n">ttest_ind</span><span class="p">(</span><span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                       <span class="n">users</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">users</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">pvalue</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;change from orig to experiment in </span><span class="si">{i}</span><span class="s1"> is {(w_change - wo_change)*100:.3f} percentage points&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;a change of {((w_change - wo_change) / wo_change)*100:.2f}%&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;p-value of difference is </span><span class="si">{pvalue:.3f}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Ttest_indResult(statistic=-0.5927658110177635, pvalue=0.556372383554715)
+change from orig to experiment in enroll_but_nopayment_per_click is -1.589 percentage points
+a change of -15.56%
+p-value of difference is 0.132
+
+
+change from orig to experiment in payments_per_click is -0.490 percentage points
+a change of -4.14%
+p-value of difference is 0.593
+
+
+change from orig to experiment in enrollments_per_click is -2.078 percentage points
+a change of -9.43%
+p-value of difference is 0.131
+
+
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># So we do see a decrease in share of people who click trial,</span>
+<span class="c1"># enroll but then don&#39;t pay, and it&#39;s borderline significant</span>
+<span class="c1"># (has p-value &lt; 0.1 if we had used a 1-tailed tests).</span>
+<span class="c1"># But we don&#39;t see decline in share of people who click</span>
+<span class="c1"># who end up enrolling after trial,</span>
+<span class="c1"># so the change was basically successful in only filtering out</span>
+<span class="c1"># people who weren&#39;t really interested.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Exercise-10">
+<h3>Exercise 10<a class="headerlink" href="#Exercise-10" title="Permalink to this headline">¶</a></h3>
+<p>One of the magic things about experiments is that all you have to do is compare averages to get an average treatment effect. However, you <em>can</em> do other things to try and increase the statistical power of your experiments, like add controls in a linear regression model.</p>
+<p>As you likely know, a bivariate regression is exactly equivalent to a t-test, so let’s start by re-estimating the effect of treatment on payments-per-click using a linear regression. Can you replicate the results from your t-test? They shouldn’t just be close – they should be numerically equivalent (i.e. exactly the same to the limits of floating point number precision).</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># But payments don&#39;t change (or at least the change is very small and definitely not significant)</span>
-<span class="c1"># So fewer people enroll, but the same number end up enrolling, meaning</span>
-<span class="c1"># they are filtering out *just* people who weren&#39;t serious!</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="Exercise-9">
-<h2>Exercise 9<a class="headerlink" href="#Exercise-9" title="Permalink to this headline">¶</a></h2>
-<p>One of the magic things about experiments is that all you have to do is compare averages to get an average treatment effect. However, you <em>can</em> do other things to try and increase the statistical power of your experiments, like add controls in a linear regression model.</p>
-<p>As you likely know, a bivariate regression is exactly equivalent to a t-test, so let’s start by re-estimating the effect of treatment on <code class="docutils literal notranslate"><span class="pre">Payments</span></code> using a linear regression. Can you replicate the results from your t-test?</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
-<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;Payments ~ treatment&#39;</span><span class="p">,</span> <span class="n">users</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;payments_per_click ~ treatment&#39;</span><span class="p">,</span> <span class="n">users</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
 <tr>
-  <th>Dep. Variable:</th>        <td>Payments</td>     <th>  R-squared:         </th> <td>   0.008</td>
+  <th>Dep. Variable:</th>    <td>payments_per_click</td> <th>  R-squared:         </th> <td>   0.007</td>
 </tr>
 <tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>  -0.015</td>
+  <th>Model:</th>                    <td>OLS</td>        <th>  Adj. R-squared:    </th> <td>  -0.016</td>
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>  0.3514</td>
+  <th>Method:</th>              <td>Least Squares</td>   <th>  F-statistic:       </th> <td>  0.2903</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Fri, 31 Jan 2020</td> <th>  Prob (F-statistic):</th>  <td> 0.556</td>
+  <th>Date:</th>              <td>Sun, 02 Feb 2020</td>  <th>  Prob (F-statistic):</th>  <td> 0.593</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>12:51:35</td>     <th>  Log-Likelihood:    </th> <td> -206.20</td>
+  <th>Time:</th>                  <td>12:38:50</td>      <th>  Log-Likelihood:    </th> <td>  95.810</td>
 </tr>
 <tr>
-  <th>No. Observations:</th>      <td>    46</td>      <th>  AIC:               </th> <td>   416.4</td>
+  <th>No. Observations:</th>       <td>    46</td>       <th>  AIC:               </th> <td>  -187.6</td>
 </tr>
 <tr>
-  <th>Df Residuals:</th>          <td>    44</td>      <th>  BIC:               </th> <td>   420.1</td>
+  <th>Df Residuals:</th>           <td>    44</td>       <th>  BIC:               </th> <td>  -184.0</td>
 </tr>
 <tr>
-  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>
+  <th>Df Model:</th>               <td>     1</td>       <th>                     </th>     <td> </td>
 </tr>
 <tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+  <th>Covariance Type:</th>       <td>nonrobust</td>     <th>                     </th>     <td> </td>
 </tr>
 </table>
 <table class="simpletable">
@@ -646,73 +698,73 @@ Ttest_indResult(statistic=-0.5927658110177635, pvalue=0.556372383554715)
       <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
 </tr>
 <tr>
-  <th>Intercept</th> <td>   88.3913</td> <td>    4.564</td> <td>   19.367</td> <td> 0.000</td> <td>   79.193</td> <td>   97.590</td>
+  <th>Intercept</th> <td>    0.1183</td> <td>    0.006</td> <td>   18.403</td> <td> 0.000</td> <td>    0.105</td> <td>    0.131</td>
 </tr>
 <tr>
-  <th>treatment</th> <td>   -3.8261</td> <td>    6.455</td> <td>   -0.593</td> <td> 0.556</td> <td>  -16.835</td> <td>    9.182</td>
+  <th>treatment</th> <td>   -0.0049</td> <td>    0.009</td> <td>   -0.539</td> <td> 0.593</td> <td>   -0.023</td> <td>    0.013</td>
 </tr>
 </table>
 <table class="simpletable">
 <tr>
-  <th>Omnibus:</th>       <td> 0.399</td> <th>  Durbin-Watson:     </th> <td>   1.328</td>
+  <th>Omnibus:</th>       <td> 0.968</td> <th>  Durbin-Watson:     </th> <td>   1.092</td>
 </tr>
 <tr>
-  <th>Prob(Omnibus):</th> <td> 0.819</td> <th>  Jarque-Bera (JB):  </th> <td>   0.552</td>
+  <th>Prob(Omnibus):</th> <td> 0.616</td> <th>  Jarque-Bera (JB):  </th> <td>   0.985</td>
 </tr>
 <tr>
-  <th>Skew:</th>          <td>-0.038</td> <th>  Prob(JB):          </th> <td>   0.759</td>
+  <th>Skew:</th>          <td> 0.316</td> <th>  Prob(JB):          </th> <td>   0.611</td>
 </tr>
 <tr>
-  <th>Kurtosis:</th>      <td> 2.469</td> <th>  Cond. No.          </th> <td>    2.62</td>
+  <th>Kurtosis:</th>      <td> 2.662</td> <th>  Cond. No.          </th> <td>    2.62</td>
 </tr>
 </table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
 </div>
-<div class="section" id="Exercise-10">
-<h2>Exercise 10<a class="headerlink" href="#Exercise-10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Exercise-11">
+<h3>Exercise 11<a class="headerlink" href="#Exercise-11" title="Permalink to this headline">¶</a></h3>
 <p>Now add indicator variables for the day of each observation. Do the standard errors on your <code class="docutils literal notranslate"><span class="pre">treatment</span></code> variable change? If so, in what direction?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;Payments ~ treatment + C(Date)&#39;</span><span class="p">,</span> <span class="n">users</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;payments_per_click ~ treatment + C(Date)&#39;</span><span class="p">,</span> <span class="n">users</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
 <tr>
-  <th>Dep. Variable:</th>        <td>Payments</td>     <th>  R-squared:         </th> <td>   0.713</td>
+  <th>Dep. Variable:</th>    <td>payments_per_click</td> <th>  R-squared:         </th> <td>   0.743</td>
 </tr>
 <tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.413</td>
+  <th>Model:</th>                    <td>OLS</td>        <th>  Adj. R-squared:    </th> <td>   0.475</td>
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2.378</td>
+  <th>Method:</th>              <td>Least Squares</td>   <th>  F-statistic:       </th> <td>   2.770</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Fri, 31 Jan 2020</td> <th>  Prob (F-statistic):</th>  <td>0.0232</td>
+  <th>Date:</th>              <td>Sun, 02 Feb 2020</td>  <th>  Prob (F-statistic):</th>  <td>0.00991</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>12:51:35</td>     <th>  Log-Likelihood:    </th> <td> -177.66</td>
+  <th>Time:</th>                  <td>12:38:50</td>      <th>  Log-Likelihood:    </th> <td>  126.94</td>
 </tr>
 <tr>
-  <th>No. Observations:</th>      <td>    46</td>      <th>  AIC:               </th> <td>   403.3</td>
+  <th>No. Observations:</th>       <td>    46</td>       <th>  AIC:               </th> <td>  -205.9</td>
 </tr>
 <tr>
-  <th>Df Residuals:</th>          <td>    22</td>      <th>  BIC:               </th> <td>   447.2</td>
+  <th>Df Residuals:</th>           <td>    22</td>       <th>  BIC:               </th> <td>  -162.0</td>
 </tr>
 <tr>
-  <th>Df Model:</th>              <td>    23</td>      <th>                     </th>     <td> </td>
+  <th>Df Model:</th>               <td>    23</td>       <th>                     </th>     <td> </td>
 </tr>
 <tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+  <th>Covariance Type:</th>       <td>nonrobust</td>     <th>                     </th>     <td> </td>
 </tr>
 </table>
 <table class="simpletable">
@@ -720,99 +772,116 @@ Ttest_indResult(statistic=-0.5927658110177635, pvalue=0.556372383554715)
              <td></td>               <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
 </tr>
 <tr>
-  <th>Intercept</th>              <td>   61.9130</td> <td>   12.022</td> <td>    5.150</td> <td> 0.000</td> <td>   36.980</td> <td>   86.846</td>
+  <th>Intercept</th>              <td>    0.0815</td> <td>    0.016</td> <td>    5.090</td> <td> 0.000</td> <td>    0.048</td> <td>    0.115</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Fri, Oct 24]</th> <td>   48.0000</td> <td>   16.644</td> <td>    2.884</td> <td> 0.009</td> <td>   13.482</td> <td>   82.518</td>
+  <th>C(Date)[T.Fri, Oct 24]</th> <td>    0.0791</td> <td>    0.022</td> <td>    3.569</td> <td> 0.002</td> <td>    0.033</td> <td>    0.125</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Fri, Oct 31]</th> <td>   52.0000</td> <td>   16.644</td> <td>    3.124</td> <td> 0.005</td> <td>   17.482</td> <td>   86.518</td>
+  <th>C(Date)[T.Fri, Oct 31]</th> <td>    0.0777</td> <td>    0.022</td> <td>    3.507</td> <td> 0.002</td> <td>    0.032</td> <td>    0.124</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Mon, Oct 13]</th> <td>   27.0000</td> <td>   16.644</td> <td>    1.622</td> <td> 0.119</td> <td>   -7.518</td> <td>   61.518</td>
+  <th>C(Date)[T.Mon, Oct 13]</th> <td>    0.0179</td> <td>    0.022</td> <td>    0.809</td> <td> 0.427</td> <td>   -0.028</td> <td>    0.064</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Mon, Oct 20]</th> <td>   37.5000</td> <td>   16.644</td> <td>    2.253</td> <td> 0.035</td> <td>    2.982</td> <td>   72.018</td>
+  <th>C(Date)[T.Mon, Oct 20]</th> <td>    0.0343</td> <td>    0.022</td> <td>    1.548</td> <td> 0.136</td> <td>   -0.012</td> <td>    0.080</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Mon, Oct 27]</th> <td>   61.5000</td> <td>   16.644</td> <td>    3.695</td> <td> 0.001</td> <td>   26.982</td> <td>   96.018</td>
+  <th>C(Date)[T.Mon, Oct 27]</th> <td>    0.0799</td> <td>    0.022</td> <td>    3.604</td> <td> 0.002</td> <td>    0.034</td> <td>    0.126</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Sat, Nov 1]</th>  <td>   36.5000</td> <td>   16.644</td> <td>    2.193</td> <td> 0.039</td> <td>    1.982</td> <td>   71.018</td>
+  <th>C(Date)[T.Sat, Nov 1]</th>  <td>    0.0612</td> <td>    0.022</td> <td>    2.763</td> <td> 0.011</td> <td>    0.015</td> <td>    0.107</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Sat, Oct 11]</th> <td>   -8.0000</td> <td>   16.644</td> <td>   -0.481</td> <td> 0.636</td> <td>  -42.518</td> <td>   26.518</td>
+  <th>C(Date)[T.Sat, Oct 11]</th> <td>   -0.0033</td> <td>    0.022</td> <td>   -0.148</td> <td> 0.884</td> <td>   -0.049</td> <td>    0.043</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Sat, Oct 18]</th> <td>    6.0000</td> <td>   16.644</td> <td>    0.360</td> <td> 0.722</td> <td>  -28.518</td> <td>   40.518</td>
+  <th>C(Date)[T.Sat, Oct 18]</th> <td>    0.0239</td> <td>    0.022</td> <td>    1.080</td> <td> 0.292</td> <td>   -0.022</td> <td>    0.070</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Sat, Oct 25]</th> <td>   44.5000</td> <td>   16.644</td> <td>    2.674</td> <td> 0.014</td> <td>    9.982</td> <td>   79.018</td>
+  <th>C(Date)[T.Sat, Oct 25]</th> <td>    0.0742</td> <td>    0.022</td> <td>    3.347</td> <td> 0.003</td> <td>    0.028</td> <td>    0.120</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Sun, Nov 2]</th>  <td>   25.0000</td> <td>   16.644</td> <td>    1.502</td> <td> 0.147</td> <td>   -9.518</td> <td>   59.518</td>
+  <th>C(Date)[T.Sun, Nov 2]</th>  <td>    0.0405</td> <td>    0.022</td> <td>    1.826</td> <td> 0.081</td> <td>   -0.005</td> <td>    0.086</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Sun, Oct 12]</th> <td>   20.5000</td> <td>   16.644</td> <td>    1.232</td> <td> 0.231</td> <td>  -14.018</td> <td>   55.018</td>
+  <th>C(Date)[T.Sun, Oct 12]</th> <td>    0.0239</td> <td>    0.022</td> <td>    1.078</td> <td> 0.293</td> <td>   -0.022</td> <td>    0.070</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Sun, Oct 19]</th> <td>    8.5000</td> <td>   16.644</td> <td>    0.511</td> <td> 0.615</td> <td>  -26.018</td> <td>   43.018</td>
+  <th>C(Date)[T.Sun, Oct 19]</th> <td>    0.0196</td> <td>    0.022</td> <td>    0.887</td> <td> 0.385</td> <td>   -0.026</td> <td>    0.066</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Sun, Oct 26]</th> <td>   42.5000</td> <td>   16.644</td> <td>    2.553</td> <td> 0.018</td> <td>    7.982</td> <td>   77.018</td>
+  <th>C(Date)[T.Sun, Oct 26]</th> <td>    0.0673</td> <td>    0.022</td> <td>    3.038</td> <td> 0.006</td> <td>    0.021</td> <td>    0.113</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Thu, Oct 16]</th> <td>   11.5000</td> <td>   16.644</td> <td>    0.691</td> <td> 0.497</td> <td>  -23.018</td> <td>   46.018</td>
+  <th>C(Date)[T.Thu, Oct 16]</th> <td>    0.0095</td> <td>    0.022</td> <td>    0.430</td> <td> 0.672</td> <td>   -0.036</td> <td>    0.055</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Thu, Oct 23]</th> <td>    2.0000</td> <td>   16.644</td> <td>    0.120</td> <td> 0.905</td> <td>  -32.518</td> <td>   36.518</td>
+  <th>C(Date)[T.Thu, Oct 23]</th> <td>    0.0161</td> <td>    0.022</td> <td>    0.725</td> <td> 0.476</td> <td>   -0.030</td> <td>    0.062</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Thu, Oct 30]</th> <td>   11.0000</td> <td>   16.644</td> <td>    0.661</td> <td> 0.516</td> <td>  -23.518</td> <td>   45.518</td>
+  <th>C(Date)[T.Thu, Oct 30]</th> <td>    0.0181</td> <td>    0.022</td> <td>    0.817</td> <td> 0.423</td> <td>   -0.028</td> <td>    0.064</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Tue, Oct 14]</th> <td>   38.5000</td> <td>   16.644</td> <td>    2.313</td> <td> 0.030</td> <td>    3.982</td> <td>   73.018</td>
+  <th>C(Date)[T.Tue, Oct 14]</th> <td>    0.0394</td> <td>    0.022</td> <td>    1.779</td> <td> 0.089</td> <td>   -0.007</td> <td>    0.085</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Tue, Oct 21]</th> <td>   28.0000</td> <td>   16.644</td> <td>    1.682</td> <td> 0.107</td> <td>   -6.518</td> <td>   62.518</td>
+  <th>C(Date)[T.Tue, Oct 21]</th> <td>    0.0226</td> <td>    0.022</td> <td>    1.022</td> <td> 0.318</td> <td>   -0.023</td> <td>    0.069</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Tue, Oct 28]</th> <td>   45.5000</td> <td>   16.644</td> <td>    2.734</td> <td> 0.012</td> <td>   10.982</td> <td>   80.018</td>
+  <th>C(Date)[T.Tue, Oct 28]</th> <td>    0.0643</td> <td>    0.022</td> <td>    2.904</td> <td> 0.008</td> <td>    0.018</td> <td>    0.110</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Wed, Oct 15]</th> <td>   19.0000</td> <td>   16.644</td> <td>    1.142</td> <td> 0.266</td> <td>  -15.518</td> <td>   53.518</td>
+  <th>C(Date)[T.Wed, Oct 15]</th> <td>    0.0157</td> <td>    0.022</td> <td>    0.709</td> <td> 0.486</td> <td>   -0.030</td> <td>    0.062</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Wed, Oct 22]</th> <td>   21.0000</td> <td>   16.644</td> <td>    1.262</td> <td> 0.220</td> <td>  -13.518</td> <td>   55.518</td>
+  <th>C(Date)[T.Wed, Oct 22]</th> <td>    0.0196</td> <td>    0.022</td> <td>    0.884</td> <td> 0.386</td> <td>   -0.026</td> <td>    0.066</td>
 </tr>
 <tr>
-  <th>C(Date)[T.Wed, Oct 29]</th> <td>   31.0000</td> <td>   16.644</td> <td>    1.863</td> <td> 0.076</td> <td>   -3.518</td> <td>   65.518</td>
+  <th>C(Date)[T.Wed, Oct 29]</th> <td>    0.0452</td> <td>    0.022</td> <td>    2.040</td> <td> 0.054</td> <td>   -0.001</td> <td>    0.091</td>
 </tr>
 <tr>
-  <th>treatment</th>              <td>   -3.8261</td> <td>    4.908</td> <td>   -0.780</td> <td> 0.444</td> <td>  -14.005</td> <td>    6.353</td>
+  <th>treatment</th>              <td>   -0.0049</td> <td>    0.007</td> <td>   -0.750</td> <td> 0.461</td> <td>   -0.018</td> <td>    0.009</td>
 </tr>
 </table>
 <table class="simpletable">
 <tr>
-  <th>Omnibus:</th>       <td> 5.442</td> <th>  Durbin-Watson:     </th> <td>   1.716</td>
+  <th>Omnibus:</th>       <td> 4.114</td> <th>  Durbin-Watson:     </th> <td>   1.713</td>
 </tr>
 <tr>
-  <th>Prob(Omnibus):</th> <td> 0.066</td> <th>  Jarque-Bera (JB):  </th> <td>   2.059</td>
+  <th>Prob(Omnibus):</th> <td> 0.128</td> <th>  Jarque-Bera (JB):  </th> <td>   1.796</td>
 </tr>
 <tr>
-  <th>Skew:</th>          <td> 0.000</td> <th>  Prob(JB):          </th> <td>   0.357</td>
+  <th>Skew:</th>          <td> 0.000</td> <th>  Prob(JB):          </th> <td>   0.407</td>
 </tr>
 <tr>
-  <th>Kurtosis:</th>      <td> 1.964</td> <th>  Cond. No.          </th> <td>    27.3</td>
+  <th>Kurtosis:</th>      <td> 2.032</td> <th>  Cond. No.          </th> <td>    27.3</td>
 </tr>
 </table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
+<p>You should have found that your standard errors decreased by about 20% – this is why, although just comparing means <em>works</em>, if you have additional variables you should add them as covariates in your analysis. Moreover, in other settings you may find this effect is even larger – the date indicators we added to our data are perfectly balanced between treatment and control, so we aren’t adding a lot of data to the model by adding them as variables. As we’ll see in later exercises, adding variables
+like “gender” or “age” (which will never be perfectly balanced across treatment and control) will help even more.</p>
 </div>
-<div class="section" id="Exercise-11">
-<h2>Exercise 11<a class="headerlink" href="#Exercise-11" title="Permalink to this headline">¶</a></h2>
-<p>You should have found that your standard errors decreased by about a third – this is why, although just comparing means <em>works</em>, if you have additional variables you should add them as covariates in your analysis. Moreover, in other settings you may find this effect is even larger – the date indicators we added to our data are perfectly balanced between treatment and control, so we aren’t adding a lot of data to the model by adding them as variables. As we’ll see in later exercises, adding
-variables like “gender” or “age” (which will never be perfectly balanced across treatment and control) will help even more.</p>
-<p>As a last exercise, instead of adding indicators for each date, add indicators for <em>day of the week</em> (e.g. Monday, Tuesday, etc.). This is just for data manipulation practice!</p>
+<div class="section" id="Exercise-12">
+<h3>Exercise 12<a class="headerlink" href="#Exercise-12" title="Permalink to this headline">¶</a></h3>
+<p>Given your results, what would you tell Udacity about their trial?</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># It seems like everything is going in the expected direction. However</span>
+<span class="c1"># before rolling out something that affects something as important</span>
+<span class="c1"># as on-boarding, I would run a longer trial to get a little greater</span>
+<span class="c1"># statistical significance...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Exercise-13">
+<h3>Exercise 13<a class="headerlink" href="#Exercise-13" title="Permalink to this headline">¶</a></h3>
+<p>As a last exercise, instead of adding indicators for each date, add indicators for <em>day of the week</em> (e.g. Monday, Tuesday, etc.).</p>
+<p>(This is just for data manipulation practice!)</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
@@ -827,7 +896,7 @@ variables like “gender” or “age” (which will never be perfectly balanced
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">users</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;payments_per_click ~ treatment + C(day_of_week)&#39;</span><span class="p">,</span> <span class="n">users</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -836,130 +905,34 @@ variables like “gender” or “age” (which will never be perfectly balanced
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Date</th>
-      <th>Pageviews</th>
-      <th>Clicks</th>
-      <th>Enrollments</th>
-      <th>Payments</th>
-      <th>treatment</th>
-      <th>day_of_week</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>12</th>
-      <td>Thu, Oct 23</td>
-      <td>8176</td>
-      <td>642</td>
-      <td>122.0</td>
-      <td>68.0</td>
-      <td>1</td>
-      <td>Thu</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Tue, Oct 14</td>
-      <td>9867</td>
-      <td>827</td>
-      <td>138.0</td>
-      <td>92.0</td>
-      <td>1</td>
-      <td>Tue</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>Fri, Oct 31</td>
-      <td>8890</td>
-      <td>706</td>
-      <td>174.0</td>
-      <td>101.0</td>
-      <td>0</td>
-      <td>Fri</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>Fri, Oct 24</td>
-      <td>9434</td>
-      <td>673</td>
-      <td>220.0</td>
-      <td>122.0</td>
-      <td>0</td>
-      <td>Fri</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>Wed, Oct 29</td>
-      <td>9327</td>
-      <td>739</td>
-      <td>196.0</td>
-      <td>86.0</td>
-      <td>0</td>
-      <td>Wed</td>
-    </tr>
-  </tbody>
-</table>
-</div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;Payments ~ treatment + C(day_of_week)&#39;</span><span class="p">,</span> <span class="n">users</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
 <tr>
-  <th>Dep. Variable:</th>        <td>Payments</td>     <th>  R-squared:         </th> <td>   0.239</td>
+  <th>Dep. Variable:</th>    <td>payments_per_click</td> <th>  R-squared:         </th> <td>   0.138</td>
 </tr>
 <tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.098</td>
+  <th>Model:</th>                    <td>OLS</td>        <th>  Adj. R-squared:    </th> <td>  -0.021</td>
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1.700</td>
+  <th>Method:</th>              <td>Least Squares</td>   <th>  F-statistic:       </th> <td>  0.8687</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Fri, 31 Jan 2020</td> <th>  Prob (F-statistic):</th>  <td> 0.138</td>
+  <th>Date:</th>              <td>Sun, 02 Feb 2020</td>  <th>  Prob (F-statistic):</th>  <td> 0.540</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>12:51:35</td>     <th>  Log-Likelihood:    </th> <td> -200.12</td>
+  <th>Time:</th>                  <td>12:38:50</td>      <th>  Log-Likelihood:    </th> <td>  99.073</td>
 </tr>
 <tr>
-  <th>No. Observations:</th>      <td>    46</td>      <th>  AIC:               </th> <td>   416.2</td>
+  <th>No. Observations:</th>       <td>    46</td>       <th>  AIC:               </th> <td>  -182.1</td>
 </tr>
 <tr>
-  <th>Df Residuals:</th>          <td>    38</td>      <th>  BIC:               </th> <td>   430.9</td>
+  <th>Df Residuals:</th>           <td>    38</td>       <th>  BIC:               </th> <td>  -167.5</td>
 </tr>
 <tr>
-  <th>Df Model:</th>              <td>     7</td>      <th>                     </th>     <td> </td>
+  <th>Df Model:</th>               <td>     7</td>       <th>                     </th>     <td> </td>
 </tr>
 <tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+  <th>Covariance Type:</th>       <td>nonrobust</td>     <th>                     </th>     <td> </td>
 </tr>
 </table>
 <table class="simpletable">
@@ -967,44 +940,45 @@ variables like “gender” or “age” (which will never be perfectly balanced
             <td></td>               <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
 </tr>
 <tr>
-  <th>Intercept</th>             <td>   95.2464</td> <td>    8.957</td> <td>   10.634</td> <td> 0.000</td> <td>   77.114</td> <td>  113.379</td>
+  <th>Intercept</th>             <td>    0.1337</td> <td>    0.013</td> <td>    9.971</td> <td> 0.000</td> <td>    0.107</td> <td>    0.161</td>
 </tr>
 <tr>
-  <th>C(day_of_week)[T.Mon]</th> <td>    8.6667</td> <td>   11.914</td> <td>    0.727</td> <td> 0.471</td> <td>  -15.451</td> <td>   32.785</td>
+  <th>C(day_of_week)[T.Mon]</th> <td>   -0.0082</td> <td>    0.018</td> <td>   -0.461</td> <td> 0.647</td> <td>   -0.044</td> <td>    0.028</td>
 </tr>
 <tr>
-  <th>C(day_of_week)[T.Sat]</th> <td>  -13.5833</td> <td>   11.144</td> <td>   -1.219</td> <td> 0.230</td> <td>  -36.144</td> <td>    8.977</td>
+  <th>C(day_of_week)[T.Sat]</th> <td>   -0.0133</td> <td>    0.017</td> <td>   -0.794</td> <td> 0.432</td> <td>   -0.047</td> <td>    0.021</td>
 </tr>
 <tr>
-  <th>C(day_of_week)[T.Sun]</th> <td>   -9.2083</td> <td>   11.144</td> <td>   -0.826</td> <td> 0.414</td> <td>  -31.769</td> <td>   13.352</td>
+  <th>C(day_of_week)[T.Sun]</th> <td>   -0.0144</td> <td>    0.017</td> <td>   -0.865</td> <td> 0.393</td> <td>   -0.048</td> <td>    0.019</td>
 </tr>
 <tr>
-  <th>C(day_of_week)[T.Thu]</th> <td>  -25.1667</td> <td>   11.914</td> <td>   -2.112</td> <td> 0.041</td> <td>  -49.285</td> <td>   -1.049</td>
+  <th>C(day_of_week)[T.Thu]</th> <td>   -0.0377</td> <td>    0.018</td> <td>   -2.113</td> <td> 0.041</td> <td>   -0.074</td> <td>   -0.002</td>
 </tr>
 <tr>
-  <th>C(day_of_week)[T.Tue]</th> <td>    4.0000</td> <td>   11.914</td> <td>    0.336</td> <td> 0.739</td> <td>  -20.118</td> <td>   28.118</td>
+  <th>C(day_of_week)[T.Tue]</th> <td>   -0.0101</td> <td>    0.018</td> <td>   -0.568</td> <td> 0.574</td> <td>   -0.046</td> <td>    0.026</td>
 </tr>
 <tr>
-  <th>C(day_of_week)[T.Wed]</th> <td>   -9.6667</td> <td>   11.914</td> <td>   -0.811</td> <td> 0.422</td> <td>  -33.785</td> <td>   14.451</td>
+  <th>C(day_of_week)[T.Wed]</th> <td>   -0.0254</td> <td>    0.018</td> <td>   -1.425</td> <td> 0.162</td> <td>   -0.062</td> <td>    0.011</td>
 </tr>
 <tr>
-  <th>treatment</th>             <td>   -3.8261</td> <td>    6.085</td> <td>   -0.629</td> <td> 0.533</td> <td>  -16.145</td> <td>    8.492</td>
+  <th>treatment</th>             <td>   -0.0049</td> <td>    0.009</td> <td>   -0.538</td> <td> 0.594</td> <td>   -0.023</td> <td>    0.014</td>
 </tr>
 </table>
 <table class="simpletable">
 <tr>
-  <th>Omnibus:</th>       <td> 0.759</td> <th>  Durbin-Watson:     </th> <td>   1.207</td>
+  <th>Omnibus:</th>       <td> 0.703</td> <th>  Durbin-Watson:     </th> <td>   0.986</td>
 </tr>
 <tr>
-  <th>Prob(Omnibus):</th> <td> 0.684</td> <th>  Jarque-Bera (JB):  </th> <td>   0.283</td>
+  <th>Prob(Omnibus):</th> <td> 0.704</td> <th>  Jarque-Bera (JB):  </th> <td>   0.237</td>
 </tr>
 <tr>
-  <th>Skew:</th>          <td>-0.173</td> <th>  Prob(JB):          </th> <td>   0.868</td>
+  <th>Skew:</th>          <td>-0.155</td> <th>  Prob(JB):          </th> <td>   0.888</td>
 </tr>
 <tr>
   <th>Kurtosis:</th>      <td> 3.168</td> <th>  Cond. No.          </th> <td>    9.27</td>
 </tr>
 </table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</div>
 </div>
 </div>
 </div>
