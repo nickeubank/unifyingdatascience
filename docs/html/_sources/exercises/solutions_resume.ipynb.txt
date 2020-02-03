@@ -1,0 +1,534 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Resume Experiment Analysis\n",
+    "\n",
+    "In this exercise, we will be using a data set from a randomized experiment conducted by Marianne Bertrand and Sendhil Mullainathan, who sent 4,870 fictious resumes out to employers in response to job adverts in Boston and Chicago in 2001. The resumes differ in various attributes including the names of the applicants, and different resumes were randomly allocated to job openings.  To manipulate perceived race, resumes are randomly assigned Black- or White-sounding names. The researchers collecting these data were interested to learning more about how racial bias impacts job market outcomes by testing whether Black sounding names obtain fewer callbacks for interviews than White names.\n",
+    "\n",
+    "You can get access to original article [here](https://www.aeaweb.org/articles?id=10.1257/0002828042002561). \n",
+    "\n",
+    "- Download the data set `resume_experiment.dta` from [github here](https://github.com/nickeubank/MIDS_Data/tree/master/resume_experiment), or by doing to `www.github.com/nickeubank/MIDS_Data` and opening the `resume_experiment` folder.\n",
+    "- For `python` users, use `read_stata` in `pandas` to load the data set; For `R` users, use `read_dta` in `haven` to load the data set\n",
+    "- `black` is the treatment variable in the data set (whether the resume has a Black-sounding name). \n",
+    "- `call` is the dependent variable of interest (did the employer call the fictitious applicant for an interview)\n",
+    "\n",
+    "In addition, the data includes a number of variables the describe the other features in each fictitious resume, including applicants education level (`education`),  years of experience (`yearsexp`), gender (`female`), computer skills (`computerskills`), and number of previous jobs (`ofjobs`). Each resume has a random selection of these attributes, so on average the Black-named fictitious applicant resumes have the same qualifications as the White-named applicant resumes. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Checking for Balance\n",
+    "\n",
+    "\n",
+    "### Exercise 1\n",
+    "\n",
+    "Check for balance in terms of applicant gender (`female`), computer skills (`computerskills`), and years of experience (`yearsexp`) across the two arms of the experiment (i.e. by `black`). Calculate both the differences across treatment arms *and* test for statistical significance of these differences. Do gender and computer skills look balanced across race groups? (1 point)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "from scipy import stats\n",
+    "import statsmodels.api as sm\n",
+    "resumes = pd.read_stata('https://github.com/nickeubank/MIDS_Data/blob/master/resume_experiment/resume_experiment.dta?raw=true')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>education</th>\n",
+       "      <th>ofjobs</th>\n",
+       "      <th>yearsexp</th>\n",
+       "      <th>computerskills</th>\n",
+       "      <th>call</th>\n",
+       "      <th>female</th>\n",
+       "      <th>black</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>4</td>\n",
+       "      <td>2</td>\n",
+       "      <td>6</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>0.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>3</td>\n",
+       "      <td>3</td>\n",
+       "      <td>6</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>0.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>4</td>\n",
+       "      <td>1</td>\n",
+       "      <td>6</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>1.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>3</td>\n",
+       "      <td>4</td>\n",
+       "      <td>6</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>1.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>3</td>\n",
+       "      <td>3</td>\n",
+       "      <td>22</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>0.0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   education  ofjobs  yearsexp  computerskills  call  female  black\n",
+       "0          4       2         6               1   0.0     1.0    0.0\n",
+       "1          3       3         6               1   0.0     1.0    0.0\n",
+       "2          4       1         6               1   0.0     1.0    1.0\n",
+       "3          3       4         6               1   0.0     1.0    1.0\n",
+       "4          3       3        22               1   0.0     1.0    0.0"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "resumes.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "For female, the mean for Black applicants is 0.77,\n",
+      "            the mean for White applicants is 0.76,\n",
+      "and the p-value for this difference is 0.38\n",
+      "\n",
+      "\n",
+      "For computerskills, the mean for Black applicants is 0.83,\n",
+      "            the mean for White applicants is 0.81,\n",
+      "and the p-value for this difference is 0.03\n",
+      "\n",
+      "\n",
+      "For yearsexp, the mean for Black applicants is 7.83,\n",
+      "            the mean for White applicants is 7.86,\n",
+      "and the p-value for this difference is 0.85\n",
+      "\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "for i in ['female', 'computerskills', 'yearsexp']:\n",
+    "    black = resumes.loc[resumes.black == 1, i].mean()\n",
+    "    white = resumes.loc[resumes.black == 0, i].mean()\n",
+    "    pvalue = stats.ttest_ind(resumes.loc[resumes.black == 1, i].values, \n",
+    "                             resumes.loc[resumes.black == 0, i].values).pvalue\n",
+    "    print(f'For {i}, the mean for Black applicants is {black:.2f},')\n",
+    "    print(f'            the mean for White applicants is {white:.2f},')\n",
+    "    print(f'and the p-value for this difference is {pvalue:.2f}')\n",
+    "    print('\\n')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Yes, gender and computer skills are roughly balanced across race groups. \n",
+    "# Black shows a statisticallly significantly higher level of computer \n",
+    "# computer skills than White, but the magnitude isn't too worrying.\n",
+    "# Provided other things seem balanced, this is hopefully spurious. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 2\n",
+    "\n",
+    "Do a similar tabulation for education (`education`) and the number of jobs previous held (`ofjobs`). These variables take on 5 and 7 different values, respectively. Because these are categorical, you shouldn't just calculate and compare means -- you should compare share of observations with each value.\n",
+    "\n",
+    "Does education and the number of previous jobs look balanced across racial groups? (2 points)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th>education</th>\n",
+       "      <th>0</th>\n",
+       "      <th>1</th>\n",
+       "      <th>2</th>\n",
+       "      <th>3</th>\n",
+       "      <th>4</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>black</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0.0</th>\n",
+       "      <td>18</td>\n",
+       "      <td>18</td>\n",
+       "      <td>142</td>\n",
+       "      <td>513</td>\n",
+       "      <td>1744</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1.0</th>\n",
+       "      <td>28</td>\n",
+       "      <td>22</td>\n",
+       "      <td>132</td>\n",
+       "      <td>493</td>\n",
+       "      <td>1760</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "education   0   1    2    3     4\n",
+       "black                            \n",
+       "0.0        18  18  142  513  1744\n",
+       "1.0        28  22  132  493  1760"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Quick and dirty:\n",
+    "pd.crosstab(resumes['black'], resumes['education'])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "For education, value 4:\n",
+      "the mean for Black applicants is 0.72,\n",
+      "the mean for White applicants is 0.72,\n",
+      "and the p-value for this difference is 0.61\n",
+      "\n",
+      "\n",
+      "For education, value 3:\n",
+      "the mean for Black applicants is 0.20,\n",
+      "the mean for White applicants is 0.21,\n",
+      "and the p-value for this difference is 0.48\n",
+      "\n",
+      "\n",
+      "For education, value 1:\n",
+      "the mean for Black applicants is 0.01,\n",
+      "the mean for White applicants is 0.01,\n",
+      "and the p-value for this difference is 0.53\n",
+      "\n",
+      "\n",
+      "For education, value 2:\n",
+      "the mean for Black applicants is 0.05,\n",
+      "the mean for White applicants is 0.06,\n",
+      "and the p-value for this difference is 0.53\n",
+      "\n",
+      "\n",
+      "For education, value 0:\n",
+      "the mean for Black applicants is 0.01,\n",
+      "the mean for White applicants is 0.01,\n",
+      "and the p-value for this difference is 0.14\n",
+      "\n",
+      "\n",
+      "For ofjobs, value 2:\n",
+      "the mean for Black applicants is 0.15,\n",
+      "the mean for White applicants is 0.14,\n",
+      "and the p-value for this difference is 0.68\n",
+      "\n",
+      "\n",
+      "For ofjobs, value 3:\n",
+      "the mean for Black applicants is 0.29,\n",
+      "the mean for White applicants is 0.30,\n",
+      "and the p-value for this difference is 0.47\n",
+      "\n",
+      "\n",
+      "For ofjobs, value 1:\n",
+      "the mean for Black applicants is 0.02,\n",
+      "the mean for White applicants is 0.02,\n",
+      "and the p-value for this difference is 0.85\n",
+      "\n",
+      "\n",
+      "For ofjobs, value 4:\n",
+      "the mean for Black applicants is 0.33,\n",
+      "the mean for White applicants is 0.33,\n",
+      "and the p-value for this difference is 0.74\n",
+      "\n",
+      "\n",
+      "For ofjobs, value 5:\n",
+      "the mean for Black applicants is 0.11,\n",
+      "the mean for White applicants is 0.11,\n",
+      "and the p-value for this difference is 0.44\n",
+      "\n",
+      "\n",
+      "For ofjobs, value 6:\n",
+      "the mean for Black applicants is 0.09,\n",
+      "the mean for White applicants is 0.10,\n",
+      "and the p-value for this difference is 0.28\n",
+      "\n",
+      "\n",
+      "For ofjobs, value 7:\n",
+      "the mean for Black applicants is 0.00,\n",
+      "the mean for White applicants is 0.00,\n",
+      "and the p-value for this difference is 0.25\n",
+      "\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "for v in ['education', 'ofjobs']:\n",
+    "    for i in resumes[v].unique():\n",
+    "        black_share = resumes.loc[(resumes.black == 1), v] == i\n",
+    "        \n",
+    "        white_share = resumes.loc[(resumes.black == 0), v] == i\n",
+    "\n",
+    "        pvalue = stats.ttest_ind(black_share.values, \n",
+    "                                 white_share.values).pvalue\n",
+    "        \n",
+    "        print(f'For {v}, value {i}:')\n",
+    "        print(f'the mean for Black applicants is {black_share.mean():.2f},')\n",
+    "        print(f'the mean for White applicants is {white_share.mean():.2f},')\n",
+    "        print(f'and the p-value for this difference is {pvalue:.2f}')\n",
+    "        print('\\n')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 3\n",
+    "\n",
+    "What do you make of the overall results on resume characteristics? Why do we care about whether these variables look similar across the race groups? (1 point)\n",
+    "\n",
+    "```\n",
+    "\n",
+    "\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Checking on the balance across groups on a number of key variables ensures that the resumes sent \n",
+    "# out are the same or almost the same, which allows us to confidently isolate the independent \n",
+    "# variable, the \"black-ness\" or \"white-ness\" of the name."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Estimating Effect of Race"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 4\n",
+    "\n",
+    "The variable of interest in the data set is the variable `call`, which indicates a call back for an interview. Perform a two-sample t-test comparing applicants with black sounding names and white sounding names."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The mean callback rates are:\n",
+      "6.4% for Black applicants, and\n",
+      "9.7% for White applicants.\n",
+      "Thats a 39.8% difference.\n",
+      "This difference has a p-value of 0.000\n"
+     ]
+    }
+   ],
+   "source": [
+    "black = resumes[resumes.black == 1]['call']\n",
+    "white = resumes[resumes.black == 0]['call']\n",
+    "t2, p2 = stats.ttest_ind(black, white)\n",
+    "\n",
+    "print(f'The mean callback rates are:')\n",
+    "print(f'{black.mean() * 100 :.1f}% for Black applicants, and')\n",
+    "print(f'{white.mean() * 100 :.1f}% for White applicants.')\n",
+    "print(f'Thats a {(white.mean() - black.mean()) / (resumes.call.mean()) * 100 :.1f}% difference.')\n",
+    "print(f'This difference has a p-value of {p2:.3f}')\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 5\n",
+    "\n",
+    "Now, use a regression model to estimate the differential likelihood of being called back by applicant race (i.e. the racial discrimination by employers)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 6\n",
+    "\n",
+    "Now let's see if we can improve our estimates by adding in other variables as controls. Add in `education`, `yearsexp`, and `computerskills` -- be sure to treat education as a categorical variable!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 7\n",
+    "\n",
+    "These effects are the *average* effects. Now let's look for heterogeneous treatment effects. \n",
+    "\n",
+    "Look only at candidates with high educations. Is there more or less racial discrimination among these highly educated candidates?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 8\n",
+    "\n",
+    "Now let's compare men and women -- is discrimination greater for Black men or Black women?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 9\n",
+    "    \n",
+    "What do you conclude from the results of the Bertand and Mullainathan experiment? (1 point)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
