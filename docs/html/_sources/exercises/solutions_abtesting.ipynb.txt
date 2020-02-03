@@ -817,6 +817,7 @@
     }
    ],
    "source": [
+    "import statsmodels.formula.api as smf\n",
     "smf.ols('payments_per_click ~ treatment + C(Date)', users).fit().summary()"
    ]
   },
