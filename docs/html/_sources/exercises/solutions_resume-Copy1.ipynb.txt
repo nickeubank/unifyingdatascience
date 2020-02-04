@@ -32,7 +32,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": null,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -44,139 +44,18 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": null,
    "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>education</th>\n",
-       "      <th>ofjobs</th>\n",
-       "      <th>yearsexp</th>\n",
-       "      <th>computerskills</th>\n",
-       "      <th>call</th>\n",
-       "      <th>female</th>\n",
-       "      <th>black</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>0</th>\n",
-       "      <td>4</td>\n",
-       "      <td>2</td>\n",
-       "      <td>6</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0.0</td>\n",
-       "      <td>1.0</td>\n",
-       "      <td>0.0</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>1</th>\n",
-       "      <td>3</td>\n",
-       "      <td>3</td>\n",
-       "      <td>6</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0.0</td>\n",
-       "      <td>1.0</td>\n",
-       "      <td>0.0</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>2</th>\n",
-       "      <td>4</td>\n",
-       "      <td>1</td>\n",
-       "      <td>6</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0.0</td>\n",
-       "      <td>1.0</td>\n",
-       "      <td>1.0</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>3</th>\n",
-       "      <td>3</td>\n",
-       "      <td>4</td>\n",
-       "      <td>6</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0.0</td>\n",
-       "      <td>1.0</td>\n",
-       "      <td>1.0</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>4</th>\n",
-       "      <td>3</td>\n",
-       "      <td>3</td>\n",
-       "      <td>22</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0.0</td>\n",
-       "      <td>1.0</td>\n",
-       "      <td>0.0</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "   education  ofjobs  yearsexp  computerskills  call  female  black\n",
-       "0          4       2         6               1   0.0     1.0    0.0\n",
-       "1          3       3         6               1   0.0     1.0    0.0\n",
-       "2          4       1         6               1   0.0     1.0    1.0\n",
-       "3          3       4         6               1   0.0     1.0    1.0\n",
-       "4          3       3        22               1   0.0     1.0    0.0"
-      ]
-     },
-     "execution_count": 2,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
+   "outputs": [],
    "source": [
     "resumes.head()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": null,
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "For female, the mean for Black applicants is 0.77,\n",
-      "            the mean for White applicants is 0.76,\n",
-      "and the p-value for this difference is 0.38\n",
-      "\n",
-      "\n",
-      "For computerskills, the mean for Black applicants is 0.83,\n",
-      "            the mean for White applicants is 0.81,\n",
-      "and the p-value for this difference is 0.03\n",
-      "\n",
-      "\n",
-      "For yearsexp, the mean for Black applicants is 7.83,\n",
-      "            the mean for White applicants is 7.86,\n",
-      "and the p-value for this difference is 0.85\n",
-      "\n",
-      "\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "for i in ['female', 'computerskills', 'yearsexp']:\n",
     "    black = resumes.loc[resumes.black == 1, i].mean()\n",
@@ -191,7 +70,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": null,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -207,85 +86,24 @@
    "source": [
     "### Exercise 2\n",
     "\n",
-    "Do a similar tabulation for education (`education`) and the number of jobs previous held (`ofjobs`). These variables take on 5 and 7 different values, respectively. Because these are categorical, you shouldn't just calculate and compare means -- you should compare share of observations with each value.\n",
+    "Do a similar tabulation for education (`education`). Education is a categorical variable coded as follows:\n",
+    "\n",
+    "- 0: Education not reported\n",
+    "- 1: High school dropout\n",
+    "- 2: High school graduate\n",
+    "- 3: Some college\n",
+    "- 4: College graduate or higher\n",
+    "\n",
+    "Because these are categorical, you shouldn't just calculate and compare means -- you should compare share of observations with each value.\n",
     "\n",
     "Does education and the number of previous jobs look balanced across racial groups? (2 points)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": null,
    "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th>education</th>\n",
-       "      <th>0</th>\n",
-       "      <th>1</th>\n",
-       "      <th>2</th>\n",
-       "      <th>3</th>\n",
-       "      <th>4</th>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>black</th>\n",
-       "      <th></th>\n",
-       "      <th></th>\n",
-       "      <th></th>\n",
-       "      <th></th>\n",
-       "      <th></th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>0.0</th>\n",
-       "      <td>18</td>\n",
-       "      <td>18</td>\n",
-       "      <td>142</td>\n",
-       "      <td>513</td>\n",
-       "      <td>1744</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>1.0</th>\n",
-       "      <td>28</td>\n",
-       "      <td>22</td>\n",
-       "      <td>132</td>\n",
-       "      <td>493</td>\n",
-       "      <td>1760</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "education   0   1    2    3     4\n",
-       "black                            \n",
-       "0.0        18  18  142  513  1744\n",
-       "1.0        28  22  132  493  1760"
-      ]
-     },
-     "execution_count": 5,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
+   "outputs": [],
    "source": [
     "# Quick and dirty:\n",
     "pd.crosstab(resumes['black'], resumes['education'])"
@@ -293,90 +111,11 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": null,
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "For education, value 4:\n",
-      "the mean for Black applicants is 0.72,\n",
-      "the mean for White applicants is 0.72,\n",
-      "and the p-value for this difference is 0.61\n",
-      "\n",
-      "\n",
-      "For education, value 3:\n",
-      "the mean for Black applicants is 0.20,\n",
-      "the mean for White applicants is 0.21,\n",
-      "and the p-value for this difference is 0.48\n",
-      "\n",
-      "\n",
-      "For education, value 1:\n",
-      "the mean for Black applicants is 0.01,\n",
-      "the mean for White applicants is 0.01,\n",
-      "and the p-value for this difference is 0.53\n",
-      "\n",
-      "\n",
-      "For education, value 2:\n",
-      "the mean for Black applicants is 0.05,\n",
-      "the mean for White applicants is 0.06,\n",
-      "and the p-value for this difference is 0.53\n",
-      "\n",
-      "\n",
-      "For education, value 0:\n",
-      "the mean for Black applicants is 0.01,\n",
-      "the mean for White applicants is 0.01,\n",
-      "and the p-value for this difference is 0.14\n",
-      "\n",
-      "\n",
-      "For ofjobs, value 2:\n",
-      "the mean for Black applicants is 0.15,\n",
-      "the mean for White applicants is 0.14,\n",
-      "and the p-value for this difference is 0.68\n",
-      "\n",
-      "\n",
-      "For ofjobs, value 3:\n",
-      "the mean for Black applicants is 0.29,\n",
-      "the mean for White applicants is 0.30,\n",
-      "and the p-value for this difference is 0.47\n",
-      "\n",
-      "\n",
-      "For ofjobs, value 1:\n",
-      "the mean for Black applicants is 0.02,\n",
-      "the mean for White applicants is 0.02,\n",
-      "and the p-value for this difference is 0.85\n",
-      "\n",
-      "\n",
-      "For ofjobs, value 4:\n",
-      "the mean for Black applicants is 0.33,\n",
-      "the mean for White applicants is 0.33,\n",
-      "and the p-value for this difference is 0.74\n",
-      "\n",
-      "\n",
-      "For ofjobs, value 5:\n",
-      "the mean for Black applicants is 0.11,\n",
-      "the mean for White applicants is 0.11,\n",
-      "and the p-value for this difference is 0.44\n",
-      "\n",
-      "\n",
-      "For ofjobs, value 6:\n",
-      "the mean for Black applicants is 0.09,\n",
-      "the mean for White applicants is 0.10,\n",
-      "and the p-value for this difference is 0.28\n",
-      "\n",
-      "\n",
-      "For ofjobs, value 7:\n",
-      "the mean for Black applicants is 0.00,\n",
-      "the mean for White applicants is 0.00,\n",
-      "and the p-value for this difference is 0.25\n",
-      "\n",
-      "\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
-    "for v in ['education', 'ofjobs']:\n",
+    "for v in ['education']:\n",
     "    for i in resumes[v].unique():\n",
     "        black_share = resumes.loc[(resumes.black == 1), v] == i\n",
     "        \n",
@@ -408,7 +147,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": null,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -435,21 +174,9 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": null,
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "The mean callback rates are:\n",
-      "6.4% for Black applicants, and\n",
-      "9.7% for White applicants.\n",
-      "Thats a 39.8% difference.\n",
-      "This difference has a p-value of 0.000\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "black = resumes[resumes.black == 1]['call']\n",
     "white = resumes[resumes.black == 0]['call']\n",
@@ -458,8 +185,8 @@
     "print(f'The mean callback rates are:')\n",
     "print(f'{black.mean() * 100 :.1f}% for Black applicants, and')\n",
     "print(f'{white.mean() * 100 :.1f}% for White applicants.')\n",
-    "print(f'Thats a {(white.mean() - black.mean()) / (resumes.call.mean()) * 100 :.1f}% difference.')\n",
-    "print(f'This difference has a p-value of {p2:.3f}')\n"
+    "print(f'Thats a difference of {(white.mean() - black.mean()) * 100: .1f} percentage points, a difference of {(white.mean() - black.mean()) / (resumes.call.mean()) * 100 :.1f}% difference.')\n",
+    "print(f'This difference has a p-value of {p2:.3f}')"
    ]
   },
   {
@@ -472,12 +199,39 @@
    ]
   },
   {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import statsmodels.formula.api as smf\n",
+    "smf.ols('call ~ black', resumes).fit().summary()"
+   ]
+  },
+  {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
     "### Exercise 6\n",
     "\n",
-    "Now let's see if we can improve our estimates by adding in other variables as controls. Add in `education`, `yearsexp`, and `computerskills` -- be sure to treat education as a categorical variable!"
+    "Now let's see if we can improve our estimates by adding in other variables as controls. Add in `education`, `yearsexp`, `female`, and `computerskills` -- be sure to treat education as a categorical variable!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import statsmodels.formula.api as smf\n",
+    "smf.ols('call ~ black + C(education) + yearsexp + computerskills + female', resumes).fit().summary()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Estimating Heterogeneous Effects"
    ]
   },
   {
@@ -492,6 +246,35 @@
    ]
   },
   {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "college_grads = resumes[resumes.education == 4]\n",
+    "smf.ols('call ~ black + yearsexp + computerskills + female', college_grads).fit().summary()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "non_college_grads = resumes[resumes.education != 4]\n",
+    "smf.ols('call ~ black + yearsexp + computerskills + female', non_college_grads).fit().summary()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Less discrimination among those with college degrees. "
+   ]
+  },
+  {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
@@ -501,12 +284,85 @@
    ]
   },
   {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "men = resumes[resumes.female == 0]\n",
+    "women = resumes[resumes.female == 1]\n",
+    "\n",
+    "smf.ols('call ~ black + yearsexp + computerskills + C(education)', men).fit().summary()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "smf.ols('call ~ black + yearsexp + computerskills + C(education)', women).fit().summary()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# About the same. "
+   ]
+  },
+  {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Exercise 7\n",
-    "    \n",
-    "What do you conclude from the results of the Bertand and Mullainathan experiment? (1 point)"
+    "### Exercise 9\n",
+    "\n",
+    "Calculate and/or lookup the following online:\n",
+    "\n",
+    "- What is the share of applicants in our dataset with college degrees?\n",
+    "- What share of Black adult Americans have college degrees (i.e. have completed a bachelors degree)?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# In our data: \n",
+    "(resumes['education'] == 4).mean()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# In the US, about 16% of Black adults "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 10\n",
+    "\n",
+    "What are the implications of your answers to Exercise 7 and to Exercise 9 to how you interpret the Average Treatment Effect you estimated in Exercise 6?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Given that discrimination seems higher for less educated job applicants \n",
+    "# and the resume experiment over-represented people with college degrees, \n",
+    "# real workplace discrimination is likely higher than suggested by the \n",
+    "# ATE estimated in Exercise 6. "
    ]
   }
  ],

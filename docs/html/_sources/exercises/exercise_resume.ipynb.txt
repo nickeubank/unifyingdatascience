@@ -36,7 +36,15 @@
    "source": [
     "### Exercise 2\n",
     "\n",
-    "Do a similar tabulation for education (`education`) and the number of jobs previous held (`ofjobs`). These variables take on 5 and 7 different values, respectively. Because these are categorical, you shouldn't just calculate and compare means -- you should compare share of observations with each value.\n",
+    "Do a similar tabulation for education (`education`). Education is a categorical variable coded as follows:\n",
+    "\n",
+    "- 0: Education not reported\n",
+    "- 1: High school dropout\n",
+    "- 2: High school graduate\n",
+    "- 3: Some college\n",
+    "- 4: College graduate or higher\n",
+    "\n",
+    "Because these are categorical, you shouldn't just calculate and compare means -- you should compare share of observations with each value.\n",
     "\n",
     "Does education and the number of previous jobs look balanced across racial groups? (2 points)"
    ]
@@ -86,7 +94,14 @@
    "source": [
     "### Exercise 6\n",
     "\n",
-    "Now let's see if we can improve our estimates by adding in other variables as controls. Add in `education`, `yearsexp`, and `computerskills` -- be sure to treat education as a categorical variable!"
+    "Now let's see if we can improve our estimates by adding in other variables as controls. Add in `education`, `yearsexp`, `female`, and `computerskills` -- be sure to treat education as a categorical variable!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Estimating Heterogeneous Effects"
    ]
   },
   {
@@ -114,16 +129,21 @@
    "metadata": {},
    "source": [
     "### Exercise 9\n",
-    "    \n",
-    "What do you conclude from the results of the Bertand and Mullainathan experiment? (1 point)"
+    "\n",
+    "Calculate and/or lookup the following online:\n",
+    "\n",
+    "- What is the share of applicants in our dataset with college degrees?\n",
+    "- What share of Black adult Americans have college degrees (i.e. have completed a bachelors degree)?"
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
+   "cell_type": "markdown",
    "metadata": {},
-   "outputs": [],
-   "source": []
+   "source": [
+    "### Exercise 10\n",
+    "\n",
+    "What are the implications of your answers to Exercise 7 and to Exercise 9 to how you interpret the Average Treatment Effect you estimated in Exercise 6?"
+   ]
   }
  ],
  "metadata": {

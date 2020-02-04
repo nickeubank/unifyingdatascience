@@ -412,7 +412,15 @@ and the p-value for this difference is 0.85
 </div>
 <div class="section" id="Exercise-2">
 <h3>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h3>
-<p>Do a similar tabulation for education (<code class="docutils literal notranslate"><span class="pre">education</span></code>) and the number of jobs previous held (<code class="docutils literal notranslate"><span class="pre">ofjobs</span></code>). These variables take on 5 and 7 different values, respectively. Because these are categorical, you shouldn’t just calculate and compare means – you should compare share of observations with each value.</p>
+<p>Do a similar tabulation for education (<code class="docutils literal notranslate"><span class="pre">education</span></code>). Education is a categorical variable coded as follows:</p>
+<ul class="simple">
+<li><p>0: Education not reported</p></li>
+<li><p>1: High school dropout</p></li>
+<li><p>2: High school graduate</p></li>
+<li><p>3: Some college</p></li>
+<li><p>4: College graduate or higher</p></li>
+</ul>
+<p>Because these are categorical, you shouldn’t just calculate and compare means – you should compare share of observations with each value.</p>
 <p>Does education and the number of previous jobs look balanced across racial groups? (2 points)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -488,7 +496,7 @@ and the p-value for this difference is 0.85
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;education&#39;</span><span class="p">,</span> <span class="s1">&#39;ofjobs&#39;</span><span class="p">]:</span>
+<span></span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;education&#39;</span><span class="p">]:</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">resumes</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
         <span class="n">black_share</span> <span class="o">=</span> <span class="n">resumes</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">1</span><span class="p">),</span> <span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span>
 
@@ -540,48 +548,6 @@ the mean for White applicants is 0.01,
 and the p-value for this difference is 0.14
 
 
-For ofjobs, value 2:
-the mean for Black applicants is 0.15,
-the mean for White applicants is 0.14,
-and the p-value for this difference is 0.68
-
-
-For ofjobs, value 3:
-the mean for Black applicants is 0.29,
-the mean for White applicants is 0.30,
-and the p-value for this difference is 0.47
-
-
-For ofjobs, value 1:
-the mean for Black applicants is 0.02,
-the mean for White applicants is 0.02,
-and the p-value for this difference is 0.85
-
-
-For ofjobs, value 4:
-the mean for Black applicants is 0.33,
-the mean for White applicants is 0.33,
-and the p-value for this difference is 0.74
-
-
-For ofjobs, value 5:
-the mean for Black applicants is 0.11,
-the mean for White applicants is 0.11,
-and the p-value for this difference is 0.44
-
-
-For ofjobs, value 6:
-the mean for Black applicants is 0.09,
-the mean for White applicants is 0.10,
-and the p-value for this difference is 0.28
-
-
-For ofjobs, value 7:
-the mean for Black applicants is 0.00,
-the mean for White applicants is 0.00,
-and the p-value for this difference is 0.25
-
-
 </pre></div></div>
 </div>
 </div>
@@ -622,9 +588,8 @@ and the p-value for this difference is 0.25
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The mean callback rates are:&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;{black.mean() * 100 :.1f}</span><span class="si">% f</span><span class="s1">or Black applicants, and&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;{white.mean() * 100 :.1f}</span><span class="si">% f</span><span class="s1">or White applicants.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Thats a {(white.mean() - black.mean()) / (resumes.call.mean()) * 100 :.1f}</span><span class="si">% d</span><span class="s1">ifference.&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Thats a difference of {(white.mean() - black.mean()) * 100: .1f} percentage points, a difference of {(white.mean() - black.mean()) / (resumes.call.mean()) * 100 :.1f}</span><span class="si">% d</span><span class="s1">ifference.&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This difference has a p-value of </span><span class="si">{p2:.3f}</span><span class="s1">&#39;</span><span class="p">)</span>
-
 </pre></div>
 </div>
 </div>
@@ -636,7 +601,7 @@ and the p-value for this difference is 0.25
 The mean callback rates are:
 6.4% for Black applicants, and
 9.7% for White applicants.
-Thats a 39.8% difference.
+Thats a difference of  3.2 percentage points, a difference of 39.8% difference.
 This difference has a p-value of 0.000
 </pre></div></div>
 </div>
@@ -644,23 +609,594 @@ This difference has a p-value of 0.000
 <div class="section" id="Exercise-5">
 <h3>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h3>
 <p>Now, use a regression model to estimate the differential likelihood of being called back by applicant race (i.e. the racial discrimination by employers).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;call ~ black&#39;</span><span class="p">,</span> <span class="n">resumes</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>call</td>       <th>  R-squared:         </th> <td>   0.003</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.003</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   16.93</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Tue, 04 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.94e-05</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>12:40:47</td>     <th>  Log-Likelihood:    </th> <td> -562.24</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  4870</td>      <th>  AIC:               </th> <td>   1128.</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  4868</td>      <th>  BIC:               </th> <td>   1141.</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th> <td>    0.0965</td> <td>    0.006</td> <td>   17.532</td> <td> 0.000</td> <td>    0.086</td> <td>    0.107</td>
+</tr>
+<tr>
+  <th>black</th>     <td>   -0.0320</td> <td>    0.008</td> <td>   -4.115</td> <td> 0.000</td> <td>   -0.047</td> <td>   -0.017</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>2969.205</td> <th>  Durbin-Watson:     </th> <td>   1.440</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>18927.068</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 3.068</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>10.458</td>  <th>  Cond. No.          </th> <td>    2.62</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</div>
 </div>
 <div class="section" id="Exercise-6">
 <h3>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h3>
-<p>Now let’s see if we can improve our estimates by adding in other variables as controls. Add in <code class="docutils literal notranslate"><span class="pre">education</span></code>, <code class="docutils literal notranslate"><span class="pre">yearsexp</span></code>, and <code class="docutils literal notranslate"><span class="pre">computerskills</span></code> – be sure to treat education as a categorical variable!</p>
+<p>Now let’s see if we can improve our estimates by adding in other variables as controls. Add in <code class="docutils literal notranslate"><span class="pre">education</span></code>, <code class="docutils literal notranslate"><span class="pre">yearsexp</span></code>, <code class="docutils literal notranslate"><span class="pre">female</span></code>, and <code class="docutils literal notranslate"><span class="pre">computerskills</span></code> – be sure to treat education as a categorical variable!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
 </div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;call ~ black + C(education) + yearsexp + computerskills + female&#39;</span><span class="p">,</span> <span class="n">resumes</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>call</td>       <th>  R-squared:         </th> <td>   0.008</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.006</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   4.931</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Tue, 04 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>4.30e-06</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>12:40:47</td>     <th>  Log-Likelihood:    </th> <td> -551.02</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  4870</td>      <th>  AIC:               </th> <td>   1120.</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  4861</td>      <th>  BIC:               </th> <td>   1178.</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     8</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+          <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th>         <td>    0.0821</td> <td>    0.042</td> <td>    1.957</td> <td> 0.050</td> <td>   -0.000</td> <td>    0.164</td>
+</tr>
+<tr>
+  <th>C(education)[T.1]</th> <td>   -0.0017</td> <td>    0.059</td> <td>   -0.029</td> <td> 0.977</td> <td>   -0.117</td> <td>    0.113</td>
+</tr>
+<tr>
+  <th>C(education)[T.2]</th> <td>-8.953e-05</td> <td>    0.044</td> <td>   -0.002</td> <td> 0.998</td> <td>   -0.086</td> <td>    0.085</td>
+</tr>
+<tr>
+  <th>C(education)[T.3]</th> <td>   -0.0025</td> <td>    0.041</td> <td>   -0.061</td> <td> 0.951</td> <td>   -0.083</td> <td>    0.078</td>
+</tr>
+<tr>
+  <th>C(education)[T.4]</th> <td>   -0.0047</td> <td>    0.040</td> <td>   -0.117</td> <td> 0.907</td> <td>   -0.084</td> <td>    0.074</td>
+</tr>
+<tr>
+  <th>black</th>             <td>   -0.0316</td> <td>    0.008</td> <td>   -4.064</td> <td> 0.000</td> <td>   -0.047</td> <td>   -0.016</td>
+</tr>
+<tr>
+  <th>yearsexp</th>          <td>    0.0032</td> <td>    0.001</td> <td>    4.067</td> <td> 0.000</td> <td>    0.002</td> <td>    0.005</td>
+</tr>
+<tr>
+  <th>computerskills</th>    <td>   -0.0186</td> <td>    0.011</td> <td>   -1.743</td> <td> 0.081</td> <td>   -0.039</td> <td>    0.002</td>
+</tr>
+<tr>
+  <th>female</th>            <td>    0.0112</td> <td>    0.010</td> <td>    1.153</td> <td> 0.249</td> <td>   -0.008</td> <td>    0.030</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>2950.646</td> <th>  Durbin-Watson:     </th> <td>   1.448</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>18631.250</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 3.047</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>10.395</td>  <th>  Cond. No.          </th> <td>    225.</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</div>
+</div>
+</div>
+<div class="section" id="Estimating-Heterogeneous-Effects">
+<h2>Estimating Heterogeneous Effects<a class="headerlink" href="#Estimating-Heterogeneous-Effects" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="Exercise-7">
 <h3>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h3>
 <p>These effects are the <em>average</em> effects. Now let’s look for heterogeneous treatment effects.</p>
 <p>Look only at candidates with high educations. Is there more or less racial discrimination among these highly educated candidates?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">college_grads</span> <span class="o">=</span> <span class="n">resumes</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">education</span> <span class="o">==</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;call ~ black + yearsexp + computerskills + female&#39;</span><span class="p">,</span> <span class="n">college_grads</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>call</td>       <th>  R-squared:         </th> <td>   0.005</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.004</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   4.550</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Tue, 04 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td>0.00115</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>12:40:47</td>     <th>  Log-Likelihood:    </th> <td> -372.64</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  3504</td>      <th>  AIC:               </th> <td>   755.3</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  3499</td>      <th>  BIC:               </th> <td>   786.1</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     4</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+         <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th>      <td>    0.0736</td> <td>    0.015</td> <td>    4.853</td> <td> 0.000</td> <td>    0.044</td> <td>    0.103</td>
+</tr>
+<tr>
+  <th>black</th>          <td>   -0.0286</td> <td>    0.009</td> <td>   -3.144</td> <td> 0.002</td> <td>   -0.046</td> <td>   -0.011</td>
+</tr>
+<tr>
+  <th>yearsexp</th>       <td>    0.0019</td> <td>    0.001</td> <td>    1.938</td> <td> 0.053</td> <td>-2.18e-05</td> <td>    0.004</td>
+</tr>
+<tr>
+  <th>computerskills</th> <td>   -0.0108</td> <td>    0.012</td> <td>   -0.911</td> <td> 0.362</td> <td>   -0.034</td> <td>    0.012</td>
+</tr>
+<tr>
+  <th>female</th>         <td>    0.0197</td> <td>    0.010</td> <td>    1.912</td> <td> 0.056</td> <td>   -0.001</td> <td>    0.040</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>2165.854</td> <th>  Durbin-Watson:     </th> <td>   1.522</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>14157.448</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 3.096</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>10.657</td>  <th>  Cond. No.          </th> <td>    35.7</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">non_college_grads</span> <span class="o">=</span> <span class="n">resumes</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">education</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;call ~ black + yearsexp + computerskills + female&#39;</span><span class="p">,</span> <span class="n">non_college_grads</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>call</td>       <th>  R-squared:         </th> <td>   0.026</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.023</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   9.067</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Tue, 04 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.15e-07</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>12:40:47</td>     <th>  Log-Likelihood:    </th> <td> -170.01</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  1366</td>      <th>  AIC:               </th> <td>   350.0</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  1361</td>      <th>  BIC:               </th> <td>   376.1</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     4</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+         <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th>      <td>    0.1315</td> <td>    0.028</td> <td>    4.705</td> <td> 0.000</td> <td>    0.077</td> <td>    0.186</td>
+</tr>
+<tr>
+  <th>black</th>          <td>   -0.0408</td> <td>    0.015</td> <td>   -2.744</td> <td> 0.006</td> <td>   -0.070</td> <td>   -0.012</td>
+</tr>
+<tr>
+  <th>yearsexp</th>       <td>    0.0062</td> <td>    0.001</td> <td>    4.650</td> <td> 0.000</td> <td>    0.004</td> <td>    0.009</td>
+</tr>
+<tr>
+  <th>computerskills</th> <td>   -0.0412</td> <td>    0.022</td> <td>   -1.838</td> <td> 0.066</td> <td>   -0.085</td> <td>    0.003</td>
+</tr>
+<tr>
+  <th>female</th>         <td>   -0.0460</td> <td>    0.027</td> <td>   -1.713</td> <td> 0.087</td> <td>   -0.099</td> <td>    0.007</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>795.855</td> <th>  Durbin-Watson:     </th> <td>   1.621</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>4394.951</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 2.880</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 9.636</td>  <th>  Cond. No.          </th> <td>    46.2</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Less discrimination among those with college degrees.</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="Exercise-8">
 <h3>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h3>
 <p>Now let’s compare men and women – is discrimination greater for Black men or Black women?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
 </div>
-<div class="section" id="Exercise-7">
-<h3>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h3>
-<p>What do you conclude from the results of the Bertand and Mullainathan experiment? (1 point)</p>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">men</span> <span class="o">=</span> <span class="n">resumes</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">female</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">women</span> <span class="o">=</span> <span class="n">resumes</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">female</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;call ~ black + yearsexp + computerskills + C(education)&#39;</span><span class="p">,</span> <span class="n">men</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>call</td>       <th>  R-squared:         </th> <td>   0.011</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.005</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1.786</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Tue, 04 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td>0.0865</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>12:40:47</td>     <th>  Log-Likelihood:    </th> <td> -81.051</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  1124</td>      <th>  AIC:               </th> <td>   178.1</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  1116</td>      <th>  BIC:               </th> <td>   218.3</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     7</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+          <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th>         <td>    0.0792</td> <td>    0.067</td> <td>    1.185</td> <td> 0.236</td> <td>   -0.052</td> <td>    0.210</td>
+</tr>
+<tr>
+  <th>C(education)[T.1]</th> <td>    0.0745</td> <td>    0.084</td> <td>    0.890</td> <td> 0.374</td> <td>   -0.090</td> <td>    0.239</td>
+</tr>
+<tr>
+  <th>C(education)[T.2]</th> <td>    0.0557</td> <td>    0.072</td> <td>    0.773</td> <td> 0.439</td> <td>   -0.086</td> <td>    0.197</td>
+</tr>
+<tr>
+  <th>C(education)[T.3]</th> <td>    0.1187</td> <td>    0.081</td> <td>    1.471</td> <td> 0.141</td> <td>   -0.040</td> <td>    0.277</td>
+</tr>
+<tr>
+  <th>C(education)[T.4]</th> <td>    0.0059</td> <td>    0.064</td> <td>    0.092</td> <td> 0.927</td> <td>   -0.120</td> <td>    0.132</td>
+</tr>
+<tr>
+  <th>black</th>             <td>   -0.0313</td> <td>    0.016</td> <td>   -2.002</td> <td> 0.045</td> <td>   -0.062</td> <td>   -0.001</td>
+</tr>
+<tr>
+  <th>yearsexp</th>          <td>   -0.0001</td> <td>    0.002</td> <td>   -0.074</td> <td> 0.941</td> <td>   -0.003</td> <td>    0.003</td>
+</tr>
+<tr>
+  <th>computerskills</th>    <td>   -0.0033</td> <td>    0.017</td> <td>   -0.190</td> <td> 0.850</td> <td>   -0.037</td> <td>    0.031</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>740.608</td> <th>  Durbin-Watson:     </th> <td>   1.697</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>5292.322</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 3.210</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td>11.473</td>  <th>  Cond. No.          </th> <td>    175.</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;call ~ black + yearsexp + computerskills + C(education)&#39;</span><span class="p">,</span> <span class="n">women</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>call</td>       <th>  R-squared:         </th> <td>   0.012</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.010</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   6.402</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Tue, 04 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.65e-07</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>12:40:47</td>     <th>  Log-Likelihood:    </th> <td> -458.45</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  3746</td>      <th>  AIC:               </th> <td>   932.9</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  3738</td>      <th>  BIC:               </th> <td>   982.7</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     7</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+          <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th>         <td>    0.0993</td> <td>    0.053</td> <td>    1.871</td> <td> 0.061</td> <td>   -0.005</td> <td>    0.203</td>
+</tr>
+<tr>
+  <th>C(education)[T.1]</th> <td>   -0.0945</td> <td>    0.084</td> <td>   -1.128</td> <td> 0.259</td> <td>   -0.259</td> <td>    0.070</td>
+</tr>
+<tr>
+  <th>C(education)[T.2]</th> <td>   -0.0235</td> <td>    0.055</td> <td>   -0.431</td> <td> 0.667</td> <td>   -0.131</td> <td>    0.084</td>
+</tr>
+<tr>
+  <th>C(education)[T.3]</th> <td>   -0.0121</td> <td>    0.052</td> <td>   -0.235</td> <td> 0.814</td> <td>   -0.114</td> <td>    0.089</td>
+</tr>
+<tr>
+  <th>C(education)[T.4]</th> <td>   -0.0088</td> <td>    0.051</td> <td>   -0.172</td> <td> 0.863</td> <td>   -0.109</td> <td>    0.092</td>
+</tr>
+<tr>
+  <th>black</th>             <td>   -0.0327</td> <td>    0.009</td> <td>   -3.653</td> <td> 0.000</td> <td>   -0.050</td> <td>   -0.015</td>
+</tr>
+<tr>
+  <th>yearsexp</th>          <td>    0.0044</td> <td>    0.001</td> <td>    4.929</td> <td> 0.000</td> <td>    0.003</td> <td>    0.006</td>
+</tr>
+<tr>
+  <th>computerskills</th>    <td>   -0.0285</td> <td>    0.013</td> <td>   -2.110</td> <td> 0.035</td> <td>   -0.055</td> <td>   -0.002</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>2222.021</td> <th>  Durbin-Watson:     </th> <td>   1.466</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>13298.941</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 2.981</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>10.047</td>  <th>  Cond. No.          </th> <td>    254.</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># About the same.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Exercise-9">
+<h3>Exercise 9<a class="headerlink" href="#Exercise-9" title="Permalink to this headline">¶</a></h3>
+<p>Calculate and/or lookup the following online:</p>
+<ul class="simple">
+<li><p>What is the share of applicants in our dataset with college degrees?</p></li>
+<li><p>What share of Black adult Americans have college degrees (i.e. have completed a bachelors degree)?</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># In our data:</span>
+<span class="p">(</span><span class="n">resumes</span><span class="p">[</span><span class="s1">&#39;education&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.7195071868583163
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># In the US, about 16% of Black adults</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Exercise-10">
+<h3>Exercise 10<a class="headerlink" href="#Exercise-10" title="Permalink to this headline">¶</a></h3>
+<p>What are the implications of your answers to Exercise 7 and to Exercise 9 to how you interpret the Average Treatment Effect you estimated in Exercise 6?</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Given that discrimination seems higher for less educated job applicants</span>
+<span class="c1"># and the resume experiment over-represented people with college degrees,</span>
+<span class="c1"># real workplace discrimination is likely higher than suggested by the</span>
+<span class="c1"># ATE estimated in Exercise 6.</span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 </div>
