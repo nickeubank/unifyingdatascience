@@ -51,8 +51,10 @@ school’s average performance).</p>
 <em>single</em> high (or low) error for the group (with an accompanyingly large standard error since really, there’s only one observation of a group error common to all observations). As a result, we <em>generally</em> get larger standard errors when we cluster.</p>
 <p>I recognize this all feels hand-wavy. If you’re interested in the math, you can find a more <a class="reference external" href="http://cameron.econ.ucdavis.edu/research/Cameron_Miller_JHR_2015_February.pdf">detailed mathematical discussion</a>, but I’ll confess that this is an area I’ve found found that math to offer much intuition. Technically, what we’re doing is allowing for off-the-diagonal terms in our variance-covariance matrix for members of each group to allow for correlated shocks. But if that explanation helps you
 understand in principle what we’re doing, you’re smarter than me. :)</p>
-<p>Last note: hierarchical models are equivalent to what social scientists often call “random effects models with clustered standard errors.” So in your reading from Kennedy about the differences between fixed effects and random effects, just think “hierarchical models” when you hear “random effects.”</p>
-<p>But here’s what you have to remember:</p>
+<p>Last note: hierarchical models are equivalent to what social scientists often call “random effects models with clustered standard errors.” So just think “hierarchical models” when you hear “random effects.”</p>
+</div>
+<div class="section" id="Things-To-Remember:">
+<h2>Things To Remember:<a class="headerlink" href="#Things-To-Remember:" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Everything you learned about when and how you can use hierarchical models applies to fixed effects + standard errors, except that fixed effects + clustered standard errors are even more robust.</p></li>
 <li><p>If you’re using fixed effects, you should probably also be using clustered standard errors to account for group-level shocks.</p></li>

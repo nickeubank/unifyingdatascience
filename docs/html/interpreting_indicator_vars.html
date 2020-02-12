@@ -235,17 +235,12 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Using-and-Interpreting-Indicator-(Dummy)-Variables">
 <h1>Using and Interpreting Indicator (Dummy) Variables<a class="headerlink" href="#Using-and-Interpreting-Indicator-(Dummy)-Variables" title="Permalink to this headline">¶</a></h1>
-<p>Oh, man – Indicator Variables. We give them so little time in econometrics courses, and yet I can think of few topics I’ve seen cause problems for established scholars. So let’s see if we can give them the treatment they deserve, and hoepfully by the end of this, you’ve have a firm understanding not only of how to use Indicator Variables, but also (and more importantly) how to interpet them.</p>
-<p>This tutorial proceeds as follows:</p>
-<ol class="arabic simple">
-<li><p>Discussion of indicator variables for categorical variables with only two values (like gender, at least as it is implemented in most surveys)</p></li>
-<li><p>Discussion of indicator variables for categorical variables with more than two values (like race or party)</p></li>
-<li><p>Discussion of indicator variables interacted with continuous variables</p></li>
-</ol>
+<p>We often gloss over indicator variables in our statistics courses, but not only are they (in my view) one of the most powerful tools in a data scientist’s tool box, but I cannot tell you how much I see people struggle with <em>interpreting</em> indicator variables in their regressions. So in this tutorial, I’ll try to give them the treatment they deserve, and hoepfully by the end, you’ve have a firm understanding not only of how to use Indicator Variables, but also (and more importantly) how to
+interpet them.</p>
 <div class="section" id="What-are-indicator-variables?">
 <h2>What are indicator variables?<a class="headerlink" href="#What-are-indicator-variables?" title="Permalink to this headline">¶</a></h2>
 <p>Indicator variables – sometimes also referred to as dummy variables, though I dont know why – are variables that take on only the value of 0 and 1, and are used to <em>indicate</em> whether a given observation belongs to a discrete category in a way that can be used in regression models.</p>
-<p>For example, indicator variables can be used to indicate if an survey respondent is a woman (if the variable is 1 for women, 0 otherwise) or a democrat (if the variable is 1 for democrats, 0 otherwise). In addition, as discussed in more detail below, a collection of indicator variables can also be used for categorical variables that take on more than 2 variables – for example, a <em>collection</em> of indicator variables can be used to represented individual’s political party registration.</p>
+<p>For example, indicator variables can be used to indicate if an survey respondent is a woman (if the variable is 1 for women, 0 otherwise) or a Democrat (if the variable is 1 for democrats, 0 otherwise). In addition, as discussed in more detail below, a collection of indicator variables can also be used for categorical variables that take on more than 2 variables – for example, a <em>collection</em> of indicator variables can be used to represented individual’s political party registration.</p>
 </div>
 <div class="section" id="The-TWO-things-that-you-must-understand-when-using-indicator-variables">
 <h2>The TWO things that you must understand when using indicator variables<a class="headerlink" href="#The-TWO-things-that-you-must-understand-when-using-indicator-variables" title="Permalink to this headline">¶</a></h2>
@@ -277,14 +272,18 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area rendered_html docutils container">
 <table>
-<thead><tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th></tr></thead>
+<caption>A data.frame: 6 × 5</caption>
+<thead>
+    <tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th></tr>
+    <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
 <tbody>
-    <tr><td>71                       </td><td>FEMALE                   </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td></tr>
-    <tr><td>47                       </td><td>MALE                     </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td></tr>
-    <tr><td>29                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td></tr>
-    <tr><td>60                       </td><td>MALE                     </td><td>1                        </td><td>REPUBLICAN               </td><td>WHITE                    </td></tr>
-    <tr><td>84                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td></tr>
-    <tr><td>56                       </td><td>MALE                     </td><td>1                        </td><td>DEMOCRATIC               </td><td>BLACK or AFRICAN AMERICAN</td></tr>
+    <tr><td>71</td><td>FEMALE</td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td></tr>
+    <tr><td>47</td><td>MALE  </td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td></tr>
+    <tr><td>29</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td></tr>
+    <tr><td>60</td><td>MALE  </td><td>1</td><td>REPUBLICAN  </td><td>WHITE                    </td></tr>
+    <tr><td>84</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td></tr>
+    <tr><td>56</td><td>MALE  </td><td>1</td><td>DEMOCRATIC  </td><td>BLACK or AFRICAN AMERICAN</td></tr>
 </tbody>
 </table></div>
 </div>
@@ -305,14 +304,18 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area rendered_html docutils container">
 <table>
-<thead><tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th></tr></thead>
+<caption>A data.frame: 6 × 6</caption>
+<thead>
+    <tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th></tr>
+    <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
 <tbody>
-    <tr><td>71                       </td><td>FEMALE                   </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>1                        </td></tr>
-    <tr><td>47                       </td><td>MALE                     </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>0                        </td></tr>
-    <tr><td>29                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td></tr>
-    <tr><td>60                       </td><td>MALE                     </td><td>1                        </td><td>REPUBLICAN               </td><td>WHITE                    </td><td>0                        </td></tr>
-    <tr><td>84                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td></tr>
-    <tr><td>56                       </td><td>MALE                     </td><td>1                        </td><td>DEMOCRATIC               </td><td>BLACK or AFRICAN AMERICAN</td><td>0                        </td></tr>
+    <tr><td>71</td><td>FEMALE</td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>1</td></tr>
+    <tr><td>47</td><td>MALE  </td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>0</td></tr>
+    <tr><td>29</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td></tr>
+    <tr><td>60</td><td>MALE  </td><td>1</td><td>REPUBLICAN  </td><td>WHITE                    </td><td>0</td></tr>
+    <tr><td>84</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td></tr>
+    <tr><td>56</td><td>MALE  </td><td>1</td><td>DEMOCRATIC  </td><td>BLACK or AFRICAN AMERICAN</td><td>0</td></tr>
 </tbody>
 </table></div>
 </div>
@@ -340,7 +343,7 @@ Coefficients:
 
 </pre></div></div>
 </div>
-<p>OK, so how do we interpret this coefficient of 0.021 on female? As we said before, it is the average <strong>DIFFERENCE</strong> in the dependent variable (Whether the person votes) with respect to a <strong>REFERENCE GROUP</strong>. In this case, the reference group is anyone for whom the indicator is always equal to zero, which is the set of male voters.</p>
+<p>OK, so how do we interpret this coefficient of 0.0075 on female? As we said before, it is the average <strong>DIFFERENCE</strong> in the dependent variable (Whether the person votes) with respect to a <strong>REFERENCE GROUP</strong>. In this case, the reference group is anyone for whom the indicator is always equal to zero, which is the set of male voters.</p>
 <p>So this says that women are 0.7% <em>more likely to vote (in North Carolina) then men.</em></p>
 <p>Now let’s try a more interesting example: Democrats.</p>
 <div class="nbinput docutils container">
@@ -389,14 +392,18 @@ Coefficients:
 </div>
 <div class="output_area rendered_html docutils container">
 <table>
-<thead><tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th><th scope=col>democrat</th></tr></thead>
+<caption>A data.frame: 6 × 7</caption>
+<thead>
+    <tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th><th scope=col>democrat</th></tr>
+    <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
 <tbody>
-    <tr><td>71                       </td><td>FEMALE                   </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>1                        </td><td>0                        </td></tr>
-    <tr><td>47                       </td><td>MALE                     </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>0                        </td><td>0                        </td></tr>
-    <tr><td>29                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td><td>1                        </td></tr>
-    <tr><td>60                       </td><td>MALE                     </td><td>1                        </td><td>REPUBLICAN               </td><td>WHITE                    </td><td>0                        </td><td>0                        </td></tr>
-    <tr><td>84                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td><td>1                        </td></tr>
-    <tr><td>56                       </td><td>MALE                     </td><td>1                        </td><td>DEMOCRATIC               </td><td>BLACK or AFRICAN AMERICAN</td><td>0                        </td><td>1                        </td></tr>
+    <tr><td>71</td><td>FEMALE</td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>1</td><td>0</td></tr>
+    <tr><td>47</td><td>MALE  </td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>0</td><td>0</td></tr>
+    <tr><td>29</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td><td>1</td></tr>
+    <tr><td>60</td><td>MALE  </td><td>1</td><td>REPUBLICAN  </td><td>WHITE                    </td><td>0</td><td>0</td></tr>
+    <tr><td>84</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td><td>1</td></tr>
+    <tr><td>56</td><td>MALE  </td><td>1</td><td>DEMOCRATIC  </td><td>BLACK or AFRICAN AMERICAN</td><td>0</td><td>1</td></tr>
 </tbody>
 </table></div>
 </div>
@@ -424,15 +431,15 @@ Coefficients:
 
 </pre></div></div>
 </div>
-<p>So now how do we interpret this coefficient on Democrats (-0.05)? As before it’s the average <strong>DIFFERENCE</strong> in the dependent variable between the indicated group (democrats) and the reference group. But what’s the reference group? Republicans?</p>
+<p>So now how do we interpret this coefficient on Democrats (-0.06)? As before it’s the average <strong>DIFFERENCE</strong> in the dependent variable between the indicated group (democrats) and the reference group. But what’s the reference group? Republicans?</p>
 <p>No – the <strong>reference group</strong> or <strong>omitted category</strong> is anyone for whom the indicator variable is always zero – in this case, all non-democrats, whether they’re Republicans or Unaffiliated.</p>
 <p>So this result says that Democrats are less likely to vote than non-democrats, but NOT that they’re less likely to vote than republicans per se.</p>
 <p>So how do we deal with multiple categories? With multiple indicator variables!</p>
 </div>
 <div class="section" id="Indicator-Variables-for-variables-with-more-than-2-categories">
 <h1>Indicator Variables for variables with more than 2 categories<a class="headerlink" href="#Indicator-Variables-for-variables-with-more-than-2-categories" title="Permalink to this headline">¶</a></h1>
-<p>To deal with categorical variables with more than 2 categories, we create indicator variables for all values of the variable <em>except one</em>. The one group for which we do not create an indicator variable will become the <strong>reference group</strong> for the regression. The choice of which value to make the referee category won’t substantively change the results of the regression – for example, if you also have a control for age, the coefficient on age will always be the same regardless of the reference
-group used – but it does influence how easily you can interpret the results of the regression.</p>
+<p>To deal with categorical variables with more than 2 categories, we create indicator variables for all values of the variable <em>except one</em>. The one group for which we do not create an indicator variable will become the <strong>reference group</strong> for the regression. The choice of which value to make the reference category won’t substantively change the results of the regression – for example, if you also have a control for age, the coefficient on age will always be the same regardless of the reference
+group used – but it does influence how easily you can interpret the results of the regression. Note that what we’re doing is often called “one-hot encoding” by computer scientists / machine learning people.</p>
 <p>So since we’re interested in the difference in turnout between Democrats and Republicans, let’s make Republicans the reference category, and make dummies for democrats and unaffiliated voters.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
@@ -449,14 +456,18 @@ group used – but it does influence how easily you can interpret the results of
 </div>
 <div class="output_area rendered_html docutils container">
 <table>
-<thead><tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th><th scope=col>democrat</th><th scope=col>unaffiliated</th></tr></thead>
+<caption>A data.frame: 6 × 8</caption>
+<thead>
+    <tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th><th scope=col>democrat</th><th scope=col>unaffiliated</th></tr>
+    <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
 <tbody>
-    <tr><td>71                       </td><td>FEMALE                   </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>1                        </td><td>0                        </td><td>1                        </td></tr>
-    <tr><td>47                       </td><td>MALE                     </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>0                        </td><td>0                        </td><td>1                        </td></tr>
-    <tr><td>29                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td><td>1                        </td><td>0                        </td></tr>
-    <tr><td>60                       </td><td>MALE                     </td><td>1                        </td><td>REPUBLICAN               </td><td>WHITE                    </td><td>0                        </td><td>0                        </td><td>0                        </td></tr>
-    <tr><td>84                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td><td>1                        </td><td>0                        </td></tr>
-    <tr><td>56                       </td><td>MALE                     </td><td>1                        </td><td>DEMOCRATIC               </td><td>BLACK or AFRICAN AMERICAN</td><td>0                        </td><td>1                        </td><td>0                        </td></tr>
+    <tr><td>71</td><td>FEMALE</td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>1</td><td>0</td><td>1</td></tr>
+    <tr><td>47</td><td>MALE  </td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>0</td><td>0</td><td>1</td></tr>
+    <tr><td>29</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td><td>1</td><td>0</td></tr>
+    <tr><td>60</td><td>MALE  </td><td>1</td><td>REPUBLICAN  </td><td>WHITE                    </td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>84</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td><td>1</td><td>0</td></tr>
+    <tr><td>56</td><td>MALE  </td><td>1</td><td>DEMOCRATIC  </td><td>BLACK or AFRICAN AMERICAN</td><td>0</td><td>1</td><td>0</td></tr>
 </tbody>
 </table></div>
 </div>
@@ -497,7 +508,7 @@ F-statistic: 33.63 on 2 and 9916 DF,  p-value: 2.786e-15
 </pre></div></div>
 </div>
 <p>So how do we interpret this?</p>
-<p>First, we see that the coefficient on democrat is -0.08. That means that the DIFFERENCE in turnout between democrats and the reference group (here, Republicans) is 8%. So democrats have 8 percent point lower turnout on average in this data than Republicans.</p>
+<p>First, we see that the coefficient on democrat is -0.08. That means that the <strong>DIFFERENCE</strong> in turnout between democrats and the reference group (here, Republicans) is 8%. So democrats have 8 percent point lower turnout on average in this data than Republicans.</p>
 <p>Second, we see that the coefficient on unaffiliated is -0.06. That means that the DIFFERENCE in turnout between unaffiliated voters and the reference group (here, Republicans) is 6%. So democrats have 6 percent point lower turnout on average in this data than Republicans.</p>
 <p>Moreover, the p-value on these indicator variables tells us if these differences are significant. And indeed, they show clearly that the difference between democrats and republicans is significant (p-value = 7.7e-16), and the difference between unaffiliated voters and republicans is significanct (p-value = 4.1e-07).</p>
 <p>But what about the difference between democrats and unaffiliated voters? Well, turns out the regression doesn’t give us that directly. To get that, we have to do some additional math.</p>
@@ -506,7 +517,7 @@ F-statistic: 33.63 on 2 and 9916 DF,  p-value: 2.786e-15
 <p>So in other words, dems have 2 percentage point lower turnout than unaffiliated voters.</p>
 <p>But is this difference statistically significant? For that we use the LinearHypothesis function from the <code class="docutils literal notranslate"><span class="pre">car</span></code> library:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-r notranslate"><div class="highlight"><pre>
@@ -520,19 +531,18 @@ F-statistic: 33.63 on 2 and 9916 DF,  p-value: 2.786e-15
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area rendered_html docutils container">
-<table>
-<thead><tr><th scope=col>Res.Df</th><th scope=col>RSS</th><th scope=col>Df</th><th scope=col>Sum of Sq</th><th scope=col>F</th><th scope=col>Pr(&gt;F)</th></tr></thead>
-<tbody>
-    <tr><td>9917      </td><td>1846.441  </td><td>NA        </td><td>      NA  </td><td>      NA  </td><td>        NA</td></tr>
-    <tr><td>9916      </td><td>1845.917  </td><td> 1        </td><td>0.523837  </td><td>2.813977  </td><td>0.09347796</td></tr>
-</tbody>
-</table></div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error in library(car): there is no package called ‘car’
+Traceback:
+
+1. library(car)
+</pre></div></div>
 </div>
 <p>Voila – p-value of 0.09.</p>
 <p>Wanna confirm it? let’s change our reference group to unaffiliated. then look at the coefficient on democrat, which will then be the difference between democrats and the new reference group (unaffiliated voters)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-r notranslate"><div class="highlight"><pre>
@@ -571,7 +581,7 @@ F-statistic: 33.63 on 2 and 9916 DF,  p-value: 2.786e-15
 <p>As we can now see, the coefficient on democrat (now difference between democrat and unaffiliated) is what we’d calculated above (-0.019) and has the p-value we calculated previously (0.09). This just goes to show that the choice of reference group doesn’t change what’s actually being estimated, it just changes the interpretation of coefficients and what statistics pop right out of the regression output, and which values require a little extra work.</p>
 <p>One other quick note: indicator variables as so common that there’s a shorthand to ask R to just make the indicators when it’s running the regression – <code class="docutils literal notranslate"><span class="pre">factor()</span></code>. This often works well, but by default it makes the first value in the variable the reference group, which can be annoying. So to run a regression with indicator variables for party, instead of <code class="docutils literal notranslate"><span class="pre">lm(voted</span> <span class="pre">~</span> <span class="pre">democrat</span> <span class="pre">+</span> <span class="pre">unaffiliated,</span> <span class="pre">voters)</span></code>, you can run:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-r notranslate"><div class="highlight"><pre>
@@ -597,14 +607,14 @@ factor(party)UNAFFILIATED
 </pre></div></div>
 </div>
 </div>
-<div class="section" id="Interactions:-Like-plain-indicators,-but-for-differences-in-SLOPE-rather-than-differences-in-LEVELS">
-<h1>Interactions: Like plain indicators, but for differences in SLOPE rather than differences in LEVELS<a class="headerlink" href="#Interactions:-Like-plain-indicators,-but-for-differences-in-SLOPE-rather-than-differences-in-LEVELS" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Interactions:-Like-regular-Indicators,-but-for-differences-in-SLOPE-rather-than-differences-in-LEVELS">
+<h1>Interactions: Like regular Indicators, but for differences in SLOPE rather than differences in LEVELS<a class="headerlink" href="#Interactions:-Like-regular-Indicators,-but-for-differences-in-SLOPE-rather-than-differences-in-LEVELS" title="Permalink to this headline">¶</a></h1>
 <p>Congratulations! You’re a pro at indicator variables. But now let’s say you want to do INTERACTIONS!</p>
 <p>Interactions (where you interact an indicator variable with a continuous variable) is just like a regular interaction variable, except that instead of reporting the difference in <strong>average value</strong> of the dependent variable between the indicated group and the reference group, the coefficient on an interaction term is the <strong>DIFFERENCE</strong> in the <strong>SLOPE</strong> associated with the continous variable between the indicated group and the reference group.</p>
 <p>Let’s be concrete: let’s suppose we think that turnout among men increases as they get older by a larger amount than for women. In other words, we think that turnout increases with age for both groups, but that there’s a <strong>DIFFERENCE</strong> in the amount it increases with age.</p>
 <p>To test this, we need to create some interaction terms. But first, a quick note: when doing interactions, it’s critical to not only include all the interaction terms that interest you, but also all the variables in the interaction as stand-alone variables. So for this we want <code class="docutils literal notranslate"><span class="pre">age</span></code> interacted with <code class="docutils literal notranslate"><span class="pre">female</span></code>. But while the coefficient on that estimate is what we’re interested in, to get the right results we also need to include just <code class="docutils literal notranslate"><span class="pre">age</span></code> and just <code class="docutils literal notranslate"><span class="pre">female</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-r notranslate"><div class="highlight"><pre>
@@ -651,7 +661,7 @@ F-statistic:  2.67 on 3 and 9915 DF,  p-value: 0.04589
 <p>Now let’s talk statistical significance. The p-value on age shows us that there’s a statistically significant relationship between age and turnout <strong>for men</strong>. The p-value for <code class="docutils literal notranslate"><span class="pre">age_x_female</span></code> tells us that there’s a statistically significant <strong>difference</strong> between men and women in how turnout varies with age. But is there a statistically significant relationship between age and turnout for women?</p>
 <p>Again, we don’t actually get an answer from our regression. To see, we have to run the following:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-r notranslate"><div class="highlight"><pre>
@@ -663,16 +673,27 @@ F-statistic:  2.67 on 3 and 9915 DF,  p-value: 0.04589
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area rendered_html docutils container">
-<table>
-<thead><tr><th scope=col>Res.Df</th><th scope=col>RSS</th><th scope=col>Df</th><th scope=col>Sum of Sq</th><th scope=col>F</th><th scope=col>Pr(&gt;F)</th></tr></thead>
-<tbody>
-    <tr><td>9916      </td><td>1857.470  </td><td>NA        </td><td>       NA </td><td>     NA   </td><td>        NA</td></tr>
-    <tr><td>9915      </td><td>1856.937  </td><td> 1        </td><td>0.5331515 </td><td>2.84673   </td><td>0.09159147</td></tr>
-</tbody>
-</table></div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error in linearHypothesis(result, &#34;age + age_x_female = 0&#34;): could not find function &#34;linearHypothesis&#34;
+Traceback:
+
+</pre></div></div>
 </div>
 <p>So the p-value is 0.09 for the relationship between female and age.</p>
+<div class="section" id="Indicator-Variables-for-Groups">
+<h2>Indicator Variables for Groups<a class="headerlink" href="#Indicator-Variables-for-Groups" title="Permalink to this headline">¶</a></h2>
+<p>One common use of indicator variables is to allow groups to have different</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
 
@@ -700,6 +721,7 @@ F-statistic:  2.67 on 3 and 9915 DF,  p-value: 0.04589
 <li class="toctree-l1"><a class="reference internal" href="taxonomy_of_questions.html">Taxonomy of Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="descriptive_questions.html">Discretion and Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="limitations_of_ATE.html">Limitations of Experiments</a></li>
 </ul>
 
 <div class="relations">

@@ -6,17 +6,7 @@
    "source": [
     "# Using and Interpreting Indicator (Dummy) Variables\n",
     "\n",
-    "Oh, man -- Indicator Variables. We give them so little time in econometrics courses, and yet I can think of few topics I've seen cause problems for established scholars. So let's see if we can give them the treatment they deserve, and hoepfully by the end of this, you've have a firm understanding not only of how to use Indicator Variables, but also (and more importantly) how to interpet them.\n",
-    "\n",
-    "This tutorial proceeds as follows:\n",
-    "\n",
-    "1) Discussion of indicator variables for categorical variables with only two values (like gender, at least as it is implemented in most surveys)\n",
-    "\n",
-    "2) Discussion of indicator variables for categorical variables with more than two values (like race or party)\n",
-    "\n",
-    "3) Discussion of indicator variables interacted with continuous variables\n",
-    "\n",
-    "\n"
+    "We often gloss over indicator variables in our statistics courses, but not only are they (in my view) one of the most powerful tools in a data scientist's tool box, but I cannot tell you how much I see people struggle with *interpreting* indicator variables in their regressions. So in this tutorial, I'll try to give them the treatment they deserve, and hoepfully by the end, you've have a firm understanding not only of how to use Indicator Variables, but also (and more importantly) how to interpet them."
    ]
   },
   {
@@ -27,7 +17,7 @@
     "\n",
     "Indicator variables -- sometimes also referred to as dummy variables, though I dont know why -- are variables that take on only the value of 0 and 1, and are used to *indicate* whether a given observation belongs to a discrete category in a way that can be used in regression models. \n",
     "\n",
-    "For example, indicator variables can be used to indicate if an survey respondent is a woman (if the variable is 1 for women, 0 otherwise) or a democrat (if the variable is 1 for democrats, 0 otherwise). In addition, as discussed in more detail below, a collection of indicator variables can also be used for categorical variables that take on more than 2 variables -- for example, a *collection* of indicator variables can be used to represented individual's political party registration. "
+    "For example, indicator variables can be used to indicate if an survey respondent is a woman (if the variable is 1 for women, 0 otherwise) or a Democrat (if the variable is 1 for democrats, 0 otherwise). In addition, as discussed in more detail below, a collection of indicator variables can also be used for categorical variables that take on more than 2 variables -- for example, a *collection* of indicator variables can be used to represented individual's political party registration. "
    ]
   },
   {
@@ -65,40 +55,47 @@
      "data": {
       "text/html": [
        "<table>\n",
-       "<thead><tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th></tr></thead>\n",
+       "<caption>A data.frame: 6 × 5</caption>\n",
+       "<thead>\n",
+       "\t<tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th></tr>\n",
+       "\t<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th></tr>\n",
+       "</thead>\n",
        "<tbody>\n",
-       "\t<tr><td>71                       </td><td>FEMALE                   </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td></tr>\n",
-       "\t<tr><td>47                       </td><td>MALE                     </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td></tr>\n",
-       "\t<tr><td>29                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td></tr>\n",
-       "\t<tr><td>60                       </td><td>MALE                     </td><td>1                        </td><td>REPUBLICAN               </td><td>WHITE                    </td></tr>\n",
-       "\t<tr><td>84                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td></tr>\n",
-       "\t<tr><td>56                       </td><td>MALE                     </td><td>1                        </td><td>DEMOCRATIC               </td><td>BLACK or AFRICAN AMERICAN</td></tr>\n",
+       "\t<tr><td>71</td><td>FEMALE</td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td></tr>\n",
+       "\t<tr><td>47</td><td>MALE  </td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td></tr>\n",
+       "\t<tr><td>29</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td></tr>\n",
+       "\t<tr><td>60</td><td>MALE  </td><td>1</td><td>REPUBLICAN  </td><td>WHITE                    </td></tr>\n",
+       "\t<tr><td>84</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td></tr>\n",
+       "\t<tr><td>56</td><td>MALE  </td><td>1</td><td>DEMOCRATIC  </td><td>BLACK or AFRICAN AMERICAN</td></tr>\n",
        "</tbody>\n",
        "</table>\n"
       ],
       "text/latex": [
+       "A data.frame: 6 × 5\n",
        "\\begin{tabular}{r|lllll}\n",
        " age & gender & voted & party & race\\\\\n",
+       " <int> & <fct> & <int> & <fct> & <fct>\\\\\n",
        "\\hline\n",
-       "\t 71                        & FEMALE                    & 1                         & UNAFFILIATED              & WHITE                    \\\\\n",
-       "\t 47                        & MALE                      & 1                         & UNAFFILIATED              & WHITE                    \\\\\n",
-       "\t 29                        & MALE                      & 0                         & DEMOCRATIC                & WHITE                    \\\\\n",
-       "\t 60                        & MALE                      & 1                         & REPUBLICAN                & WHITE                    \\\\\n",
-       "\t 84                        & MALE                      & 0                         & DEMOCRATIC                & WHITE                    \\\\\n",
-       "\t 56                        & MALE                      & 1                         & DEMOCRATIC                & BLACK or AFRICAN AMERICAN\\\\\n",
+       "\t 71 & FEMALE & 1 & UNAFFILIATED & WHITE                    \\\\\n",
+       "\t 47 & MALE   & 1 & UNAFFILIATED & WHITE                    \\\\\n",
+       "\t 29 & MALE   & 0 & DEMOCRATIC   & WHITE                    \\\\\n",
+       "\t 60 & MALE   & 1 & REPUBLICAN   & WHITE                    \\\\\n",
+       "\t 84 & MALE   & 0 & DEMOCRATIC   & WHITE                    \\\\\n",
+       "\t 56 & MALE   & 1 & DEMOCRATIC   & BLACK or AFRICAN AMERICAN\\\\\n",
        "\\end{tabular}\n"
       ],
       "text/markdown": [
        "\n",
-       "age | gender | voted | party | race | \n",
-       "|---|---|---|---|---|---|\n",
-       "| 71                        | FEMALE                    | 1                         | UNAFFILIATED              | WHITE                     | \n",
-       "| 47                        | MALE                      | 1                         | UNAFFILIATED              | WHITE                     | \n",
-       "| 29                        | MALE                      | 0                         | DEMOCRATIC                | WHITE                     | \n",
-       "| 60                        | MALE                      | 1                         | REPUBLICAN                | WHITE                     | \n",
-       "| 84                        | MALE                      | 0                         | DEMOCRATIC                | WHITE                     | \n",
-       "| 56                        | MALE                      | 1                         | DEMOCRATIC                | BLACK or AFRICAN AMERICAN | \n",
+       "A data.frame: 6 × 5\n",
        "\n",
+       "| age &lt;int&gt; | gender &lt;fct&gt; | voted &lt;int&gt; | party &lt;fct&gt; | race &lt;fct&gt; |\n",
+       "|---|---|---|---|---|\n",
+       "| 71 | FEMALE | 1 | UNAFFILIATED | WHITE                     |\n",
+       "| 47 | MALE   | 1 | UNAFFILIATED | WHITE                     |\n",
+       "| 29 | MALE   | 0 | DEMOCRATIC   | WHITE                     |\n",
+       "| 60 | MALE   | 1 | REPUBLICAN   | WHITE                     |\n",
+       "| 84 | MALE   | 0 | DEMOCRATIC   | WHITE                     |\n",
+       "| 56 | MALE   | 1 | DEMOCRATIC   | BLACK or AFRICAN AMERICAN |\n",
        "\n"
       ],
       "text/plain": [
@@ -130,40 +127,47 @@
      "data": {
       "text/html": [
        "<table>\n",
-       "<thead><tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th></tr></thead>\n",
+       "<caption>A data.frame: 6 × 6</caption>\n",
+       "<thead>\n",
+       "\t<tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th></tr>\n",
+       "\t<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>\n",
+       "</thead>\n",
        "<tbody>\n",
-       "\t<tr><td>71                       </td><td>FEMALE                   </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>1                        </td></tr>\n",
-       "\t<tr><td>47                       </td><td>MALE                     </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>0                        </td></tr>\n",
-       "\t<tr><td>29                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td></tr>\n",
-       "\t<tr><td>60                       </td><td>MALE                     </td><td>1                        </td><td>REPUBLICAN               </td><td>WHITE                    </td><td>0                        </td></tr>\n",
-       "\t<tr><td>84                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td></tr>\n",
-       "\t<tr><td>56                       </td><td>MALE                     </td><td>1                        </td><td>DEMOCRATIC               </td><td>BLACK or AFRICAN AMERICAN</td><td>0                        </td></tr>\n",
+       "\t<tr><td>71</td><td>FEMALE</td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>1</td></tr>\n",
+       "\t<tr><td>47</td><td>MALE  </td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>0</td></tr>\n",
+       "\t<tr><td>29</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td></tr>\n",
+       "\t<tr><td>60</td><td>MALE  </td><td>1</td><td>REPUBLICAN  </td><td>WHITE                    </td><td>0</td></tr>\n",
+       "\t<tr><td>84</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td></tr>\n",
+       "\t<tr><td>56</td><td>MALE  </td><td>1</td><td>DEMOCRATIC  </td><td>BLACK or AFRICAN AMERICAN</td><td>0</td></tr>\n",
        "</tbody>\n",
        "</table>\n"
       ],
       "text/latex": [
+       "A data.frame: 6 × 6\n",
        "\\begin{tabular}{r|llllll}\n",
        " age & gender & voted & party & race & female\\\\\n",
+       " <int> & <fct> & <int> & <fct> & <fct> & <dbl>\\\\\n",
        "\\hline\n",
-       "\t 71                        & FEMALE                    & 1                         & UNAFFILIATED              & WHITE                     & 1                        \\\\\n",
-       "\t 47                        & MALE                      & 1                         & UNAFFILIATED              & WHITE                     & 0                        \\\\\n",
-       "\t 29                        & MALE                      & 0                         & DEMOCRATIC                & WHITE                     & 0                        \\\\\n",
-       "\t 60                        & MALE                      & 1                         & REPUBLICAN                & WHITE                     & 0                        \\\\\n",
-       "\t 84                        & MALE                      & 0                         & DEMOCRATIC                & WHITE                     & 0                        \\\\\n",
-       "\t 56                        & MALE                      & 1                         & DEMOCRATIC                & BLACK or AFRICAN AMERICAN & 0                        \\\\\n",
+       "\t 71 & FEMALE & 1 & UNAFFILIATED & WHITE                     & 1\\\\\n",
+       "\t 47 & MALE   & 1 & UNAFFILIATED & WHITE                     & 0\\\\\n",
+       "\t 29 & MALE   & 0 & DEMOCRATIC   & WHITE                     & 0\\\\\n",
+       "\t 60 & MALE   & 1 & REPUBLICAN   & WHITE                     & 0\\\\\n",
+       "\t 84 & MALE   & 0 & DEMOCRATIC   & WHITE                     & 0\\\\\n",
+       "\t 56 & MALE   & 1 & DEMOCRATIC   & BLACK or AFRICAN AMERICAN & 0\\\\\n",
        "\\end{tabular}\n"
       ],
       "text/markdown": [
        "\n",
-       "age | gender | voted | party | race | female | \n",
-       "|---|---|---|---|---|---|\n",
-       "| 71                        | FEMALE                    | 1                         | UNAFFILIATED              | WHITE                     | 1                         | \n",
-       "| 47                        | MALE                      | 1                         | UNAFFILIATED              | WHITE                     | 0                         | \n",
-       "| 29                        | MALE                      | 0                         | DEMOCRATIC                | WHITE                     | 0                         | \n",
-       "| 60                        | MALE                      | 1                         | REPUBLICAN                | WHITE                     | 0                         | \n",
-       "| 84                        | MALE                      | 0                         | DEMOCRATIC                | WHITE                     | 0                         | \n",
-       "| 56                        | MALE                      | 1                         | DEMOCRATIC                | BLACK or AFRICAN AMERICAN | 0                         | \n",
+       "A data.frame: 6 × 6\n",
        "\n",
+       "| age &lt;int&gt; | gender &lt;fct&gt; | voted &lt;int&gt; | party &lt;fct&gt; | race &lt;fct&gt; | female &lt;dbl&gt; |\n",
+       "|---|---|---|---|---|---|\n",
+       "| 71 | FEMALE | 1 | UNAFFILIATED | WHITE                     | 1 |\n",
+       "| 47 | MALE   | 1 | UNAFFILIATED | WHITE                     | 0 |\n",
+       "| 29 | MALE   | 0 | DEMOCRATIC   | WHITE                     | 0 |\n",
+       "| 60 | MALE   | 1 | REPUBLICAN   | WHITE                     | 0 |\n",
+       "| 84 | MALE   | 0 | DEMOCRATIC   | WHITE                     | 0 |\n",
+       "| 56 | MALE   | 1 | DEMOCRATIC   | BLACK or AFRICAN AMERICAN | 0 |\n",
        "\n"
       ],
       "text/plain": [
@@ -216,7 +220,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "OK, so how do we interpret this coefficient of 0.021 on female? As we said before, it is the average **DIFFERENCE** in the dependent variable (Whether the person votes) with respect to a **REFERENCE GROUP**. In this case, the reference group is anyone for whom the indicator is always equal to zero, which is the set of male voters. \n",
+    "OK, so how do we interpret this coefficient of 0.0075 on female? As we said before, it is the average **DIFFERENCE** in the dependent variable (Whether the person votes) with respect to a **REFERENCE GROUP**. In this case, the reference group is anyone for whom the indicator is always equal to zero, which is the set of male voters. \n",
     "\n",
     "So this says that women are 0.7% *more likely to vote (in North Carolina) then men.*\n",
     "\n",
@@ -296,40 +300,47 @@
      "data": {
       "text/html": [
        "<table>\n",
-       "<thead><tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th><th scope=col>democrat</th></tr></thead>\n",
+       "<caption>A data.frame: 6 × 7</caption>\n",
+       "<thead>\n",
+       "\t<tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th><th scope=col>democrat</th></tr>\n",
+       "\t<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>\n",
+       "</thead>\n",
        "<tbody>\n",
-       "\t<tr><td>71                       </td><td>FEMALE                   </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>1                        </td><td>0                        </td></tr>\n",
-       "\t<tr><td>47                       </td><td>MALE                     </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>0                        </td><td>0                        </td></tr>\n",
-       "\t<tr><td>29                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td><td>1                        </td></tr>\n",
-       "\t<tr><td>60                       </td><td>MALE                     </td><td>1                        </td><td>REPUBLICAN               </td><td>WHITE                    </td><td>0                        </td><td>0                        </td></tr>\n",
-       "\t<tr><td>84                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td><td>1                        </td></tr>\n",
-       "\t<tr><td>56                       </td><td>MALE                     </td><td>1                        </td><td>DEMOCRATIC               </td><td>BLACK or AFRICAN AMERICAN</td><td>0                        </td><td>1                        </td></tr>\n",
+       "\t<tr><td>71</td><td>FEMALE</td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>1</td><td>0</td></tr>\n",
+       "\t<tr><td>47</td><td>MALE  </td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>29</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td><td>1</td></tr>\n",
+       "\t<tr><td>60</td><td>MALE  </td><td>1</td><td>REPUBLICAN  </td><td>WHITE                    </td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>84</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td><td>1</td></tr>\n",
+       "\t<tr><td>56</td><td>MALE  </td><td>1</td><td>DEMOCRATIC  </td><td>BLACK or AFRICAN AMERICAN</td><td>0</td><td>1</td></tr>\n",
        "</tbody>\n",
        "</table>\n"
       ],
       "text/latex": [
+       "A data.frame: 6 × 7\n",
        "\\begin{tabular}{r|lllllll}\n",
        " age & gender & voted & party & race & female & democrat\\\\\n",
+       " <int> & <fct> & <int> & <fct> & <fct> & <dbl> & <dbl>\\\\\n",
        "\\hline\n",
-       "\t 71                        & FEMALE                    & 1                         & UNAFFILIATED              & WHITE                     & 1                         & 0                        \\\\\n",
-       "\t 47                        & MALE                      & 1                         & UNAFFILIATED              & WHITE                     & 0                         & 0                        \\\\\n",
-       "\t 29                        & MALE                      & 0                         & DEMOCRATIC                & WHITE                     & 0                         & 1                        \\\\\n",
-       "\t 60                        & MALE                      & 1                         & REPUBLICAN                & WHITE                     & 0                         & 0                        \\\\\n",
-       "\t 84                        & MALE                      & 0                         & DEMOCRATIC                & WHITE                     & 0                         & 1                        \\\\\n",
-       "\t 56                        & MALE                      & 1                         & DEMOCRATIC                & BLACK or AFRICAN AMERICAN & 0                         & 1                        \\\\\n",
+       "\t 71 & FEMALE & 1 & UNAFFILIATED & WHITE                     & 1 & 0\\\\\n",
+       "\t 47 & MALE   & 1 & UNAFFILIATED & WHITE                     & 0 & 0\\\\\n",
+       "\t 29 & MALE   & 0 & DEMOCRATIC   & WHITE                     & 0 & 1\\\\\n",
+       "\t 60 & MALE   & 1 & REPUBLICAN   & WHITE                     & 0 & 0\\\\\n",
+       "\t 84 & MALE   & 0 & DEMOCRATIC   & WHITE                     & 0 & 1\\\\\n",
+       "\t 56 & MALE   & 1 & DEMOCRATIC   & BLACK or AFRICAN AMERICAN & 0 & 1\\\\\n",
        "\\end{tabular}\n"
       ],
       "text/markdown": [
        "\n",
-       "age | gender | voted | party | race | female | democrat | \n",
-       "|---|---|---|---|---|---|\n",
-       "| 71                        | FEMALE                    | 1                         | UNAFFILIATED              | WHITE                     | 1                         | 0                         | \n",
-       "| 47                        | MALE                      | 1                         | UNAFFILIATED              | WHITE                     | 0                         | 0                         | \n",
-       "| 29                        | MALE                      | 0                         | DEMOCRATIC                | WHITE                     | 0                         | 1                         | \n",
-       "| 60                        | MALE                      | 1                         | REPUBLICAN                | WHITE                     | 0                         | 0                         | \n",
-       "| 84                        | MALE                      | 0                         | DEMOCRATIC                | WHITE                     | 0                         | 1                         | \n",
-       "| 56                        | MALE                      | 1                         | DEMOCRATIC                | BLACK or AFRICAN AMERICAN | 0                         | 1                         | \n",
+       "A data.frame: 6 × 7\n",
        "\n",
+       "| age &lt;int&gt; | gender &lt;fct&gt; | voted &lt;int&gt; | party &lt;fct&gt; | race &lt;fct&gt; | female &lt;dbl&gt; | democrat &lt;dbl&gt; |\n",
+       "|---|---|---|---|---|---|---|\n",
+       "| 71 | FEMALE | 1 | UNAFFILIATED | WHITE                     | 1 | 0 |\n",
+       "| 47 | MALE   | 1 | UNAFFILIATED | WHITE                     | 0 | 0 |\n",
+       "| 29 | MALE   | 0 | DEMOCRATIC   | WHITE                     | 0 | 1 |\n",
+       "| 60 | MALE   | 1 | REPUBLICAN   | WHITE                     | 0 | 0 |\n",
+       "| 84 | MALE   | 0 | DEMOCRATIC   | WHITE                     | 0 | 1 |\n",
+       "| 56 | MALE   | 1 | DEMOCRATIC   | BLACK or AFRICAN AMERICAN | 0 | 1 |\n",
        "\n"
       ],
       "text/plain": [
@@ -381,7 +392,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "So now how do we interpret this coefficient on Democrats (-0.05)? As before it's the average **DIFFERENCE** in the dependent variable between the indicated group (democrats) and the reference group. But what's the reference group? Republicans?\n",
+    "So now how do we interpret this coefficient on Democrats (-0.06)? As before it's the average **DIFFERENCE** in the dependent variable between the indicated group (democrats) and the reference group. But what's the reference group? Republicans?\n",
     "\n",
     "No -- the **reference group** or **omitted category** is anyone for whom the indicator variable is always zero -- in this case, all non-democrats, whether they're Republicans or Unaffiliated. \n",
     "\n",
@@ -396,7 +407,7 @@
    "source": [
     "# Indicator Variables for variables with more than 2 categories\n",
     "\n",
-    "To deal with categorical variables with more than 2 categories, we create indicator variables for all values of the variable *except one*. The one group for which we do not create an indicator variable will become the **reference group** for the regression. The choice of which value to make the referee category won't substantively change the results of the regression -- for example, if you also have a control for age, the coefficient on age will always be the same regardless of the reference group used -- but it does influence how easily you can interpret the results of the regression. \n",
+    "To deal with categorical variables with more than 2 categories, we create indicator variables for all values of the variable *except one*. The one group for which we do not create an indicator variable will become the **reference group** for the regression. The choice of which value to make the reference category won't substantively change the results of the regression -- for example, if you also have a control for age, the coefficient on age will always be the same regardless of the reference group used -- but it does influence how easily you can interpret the results of the regression. Note that what we're doing is often called \"one-hot encoding\" by computer scientists / machine learning people. \n",
     "\n",
     "So since we're interested in the difference in turnout between Democrats and Republicans, let's make Republicans the reference category, and make dummies for democrats and unaffiliated voters. "
    ]
@@ -410,40 +421,47 @@
      "data": {
       "text/html": [
        "<table>\n",
-       "<thead><tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th><th scope=col>democrat</th><th scope=col>unaffiliated</th></tr></thead>\n",
+       "<caption>A data.frame: 6 × 8</caption>\n",
+       "<thead>\n",
+       "\t<tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th><th scope=col>democrat</th><th scope=col>unaffiliated</th></tr>\n",
+       "\t<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>\n",
+       "</thead>\n",
        "<tbody>\n",
-       "\t<tr><td>71                       </td><td>FEMALE                   </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>1                        </td><td>0                        </td><td>1                        </td></tr>\n",
-       "\t<tr><td>47                       </td><td>MALE                     </td><td>1                        </td><td>UNAFFILIATED             </td><td>WHITE                    </td><td>0                        </td><td>0                        </td><td>1                        </td></tr>\n",
-       "\t<tr><td>29                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td><td>1                        </td><td>0                        </td></tr>\n",
-       "\t<tr><td>60                       </td><td>MALE                     </td><td>1                        </td><td>REPUBLICAN               </td><td>WHITE                    </td><td>0                        </td><td>0                        </td><td>0                        </td></tr>\n",
-       "\t<tr><td>84                       </td><td>MALE                     </td><td>0                        </td><td>DEMOCRATIC               </td><td>WHITE                    </td><td>0                        </td><td>1                        </td><td>0                        </td></tr>\n",
-       "\t<tr><td>56                       </td><td>MALE                     </td><td>1                        </td><td>DEMOCRATIC               </td><td>BLACK or AFRICAN AMERICAN</td><td>0                        </td><td>1                        </td><td>0                        </td></tr>\n",
+       "\t<tr><td>71</td><td>FEMALE</td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>1</td><td>0</td><td>1</td></tr>\n",
+       "\t<tr><td>47</td><td>MALE  </td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>0</td><td>0</td><td>1</td></tr>\n",
+       "\t<tr><td>29</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td><td>1</td><td>0</td></tr>\n",
+       "\t<tr><td>60</td><td>MALE  </td><td>1</td><td>REPUBLICAN  </td><td>WHITE                    </td><td>0</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>84</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td><td>1</td><td>0</td></tr>\n",
+       "\t<tr><td>56</td><td>MALE  </td><td>1</td><td>DEMOCRATIC  </td><td>BLACK or AFRICAN AMERICAN</td><td>0</td><td>1</td><td>0</td></tr>\n",
        "</tbody>\n",
        "</table>\n"
       ],
       "text/latex": [
+       "A data.frame: 6 × 8\n",
        "\\begin{tabular}{r|llllllll}\n",
        " age & gender & voted & party & race & female & democrat & unaffiliated\\\\\n",
+       " <int> & <fct> & <int> & <fct> & <fct> & <dbl> & <dbl> & <dbl>\\\\\n",
        "\\hline\n",
-       "\t 71                        & FEMALE                    & 1                         & UNAFFILIATED              & WHITE                     & 1                         & 0                         & 1                        \\\\\n",
-       "\t 47                        & MALE                      & 1                         & UNAFFILIATED              & WHITE                     & 0                         & 0                         & 1                        \\\\\n",
-       "\t 29                        & MALE                      & 0                         & DEMOCRATIC                & WHITE                     & 0                         & 1                         & 0                        \\\\\n",
-       "\t 60                        & MALE                      & 1                         & REPUBLICAN                & WHITE                     & 0                         & 0                         & 0                        \\\\\n",
-       "\t 84                        & MALE                      & 0                         & DEMOCRATIC                & WHITE                     & 0                         & 1                         & 0                        \\\\\n",
-       "\t 56                        & MALE                      & 1                         & DEMOCRATIC                & BLACK or AFRICAN AMERICAN & 0                         & 1                         & 0                        \\\\\n",
+       "\t 71 & FEMALE & 1 & UNAFFILIATED & WHITE                     & 1 & 0 & 1\\\\\n",
+       "\t 47 & MALE   & 1 & UNAFFILIATED & WHITE                     & 0 & 0 & 1\\\\\n",
+       "\t 29 & MALE   & 0 & DEMOCRATIC   & WHITE                     & 0 & 1 & 0\\\\\n",
+       "\t 60 & MALE   & 1 & REPUBLICAN   & WHITE                     & 0 & 0 & 0\\\\\n",
+       "\t 84 & MALE   & 0 & DEMOCRATIC   & WHITE                     & 0 & 1 & 0\\\\\n",
+       "\t 56 & MALE   & 1 & DEMOCRATIC   & BLACK or AFRICAN AMERICAN & 0 & 1 & 0\\\\\n",
        "\\end{tabular}\n"
       ],
       "text/markdown": [
        "\n",
-       "age | gender | voted | party | race | female | democrat | unaffiliated | \n",
-       "|---|---|---|---|---|---|\n",
-       "| 71                        | FEMALE                    | 1                         | UNAFFILIATED              | WHITE                     | 1                         | 0                         | 1                         | \n",
-       "| 47                        | MALE                      | 1                         | UNAFFILIATED              | WHITE                     | 0                         | 0                         | 1                         | \n",
-       "| 29                        | MALE                      | 0                         | DEMOCRATIC                | WHITE                     | 0                         | 1                         | 0                         | \n",
-       "| 60                        | MALE                      | 1                         | REPUBLICAN                | WHITE                     | 0                         | 0                         | 0                         | \n",
-       "| 84                        | MALE                      | 0                         | DEMOCRATIC                | WHITE                     | 0                         | 1                         | 0                         | \n",
-       "| 56                        | MALE                      | 1                         | DEMOCRATIC                | BLACK or AFRICAN AMERICAN | 0                         | 1                         | 0                         | \n",
+       "A data.frame: 6 × 8\n",
        "\n",
+       "| age &lt;int&gt; | gender &lt;fct&gt; | voted &lt;int&gt; | party &lt;fct&gt; | race &lt;fct&gt; | female &lt;dbl&gt; | democrat &lt;dbl&gt; | unaffiliated &lt;dbl&gt; |\n",
+       "|---|---|---|---|---|---|---|---|\n",
+       "| 71 | FEMALE | 1 | UNAFFILIATED | WHITE                     | 1 | 0 | 1 |\n",
+       "| 47 | MALE   | 1 | UNAFFILIATED | WHITE                     | 0 | 0 | 1 |\n",
+       "| 29 | MALE   | 0 | DEMOCRATIC   | WHITE                     | 0 | 1 | 0 |\n",
+       "| 60 | MALE   | 1 | REPUBLICAN   | WHITE                     | 0 | 0 | 0 |\n",
+       "| 84 | MALE   | 0 | DEMOCRATIC   | WHITE                     | 0 | 1 | 0 |\n",
+       "| 56 | MALE   | 1 | DEMOCRATIC   | BLACK or AFRICAN AMERICAN | 0 | 1 | 0 |\n",
        "\n"
       ],
       "text/plain": [
@@ -515,7 +533,7 @@
    "source": [
     "So how do we interpret this? \n",
     "\n",
-    "First, we see that the coefficient on democrat is -0.08. That means that the DIFFERENCE in turnout between democrats and the reference group (here, Republicans) is 8%. So democrats have 8 percent point lower turnout on average in this data than Republicans. \n",
+    "First, we see that the coefficient on democrat is -0.08. That means that the **DIFFERENCE** in turnout between democrats and the reference group (here, Republicans) is 8%. So democrats have 8 percent point lower turnout on average in this data than Republicans. \n",
     "\n",
     "Second, we see that the coefficient on unaffiliated is -0.06. That means that the DIFFERENCE in turnout between unaffiliated voters and the reference group (here, Republicans) is 6%. So democrats have 6 percent point lower turnout on average in this data than Republicans. \n",
     "\n",
@@ -536,45 +554,17 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 9,
    "metadata": {},
    "outputs": [
     {
-     "data": {
-      "text/html": [
-       "<table>\n",
-       "<thead><tr><th scope=col>Res.Df</th><th scope=col>RSS</th><th scope=col>Df</th><th scope=col>Sum of Sq</th><th scope=col>F</th><th scope=col>Pr(&gt;F)</th></tr></thead>\n",
-       "<tbody>\n",
-       "\t<tr><td>9917      </td><td>1846.441  </td><td>NA        </td><td>      NA  </td><td>      NA  </td><td>        NA</td></tr>\n",
-       "\t<tr><td>9916      </td><td>1845.917  </td><td> 1        </td><td>0.523837  </td><td>2.813977  </td><td>0.09347796</td></tr>\n",
-       "</tbody>\n",
-       "</table>\n"
-      ],
-      "text/latex": [
-       "\\begin{tabular}{r|llllll}\n",
-       " Res.Df & RSS & Df & Sum of Sq & F & Pr(>F)\\\\\n",
-       "\\hline\n",
-       "\t 9917       & 1846.441   & NA         &       NA   &       NA   &         NA\\\\\n",
-       "\t 9916       & 1845.917   &  1         & 0.523837   & 2.813977   & 0.09347796\\\\\n",
-       "\\end{tabular}\n"
-      ],
-      "text/markdown": [
-       "\n",
-       "Res.Df | RSS | Df | Sum of Sq | F | Pr(>F) | \n",
-       "|---|---|\n",
-       "| 9917       | 1846.441   | NA         |       NA   |       NA   |         NA | \n",
-       "| 9916       | 1845.917   |  1         | 0.523837   | 2.813977   | 0.09347796 | \n",
-       "\n",
-       "\n"
-      ],
-      "text/plain": [
-       "  Res.Df RSS      Df Sum of Sq F        Pr(>F)    \n",
-       "1 9917   1846.441 NA       NA        NA         NA\n",
-       "2 9916   1845.917  1 0.523837  2.813977 0.09347796"
-      ]
-     },
-     "metadata": {},
-     "output_type": "display_data"
+     "ename": "ERROR",
+     "evalue": "Error in library(car): there is no package called ‘car’\n",
+     "output_type": "error",
+     "traceback": [
+      "Error in library(car): there is no package called ‘car’\nTraceback:\n",
+      "1. library(car)"
+     ]
     }
    ],
    "source": [
@@ -595,7 +585,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 18,
+   "execution_count": 10,
    "metadata": {},
    "outputs": [
     {
@@ -643,7 +633,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 11,
    "metadata": {},
    "outputs": [
     {
@@ -672,7 +662,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Interactions: Like plain indicators, but for differences in SLOPE rather than differences in LEVELS\n",
+    "# Interactions: Like regular Indicators, but for differences in SLOPE rather than differences in LEVELS\n",
     "\n",
     "Congratulations! You're a pro at indicator variables. But now let's say you want to do INTERACTIONS!\n",
     "\n",
@@ -685,7 +675,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 12,
    "metadata": {},
    "outputs": [
     {
@@ -750,45 +740,16 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 13,
    "metadata": {},
    "outputs": [
     {
-     "data": {
-      "text/html": [
-       "<table>\n",
-       "<thead><tr><th scope=col>Res.Df</th><th scope=col>RSS</th><th scope=col>Df</th><th scope=col>Sum of Sq</th><th scope=col>F</th><th scope=col>Pr(&gt;F)</th></tr></thead>\n",
-       "<tbody>\n",
-       "\t<tr><td>9916      </td><td>1857.470  </td><td>NA        </td><td>       NA </td><td>     NA   </td><td>        NA</td></tr>\n",
-       "\t<tr><td>9915      </td><td>1856.937  </td><td> 1        </td><td>0.5331515 </td><td>2.84673   </td><td>0.09159147</td></tr>\n",
-       "</tbody>\n",
-       "</table>\n"
-      ],
-      "text/latex": [
-       "\\begin{tabular}{r|llllll}\n",
-       " Res.Df & RSS & Df & Sum of Sq & F & Pr(>F)\\\\\n",
-       "\\hline\n",
-       "\t 9916       & 1857.470   & NA         &        NA  &      NA    &         NA\\\\\n",
-       "\t 9915       & 1856.937   &  1         & 0.5331515  & 2.84673    & 0.09159147\\\\\n",
-       "\\end{tabular}\n"
-      ],
-      "text/markdown": [
-       "\n",
-       "Res.Df | RSS | Df | Sum of Sq | F | Pr(>F) | \n",
-       "|---|---|\n",
-       "| 9916       | 1857.470   | NA         |        NA  |      NA    |         NA | \n",
-       "| 9915       | 1856.937   |  1         | 0.5331515  | 2.84673    | 0.09159147 | \n",
-       "\n",
-       "\n"
-      ],
-      "text/plain": [
-       "  Res.Df RSS      Df Sum of Sq F       Pr(>F)    \n",
-       "1 9916   1857.470 NA        NA      NA         NA\n",
-       "2 9915   1856.937  1 0.5331515 2.84673 0.09159147"
-      ]
-     },
-     "metadata": {},
-     "output_type": "display_data"
+     "ename": "ERROR",
+     "evalue": "Error in linearHypothesis(result, \"age + age_x_female = 0\"): could not find function \"linearHypothesis\"\n",
+     "output_type": "error",
+     "traceback": [
+      "Error in linearHypothesis(result, \"age + age_x_female = 0\"): could not find function \"linearHypothesis\"\nTraceback:\n"
+     ]
     }
    ],
    "source": [
@@ -801,6 +762,15 @@
    "metadata": {},
    "source": [
     "So the p-value is 0.09 for the relationship between female and age."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Indicator Variables for Groups\n",
+    "\n",
+    "One common use of indicator variables is to allow groups to have different "
    ]
   }
  ],
@@ -816,9 +786,9 @@
    "mimetype": "text/x-r-source",
    "name": "R",
    "pygments_lexer": "r",
-   "version": "3.4.1"
+   "version": "3.6.1"
   }
  },
  "nbformat": 4,
- "nbformat_minor": 2
+ "nbformat_minor": 4
 }
