@@ -18,29 +18,29 @@
 - **Topic and 3 Questions Due**",`Link <exercises/exercise_resume.ipynb>`_
 "Mon, Feb 10",CI: Ghost Map,"- `The Ghost Map <https://www.amazon.com/Ghost-Map-Londons-Terrifying-Epidemic/dp/1594482691>`_ pp. 25-54, 111-230","`Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
 `Link 2 <exercises/exercise_ghostmap_2.ipynb>`_"
-"Wed, Feb 12",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). ",
-"Mon, Feb 17",CI: Fixed Effects and Clustering,"- `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
+"Wed, Feb 12",,,
+"Mon, Feb 17",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). ",
+"Wed, Feb 19",CI: Fixed Effects and Clustering,"- `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
 -  Kennedy, Sections 18.1-18.3
 - `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_",
-"Wed, Feb 19",CI: Matching,`Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_ ,
-"Mon, Feb 24",CI: Difference-in-Differences,Angrist and Piscke Pages 222-247. ,
-"Wed, Feb 26",Backwards Project Design,- **Causal Inference Pset Due**,
-"Mon, Mar 2",CI: Natural Experiments,"- Dunning (2008). `Improving Causal Inference: Strengths and Limitations of Natural Experiments <http://www.thaddunning.com/wp-content/uploads/2010/03/Dunning_PRQ.pdf>`_
+"Mon, Feb 24",CI: Matching,`Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_ ,
+"Wed, Feb 26",CI: Difference-in-Differences,Angrist and Piscke Pages 222-247. ,
+"Mon, Mar 2",Backwards Project Design,- **Causal Inference Pset Due**,
+"Wed, Mar 4",CI: Natural Experiments,"- Dunning (2008). `Improving Causal Inference: Strengths and Limitations of Natural Experiments <http://www.thaddunning.com/wp-content/uploads/2010/03/Dunning_PRQ.pdf>`_
 - 99% Invisible, `Episode 352: Uptown Squirrel. <https://99percentinvisible.org/episode/uptown-squirrel>`_",
-"Wed, Mar 4",CI: LATE / Compliance,,
 "Mon, Mar 9",SPRING RECESS,,
 "Wed, Mar 11",SPRING RECESS,,
-"Mon, Mar 16",Prediction: ML versus Casual Inference,"- Fragility
+"Mon, Mar 16",A/B Testing Practicalities,,
+"Wed, Mar 18",Prediction: ML versus Casual Inference,"- Fragility
 - Adversarial Users
 - Lucas Critique
 - `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_
 - **Project Proposal Draft Due**",
-"Wed, Mar 18",Prediction: ML Bias,"- `ProPublica: Machine Bias <https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing>`_
+"Mon, Mar 23",Prediction: ML Bias,"- `ProPublica: Machine Bias <https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing>`_
 - `Racial Bias in Medical Algorithm <https://www.washingtonpost.com/health/2019/10/24/racial-bias-medical-algorithm-favors-white-patients-over-sicker-black-patients/>`_
 - `Amazon scraps secret AI recruiting tool due to bias <https://www.reuters.com/article/us-amazon-com-jobs-automation-insight/amazon-scraps-secret-ai-recruiting-tool-that-showed-bias-against-women-idUSKCN1MK08G>`_
 - `Diversity in AI is not your problem, it's hers <https://medium.com/@robert.munro/bias-in-ai-3ea569f79d6a>`_
-- `Not all AI bias is unintentional... <https://www.washingtonpost.com/nation/2020/01/28/opioid-kickback-software/>`_",
-"Mon, Mar 23",,- **Final Project Proposal Due**,
+- `Not all AI bias is unintentional... <https://www.washingtonpost.com/nation/2020/01/28/opioid-kickback-software/>`_",- **Final Project Proposal Due**
 "Wed, Mar 25",,,
 "Mon, Mar 30",,,
 "Wed, Apr 1",Project Presentations,7 minute presentations + 7 minutes of questions per group,

@@ -61,7 +61,7 @@
     "\n",
     "## Question 7:\n",
     "\n",
-    "In order to make this inference valid, what assumptions was Snow (implicitly) making about break-makers and non-break-makers? \n",
+    "In order to make this inference valid, what assumptions was Snow (implicitly) making about brewers and non-brewers? \n",
     "\n",
     "\n",
     "\n",
@@ -78,6 +78,13 @@
     "\n",
     "\n"
    ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
   }
  ],
  "metadata": {
