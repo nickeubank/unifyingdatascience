@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Causality in the Time of Cholera &#8212; Unifying Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="Causality-in-the-Time-of-Cholera">
+<h1>Causality in the Time of Cholera<a class="headerlink" href="#Causality-in-the-Time-of-Cholera" title="Permalink to this headline">¶</a></h1>
+<p><strong>Exercise Sheet 1</strong></p>
+<p><strong>Instructions (read aloud in your group):</strong> Your group’s task is to use the facts described below to devise a test of the theory that a waterborne organism/pathogen is responsible for infecting humans with cholera. Your test must be feasible with the technology and resources available at the time. Your test must also be falsifiable; that is, it must be possible that you find evidence inconsistent with the waterborne germ theory of cholera’s spread. The questions on this worksheet will walk you
+through developing your test. You do not have to use all of the facts below in devising your test, but try not to use information beyond what you are told below.</p>
+<p>In <em>Ghost Map</em>, you learned about how John Snow was able to convince the people of London that Cholera was a waterborne disease and not spread by miasma (a great lesson in the fact that not all data science requires machine learning :)).</p>
+<p>In early 1854, Snow noticed that numerous cholera cases clustered around the Broad Street pump in the neighborhood of Soho in London. Like nearly all of the water supply of London, the pump was a public source of drinking water, cooking water and water for all other household chores for anyone who wanted it. Indoor plumbing was almost completely unheard of at this time, which meant that individuals from all walks of life obtained their water from public pumps like the Broad Street pump that were
+located on street corners throughout the city.</p>
+<p>Despite the clustering of cholera cases, the workers in the brewery directly across the street from the pump did not contract cholera during the 1854 outbreak. Those who worked in other food service industries, like the bakery on the same block, however, did exhibit cases of cholera. As did other individuals involved in other retail trades. When asked, those who worked in the brewery noted that they mostly drank beer for hydration, not water, and that all of the water they obtained to brew their
+beer was boiled as part of the brewing process.</p>
+<p>John Snow famously realized, as a result of this fact, that water was carrying cholera. How?</p>
+<p>In this exercise, you must map the facts of this case to our counter-factual conceptual framework! Hopefully this will not only help you understand the counter-factual framework, but also allow you to think more precisely about what assumptions John Snow was implicitly making.</p>
+<div class="section" id="Question-1:">
+<h2>Question 1:<a class="headerlink" href="#Question-1:" title="Permalink to this headline">¶</a></h2>
+<p>Using the language of the potential outcomes framework, identify the outcome of interest (<span class="math notranslate nohighlight">\(Y\)</span>) of interest.</p>
+</div>
+<div class="section" id="Question-2:">
+<h2>Question 2:<a class="headerlink" href="#Question-2:" title="Permalink to this headline">¶</a></h2>
+<p>Who or what do you want to observe? Do you want to observe something about individuals? Groups? Places? Things? (This is your unit of analysis.)</p>
+</div>
+<div class="section" id="Question-3:">
+<h2>Question 3:<a class="headerlink" href="#Question-3:" title="Permalink to this headline">¶</a></h2>
+<p>What is the treatment (<span class="math notranslate nohighlight">\(T\)</span>) in John Snow’s analysis?</p>
+</div>
+<div class="section" id="Question-4">
+<h2>Question 4<a class="headerlink" href="#Question-4" title="Permalink to this headline">¶</a></h2>
+<p>Given the observations you’ve made of the outcome <span class="math notranslate nohighlight">\(Y\)</span>, who or what do you want to compare? That is, how do you want to group your unit of analysis so that you can compare between groups? Will you make comparisons across space? Across time? Both? (This is the fundamental component of your test.)</p>
+</div>
+<div class="section" id="Question-5">
+<h2>Question 5<a class="headerlink" href="#Question-5" title="Permalink to this headline">¶</a></h2>
+<p>If the waterborne germ theory of disease is correct, what differences (or lack of differences) do you expect to see in the comparisons of outcomes between groups from 4 above?</p>
+</div>
+<div class="section" id="Question-6">
+<h2>Question 6<a class="headerlink" href="#Question-6" title="Permalink to this headline">¶</a></h2>
+<p>If the waterborne germ theory of disease is incorrect, what differences (or lack of differences) do you expect to see in the comparisons of outcomes between groups from 4 above?</p>
+</div>
+<div class="section" id="Question-7:">
+<h2>Question 7:<a class="headerlink" href="#Question-7:" title="Permalink to this headline">¶</a></h2>
+<p>In order to make this inference valid, what assumptions was Snow (implicitly) making about break-makers and non-break-makers?</p>
+</div>
+<div class="section" id="Question-8:">
+<h2>Question 8:<a class="headerlink" href="#Question-8:" title="Permalink to this headline">¶</a></h2>
+<p>If you observe the differences (or lack of differences) in outcomes between groups that support the waterborne germ theory of disease, is there anything else that could be going on that could also or alternatively account for the differences? What worries you? (This is a question about potential confounders.)</p>
+</div>
+<div class="section" id="Question-9:">
+<h2>Question 9:<a class="headerlink" href="#Question-9:" title="Permalink to this headline">¶</a></h2>
+<p>If you don’t observe the differences (or lack of differences) in outcomes between groups that support the waterborne germ theory of disease, is there anything else that could be going on that could also or alternatively account for the differences? What worries you? (This is a question about potential confounders.)</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Unifying DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">QUESTIONS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../taxonomy_of_questions.html">Taxonomy of Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../limitations_of_ATE.html">Limitations of Experiments</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/exercise_ghostmap_1.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-151397036-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>

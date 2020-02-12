@@ -14,9 +14,10 @@
 "Wed, Jan 29",CI: Potential Outcomes Framework,- `Potential Outcomes <https://www.dropbox.com/s/l85ci4au234jtff/Causal_inference_Materials.zip?dl=0&file_subpath=%2FCausal_inference_Materials%2FPotential_Outcomes.pdf>`_,`Link <exercises/exercise_counterfactuals.ipynb>`_
 "Mon, Feb 3",CI: Experiments,"- Angrist and Piscke (MHE) Part 1 (pages 3-24)
 - Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3)",`Link <exercises/exercise_abtesting.ipynb>`_
-"Wed, Feb 5",- Limitations of Experiments and ATE," - `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
+"Wed, Feb 5",- Limitations of Experiments and ATE,"- `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
 - **Topic and 3 Questions Due**",`Link <exercises/exercise_resume.ipynb>`_
-"Mon, Feb 10",CI: Ghost Map,"- `The Ghost Map <https://www.amazon.com/Ghost-Map-Londons-Terrifying-Epidemic/dp/1594482691>`_ pp. 25-54, 111-230",Ghost map exercises
+"Mon, Feb 10",CI: Ghost Map,"- `The Ghost Map <https://www.amazon.com/Ghost-Map-Londons-Terrifying-Epidemic/dp/1594482691>`_ pp. 25-54, 111-230","`Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
+`Link 2 <exercises/exercise_ghostmap_2.ipynb>`_"
 "Wed, Feb 12",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). ",
 "Mon, Feb 17",CI: Fixed Effects and Clustering,"- `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
 -  Kennedy, Sections 18.1-18.3
