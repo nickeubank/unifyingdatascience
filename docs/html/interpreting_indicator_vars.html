@@ -252,96 +252,259 @@ interpet them.</p>
 <p>If you always remember that the coefficient on an indicator variable is an estimate of a <strong>DIFFERENCE</strong> with respect to a <strong>REFERENCE GROUP</strong> (also sometimes referred to as the “omitted category”), you’re 90% of the way to understanding indicator variables.</p>
 <p>OK, let’s get concrete.</p>
 </div>
-</div>
 <div class="section" id="Indicator-Variables-with-Two-Category-Variable">
-<h1>Indicator Variables with Two Category Variable<a class="headerlink" href="#Indicator-Variables-with-Two-Category-Variable" title="Permalink to this headline">¶</a></h1>
+<h2>Indicator Variables with Two Category Variable<a class="headerlink" href="#Indicator-Variables-with-Two-Category-Variable" title="Permalink to this headline">¶</a></h2>
 <p>Let’s do a simple example predicting voter turnout using data from North Carolina. Suppose in particular we’re interested in looking at how turnout varies by gender, which is dichotomous in the North Carolina voter file (obviously this is somewhat problematic given what we’ve come to know about gender, but in most datasets you’ll find a dichotomous coding).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Load data we&#39;ll use. Should work for anyone.</span>
-<span class="n">voters</span> <span class="o">=</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/nickeubank/css_tutorials/master/exercise_data/voter_turnout.csv&quot;</span><span class="p">)</span>
-<span class="nf">head</span><span class="p">(</span><span class="n">voters</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">voters</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/nickeubank/css_tutorials/master/exercise_data/voter_turnout.csv&quot;</span><span class="p">)</span>
+<span class="n">voters</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
-<table>
-<caption>A data.frame: 6 × 5</caption>
-<thead>
-    <tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th></tr>
-    <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
-</thead>
-<tbody>
-    <tr><td>71</td><td>FEMALE</td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td></tr>
-    <tr><td>47</td><td>MALE  </td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td></tr>
-    <tr><td>29</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td></tr>
-    <tr><td>60</td><td>MALE  </td><td>1</td><td>REPUBLICAN  </td><td>WHITE                    </td></tr>
-    <tr><td>84</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td></tr>
-    <tr><td>56</td><td>MALE  </td><td>1</td><td>DEMOCRATIC  </td><td>BLACK or AFRICAN AMERICAN</td></tr>
-</tbody>
-</table></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>gender</th>
+      <th>voted</th>
+      <th>party</th>
+      <th>race</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>71</td>
+      <td>FEMALE</td>
+      <td>1</td>
+      <td>UNAFFILIATED</td>
+      <td>WHITE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>47</td>
+      <td>MALE</td>
+      <td>1</td>
+      <td>UNAFFILIATED</td>
+      <td>WHITE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>29</td>
+      <td>MALE</td>
+      <td>0</td>
+      <td>DEMOCRATIC</td>
+      <td>WHITE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>60</td>
+      <td>MALE</td>
+      <td>1</td>
+      <td>REPUBLICAN</td>
+      <td>WHITE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>84</td>
+      <td>MALE</td>
+      <td>0</td>
+      <td>DEMOCRATIC</td>
+      <td>WHITE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Create a 0/1 variable for female.</span>
-<span class="n">voters</span><span class="o">$</span><span class="n">female</span> <span class="o">=</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="n">voters</span><span class="o">$</span><span class="n">gender</span> <span class="o">==</span> <span class="s">&quot;FEMALE&quot;</span><span class="p">)</span> <span class="c1"># you can also leave as TRUE / FALSE,</span>
-                                                      <span class="c1"># but easier to see this way.</span>
-<span class="nf">head</span><span class="p">(</span><span class="n">voters</span><span class="p">)</span>
+<span class="n">voters</span><span class="p">[</span><span class="s1">&#39;female&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">voters</span><span class="o">.</span><span class="n">gender</span> <span class="o">==</span> <span class="s2">&quot;FEMALE&quot;</span>
+<span class="n">voters</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
-<table>
-<caption>A data.frame: 6 × 6</caption>
-<thead>
-    <tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th></tr>
-    <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
-</thead>
-<tbody>
-    <tr><td>71</td><td>FEMALE</td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>1</td></tr>
-    <tr><td>47</td><td>MALE  </td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>0</td></tr>
-    <tr><td>29</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td></tr>
-    <tr><td>60</td><td>MALE  </td><td>1</td><td>REPUBLICAN  </td><td>WHITE                    </td><td>0</td></tr>
-    <tr><td>84</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td></tr>
-    <tr><td>56</td><td>MALE  </td><td>1</td><td>DEMOCRATIC  </td><td>BLACK or AFRICAN AMERICAN</td><td>0</td></tr>
-</tbody>
-</table></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>gender</th>
+      <th>voted</th>
+      <th>party</th>
+      <th>race</th>
+      <th>female</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>71</td>
+      <td>FEMALE</td>
+      <td>1</td>
+      <td>UNAFFILIATED</td>
+      <td>WHITE</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>47</td>
+      <td>MALE</td>
+      <td>1</td>
+      <td>UNAFFILIATED</td>
+      <td>WHITE</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>29</td>
+      <td>MALE</td>
+      <td>0</td>
+      <td>DEMOCRATIC</td>
+      <td>WHITE</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>60</td>
+      <td>MALE</td>
+      <td>1</td>
+      <td>REPUBLICAN</td>
+      <td>WHITE</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>84</td>
+      <td>MALE</td>
+      <td>0</td>
+      <td>DEMOCRATIC</td>
+      <td>WHITE</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
-<span></span><span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">female</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-
-Call:
-lm(formula = voted ~ female, data = voters)
-
-Coefficients:
-(Intercept)       female
-    0.74610      0.00754
-
-</pre></div></div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>voted</td>      <th>  R-squared:         </th> <td>   0.000</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>  -0.000</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>  0.7434</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 12 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td> 0.389</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>16:15:57</td>     <th>  Log-Likelihood:    </th> <td> -5768.3</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.154e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  9917</td>      <th>  BIC:               </th> <td>1.156e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+         <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th>      <td>    0.7461</td> <td>    0.007</td> <td>  114.575</td> <td> 0.000</td> <td>    0.733</td> <td>    0.759</td>
+</tr>
+<tr>
+  <th>female[T.True]</th> <td>    0.0075</td> <td>    0.009</td> <td>    0.862</td> <td> 0.389</td> <td>   -0.010</td> <td>    0.025</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>1890.028</td> <th>  Durbin-Watson:     </th> <td>   1.974</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>2391.714</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td>-1.156</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td> 2.337</td>  <th>  Cond. No.          </th> <td>    2.77</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
 <p>OK, so how do we interpret this coefficient of 0.0075 on female? As we said before, it is the average <strong>DIFFERENCE</strong> in the dependent variable (Whether the person votes) with respect to a <strong>REFERENCE GROUP</strong>. In this case, the reference group is anyone for whom the indicator is always equal to zero, which is the set of male voters.</p>
 <p>So this says that women are 0.7% <em>more likely to vote (in North Carolina) then men.</em></p>
@@ -350,94 +513,198 @@ Coefficients:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
-<span></span><span class="nf">unique</span><span class="p">(</span><span class="n">voters</span><span class="o">$</span><span class="n">party</span><span class="p">)</span> <span class="c1"># OK, note here that there are THREE party registrations in this data.</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">voters</span><span class="o">.</span><span class="n">party</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span> <span class="c1"># OK, note here that there are THREE party registrations in this data.</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
 </div>
-<div class="output_area rendered_html docutils container">
-<ol class=list-inline>
-    <li>UNAFFILIATED</li>
-    <li>DEMOCRATIC</li>
-    <li>REPUBLICAN</li>
-</ol>
-
-<details>
-    <summary style=display:list-item;cursor:pointer>
-            <strong>Levels</strong>:
-    </summary>
-    <ol class=list-inline>
-            <li>'DEMOCRATIC'</li>
-            <li>'REPUBLICAN'</li>
-            <li>'UNAFFILIATED'</li>
-    </ol>
-</details></div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+DEMOCRATIC      4426
+REPUBLICAN      3365
+UNAFFILIATED    2128
+Name: party, dtype: int64
+</pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># So let&#39;s do the same thing as before for democrats</span>
-<span class="n">voters</span><span class="o">$</span><span class="n">democrat</span> <span class="o">=</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="n">voters</span><span class="o">$</span><span class="n">party</span> <span class="o">==</span> <span class="s">&quot;DEMOCRATIC&quot;</span><span class="p">)</span>
-<span class="nf">head</span><span class="p">(</span><span class="n">voters</span><span class="p">)</span>
+<span class="n">voters</span><span class="p">[</span><span class="s1">&#39;democrat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">voters</span><span class="o">.</span><span class="n">party</span> <span class="o">==</span> <span class="s2">&quot;DEMOCRATIC&quot;</span>
+<span class="n">voters</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
-<table>
-<caption>A data.frame: 6 × 7</caption>
-<thead>
-    <tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th><th scope=col>democrat</th></tr>
-    <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
-</thead>
-<tbody>
-    <tr><td>71</td><td>FEMALE</td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>1</td><td>0</td></tr>
-    <tr><td>47</td><td>MALE  </td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>0</td><td>0</td></tr>
-    <tr><td>29</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td><td>1</td></tr>
-    <tr><td>60</td><td>MALE  </td><td>1</td><td>REPUBLICAN  </td><td>WHITE                    </td><td>0</td><td>0</td></tr>
-    <tr><td>84</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td><td>1</td></tr>
-    <tr><td>56</td><td>MALE  </td><td>1</td><td>DEMOCRATIC  </td><td>BLACK or AFRICAN AMERICAN</td><td>0</td><td>1</td></tr>
-</tbody>
-</table></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>gender</th>
+      <th>voted</th>
+      <th>party</th>
+      <th>race</th>
+      <th>female</th>
+      <th>democrat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>71</td>
+      <td>FEMALE</td>
+      <td>1</td>
+      <td>UNAFFILIATED</td>
+      <td>WHITE</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>47</td>
+      <td>MALE</td>
+      <td>1</td>
+      <td>UNAFFILIATED</td>
+      <td>WHITE</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>29</td>
+      <td>MALE</td>
+      <td>0</td>
+      <td>DEMOCRATIC</td>
+      <td>WHITE</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>60</td>
+      <td>MALE</td>
+      <td>1</td>
+      <td>REPUBLICAN</td>
+      <td>WHITE</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>84</td>
+      <td>MALE</td>
+      <td>0</td>
+      <td>DEMOCRATIC</td>
+      <td>WHITE</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
-<span></span><span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">democrat</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ democrat&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-
-Call:
-lm(formula = voted ~ democrat, data = voters)
-
-Coefficients:
-(Intercept)     democrat
-    0.77535     -0.05619
-
-</pre></div></div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>voted</td>      <th>  R-squared:         </th> <td>   0.004</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.004</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   41.47</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 12 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.25e-10</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>16:15:57</td>     <th>  Log-Likelihood:    </th> <td> -5748.0</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.150e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  9917</td>      <th>  BIC:               </th> <td>1.151e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+          <td></td>            <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th>        <td>    0.7754</td> <td>    0.006</td> <td>  133.023</td> <td> 0.000</td> <td>    0.764</td> <td>    0.787</td>
+</tr>
+<tr>
+  <th>democrat[T.True]</th> <td>   -0.0562</td> <td>    0.009</td> <td>   -6.440</td> <td> 0.000</td> <td>   -0.073</td> <td>   -0.039</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>1865.360</td> <th>  Durbin-Watson:     </th> <td>   1.973</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>2361.772</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td>-1.149</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td> 2.343</td>  <th>  Cond. No.          </th> <td>    2.51</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
-<p>So now how do we interpret this coefficient on Democrats (-0.06)? As before it’s the average <strong>DIFFERENCE</strong> in the dependent variable between the indicated group (democrats) and the reference group. But what’s the reference group? Republicans?</p>
-<p>No – the <strong>reference group</strong> or <strong>omitted category</strong> is anyone for whom the indicator variable is always zero – in this case, all non-democrats, whether they’re Republicans or Unaffiliated.</p>
-<p>So this result says that Democrats are less likely to vote than non-democrats, but NOT that they’re less likely to vote than republicans per se.</p>
+<p>So now how do we interpret this coefficient on Democrats (-0.056)? As before it’s the average <strong>DIFFERENCE</strong> in the dependent variable between the indicated group (Democrats) and the reference group. But what’s the reference group? Republicans?</p>
+<p>No – the <strong>reference group</strong> or <strong>omitted category</strong> is anyone for whom the indicator variable is always zero – in this case, all non-Democrats, whether they’re Republicans or Unaffiliated.</p>
+<p>So this result says that Democrats are less likely to vote than non-Democrats, but NOT that they’re less likely to vote than Republicans per se.</p>
 <p>So how do we deal with multiple categories? With multiple indicator variables!</p>
 </div>
 <div class="section" id="Indicator-Variables-for-variables-with-more-than-2-categories">
-<h1>Indicator Variables for variables with more than 2 categories<a class="headerlink" href="#Indicator-Variables-for-variables-with-more-than-2-categories" title="Permalink to this headline">¶</a></h1>
+<h2>Indicator Variables for variables with more than 2 categories<a class="headerlink" href="#Indicator-Variables-for-variables-with-more-than-2-categories" title="Permalink to this headline">¶</a></h2>
 <p>To deal with categorical variables with more than 2 categories, we create indicator variables for all values of the variable <em>except one</em>. The one group for which we do not create an indicator variable will become the <strong>reference group</strong> for the regression. The choice of which value to make the reference category won’t substantively change the results of the regression – for example, if you also have a control for age, the coefficient on age will always be the same regardless of the reference
 group used – but it does influence how easily you can interpret the results of the regression. Note that what we’re doing is often called “one-hot encoding” by computer scientists / machine learning people.</p>
 <p>So since we’re interested in the difference in turnout between Democrats and Republicans, let’s make Republicans the reference category, and make dummies for democrats and unaffiliated voters.</p>
@@ -445,253 +712,746 @@ group used – but it does influence how easily you can interpret the results of
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
-<span></span><span class="n">voters</span><span class="o">$</span><span class="n">unaffiliated</span> <span class="o">=</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="n">voters</span><span class="o">$</span><span class="n">party</span> <span class="o">==</span> <span class="s">&quot;UNAFFILIATED&quot;</span><span class="p">)</span>
-<span class="nf">head</span><span class="p">(</span><span class="n">voters</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">voters</span><span class="p">[</span><span class="s1">&#39;unaffiliated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">voters</span><span class="o">.</span><span class="n">party</span> <span class="o">==</span> <span class="s2">&quot;UNAFFILIATED&quot;</span>
+<span class="n">voters</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
-<table>
-<caption>A data.frame: 6 × 8</caption>
-<thead>
-    <tr><th scope=col>age</th><th scope=col>gender</th><th scope=col>voted</th><th scope=col>party</th><th scope=col>race</th><th scope=col>female</th><th scope=col>democrat</th><th scope=col>unaffiliated</th></tr>
-    <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
-</thead>
-<tbody>
-    <tr><td>71</td><td>FEMALE</td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>1</td><td>0</td><td>1</td></tr>
-    <tr><td>47</td><td>MALE  </td><td>1</td><td>UNAFFILIATED</td><td>WHITE                    </td><td>0</td><td>0</td><td>1</td></tr>
-    <tr><td>29</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td><td>1</td><td>0</td></tr>
-    <tr><td>60</td><td>MALE  </td><td>1</td><td>REPUBLICAN  </td><td>WHITE                    </td><td>0</td><td>0</td><td>0</td></tr>
-    <tr><td>84</td><td>MALE  </td><td>0</td><td>DEMOCRATIC  </td><td>WHITE                    </td><td>0</td><td>1</td><td>0</td></tr>
-    <tr><td>56</td><td>MALE  </td><td>1</td><td>DEMOCRATIC  </td><td>BLACK or AFRICAN AMERICAN</td><td>0</td><td>1</td><td>0</td></tr>
-</tbody>
-</table></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>gender</th>
+      <th>voted</th>
+      <th>party</th>
+      <th>race</th>
+      <th>female</th>
+      <th>democrat</th>
+      <th>unaffiliated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>71</td>
+      <td>FEMALE</td>
+      <td>1</td>
+      <td>UNAFFILIATED</td>
+      <td>WHITE</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>47</td>
+      <td>MALE</td>
+      <td>1</td>
+      <td>UNAFFILIATED</td>
+      <td>WHITE</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>29</td>
+      <td>MALE</td>
+      <td>0</td>
+      <td>DEMOCRATIC</td>
+      <td>WHITE</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>60</td>
+      <td>MALE</td>
+      <td>1</td>
+      <td>REPUBLICAN</td>
+      <td>WHITE</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>84</td>
+      <td>MALE</td>
+      <td>0</td>
+      <td>DEMOCRATIC</td>
+      <td>WHITE</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
-<span></span><span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">democrat</span> <span class="o">+</span> <span class="n">unaffiliated</span><span class="p">,</span> <span class="n">voters</span><span class="p">))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ democrat + unaffiliated&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-
-Call:
-lm(formula = voted ~ democrat + unaffiliated, data = voters)
-
-Residuals:
-    Min      1Q  Median      3Q     Max
--0.7988  0.2012  0.2012  0.2808  0.2808
-
-Coefficients:
-              Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)   0.798811   0.007438 107.399  &lt; 2e-16 ***
-democrat     -0.079652   0.009868  -8.072 7.74e-16 ***
-unaffiliated -0.060559   0.011950  -5.068 4.10e-07 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 0.4315 on 9916 degrees of freedom
-Multiple R-squared:  0.006737,  Adjusted R-squared:  0.006536
-F-statistic: 33.63 on 2 and 9916 DF,  p-value: 2.786e-15
-
-</pre></div></div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>voted</td>      <th>  R-squared:         </th> <td>   0.007</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.007</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   33.63</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 12 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>2.79e-15</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>16:15:57</td>     <th>  Log-Likelihood:    </th> <td> -5735.2</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.148e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  9916</td>      <th>  BIC:               </th> <td>1.150e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+            <td></td>              <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th>            <td>    0.7988</td> <td>    0.007</td> <td>  107.399</td> <td> 0.000</td> <td>    0.784</td> <td>    0.813</td>
+</tr>
+<tr>
+  <th>democrat[T.True]</th>     <td>   -0.0797</td> <td>    0.010</td> <td>   -8.072</td> <td> 0.000</td> <td>   -0.099</td> <td>   -0.060</td>
+</tr>
+<tr>
+  <th>unaffiliated[T.True]</th> <td>   -0.0606</td> <td>    0.012</td> <td>   -5.068</td> <td> 0.000</td> <td>   -0.084</td> <td>   -0.037</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>1854.446</td> <th>  Durbin-Watson:     </th> <td>   1.973</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>2341.346</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td>-1.144</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td> 2.344</td>  <th>  Cond. No.          </th> <td>    3.85</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
-<p>So how do we interpret this?</p>
-<p>First, we see that the coefficient on democrat is -0.08. That means that the <strong>DIFFERENCE</strong> in turnout between democrats and the reference group (here, Republicans) is 8%. So democrats have 8 percent point lower turnout on average in this data than Republicans.</p>
-<p>Second, we see that the coefficient on unaffiliated is -0.06. That means that the DIFFERENCE in turnout between unaffiliated voters and the reference group (here, Republicans) is 6%. So democrats have 6 percent point lower turnout on average in this data than Republicans.</p>
-<p>Moreover, the p-value on these indicator variables tells us if these differences are significant. And indeed, they show clearly that the difference between democrats and republicans is significant (p-value = 7.7e-16), and the difference between unaffiliated voters and republicans is significanct (p-value = 4.1e-07).</p>
-<p>But what about the difference between democrats and unaffiliated voters? Well, turns out the regression doesn’t give us that directly. To get that, we have to do some additional math.</p>
-<p>For example, the difference between democrats and unaffiliated voters is equal to:</p>
-<p>dem - unaffiliated = (dem - republican) - (unaffiliated - republican) = -0.079652 - -0.060559 = -0.019093</p>
-<p>So in other words, dems have 2 percentage point lower turnout than unaffiliated voters.</p>
-<p>But is this difference statistically significant? For that we use the LinearHypothesis function from the <code class="docutils literal notranslate"><span class="pre">car</span></code> library:</p>
+<p>(Note that we also could have used the syntax <code class="docutils literal notranslate"><span class="pre">smf.ols('voted</span> <span class="pre">~</span> <span class="pre">C(party)',</span> <span class="pre">voters)</span></code>, which will automatically convert your data into one-hot encodings, but then you don’t get to pick the omitted category, and sometimes it’s nice to be explicit.)</p>
+<p>So how do we interpret these results?</p>
+<p>First, we see that the coefficient on <code class="docutils literal notranslate"><span class="pre">democrat</span></code> is -0.08. That means that the <strong>DIFFERENCE</strong> in turnout between Democrats and the reference group (here, Republicans) is 8%. So Democrats have 8 percent point lower turnout on average in this data than Republicans.</p>
+<p>Second, we see that the coefficient on <code class="docutils literal notranslate"><span class="pre">unaffiliated</span></code> is -0.06. That means that the DIFFERENCE in turnout between Unaffiliated voters and the reference group (here, Republicans) is 6%. So Democrats have 6 percent point lower turnout on average in this data than Republicans.</p>
+<p>Moreover, the p-value on these indicator variables tells us if these differences are significant. And indeed, they show clearly that the difference between Democrats and Republicans, and the difference between Unaffiliated voters and Republicans is significant.</p>
+<p>But what about the difference between Democrats and Unaffiliated voters? Well, turns out the regression doesn’t give us that directly. To get that, we have to do some additional math.</p>
+<p>First, it’s easy to estimate the difference in coefficients:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dem</span> <span class="o">-</span> <span class="n">unaffiliated</span> <span class="o">=</span> <span class="p">(</span><span class="n">dem</span> <span class="o">-</span> <span class="n">republican</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">unaffiliated</span> <span class="o">-</span> <span class="n">republican</span><span class="p">)</span>
+                   <span class="o">=</span> <span class="o">-</span><span class="mf">0.079</span> <span class="o">-</span> <span class="o">-</span><span class="mf">0.061</span>
+                   <span class="o">=</span> <span class="o">-</span><span class="mf">0.018</span>
+</pre></div>
+</div>
+<p>So in other words, Democrats have 2 percentage point lower turnout than unaffiliated voters.</p>
+<p>But is this difference statistically significant? For that we have to run a post-regression test. (In R, you can do these with the <code class="docutils literal notranslate"><span class="pre">car</span></code> library using the <code class="docutils literal notranslate"><span class="pre">LinearHypothesis</span></code> function)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
-<span></span><span class="c1">#install.packages(&quot;car&quot;)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">car</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">democrat</span> <span class="o">+</span> <span class="n">unaffiliated</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span>
-<span class="nf">linearHypothesis</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">&quot;democrat = unaffiliated&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ democrat + unaffiliated&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="n">hypothesis</span> <span class="o">=</span> <span class="s1">&#39;democrat[T.True] = unaffiliated[T.True]&#39;</span>
+<span class="n">model</span><span class="o">.</span><span class="n">t_test</span><span class="p">(</span><span class="n">hypothesis</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Error in library(car): there is no package called ‘car’
-Traceback:
-
-1. library(car)
+&lt;class &#39;statsmodels.stats.contrast.ContrastResults&#39;&gt;
+                             Test for Constraints
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
+==============================================================================
 </pre></div></div>
 </div>
 <p>Voila – p-value of 0.09.</p>
-<p>Wanna confirm it? let’s change our reference group to unaffiliated. then look at the coefficient on democrat, which will then be the difference between democrats and the new reference group (unaffiliated voters)</p>
+<p>Wanna confirm it? let’s change our reference group to <code class="docutils literal notranslate"><span class="pre">unaffiliated</span></code>. Then when we look at the coefficient on <code class="docutils literal notranslate"><span class="pre">democrat</span></code>, that will be the difference between Democrats and the new reference group (Unaffiliated voters)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
-<span></span><span class="n">voters</span><span class="o">$</span><span class="n">republican</span> <span class="o">=</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="n">voters</span><span class="o">$</span><span class="n">party</span> <span class="o">==</span> <span class="s">&quot;REPUBLICAN&quot;</span><span class="p">)</span>
-<span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">democrat</span> <span class="o">+</span> <span class="n">republican</span><span class="p">,</span> <span class="n">voters</span><span class="p">))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">voters</span><span class="p">[</span><span class="s1">&#39;republican&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">voters</span><span class="o">.</span><span class="n">party</span> <span class="o">==</span> <span class="s2">&quot;REPUBLICAN&quot;</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ democrat + republican&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-
-Call:
-lm(formula = voted ~ democrat + republican, data = voters)
-
-Residuals:
-    Min      1Q  Median      3Q     Max
--0.7988  0.2012  0.2012  0.2808  0.2808
-
-Coefficients:
-             Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)  0.738252   0.009353  78.932  &lt; 2e-16 ***
-democrat    -0.019092   0.011382  -1.677   0.0935 .
-republican   0.060559   0.011950   5.068  4.1e-07 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 0.4315 on 9916 degrees of freedom
-Multiple R-squared:  0.006737,  Adjusted R-squared:  0.006536
-F-statistic: 33.63 on 2 and 9916 DF,  p-value: 2.786e-15
-
-</pre></div></div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>voted</td>      <th>  R-squared:         </th> <td>   0.007</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.007</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   33.63</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 12 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>2.79e-15</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>16:15:57</td>     <th>  Log-Likelihood:    </th> <td> -5735.2</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.148e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  9916</td>      <th>  BIC:               </th> <td>1.150e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+           <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th>          <td>    0.7383</td> <td>    0.009</td> <td>   78.932</td> <td> 0.000</td> <td>    0.720</td> <td>    0.757</td>
+</tr>
+<tr>
+  <th>democrat[T.True]</th>   <td>   -0.0191</td> <td>    0.011</td> <td>   -1.677</td> <td> 0.093</td> <td>   -0.041</td> <td>    0.003</td>
+</tr>
+<tr>
+  <th>republican[T.True]</th> <td>    0.0606</td> <td>    0.012</td> <td>    5.068</td> <td> 0.000</td> <td>    0.037</td> <td>    0.084</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>1854.446</td> <th>  Durbin-Watson:     </th> <td>   1.973</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>2341.346</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td>-1.144</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td> 2.344</td>  <th>  Cond. No.          </th> <td>    4.60</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
-<p>As we can now see, the coefficient on democrat (now difference between democrat and unaffiliated) is what we’d calculated above (-0.019) and has the p-value we calculated previously (0.09). This just goes to show that the choice of reference group doesn’t change what’s actually being estimated, it just changes the interpretation of coefficients and what statistics pop right out of the regression output, and which values require a little extra work.</p>
-<p>One other quick note: indicator variables as so common that there’s a shorthand to ask R to just make the indicators when it’s running the regression – <code class="docutils literal notranslate"><span class="pre">factor()</span></code>. This often works well, but by default it makes the first value in the variable the reference group, which can be annoying. So to run a regression with indicator variables for party, instead of <code class="docutils literal notranslate"><span class="pre">lm(voted</span> <span class="pre">~</span> <span class="pre">democrat</span> <span class="pre">+</span> <span class="pre">unaffiliated,</span> <span class="pre">voters)</span></code>, you can run:</p>
+<p>As we can now see, the coefficient on democrat (now difference between democrat and unaffiliated) is what we’d calculated above (-0.019) and has the p-value we calculated previously (0.09). This just goes to show that the choice of reference group doesn’t change what’s actually being estimated, it just changes the interpretation of coefficients and what statistics pop right out of the regression output, and which values require a little extra work to get.</p>
+</div>
+<div class="section" id="Interactions-with-Constant-Variables">
+<h2>Interactions with Constant Variables<a class="headerlink" href="#Interactions-with-Constant-Variables" title="Permalink to this headline">¶</a></h2>
+<p><strong>Like regular Indicators, but for differences in SLOPE rather than differences in LEVELS!</strong></p>
+<p>Congratulations! You’re a pro at Indicator variables. But now let’s say you want to do INTERACTIONS!</p>
+<p>Interactions (at least when you interact an indicator variable with a continuous variable) is just like a regular interaction variable, except that instead of reporting the difference in <strong>average value</strong> of the dependent variable between the indicated group and the reference group, the coefficient on an interaction term is the <strong>DIFFERENCE</strong> in the <strong>SLOPE</strong> associated with the continuous variable between the indicated group and the reference group.</p>
+<p>Let’s be concrete: let’s suppose we think that turnout among men increases as they get older by a larger amount than for women. In other words, we think that turnout increases with age for both groups, but that there’s a <strong>DIFFERENCE</strong> in the amount it increases with age.</p>
+<p>To test this, we need to create some interaction terms. But first, a quick note: when doing interactions, it’s critical to not only include all the interaction terms that interest you, <strong>but also all the variables in the interaction as stand-alone variables.</strong> So for this we want <code class="docutils literal notranslate"><span class="pre">age</span></code> interacted with <code class="docutils literal notranslate"><span class="pre">female</span></code>. But while the coefficient on that estimate is what we’re interested in, to get the right results we also need to include just <code class="docutils literal notranslate"><span class="pre">age</span></code> and just <code class="docutils literal notranslate"><span class="pre">female</span></code>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
-<span></span><span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="nf">factor</span><span class="p">(</span><span class="n">party</span><span class="p">),</span> <span class="n">voters</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">voters</span><span class="p">[</span><span class="s1">&#39;age_x_female&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">voters</span><span class="o">.</span><span class="n">age</span> <span class="o">*</span> <span class="n">voters</span><span class="o">.</span><span class="n">female</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ age + female + age_x_female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-
-Call:
-lm(formula = voted ~ factor(party), data = voters)
-
-Coefficients:
-              (Intercept)    factor(party)REPUBLICAN
-                  0.71916                    0.07965
-factor(party)UNAFFILIATED
-                  0.01909
-
-</pre></div></div>
-</div>
-</div>
-<div class="section" id="Interactions:-Like-regular-Indicators,-but-for-differences-in-SLOPE-rather-than-differences-in-LEVELS">
-<h1>Interactions: Like regular Indicators, but for differences in SLOPE rather than differences in LEVELS<a class="headerlink" href="#Interactions:-Like-regular-Indicators,-but-for-differences-in-SLOPE-rather-than-differences-in-LEVELS" title="Permalink to this headline">¶</a></h1>
-<p>Congratulations! You’re a pro at indicator variables. But now let’s say you want to do INTERACTIONS!</p>
-<p>Interactions (where you interact an indicator variable with a continuous variable) is just like a regular interaction variable, except that instead of reporting the difference in <strong>average value</strong> of the dependent variable between the indicated group and the reference group, the coefficient on an interaction term is the <strong>DIFFERENCE</strong> in the <strong>SLOPE</strong> associated with the continous variable between the indicated group and the reference group.</p>
-<p>Let’s be concrete: let’s suppose we think that turnout among men increases as they get older by a larger amount than for women. In other words, we think that turnout increases with age for both groups, but that there’s a <strong>DIFFERENCE</strong> in the amount it increases with age.</p>
-<p>To test this, we need to create some interaction terms. But first, a quick note: when doing interactions, it’s critical to not only include all the interaction terms that interest you, but also all the variables in the interaction as stand-alone variables. So for this we want <code class="docutils literal notranslate"><span class="pre">age</span></code> interacted with <code class="docutils literal notranslate"><span class="pre">female</span></code>. But while the coefficient on that estimate is what we’re interested in, to get the right results we also need to include just <code class="docutils literal notranslate"><span class="pre">age</span></code> and just <code class="docutils literal notranslate"><span class="pre">female</span></code>.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
-<span></span><span class="n">voters</span><span class="o">$</span><span class="n">age_x_female</span> <span class="o">=</span> <span class="n">voters</span><span class="o">$</span><span class="n">age</span> <span class="o">*</span> <span class="n">voters</span><span class="o">$</span><span class="n">female</span>
-<span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">female</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="n">age_x_female</span><span class="p">,</span> <span class="n">voters</span><span class="p">))</span>
-</pre></div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>voted</td>      <th>  R-squared:         </th> <td>   0.001</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.001</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2.670</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 12 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td>0.0459</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>16:15:57</td>     <th>  Log-Likelihood:    </th> <td> -5764.7</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.154e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  9915</td>      <th>  BIC:               </th> <td>1.157e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+         <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th>      <td>    0.6961</td> <td>    0.025</td> <td>   28.211</td> <td> 0.000</td> <td>    0.648</td> <td>    0.744</td>
+</tr>
+<tr>
+  <th>female[T.True]</th> <td>    0.0933</td> <td>    0.033</td> <td>    2.824</td> <td> 0.005</td> <td>    0.029</td> <td>    0.158</td>
+</tr>
+<tr>
+  <th>age</th>            <td>    0.0009</td> <td>    0.000</td> <td>    2.102</td> <td> 0.036</td> <td> 5.77e-05</td> <td>    0.002</td>
+</tr>
+<tr>
+  <th>age_x_female</th>   <td>   -0.0015</td> <td>    0.001</td> <td>   -2.693</td> <td> 0.007</td> <td>   -0.003</td> <td>   -0.000</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>1883.068</td> <th>  Durbin-Watson:     </th> <td>   1.976</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>2388.508</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td>-1.156</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td> 2.340</td>  <th>  Cond. No.          </th> <td>    643.</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-
-Call:
-lm(formula = voted ~ female + age + age_x_female, data = voters)
-
-Residuals:
-    Min      1Q  Median      3Q     Max
--0.7953  0.2047  0.2443  0.2535  0.2817
-
-Coefficients:
-               Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)   0.6960718  0.0246740  28.211  &lt; 2e-16 ***
-female        0.0933369  0.0330511   2.824  0.00475 **
-age           0.0008553  0.0004069   2.102  0.03559 *
-age_x_female -0.0014570  0.0005411  -2.693  0.00710 **
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 0.4328 on 9915 degrees of freedom
-Multiple R-squared:  0.0008071, Adjusted R-squared:  0.0005047
-F-statistic:  2.67 on 3 and 9915 DF,  p-value: 0.04589
-
-</pre></div></div>
-</div>
-<p>Ok, so the coefficient on our interaction is -0.001457. Does that mean that as women get older, their turnout rate declines by -0.145 percentage points per year? <strong>NO!</strong></p>
-<p>It says that women’s turnout rate declines by -0.145 percentage points per year LESS THAN MEN’S DECLINE. It is the <strong>DIFFERENCE</strong> in slopes between the two groups.</p>
+<p>Ok, so the coefficient on our interaction is -0.0015. Does that mean that as women get older, their turnout rate declines by -0.15 percentage points per year? <strong>NO!</strong></p>
+<p>It says that women’s turnout rate declines by -0.15 percentage points per year LESS THAN MEN’S DECLINE. It is the <strong>DIFFERENCE</strong> in slopes between the two groups.</p>
 <p>The coefficient on <code class="docutils literal notranslate"><span class="pre">age</span></code> tells us how turnout varies with age <strong>for the reference group</strong>. So it says that for men, turnout increases by 0.09 percentage points per year.</p>
 <p>But if you want to know how women’s turnout varies with age, you have to <strong>ADD</strong> the coefficient on <code class="docutils literal notranslate"><span class="pre">age</span></code> (the rate of change for me) plus the coefficient on <code class="docutils literal notranslate"><span class="pre">age_x_female</span></code> (the difference between the rate of men and women).</p>
 <p>So going through all these coefficients, we have:</p>
 <p><code class="docutils literal notranslate"><span class="pre">female</span></code> (0.09): Controlling for age, women are 9 percentage points more likely to vote than men. <code class="docutils literal notranslate"><span class="pre">age</span></code> (0.0009): As men get one year older, they become 0.1 percentage point more likely to vote. <code class="docutils literal notranslate"><span class="pre">age_x_female</span></code> (-0.0015): As women get one year older, the likelihood they vote increases by -0.1 percentage point <em>less</em> than men.</p>
-<p>So how much does women’s turnout increase if they age one year? 0.0008553 + -0.0014570 = -0.0006. So it actually declines by 0.06 percentage points a year.</p>
+<p>So how much does women’s turnout increase if they age one year? 0.0009 + -0.0015 = -0.0006. So female turnout actually declines by 0.06 percentage points a year.</p>
 <p>Now let’s talk statistical significance. The p-value on age shows us that there’s a statistically significant relationship between age and turnout <strong>for men</strong>. The p-value for <code class="docutils literal notranslate"><span class="pre">age_x_female</span></code> tells us that there’s a statistically significant <strong>difference</strong> between men and women in how turnout varies with age. But is there a statistically significant relationship between age and turnout for women?</p>
 <p>Again, we don’t actually get an answer from our regression. To see, we have to run the following:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
-<span></span><span class="n">result</span> <span class="o">=</span> <span class="nf">lm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">female</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="n">age_x_female</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span>
-<span class="nf">linearHypothesis</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">&quot;age + age_x_female = 0&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ age + female + age_x_female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">hypothesis</span> <span class="o">=</span> <span class="s1">&#39;age + age_x_female = 0&#39;</span>
+<span class="n">model</span><span class="o">.</span><span class="n">t_test</span><span class="p">(</span><span class="n">hypothesis</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Error in linearHypothesis(result, &#34;age + age_x_female = 0&#34;): could not find function &#34;linearHypothesis&#34;
-Traceback:
-
+&lt;class &#39;statsmodels.stats.contrast.ContrastResults&#39;&gt;
+                             Test for Constraints
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05
+==============================================================================
 </pre></div></div>
 </div>
-<p>So the p-value is 0.09 for the relationship between female and age.</p>
+<p>So the p-value is 0.09 for the relationship between female and age (and the coefficient of -0.0006, just like we calculated above!)</p>
+<p>Finally, as with using <code class="docutils literal notranslate"><span class="pre">C()</span></code> to convert categoricals to indicators, you can also use the <code class="docutils literal notranslate"><span class="pre">*</span></code> notation in statsmodels for interactions – it not only creates the interaction term, but also adds all the level effects:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ age * female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>voted</td>      <th>  R-squared:         </th> <td>   0.001</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.001</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2.670</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 12 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td>0.0459</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>16:15:57</td>     <th>  Log-Likelihood:    </th> <td> -5764.7</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.154e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  9915</td>      <th>  BIC:               </th> <td>1.157e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+           <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th>          <td>    0.6961</td> <td>    0.025</td> <td>   28.211</td> <td> 0.000</td> <td>    0.648</td> <td>    0.744</td>
+</tr>
+<tr>
+  <th>female[T.True]</th>     <td>    0.0933</td> <td>    0.033</td> <td>    2.824</td> <td> 0.005</td> <td>    0.029</td> <td>    0.158</td>
+</tr>
+<tr>
+  <th>age</th>                <td>    0.0009</td> <td>    0.000</td> <td>    2.102</td> <td> 0.036</td> <td> 5.77e-05</td> <td>    0.002</td>
+</tr>
+<tr>
+  <th>age:female[T.True]</th> <td>   -0.0015</td> <td>    0.001</td> <td>   -2.693</td> <td> 0.007</td> <td>   -0.003</td> <td>   -0.000</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>1883.068</td> <th>  Durbin-Watson:     </th> <td>   1.976</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>2388.508</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td>-1.156</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td> 2.340</td>  <th>  Cond. No.          </th> <td>    643.</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</div>
+<div class="section" id="Interactions-Between-Multiple-Indicator-Variables">
+<h3>Interactions Between Multiple Indicator Variables<a class="headerlink" href="#Interactions-Between-Multiple-Indicator-Variables" title="Permalink to this headline">¶</a></h3>
+<p>You can also do interactions between Indicators, which have similar interpretations to interactions with constant variables.</p>
+<p>For example, suppose instead of <code class="docutils literal notranslate"><span class="pre">age</span></code>, we just had a binary variable <code class="docutils literal notranslate"><span class="pre">old</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">voters</span><span class="p">[</span><span class="s1">&#39;old&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">voters</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">50</span>
+
+<span class="c1"># Note the interaction has to be converted to integers first -- not booleans</span>
+<span class="n">voters</span><span class="p">[</span><span class="s1">&#39;old_x_female&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">voters</span><span class="o">.</span><span class="n">old</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">voters</span><span class="o">.</span><span class="n">female</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ old + female + old_x_female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>          <td>voted</td>      <th>  R-squared:         </th> <td>   0.010</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.010</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   34.59</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 12 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.13e-22</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>16:15:57</td>     <th>  Log-Likelihood:    </th> <td> -5717.1</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.144e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  9915</td>      <th>  BIC:               </th> <td>1.147e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+         <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th>      <td>    0.6761</td> <td>    0.012</td> <td>   58.191</td> <td> 0.000</td> <td>    0.653</td> <td>    0.699</td>
+</tr>
+<tr>
+  <th>old[T.True]</th>    <td>    0.1015</td> <td>    0.014</td> <td>    7.254</td> <td> 0.000</td> <td>    0.074</td> <td>    0.129</td>
+</tr>
+<tr>
+  <th>female[T.True]</th> <td>    0.0138</td> <td>    0.016</td> <td>    0.871</td> <td> 0.384</td> <td>   -0.017</td> <td>    0.045</td>
+</tr>
+<tr>
+  <th>old_x_female</th>   <td>   -0.0111</td> <td>    0.019</td> <td>   -0.588</td> <td> 0.556</td> <td>   -0.048</td> <td>    0.026</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>1820.991</td> <th>  Durbin-Watson:     </th> <td>   1.973</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>2319.326</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td>-1.140</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td> 2.357</td>  <th>  Cond. No.          </th> <td>    9.37</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</div>
+<p>Now we interpret <code class="docutils literal notranslate"><span class="pre">old_x_female</span></code> as the <em>difference</em> in how age affects men and woman. It is negative because, as we saw before, as women age, their turnout rate does not increase as much as men’s. Note here, however, that when we compare under 50 to over 50, we find that men’s turnout increases by 10 percentage points moving from under 50 to over fifty, while women’s turnout increases but by less – 0.10 + -0.01 = 0.09.</p>
+<p>(This may seem inconsistent with the results above, but that’s because above we were modeling age linearly; in reality, the relationship between age and turnout is quadratic – it increases initially, peaks in middle-age, then declines:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">ggplot</span><span class="p">(</span><span class="n">voters</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;voted&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lowess&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/plotnine/stats/smoothers.py:168: PlotnineWarning: Confidence intervals are not yet implementedfor lowess smoothings.
+  &#34;for lowess smoothings.&#34;, PlotnineWarning)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/interpreting_indicator_vars_32_1.png" src="_images/interpreting_indicator_vars_32_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;ggplot: (-9223363251742114125)&gt;
+</pre></div></div>
+</div>
+</div>
+</div>
 <div class="section" id="Indicator-Variables-for-Groups">
 <h2>Indicator Variables for Groups<a class="headerlink" href="#Indicator-Variables-for-Groups" title="Permalink to this headline">¶</a></h2>
 <p>One common use of indicator variables is to allow groups to have different</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
-<span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">voters</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>gender</th>
+      <th>voted</th>
+      <th>party</th>
+      <th>race</th>
+      <th>female</th>
+      <th>democrat</th>
+      <th>unaffiliated</th>
+      <th>republican</th>
+      <th>age_x_female</th>
+      <th>old</th>
+      <th>old_x_female</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>71</td>
+      <td>FEMALE</td>
+      <td>1</td>
+      <td>UNAFFILIATED</td>
+      <td>WHITE</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>71</td>
+      <td>True</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>47</td>
+      <td>MALE</td>
+      <td>1</td>
+      <td>UNAFFILIATED</td>
+      <td>WHITE</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>0</td>
+      <td>False</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>29</td>
+      <td>MALE</td>
+      <td>0</td>
+      <td>DEMOCRATIC</td>
+      <td>WHITE</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>0</td>
+      <td>False</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>60</td>
+      <td>MALE</td>
+      <td>1</td>
+      <td>REPUBLICAN</td>
+      <td>WHITE</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>0</td>
+      <td>True</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>84</td>
+      <td>MALE</td>
+      <td>0</td>
+      <td>DEMOCRATIC</td>
+      <td>WHITE</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>0</td>
+      <td>True</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 </div>
 </div>
