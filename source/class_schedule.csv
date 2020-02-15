@@ -18,11 +18,12 @@
 - **Topic and 3 Questions Due**",`Link <exercises/exercise_resume.ipynb>`_
 "Mon, Feb 10",CI: Ghost Map,"- `The Ghost Map <https://www.amazon.com/Ghost-Map-Londons-Terrifying-Epidemic/dp/1594482691>`_ pp. 25-54, 111-230","`Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
 `Link 2 <exercises/exercise_ghostmap_2.ipynb>`_"
-"Wed, Feb 12",NO CLASS,,
+"Wed, Feb 12",,,
 "Mon, Feb 17",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). ",
-"Wed, Feb 19",CI: Fixed Effects and Clustering,"- `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
--  Kennedy, Sections 18.1-18.3
-- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_",
+"Wed, Feb 19",CI: Fixed Effects and Clustering,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
+- `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
+- `Fixed Effects <fixed_effects.ipynb>`_
+",
 "Mon, Feb 24",CI: Matching,`Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_ ,
 "Wed, Feb 26",CI: Difference-in-Differences,Angrist and Piscke Pages 222-247. ,
 "Mon, Mar 2",Backwards Project Design,- **Causal Inference Pset Due**,
