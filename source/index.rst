@@ -47,4 +47,10 @@ To learn more about the course, please `read the course syllabus available here.
    Discretion and Description <descriptive_questions.ipynb>
    Limitations of Experiments <limitations_of_ATE.ipynb>
    
+.. toctree::
+   :maxdepth: 2
+   :caption: METHODS
+   :hidden:
    
+   Indicator Variables <interpreting_indicator_vars>
+   Fixed Effects <fixed_effects>
