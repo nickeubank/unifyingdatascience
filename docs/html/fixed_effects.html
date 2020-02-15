@@ -17,6 +17,7 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Using and Interpreting Indicator (Dummy) Variables" href="interpreting_indicator_vars.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -1423,9 +1424,8 @@ take into account geography, our estimate of the value of education will likely 
 <p>To be clear, fixed effects aren’t really different from adding a normal control variable. One could say that adding <code class="docutils literal notranslate"><span class="pre">female</span></code> means that we’re now estimating the relationship between education and income among men and among women. <em>Mechnically</em>, fixed effects are just additional indicator variables. But because we often use them for groups, thinking about the fact that, when added, you’re effectively no estimating variation <em>within</em> the groups specified by the fixed effects is a powerful idea.</p>
 <p>Perhaps no place is this more clear than in full panel data, where you have data on the same entities over time. In a panel regression, the addition of entity fixed effects allow you to difference out any <em>constant</em> differences between entities, and focus only on changes within each entity over time. This even works for people! In a panel with individuals observed over time, adding individual fixed effects means you’re effectively controlling for anything constant about each individual (things
 that don’t change over time), and now you’re just studying <em>changes over time</em> for each individual.</p>
-</div>
 <div class="section" id="Clustering">
-<h1>Clustering<a class="headerlink" href="#Clustering" title="Permalink to this headline">¶</a></h1>
+<h2>Clustering<a class="headerlink" href="#Clustering" title="Permalink to this headline">¶</a></h2>
 <p>When working with fixed effects, however, it’s also often a good idea to cluster your standard errors by your fixed effect variable. Clustering is a method for taking into account some of the variation in your data isn’t coming from the individual level (where you have lots of observations), but rather from the group level. Since you have fewer groups than observations, clustering corrects your standard errors to reflect the smaller effective sample size being used to estimate those fixed
 effects.</p>
 <p>Clustering is thankfully easy to do – just use the <code class="docutils literal notranslate"><span class="pre">get_robustcov_results</span></code> method from <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, and use the <code class="docutils literal notranslate"><span class="pre">groups</span></code> keyword to pass the group assignments for each observation.</p>
@@ -2513,7 +2513,7 @@ effects.</p>
 </div>
 </div>
 <div class="section" id="PanelOLS">
-<h1>PanelOLS<a class="headerlink" href="#PanelOLS" title="Permalink to this headline">¶</a></h1>
+<h2>PanelOLS<a class="headerlink" href="#PanelOLS" title="Permalink to this headline">¶</a></h2>
 <p>OK, so everything we’ve describe up till here is a reasonable approach to fixed effects, but it has two limitations: our regression output looks <em>terrible</em>, and computing all those intercepts was slow.</p>
 <p>This brings us to some of the specialized methods for calculating fixed effects. It turns out that if you aren’t interested in the coefficient on each fixed effect, there are much more computationally efficient methods of calculating fixed effects. But to use them, we’ll have to use a different library: <a class="reference external" href="https://bashtage.github.io/linearmodels/doc/index.html">linearmodels</a> (installable using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">linearmodels</span></code>).</p>
 <p>In particular, we’ll be using the <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> function from <code class="docutils literal notranslate"><span class="pre">linearmodels</span></code>. As the name implies, <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> is designed for linear regression (social scientists call linear regression Ordinary Least Squares, or OLS) with panel data, which is really any form of data organized along two dimensions. Normally a panel has data on many entities observed several times, so the first dimension is the <code class="docutils literal notranslate"><span class="pre">entity</span></code> dimension, and the second is the <code class="docutils literal notranslate"><span class="pre">time</span></code> dimension.</p>
@@ -2812,6 +2812,7 @@ Inputs contain missing values. Dropping rows with missing observations.
 </div>
 <p>As you can see, the coefficients of the <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> model are exactly the same as those we calculated above, and the standard errors are nearly identical (there are a few ways to calculate clustered standard errors, so they aren’t numerically equivalent). But the way <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> added fixed effects was much more computationally efficient efficient, and in these situations, we don’t usually want to see the coefficients, so they’re suppressed.</p>
 </div>
+</div>
 
 
           </div>
@@ -2840,11 +2841,21 @@ Inputs contain missing values. Dropping rows with missing observations.
 <li class="toctree-l1"><a class="reference internal" href="descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations_of_ATE.html">Limitations of Experiments</a></li>
 </ul>
+<p class="caption"><span class="caption-text">METHODS</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="interpreting_indicator_vars.html">Indicator Variables</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Fixed Effects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Clustering">Clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#PanelOLS">PanelOLS</a></li>
+</ul>
+</li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="interpreting_indicator_vars.html" title="previous chapter">Using and Interpreting Indicator (Dummy) Variables</a></li>
   </ul></li>
 </ul>
 </div>

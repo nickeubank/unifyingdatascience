@@ -4,7 +4,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Fixed Effects: Indicator Variables for Groups\n",
+    "# Fixed Effects: Indicator Variables for Groups\n",
     "\n",
     "One common use of indicator variables are as *fixed effects*. Fixed effects are used when our data as a \"nested\" structure (we think individual observations belong to groups), and we suspect different things may be happening in each group. \n",
     "\n",
