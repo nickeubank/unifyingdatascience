@@ -6,7 +6,7 @@
    "source": [
     "# Using and Interpreting Indicator (Dummy) Variables\n",
     "\n",
-    "We often gloss over indicator variables in our statistics courses, but not only are they (in my view) one of the most powerful tools in a data scientist's tool box, but I cannot tell you how much I see people struggle with *interpreting* indicator variables in their regressions. So in this tutorial, I'll try to give them the treatment they deserve, and hoepfully by the end, you've have a firm understanding not only of how to use Indicator Variables, but also (and more importantly) how to interpet them."
+    "We often gloss over indicator variables in our statistics courses, but not only are they (in my view) one of the most powerful tools in a data scientist's tool box, but I cannot tell you how much I see people struggle with *interpreting* indicator variables in their regressions. So in this tutorial, I'll try to give them the treatment they deserve, and hopefully by the end, you've have a firm understanding not only of how to use *and interpret* Indicator Variables."
    ]
   },
   {
@@ -15,16 +15,16 @@
    "source": [
     "## What are indicator variables?\n",
     "\n",
-    "Indicator variables -- sometimes also referred to as dummy variables, though I dont know why -- are variables that take on only the value of 0 and 1, and are used to *indicate* whether a given observation belongs to a discrete category in a way that can be used in regression models. \n",
+    "Indicator variables -- sometimes also referred to as dummy variables, though I don't know why -- are variables that take on only the value of 0 and 1, and are used to *indicate* whether a given observation belongs to a discrete category in a way that can be used in statistical models. \n",
     "\n",
-    "For example, indicator variables can be used to indicate if an survey respondent is a woman (if the variable is 1 for women, 0 otherwise) or a Democrat (if the variable is 1 for democrats, 0 otherwise). In addition, as discussed in more detail below, a collection of indicator variables can also be used for categorical variables that take on more than 2 variables -- for example, a *collection* of indicator variables can be used to represented individual's political party registration. "
+    "For example, indicator variables can be used to indicate if an survey respondent is a woman (if the variable is 1 for women, 0 otherwise) or a Democrat (if the variable is 1 for democrats, 0 otherwise). In addition, as discussed in more detail below, collections of indicator variables can also be used to code categorical variables that take on more than 2 variables using a method called \"one-hot encoding). This allows use to work with variables that have many levels, like an individual's political party registration (which could be Democrat, Independent, or Republican). "
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## The TWO things that you must understand when using indicator variables\n",
+    "## The ONE thing that you must understand when using indicator variables:\n",
     "\n",
     "When you put an indicator variable in a regression model, there are two things you must always keep in mind about interpreting the coefficients associated with the indicator variable: \n",
     "\n",
@@ -34,7 +34,9 @@
     "\n",
     "If you always remember that the coefficient on an indicator variable is an estimate of a **DIFFERENCE** with respect to a **REFERENCE GROUP** (also sometimes referred to as the \"omitted category\"), you're 90% of the way to understanding indicator variables. \n",
     "\n",
-    "OK, let's get concrete. \n"
+    "I recognize this may feel obvious, but trust me: I've literally reviewed papers from tenured faculty at major Universities that get this wrong. This is something people get confused about constantly, so I promise it's worth this treatment. \n",
+    "\n",
+    "OK, let's get concrete. "
    ]
   },
   {
@@ -43,7 +45,7 @@
    "source": [
     "## Indicator Variables with Two Category Variable\n",
     "\n",
-    "Let's do a simple example predicting voter turnout using data from North Carolina. Suppose in particular we're interested in looking at how turnout varies by gender, which is dichotomous in the North Carolina voter file (obviously this is somewhat problematic given what we've come to know about gender, but in most datasets you'll find a dichotomous coding). "
+    "Let's start with a simple model in which we wish to predict voter turnout using data from North Carolina. Suppose we're interested in looking at how turnout varies by gender, which is dichotomous in the North Carolina voter file (obviously this is somewhat problematic given what we've come to know about gender, but in most datasets you'll find a dichotomous coding). "
    ]
   },
   {
@@ -267,13 +269,13 @@
        "  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>  -0.000</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>  0.7434</td> \n",
+       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>  0.7416</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td> 0.389</td>  \n",
+       "  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td> 0.389</td>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>08:05:22</td>     <th>  Log-Likelihood:    </th> <td> -5768.3</td> \n",
+       "  <th>Time:</th>                 <td>11:07:14</td>     <th>  Log-Likelihood:    </th> <td> -5768.3</td> \n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.154e+04</td>\n",
@@ -285,7 +287,7 @@
        "  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    \n",
+       "  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -293,10 +295,10 @@
        "         <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Intercept</th>      <td>    0.7461</td> <td>    0.007</td> <td>  114.575</td> <td> 0.000</td> <td>    0.733</td> <td>    0.759</td>\n",
+       "  <th>Intercept</th>      <td>    0.7461</td> <td>    0.007</td> <td>  113.927</td> <td> 0.000</td> <td>    0.733</td> <td>    0.759</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>female[T.True]</th> <td>    0.0075</td> <td>    0.009</td> <td>    0.862</td> <td> 0.389</td> <td>   -0.010</td> <td>    0.025</td>\n",
+       "  <th>female[T.True]</th> <td>    0.0075</td> <td>    0.009</td> <td>    0.861</td> <td> 0.389</td> <td>   -0.010</td> <td>    0.025</td>\n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -312,7 +314,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>       <td> 2.337</td>  <th>  Cond. No.          </th> <td>    2.77</td>\n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+       "</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -321,18 +323,18 @@
        "==============================================================================\n",
        "Dep. Variable:                  voted   R-squared:                       0.000\n",
        "Model:                            OLS   Adj. R-squared:                 -0.000\n",
-       "Method:                 Least Squares   F-statistic:                    0.7434\n",
-       "Date:                Thu, 13 Feb 2020   Prob (F-statistic):              0.389\n",
-       "Time:                        08:05:22   Log-Likelihood:                -5768.3\n",
+       "Method:                 Least Squares   F-statistic:                    0.7416\n",
+       "Date:                Sun, 16 Feb 2020   Prob (F-statistic):              0.389\n",
+       "Time:                        11:07:14   Log-Likelihood:                -5768.3\n",
        "No. Observations:                9919   AIC:                         1.154e+04\n",
        "Df Residuals:                    9917   BIC:                         1.156e+04\n",
        "Df Model:                           1                                         \n",
-       "Covariance Type:            nonrobust                                         \n",
+       "Covariance Type:                  HC3                                         \n",
        "==================================================================================\n",
        "                     coef    std err          t      P>|t|      [0.025      0.975]\n",
        "----------------------------------------------------------------------------------\n",
-       "Intercept          0.7461      0.007    114.575      0.000       0.733       0.759\n",
-       "female[T.True]     0.0075      0.009      0.862      0.389      -0.010       0.025\n",
+       "Intercept          0.7461      0.007    113.927      0.000       0.733       0.759\n",
+       "female[T.True]     0.0075      0.009      0.861      0.389      -0.010       0.025\n",
        "==============================================================================\n",
        "Omnibus:                     1890.028   Durbin-Watson:                   1.974\n",
        "Prob(Omnibus):                  0.000   Jarque-Bera (JB):             2391.714\n",
@@ -341,7 +343,7 @@
        "==============================================================================\n",
        "\n",
        "Warnings:\n",
-       "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
+       "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
        "\"\"\""
       ]
      },
@@ -352,14 +354,15 @@
    ],
    "source": [
     "import statsmodels.formula.api as smf\n",
-    "smf.ols('voted ~ female', voters).fit().summary()"
+    "model = smf.ols('voted ~ female', voters).fit()\n",
+    "model.get_robustcov_results('HC3').summary()"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "OK, so how do we interpret this coefficient of 0.0075 on female? As we said before, it is the average **DIFFERENCE** in the dependent variable (Whether the person votes) with respect to a **REFERENCE GROUP**. In this case, the reference group is anyone for whom the indicator is always equal to zero, which is the set of male voters. \n",
+    "OK, so how do we interpret this coefficient of 0.0075 on female? As we said before, it is the average **DIFFERENCE** in the dependent variable (Whether the person votes) with respect to a **REFERENCE GROUP**. The reference group is *the group for whom the indicator is always equal to zero*, which in this case is the set of male voters. \n",
     "\n",
     "So this says that women are 0.7% *more likely to vote (in North Carolina) then men.*\n",
     "\n",
@@ -494,7 +497,7 @@
     }
    ],
    "source": [
-    "# So let's do the same thing as before for democrats\n",
+    "# So let's do the same thing as before for Democrats\n",
     "voters['democrat'] = voters.party == \"DEMOCRATIC\"\n",
     "voters.head()"
    ]
@@ -516,13 +519,13 @@
        "  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.004</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   41.47</td> \n",
+       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   40.81</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.25e-10</td> \n",
+       "  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.76e-10</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>08:05:22</td>     <th>  Log-Likelihood:    </th> <td> -5748.0</td> \n",
+       "  <th>Time:</th>                 <td>11:07:15</td>     <th>  Log-Likelihood:    </th> <td> -5748.0</td> \n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.150e+04</td>\n",
@@ -534,7 +537,7 @@
        "  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    \n",
+       "  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -542,10 +545,10 @@
        "          <td></td>            <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Intercept</th>        <td>    0.7754</td> <td>    0.006</td> <td>  133.023</td> <td> 0.000</td> <td>    0.764</td> <td>    0.787</td>\n",
+       "  <th>Intercept</th>        <td>    0.7754</td> <td>    0.006</td> <td>  137.665</td> <td> 0.000</td> <td>    0.764</td> <td>    0.786</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>democrat[T.True]</th> <td>   -0.0562</td> <td>    0.009</td> <td>   -6.440</td> <td> 0.000</td> <td>   -0.073</td> <td>   -0.039</td>\n",
+       "  <th>democrat[T.True]</th> <td>   -0.0562</td> <td>    0.009</td> <td>   -6.388</td> <td> 0.000</td> <td>   -0.073</td> <td>   -0.039</td>\n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -561,7 +564,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>       <td> 2.343</td>  <th>  Cond. No.          </th> <td>    2.51</td>\n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+       "</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -570,18 +573,18 @@
        "==============================================================================\n",
        "Dep. Variable:                  voted   R-squared:                       0.004\n",
        "Model:                            OLS   Adj. R-squared:                  0.004\n",
-       "Method:                 Least Squares   F-statistic:                     41.47\n",
-       "Date:                Thu, 13 Feb 2020   Prob (F-statistic):           1.25e-10\n",
-       "Time:                        08:05:22   Log-Likelihood:                -5748.0\n",
+       "Method:                 Least Squares   F-statistic:                     40.81\n",
+       "Date:                Sun, 16 Feb 2020   Prob (F-statistic):           1.76e-10\n",
+       "Time:                        11:07:15   Log-Likelihood:                -5748.0\n",
        "No. Observations:                9919   AIC:                         1.150e+04\n",
        "Df Residuals:                    9917   BIC:                         1.151e+04\n",
        "Df Model:                           1                                         \n",
-       "Covariance Type:            nonrobust                                         \n",
+       "Covariance Type:                  HC3                                         \n",
        "====================================================================================\n",
        "                       coef    std err          t      P>|t|      [0.025      0.975]\n",
        "------------------------------------------------------------------------------------\n",
-       "Intercept            0.7754      0.006    133.023      0.000       0.764       0.787\n",
-       "democrat[T.True]    -0.0562      0.009     -6.440      0.000      -0.073      -0.039\n",
+       "Intercept            0.7754      0.006    137.665      0.000       0.764       0.786\n",
+       "democrat[T.True]    -0.0562      0.009     -6.388      0.000      -0.073      -0.039\n",
        "==============================================================================\n",
        "Omnibus:                     1865.360   Durbin-Watson:                   1.973\n",
        "Prob(Omnibus):                  0.000   Jarque-Bera (JB):             2361.772\n",
@@ -590,7 +593,7 @@
        "==============================================================================\n",
        "\n",
        "Warnings:\n",
-       "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
+       "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
        "\"\"\""
       ]
      },
@@ -600,7 +603,12 @@
     }
    ],
    "source": [
-    "smf.ols('voted ~ democrat', voters).fit().summary()"
+    "# Note that because we're estimating a linear probability\n",
+    "# model we need to use heteroskedastic robust \n",
+    "# standard errors. \n",
+    "\n",
+    "model = smf.ols('voted ~ democrat', voters).fit()\n",
+    "model.get_robustcov_results('HC3').summary()"
    ]
   },
   {
@@ -622,9 +630,11 @@
    "source": [
     "## Indicator Variables for variables with more than 2 categories\n",
     "\n",
-    "To deal with categorical variables with more than 2 categories, we create indicator variables for all values of the variable *except one*. The one group for which we do not create an indicator variable will become the **reference group** for the regression. The choice of which value to make the reference category won't substantively change the results of the regression -- for example, if you also have a control for age, the coefficient on age will always be the same regardless of the reference group used -- but it does influence how easily you can interpret the results of the regression. Note that what we're doing is often called \"one-hot encoding\" by computer scientists / machine learning people. \n",
+    "To deal with categorical variables with more than 2 categories, we create indicator variables for all values of the variable *except one*. The one group for which we do not create an indicator variable will become the **reference group** for the regression. The choice of which value to make the reference category won't substantively change the results of the regression -- for example, if you also have a control for age, the coefficient on age will always be the same regardless of the reference group used -- but it does influence how easily you can interpret the results of the regression. \n",
     "\n",
-    "So since we're interested in the difference in turnout between Democrats and Republicans, let's make Republicans the reference category, and make dummies for democrats and unaffiliated voters. "
+    "This practice of creating a *collection* of indicator variables to encode a single categorical variable is what's called \"one-hot encoding\" by computer scientists / machine learning people. \n",
+    "\n",
+    "Since we're interested in the difference in turnout between Democrats and Republicans, let's make Republicans the reference category, and make indicators for Democrats and Unaffiliated voters. "
    ]
   },
   {
@@ -759,13 +769,13 @@
        "  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.007</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   33.63</td> \n",
+       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   35.67</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>2.79e-15</td> \n",
+       "  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.67e-16</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>08:05:22</td>     <th>  Log-Likelihood:    </th> <td> -5735.2</td> \n",
+       "  <th>Time:</th>                 <td>11:07:15</td>     <th>  Log-Likelihood:    </th> <td> -5735.2</td> \n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.148e+04</td>\n",
@@ -777,7 +787,7 @@
        "  <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    \n",
+       "  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -785,13 +795,13 @@
        "            <td></td>              <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Intercept</th>            <td>    0.7988</td> <td>    0.007</td> <td>  107.399</td> <td> 0.000</td> <td>    0.784</td> <td>    0.813</td>\n",
+       "  <th>Intercept</th>            <td>    0.7988</td> <td>    0.007</td> <td>  115.554</td> <td> 0.000</td> <td>    0.785</td> <td>    0.812</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>democrat[T.True]</th>     <td>   -0.0797</td> <td>    0.010</td> <td>   -8.072</td> <td> 0.000</td> <td>   -0.099</td> <td>   -0.060</td>\n",
+       "  <th>democrat[T.True]</th>     <td>   -0.0797</td> <td>    0.010</td> <td>   -8.240</td> <td> 0.000</td> <td>   -0.099</td> <td>   -0.061</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>unaffiliated[T.True]</th> <td>   -0.0606</td> <td>    0.012</td> <td>   -5.068</td> <td> 0.000</td> <td>   -0.084</td> <td>   -0.037</td>\n",
+       "  <th>unaffiliated[T.True]</th> <td>   -0.0606</td> <td>    0.012</td> <td>   -5.143</td> <td> 0.000</td> <td>   -0.084</td> <td>   -0.037</td>\n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -807,7 +817,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>       <td> 2.344</td>  <th>  Cond. No.          </th> <td>    3.85</td>\n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+       "</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -816,19 +826,19 @@
        "==============================================================================\n",
        "Dep. Variable:                  voted   R-squared:                       0.007\n",
        "Model:                            OLS   Adj. R-squared:                  0.007\n",
-       "Method:                 Least Squares   F-statistic:                     33.63\n",
-       "Date:                Thu, 13 Feb 2020   Prob (F-statistic):           2.79e-15\n",
-       "Time:                        08:05:22   Log-Likelihood:                -5735.2\n",
+       "Method:                 Least Squares   F-statistic:                     35.67\n",
+       "Date:                Sun, 16 Feb 2020   Prob (F-statistic):           3.67e-16\n",
+       "Time:                        11:07:15   Log-Likelihood:                -5735.2\n",
        "No. Observations:                9919   AIC:                         1.148e+04\n",
        "Df Residuals:                    9916   BIC:                         1.150e+04\n",
        "Df Model:                           2                                         \n",
-       "Covariance Type:            nonrobust                                         \n",
+       "Covariance Type:                  HC3                                         \n",
        "========================================================================================\n",
        "                           coef    std err          t      P>|t|      [0.025      0.975]\n",
        "----------------------------------------------------------------------------------------\n",
-       "Intercept                0.7988      0.007    107.399      0.000       0.784       0.813\n",
-       "democrat[T.True]        -0.0797      0.010     -8.072      0.000      -0.099      -0.060\n",
-       "unaffiliated[T.True]    -0.0606      0.012     -5.068      0.000      -0.084      -0.037\n",
+       "Intercept                0.7988      0.007    115.554      0.000       0.785       0.812\n",
+       "democrat[T.True]        -0.0797      0.010     -8.240      0.000      -0.099      -0.061\n",
+       "unaffiliated[T.True]    -0.0606      0.012     -5.143      0.000      -0.084      -0.037\n",
        "==============================================================================\n",
        "Omnibus:                     1854.446   Durbin-Watson:                   1.973\n",
        "Prob(Omnibus):                  0.000   Jarque-Bera (JB):             2341.346\n",
@@ -837,7 +847,7 @@
        "==============================================================================\n",
        "\n",
        "Warnings:\n",
-       "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
+       "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
        "\"\"\""
       ]
      },
@@ -847,7 +857,8 @@
     }
    ],
    "source": [
-    "smf.ols('voted ~ democrat + unaffiliated', voters).fit().summary()"
+    "model = smf.ols('voted ~ democrat + unaffiliated', voters).fit()\n",
+    "model.get_robustcov_results('HC3').summary()"
    ]
   },
   {
@@ -861,13 +872,13 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "So how do we interpret these results? \n",
+    "How do we interpret these results? \n",
     "\n",
-    "First, we see that the coefficient on `democrat` is -0.08. That means that the **DIFFERENCE** in turnout between Democrats and the reference group (here, Republicans) is 8%. So Democrats have 8 percent point lower turnout on average in this data than Republicans. \n",
+    "First, we see that the coefficient on `democrat` is -0.08. That means that the **DIFFERENCE** in turnout between Democrats and the reference group (here, Republicans) is 8%. So Democrats have 8 percentage point lower turnout on average in this data than Republicans. \n",
     "\n",
-    "Second, we see that the coefficient on `unaffiliated` is -0.06. That means that the DIFFERENCE in turnout between Unaffiliated voters and the reference group (here, Republicans) is 6%. So Democrats have 6 percent point lower turnout on average in this data than Republicans. \n",
+    "Second, we see that the coefficient on `unaffiliated` is -0.06. That means that the **DIFFERENCE** in turnout between Unaffiliated voters and the reference group (here, Republicans) is 6%. So Unaffiliated voters have 6 percent point lower turnout on average in this data than Republicans. \n",
     "\n",
-    "Moreover, the p-value on these indicator variables tells us if these differences are significant. And indeed, they show clearly that the difference between Democrats and Republicans, and the difference between Unaffiliated voters and Republicans is significant. \n",
+    "Moreover, the p-value on these indicator variables tells us if these differences are significant. And indeed, they show clearly that the difference between Democrats and Republicans, and the difference between Unaffiliated voters and Republicans are both significant. \n",
     "\n",
     "But what about the difference between Democrats and Unaffiliated voters? Well, turns out the regression doesn't give us that directly. To get that, we have to do some additional math. \n",
     "\n",
@@ -875,10 +886,10 @@
     "\n",
     "```\n",
     "dem - unaffiliated = (dem - republican) - (unaffiliated - republican)\n",
-    "                   = -0.079 - -0.061\n",
-    "                   = -0.018\n",
+    "                   = -0.08 - -0.06\n",
+    "                   = -0.02\n",
     "```                   \n",
-    "So in other words, Democrats have 2 percentage point lower turnout than unaffiliated voters. \n",
+    "So in other words, Democrats have 2 percentage point lower turnout than Unaffiliated voters. \n",
     "\n",
     "But is this difference statistically significant? For that we have to run a post-regression test. (In R, you can do these with the `car` library using the `LinearHypothesis` function)"
    ]
@@ -896,7 +907,7 @@
        "==============================================================================\n",
        "                 coef    std err          t      P>|t|      [0.025      0.975]\n",
        "------------------------------------------------------------------------------\n",
-       "c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003\n",
+       "c0            -0.0191      0.012     -1.634      0.102      -0.042       0.004\n",
        "=============================================================================="
       ]
      },
@@ -907,6 +918,7 @@
    ],
    "source": [
     "model = smf.ols('voted ~ democrat + unaffiliated', voters).fit()\n",
+    "model = model.get_robustcov_results('HC3')\n",
     "\n",
     "hypothesis = 'democrat[T.True] = unaffiliated[T.True]'\n",
     "model.t_test(hypothesis)"
@@ -916,7 +928,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Voila -- p-value of 0.09.\n",
+    "Voila -- p-value of 0.1.\n",
     "\n",
     "Wanna confirm it? let's change our reference group to `unaffiliated`. Then when we look at the coefficient on `democrat`, that will be the difference between Democrats and the new reference group (Unaffiliated voters)"
    ]
@@ -938,13 +950,13 @@
        "  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.007</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   33.63</td> \n",
+       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   35.67</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>2.79e-15</td> \n",
+       "  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.67e-16</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>08:05:22</td>     <th>  Log-Likelihood:    </th> <td> -5735.2</td> \n",
+       "  <th>Time:</th>                 <td>11:07:16</td>     <th>  Log-Likelihood:    </th> <td> -5735.2</td> \n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.148e+04</td>\n",
@@ -956,7 +968,7 @@
        "  <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    \n",
+       "  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -964,13 +976,13 @@
        "           <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Intercept</th>          <td>    0.7383</td> <td>    0.009</td> <td>   78.932</td> <td> 0.000</td> <td>    0.720</td> <td>    0.757</td>\n",
+       "  <th>Intercept</th>          <td>    0.7383</td> <td>    0.010</td> <td>   77.436</td> <td> 0.000</td> <td>    0.720</td> <td>    0.757</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>democrat[T.True]</th>   <td>   -0.0191</td> <td>    0.011</td> <td>   -1.677</td> <td> 0.093</td> <td>   -0.041</td> <td>    0.003</td>\n",
+       "  <th>democrat[T.True]</th>   <td>   -0.0191</td> <td>    0.012</td> <td>   -1.634</td> <td> 0.102</td> <td>   -0.042</td> <td>    0.004</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>republican[T.True]</th> <td>    0.0606</td> <td>    0.012</td> <td>    5.068</td> <td> 0.000</td> <td>    0.037</td> <td>    0.084</td>\n",
+       "  <th>republican[T.True]</th> <td>    0.0606</td> <td>    0.012</td> <td>    5.143</td> <td> 0.000</td> <td>    0.037</td> <td>    0.084</td>\n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -986,7 +998,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>       <td> 2.344</td>  <th>  Cond. No.          </th> <td>    4.60</td>\n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+       "</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -995,19 +1007,19 @@
        "==============================================================================\n",
        "Dep. Variable:                  voted   R-squared:                       0.007\n",
        "Model:                            OLS   Adj. R-squared:                  0.007\n",
-       "Method:                 Least Squares   F-statistic:                     33.63\n",
-       "Date:                Thu, 13 Feb 2020   Prob (F-statistic):           2.79e-15\n",
-       "Time:                        08:05:22   Log-Likelihood:                -5735.2\n",
+       "Method:                 Least Squares   F-statistic:                     35.67\n",
+       "Date:                Sun, 16 Feb 2020   Prob (F-statistic):           3.67e-16\n",
+       "Time:                        11:07:16   Log-Likelihood:                -5735.2\n",
        "No. Observations:                9919   AIC:                         1.148e+04\n",
        "Df Residuals:                    9916   BIC:                         1.150e+04\n",
        "Df Model:                           2                                         \n",
-       "Covariance Type:            nonrobust                                         \n",
+       "Covariance Type:                  HC3                                         \n",
        "======================================================================================\n",
        "                         coef    std err          t      P>|t|      [0.025      0.975]\n",
        "--------------------------------------------------------------------------------------\n",
-       "Intercept              0.7383      0.009     78.932      0.000       0.720       0.757\n",
-       "democrat[T.True]      -0.0191      0.011     -1.677      0.093      -0.041       0.003\n",
-       "republican[T.True]     0.0606      0.012      5.068      0.000       0.037       0.084\n",
+       "Intercept              0.7383      0.010     77.436      0.000       0.720       0.757\n",
+       "democrat[T.True]      -0.0191      0.012     -1.634      0.102      -0.042       0.004\n",
+       "republican[T.True]     0.0606      0.012      5.143      0.000       0.037       0.084\n",
        "==============================================================================\n",
        "Omnibus:                     1854.446   Durbin-Watson:                   1.973\n",
        "Prob(Omnibus):                  0.000   Jarque-Bera (JB):             2341.346\n",
@@ -1016,7 +1028,7 @@
        "==============================================================================\n",
        "\n",
        "Warnings:\n",
-       "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
+       "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
        "\"\"\""
       ]
      },
@@ -1027,14 +1039,17 @@
    ],
    "source": [
     "voters['republican'] = voters.party == \"REPUBLICAN\"\n",
-    "smf.ols('voted ~ democrat + republican', voters).fit().summary()"
+    "model = smf.ols('voted ~ democrat + republican', voters).fit()\n",
+    "model.get_robustcov_results('HC3').summary()"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "As we can now see, the coefficient on democrat (now difference between democrat and unaffiliated) is what we'd calculated above (-0.019) and has the p-value we calculated previously (0.09). This just goes to show that the choice of reference group doesn't change what's actually being estimated, it just changes the interpretation of coefficients and what statistics pop right out of the regression output, and which values require a little extra work to get.\n"
+    "As we can now see, the coefficient on `democrat` (now the difference between Democrats and Unaffiliated voters) is exactly what we'd calculated above (-0.019) and has the same p-value we calculated previously (0.1). \n",
+    "\n",
+    "This just goes to show that the choice of reference group doesn't change what's actually being estimated, *it just changes the interpretation of coefficients* and what statistics pop right out of the regression output, and which values require a little extra work to get."
    ]
   },
   {
@@ -1045,9 +1060,9 @@
     "\n",
     "**Like regular Indicators, but for differences in SLOPE rather than differences in LEVELS!**\n",
     "\n",
-    "Congratulations! You're a pro at Indicator variables. But now let's say you want to do INTERACTIONS!\n",
+    "Congratulations! You're a pro at indicator variables. Now we can turn to INTERACTIONS!\n",
     "\n",
-    "Interactions (at least when you interact an indicator variable with a continuous variable) is just like a regular interaction variable, except that instead of reporting the difference in **average value** of the dependent variable between the indicated group and the reference group, the coefficient on an interaction term is the **DIFFERENCE** in the **SLOPE** associated with the continuous variable between the indicated group and the reference group. \n",
+    "Interactions (at least when you interact an indicator variable with a continuous variable), just like a regular indicator variables, report **differences** between a group and the reference group. The difference is that instead of reporting the difference in **average value** of the dependent variable between the indicated group and the reference group, the coefficient on an interaction term is the average **DIFFERENCE** in the **SLOPE** associated with the continuous variable between the indicated group and the reference group. \n",
     "\n",
     "Let's be concrete: let's suppose we think that turnout among men increases as they get older by a larger amount than for women. In other words, we think that turnout increases with age for both groups, but that there's a **DIFFERENCE** in the amount it increases with age. \n",
     "\n",
@@ -1071,13 +1086,13 @@
        "  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.001</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2.670</td> \n",
+       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1.917</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td>0.0459</td>  \n",
+       "  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td> 0.124</td>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>08:05:22</td>     <th>  Log-Likelihood:    </th> <td> -5764.7</td> \n",
+       "  <th>Time:</th>                 <td>11:07:16</td>     <th>  Log-Likelihood:    </th> <td> -5764.7</td> \n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.154e+04</td>\n",
@@ -1089,7 +1104,7 @@
        "  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    \n",
+       "  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -1097,16 +1112,16 @@
        "         <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Intercept</th>      <td>    0.6961</td> <td>    0.025</td> <td>   28.211</td> <td> 0.000</td> <td>    0.648</td> <td>    0.744</td>\n",
+       "  <th>Intercept</th>      <td>    0.6961</td> <td>    0.029</td> <td>   23.789</td> <td> 0.000</td> <td>    0.639</td> <td>    0.753</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>female[T.True]</th> <td>    0.0933</td> <td>    0.033</td> <td>    2.824</td> <td> 0.005</td> <td>    0.029</td> <td>    0.158</td>\n",
+       "  <th>female[T.True]</th> <td>    0.0933</td> <td>    0.039</td> <td>    2.370</td> <td> 0.018</td> <td>    0.016</td> <td>    0.171</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>age</th>            <td>    0.0009</td> <td>    0.000</td> <td>    2.102</td> <td> 0.036</td> <td> 5.77e-05</td> <td>    0.002</td>\n",
+       "  <th>age</th>            <td>    0.0009</td> <td>    0.000</td> <td>    1.759</td> <td> 0.079</td> <td>-9.81e-05</td> <td>    0.002</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>age_x_female</th>   <td>   -0.0015</td> <td>    0.001</td> <td>   -2.693</td> <td> 0.007</td> <td>   -0.003</td> <td>   -0.000</td>\n",
+       "  <th>age_x_female</th>   <td>   -0.0015</td> <td>    0.001</td> <td>   -2.237</td> <td> 0.025</td> <td>   -0.003</td> <td>   -0.000</td>\n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -1122,7 +1137,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>       <td> 2.340</td>  <th>  Cond. No.          </th> <td>    643.</td>\n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+       "</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -1131,20 +1146,20 @@
        "==============================================================================\n",
        "Dep. Variable:                  voted   R-squared:                       0.001\n",
        "Model:                            OLS   Adj. R-squared:                  0.001\n",
-       "Method:                 Least Squares   F-statistic:                     2.670\n",
-       "Date:                Thu, 13 Feb 2020   Prob (F-statistic):             0.0459\n",
-       "Time:                        08:05:22   Log-Likelihood:                -5764.7\n",
+       "Method:                 Least Squares   F-statistic:                     1.917\n",
+       "Date:                Sun, 16 Feb 2020   Prob (F-statistic):              0.124\n",
+       "Time:                        11:07:16   Log-Likelihood:                -5764.7\n",
        "No. Observations:                9919   AIC:                         1.154e+04\n",
        "Df Residuals:                    9915   BIC:                         1.157e+04\n",
        "Df Model:                           3                                         \n",
-       "Covariance Type:            nonrobust                                         \n",
+       "Covariance Type:                  HC3                                         \n",
        "==================================================================================\n",
        "                     coef    std err          t      P>|t|      [0.025      0.975]\n",
        "----------------------------------------------------------------------------------\n",
-       "Intercept          0.6961      0.025     28.211      0.000       0.648       0.744\n",
-       "female[T.True]     0.0933      0.033      2.824      0.005       0.029       0.158\n",
-       "age                0.0009      0.000      2.102      0.036    5.77e-05       0.002\n",
-       "age_x_female      -0.0015      0.001     -2.693      0.007      -0.003      -0.000\n",
+       "Intercept          0.6961      0.029     23.789      0.000       0.639       0.753\n",
+       "female[T.True]     0.0933      0.039      2.370      0.018       0.016       0.171\n",
+       "age                0.0009      0.000      1.759      0.079   -9.81e-05       0.002\n",
+       "age_x_female      -0.0015      0.001     -2.237      0.025      -0.003      -0.000\n",
        "==============================================================================\n",
        "Omnibus:                     1883.068   Durbin-Watson:                   1.976\n",
        "Prob(Omnibus):                  0.000   Jarque-Bera (JB):             2388.508\n",
@@ -1153,7 +1168,7 @@
        "==============================================================================\n",
        "\n",
        "Warnings:\n",
-       "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
+       "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
        "\"\"\""
       ]
      },
@@ -1164,16 +1179,17 @@
    ],
    "source": [
     "voters['age_x_female'] = voters.age * voters.female\n",
-    "smf.ols('voted ~ age + female + age_x_female', voters).fit().summary()"
+    "model = smf.ols('voted ~ age + female + age_x_female', voters).fit()\n",
+    "model.get_robustcov_results('HC3').summary()"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Ok, so the coefficient on our interaction is -0.0015. Does that mean that as women get older, their turnout rate declines by -0.15 percentage points per year? **NO!**\n",
+    "The coefficient on our interaction is -0.0015. Does that mean that as women get older, their turnout rate declines by -0.15 percentage points per year? **NO!**\n",
     "\n",
-    "It says that women's turnout rate declines by -0.15 percentage points per year LESS THAN MEN'S DECLINE. It is the **DIFFERENCE** in slopes between the two groups.\n",
+    "It says that women's turnout rate declines by -0.15 percentage points per year LESS THAN MEN'S TURNOUT DECLINES. It is the **DIFFERENCE** in slopes between the two groups.\n",
     "\n",
     "The coefficient on `age` tells us how turnout varies with age **for the reference group**. So it says that for men, turnout increases by 0.09 percentage points per year. \n",
     "\n",
@@ -1181,9 +1197,9 @@
     "\n",
     "So going through all these coefficients, we have: \n",
     "\n",
-    "`female` (0.09): Controlling for age, women are 9 percentage points more likely to vote than men. \n",
-    "`age` (0.0009): As men get one year older, they become 0.1 percentage point more likely to vote. \n",
-    "`age_x_female` (-0.0015): As women get one year older, the likelihood they vote increases by -0.1 percentage point *less* than men. \n",
+    "- `female` (0.09): Controlling for age, women are 9 percentage points more likely to vote than men. \n",
+    "- `age` (0.0009): As men get one year older, they become 0.1 percentage point more likely to vote. \n",
+    "- `age_x_female` (-0.0015): As women get one year older, the likelihood they vote increases by -0.1 percentage point *less* than men. \n",
     "\n",
     "So how much does women's turnout increase if they age one year? 0.0009 + -0.0015 = -0.0006. So female turnout actually declines by 0.06 percentage points a year. \n",
     "\n",
@@ -1205,7 +1221,7 @@
        "==============================================================================\n",
        "                 coef    std err          t      P>|t|      [0.025      0.975]\n",
        "------------------------------------------------------------------------------\n",
-       "c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05\n",
+       "c0            -0.0006      0.000     -1.389      0.165      -0.001       0.000\n",
        "=============================================================================="
       ]
      },
@@ -1216,6 +1232,7 @@
    ],
    "source": [
     "model = smf.ols('voted ~ age + female + age_x_female', voters).fit()\n",
+    "model = model.get_robustcov_results('HC3')\n",
     "hypothesis = 'age + age_x_female = 0'\n",
     "model.t_test(hypothesis)"
    ]
@@ -1224,13 +1241,44 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "So the p-value is 0.09 for the relationship between female and age (and the coefficient of -0.0006, just like we calculated above!)"
+    "So the p-value is 0.17 for the relationship between female and age (and the coefficient of -0.0006, just like we calculated above!)\n",
+    "\n",
+    "### Keeping Things Straight\n",
+    "\n",
+    "When you want to know a quantity, how can you figure out what coefficients to look at if you don't remember these rules?\n",
+    "\n",
+    "The simplest way to make sure you're interpreting indicators correctly is to think about what our model looks like for different kinds of people. So suppose we wanted to figure out how men's turnout varies with age. Let's look at our model:\n",
+    "\n",
+    "$$voted = \\beta_0 + \\beta_1 * age + \\beta_2 * female + \\beta_3 * (age * female) + \\epsilon$$\n",
+    "\n",
+    "Well, for men `female` and `age_x_female` will always be zero, so the model for men is actually just:\n",
+    "\n",
+    "$$voted_{men} = \\beta_0 + \\beta_1 * age + \\epsilon$$\n",
+    "\n",
+    "And how does this vary with age? Linearly by $\\beta_1$ per year.\n",
+    "\n",
+    "What about for women? For women all those indicators will be 1s, so the equation will effectively be:\n",
+    "\n",
+    "$$voted_{women} = \\beta_0 + \\beta_1 * age + \\beta_2 + \\beta_3 * age + \\epsilon$$\n",
+    "$$voted_{women} = \\beta_0 + (\\beta_1 + \\beta_3)* age + \\beta_2 + \\epsilon$$\n",
+    "\n",
+    "And how does that vary with age? Linearly by $\\beta_1 + \\beta_3$ per year. \n",
+    "\n",
+    "Finally, if we want the *difference* between how men and women respond to age, we can write this out:\n",
+    "\n",
+    "$$voted_{women} - voted_{men} = $$\n",
+    "$$= (\\beta_0 + \\beta_1 * age + \\beta_2 + \\beta_3 * age + \\epsilon) - (\\beta_0 + \\beta_1 * age + \\epsilon)$$\n",
+    "$$=\\beta_3 * age$$\n",
+    "\n",
+    "So the difference in who men and women respond to age is $\\beta_3$. "
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
+    "### The * operator\n",
+    "\n",
     "Finally, as with using `C()` to convert categoricals to indicators, you can also use the `*` notation in statsmodels for interactions -- it not only creates the interaction term, but also adds all the level effects:"
    ]
   },
@@ -1251,13 +1299,13 @@
        "  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.001</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2.670</td> \n",
+       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1.917</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td>0.0459</td>  \n",
+       "  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td> 0.124</td>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>08:05:23</td>     <th>  Log-Likelihood:    </th> <td> -5764.7</td> \n",
+       "  <th>Time:</th>                 <td>11:07:17</td>     <th>  Log-Likelihood:    </th> <td> -5764.7</td> \n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.154e+04</td>\n",
@@ -1269,7 +1317,7 @@
        "  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    \n",
+       "  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -1277,16 +1325,16 @@
        "           <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Intercept</th>          <td>    0.6961</td> <td>    0.025</td> <td>   28.211</td> <td> 0.000</td> <td>    0.648</td> <td>    0.744</td>\n",
+       "  <th>Intercept</th>          <td>    0.6961</td> <td>    0.029</td> <td>   23.789</td> <td> 0.000</td> <td>    0.639</td> <td>    0.753</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>female[T.True]</th>     <td>    0.0933</td> <td>    0.033</td> <td>    2.824</td> <td> 0.005</td> <td>    0.029</td> <td>    0.158</td>\n",
+       "  <th>female[T.True]</th>     <td>    0.0933</td> <td>    0.039</td> <td>    2.370</td> <td> 0.018</td> <td>    0.016</td> <td>    0.171</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>age</th>                <td>    0.0009</td> <td>    0.000</td> <td>    2.102</td> <td> 0.036</td> <td> 5.77e-05</td> <td>    0.002</td>\n",
+       "  <th>age</th>                <td>    0.0009</td> <td>    0.000</td> <td>    1.759</td> <td> 0.079</td> <td>-9.81e-05</td> <td>    0.002</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>age:female[T.True]</th> <td>   -0.0015</td> <td>    0.001</td> <td>   -2.693</td> <td> 0.007</td> <td>   -0.003</td> <td>   -0.000</td>\n",
+       "  <th>age:female[T.True]</th> <td>   -0.0015</td> <td>    0.001</td> <td>   -2.237</td> <td> 0.025</td> <td>   -0.003</td> <td>   -0.000</td>\n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -1302,7 +1350,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>       <td> 2.340</td>  <th>  Cond. No.          </th> <td>    643.</td>\n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+       "</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -1311,20 +1359,20 @@
        "==============================================================================\n",
        "Dep. Variable:                  voted   R-squared:                       0.001\n",
        "Model:                            OLS   Adj. R-squared:                  0.001\n",
-       "Method:                 Least Squares   F-statistic:                     2.670\n",
-       "Date:                Thu, 13 Feb 2020   Prob (F-statistic):             0.0459\n",
-       "Time:                        08:05:23   Log-Likelihood:                -5764.7\n",
+       "Method:                 Least Squares   F-statistic:                     1.917\n",
+       "Date:                Sun, 16 Feb 2020   Prob (F-statistic):              0.124\n",
+       "Time:                        11:07:17   Log-Likelihood:                -5764.7\n",
        "No. Observations:                9919   AIC:                         1.154e+04\n",
        "Df Residuals:                    9915   BIC:                         1.157e+04\n",
        "Df Model:                           3                                         \n",
-       "Covariance Type:            nonrobust                                         \n",
+       "Covariance Type:                  HC3                                         \n",
        "======================================================================================\n",
        "                         coef    std err          t      P>|t|      [0.025      0.975]\n",
        "--------------------------------------------------------------------------------------\n",
-       "Intercept              0.6961      0.025     28.211      0.000       0.648       0.744\n",
-       "female[T.True]         0.0933      0.033      2.824      0.005       0.029       0.158\n",
-       "age                    0.0009      0.000      2.102      0.036    5.77e-05       0.002\n",
-       "age:female[T.True]    -0.0015      0.001     -2.693      0.007      -0.003      -0.000\n",
+       "Intercept              0.6961      0.029     23.789      0.000       0.639       0.753\n",
+       "female[T.True]         0.0933      0.039      2.370      0.018       0.016       0.171\n",
+       "age                    0.0009      0.000      1.759      0.079   -9.81e-05       0.002\n",
+       "age:female[T.True]    -0.0015      0.001     -2.237      0.025      -0.003      -0.000\n",
        "==============================================================================\n",
        "Omnibus:                     1883.068   Durbin-Watson:                   1.976\n",
        "Prob(Omnibus):                  0.000   Jarque-Bera (JB):             2388.508\n",
@@ -1333,7 +1381,7 @@
        "==============================================================================\n",
        "\n",
        "Warnings:\n",
-       "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
+       "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
        "\"\"\""
       ]
      },
@@ -1343,14 +1391,15 @@
     }
    ],
    "source": [
-    "smf.ols('voted ~ age * female', voters).fit().summary()"
+    "model = smf.ols('voted ~ age * female', voters).fit()\n",
+    "model.get_robustcov_results('HC3').summary()"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Interactions Between Multiple Indicator Variables"
+    "## Interactions Between Multiple Indicator Variables"
    ]
   },
   {
@@ -1379,13 +1428,13 @@
        "  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.010</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   34.59</td> \n",
+       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   31.53</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.13e-22</td> \n",
+       "  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>2.82e-20</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>08:05:23</td>     <th>  Log-Likelihood:    </th> <td> -5717.1</td> \n",
+       "  <th>Time:</th>                 <td>11:07:18</td>     <th>  Log-Likelihood:    </th> <td> -5717.1</td> \n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.144e+04</td>\n",
@@ -1397,7 +1446,7 @@
        "  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    \n",
+       "  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>    \n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -1405,16 +1454,16 @@
        "         <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Intercept</th>      <td>    0.6761</td> <td>    0.012</td> <td>   58.191</td> <td> 0.000</td> <td>    0.653</td> <td>    0.699</td>\n",
+       "  <th>Intercept</th>      <td>    0.6761</td> <td>    0.013</td> <td>   53.519</td> <td> 0.000</td> <td>    0.651</td> <td>    0.701</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>old[T.True]</th>    <td>    0.1015</td> <td>    0.014</td> <td>    7.254</td> <td> 0.000</td> <td>    0.074</td> <td>    0.129</td>\n",
+       "  <th>old[T.True]</th>    <td>    0.1015</td> <td>    0.015</td> <td>    6.902</td> <td> 0.000</td> <td>    0.073</td> <td>    0.130</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>female[T.True]</th> <td>    0.0138</td> <td>    0.016</td> <td>    0.871</td> <td> 0.384</td> <td>   -0.017</td> <td>    0.045</td>\n",
+       "  <th>female[T.True]</th> <td>    0.0138</td> <td>    0.017</td> <td>    0.806</td> <td> 0.420</td> <td>   -0.020</td> <td>    0.047</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>old_x_female</th>   <td>   -0.0111</td> <td>    0.019</td> <td>   -0.588</td> <td> 0.556</td> <td>   -0.048</td> <td>    0.026</td>\n",
+       "  <th>old_x_female</th>   <td>   -0.0111</td> <td>    0.020</td> <td>   -0.562</td> <td> 0.574</td> <td>   -0.050</td> <td>    0.028</td>\n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -1430,7 +1479,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>       <td> 2.357</td>  <th>  Cond. No.          </th> <td>    9.37</td>\n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+       "</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -1439,20 +1488,20 @@
        "==============================================================================\n",
        "Dep. Variable:                  voted   R-squared:                       0.010\n",
        "Model:                            OLS   Adj. R-squared:                  0.010\n",
-       "Method:                 Least Squares   F-statistic:                     34.59\n",
-       "Date:                Thu, 13 Feb 2020   Prob (F-statistic):           3.13e-22\n",
-       "Time:                        08:05:23   Log-Likelihood:                -5717.1\n",
+       "Method:                 Least Squares   F-statistic:                     31.53\n",
+       "Date:                Sun, 16 Feb 2020   Prob (F-statistic):           2.82e-20\n",
+       "Time:                        11:07:18   Log-Likelihood:                -5717.1\n",
        "No. Observations:                9919   AIC:                         1.144e+04\n",
        "Df Residuals:                    9915   BIC:                         1.147e+04\n",
        "Df Model:                           3                                         \n",
-       "Covariance Type:            nonrobust                                         \n",
+       "Covariance Type:                  HC3                                         \n",
        "==================================================================================\n",
        "                     coef    std err          t      P>|t|      [0.025      0.975]\n",
        "----------------------------------------------------------------------------------\n",
-       "Intercept          0.6761      0.012     58.191      0.000       0.653       0.699\n",
-       "old[T.True]        0.1015      0.014      7.254      0.000       0.074       0.129\n",
-       "female[T.True]     0.0138      0.016      0.871      0.384      -0.017       0.045\n",
-       "old_x_female      -0.0111      0.019     -0.588      0.556      -0.048       0.026\n",
+       "Intercept          0.6761      0.013     53.519      0.000       0.651       0.701\n",
+       "old[T.True]        0.1015      0.015      6.902      0.000       0.073       0.130\n",
+       "female[T.True]     0.0138      0.017      0.806      0.420      -0.020       0.047\n",
+       "old_x_female      -0.0111      0.020     -0.562      0.574      -0.050       0.028\n",
        "==============================================================================\n",
        "Omnibus:                     1820.991   Durbin-Watson:                   1.973\n",
        "Prob(Omnibus):                  0.000   Jarque-Bera (JB):             2319.326\n",
@@ -1461,7 +1510,7 @@
        "==============================================================================\n",
        "\n",
        "Warnings:\n",
-       "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
+       "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
        "\"\"\""
       ]
      },
@@ -1475,33 +1524,51 @@
     "\n",
     "# Note the interaction has to be converted to integers first -- not booleans\n",
     "voters['old_x_female'] = voters.old.astype('int') * voters.female.astype('int')\n",
-    "smf.ols('voted ~ old + female + old_x_female', voters).fit().summary()"
+    "model = smf.ols('voted ~ old + female + old_x_female', voters).fit()\n",
+    "model.get_robustcov_results('HC3').summary()"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Now we interpret `old_x_female` as the *difference* in how age affects men and woman. It is negative because, as we saw before, as women age, their turnout rate does not increase as much as men's. Note here, however, that when we compare under 50 to over 50, we find that men's turnout increases by 10 percentage points moving from under 50 to over fifty, while women's turnout increases but by less -- 0.10 + -0.01 = 0.09. \n",
+    "Now we interpret `old_x_female` as the *difference* in how age affects men and woman. It is negative because, as we saw before, as women age, their turnout rate does not increase as much as men's. Here we find that men's turnout increases by 10 percentage points moving from under 50 to over 50, while women's turnout increases by less -0.01 less moving from under 50 to over 50 (in total, it changes by 0.10 + -0.01 = 0.09).\n",
     "\n",
-    "(This may seem inconsistent with the results above, but that's because above we were modeling age linearly; in reality, the relationship between age and turnout is quadratic -- it increases initially, peaks in middle-age, then declines:"
+    "(This may seem inconsistent with the results above, but that's because above we were modeling age linearly; in reality, the relationship between age and turnout is quadratic -- it increases initially, peaks in middle-age, then declines, so neither of these models fit the data perfectly)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": 15,
    "metadata": {},
    "outputs": [
     {
-     "ename": "NameError",
-     "evalue": "name 'voters' is not defined",
-     "output_type": "error",
-     "traceback": [
-      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
-      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
-      "\u001b[0;32m<ipython-input-1-9670587211ad>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;32mfrom\u001b[0m \u001b[0mplotnine\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0;34m*\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 3\u001b[0;31m \u001b[0mggplot\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mvoters\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0maes\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mx\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m'age'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0my\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m'voted'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m+\u001b[0m \u001b[0mgeom_smooth\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mmethod\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m'lowess'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
-      "\u001b[0;31mNameError\u001b[0m: name 'voters' is not defined"
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/Users/Nick/miniconda3/lib/python3.7/site-packages/plotnine/stats/smoothers.py:168: PlotnineWarning: Confidence intervals are not yet implementedfor lowess smoothings.\n",
+      "  \"for lowess smoothings.\", PlotnineWarning)\n"
      ]
+    },
+    {
+     "data": {
+      "image/png": "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CQkhOTnZdIwipZlr5lZT2DPftm0bjz/+OE6nkwYNGvDee+9hs9kK7evllpXn7u4/52FhYbnaTqeZRESkSNxzzz1069YNgE2bNvHOO+8YTiTeQmVGRESKzLBhw6hYsSIA0dHRHD582Gwg8QoqMyIiUmSCgoKYPn06cO5mev369bPcdSpS8FRmRESkSNWpU4euXbsCsHHjRhYvXmw4kXg6lRkRESlyw4cPd72aacSIEfzxxx+GE4knU5kREZEiFxwc7DrdlJycrNNNki8qMyIiYsR9991H586dAVi/fj1Lly41nEg8lcqMiIgYEx0dTUEGnosAACAASURBVGRkJHDu1NPRo0cNJxJPpDIjIiLG/P100+nTp+nfv79ON0meqcyIiIhRdevWJSoqCoDPPvuMlStXmg0kHkdlRkREjIuOjiYiIgKAoUOHkpiYaDiReBKVGRERMS4kJIRJkyYBkJiYyIgRIwwnEk+iMiMiIm6hcePGtGjRAoBly5axfv16w4nEU/jkZqPPP/88TzutV6/eVYURERFre/nll9m0aRNJSUkMGDCALVu2EBwcbDqWuLlclZkGDRpgs9lcV5j/fcl2p9N50RLuVltCXURECkZ4eDixsbH07NmTw4cP8/LLLzNu3DjTscTN5eo007fffss333zDt99+S3x8PBEREbRr147ly5fzxRdfsHz5ctq2bUtERAQff/xxYWcWEREv1rp1a+6//34A5s+fz7fffms4kbg7mzOPL+hv1aoV119/vetCrb8bMGAAe/bscbuX1SUkJOR7Hw6Hg9DQUJKSkix55CkkJITk5GTTMYqUZq6ZW407zfzgwYPUrVuXtLQ0qlatyoYNG/D39y+Ur2XlubvTzC8lLCwsV9vl+QLgTz/9lMaNG1/yYw899BDr1q3L6y5FREQuEBkZydChQwH47bffmDFjhuFE4s7yXGaCg4Mve4X5Z599pgu1RESkQHTr1o1atWoBMH36dH799VfDicRd5eoC4L/r2bMn0dHRHD9+nObNm1OmTBn+/PNPVq5cydtvv83o0aMLI6eIiFiMw+Fg+vTpNGzYkKysLPr27Ut8fDwOh8N0NHEzeS4zw4cPp2TJkowfP56FCxe6XuV0zTXXMH36dHr37l0YOUVExIKqVatG3759mTRpEtu3b+eNN96ge/fupmOJm8nzBcDn5eTkcPjwYY4ePco111zDddddh93unvfg0wXA+efuF4kVBs1cM7cad515RkYGjRo1Yvfu3QQGBrJlyxbXStsFwcpzd9eZn1doFwC7PtFuJzIykrvuuovIyEi3LTIiIuLZ/P39mTZtGjabjbS0NK2sLRe5qgaya9cu2rVrR+XKlfH39+f7778HYNiwYXzyyScFGlBERKR27dp069YNgE2bNvHee+8ZTiTuJM9l5rPPPuO2225j//79tGvXjqysLNfHfH19ee211wo0oIiICJxbTbt8+fLAuVW2tbK2nJfnMjNkyBDatWvHV199ddErl2677TZ++OGHAgsnIiJyXnBwsOuGrSdPnmTkyJGGE4m7yHOZ2blzJ506dQK4aE2mkiVLFsjFtiIiIpfSqFEj18ra7777Ll988YXhROIO8lxmSpUqxR9//HHJj/32229cc801+Q4lIiJyOTExMRQvXhw4t4xOenq64URiWp7LTPPmzRk5ciS7d+92vc9ms3Hs2DEmT55My5YtCzSgiIjI35UtW5bo6GgA9uzZo6UOJO9lZty4cYSHh1OjRg3uuusuALp06cKNN95IiRIlGDVqVEFnFBERuUCnTp2oXbs2ADNmzOD33383nEhMynOZKVGiBF9++SWzZ8+matWqPPDAA9x4441MmTKFL774QmsziYhIobPb7UyePBkfHx+ysrJ07xmLy/NyBnDuJdidO3emc+fOBZ1HREQkV26++Waef/55Zs6cybZt21iyZAnt27c3HUsMyPORGYfDwTfffHPJj23fvl0LgImISJHp378/FStWBGDUqFF6Ra1F5bnMXOkwXlZWlsqMiIgUmcDAQCZMmABAUlKS7j1jUbk6zXTs2LELXo69e/dufHwu/NT09HTefPNNKlSoULAJRURErqBhw4Y88cQTvP/++7z33nu0a9eOunXrmo4lRShXZWbOnDmMHj0am82GzWYjKirqom2cTicOh0PLGYiISJEbM2YM69ev56+//mLAgAFs3ryZgIAA07GkiOSqzERFRdGgQQOcTicNGzbk1Vdf5eabb75gGz8/P6pWrUrp0qULJaiIiMjlnL/3TP/+/dm7dy/Tp09n8ODBpmNJEclVmalQoYLr9NHGjRu5/fbbCQkJKbAQKSkpvPrqq3z//fcUK1aMNm3a0KRJk0tum5mZycKFC/n888/JzMwkIiKCl19+mcDAwALL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IgXohRdeoGTJkgCMGTOGnJwcw4m8n8qMiIhIASpZsiQvvvgiAD///DPvv/++4UTeT2VGRESkgHXp0oXrrrsOgHHjxpGRkWE4kXdTmRERESlgAQEBDBkyBDh3I724uDjDibybyoyIiEghaNWqFdWrVwdg6tSpnD592nAi76UyIyIiUgjsdrtrmYOkpCRmzpxpOJH3UpkREREpJA0bNqRu3boAzJ07V8scFBKVGRERkUJis9kYOXIkAGfOnGHChAmGE3knlRkREZFCVLNmTVq0aAHAkiVL2L17t+FE3kdlRkREpJANHToUX19fcnJyiI2NNR3H66jMiIiIFLKKFSvy9NNPA7BmzRq++uorw4m8i8qMiIhIEejfvz/BwcEAjB49GqfTaTiR91CZERERKQJhYWH06tULgO+++474+HjDibyHyoyIiEgR6dGjB2XLlgUgNjaWrKwsw4m8g8qMiIhIEQkKCmLgwIEA7Nmzh8WLFxtO5B1UZkRERIpQ+/btueGGGwCYOHEiqamphhN5PpUZERGRIuTj48Pw4cMB+PPPP5k9e7bhRJ5PZUZERKSINWnShNq1awPwyiuvcOLECcOJPJvKjIiISBH7+zIHqampTJkyxXAiz6YyIyIiYsBdd93FI488AsDChQvZt2+f4USeS2VGRETEkGHDhmG32zl79ixjx441HcdjqcyIiIgYcuONN9K+fXsAPvjgA3744QfDiTyTyoyIiIhBgwYNolixYgCMGTNGyxxcBZUZERERg8qVK0f37t0B+OKLL1i/fr3hRJ5HZUZERMSw3r17U6pUKQBiYmLIzs42nMizqMyIiIgYVrx4cV588UUA/vOf/7B8+XLDiTyLyoyIiIgb6Ny5M5GRkQCMHz+e9PR0w4k8h8qMiIiIG/D392fo0KEAHD58mPnz5xtO5DlUZkRERNxEixYtqFGjBgDTp0/n1KlThhN5BpUZERERN2G324mOjgbg1KlTzJw503Aiz6AyIyIi4kbq169PgwYNAJg7dy5HjhwxG8gDuEWZSUlJYcKECbRt25aoqChWr179r5+zfv16mjVrxieffFIECUVERIrOiBEjAMjIyGD8+PGG07g/tygzc+bMITs7m7i4OEaMGMGiRYv46aefLrv96dOnWb58ORUqVCjClCIiIkWjRo0atGrVCoB3332X//znP4YTuTfjZSY9PZ2t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cw8JCWH37t3cddddpKenU79+fZYvX246lktYWFiuttNpJhEREQuLiIjgmWeeAWDz5s1s3LjRcKK8U5kRERGxuD59+hAaGgqcW4QyJyfHcKK8UZkRERGxuBIlSvDiiy8CsHPnTlasWGE4Ud6ozIiIiAhdunShfPnyAIwbN46MjAzDiXJPZUZERETw9/dnyJAhABw6dIi4uDjDiXJPZUZEREQAaNmyJdWrVwdg6tSp/PXXX4YT5Y7KjIiIiABgt9tdyxwkJSUxc+ZMw4lyR2VGREREXO6//37q1asHwNy5c/njjz8MJ/p3KjMiIiLi8vdFKNPT05k4caLhRP9OZUZEREQuULNmTZ544gkAlixZwu7duw0nujKVGREREbnIkCFD8PX1JScnh5iYGNNxrkhlRkRERC5SsWJFoqKiAPj000/Ztm2b2UBXoDIjIiIil9SvXz+Cg4OBc8scuOva1CozIiIicklhYWH07t0bgO+++474+HjDiS5NZUZEREQuq3v37pQtWxaA2NhYsrKyDCe6mMqMiIiIXFZQUBADBw4EYM+ePSxatMhwooupzIiIiMgVtW/fnipVqgAwceJEUlJSDCe6kMqMiIiIXJGPjw/Dhw8H4MSJE8yePdtwogupzIiIiMi/euSRR6hduzYAs2bN4sSJE4YT/R+VGREREflXNpuNUaNGAZCamsqUKVPMBvoblRkRERHJlTvvvJMmTZoAsHDhQvbu3Ws40TkqMyIiIpJrw4YNw263c/bsWcaOHWs6DqAyIyIiInlQtWpVOnToAMCqVav44YcfDCdSmREREZE8GjhwIMWKFQNg9OjRxpc5UJkRERGRPClXrhw9evQAYOvWraxfv95oHpUZERERybPevXtTqlQpAJYsWWI0i4/Rry4iIiIeKSQkhNGjR3P27FnatWtnNIvKjIiIiFwV0yXmPJ1mEhEREY+mMiMiIiIeTWVGREREPJrKjIiIiHg0lRkRERHxaCozIiIi4tFUZkRERMSjqcyIiIiIR1OZEREREY/mFncATklJ4dVXX+X777+nWLFitGnThiZNmly03a+//sqSJUv473//C8CNN95It27diIiIKOrIIiIi4ibc4sjMnDlzyM7OJi4ujhEjRrBo0SJ++umni7ZLTU3lgQceYO7cuSxYsIDIyEhiY2MNJBYRERF3YbzMpKens3XrVjp27EhgYCCVK1emYcOGrFu37qJta9WqRd26dQkKCsLX15fmzZtz+PBhTp8+bSC5iIiIuAPjZebIkSMAREZGut5XqVIlDhw48K+fu3PnTkJDQylevHih5RMRERH3ZvyamfT0dIoVK3bB+4KCgjhz5swVP+/YsWPMmTOH7t27X/SxhIQEEhISXI/tdjvh4eH5yulwOC7402psNpvlnrtmrplbjRVnDtaeu7fM3HiZCQgIuKi4pKamXlRw/i4hIYHo6GhatWrFfffdd9HHV6xYwbx581yPo6Ki6NWrV4HktfJRID8/P9MRjNDMrUcztyarzt0bZm78NNO1114LwKFDh1zv27dvHxUqVLjk9omJiQwbNozGjRvz+OOPX3Kbli1b8s4777je2rVrl++cCQkJzJkz54IjPuLdNHPr0cytSXP3fMbLTEBAAHXq1GHRokWkpaWxb98+1q9fT6NGlWPG4gAACbZJREFUjS7aNjExkaFDh9KgQQNatWp12X2GhYVRrVo111tYWFi+cyYkJDBv3jx9s1uIZm49mrk1ae6ez3iZAVzXvURFRTF69Gg6dOhAzZo1AWjTpg27du0CYO3atRw9epSVK1fSpk0b19uJEyeMZRcRERGzjF8zAxAcHMzgwYMv+bH33nvP9fcnn3ySJ598sqhiiYiIiAdwjBo1apTpEJ6iWLFi3HHHHQQGBpqOIkVEM7cezdyaNHfPZnM6nU7TIURERESulltcMyMiIiJytVRmRERExKO5xQXA7iQrK4v/3979x1RV/3EcfwKX7m135g9ApE0Ir8okMK0spNGorGZIzc0s00lD1tJmNZeOrTayzWUuFs389R+ZaX/0R7X8AzZvaoKbZOUUyAV6L9auIU4WCpcf9376o33Pdzct3KR77qHXY2PjfD7n3r0/Y2/24nwO5+7evZtTp07R19dHeno6zz77LKWlpQBUVVXR29tLcvKfOTAjI4MdO3bYWLHcqrq6Oo4ePYrL9f922LFjh/XU6GAwyPbt2wkEAkybNo21a9dy991321WujJHly5fHHA8NDXH//ffz1ltvAer18eDrr7/G7/cTCARYuHAhGzdutOZG6+umpibq6+vp7e1lzpw5vPbaa6SlpdmxDLkZRmIMDAyYffv2mVAoZCKRiGltbTXPPfecaW9vN8YYs2bNGvPdd9/ZXKWMpQ8++MDU19ffcG54eNhUVVWZzz//3AwNDRm/329WrFhh+vr64lyl/JtGRkZMRUWF8fv91ph63fmamprM8ePHza5du8y2bdus8dH6+sKFC2b58uXmhx9+MOFw2OzatctUV1fbtQy5Cdpm+guPx8PKlSuZNm0aycnJ5OfnM2fOHNrb2+0uTWxw+vRpBgcHWbp0KampqTzyyCNkZmbS3Nxsd2kyhr7//nvC4TDFxcV2lyJjqLi4mKKious+pmC0vv7mm2+49957mTdvHm63m5UrV/LTTz8RCoXsWIbcBG0zjSIcDtPR0UF5ebk1VldXhzGG7OxsVq1aRX5+vo0VylhoaGigoaGB9PR0ysvLefzxxwHo6uoiJyfH2moAyM3Npaury65S5V9w6NAhSkpKcLvdMePq9fFptL4OBoPMnj3bmpswYQIZGRkEg0GysrLiXq+MTmHmHxhj+PDDD5k1axbz588HYMOGDfh8PuDPX4CbN29m+/btTJ061c5S5RaUl5dTWVmJ1+ulra2NrVu34vV6KS4uZmBgAK/XG3O+1+ulv7/fpmplrP3++++cOHGCd999N2ZcvT5+jdbX4XD4uufNeL3e6z4UWRKHtpn+hjGGnTt3cvnyZTZt2kRSUhIA+fn5uN1u3G43Tz31FDNmzODkyZM2Vyu3wufzcccdd5CSkkJhYSFlZWU0NTUBfz5I66/Bpb+//x8/1V2c5fDhw2RlZZGXlxczrl4fv0bra4/Hc938tWvX1PcJTGHmBowx7N69m3PnzvH222/j8Xj+9tzk5GSMnjs4riQlJVk/0+zsbILBINFo1Jo/f/482dnZdpUnY+zQoUMsWrRo1PPU6+PHaH2dk5NDIBCw5q5evUpPTw85OTnxLlVuksLMDezZs4ezZ8+yefPmmEuNly5dorW1leHhYYaHh2loaODnn3+2tqDEmY4dO0Z/fz/RaJS2tjYOHjxIUVERAIWFhaSmpvLFF18wPDzMkSNHuHjxIgsXLrS5ahkLnZ2ddHV1WY9e+B/1+vgQiUQYGhoiGo0SjUYZGhpiZGRk1L4uLS3l5MmTnDp1isHBQT799FPy8vJ0v0wC08cZ/EV3dzdVVVWkpqaSkpJijS9btoyioiJqa2sJhUK4XC6mT5/OqlWrKCwstLFiuVXV1dXWX2np6eksWbKExYsXW/OBQICPPvqIQCBAZmYma9eupaCgwMaKZazs2bOHnp4e3nzzzZjxrq4u9fo4sH//fj777LOYsUcffZTXX3991L4+duwYH3/8MVeuXCE/P1/PmUlwCjMiIiLiaNpmEhEREUdTmBERERFHU5gRERERR1OYEREREUdTmBERERFHU5gRERERR1OYEREREUdTmBERERFHU5gRERERR1OYEREREUdTmBERERFHU5gRERERR1OYEZG4On78OE8//TR33nknXq+XefPm8cknn8Sc09raysMPP4zH48Hn87F3716WLFlCaWlpzHnt7e0888wzTJw4Ea/XS1lZGZ2dnXFcjYgkApfdBYjIf0swGOShhx7i5ZdfxuPx0NTUxJo1azDGsHr1agYGBnjiiSeYNGkS+/btA6Cmpobe3l5mzZplvc+5c+coLi6moKCA+vp6kpOT2bJlC4899hhnz57F7XbbtUQRibMkY4yxuwgR+W8yxhCJRHjllVc4ffo0zc3N7Ny5k/Xr19PR0UFubi4AnZ2dzJ49m5KSEg4fPgxARUUF3377LW1tbXg8HgAuXbpEbm4u27ZtY926dXYtS0TiTFdmRCSurly5Qk1NDV9++SW//vorkUgEgLS0NABaWlqYO3euFWQAfD4fBQUFMe/T2NjI888/j8vlYmRkBIDJkydzzz330NLSEqfViEgi0D0zIhJXL774IgcOHOCNN96gsbGRlpYWKisrCYfDAIRCITIyMq573dSpU2OOe3p6qKurIzU1NearubmZCxcuxGUtIpIYdGVGROImHA5z8OBBamtrWb9+vTUejUat77Oysvjxxx+ve213dzeTJ0+2jqdMmUJZWdkNt5MmTJgwxpWLSCJTmBGRuBkcHCQSiXDbbbdZY319fXz11VfW8YIFC9i7dy/nz5+PuWfmzJkzlJSUWOctWrSIM2fOMH/+fFJSUuK3CBFJOLoBWETi6oEHHuC3336jtrYWl8vF1q1b6e7upru7m6tXrzIwMMDMmTOZNGkS77zzDsYY67+Z8vLy8Pv9AHR0dLBgwQLuu+8+XnrpJTIzM7l48SJHjhyhpKSEFStW2LxSEYkX3TMjInG1f/9+fD4fFRUVvPrqqyxbtozVq1db87fffjuNjY1MmTKFF154gU2bNrFx40Z8Ph8TJ060zps5cyYnTpwgLS2NdevW8eSTT1JdXc21a9eYO3euHUsTEZvoyoyIJLzLly8zY8YMNmzYQE1Njd3liEiC0T0zIpJw3nvvPTIzM7nrrrsIhUK8//77RKNRKisr7S5NRBKQwoyIJJyUlBS2bNnCL7/8gsvl4sEHH8Tv9zN9+nS7SxORBKRtJhEREXE03QAsIiIijqYwIyIiIo6mMCMiIiKOpjAjIiIijqYwIyIiIo6mMCMiIiKOpjAjIiIijqYwIyIiIo72B6QhXQjoKmCNAAAAAElFTkSuQmCC\n",
+      "text/plain": [
+       "<Figure size 640x480 with 1 Axes>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/plain": [
+       "<ggplot: (-9223363270683622540)>"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
     }
    ],
    "source": [

@@ -237,26 +237,27 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Using-and-Interpreting-Indicator-(Dummy)-Variables">
 <h1>Using and Interpreting Indicator (Dummy) Variables<a class="headerlink" href="#Using-and-Interpreting-Indicator-(Dummy)-Variables" title="Permalink to this headline">¶</a></h1>
-<p>We often gloss over indicator variables in our statistics courses, but not only are they (in my view) one of the most powerful tools in a data scientist’s tool box, but I cannot tell you how much I see people struggle with <em>interpreting</em> indicator variables in their regressions. So in this tutorial, I’ll try to give them the treatment they deserve, and hoepfully by the end, you’ve have a firm understanding not only of how to use Indicator Variables, but also (and more importantly) how to
-interpet them.</p>
+<p>We often gloss over indicator variables in our statistics courses, but not only are they (in my view) one of the most powerful tools in a data scientist’s tool box, but I cannot tell you how much I see people struggle with <em>interpreting</em> indicator variables in their regressions. So in this tutorial, I’ll try to give them the treatment they deserve, and hopefully by the end, you’ve have a firm understanding not only of how to use <em>and interpret</em> Indicator Variables.</p>
 <div class="section" id="What-are-indicator-variables?">
 <h2>What are indicator variables?<a class="headerlink" href="#What-are-indicator-variables?" title="Permalink to this headline">¶</a></h2>
-<p>Indicator variables – sometimes also referred to as dummy variables, though I dont know why – are variables that take on only the value of 0 and 1, and are used to <em>indicate</em> whether a given observation belongs to a discrete category in a way that can be used in regression models.</p>
-<p>For example, indicator variables can be used to indicate if an survey respondent is a woman (if the variable is 1 for women, 0 otherwise) or a Democrat (if the variable is 1 for democrats, 0 otherwise). In addition, as discussed in more detail below, a collection of indicator variables can also be used for categorical variables that take on more than 2 variables – for example, a <em>collection</em> of indicator variables can be used to represented individual’s political party registration.</p>
+<p>Indicator variables – sometimes also referred to as dummy variables, though I don’t know why – are variables that take on only the value of 0 and 1, and are used to <em>indicate</em> whether a given observation belongs to a discrete category in a way that can be used in statistical models.</p>
+<p>For example, indicator variables can be used to indicate if an survey respondent is a woman (if the variable is 1 for women, 0 otherwise) or a Democrat (if the variable is 1 for democrats, 0 otherwise). In addition, as discussed in more detail below, collections of indicator variables can also be used to code categorical variables that take on more than 2 variables using a method called “one-hot encoding). This allows use to work with variables that have many levels, like an individual’s
+political party registration (which could be Democrat, Independent, or Republican).</p>
 </div>
-<div class="section" id="The-TWO-things-that-you-must-understand-when-using-indicator-variables">
-<h2>The TWO things that you must understand when using indicator variables<a class="headerlink" href="#The-TWO-things-that-you-must-understand-when-using-indicator-variables" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="The-ONE-thing-that-you-must-understand-when-using-indicator-variables:">
+<h2>The ONE thing that you must understand when using indicator variables:<a class="headerlink" href="#The-ONE-thing-that-you-must-understand-when-using-indicator-variables:" title="Permalink to this headline">¶</a></h2>
 <p>When you put an indicator variable in a regression model, there are two things you must always keep in mind about interpreting the coefficients associated with the indicator variable:</p>
 <ol class="arabic simple">
 <li><p>The coefficient on an indicator variable is an estimate of the average <strong>DIFFERENCE</strong> in the dependent variable for the group identified by the indicator variable (after taking into account other variables in the regression) and</p></li>
 <li><p>the <strong>REFERENCE GROUP</strong>, which is the set of observations for which the indicator variable is always zero.</p></li>
 </ol>
 <p>If you always remember that the coefficient on an indicator variable is an estimate of a <strong>DIFFERENCE</strong> with respect to a <strong>REFERENCE GROUP</strong> (also sometimes referred to as the “omitted category”), you’re 90% of the way to understanding indicator variables.</p>
+<p>I recognize this may feel obvious, but trust me: I’ve literally reviewed papers from tenured faculty at major Universities that get this wrong. This is something people get confused about constantly, so I promise it’s worth this treatment.</p>
 <p>OK, let’s get concrete.</p>
 </div>
 <div class="section" id="Indicator-Variables-with-Two-Category-Variable">
 <h2>Indicator Variables with Two Category Variable<a class="headerlink" href="#Indicator-Variables-with-Two-Category-Variable" title="Permalink to this headline">¶</a></h2>
-<p>Let’s do a simple example predicting voter turnout using data from North Carolina. Suppose in particular we’re interested in looking at how turnout varies by gender, which is dichotomous in the North Carolina voter file (obviously this is somewhat problematic given what we’ve come to know about gender, but in most datasets you’ll find a dichotomous coding).</p>
+<p>Let’s start with a simple model in which we wish to predict voter turnout using data from North Carolina. Suppose we’re interested in looking at how turnout varies by gender, which is dichotomous in the North Carolina voter file (obviously this is somewhat problematic given what we’ve come to know about gender, but in most datasets you’ll find a dichotomous coding).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -443,7 +444,8 @@ interpet them.</p>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
-<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -461,13 +463,13 @@ interpet them.</p>
   <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>  -0.000</td>
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>  0.7434</td>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>  0.7416</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td> 0.389</td>
+  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td> 0.389</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>08:05:22</td>     <th>  Log-Likelihood:    </th> <td> -5768.3</td>
+  <th>Time:</th>                 <td>11:07:14</td>     <th>  Log-Likelihood:    </th> <td> -5768.3</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.154e+04</td>
@@ -479,7 +481,7 @@ interpet them.</p>
   <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>
 </tr>
 <tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>
 </tr>
 </table>
 <table class="simpletable">
@@ -487,10 +489,10 @@ interpet them.</p>
          <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
 </tr>
 <tr>
-  <th>Intercept</th>      <td>    0.7461</td> <td>    0.007</td> <td>  114.575</td> <td> 0.000</td> <td>    0.733</td> <td>    0.759</td>
+  <th>Intercept</th>      <td>    0.7461</td> <td>    0.007</td> <td>  113.927</td> <td> 0.000</td> <td>    0.733</td> <td>    0.759</td>
 </tr>
 <tr>
-  <th>female[T.True]</th> <td>    0.0075</td> <td>    0.009</td> <td>    0.862</td> <td> 0.389</td> <td>   -0.010</td> <td>    0.025</td>
+  <th>female[T.True]</th> <td>    0.0075</td> <td>    0.009</td> <td>    0.861</td> <td> 0.389</td> <td>   -0.010</td> <td>    0.025</td>
 </tr>
 </table>
 <table class="simpletable">
@@ -506,9 +508,9 @@ interpet them.</p>
 <tr>
   <th>Kurtosis:</th>       <td> 2.337</td>  <th>  Cond. No.          </th> <td>    2.77</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
-<p>OK, so how do we interpret this coefficient of 0.0075 on female? As we said before, it is the average <strong>DIFFERENCE</strong> in the dependent variable (Whether the person votes) with respect to a <strong>REFERENCE GROUP</strong>. In this case, the reference group is anyone for whom the indicator is always equal to zero, which is the set of male voters.</p>
+<p>OK, so how do we interpret this coefficient of 0.0075 on female? As we said before, it is the average <strong>DIFFERENCE</strong> in the dependent variable (Whether the person votes) with respect to a <strong>REFERENCE GROUP</strong>. The reference group is <em>the group for whom the indicator is always equal to zero</em>, which in this case is the set of male voters.</p>
 <p>So this says that women are 0.7% <em>more likely to vote (in North Carolina) then men.</em></p>
 <p>Now let’s try a more interesting example: Democrats.</p>
 <div class="nbinput docutils container">
@@ -537,7 +539,7 @@ Name: party, dtype: int64
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># So let&#39;s do the same thing as before for democrats</span>
+<span></span><span class="c1"># So let&#39;s do the same thing as before for Democrats</span>
 <span class="n">voters</span><span class="p">[</span><span class="s1">&#39;democrat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">voters</span><span class="o">.</span><span class="n">party</span> <span class="o">==</span> <span class="s2">&quot;DEMOCRATIC&quot;</span>
 <span class="n">voters</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
@@ -635,7 +637,12 @@ Name: party, dtype: int64
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ democrat&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span></span><span class="c1"># Note that because we&#39;re estimating a linear probability</span>
+<span class="c1"># model we need to use heteroskedastic robust</span>
+<span class="c1"># standard errors.</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ democrat&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -653,13 +660,13 @@ Name: party, dtype: int64
   <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.004</td>
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   41.47</td>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   40.81</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.25e-10</td>
+  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.76e-10</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>08:05:22</td>     <th>  Log-Likelihood:    </th> <td> -5748.0</td>
+  <th>Time:</th>                 <td>11:07:15</td>     <th>  Log-Likelihood:    </th> <td> -5748.0</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.150e+04</td>
@@ -671,7 +678,7 @@ Name: party, dtype: int64
   <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>
 </tr>
 <tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>
 </tr>
 </table>
 <table class="simpletable">
@@ -679,10 +686,10 @@ Name: party, dtype: int64
           <td></td>            <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
 </tr>
 <tr>
-  <th>Intercept</th>        <td>    0.7754</td> <td>    0.006</td> <td>  133.023</td> <td> 0.000</td> <td>    0.764</td> <td>    0.787</td>
+  <th>Intercept</th>        <td>    0.7754</td> <td>    0.006</td> <td>  137.665</td> <td> 0.000</td> <td>    0.764</td> <td>    0.786</td>
 </tr>
 <tr>
-  <th>democrat[T.True]</th> <td>   -0.0562</td> <td>    0.009</td> <td>   -6.440</td> <td> 0.000</td> <td>   -0.073</td> <td>   -0.039</td>
+  <th>democrat[T.True]</th> <td>   -0.0562</td> <td>    0.009</td> <td>   -6.388</td> <td> 0.000</td> <td>   -0.073</td> <td>   -0.039</td>
 </tr>
 </table>
 <table class="simpletable">
@@ -698,7 +705,7 @@ Name: party, dtype: int64
 <tr>
   <th>Kurtosis:</th>       <td> 2.343</td>  <th>  Cond. No.          </th> <td>    2.51</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
 <p>So now how do we interpret this coefficient on Democrats (-0.056)? As before it’s the average <strong>DIFFERENCE</strong> in the dependent variable between the indicated group (Democrats) and the reference group. But what’s the reference group? Republicans?</p>
 <p>No – the <strong>reference group</strong> or <strong>omitted category</strong> is anyone for whom the indicator variable is always zero – in this case, all non-Democrats, whether they’re Republicans or Unaffiliated.</p>
@@ -708,8 +715,9 @@ Name: party, dtype: int64
 <div class="section" id="Indicator-Variables-for-variables-with-more-than-2-categories">
 <h2>Indicator Variables for variables with more than 2 categories<a class="headerlink" href="#Indicator-Variables-for-variables-with-more-than-2-categories" title="Permalink to this headline">¶</a></h2>
 <p>To deal with categorical variables with more than 2 categories, we create indicator variables for all values of the variable <em>except one</em>. The one group for which we do not create an indicator variable will become the <strong>reference group</strong> for the regression. The choice of which value to make the reference category won’t substantively change the results of the regression – for example, if you also have a control for age, the coefficient on age will always be the same regardless of the reference
-group used – but it does influence how easily you can interpret the results of the regression. Note that what we’re doing is often called “one-hot encoding” by computer scientists / machine learning people.</p>
-<p>So since we’re interested in the difference in turnout between Democrats and Republicans, let’s make Republicans the reference category, and make dummies for democrats and unaffiliated voters.</p>
+group used – but it does influence how easily you can interpret the results of the regression.</p>
+<p>This practice of creating a <em>collection</em> of indicator variables to encode a single categorical variable is what’s called “one-hot encoding” by computer scientists / machine learning people.</p>
+<p>Since we’re interested in the difference in turnout between Democrats and Republicans, let’s make Republicans the reference category, and make indicators for Democrats and Unaffiliated voters.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -818,7 +826,8 @@ group used – but it does influence how easily you can interpret the results of
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ democrat + unaffiliated&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ democrat + unaffiliated&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -836,13 +845,13 @@ group used – but it does influence how easily you can interpret the results of
   <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.007</td>
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   33.63</td>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   35.67</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>2.79e-15</td>
+  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.67e-16</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>08:05:22</td>     <th>  Log-Likelihood:    </th> <td> -5735.2</td>
+  <th>Time:</th>                 <td>11:07:15</td>     <th>  Log-Likelihood:    </th> <td> -5735.2</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.148e+04</td>
@@ -854,7 +863,7 @@ group used – but it does influence how easily you can interpret the results of
   <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>
 </tr>
 <tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>
 </tr>
 </table>
 <table class="simpletable">
@@ -862,13 +871,13 @@ group used – but it does influence how easily you can interpret the results of
             <td></td>              <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
 </tr>
 <tr>
-  <th>Intercept</th>            <td>    0.7988</td> <td>    0.007</td> <td>  107.399</td> <td> 0.000</td> <td>    0.784</td> <td>    0.813</td>
+  <th>Intercept</th>            <td>    0.7988</td> <td>    0.007</td> <td>  115.554</td> <td> 0.000</td> <td>    0.785</td> <td>    0.812</td>
 </tr>
 <tr>
-  <th>democrat[T.True]</th>     <td>   -0.0797</td> <td>    0.010</td> <td>   -8.072</td> <td> 0.000</td> <td>   -0.099</td> <td>   -0.060</td>
+  <th>democrat[T.True]</th>     <td>   -0.0797</td> <td>    0.010</td> <td>   -8.240</td> <td> 0.000</td> <td>   -0.099</td> <td>   -0.061</td>
 </tr>
 <tr>
-  <th>unaffiliated[T.True]</th> <td>   -0.0606</td> <td>    0.012</td> <td>   -5.068</td> <td> 0.000</td> <td>   -0.084</td> <td>   -0.037</td>
+  <th>unaffiliated[T.True]</th> <td>   -0.0606</td> <td>    0.012</td> <td>   -5.143</td> <td> 0.000</td> <td>   -0.084</td> <td>   -0.037</td>
 </tr>
 </table>
 <table class="simpletable">
@@ -884,21 +893,21 @@ group used – but it does influence how easily you can interpret the results of
 <tr>
   <th>Kurtosis:</th>       <td> 2.344</td>  <th>  Cond. No.          </th> <td>    3.85</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
 <p>(Note that we also could have used the syntax <code class="docutils literal notranslate"><span class="pre">smf.ols('voted</span> <span class="pre">~</span> <span class="pre">C(party)',</span> <span class="pre">voters)</span></code>, which will automatically convert your data into one-hot encodings, but then you don’t get to pick the omitted category, and sometimes it’s nice to be explicit.)</p>
-<p>So how do we interpret these results?</p>
-<p>First, we see that the coefficient on <code class="docutils literal notranslate"><span class="pre">democrat</span></code> is -0.08. That means that the <strong>DIFFERENCE</strong> in turnout between Democrats and the reference group (here, Republicans) is 8%. So Democrats have 8 percent point lower turnout on average in this data than Republicans.</p>
-<p>Second, we see that the coefficient on <code class="docutils literal notranslate"><span class="pre">unaffiliated</span></code> is -0.06. That means that the DIFFERENCE in turnout between Unaffiliated voters and the reference group (here, Republicans) is 6%. So Democrats have 6 percent point lower turnout on average in this data than Republicans.</p>
-<p>Moreover, the p-value on these indicator variables tells us if these differences are significant. And indeed, they show clearly that the difference between Democrats and Republicans, and the difference between Unaffiliated voters and Republicans is significant.</p>
+<p>How do we interpret these results?</p>
+<p>First, we see that the coefficient on <code class="docutils literal notranslate"><span class="pre">democrat</span></code> is -0.08. That means that the <strong>DIFFERENCE</strong> in turnout between Democrats and the reference group (here, Republicans) is 8%. So Democrats have 8 percentage point lower turnout on average in this data than Republicans.</p>
+<p>Second, we see that the coefficient on <code class="docutils literal notranslate"><span class="pre">unaffiliated</span></code> is -0.06. That means that the <strong>DIFFERENCE</strong> in turnout between Unaffiliated voters and the reference group (here, Republicans) is 6%. So Unaffiliated voters have 6 percent point lower turnout on average in this data than Republicans.</p>
+<p>Moreover, the p-value on these indicator variables tells us if these differences are significant. And indeed, they show clearly that the difference between Democrats and Republicans, and the difference between Unaffiliated voters and Republicans are both significant.</p>
 <p>But what about the difference between Democrats and Unaffiliated voters? Well, turns out the regression doesn’t give us that directly. To get that, we have to do some additional math.</p>
 <p>First, it’s easy to estimate the difference in coefficients:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dem</span> <span class="o">-</span> <span class="n">unaffiliated</span> <span class="o">=</span> <span class="p">(</span><span class="n">dem</span> <span class="o">-</span> <span class="n">republican</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">unaffiliated</span> <span class="o">-</span> <span class="n">republican</span><span class="p">)</span>
-                   <span class="o">=</span> <span class="o">-</span><span class="mf">0.079</span> <span class="o">-</span> <span class="o">-</span><span class="mf">0.061</span>
-                   <span class="o">=</span> <span class="o">-</span><span class="mf">0.018</span>
+                   <span class="o">=</span> <span class="o">-</span><span class="mf">0.08</span> <span class="o">-</span> <span class="o">-</span><span class="mf">0.06</span>
+                   <span class="o">=</span> <span class="o">-</span><span class="mf">0.02</span>
 </pre></div>
 </div>
-<p>So in other words, Democrats have 2 percentage point lower turnout than unaffiliated voters.</p>
+<p>So in other words, Democrats have 2 percentage point lower turnout than Unaffiliated voters.</p>
 <p>But is this difference statistically significant? For that we have to run a post-regression test. (In R, you can do these with the <code class="docutils literal notranslate"><span class="pre">car</span></code> library using the <code class="docutils literal notranslate"><span class="pre">LinearHypothesis</span></code> function)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
@@ -906,6 +915,7 @@ group used – but it does influence how easily you can interpret the results of
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ democrat + unaffiliated&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span>
 
 <span class="n">hypothesis</span> <span class="o">=</span> <span class="s1">&#39;democrat[T.True] = unaffiliated[T.True]&#39;</span>
 <span class="n">model</span><span class="o">.</span><span class="n">t_test</span><span class="p">(</span><span class="n">hypothesis</span><span class="p">)</span>
@@ -923,11 +933,11 @@ group used – but it does influence how easily you can interpret the results of
 ==============================================================================
                  coef    std err          t      P&gt;|t|      [0.025      0.975]
 ------------------------------------------------------------------------------
-c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
+c0            -0.0191      0.012     -1.634      0.102      -0.042       0.004
 ==============================================================================
 </pre></div></div>
 </div>
-<p>Voila – p-value of 0.09.</p>
+<p>Voila – p-value of 0.1.</p>
 <p>Wanna confirm it? let’s change our reference group to <code class="docutils literal notranslate"><span class="pre">unaffiliated</span></code>. Then when we look at the coefficient on <code class="docutils literal notranslate"><span class="pre">democrat</span></code>, that will be the difference between Democrats and the new reference group (Unaffiliated voters)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
@@ -935,7 +945,8 @@ c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">voters</span><span class="p">[</span><span class="s1">&#39;republican&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">voters</span><span class="o">.</span><span class="n">party</span> <span class="o">==</span> <span class="s2">&quot;REPUBLICAN&quot;</span>
-<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ democrat + republican&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ democrat + republican&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -953,13 +964,13 @@ c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
   <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.007</td>
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   33.63</td>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   35.67</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>2.79e-15</td>
+  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.67e-16</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>08:05:22</td>     <th>  Log-Likelihood:    </th> <td> -5735.2</td>
+  <th>Time:</th>                 <td>11:07:16</td>     <th>  Log-Likelihood:    </th> <td> -5735.2</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.148e+04</td>
@@ -971,7 +982,7 @@ c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
   <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>
 </tr>
 <tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>
 </tr>
 </table>
 <table class="simpletable">
@@ -979,13 +990,13 @@ c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
            <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
 </tr>
 <tr>
-  <th>Intercept</th>          <td>    0.7383</td> <td>    0.009</td> <td>   78.932</td> <td> 0.000</td> <td>    0.720</td> <td>    0.757</td>
+  <th>Intercept</th>          <td>    0.7383</td> <td>    0.010</td> <td>   77.436</td> <td> 0.000</td> <td>    0.720</td> <td>    0.757</td>
 </tr>
 <tr>
-  <th>democrat[T.True]</th>   <td>   -0.0191</td> <td>    0.011</td> <td>   -1.677</td> <td> 0.093</td> <td>   -0.041</td> <td>    0.003</td>
+  <th>democrat[T.True]</th>   <td>   -0.0191</td> <td>    0.012</td> <td>   -1.634</td> <td> 0.102</td> <td>   -0.042</td> <td>    0.004</td>
 </tr>
 <tr>
-  <th>republican[T.True]</th> <td>    0.0606</td> <td>    0.012</td> <td>    5.068</td> <td> 0.000</td> <td>    0.037</td> <td>    0.084</td>
+  <th>republican[T.True]</th> <td>    0.0606</td> <td>    0.012</td> <td>    5.143</td> <td> 0.000</td> <td>    0.037</td> <td>    0.084</td>
 </tr>
 </table>
 <table class="simpletable">
@@ -1001,15 +1012,17 @@ c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
 <tr>
   <th>Kurtosis:</th>       <td> 2.344</td>  <th>  Cond. No.          </th> <td>    4.60</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
-<p>As we can now see, the coefficient on democrat (now difference between democrat and unaffiliated) is what we’d calculated above (-0.019) and has the p-value we calculated previously (0.09). This just goes to show that the choice of reference group doesn’t change what’s actually being estimated, it just changes the interpretation of coefficients and what statistics pop right out of the regression output, and which values require a little extra work to get.</p>
+<p>As we can now see, the coefficient on <code class="docutils literal notranslate"><span class="pre">democrat</span></code> (now the difference between Democrats and Unaffiliated voters) is exactly what we’d calculated above (-0.019) and has the same p-value we calculated previously (0.1).</p>
+<p>This just goes to show that the choice of reference group doesn’t change what’s actually being estimated, <em>it just changes the interpretation of coefficients</em> and what statistics pop right out of the regression output, and which values require a little extra work to get.</p>
 </div>
 <div class="section" id="Interactions-with-Constant-Variables">
 <h2>Interactions with Constant Variables<a class="headerlink" href="#Interactions-with-Constant-Variables" title="Permalink to this headline">¶</a></h2>
 <p><strong>Like regular Indicators, but for differences in SLOPE rather than differences in LEVELS!</strong></p>
-<p>Congratulations! You’re a pro at Indicator variables. But now let’s say you want to do INTERACTIONS!</p>
-<p>Interactions (at least when you interact an indicator variable with a continuous variable) is just like a regular interaction variable, except that instead of reporting the difference in <strong>average value</strong> of the dependent variable between the indicated group and the reference group, the coefficient on an interaction term is the <strong>DIFFERENCE</strong> in the <strong>SLOPE</strong> associated with the continuous variable between the indicated group and the reference group.</p>
+<p>Congratulations! You’re a pro at indicator variables. Now we can turn to INTERACTIONS!</p>
+<p>Interactions (at least when you interact an indicator variable with a continuous variable), just like a regular indicator variables, report <strong>differences</strong> between a group and the reference group. The difference is that instead of reporting the difference in <strong>average value</strong> of the dependent variable between the indicated group and the reference group, the coefficient on an interaction term is the average <strong>DIFFERENCE</strong> in the <strong>SLOPE</strong> associated with the continuous variable between the
+indicated group and the reference group.</p>
 <p>Let’s be concrete: let’s suppose we think that turnout among men increases as they get older by a larger amount than for women. In other words, we think that turnout increases with age for both groups, but that there’s a <strong>DIFFERENCE</strong> in the amount it increases with age.</p>
 <p>To test this, we need to create some interaction terms. But first, a quick note: when doing interactions, it’s critical to not only include all the interaction terms that interest you, <strong>but also all the variables in the interaction as stand-alone variables.</strong> So for this we want <code class="docutils literal notranslate"><span class="pre">age</span></code> interacted with <code class="docutils literal notranslate"><span class="pre">female</span></code>. But while the coefficient on that estimate is what we’re interested in, to get the right results we also need to include just <code class="docutils literal notranslate"><span class="pre">age</span></code> and just <code class="docutils literal notranslate"><span class="pre">female</span></code>.</p>
 <div class="nbinput docutils container">
@@ -1018,7 +1031,8 @@ c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">voters</span><span class="p">[</span><span class="s1">&#39;age_x_female&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">voters</span><span class="o">.</span><span class="n">age</span> <span class="o">*</span> <span class="n">voters</span><span class="o">.</span><span class="n">female</span>
-<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ age + female + age_x_female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ age + female + age_x_female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1036,13 +1050,13 @@ c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
   <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.001</td>
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2.670</td>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1.917</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td>0.0459</td>
+  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td> 0.124</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>08:05:22</td>     <th>  Log-Likelihood:    </th> <td> -5764.7</td>
+  <th>Time:</th>                 <td>11:07:16</td>     <th>  Log-Likelihood:    </th> <td> -5764.7</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.154e+04</td>
@@ -1054,7 +1068,7 @@ c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
   <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>
 </tr>
 <tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>
 </tr>
 </table>
 <table class="simpletable">
@@ -1062,16 +1076,16 @@ c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
          <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
 </tr>
 <tr>
-  <th>Intercept</th>      <td>    0.6961</td> <td>    0.025</td> <td>   28.211</td> <td> 0.000</td> <td>    0.648</td> <td>    0.744</td>
+  <th>Intercept</th>      <td>    0.6961</td> <td>    0.029</td> <td>   23.789</td> <td> 0.000</td> <td>    0.639</td> <td>    0.753</td>
 </tr>
 <tr>
-  <th>female[T.True]</th> <td>    0.0933</td> <td>    0.033</td> <td>    2.824</td> <td> 0.005</td> <td>    0.029</td> <td>    0.158</td>
+  <th>female[T.True]</th> <td>    0.0933</td> <td>    0.039</td> <td>    2.370</td> <td> 0.018</td> <td>    0.016</td> <td>    0.171</td>
 </tr>
 <tr>
-  <th>age</th>            <td>    0.0009</td> <td>    0.000</td> <td>    2.102</td> <td> 0.036</td> <td> 5.77e-05</td> <td>    0.002</td>
+  <th>age</th>            <td>    0.0009</td> <td>    0.000</td> <td>    1.759</td> <td> 0.079</td> <td>-9.81e-05</td> <td>    0.002</td>
 </tr>
 <tr>
-  <th>age_x_female</th>   <td>   -0.0015</td> <td>    0.001</td> <td>   -2.693</td> <td> 0.007</td> <td>   -0.003</td> <td>   -0.000</td>
+  <th>age_x_female</th>   <td>   -0.0015</td> <td>    0.001</td> <td>   -2.237</td> <td> 0.025</td> <td>   -0.003</td> <td>   -0.000</td>
 </tr>
 </table>
 <table class="simpletable">
@@ -1087,14 +1101,18 @@ c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
 <tr>
   <th>Kurtosis:</th>       <td> 2.340</td>  <th>  Cond. No.          </th> <td>    643.</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
-<p>Ok, so the coefficient on our interaction is -0.0015. Does that mean that as women get older, their turnout rate declines by -0.15 percentage points per year? <strong>NO!</strong></p>
-<p>It says that women’s turnout rate declines by -0.15 percentage points per year LESS THAN MEN’S DECLINE. It is the <strong>DIFFERENCE</strong> in slopes between the two groups.</p>
+<p>The coefficient on our interaction is -0.0015. Does that mean that as women get older, their turnout rate declines by -0.15 percentage points per year? <strong>NO!</strong></p>
+<p>It says that women’s turnout rate declines by -0.15 percentage points per year LESS THAN MEN’S TURNOUT DECLINES. It is the <strong>DIFFERENCE</strong> in slopes between the two groups.</p>
 <p>The coefficient on <code class="docutils literal notranslate"><span class="pre">age</span></code> tells us how turnout varies with age <strong>for the reference group</strong>. So it says that for men, turnout increases by 0.09 percentage points per year.</p>
 <p>But if you want to know how women’s turnout varies with age, you have to <strong>ADD</strong> the coefficient on <code class="docutils literal notranslate"><span class="pre">age</span></code> (the rate of change for me) plus the coefficient on <code class="docutils literal notranslate"><span class="pre">age_x_female</span></code> (the difference between the rate of men and women).</p>
 <p>So going through all these coefficients, we have:</p>
-<p><code class="docutils literal notranslate"><span class="pre">female</span></code> (0.09): Controlling for age, women are 9 percentage points more likely to vote than men. <code class="docutils literal notranslate"><span class="pre">age</span></code> (0.0009): As men get one year older, they become 0.1 percentage point more likely to vote. <code class="docutils literal notranslate"><span class="pre">age_x_female</span></code> (-0.0015): As women get one year older, the likelihood they vote increases by -0.1 percentage point <em>less</em> than men.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">female</span></code> (0.09): Controlling for age, women are 9 percentage points more likely to vote than men.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code> (0.0009): As men get one year older, they become 0.1 percentage point more likely to vote.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age_x_female</span></code> (-0.0015): As women get one year older, the likelihood they vote increases by -0.1 percentage point <em>less</em> than men.</p></li>
+</ul>
 <p>So how much does women’s turnout increase if they age one year? 0.0009 + -0.0015 = -0.0006. So female turnout actually declines by 0.06 percentage points a year.</p>
 <p>Now let’s talk statistical significance. The p-value on age shows us that there’s a statistically significant relationship between age and turnout <strong>for men</strong>. The p-value for <code class="docutils literal notranslate"><span class="pre">age_x_female</span></code> tells us that there’s a statistically significant <strong>difference</strong> between men and women in how turnout varies with age. But is there a statistically significant relationship between age and turnout for women?</p>
 <p>Again, we don’t actually get an answer from our regression. To see, we have to run the following:</p>
@@ -1104,6 +1122,7 @@ c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ age + female + age_x_female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span>
 <span class="n">hypothesis</span> <span class="o">=</span> <span class="s1">&#39;age + age_x_female = 0&#39;</span>
 <span class="n">model</span><span class="o">.</span><span class="n">t_test</span><span class="p">(</span><span class="n">hypothesis</span><span class="p">)</span>
 </pre></div>
@@ -1120,18 +1139,46 @@ c0            -0.0191      0.011     -1.677      0.093      -0.041       0.003
 ==============================================================================
                  coef    std err          t      P&gt;|t|      [0.025      0.975]
 ------------------------------------------------------------------------------
-c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05
+c0            -0.0006      0.000     -1.389      0.165      -0.001       0.000
 ==============================================================================
 </pre></div></div>
 </div>
-<p>So the p-value is 0.09 for the relationship between female and age (and the coefficient of -0.0006, just like we calculated above!)</p>
+<p>So the p-value is 0.17 for the relationship between female and age (and the coefficient of -0.0006, just like we calculated above!)</p>
+<div class="section" id="Keeping-Things-Straight">
+<h3>Keeping Things Straight<a class="headerlink" href="#Keeping-Things-Straight" title="Permalink to this headline">¶</a></h3>
+<p>When you want to know a quantity, how can you figure out what coefficients to look at if you don’t remember these rules?</p>
+<p>The simplest way to make sure you’re interpreting indicators correctly is to think about what our model looks like for different kinds of people. So suppose we wanted to figure out how men’s turnout varies with age. Let’s look at our model:</p>
+<div class="math notranslate nohighlight">
+\[voted = \beta_0 + \beta_1 * age + \beta_2 * female + \beta_3 * (age * female) + \epsilon\]</div>
+<p>Well, for men <code class="docutils literal notranslate"><span class="pre">female</span></code> and <code class="docutils literal notranslate"><span class="pre">age_x_female</span></code> will always be zero, so the model for men is actually just:</p>
+<div class="math notranslate nohighlight">
+\[voted_{men} = \beta_0 + \beta_1 * age + \epsilon\]</div>
+<p>And how does this vary with age? Linearly by <span class="math notranslate nohighlight">\(\beta_1\)</span> per year.</p>
+<p>What about for women? For women all those indicators will be 1s, so the equation will effectively be:</p>
+<div class="math notranslate nohighlight">
+\[voted_{women} = \beta_0 + \beta_1 * age + \beta_2 + \beta_3 * age + \epsilon\]</div>
+<div class="math notranslate nohighlight">
+\[voted_{women} = \beta_0 + (\beta_1 + \beta_3)* age + \beta_2 + \epsilon\]</div>
+<p>And how does that vary with age? Linearly by <span class="math notranslate nohighlight">\(\beta_1 + \beta_3\)</span> per year.</p>
+<p>Finally, if we want the <em>difference</em> between how men and women respond to age, we can write this out:</p>
+<div class="math notranslate nohighlight">
+\[voted_{women} - voted_{men} =\]</div>
+<div class="math notranslate nohighlight">
+\[= (\beta_0 + \beta_1 * age + \beta_2 + \beta_3 * age + \epsilon) - (\beta_0 + \beta_1 * age + \epsilon)\]</div>
+<div class="math notranslate nohighlight">
+\[=\beta_3 * age\]</div>
+<p>So the difference in who men and women respond to age is <span class="math notranslate nohighlight">\(\beta_3\)</span>.</p>
+</div>
+<div class="section" id="The-*-operator">
+<h3>The * operator<a class="headerlink" href="#The-*-operator" title="Permalink to this headline">¶</a></h3>
 <p>Finally, as with using <code class="docutils literal notranslate"><span class="pre">C()</span></code> to convert categoricals to indicators, you can also use the <code class="docutils literal notranslate"><span class="pre">*</span></code> notation in statsmodels for interactions – it not only creates the interaction term, but also adds all the level effects:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ age * female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ age * female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1149,13 +1196,13 @@ c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05
   <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.001</td>
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2.670</td>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1.917</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td>0.0459</td>
+  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td> 0.124</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>08:05:23</td>     <th>  Log-Likelihood:    </th> <td> -5764.7</td>
+  <th>Time:</th>                 <td>11:07:17</td>     <th>  Log-Likelihood:    </th> <td> -5764.7</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.154e+04</td>
@@ -1167,7 +1214,7 @@ c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05
   <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>
 </tr>
 <tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>
 </tr>
 </table>
 <table class="simpletable">
@@ -1175,16 +1222,16 @@ c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05
            <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
 </tr>
 <tr>
-  <th>Intercept</th>          <td>    0.6961</td> <td>    0.025</td> <td>   28.211</td> <td> 0.000</td> <td>    0.648</td> <td>    0.744</td>
+  <th>Intercept</th>          <td>    0.6961</td> <td>    0.029</td> <td>   23.789</td> <td> 0.000</td> <td>    0.639</td> <td>    0.753</td>
 </tr>
 <tr>
-  <th>female[T.True]</th>     <td>    0.0933</td> <td>    0.033</td> <td>    2.824</td> <td> 0.005</td> <td>    0.029</td> <td>    0.158</td>
+  <th>female[T.True]</th>     <td>    0.0933</td> <td>    0.039</td> <td>    2.370</td> <td> 0.018</td> <td>    0.016</td> <td>    0.171</td>
 </tr>
 <tr>
-  <th>age</th>                <td>    0.0009</td> <td>    0.000</td> <td>    2.102</td> <td> 0.036</td> <td> 5.77e-05</td> <td>    0.002</td>
+  <th>age</th>                <td>    0.0009</td> <td>    0.000</td> <td>    1.759</td> <td> 0.079</td> <td>-9.81e-05</td> <td>    0.002</td>
 </tr>
 <tr>
-  <th>age:female[T.True]</th> <td>   -0.0015</td> <td>    0.001</td> <td>   -2.693</td> <td> 0.007</td> <td>   -0.003</td> <td>   -0.000</td>
+  <th>age:female[T.True]</th> <td>   -0.0015</td> <td>    0.001</td> <td>   -2.237</td> <td> 0.025</td> <td>   -0.003</td> <td>   -0.000</td>
 </tr>
 </table>
 <table class="simpletable">
@@ -1200,10 +1247,12 @@ c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05
 <tr>
   <th>Kurtosis:</th>       <td> 2.340</td>  <th>  Cond. No.          </th> <td>    643.</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
+</div>
+</div>
 </div>
 <div class="section" id="Interactions-Between-Multiple-Indicator-Variables">
-<h3>Interactions Between Multiple Indicator Variables<a class="headerlink" href="#Interactions-Between-Multiple-Indicator-Variables" title="Permalink to this headline">¶</a></h3>
+<h2>Interactions Between Multiple Indicator Variables<a class="headerlink" href="#Interactions-Between-Multiple-Indicator-Variables" title="Permalink to this headline">¶</a></h2>
 <p>You can also do interactions between Indicators, which have similar interpretations to interactions with constant variables.</p>
 <p>For example, suppose instead of <code class="docutils literal notranslate"><span class="pre">age</span></code>, we just had a binary variable <code class="docutils literal notranslate"><span class="pre">old</span></code>:</p>
 <div class="nbinput docutils container">
@@ -1215,7 +1264,8 @@ c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05
 
 <span class="c1"># Note the interaction has to be converted to integers first -- not booleans</span>
 <span class="n">voters</span><span class="p">[</span><span class="s1">&#39;old_x_female&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">voters</span><span class="o">.</span><span class="n">old</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">voters</span><span class="o">.</span><span class="n">female</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
-<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ old + female + old_x_female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;voted ~ old + female + old_x_female&#39;</span><span class="p">,</span> <span class="n">voters</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1233,13 +1283,13 @@ c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05
   <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.010</td>
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   34.59</td>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   31.53</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 13 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.13e-22</td>
+  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>2.82e-20</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>08:05:23</td>     <th>  Log-Likelihood:    </th> <td> -5717.1</td>
+  <th>Time:</th>                 <td>11:07:18</td>     <th>  Log-Likelihood:    </th> <td> -5717.1</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  9919</td>      <th>  AIC:               </th> <td>1.144e+04</td>
@@ -1251,7 +1301,7 @@ c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05
   <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>
 </tr>
 <tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>
+  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>
 </tr>
 </table>
 <table class="simpletable">
@@ -1259,16 +1309,16 @@ c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05
          <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
 </tr>
 <tr>
-  <th>Intercept</th>      <td>    0.6761</td> <td>    0.012</td> <td>   58.191</td> <td> 0.000</td> <td>    0.653</td> <td>    0.699</td>
+  <th>Intercept</th>      <td>    0.6761</td> <td>    0.013</td> <td>   53.519</td> <td> 0.000</td> <td>    0.651</td> <td>    0.701</td>
 </tr>
 <tr>
-  <th>old[T.True]</th>    <td>    0.1015</td> <td>    0.014</td> <td>    7.254</td> <td> 0.000</td> <td>    0.074</td> <td>    0.129</td>
+  <th>old[T.True]</th>    <td>    0.1015</td> <td>    0.015</td> <td>    6.902</td> <td> 0.000</td> <td>    0.073</td> <td>    0.130</td>
 </tr>
 <tr>
-  <th>female[T.True]</th> <td>    0.0138</td> <td>    0.016</td> <td>    0.871</td> <td> 0.384</td> <td>   -0.017</td> <td>    0.045</td>
+  <th>female[T.True]</th> <td>    0.0138</td> <td>    0.017</td> <td>    0.806</td> <td> 0.420</td> <td>   -0.020</td> <td>    0.047</td>
 </tr>
 <tr>
-  <th>old_x_female</th>   <td>   -0.0111</td> <td>    0.019</td> <td>   -0.588</td> <td> 0.556</td> <td>   -0.048</td> <td>    0.026</td>
+  <th>old_x_female</th>   <td>   -0.0111</td> <td>    0.020</td> <td>   -0.562</td> <td> 0.574</td> <td>   -0.050</td> <td>    0.028</td>
 </tr>
 </table>
 <table class="simpletable">
@@ -1284,12 +1334,12 @@ c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05
 <tr>
   <th>Kurtosis:</th>       <td> 2.357</td>  <th>  Cond. No.          </th> <td>    9.37</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
-<p>Now we interpret <code class="docutils literal notranslate"><span class="pre">old_x_female</span></code> as the <em>difference</em> in how age affects men and woman. It is negative because, as we saw before, as women age, their turnout rate does not increase as much as men’s. Note here, however, that when we compare under 50 to over 50, we find that men’s turnout increases by 10 percentage points moving from under 50 to over fifty, while women’s turnout increases but by less – 0.10 + -0.01 = 0.09.</p>
-<p>(This may seem inconsistent with the results above, but that’s because above we were modeling age linearly; in reality, the relationship between age and turnout is quadratic – it increases initially, peaks in middle-age, then declines:</p>
+<p>Now we interpret <code class="docutils literal notranslate"><span class="pre">old_x_female</span></code> as the <em>difference</em> in how age affects men and woman. It is negative because, as we saw before, as women age, their turnout rate does not increase as much as men’s. Here we find that men’s turnout increases by 10 percentage points moving from under 50 to over 50, while women’s turnout increases by less -0.01 less moving from under 50 to over 50 (in total, it changes by 0.10 + -0.01 = 0.09).</p>
+<p>(This may seem inconsistent with the results above, but that’s because above we were modeling age linearly; in reality, the relationship between age and turnout is quadratic – it increases initially, peaks in middle-age, then declines, so neither of these models fit the data perfectly)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1299,21 +1349,30 @@ c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/plotnine/stats/smoothers.py:168: PlotnineWarning: Confidence intervals are not yet implementedfor lowess smoothings.
+  &#34;for lowess smoothings.&#34;, PlotnineWarning)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-9670587211ad&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-green-fg">from</span> plotnine <span class="ansi-green-fg">import</span> <span class="ansi-blue-fg">*</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span>
-<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg"> </span>ggplot<span class="ansi-blue-fg">(</span>voters<span class="ansi-blue-fg">,</span> aes<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;age&#39;</span><span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;voted&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">+</span> geom_smooth<span class="ansi-blue-fg">(</span>method<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;lowess&#39;</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">NameError</span>: name &#39;voters&#39; is not defined
-</pre></div></div>
+<img alt="_images/interpreting_indicator_vars_32_1.png" src="_images/interpreting_indicator_vars_32_1.png" />
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;ggplot: (-9223363270683622540)&gt;
+</pre></div></div>
 </div>
 </div>
 <div class="section" id="Fixed-Effects">
@@ -1353,10 +1412,11 @@ c0            -0.0006      0.000     -1.687      0.092      -0.001    9.73e-05
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Indicator Variables</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#What-are-indicator-variables?">What are indicator variables?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#The-TWO-things-that-you-must-understand-when-using-indicator-variables">The TWO things that you must understand when using indicator variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#The-ONE-thing-that-you-must-understand-when-using-indicator-variables:">The ONE thing that you must understand when using indicator variables:</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Indicator-Variables-with-Two-Category-Variable">Indicator Variables with Two Category Variable</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Indicator-Variables-for-variables-with-more-than-2-categories">Indicator Variables for variables with more than 2 categories</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Interactions-with-Constant-Variables">Interactions with Constant Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Interactions-Between-Multiple-Indicator-Variables">Interactions Between Multiple Indicator Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Fixed-Effects">Fixed Effects</a></li>
 </ul>
 </li>

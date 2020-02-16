@@ -237,9 +237,14 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Fixed-Effects:-Indicator-Variables-for-Groups">
 <h1>Fixed Effects: Indicator Variables for Groups<a class="headerlink" href="#Fixed-Effects:-Indicator-Variables-for-Groups" title="Permalink to this headline">¶</a></h1>
 <p>One common use of indicator variables are as <em>fixed effects</em>. Fixed effects are used when our data as a “nested” structure (we think individual observations belong to groups), and we suspect different things may be happening in each group.</p>
-<p>For example, we might have a dataset of student test scores, and we may suspect that all students at a given school will tend to have higher or lower scores by virtue of being at that school. Or we might have data on earnings and gender, and we may think that incomes are likely to vary across industries or different cities.</p>
+<p>For example, suppose we have a dataset of student test scores, and students are all grouped into different schools; or perhaps we have data on earnings and gender across US cities. In these examples, individual observations can be thought of as being grouped into schools or cities.</p>
+<p>One option with this kind of data is to just ignore the groups. For example, if we want to know about differences in the academic performance of minority children across the school system, then we might not want to add controls for students’ schools because we think that part of way race impacts performance is though sorting of minority students into worse schools. If we added school fixed effects, we’d lose that variation.</p>
+<p>But suppose we were interested in understanding whether school administrators treat minority children differently, and whether this affects academic performance. Principles, for example, may be more likely to suspect Black children than White children. If that were our interest, then what we really want to know about is how race impacts academic performance <em>among students in the same school</em>. And that’s where fixed effects are useful – they let us control for group-level effects (like the fact
+all children in one school might tend to get lower grades) so we can focus on explaining <em>intra-group</em> variation (differences among children <em>at the same school</em>).</p>
 <p>In this regard, fixed effects are analogous in purpose to hierarchical models, though they are slightly different in implementation (differences between fixed effects and hierarchical models are <a class="reference internal" href="fixed_effects_v_hierarchical.html"><span class="doc">discussed here</span></a>).</p>
-<p>In their simplest form, fixed effects can be included in a model just by adding indicator variables for each group. To illustrate, we’ll use data from the US Current Population Survey (CPS) on US wages in 2019:</p>
+<div class="section" id="Implementing-Fixed-Effects">
+<h2>Implementing Fixed Effects<a class="headerlink" href="#Implementing-Fixed-Effects" title="Permalink to this headline">¶</a></h2>
+<p>To illustrate, let’s try and estimate how gender impacts earnings in the US using data from the US Current Population Survey (CPS) on US wages in 2019. We’ll begin with a simple model of earnings:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -264,7 +269,6 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>To illustrate the use of fixed effects, we begin with a simple model of earnings:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -295,7 +299,7 @@ div.rendered_html tbody tr:hover {
   <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>10:03:57</td>     <th>  Log-Likelihood:    </th> <td>-7.5063e+05</td>
+  <th>Time:</th>                 <td>11:32:30</td>     <th>  Log-Likelihood:    </th> <td>-7.5063e+05</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td> 65755</td>      <th>  AIC:               </th>  <td>1.501e+06</td>
@@ -343,31 +347,16 @@ div.rendered_html tbody tr:hover {
 </table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
 <p>In this model, we’re getting estimates of how education and gender explain variation across all Americans.</p>
-<p>But in this dataset, we also have a variable that tells us the state and county in which each respondent resides. Suppose we think that compensation may vary across regions of the country, and may also be correlated with things like whether a person has a college education. New York, for example, has a strong economy, and more people in NY have college degrees than in the average US city. Grand Forks, North Dakota, by contrast, probably has lower pay and lower education levels. Thus if we don’t
-take into account geography, our estimate of the value of education will likely be overstated since we’re capturing not only how education correlates with income, but also the fact that people with college degrees tend to live in towns that pay better.</p>
-<p>To correct for this, we can add an indicator for every county in the US to our model:</p>
+<p>But in this dataset, we also have a variable that tells us the industry in which each respondent is employed. If we want to understand the relationship between gender and income through <em>both</em> workplace bias and sectoral sorting, we can use the model above. But suppose we want to estimate wage discrimination in the workplace after controlling for the industry into which someone chooses to work. In other words, we want to know about the impact of gender on wages <em>within industries</em>.</p>
+<p>To do so, we can add an indicator for each respondent’s industry (in the <code class="docutils literal notranslate"><span class="pre">ind02</span></code> variable):</p>
+<p>Then we can run the following regression:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># The county variable is an id for counties *within*</span>
-<span class="c1"># each state, so we have to concatenate county ID numbers</span>
-<span class="c1"># with state names to get unique values for every actual</span>
-<span class="c1"># county in the US.</span>
-
-<span class="n">cps</span><span class="p">[</span><span class="s1">&#39;county_code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cps</span><span class="o">.</span><span class="n">stfips</span> <span class="o">+</span> <span class="s1">&#39;_county_&#39;</span> <span class="o">+</span> <span class="n">cps</span><span class="o">.</span><span class="n">county</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<p>Then we can run the following regression:</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Adding semi-colon to suppress output because too long...</span>
-<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;annual_earnings ~ female + age + has_college_educ + C(county_code)&#39;</span><span class="p">,</span> <span class="n">cps</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">();</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;annual_earnings ~ female + age + has_college_educ + C(ind02)&#39;</span><span class="p">,</span> <span class="n">cps</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -379,11 +368,12 @@ take into account geography, our estimate of the value of education will likely 
 </pre></div>
 </div>
 <p><img alt="cps_fe_unclustered_p2" src="_images/cps_fe_unclustered_p2.png" /></p>
-<p>Voila! What you’ve just estimated is no longer the relationship between education and income across all Americans, but rather the relationship between education and income <em>within in each US county</em>.</p>
-<p>To be clear, fixed effects aren’t <em>mathematically</em> different from adding a normal control variable. One could say that adding <code class="docutils literal notranslate"><span class="pre">female</span></code> means that we’re now estimating the relationship between education and income among men and among women. <em>Mechnically</em>, fixed effects are just additional indicator variables. But because we often use them for groups, thinking about the fact that, when added, one is effectively estimating variation <em>within</em> the groups specified by the fixed effects is a powerful
-idea.</p>
+<p>Voila! What you’ve just estimated is no longer the relationship between gender and income across all Americans, but rather the relationship between gender and income <em>within each industry</em>.</p>
+<p>To be clear, fixed effects aren’t <em>mathematically</em> different from adding a normal control variable. One could say that adding <code class="docutils literal notranslate"><span class="pre">has_college_educ</span></code> means that we’re now estimating the relationship between gender and income among college educated and among non-college educated. <em>Mechnically</em>, fixed effects are just additional indicator variables. But because we often use them for groups, thinking about the fact that, when added, one is effectively estimating variation <em>within</em> the groups specified
+by the fixed effects is a powerful idea.</p>
 <p>Perhaps no place is this more clear than in full panel data, where you have data on the same entities over time. In a panel regression, the addition of entity fixed effects allow you to difference out any <em>constant</em> differences between entities, and focus only on changes within each entity over time. This even works for people! In a panel with individuals observed over time, adding individual fixed effects means you’re effectively controlling for anything constant about each individual (things
 that don’t change over time), and now you’re just studying <em>changes over time</em> for each individual.</p>
+</div>
 <div class="section" id="Clustering">
 <h2>Clustering<a class="headerlink" href="#Clustering" title="Permalink to this headline">¶</a></h2>
 <p>When working with fixed effects, however, it’s also often a good idea to cluster your standard errors by your fixed effect variable. Clustering is a method for taking into account some of the variation in your data isn’t coming from the individual level (where you have lots of observations), but rather from the group level. Since you have fewer groups than observations, clustering corrects your standard errors to reflect the smaller effective sample size being used to estimate those fixed
@@ -395,28 +385,28 @@ effects (clustering <em>only</em> affects standard errors – it has no impact o
 </div>
 <p><strong>because the number of observations in the model doesn’t match the number of observations in the group assignment vector you pass!</strong></p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;annual_earnings ~ female + age + has_college_educ + C(county_code)&#39;</span><span class="p">,</span> <span class="n">cps</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;annual_earnings ~ female + age + has_college_educ + C(ind02)&#39;</span><span class="p">,</span> <span class="n">cps</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
 <span class="c1"># Drop any entries with missing data from the model</span>
 <span class="n">fe_groups</span> <span class="o">=</span> <span class="n">cps</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;annual_earnings&#39;</span><span class="p">,</span> <span class="s1">&#39;female&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;county_code&#39;</span><span class="p">,</span> <span class="s1">&#39;has_college_educ&#39;</span><span class="p">]:</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;annual_earnings&#39;</span><span class="p">,</span> <span class="s1">&#39;female&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;ind02&#39;</span><span class="p">,</span> <span class="s1">&#39;has_college_educ&#39;</span><span class="p">]:</span>
     <span class="n">fe_groups</span> <span class="o">=</span> <span class="n">fe_groups</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">notnull</span><span class="p">(</span><span class="n">fe_groups</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Adjust SEs</span>
 <span class="c1"># Again, suppressing actual output for space with semicolon</span>
 <span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span>
-                            <span class="n">groups</span><span class="o">=</span><span class="n">fe_groups</span><span class="o">.</span><span class="n">county_code</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">();</span>
+                            <span class="n">groups</span><span class="o">=</span><span class="n">fe_groups</span><span class="o">.</span><span class="n">ind02</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -425,7 +415,7 @@ effects (clustering <em>only</em> affects standard errors – it has no impact o
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/Users/Nick/miniconda3/lib/python3.7/site-packages/statsmodels/base/model.py:1752: ValueWarning: covariance of constraints does not have full rank. The number of constraints is 331, but rank is 3
+/Users/Nick/miniconda3/lib/python3.7/site-packages/statsmodels/base/model.py:1752: ValueWarning: covariance of constraints does not have full rank. The number of constraints is 253, but rank is 3
   &#39;rank is %d&#39; % (J, J_), ValueWarning)
 </pre></div></div>
 </div>
@@ -436,10 +426,10 @@ effects (clustering <em>only</em> affects standard errors – it has no impact o
 </pre></div>
 </div>
 <p><img alt="cps_fe_clustered_p2" src="_images/cps_fe_clustered_p2.png" /></p>
-<p>As you can see, while our point estimates haven’t changed at all (the coefficient on <code class="docutils literal notranslate"><span class="pre">female</span></code>, for example, is still -7,923), we have increased the size of our standard errors. The SE on <code class="docutils literal notranslate"><span class="pre">female</span></code>, for example, has gone from 171 without clustering to 273 with clustering.</p>
+<p>As you can see, while our point estimates haven’t changed at all (the coefficient on <code class="docutils literal notranslate"><span class="pre">female</span></code>, for example, is still -6,892), we have increased the size of our standard errors. The SE on <code class="docutils literal notranslate"><span class="pre">female</span></code>, for example, has gone from 190 without clustering to 420 with clustering.</p>
 </div>
-<div class="section" id="PanelOLS">
-<h2>PanelOLS<a class="headerlink" href="#PanelOLS" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Computationally-Efficient-Fixed-Effects">
+<h2>Computationally Efficient Fixed Effects<a class="headerlink" href="#Computationally-Efficient-Fixed-Effects" title="Permalink to this headline">¶</a></h2>
 <p>OK, so everything we’ve describe up till here is a reasonable approach to fixed effects, but it has two limitations: our regression output looks <em>terrible</em>, and computing all those intercepts was slow.</p>
 <p>This brings us to some of the specialized methods for calculating fixed effects. It turns out that if you aren’t interested in the coefficient on each fixed effect, there are much more computationally efficient methods of calculating fixed effects. But to use them, we’ll have to use a different library: <a class="reference external" href="https://bashtage.github.io/linearmodels/doc/index.html">linearmodels</a> (installable using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">linearmodels</span></code>).</p>
 <p>(R users:</p>
@@ -448,7 +438,7 @@ effects (clustering <em>only</em> affects standard errors – it has no impact o
 <p>The only catch is: you have to use <code class="docutils literal notranslate"><span class="pre">multiindexes</span></code> in <code class="docutils literal notranslate"><span class="pre">pandas</span></code>. I <em>know</em>, I hate them too. But the multi-index is required by the library for it to understand what variable constitutes the “group” for which you want to add fixed effects. Basically <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> calls the first level of the multi-index the <code class="docutils literal notranslate"><span class="pre">entity</span></code> and the second level <code class="docutils literal notranslate"><span class="pre">time</span></code>. In this case, though, we’ll just make the first level our counties, and the second level individual identifiers, then use <code class="docutils literal notranslate"><span class="pre">entity</span></code> fixed effects
 (and clustering).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -457,7 +447,7 @@ effects (clustering <em>only</em> affects standard errors – it has no impact o
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -478,193 +468,6 @@ effects (clustering <em>only</em> affects standard errors – it has no impact o
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
-      <th></th>
-      <th>county</th>
-      <th>smsastat</th>
-      <th>age</th>
-      <th>sex</th>
-      <th>grade92</th>
-      <th>race</th>
-      <th>ethnic</th>
-      <th>marital</th>
-      <th>uhourse</th>
-      <th>earnhre</th>
-      <th>...</th>
-      <th>lfsr94</th>
-      <th>class94</th>
-      <th>unioncov</th>
-      <th>ind02</th>
-      <th>stfips</th>
-      <th>earnhre_dollars</th>
-      <th>annual_earnings</th>
-      <th>female</th>
-      <th>has_college_educ</th>
-      <th>county_code</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2</th>
-      <td>0</td>
-      <td>1.0</td>
-      <td>52</td>
-      <td>2</td>
-      <td>39</td>
-      <td>2</td>
-      <td>NaN</td>
-      <td>5</td>
-      <td>40.0</td>
-      <td>2084.0</td>
-      <td>...</td>
-      <td>Employed-At Work</td>
-      <td>Government - State</td>
-      <td></td>
-      <td>Residential care facilities, without nursing (...</td>
-      <td>AL</td>
-      <td>20.84</td>
-      <td>43347.2</td>
-      <td>1</td>
-      <td>0</td>
-      <td>AL_county_0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0</td>
-      <td>1.0</td>
-      <td>19</td>
-      <td>2</td>
-      <td>39</td>
-      <td>2</td>
-      <td>NaN</td>
-      <td>7</td>
-      <td>40.0</td>
-      <td>1000.0</td>
-      <td>...</td>
-      <td>Employed-At Work</td>
-      <td>Private, For Profit</td>
-      <td>No</td>
-      <td>Business support services (5614)</td>
-      <td>AL</td>
-      <td>10.00</td>
-      <td>20800.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>AL_county_0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0</td>
-      <td>1.0</td>
-      <td>56</td>
-      <td>2</td>
-      <td>43</td>
-      <td>2</td>
-      <td>NaN</td>
-      <td>5</td>
-      <td>40.0</td>
-      <td>2500.0</td>
-      <td>...</td>
-      <td>Employed-At Work</td>
-      <td>Government - Federal</td>
-      <td></td>
-      <td>Hospitals (622)</td>
-      <td>AL</td>
-      <td>25.00</td>
-      <td>52000.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>AL_county_0</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>97</td>
-      <td>1.0</td>
-      <td>48</td>
-      <td>1</td>
-      <td>39</td>
-      <td>1</td>
-      <td>NaN</td>
-      <td>7</td>
-      <td>40.0</td>
-      <td>1700.0</td>
-      <td>...</td>
-      <td>Employed-At Work</td>
-      <td>Private, For Profit</td>
-      <td>No</td>
-      <td>Truck transportation (484)</td>
-      <td>AL</td>
-      <td>17.00</td>
-      <td>35360.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>AL_county_97</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>97</td>
-      <td>1.0</td>
-      <td>59</td>
-      <td>1</td>
-      <td>39</td>
-      <td>2</td>
-      <td>NaN</td>
-      <td>7</td>
-      <td>40.0</td>
-      <td>2000.0</td>
-      <td>...</td>
-      <td>Employed-At Work</td>
-      <td>Private, For Profit</td>
-      <td>No</td>
-      <td>****Department stores and discount stores (s45...</td>
-      <td>AL</td>
-      <td>20.00</td>
-      <td>41600.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>AL_county_97</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 30 columns</p>
-</div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Move county groups into highest level of multi-index,</span>
-<span class="c1"># with old index in second level.</span>
-<span class="c1"># PanelOLS will then see the first level as the `entity`</span>
-<span class="c1"># identifier.</span>
-<span class="n">cps_w_multiindex</span> <span class="o">=</span> <span class="n">cps</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;county_code&#39;</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">index</span><span class="p">])</span>
-<span class="n">cps_w_multiindex</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
       <th></th>
       <th>county</th>
       <th>smsastat</th>
@@ -688,35 +491,9 @@ effects (clustering <em>only</em> affects standard errors – it has no impact o
       <th>female</th>
       <th>has_college_educ</th>
     </tr>
-    <tr>
-      <th>county_code</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
   </thead>
   <tbody>
     <tr>
-      <th rowspan="3" valign="top">AL_county_0</th>
       <th>2</th>
       <td>0</td>
       <td>1.0</td>
@@ -789,7 +566,6 @@ effects (clustering <em>only</em> affects standard errors – it has no impact o
       <td>0</td>
     </tr>
     <tr>
-      <th rowspan="2" valign="top">AL_county_97</th>
       <th>6</th>
       <td>97</td>
       <td>1.0</td>
@@ -843,7 +619,224 @@ effects (clustering <em>only</em> affects standard errors – it has no impact o
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Move county groups into highest level of multi-index,</span>
+<span class="c1"># with old index in second level.</span>
+<span class="c1"># PanelOLS will then see the first level as the `entity`</span>
+<span class="c1"># identifier.</span>
+<span class="n">cps_w_multiindex</span> <span class="o">=</span> <span class="n">cps</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;ind02&#39;</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">index</span><span class="p">])</span>
+<span class="n">cps_w_multiindex</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>county</th>
+      <th>smsastat</th>
+      <th>age</th>
+      <th>sex</th>
+      <th>grade92</th>
+      <th>race</th>
+      <th>ethnic</th>
+      <th>marital</th>
+      <th>uhourse</th>
+      <th>earnhre</th>
+      <th>...</th>
+      <th>ms123</th>
+      <th>occ2012</th>
+      <th>lfsr94</th>
+      <th>class94</th>
+      <th>unioncov</th>
+      <th>stfips</th>
+      <th>earnhre_dollars</th>
+      <th>annual_earnings</th>
+      <th>female</th>
+      <th>has_college_educ</th>
+    </tr>
+    <tr>
+      <th>ind02</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Residential care facilities, without nursing (6232, 6233, 6239)</th>
+      <th>2</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>52</td>
+      <td>2</td>
+      <td>39</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>5</td>
+      <td>40.0</td>
+      <td>2084.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>5700.0</td>
+      <td>Employed-At Work</td>
+      <td>Government - State</td>
+      <td></td>
+      <td>AL</td>
+      <td>20.84</td>
+      <td>43347.2</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Business support services (5614)</th>
+      <th>3</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>19</td>
+      <td>2</td>
+      <td>39</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>7</td>
+      <td>40.0</td>
+      <td>1000.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>5240.0</td>
+      <td>Employed-At Work</td>
+      <td>Private, For Profit</td>
+      <td>No</td>
+      <td>AL</td>
+      <td>10.00</td>
+      <td>20800.0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Hospitals (622)</th>
+      <th>4</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>56</td>
+      <td>2</td>
+      <td>43</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>5</td>
+      <td>40.0</td>
+      <td>2500.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>3255.0</td>
+      <td>Employed-At Work</td>
+      <td>Government - Federal</td>
+      <td></td>
+      <td>AL</td>
+      <td>25.00</td>
+      <td>52000.0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Truck transportation (484)</th>
+      <th>6</th>
+      <td>97</td>
+      <td>1.0</td>
+      <td>48</td>
+      <td>1</td>
+      <td>39</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>7</td>
+      <td>40.0</td>
+      <td>1700.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>9130.0</td>
+      <td>Employed-At Work</td>
+      <td>Private, For Profit</td>
+      <td>No</td>
+      <td>AL</td>
+      <td>17.00</td>
+      <td>35360.0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>****Department stores and discount stores (s45211)</th>
+      <th>17</th>
+      <td>97</td>
+      <td>1.0</td>
+      <td>59</td>
+      <td>1</td>
+      <td>39</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>7</td>
+      <td>40.0</td>
+      <td>2000.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>9620.0</td>
+      <td>Employed-At Work</td>
+      <td>Private, For Profit</td>
+      <td>No</td>
+      <td>AL</td>
+      <td>20.00</td>
+      <td>41600.0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 28 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -865,50 +858,50 @@ Inputs contain missing values. Dropping rows with missing observations.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <table class="simpletable">
 <caption>PanelOLS Estimation Summary</caption>
 <tr>
-  <th>Dep. Variable:</th>     <td>annual_earnings</td> <th>  R-squared:         </th>     <td>0.1000</td>
+  <th>Dep. Variable:</th>     <td>annual_earnings</td> <th>  R-squared:         </th>     <td>0.0783</td>
 </tr>
 <tr>
-  <th>Estimator:</th>            <td>PanelOLS</td>     <th>  R-squared (Between):</th>    <td>0.3898</td>
+  <th>Estimator:</th>            <td>PanelOLS</td>     <th>  R-squared (Between):</th>    <td>0.3536</td>
 </tr>
 <tr>
-  <th>No. Observations:</th>       <td>65755</td>      <th>  R-squared (Within):</th>     <td>0.1000</td>
+  <th>No. Observations:</th>       <td>65755</td>      <th>  R-squared (Within):</th>     <td>0.0783</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sun, Feb 16 2020</td> <th>  R-squared (Overall):</th>    <td>0.3265</td>
+  <th>Date:</th>             <td>Sun, Feb 16 2020</td> <th>  R-squared (Overall):</th>    <td>0.2878</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>10:04:03</td>     <th>  Log-likelihood     </th>   <td>-7.499e+05</td>
+  <th>Time:</th>                 <td>11:32:37</td>     <th>  Log-likelihood     </th>   <td>-7.465e+05</td>
 </tr>
 <tr>
   <th>Cov. Estimator:</th>       <td>Clustered</td>    <th>                     </th>        <td></td>
 </tr>
 <tr>
-  <th></th>                          <td></td>         <th>  F-statistic:       </th>     <td>2422.5</td>
+  <th></th>                          <td></td>         <th>  F-statistic:       </th>     <td>1853.9</td>
 </tr>
 <tr>
-  <th>Entities:</th>                <td>329</td>       <th>  P-value            </th>     <td>0.0000</td>
+  <th>Entities:</th>                <td>251</td>       <th>  P-value            </th>     <td>0.0000</td>
 </tr>
 <tr>
-  <th>Avg Obs:</th>               <td>199.86</td>      <th>  Distribution:      </th>   <td>F(3,65423)</td>
+  <th>Avg Obs:</th>               <td>261.97</td>      <th>  Distribution:      </th>   <td>F(3,65501)</td>
 </tr>
 <tr>
   <th>Min Obs:</th>               <td>2.0000</td>      <th>                     </th>        <td></td>
 </tr>
 <tr>
-  <th>Max Obs:</th>               <td>3219.0</td>      <th>  F-statistic (robust):</th>   <td>937.96</td>
+  <th>Max Obs:</th>               <td>5603.0</td>      <th>  F-statistic (robust):</th>   <td>242.78</td>
 </tr>
 <tr>
   <th></th>                          <td></td>         <th>  P-value            </th>     <td>0.0000</td>
 </tr>
 <tr>
-  <th>Time periods:</th>           <td>65755</td>      <th>  Distribution:      </th>   <td>F(3,65423)</td>
+  <th>Time periods:</th>           <td>65755</td>      <th>  Distribution:      </th>   <td>F(3,65501)</td>
 </tr>
 <tr>
   <th>Avg Obs:</th>               <td>1.0000</td>      <th>                     </th>        <td></td>
@@ -929,15 +922,15 @@ Inputs contain missing values. Dropping rows with missing observations.
           <td></td>         <th>Parameter</th> <th>Std. Err.</th> <th>T-stat</th>  <th>P-value</th> <th>Lower CI</th>  <th>Upper CI</th>
 </tr>
 <tr>
-  <th>female</th>            <td>-7923.2</td>   <td>272.07</td>   <td>-29.122</td> <td>0.0000</td>   <td>-8456.4</td>   <td>-7389.9</td>
+  <th>female</th>            <td>-6891.8</td>   <td>418.12</td>   <td>-16.483</td> <td>0.0000</td>   <td>-7711.3</td>   <td>-6072.3</td>
 </tr>
 <tr>
-  <th>age</th>               <td>287.28</td>    <td>7.6942</td>   <td>37.336</td>  <td>0.0000</td>   <td>272.20</td>    <td>302.36</td>
+  <th>age</th>               <td>247.57</td>    <td>14.917</td>   <td>16.597</td>  <td>0.0000</td>   <td>218.34</td>    <td>276.81</td>
 </tr>
 <tr>
-  <th>has_college_educ</th> <td>2.313e+04</td>  <td>768.88</td>   <td>30.086</td>  <td>0.0000</td>  <td>2.163e+04</td> <td>2.464e+04</td>
+  <th>has_college_educ</th> <td>1.997e+04</td>  <td>1555.4</td>   <td>12.839</td>  <td>0.0000</td>  <td>1.692e+04</td> <td>2.302e+04</td>
 </tr>
-</table><br/><br/>F-test for Poolability: 4.4314<br/>P-value: 0.0000<br/>Distribution: F(328,65423)<br/><br/>Included effects: Entity<br/>id: 0x7facca3dad68</div>
+</table><br/><br/>F-test for Poolability: 34.810<br/>P-value: 0.0000<br/>Distribution: F(250,65501)<br/><br/>Included effects: Entity<br/>id: 0x7f88e91652e8</div>
 </div>
 <p>As you can see, the coefficients of the <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> model are exactly the same as those we calculated above, and the standard errors are nearly identical (there are a few ways to calculate clustered standard errors, so they aren’t numerically equivalent). But the way <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> added fixed effects was much more computationally efficient efficient, and in these situations, we don’t usually want to see the coefficients, so they’re suppressed.</p>
 </div>
@@ -974,8 +967,9 @@ Inputs contain missing values. Dropping rows with missing observations.
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="interpreting_indicator_vars.html">Indicator Variables</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Fixed Effects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Implementing-Fixed-Effects">Implementing Fixed Effects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Clustering">Clustering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#PanelOLS">PanelOLS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Computationally-Efficient-Fixed-Effects">Computationally Efficient Fixed Effects</a></li>
 </ul>
 </li>
 </ul>
