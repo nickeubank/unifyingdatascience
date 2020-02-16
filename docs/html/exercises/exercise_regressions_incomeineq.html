@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Estimating Gender Discrimination in the Workplace &#8212; Unifying Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="Estimating-Gender-Discrimination-in-the-Workplace">
+<h1>Estimating Gender Discrimination in the Workplace<a class="headerlink" href="#Estimating-Gender-Discrimination-in-the-Workplace" title="Permalink to this headline">¶</a></h1>
+<p>In this exercise we’ll use data from the 2018 US Current Population Survey (CPS) to try and estimate the effect of being a woman on workplace compensation. Note that our focus will be <em>only</em> on differential compensation in the work place, and as a result it is important to bear in mind that our estimates are not estimates of <em>all</em> forms of gender discrimination. For example, these analyses will not account for things like gender discrimination in terms of <em>getting</em> jobs.</p>
+<div class="section" id="Exercise-1:">
+<h2>Exercise 1:<a class="headerlink" href="#Exercise-1:" title="Permalink to this headline">¶</a></h2>
+<p>Begin by downloading and importing 2018 CPS data from <a class="reference external" href="http://www.github.com/nickeubank/MIDS_Data/Current_Population_Survey">http://www.github.com/nickeubank/MIDS_Data/Current_Population_Survey</a>. The file is called <code class="docutils literal notranslate"><span class="pre">morg18.dta</span></code> and is a Stata dataset. Additional data on the dataset can be found by following the links in the README.txt file in the folder, but for the moment it is sufficient to know this is a national survey run in the United States.</p>
+<p>The survey does include some survey weights we won’t be using (i.e. not everyone in the sample was included with the same probability), so the numbers we estimate will not be perfect estimates of the gender wage gap in the United States, but they are pretty close.</p>
+</div>
+<div class="section" id="Exercise-2:">
+<h2>Exercise 2:<a class="headerlink" href="#Exercise-2:" title="Permalink to this headline">¶</a></h2>
+<p>Because our interest is only in-the-workplace wage discrimination among full-time workers, we need to start by subsetting our data for people currently employed at the time of this survey using the <code class="docutils literal notranslate"><span class="pre">lfsr94</span></code> variable, who are employed full time (meaning that their usual hours per week – <code class="docutils literal notranslate"><span class="pre">uhourse</span></code> – is 35 or above).</p>
+<p>As noted above, this analysis will miss many forms of gender discrimination. For example, in dropping anyone who isn’t working, we immediately lose any women who couldn’t get jobs, or who chose to lose the workforce because the wages they were offered (which were likely lower than those offered men) were lower than they were willing / could accept. And in focusing on full time employees, we miss the fact women may not be offered full time jobs at the same rate as men.</p>
+</div>
+<div class="section" id="Exercise-3">
+<h2>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h2>
+<p>Now let’s estimate the basic wage gap for the United States!</p>
+<p>Earnings per hour worked can be found in the <code class="docutils literal notranslate"><span class="pre">earnhre</span></code> variable. Two things are worth noting about this variable:</p>
+<ul class="simple">
+<li><p>It is coded in cents (1/100 of a dollar), not dollars, so make sure to divide by 100 to get dollars.</p></li>
+<li><p>Earnings are “top-coded” at 9999 (meaning any value above 99.99 dollars an hour is coded as 99.99 dollars an hour). Thankfully these are rare, so we’ll just leave them in as-is for now. However, note that wage inequality is likely to be especially high for extremely high paid individuals (e.g. most CEOs are men), so this will bias use towards slightly conservative (low) estimates of the gender wage gap.</p></li>
+</ul>
+<p>Using the variable <code class="docutils literal notranslate"><span class="pre">sex</span></code> (1=Male, 2=Female), estimate the gender wage gap in terms of wages per hour worked!</p>
+</div>
+<div class="section" id="Exercise-4">
+<h2>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h2>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">uhourse</span></code> is the number of hours that the respondent usually works per week. What is the wage gap not per hour, but per year?</p>
+</div>
+<div class="section" id="Exercise-5">
+<h2>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h2>
+<p>We just compared all full-time working men to all full-time working women. For this to be an accurate <em>causal</em> estimate of the effect of being a woman in the work place, what must be true of these two groups? What is one reason that this may <em>not</em> be true?</p>
+</div>
+<div class="section" id="Exercise-6">
+<h2>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h2>
+<p>One answer to the second part of Exercise 5 is that working women are likely to be younger, since a larger portion of younger women are entering the workforce as compared to older generations.</p>
+<p>To <em>control</em> for this difference, let’s now regress annual earnings on gender and age. What is the implied average annual wage difference between women and men? Is it different from your raw estimate?</p>
+</div>
+<div class="section" id="Exercise-7">
+<h2>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h2>
+<p>In running this regression, what is the implicit comparison you are making? In other words, when we run this regression, we’re basically pretending we are comparing two groups and assuming they are counter-factuals for one another. What are these two groups?</p>
+</div>
+<div class="section" id="Exercise-8">
+<h2>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h2>
+<p>Now let’s add to our regression an indicator variable for whether the respondent has at least graduated high school, and an indicator for whether the respondent at least has a BA.</p>
+<p>In answering this question, use the following table of codes for the variable <code class="docutils literal notranslate"><span class="pre">grade92</span></code>.</p>
+<p>Education is coded as follows:</p>
+<p><img alt="CPS Educ Codes" src="../_images/cps_educ_codes.png" /></p>
+</div>
+<div class="section" id="Exercise-9">
+<h2>Exercise 9<a class="headerlink" href="#Exercise-9" title="Permalink to this headline">¶</a></h2>
+<p>In running this regression, what is the implicit comparison you are making? In other words, when we run this regression, we are once more basically pretending we are comparing two groups and assuming they are counter-factuals for one another. What are these two groups?</p>
+</div>
+<div class="section" id="Exercise-10">
+<h2>Exercise 10<a class="headerlink" href="#Exercise-10" title="Permalink to this headline">¶</a></h2>
+<p>Given how the coefficient on <code class="docutils literal notranslate"><span class="pre">female</span></code> has changed between Exercise 6 and Exercise 8, what can you infer about the educational attainment of the women in your survey data (as compared to the educational attainment of men)?</p>
+</div>
+<div class="section" id="Exercise-11">
+<h2>Exercise 11<a class="headerlink" href="#Exercise-11" title="Permalink to this headline">¶</a></h2>
+<p>What does that tell you about the <em>potential outcomes</em> of men and women before you added education as a control?</p>
+</div>
+<div class="section" id="Exercise-12">
+<h2>Exercise 12<a class="headerlink" href="#Exercise-12" title="Permalink to this headline">¶</a></h2>
+<p>Finally, let’s include <em>fixed effects</em> for the type of job held by each respondent.</p>
+<p>Fixed effects are a method used when we have a nested data structure in which respondents belong to groups, and those groups may all be subject to different pressures. In this context, for example, we can add fixed effects for the industry of each respondent – since wages often vary across industries, controlling for industry is likely to improve our estimates.</p>
+<p>(Note that fixed effects are very similar in principle to hierarchical models. There are some differences <a class="reference internal" href="../fixed_effects_v_hierarchical.html"><span class="doc">you will read about</span></a> for our next class, but they are designed to serve the same role, just with slightly different mechanics).</p>
+<p>When we add fixed effects for groups like this, our interpretation of the other coefficients changes. Whereas in previous exercises we were trying to explain variation in men and women’s wages <em>across all respondents</em>, we are now effectively comparing men and women’s wages <em>within each employment sector</em>. Our coefficient on <code class="docutils literal notranslate"><span class="pre">female</span></code>, in other words, now tells us how much less (on average) we would expect a woman to be paid than a man <em>within the same industry</em>, not across all respondents.</p>
+<p>(Note that running this regression will result in lots of coefficients popping up you don’t care about. We’ll introduce some more efficient methods for adding fixed effects that aren’t so messy in a later class – for now, you can ignore those coefficients!)</p>
+</div>
+<div class="section" id="Exercise-13">
+<h2>Exercise 13<a class="headerlink" href="#Exercise-13" title="Permalink to this headline">¶</a></h2>
+<p>Now that we’ve added industry fixed effects, what groups are we implicitly treated as counter-factuals for one another now?</p>
+</div>
+<div class="section" id="Exercise-14">
+<h2>Exercise 14<a class="headerlink" href="#Exercise-14" title="Permalink to this headline">¶</a></h2>
+<p>What happened to your estimate of the gender wage gap when you added industry fixed effects? What does that tell you about the industries chosen by women as opposed to men?</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Unifying DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">QUESTIONS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../taxonomy_of_questions.html">Taxonomy of Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../limitations_of_ATE.html">Limitations of Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">METHODS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../interpreting_indicator_vars.html">Indicator Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fixed_effects.html">Fixed Effects</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/exercise_regressions_incomeineq.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-151397036-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>

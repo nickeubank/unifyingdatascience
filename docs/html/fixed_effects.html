@@ -292,10 +292,10 @@ div.rendered_html tbody tr:hover {
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   2490.</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sat, 15 Feb 2020</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>
+  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>17:00:49</td>     <th>  Log-Likelihood:    </th> <td>-7.5063e+05</td>
+  <th>Time:</th>                 <td>10:03:57</td>     <th>  Log-Likelihood:    </th> <td>-7.5063e+05</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td> 65755</td>      <th>  AIC:               </th>  <td>1.501e+06</td>
@@ -360,1081 +360,41 @@ take into account geography, our estimate of the value of education will likely 
 </pre></div>
 </div>
 </div>
-<div class="nbinput docutils container">
+<p>Then we can run the following regression:</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;annual_earnings ~ female + age + has_college_educ + C(county_code)&#39;</span><span class="p">,</span> <span class="n">cps</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span></span><span class="c1"># Adding semi-colon to suppress output because too long...</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;annual_earnings ~ female + age + has_college_educ + C(county_code)&#39;</span><span class="p">,</span> <span class="n">cps</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<p>which will generate output that will look approximately like this (note your output will be VERY long – I’m omitting all the county coeffients for space. We’ll talk later about how to suppress those in your output):</p>
+<p><img alt="cps_fe_unclustered_p1" src="_images/cps_fe_unclustered_p1.png" /></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>
+<span class="o">.</span>
+<span class="o">.</span>
 </pre></div>
 </div>
-<div class="output_area rendered_html docutils container">
-<table class="simpletable">
-<caption>OLS Regression Results</caption>
-<tr>
-  <th>Dep. Variable:</th>     <td>annual_earnings</td> <th>  R-squared:         </th>  <td>   0.122</td>
-</tr>
-<tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th>  <td>   0.117</td>
-</tr>
-<tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   27.35</td>
-</tr>
-<tr>
-  <th>Date:</th>             <td>Sat, 15 Feb 2020</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>
-</tr>
-<tr>
-  <th>Time:</th>                 <td>17:00:52</td>     <th>  Log-Likelihood:    </th> <td>-7.4990e+05</td>
-</tr>
-<tr>
-  <th>No. Observations:</th>      <td> 65755</td>      <th>  AIC:               </th>  <td>1.500e+06</td>
-</tr>
-<tr>
-  <th>Df Residuals:</th>          <td> 65423</td>      <th>  BIC:               </th>  <td>1.503e+06</td>
-</tr>
-<tr>
-  <th>Df Model:</th>              <td>   331</td>      <th>                     </th>      <td> </td>
-</tr>
-<tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>      <td> </td>
-</tr>
-</table>
-<table class="simpletable">
-<tr>
-                 <td></td>                    <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
-</tr>
-<tr>
-  <th>Intercept</th>                       <td> 3.949e+04</td> <td>  783.626</td> <td>   50.389</td> <td> 0.000</td> <td>  3.8e+04</td> <td>  4.1e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AL_county_0]</th>   <td>-9652.4619</td> <td>  981.045</td> <td>   -9.839</td> <td> 0.000</td> <td>-1.16e+04</td> <td>-7729.614</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AL_county_3]</th>   <td>-8355.2221</td> <td> 2514.351</td> <td>   -3.323</td> <td> 0.001</td> <td>-1.33e+04</td> <td>-3427.093</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AL_county_81]</th>  <td>-1.089e+04</td> <td> 2798.807</td> <td>   -3.892</td> <td> 0.000</td> <td>-1.64e+04</td> <td>-5407.232</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AL_county_97]</th>  <td>-8272.5800</td> <td> 2143.347</td> <td>   -3.860</td> <td> 0.000</td> <td>-1.25e+04</td> <td>-4071.619</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AR_county_0]</th>   <td>-1.088e+04</td> <td>  957.353</td> <td>  -11.360</td> <td> 0.000</td> <td>-1.28e+04</td> <td>-8999.196</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AZ_county_0]</th>   <td>-1.046e+04</td> <td> 2652.215</td> <td>   -3.945</td> <td> 0.000</td> <td>-1.57e+04</td> <td>-5264.623</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AZ_county_13]</th>  <td>-7477.3995</td> <td> 1088.083</td> <td>   -6.872</td> <td> 0.000</td> <td>-9610.042</td> <td>-5344.757</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AZ_county_19]</th>  <td>-9807.0443</td> <td> 1811.956</td> <td>   -5.412</td> <td> 0.000</td> <td>-1.34e+04</td> <td>-6255.611</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AZ_county_21]</th>  <td>-8487.1774</td> <td> 3000.818</td> <td>   -2.828</td> <td> 0.005</td> <td>-1.44e+04</td> <td>-2605.573</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AZ_county_25]</th>  <td> 2372.8697</td> <td> 3978.441</td> <td>    0.596</td> <td> 0.551</td> <td>-5424.876</td> <td> 1.02e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AZ_county_27]</th>  <td>-8879.7940</td> <td> 2686.601</td> <td>   -3.305</td> <td> 0.001</td> <td>-1.41e+04</td> <td>-3614.055</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_0]</th>   <td>-3952.5717</td> <td>  954.582</td> <td>   -4.141</td> <td> 0.000</td> <td>-5823.552</td> <td>-2081.591</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_1]</th>   <td> 1036.9671</td> <td> 1838.900</td> <td>    0.564</td> <td> 0.573</td> <td>-2567.277</td> <td> 4641.211</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_107]</th> <td>-1.191e+04</td> <td> 2398.062</td> <td>   -4.967</td> <td> 0.000</td> <td>-1.66e+04</td> <td>-7211.288</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_111]</th> <td>-4102.8017</td> <td> 2258.342</td> <td>   -1.817</td> <td> 0.069</td> <td>-8529.152</td> <td>  323.549</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_113]</th> <td>-8407.7787</td> <td> 4253.392</td> <td>   -1.977</td> <td> 0.048</td> <td>-1.67e+04</td> <td>  -71.130</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_17]</th>  <td> 1.303e+04</td> <td> 4041.889</td> <td>    3.225</td> <td> 0.001</td> <td> 5111.493</td> <td>  2.1e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_19]</th>  <td>-9143.1371</td> <td> 1770.164</td> <td>   -5.165</td> <td> 0.000</td> <td>-1.26e+04</td> <td>-5673.615</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_29]</th>  <td>-1.093e+04</td> <td> 2046.674</td> <td>   -5.341</td> <td> 0.000</td> <td>-1.49e+04</td> <td>-6919.661</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_31]</th>  <td>-3347.2096</td> <td> 2587.986</td> <td>   -1.293</td> <td> 0.196</td> <td>-8419.663</td> <td> 1725.244</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_37]</th>  <td>-6544.6140</td> <td>  926.224</td> <td>   -7.066</td> <td> 0.000</td> <td>-8360.014</td> <td>-4729.214</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_53]</th>  <td>-6768.1589</td> <td> 3327.560</td> <td>   -2.034</td> <td> 0.042</td> <td>-1.33e+04</td> <td> -246.140</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_59]</th>  <td>-7264.8388</td> <td> 1261.099</td> <td>   -5.761</td> <td> 0.000</td> <td>-9736.594</td> <td>-4793.084</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_61]</th>  <td> 7772.7521</td> <td> 3805.102</td> <td>    2.043</td> <td> 0.041</td> <td>  314.751</td> <td> 1.52e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_67]</th>  <td>-5823.6499</td> <td> 1592.237</td> <td>   -3.658</td> <td> 0.000</td> <td>-8944.434</td> <td>-2702.866</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_7]</th>   <td>-2760.6904</td> <td> 3165.378</td> <td>   -0.872</td> <td> 0.383</td> <td>-8964.832</td> <td> 3443.451</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_73]</th>  <td>-6612.7252</td> <td> 1227.779</td> <td>   -5.386</td> <td> 0.000</td> <td>-9019.173</td> <td>-4206.278</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_75]</th>  <td>  989.6344</td> <td> 2951.840</td> <td>    0.335</td> <td> 0.737</td> <td>-4795.973</td> <td> 6775.242</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_77]</th>  <td>-7233.6488</td> <td> 2089.567</td> <td>   -3.462</td> <td> 0.001</td> <td>-1.13e+04</td> <td>-3138.096</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_79]</th>  <td>-6660.9816</td> <td> 4503.894</td> <td>   -1.479</td> <td> 0.139</td> <td>-1.55e+04</td> <td> 2166.653</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_81]</th>  <td> 5733.6514</td> <td> 2159.670</td> <td>    2.655</td> <td> 0.008</td> <td> 1500.698</td> <td> 9966.605</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_83]</th>  <td>-9111.2453</td> <td> 2603.618</td> <td>   -3.499</td> <td> 0.000</td> <td>-1.42e+04</td> <td>-4008.153</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_87]</th>  <td>-2113.6101</td> <td> 3519.712</td> <td>   -0.601</td> <td> 0.548</td> <td>-9012.246</td> <td> 4785.026</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_89]</th>  <td> 1518.2503</td> <td> 3805.066</td> <td>    0.399</td> <td> 0.690</td> <td>-5939.680</td> <td> 8976.181</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_95]</th>  <td> 1162.0077</td> <td> 2839.872</td> <td>    0.409</td> <td> 0.682</td> <td>-4404.143</td> <td> 6728.159</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_97]</th>  <td> 2269.6081</td> <td> 2861.067</td> <td>    0.793</td> <td> 0.428</td> <td>-3338.083</td> <td> 7877.300</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_99]</th>  <td>-3416.3231</td> <td> 2386.290</td> <td>   -1.432</td> <td> 0.152</td> <td>-8093.453</td> <td> 1260.807</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CO_county_0]</th>   <td>-5837.9838</td> <td> 1320.643</td> <td>   -4.421</td> <td> 0.000</td> <td>-8426.445</td> <td>-3249.522</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CO_county_123]</th> <td>  704.8191</td> <td> 3107.404</td> <td>    0.227</td> <td> 0.821</td> <td>-5385.694</td> <td> 6795.332</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CO_county_13]</th>  <td> 6281.0083</td> <td> 3165.414</td> <td>    1.984</td> <td> 0.047</td> <td>   76.797</td> <td> 1.25e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CO_county_31]</th>  <td>-5045.4100</td> <td> 2268.283</td> <td>   -2.224</td> <td> 0.026</td> <td>-9491.246</td> <td> -599.574</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CO_county_59]</th>  <td>-2186.4713</td> <td> 2473.603</td> <td>   -0.884</td> <td> 0.377</td> <td>-7034.735</td> <td> 2661.792</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CO_county_69]</th>  <td>  591.1731</td> <td> 3327.563</td> <td>    0.178</td> <td> 0.859</td> <td>-5930.852</td> <td> 7113.198</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CT_county_0]</th>   <td>-2782.3627</td> <td> 1571.802</td> <td>   -1.770</td> <td> 0.077</td> <td>-5863.095</td> <td>  298.369</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CT_county_1]</th>   <td>-5564.8749</td> <td> 1982.053</td> <td>   -2.808</td> <td> 0.005</td> <td>-9449.700</td> <td>-1680.050</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CT_county_15]</th>  <td>-4990.6971</td> <td> 4108.699</td> <td>   -1.215</td> <td> 0.224</td> <td> -1.3e+04</td> <td> 3062.354</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CT_county_5]</th>   <td>-1362.1686</td> <td> 3478.421</td> <td>   -0.392</td> <td> 0.695</td> <td>-8179.874</td> <td> 5455.537</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CT_county_9]</th>   <td>-3042.9559</td> <td> 1902.923</td> <td>   -1.599</td> <td> 0.110</td> <td>-6772.685</td> <td>  686.773</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.DC_county_1]</th>   <td>-3511.2394</td> <td> 1137.064</td> <td>   -3.088</td> <td> 0.002</td> <td>-5739.885</td> <td>-1282.593</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.DE_county_1]</th>   <td>-9278.8969</td> <td> 1799.010</td> <td>   -5.158</td> <td> 0.000</td> <td>-1.28e+04</td> <td>-5752.837</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.DE_county_3]</th>   <td>-6950.4703</td> <td> 1276.230</td> <td>   -5.446</td> <td> 0.000</td> <td>-9451.882</td> <td>-4449.059</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.DE_county_5]</th>   <td>-9749.3355</td> <td> 1766.281</td> <td>   -5.520</td> <td> 0.000</td> <td>-1.32e+04</td> <td>-6287.425</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_0]</th>   <td>-9733.2882</td> <td> 1125.509</td> <td>   -8.648</td> <td> 0.000</td> <td>-1.19e+04</td> <td>-7527.290</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_101]</th> <td>-1.309e+04</td> <td> 2363.148</td> <td>   -5.540</td> <td> 0.000</td> <td>-1.77e+04</td> <td>-8460.769</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_103]</th> <td>-8589.6329</td> <td> 2135.399</td> <td>   -4.022</td> <td> 0.000</td> <td>-1.28e+04</td> <td>-4404.250</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_105]</th> <td>-1.489e+04</td> <td> 2686.531</td> <td>   -5.541</td> <td> 0.000</td> <td>-2.02e+04</td> <td>-9620.729</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_109]</th> <td>-3831.0319</td> <td> 3917.847</td> <td>   -0.978</td> <td> 0.328</td> <td>-1.15e+04</td> <td> 3847.949</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_11]</th>  <td>-7915.4546</td> <td> 1645.769</td> <td>   -4.810</td> <td> 0.000</td> <td>-1.11e+04</td> <td>-4689.747</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_111]</th> <td>-9926.5669</td> <td> 4331.967</td> <td>   -2.291</td> <td> 0.022</td> <td>-1.84e+04</td> <td>-1435.911</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_113]</th> <td>-9932.2897</td> <td> 5183.277</td> <td>   -1.916</td> <td> 0.055</td> <td>-2.01e+04</td> <td>  226.934</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_19]</th>  <td>-7735.4931</td> <td> 4253.543</td> <td>   -1.819</td> <td> 0.069</td> <td>-1.61e+04</td> <td>  601.452</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_21]</th>  <td>-5362.1218</td> <td> 3562.679</td> <td>   -1.505</td> <td> 0.132</td> <td>-1.23e+04</td> <td> 1620.730</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_33]</th>  <td>-1.147e+04</td> <td> 3293.104</td> <td>   -3.482</td> <td> 0.000</td> <td>-1.79e+04</td> <td>-5010.567</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_5]</th>   <td>-5673.8895</td> <td> 3165.432</td> <td>   -1.792</td> <td> 0.073</td> <td>-1.19e+04</td> <td>  530.359</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_53]</th>  <td>-7387.4092</td> <td> 4331.938</td> <td>   -1.705</td> <td> 0.088</td> <td>-1.59e+04</td> <td> 1103.189</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_57]</th>  <td>-9019.5765</td> <td> 1628.012</td> <td>   -5.540</td> <td> 0.000</td> <td>-1.22e+04</td> <td>-5828.672</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_69]</th>  <td>-1.182e+04</td> <td> 3327.507</td> <td>   -3.553</td> <td> 0.000</td> <td>-1.83e+04</td> <td>-5299.864</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_71]</th>  <td>-9819.9278</td> <td> 2211.739</td> <td>   -4.440</td> <td> 0.000</td> <td>-1.42e+04</td> <td>-5484.919</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_83]</th>  <td>-1.702e+04</td> <td> 3607.391</td> <td>   -4.717</td> <td> 0.000</td> <td>-2.41e+04</td> <td>-9946.723</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_85]</th>  <td>-4622.5194</td> <td> 5047.908</td> <td>   -0.916</td> <td> 0.360</td> <td>-1.45e+04</td> <td> 5271.381</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_86]</th>  <td>-1.347e+04</td> <td> 1481.652</td> <td>   -9.094</td> <td> 0.000</td> <td>-1.64e+04</td> <td>-1.06e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_9]</th>   <td>-1.315e+04</td> <td> 2882.995</td> <td>   -4.562</td> <td> 0.000</td> <td>-1.88e+04</td> <td>-7501.294</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_95]</th>  <td>-7853.4590</td> <td> 1713.838</td> <td>   -4.582</td> <td> 0.000</td> <td>-1.12e+04</td> <td>-4494.337</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_99]</th>  <td>-1.039e+04</td> <td> 1807.561</td> <td>   -5.747</td> <td> 0.000</td> <td>-1.39e+04</td> <td>-6845.372</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_0]</th>   <td>-1.076e+04</td> <td> 1020.178</td> <td>  -10.544</td> <td> 0.000</td> <td>-1.28e+04</td> <td>-8757.180</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_113]</th> <td> -887.4776</td> <td> 5330.284</td> <td>   -0.166</td> <td> 0.868</td> <td>-1.13e+04</td> <td> 9559.881</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_117]</th> <td>-1.101e+04</td> <td> 4503.892</td> <td>   -2.444</td> <td> 0.015</td> <td>-1.98e+04</td> <td>-2178.184</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_135]</th> <td>-1.002e+04</td> <td> 2202.595</td> <td>   -4.550</td> <td> 0.000</td> <td>-1.43e+04</td> <td>-5705.085</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_139]</th> <td>-1.433e+04</td> <td> 3752.406</td> <td>   -3.820</td> <td> 0.000</td> <td>-2.17e+04</td> <td>-6979.340</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_15]</th>  <td>-8499.4395</td> <td> 5047.735</td> <td>   -1.684</td> <td> 0.092</td> <td>-1.84e+04</td> <td> 1394.122</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_151]</th> <td>-1.249e+04</td> <td> 4503.784</td> <td>   -2.774</td> <td> 0.006</td> <td>-2.13e+04</td> <td>-3665.146</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_223]</th> <td>-1.457e+04</td> <td> 4806.694</td> <td>   -3.031</td> <td> 0.002</td> <td> -2.4e+04</td> <td>-5148.579</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_45]</th>  <td>-8421.1734</td> <td> 5864.098</td> <td>   -1.436</td> <td> 0.151</td> <td>-1.99e+04</td> <td> 3072.461</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_57]</th>  <td>-4375.5270</td> <td> 3918.016</td> <td>   -1.117</td> <td> 0.264</td> <td>-1.21e+04</td> <td> 3303.785</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_63]</th>  <td>-8701.9028</td> <td> 3227.127</td> <td>   -2.696</td> <td> 0.007</td> <td> -1.5e+04</td> <td>-2376.733</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_77]</th>  <td>-4572.7417</td> <td> 4503.840</td> <td>   -1.015</td> <td> 0.310</td> <td>-1.34e+04</td> <td> 4254.786</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_97]</th>  <td>-1.206e+04</td> <td> 4179.017</td> <td>   -2.885</td> <td> 0.004</td> <td>-2.02e+04</td> <td>-3867.426</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.HI_county_0]</th>   <td>-7742.6828</td> <td> 1518.538</td> <td>   -5.099</td> <td> 0.000</td> <td>-1.07e+04</td> <td>-4766.347</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.HI_county_3]</th>   <td>-4714.9994</td> <td> 1134.633</td> <td>   -4.156</td> <td> 0.000</td> <td>-6938.881</td> <td>-2491.118</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IA_county_0]</th>   <td>-7483.3177</td> <td> 1093.370</td> <td>   -6.844</td> <td> 0.000</td> <td>-9626.324</td> <td>-5340.311</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IA_county_103]</th> <td>-3617.7321</td> <td> 3079.483</td> <td>   -1.175</td> <td> 0.240</td> <td>-9653.520</td> <td> 2418.056</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IA_county_113]</th> <td>-1.013e+04</td> <td> 2882.949</td> <td>   -3.512</td> <td> 0.000</td> <td>-1.58e+04</td> <td>-4474.814</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IA_county_163]</th> <td>-2974.3145</td> <td> 3327.507</td> <td>   -0.894</td> <td> 0.371</td> <td>-9496.230</td> <td> 3547.601</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ID_county_0]</th>   <td>-7827.6138</td> <td>  972.529</td> <td>   -8.049</td> <td> 0.000</td> <td>-9733.771</td> <td>-5921.457</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IL_county_0]</th>   <td>-5615.2964</td> <td>  923.733</td> <td>   -6.079</td> <td> 0.000</td> <td>-7425.814</td> <td>-3804.779</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IL_county_111]</th> <td> 2734.0511</td> <td> 3026.346</td> <td>    0.903</td> <td> 0.366</td> <td>-3197.589</td> <td> 8665.691</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IL_county_119]</th> <td>-3215.5354</td> <td> 3259.558</td> <td>   -0.986</td> <td> 0.324</td> <td>-9604.269</td> <td> 3173.198</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IL_county_163]</th> <td>-9278.5305</td> <td> 3917.946</td> <td>   -2.368</td> <td> 0.018</td> <td> -1.7e+04</td> <td>-1599.355</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IL_county_179]</th> <td>-7276.7671</td> <td> 4598.304</td> <td>   -1.582</td> <td> 0.114</td> <td>-1.63e+04</td> <td> 1735.909</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IL_county_97]</th>  <td>-1.086e+04</td> <td> 2202.589</td> <td>   -4.932</td> <td> 0.000</td> <td>-1.52e+04</td> <td>-6545.635</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_0]</th>   <td>-7735.3748</td> <td> 1026.375</td> <td>   -7.537</td> <td> 0.000</td> <td>-9747.070</td> <td>-5723.679</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_105]</th> <td>-1.292e+04</td> <td> 3860.154</td> <td>   -3.346</td> <td> 0.001</td> <td>-2.05e+04</td> <td>-5350.896</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_141]</th> <td>-1.109e+04</td> <td> 2905.291</td> <td>   -3.818</td> <td> 0.000</td> <td>-1.68e+04</td> <td>-5398.564</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_19]</th>  <td>-7134.3267</td> <td> 4598.076</td> <td>   -1.552</td> <td> 0.121</td> <td>-1.61e+04</td> <td> 1877.904</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_39]</th>  <td>-8773.9387</td> <td> 2740.775</td> <td>   -3.201</td> <td> 0.001</td> <td>-1.41e+04</td> <td>-3402.020</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_63]</th>  <td>-1.054e+04</td> <td> 5047.754</td> <td>   -2.089</td> <td> 0.037</td> <td>-2.04e+04</td> <td> -650.088</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_81]</th>  <td>-6229.6231</td> <td> 3917.880</td> <td>   -1.590</td> <td> 0.112</td> <td>-1.39e+04</td> <td> 1449.423</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_89]</th>  <td>-2107.7413</td> <td> 2572.670</td> <td>   -0.819</td> <td> 0.413</td> <td>-7150.176</td> <td> 2934.693</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KS_county_0]</th>   <td>-1.024e+04</td> <td> 1146.760</td> <td>   -8.933</td> <td> 0.000</td> <td>-1.25e+04</td> <td>-7996.819</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KS_county_173]</th> <td>-6701.6873</td> <td> 1774.182</td> <td>   -3.777</td> <td> 0.000</td> <td>-1.02e+04</td> <td>-3224.290</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KS_county_91]</th>  <td>-5478.8819</td> <td> 1982.107</td> <td>   -2.764</td> <td> 0.006</td> <td>-9363.813</td> <td>-1593.951</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KY_county_0]</th>   <td>-9357.0911</td> <td> 1165.689</td> <td>   -8.027</td> <td> 0.000</td> <td>-1.16e+04</td> <td>-7072.339</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KY_county_111]</th> <td>-1.015e+04</td> <td> 1766.197</td> <td>   -5.749</td> <td> 0.000</td> <td>-1.36e+04</td> <td>-6692.770</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KY_county_117]</th> <td>-1.126e+04</td> <td> 4598.208</td> <td>   -2.448</td> <td> 0.014</td> <td>-2.03e+04</td> <td>-2244.224</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KY_county_15]</th>  <td>-1.103e+04</td> <td> 4503.926</td> <td>   -2.448</td> <td> 0.014</td> <td>-1.99e+04</td> <td>-2197.505</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KY_county_67]</th>  <td>-1.257e+04</td> <td> 2779.046</td> <td>   -4.524</td> <td> 0.000</td> <td> -1.8e+04</td> <td>-7126.425</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_0]</th>   <td>-7495.6960</td> <td> 1046.389</td> <td>   -7.163</td> <td> 0.000</td> <td>-9546.619</td> <td>-5444.773</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_103]</th> <td>-1647.1929</td> <td> 2619.493</td> <td>   -0.629</td> <td> 0.529</td> <td>-6781.401</td> <td> 3487.015</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_33]</th>  <td>-1.015e+04</td> <td> 2074.871</td> <td>   -4.891</td> <td> 0.000</td> <td>-1.42e+04</td> <td>-6081.567</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_5]</th>   <td>-3810.8848</td> <td> 3562.598</td> <td>   -1.070</td> <td> 0.285</td> <td>-1.08e+04</td> <td> 3171.808</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_51]</th>  <td>-6545.5514</td> <td> 2000.810</td> <td>   -3.271</td> <td> 0.001</td> <td>-1.05e+04</td> <td>-2623.963</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_63]</th>  <td>-7127.7678</td> <td> 3135.879</td> <td>   -2.273</td> <td> 0.023</td> <td>-1.33e+04</td> <td> -981.444</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_71]</th>  <td>-1.295e+04</td> <td> 2193.895</td> <td>   -5.903</td> <td> 0.000</td> <td>-1.73e+04</td> <td>-8650.844</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_73]</th>  <td> -1.39e+04</td> <td> 3107.345</td> <td>   -4.474</td> <td> 0.000</td> <td>   -2e+04</td> <td>-7812.920</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_0]</th>   <td>-6329.8044</td> <td> 3917.958</td> <td>   -1.616</td> <td> 0.106</td> <td> -1.4e+04</td> <td> 1349.394</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_1]</th>   <td>-7936.8914</td> <td> 3562.820</td> <td>   -2.228</td> <td> 0.026</td> <td>-1.49e+04</td> <td> -953.764</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_13]</th>  <td>-9543.7365</td> <td> 2168.058</td> <td>   -4.402</td> <td> 0.000</td> <td>-1.38e+04</td> <td>-5294.342</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_15]</th>  <td>-7081.0057</td> <td> 4332.033</td> <td>   -1.635</td> <td> 0.102</td> <td>-1.56e+04</td> <td> 1409.779</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_17]</th>  <td>  377.6384</td> <td> 1622.530</td> <td>    0.233</td> <td> 0.816</td> <td>-2802.521</td> <td> 3557.798</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_21]</th>  <td> 3229.3846</td> <td> 2319.398</td> <td>    1.392</td> <td> 0.164</td> <td>-1316.636</td> <td> 7775.405</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_23]</th>  <td>-3823.0719</td> <td> 2220.674</td> <td>   -1.722</td> <td> 0.085</td> <td>-8175.594</td> <td>  529.450</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_25]</th>  <td>-3479.6966</td> <td> 2410.202</td> <td>   -1.444</td> <td> 0.149</td> <td>-8203.693</td> <td> 1244.300</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_27]</th>  <td>-2051.5403</td> <td> 1857.768</td> <td>   -1.104</td> <td> 0.269</td> <td>-5692.766</td> <td> 1589.686</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_5]</th>   <td>-2479.0374</td> <td> 2082.082</td> <td>   -1.191</td> <td> 0.234</td> <td>-6559.919</td> <td> 1601.844</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_9]</th>   <td>-1406.5298</td> <td> 1994.427</td> <td>   -0.705</td> <td> 0.481</td> <td>-5315.607</td> <td> 2502.548</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_0]</th>   <td>-4141.2705</td> <td> 1527.228</td> <td>   -2.712</td> <td> 0.007</td> <td>-7134.638</td> <td>-1147.903</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_13]</th>  <td> 4340.4022</td> <td> 4253.318</td> <td>    1.020</td> <td> 0.308</td> <td>-3996.101</td> <td> 1.27e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_15]</th>  <td>-1663.9802</td> <td> 4806.668</td> <td>   -0.346</td> <td> 0.729</td> <td>-1.11e+04</td> <td> 7757.091</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_17]</th>  <td>-7111.8246</td> <td> 4698.793</td> <td>   -1.514</td> <td> 0.130</td> <td>-1.63e+04</td> <td> 2097.812</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_25]</th>  <td>-9899.0064</td> <td> 3438.650</td> <td>   -2.879</td> <td> 0.004</td> <td>-1.66e+04</td> <td>-3159.251</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_3]</th>   <td>  658.7847</td> <td> 2460.439</td> <td>    0.268</td> <td> 0.789</td> <td>-4163.677</td> <td> 5481.246</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_31]</th>  <td>-4350.1855</td> <td> 2340.984</td> <td>   -1.858</td> <td> 0.063</td> <td>-8938.516</td> <td>  238.145</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_33]</th>  <td>-6518.9133</td> <td> 1807.576</td> <td>   -3.606</td> <td> 0.000</td> <td>-1.01e+04</td> <td>-2976.064</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_510]</th> <td>-1.232e+04</td> <td> 3001.213</td> <td>   -4.105</td> <td> 0.000</td> <td>-1.82e+04</td> <td>-6436.605</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ME_county_0]</th>   <td>-5905.7544</td> <td> 1574.346</td> <td>   -3.751</td> <td> 0.000</td> <td>-8991.473</td> <td>-2820.036</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ME_county_1]</th>   <td>-5954.4954</td> <td> 2798.772</td> <td>   -2.128</td> <td> 0.033</td> <td>-1.14e+04</td> <td> -468.902</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ME_county_11]</th>  <td>-1.001e+04</td> <td> 2928.205</td> <td>   -3.418</td> <td> 0.001</td> <td>-1.57e+04</td> <td>-4269.643</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ME_county_19]</th>  <td>-6300.7547</td> <td> 2722.575</td> <td>   -2.314</td> <td> 0.021</td> <td>-1.16e+04</td> <td> -964.508</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ME_county_5]</th>   <td>-5072.9699</td> <td> 2363.214</td> <td>   -2.147</td> <td> 0.032</td> <td>-9704.871</td> <td> -441.069</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_0]</th>   <td>-8153.7861</td> <td> 1202.975</td> <td>   -6.778</td> <td> 0.000</td> <td>-1.05e+04</td> <td>-5795.954</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_115]</th> <td> 6534.4347</td> <td> 3107.339</td> <td>    2.103</td> <td> 0.035</td> <td>  444.050</td> <td> 1.26e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_121]</th> <td>-1.207e+04</td> <td> 3026.254</td> <td>   -3.990</td> <td> 0.000</td> <td> -1.8e+04</td> <td>-6142.054</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_125]</th> <td>-4125.4790</td> <td> 1902.958</td> <td>   -2.168</td> <td> 0.030</td> <td>-7855.277</td> <td> -395.681</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_145]</th> <td>-4892.6258</td> <td> 5183.161</td> <td>   -0.944</td> <td> 0.345</td> <td>-1.51e+04</td> <td> 5266.372</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_161]</th> <td>-1408.8347</td> <td> 3438.651</td> <td>   -0.410</td> <td> 0.682</td> <td>-8148.591</td> <td> 5330.921</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_163]</th> <td>-7392.6355</td> <td> 1550.000</td> <td>   -4.769</td> <td> 0.000</td> <td>-1.04e+04</td> <td>-4354.635</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_21]</th>  <td>-4548.6244</td> <td> 3860.186</td> <td>   -1.178</td> <td> 0.239</td> <td>-1.21e+04</td> <td> 3017.341</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_25]</th>  <td>-8482.0797</td> <td> 2840.022</td> <td>   -2.987</td> <td> 0.003</td> <td> -1.4e+04</td> <td>-2915.635</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_49]</th>  <td>-2235.2551</td> <td> 2905.344</td> <td>   -0.769</td> <td> 0.442</td> <td>-7929.730</td> <td> 3459.219</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_5]</th>   <td>-6445.8518</td> <td> 3478.450</td> <td>   -1.853</td> <td> 0.064</td> <td>-1.33e+04</td> <td>  371.912</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_75]</th>  <td>-7216.3719</td> <td> 3860.258</td> <td>   -1.869</td> <td> 0.062</td> <td>-1.48e+04</td> <td>  349.735</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_81]</th>  <td>-3447.7860</td> <td> 2374.870</td> <td>   -1.452</td> <td> 0.147</td> <td>-8102.533</td> <td> 1206.961</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_93]</th>  <td>-2988.5806</td> <td> 4415.363</td> <td>   -0.677</td> <td> 0.498</td> <td>-1.16e+04</td> <td> 5665.533</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_99]</th>  <td>-1767.5776</td> <td> 1982.110</td> <td>   -0.892</td> <td> 0.373</td> <td>-5652.514</td> <td> 2117.359</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MN_county_0]</th>   <td>-3548.9907</td> <td> 1103.460</td> <td>   -3.216</td> <td> 0.001</td> <td>-5711.773</td> <td>-1386.208</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MN_county_123]</th> <td>-5963.3925</td> <td> 2514.431</td> <td>   -2.372</td> <td> 0.018</td> <td>-1.09e+04</td> <td>-1035.107</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MN_county_139]</th> <td>-1.151e+04</td> <td> 5863.908</td> <td>   -1.964</td> <td> 0.050</td> <td> -2.3e+04</td> <td>  -21.047</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MN_county_163]</th> <td> 3414.5054</td> <td> 3978.360</td> <td>    0.858</td> <td> 0.391</td> <td>-4383.081</td> <td> 1.12e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MN_county_171]</th> <td> 4786.3807</td> <td> 4598.108</td> <td>    1.041</td> <td> 0.298</td> <td>-4225.911</td> <td> 1.38e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MN_county_3]</th>   <td>-5306.0842</td> <td> 2652.396</td> <td>   -2.000</td> <td> 0.045</td> <td>-1.05e+04</td> <td> -107.387</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MO_county_0]</th>   <td>-8408.0747</td> <td> 1075.518</td> <td>   -7.818</td> <td> 0.000</td> <td>-1.05e+04</td> <td>-6300.059</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MO_county_189]</th> <td>-8418.8786</td> <td> 1976.061</td> <td>   -4.260</td> <td> 0.000</td> <td>-1.23e+04</td> <td>-4545.799</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MO_county_71]</th>  <td> 1486.3071</td> <td> 4332.004</td> <td>    0.343</td> <td> 0.732</td> <td>-7004.422</td> <td> 9977.036</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MO_county_99]</th>  <td>-5244.8677</td> <td> 3653.658</td> <td>   -1.436</td> <td> 0.151</td> <td>-1.24e+04</td> <td> 1916.303</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MS_county_0]</th>   <td>-9268.5907</td> <td>  950.122</td> <td>   -9.755</td> <td> 0.000</td> <td>-1.11e+04</td> <td>-7406.352</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MT_county_0]</th>   <td>-6521.7514</td> <td> 1002.703</td> <td>   -6.504</td> <td> 0.000</td> <td>-8487.049</td> <td>-4556.453</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MT_county_111]</th> <td>-4013.9010</td> <td> 1518.462</td> <td>   -2.643</td> <td> 0.008</td> <td>-6990.087</td> <td>-1037.715</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_0]</th>   <td>-9393.3668</td> <td> 1047.872</td> <td>   -8.964</td> <td> 0.000</td> <td>-1.14e+04</td> <td>-7339.537</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_1]</th>   <td>-5324.0637</td> <td> 2652.250</td> <td>   -2.007</td> <td> 0.045</td> <td>-1.05e+04</td> <td> -125.653</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_119]</th> <td>-8513.1484</td> <td> 1766.195</td> <td>   -4.820</td> <td> 0.000</td> <td> -1.2e+04</td> <td>-5051.405</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_133]</th> <td>-8472.4858</td> <td> 3653.598</td> <td>   -2.319</td> <td> 0.020</td> <td>-1.56e+04</td> <td>-1311.433</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_147]</th> <td>-1.604e+04</td> <td> 3917.954</td> <td>   -4.094</td> <td> 0.000</td> <td>-2.37e+04</td> <td>-8359.426</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_155]</th> <td>-1.517e+04</td> <td> 3259.535</td> <td>   -4.653</td> <td> 0.000</td> <td>-2.16e+04</td> <td>-8777.085</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_159]</th> <td>-1.387e+04</td> <td> 4806.709</td> <td>   -2.885</td> <td> 0.004</td> <td>-2.33e+04</td> <td>-4447.131</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_179]</th> <td>-7186.0419</td> <td> 3918.067</td> <td>   -1.834</td> <td> 0.067</td> <td>-1.49e+04</td> <td>  493.370</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_191]</th> <td>-1.318e+04</td> <td> 3363.322</td> <td>   -3.918</td> <td> 0.000</td> <td>-1.98e+04</td> <td>-6584.874</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_21]</th>  <td>-1.029e+04</td> <td> 3702.023</td> <td>   -2.780</td> <td> 0.005</td> <td>-1.75e+04</td> <td>-3037.026</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_57]</th>  <td> -1.01e+04</td> <td> 4332.054</td> <td>   -2.331</td> <td> 0.020</td> <td>-1.86e+04</td> <td>-1607.499</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_67]</th>  <td>-8209.4184</td> <td> 3136.021</td> <td>   -2.618</td> <td> 0.009</td> <td>-1.44e+04</td> <td>-2062.816</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ND_county_0]</th>   <td>-4389.5346</td> <td>  973.239</td> <td>   -4.510</td> <td> 0.000</td> <td>-6297.083</td> <td>-2481.987</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NE_county_0]</th>   <td>-7975.3169</td> <td> 1106.961</td> <td>   -7.205</td> <td> 0.000</td> <td>-1.01e+04</td> <td>-5805.673</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NE_county_55]</th>  <td>-5305.8309</td> <td> 1520.675</td> <td>   -3.489</td> <td> 0.000</td> <td>-8286.354</td> <td>-2325.308</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NH_county_0]</th>   <td>-7638.2641</td> <td> 1577.055</td> <td>   -4.843</td> <td> 0.000</td> <td>-1.07e+04</td> <td>-4547.237</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NH_county_11]</th>  <td>-5446.4311</td> <td> 1512.184</td> <td>   -3.602</td> <td> 0.000</td> <td>-8410.312</td> <td>-2482.550</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NH_county_13]</th>  <td>-6038.3030</td> <td> 2330.138</td> <td>   -2.591</td> <td> 0.010</td> <td>-1.06e+04</td> <td>-1471.231</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NH_county_15]</th>  <td>-1746.8507</td> <td> 1676.761</td> <td>   -1.042</td> <td> 0.298</td> <td>-5033.302</td> <td> 1539.600</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NH_county_17]</th>  <td>-6472.2130</td> <td> 2143.298</td> <td>   -3.020</td> <td> 0.003</td> <td>-1.07e+04</td> <td>-2271.349</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_0]</th>   <td>-6982.6145</td> <td> 1540.792</td> <td>   -4.532</td> <td> 0.000</td> <td>   -1e+04</td> <td>-3962.661</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_11]</th>  <td>-1.131e+04</td> <td> 4698.771</td> <td>   -2.408</td> <td> 0.016</td> <td>-2.05e+04</td> <td>-2105.403</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_13]</th>  <td>-9024.8195</td> <td> 2308.656</td> <td>   -3.909</td> <td> 0.000</td> <td>-1.35e+04</td> <td>-4499.853</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_17]</th>  <td>-4310.8275</td> <td> 2839.803</td> <td>   -1.518</td> <td> 0.129</td> <td>-9876.842</td> <td> 1255.187</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_19]</th>  <td> 3801.5337</td> <td> 7292.753</td> <td>    0.521</td> <td> 0.602</td> <td>-1.05e+04</td> <td> 1.81e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_21]</th>  <td>-4883.2966</td> <td> 4698.806</td> <td>   -1.039</td> <td> 0.299</td> <td>-1.41e+04</td> <td> 4326.364</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_23]</th>  <td>-5565.0751</td> <td> 2239.243</td> <td>   -2.485</td> <td> 0.013</td> <td>-9953.991</td> <td>-1176.159</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_27]</th>  <td> 2187.9912</td> <td> 2740.832</td> <td>    0.798</td> <td> 0.425</td> <td>-3184.041</td> <td> 7560.023</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_3]</th>   <td> -980.0876</td> <td> 2319.380</td> <td>   -0.423</td> <td> 0.673</td> <td>-5526.074</td> <td> 3565.899</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_31]</th>  <td>-9884.5314</td> <td> 3701.943</td> <td>   -2.670</td> <td> 0.008</td> <td>-1.71e+04</td> <td>-2628.721</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_35]</th>  <td>-3517.6092</td> <td> 5183.357</td> <td>   -0.679</td> <td> 0.497</td> <td>-1.37e+04</td> <td> 6641.772</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_37]</th>  <td>  131.8527</td> <td> 5047.745</td> <td>    0.026</td> <td> 0.979</td> <td>-9761.729</td> <td>    1e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_39]</th>  <td>-4100.8675</td> <td> 2460.338</td> <td>   -1.667</td> <td> 0.096</td> <td>-8923.130</td> <td>  721.395</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_5]</th>   <td> 2074.2856</td> <td> 3135.988</td> <td>    0.661</td> <td> 0.508</td> <td>-4072.252</td> <td> 8220.823</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_7]</th>   <td>-8532.0590</td> <td> 2704.259</td> <td>   -3.155</td> <td> 0.002</td> <td>-1.38e+04</td> <td>-3231.712</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NM_county_0]</th>   <td>-9117.7966</td> <td> 1202.884</td> <td>   -7.580</td> <td> 0.000</td> <td>-1.15e+04</td> <td>-6760.143</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NM_county_1]</th>   <td>-8906.9387</td> <td> 1349.722</td> <td>   -6.599</td> <td> 0.000</td> <td>-1.16e+04</td> <td>-6261.483</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NM_county_13]</th>  <td>-9824.4307</td> <td> 2288.126</td> <td>   -4.294</td> <td> 0.000</td> <td>-1.43e+04</td> <td>-5339.702</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NM_county_45]</th>  <td>-6730.3583</td> <td> 2722.249</td> <td>   -2.472</td> <td> 0.013</td> <td>-1.21e+04</td> <td>-1394.751</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NM_county_49]</th>  <td>-4084.4636</td> <td> 2635.939</td> <td>   -1.550</td> <td> 0.121</td> <td>-9250.905</td> <td> 1081.978</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NV_county_0]</th>   <td>-5386.4222</td> <td> 1429.668</td> <td>   -3.768</td> <td> 0.000</td> <td>-8188.572</td> <td>-2584.272</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NV_county_3]</th>   <td>-9340.1698</td> <td> 1073.684</td> <td>   -8.699</td> <td> 0.000</td> <td>-1.14e+04</td> <td>-7235.750</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_0]</th>   <td>-6864.9733</td> <td> 1092.143</td> <td>   -6.286</td> <td> 0.000</td> <td>-9005.574</td> <td>-4724.373</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_103]</th> <td>-3554.9572</td> <td> 1766.179</td> <td>   -2.013</td> <td> 0.044</td> <td>-7016.668</td> <td>  -93.246</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_119]</th> <td>-4758.3458</td> <td> 2528.705</td> <td>   -1.882</td> <td> 0.060</td> <td>-9714.608</td> <td>  197.917</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_47]</th>  <td>-1.154e+04</td> <td> 1468.367</td> <td>   -7.859</td> <td> 0.000</td> <td>-1.44e+04</td> <td>-8662.042</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_5]</th>   <td>-6543.4481</td> <td> 1897.624</td> <td>   -3.448</td> <td> 0.001</td> <td>-1.03e+04</td> <td>-2824.104</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_55]</th>  <td>-9782.6094</td> <td> 2329.931</td> <td>   -4.199</td> <td> 0.000</td> <td>-1.43e+04</td> <td>-5215.944</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_59]</th>  <td>-2125.1357</td> <td> 2082.050</td> <td>   -1.021</td> <td> 0.307</td> <td>-6205.953</td> <td> 1955.682</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_61]</th>  <td>-9228.4673</td> <td> 2487.176</td> <td>   -3.710</td> <td> 0.000</td> <td>-1.41e+04</td> <td>-4353.602</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_67]</th>  <td>-5746.0286</td> <td> 3000.715</td> <td>   -1.915</td> <td> 0.056</td> <td>-1.16e+04</td> <td>  135.374</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_69]</th>  <td>-3773.8828</td> <td> 5047.853</td> <td>   -0.748</td> <td> 0.455</td> <td>-1.37e+04</td> <td> 6119.911</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_71]</th>  <td> 6679.6150</td> <td> 3136.016</td> <td>    2.130</td> <td> 0.033</td> <td>  533.022</td> <td> 1.28e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_81]</th>  <td>-9045.4401</td> <td> 1431.296</td> <td>   -6.320</td> <td> 0.000</td> <td>-1.19e+04</td> <td>-6240.100</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_85]</th>  <td>-4375.1158</td> <td> 3259.677</td> <td>   -1.342</td> <td> 0.180</td> <td>-1.08e+04</td> <td> 2013.852</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_87]</th>  <td>  -84.3095</td> <td> 4922.601</td> <td>   -0.017</td> <td> 0.986</td> <td>-9732.609</td> <td> 9563.990</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_91]</th>  <td> 5786.0477</td> <td> 4041.859</td> <td>    1.432</td> <td> 0.152</td> <td>-2135.997</td> <td> 1.37e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_0]</th>   <td>-7451.3280</td> <td>  942.047</td> <td>   -7.910</td> <td> 0.000</td> <td>-9297.740</td> <td>-5604.916</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_103]</th> <td> 8464.9013</td> <td> 4332.014</td> <td>    1.954</td> <td> 0.051</td> <td>  -25.846</td> <td>  1.7e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_109]</th> <td>-1.192e+04</td> <td> 5491.309</td> <td>   -2.170</td> <td> 0.030</td> <td>-2.27e+04</td> <td>-1152.142</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_113]</th> <td>-7457.4804</td> <td> 2572.591</td> <td>   -2.899</td> <td> 0.004</td> <td>-1.25e+04</td> <td>-2415.201</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_133]</th> <td>-1060.6485</td> <td> 4922.609</td> <td>   -0.215</td> <td> 0.829</td> <td>-1.07e+04</td> <td> 8587.666</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_153]</th> <td>-9659.1521</td> <td> 2669.162</td> <td>   -3.619</td> <td> 0.000</td> <td>-1.49e+04</td> <td>-4427.593</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_25]</th>  <td> -767.8108</td> <td> 3607.362</td> <td>   -0.213</td> <td> 0.831</td> <td>-7838.241</td> <td> 6302.620</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_57]</th>  <td>-4282.6686</td> <td> 6604.653</td> <td>   -0.648</td> <td> 0.517</td> <td>-1.72e+04</td> <td> 8662.452</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_85]</th>  <td>-6842.0161</td> <td> 3400.520</td> <td>   -2.012</td> <td> 0.044</td> <td>-1.35e+04</td> <td> -176.997</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_89]</th>  <td>-9973.7392</td> <td> 4415.297</td> <td>   -2.259</td> <td> 0.024</td> <td>-1.86e+04</td> <td>-1319.756</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_95]</th>  <td>-5947.9729</td> <td> 3135.910</td> <td>   -1.897</td> <td> 0.058</td> <td>-1.21e+04</td> <td>  198.412</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OK_county_0]</th>   <td>-7688.5218</td> <td> 1014.402</td> <td>   -7.579</td> <td> 0.000</td> <td>-9676.751</td> <td>-5700.293</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OR_county_0]</th>   <td>-5455.4914</td> <td> 1097.444</td> <td>   -4.971</td> <td> 0.000</td> <td>-7606.482</td> <td>-3304.500</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OR_county_17]</th>  <td> -843.5374</td> <td> 3135.880</td> <td>   -0.269</td> <td> 0.788</td> <td>-6989.862</td> <td> 5302.788</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OR_county_29]</th>  <td>-7517.5000</td> <td> 2528.618</td> <td>   -2.973</td> <td> 0.003</td> <td>-1.25e+04</td> <td>-2561.408</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OR_county_39]</th>  <td>-7076.2795</td> <td> 2542.923</td> <td>   -2.783</td> <td> 0.005</td> <td>-1.21e+04</td> <td>-2092.149</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_0]</th>   <td>-8166.3228</td> <td> 1219.267</td> <td>   -6.698</td> <td> 0.000</td> <td>-1.06e+04</td> <td>-5776.558</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_101]</th> <td>-7276.1917</td> <td> 1762.238</td> <td>   -4.129</td> <td> 0.000</td> <td>-1.07e+04</td> <td>-3822.204</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_107]</th> <td>-5522.9713</td> <td> 3165.501</td> <td>   -1.745</td> <td> 0.081</td> <td>-1.17e+04</td> <td>  681.411</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_11]</th>  <td>-6809.2853</td> <td> 2514.424</td> <td>   -2.708</td> <td> 0.007</td> <td>-1.17e+04</td> <td>-1881.013</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_125]</th> <td>-2405.3874</td> <td> 3860.346</td> <td>   -0.623</td> <td> 0.533</td> <td>-9971.667</td> <td> 5160.892</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_129]</th> <td> 4956.6542</td> <td> 3107.443</td> <td>    1.595</td> <td> 0.111</td> <td>-1133.934</td> <td>  1.1e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_133]</th> <td>-6172.3931</td> <td> 2528.815</td> <td>   -2.441</td> <td> 0.015</td> <td>-1.11e+04</td> <td>-1215.916</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_17]</th>  <td>-5950.5769</td> <td> 2588.092</td> <td>   -2.299</td> <td> 0.021</td> <td> -1.1e+04</td> <td> -877.915</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_19]</th>  <td>-8516.2213</td> <td> 3702.253</td> <td>   -2.300</td> <td> 0.021</td> <td>-1.58e+04</td> <td>-1259.804</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_21]</th>  <td>-1.181e+04</td> <td> 4332.206</td> <td>   -2.727</td> <td> 0.006</td> <td>-2.03e+04</td> <td>-3320.867</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_29]</th>  <td> -132.5095</td> <td> 2839.792</td> <td>   -0.047</td> <td> 0.963</td> <td>-5698.503</td> <td> 5433.484</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_3]</th>   <td>-1.113e+04</td> <td> 1825.247</td> <td>   -6.100</td> <td> 0.000</td> <td>-1.47e+04</td> <td>-7556.679</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_43]</th>  <td>-6098.3950</td> <td> 3363.319</td> <td>   -1.813</td> <td> 0.070</td> <td>-1.27e+04</td> <td>  493.711</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_45]</th>  <td>-8968.3901</td> <td> 2883.094</td> <td>   -3.111</td> <td> 0.002</td> <td>-1.46e+04</td> <td>-3317.526</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_49]</th>  <td>-1883.5530</td> <td> 3292.930</td> <td>   -0.572</td> <td> 0.567</td> <td>-8337.697</td> <td> 4570.591</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_55]</th>  <td>-1.122e+04</td> <td> 3917.986</td> <td>   -2.863</td> <td> 0.004</td> <td>-1.89e+04</td> <td>-3539.317</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_7]</th>   <td>-4660.3341</td> <td> 3702.069</td> <td>   -1.259</td> <td> 0.208</td> <td>-1.19e+04</td> <td> 2595.723</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_71]</th>  <td>-7766.5063</td> <td> 2557.642</td> <td>   -3.037</td> <td> 0.002</td> <td>-1.28e+04</td> <td>-2753.528</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_81]</th>  <td>-1.282e+04</td> <td> 3562.625</td> <td>   -3.599</td> <td> 0.000</td> <td>-1.98e+04</td> <td>-5839.464</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_85]</th>  <td>-1404.7511</td> <td> 6326.448</td> <td>   -0.222</td> <td> 0.824</td> <td>-1.38e+04</td> <td>  1.1e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_89]</th>  <td>-5616.1920</td> <td> 3752.474</td> <td>   -1.497</td> <td> 0.134</td> <td> -1.3e+04</td> <td> 1738.658</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_91]</th>  <td>-5628.1471</td> <td> 2330.028</td> <td>   -2.415</td> <td> 0.016</td> <td>-1.02e+04</td> <td>-1061.292</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.RI_county_0]</th>   <td>-6549.7523</td> <td> 1154.011</td> <td>   -5.676</td> <td> 0.000</td> <td>-8811.614</td> <td>-4287.891</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.SC_county_0]</th>   <td>-9376.2173</td> <td> 1091.274</td> <td>   -8.592</td> <td> 0.000</td> <td>-1.15e+04</td> <td>-7237.320</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.SC_county_41]</th>  <td>-1.331e+04</td> <td> 3607.182</td> <td>   -3.691</td> <td> 0.000</td> <td>-2.04e+04</td> <td>-6244.010</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.SC_county_51]</th>  <td>-1.384e+04</td> <td> 3752.635</td> <td>   -3.687</td> <td> 0.000</td> <td>-2.12e+04</td> <td>-6482.524</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.SC_county_83]</th>  <td> -1.16e+04</td> <td> 2528.577</td> <td>   -4.588</td> <td> 0.000</td> <td>-1.66e+04</td> <td>-6645.345</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.SC_county_91]</th>  <td>-1555.6907</td> <td> 3052.515</td> <td>   -0.510</td> <td> 0.610</td> <td>-7538.620</td> <td> 4427.238</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.SD_county_0]</th>   <td>-8116.9225</td> <td> 1015.709</td> <td>   -7.991</td> <td> 0.000</td> <td>-1.01e+04</td> <td>-6126.133</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TN_county_0]</th>   <td>-1.079e+04</td> <td> 1006.603</td> <td>  -10.718</td> <td> 0.000</td> <td>-1.28e+04</td> <td>-8815.813</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TN_county_125]</th> <td>-1.073e+04</td> <td> 2603.576</td> <td>   -4.121</td> <td> 0.000</td> <td>-1.58e+04</td> <td>-5625.742</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TN_county_165]</th> <td>-2830.5247</td> <td> 4108.703</td> <td>   -0.689</td> <td> 0.491</td> <td>-1.09e+04</td> <td> 5222.535</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TN_county_189]</th> <td>-1611.2393</td> <td> 4503.840</td> <td>   -0.358</td> <td> 0.721</td> <td>-1.04e+04</td> <td> 7216.289</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TN_county_9]</th>   <td>-9030.7283</td> <td> 3978.350</td> <td>   -2.270</td> <td> 0.023</td> <td>-1.68e+04</td> <td>-1233.161</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TN_county_93]</th>  <td>-1.399e+04</td> <td> 2500.520</td> <td>   -5.596</td> <td> 0.000</td> <td>-1.89e+04</td> <td>-9091.877</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_0]</th>   <td>-9653.1643</td> <td>  831.721</td> <td>  -11.606</td> <td> 0.000</td> <td>-1.13e+04</td> <td>-8022.991</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_135]</th> <td> -765.0116</td> <td> 3195.923</td> <td>   -0.239</td> <td> 0.811</td> <td>-7029.021</td> <td> 5498.998</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_139]</th> <td>-8722.1734</td> <td> 4806.741</td> <td>   -1.815</td> <td> 0.070</td> <td>-1.81e+04</td> <td>  699.041</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_181]</th> <td>-1.032e+04</td> <td> 3702.015</td> <td>   -2.788</td> <td> 0.005</td> <td>-1.76e+04</td> <td>-3063.932</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_215]</th> <td>-1.643e+04</td> <td> 2572.729</td> <td>   -6.386</td> <td> 0.000</td> <td>-2.15e+04</td> <td>-1.14e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_251]</th> <td> 3241.9617</td> <td> 1.54e+04</td> <td>    0.210</td> <td> 0.833</td> <td> -2.7e+04</td> <td> 3.34e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_309]</th> <td>-1.238e+04</td> <td> 3478.539</td> <td>   -3.558</td> <td> 0.000</td> <td>-1.92e+04</td> <td>-5557.604</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_41]</th>  <td>-1.448e+04</td> <td> 4179.312</td> <td>   -3.464</td> <td> 0.001</td> <td>-2.27e+04</td> <td>-6284.432</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_423]</th> <td>-1.438e+04</td> <td> 4415.355</td> <td>   -3.258</td> <td> 0.001</td> <td> -2.3e+04</td> <td>-5730.048</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_439]</th> <td>-5935.7751</td> <td> 3026.296</td> <td>   -1.961</td> <td> 0.050</td> <td>-1.19e+04</td> <td>   -4.235</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_441]</th> <td>-1.198e+04</td> <td> 3478.498</td> <td>   -3.445</td> <td> 0.001</td> <td>-1.88e+04</td> <td>-5166.461</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_479]</th> <td>-1.142e+04</td> <td> 3917.904</td> <td>   -2.915</td> <td> 0.004</td> <td>-1.91e+04</td> <td>-3742.917</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_485]</th> <td>-9952.3097</td> <td> 3917.942</td> <td>   -2.540</td> <td> 0.011</td> <td>-1.76e+04</td> <td>-2273.142</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_61]</th>  <td>-1.449e+04</td> <td> 3165.436</td> <td>   -4.577</td> <td> 0.000</td> <td>-2.07e+04</td> <td>-8284.827</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.UT_county_0]</th>   <td>-7031.8466</td> <td> 1012.382</td> <td>   -6.946</td> <td> 0.000</td> <td>-9016.115</td> <td>-5047.578</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.UT_county_53]</th>  <td>-1.202e+04</td> <td> 3079.587</td> <td>   -3.903</td> <td> 0.000</td> <td>-1.81e+04</td> <td>-5984.567</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_0]</th>   <td>-7789.8359</td> <td> 1130.966</td> <td>   -6.888</td> <td> 0.000</td> <td>   -1e+04</td> <td>-5573.141</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_107]</th> <td> -694.8866</td> <td> 3293.125</td> <td>   -0.211</td> <td> 0.833</td> <td>-7149.412</td> <td> 5759.638</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_13]</th>  <td> 7316.1427</td> <td> 5183.251</td> <td>    1.411</td> <td> 0.158</td> <td>-2843.030</td> <td> 1.75e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_153]</th> <td>-6193.0288</td> <td> 2740.817</td> <td>   -2.260</td> <td> 0.024</td> <td>-1.16e+04</td> <td> -821.027</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_177]</th> <td>-1.831e+04</td> <td> 5330.324</td> <td>   -3.434</td> <td> 0.001</td> <td>-2.88e+04</td> <td>-7858.568</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_179]</th> <td>-1.848e+04</td> <td> 6604.219</td> <td>   -2.799</td> <td> 0.005</td> <td>-3.14e+04</td> <td>-5540.161</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_41]</th>  <td>-8087.7936</td> <td> 3259.530</td> <td>   -2.481</td> <td> 0.013</td> <td>-1.45e+04</td> <td>-1699.114</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_550]</th> <td>-7930.6290</td> <td> 4108.780</td> <td>   -1.930</td> <td> 0.054</td> <td> -1.6e+04</td> <td>  122.582</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_700]</th> <td>-5626.2034</td> <td> 4699.286</td> <td>   -1.197</td> <td> 0.231</td> <td>-1.48e+04</td> <td> 3584.399</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_710]</th> <td>-1.014e+04</td> <td> 3805.063</td> <td>   -2.664</td> <td> 0.008</td> <td>-1.76e+04</td> <td>-2680.108</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_760]</th> <td>-1.383e+04</td> <td> 3752.414</td> <td>   -3.687</td> <td> 0.000</td> <td>-2.12e+04</td> <td>-6478.735</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_810]</th> <td>-5870.9406</td> <td> 2928.250</td> <td>   -2.005</td> <td> 0.045</td> <td>-1.16e+04</td> <td> -131.570</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_87]</th>  <td>-1.048e+04</td> <td> 3293.469</td> <td>   -3.181</td> <td> 0.001</td> <td>-1.69e+04</td> <td>-4022.592</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VT_county_0]</th>   <td>-5553.6656</td> <td> 1036.627</td> <td>   -5.357</td> <td> 0.000</td> <td>-7585.455</td> <td>-3521.876</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WA_county_0]</th>   <td>-1855.9419</td> <td> 1002.391</td> <td>   -1.852</td> <td> 0.064</td> <td>-3820.628</td> <td>  108.744</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WA_county_33]</th>  <td> 2881.3458</td> <td> 2461.010</td> <td>    1.171</td> <td> 0.242</td> <td>-1942.234</td> <td> 7704.926</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WA_county_57]</th>  <td>-2175.1951</td> <td> 2905.323</td> <td>   -0.749</td> <td> 0.454</td> <td>-7869.628</td> <td> 3519.238</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WA_county_61]</th>  <td>-5113.9342</td> <td> 4331.933</td> <td>   -1.181</td> <td> 0.238</td> <td>-1.36e+04</td> <td> 3376.655</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WI_county_0]</th>   <td>-5264.0021</td> <td> 1052.719</td> <td>   -5.000</td> <td> 0.000</td> <td>-7327.331</td> <td>-3200.673</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WI_county_101]</th> <td>-2864.9028</td> <td> 3293.026</td> <td>   -0.870</td> <td> 0.384</td> <td>-9319.235</td> <td> 3589.429</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WI_county_105]</th> <td>-6224.7405</td> <td> 3052.611</td> <td>   -2.039</td> <td> 0.041</td> <td>-1.22e+04</td> <td> -241.623</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WI_county_139]</th> <td>-9732.2355</td> <td> 4041.835</td> <td>   -2.408</td> <td> 0.016</td> <td>-1.77e+04</td> <td>-1810.238</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WI_county_59]</th>  <td>-1.111e+04</td> <td> 3917.872</td> <td>   -2.836</td> <td> 0.005</td> <td>-1.88e+04</td> <td>-3432.106</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WI_county_73]</th>  <td>-3838.2573</td> <td> 4598.116</td> <td>   -0.835</td> <td> 0.404</td> <td>-1.29e+04</td> <td> 5174.050</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WV_county_0]</th>   <td>-9354.7841</td> <td>  943.458</td> <td>   -9.915</td> <td> 0.000</td> <td>-1.12e+04</td> <td>-7505.606</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WV_county_39]</th>  <td>-8040.4345</td> <td> 2053.747</td> <td>   -3.915</td> <td> 0.000</td> <td>-1.21e+04</td> <td>-4015.090</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WY_county_0]</th>   <td>-2786.2413</td> <td>  993.119</td> <td>   -2.806</td> <td> 0.005</td> <td>-4732.754</td> <td> -839.729</td>
-</tr>
-<tr>
-  <th>female</th>                          <td>-7923.1566</td> <td>  171.102</td> <td>  -46.307</td> <td> 0.000</td> <td>-8258.516</td> <td>-7587.797</td>
-</tr>
-<tr>
-  <th>age</th>                             <td>  287.2761</td> <td>    6.239</td> <td>   46.047</td> <td> 0.000</td> <td>  275.048</td> <td>  299.504</td>
-</tr>
-<tr>
-  <th>has_college_educ</th>                <td> 2.313e+04</td> <td>  410.156</td> <td>   56.399</td> <td> 0.000</td> <td> 2.23e+04</td> <td> 2.39e+04</td>
-</tr>
-</table>
-<table class="simpletable">
-<tr>
-  <th>Omnibus:</th>       <td>31292.022</td> <th>  Durbin-Watson:     </th>  <td>   1.908</td>
-</tr>
-<tr>
-  <th>Prob(Omnibus):</th>  <td> 0.000</td>   <th>  Jarque-Bera (JB):  </th> <td>260133.811</td>
-</tr>
-<tr>
-  <th>Skew:</th>           <td> 2.123</td>   <th>  Prob(JB):          </th>  <td>    0.00</td>
-</tr>
-<tr>
-  <th>Kurtosis:</th>       <td>11.771</td>   <th>  Cond. No.          </th>  <td>7.95e+03</td>
-</tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 7.95e+03. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
-</div>
-<p>Voila! What you’ve just estimated is no longer the relationship between education and income across all Americans, but rather the relationship between education and income <em>within in US county</em>.</p>
-<p>To be clear, fixed effects aren’t really different from adding a normal control variable. One could say that adding <code class="docutils literal notranslate"><span class="pre">female</span></code> means that we’re now estimating the relationship between education and income among men and among women. <em>Mechnically</em>, fixed effects are just additional indicator variables. But because we often use them for groups, thinking about the fact that, when added, you’re effectively no estimating variation <em>within</em> the groups specified by the fixed effects is a powerful idea.</p>
+<p><img alt="cps_fe_unclustered_p2" src="_images/cps_fe_unclustered_p2.png" /></p>
+<p>Voila! What you’ve just estimated is no longer the relationship between education and income across all Americans, but rather the relationship between education and income <em>within in each US county</em>.</p>
+<p>To be clear, fixed effects aren’t <em>mathematically</em> different from adding a normal control variable. One could say that adding <code class="docutils literal notranslate"><span class="pre">female</span></code> means that we’re now estimating the relationship between education and income among men and among women. <em>Mechnically</em>, fixed effects are just additional indicator variables. But because we often use them for groups, thinking about the fact that, when added, one is effectively estimating variation <em>within</em> the groups specified by the fixed effects is a powerful
+idea.</p>
 <p>Perhaps no place is this more clear than in full panel data, where you have data on the same entities over time. In a panel regression, the addition of entity fixed effects allow you to difference out any <em>constant</em> differences between entities, and focus only on changes within each entity over time. This even works for people! In a panel with individuals observed over time, adding individual fixed effects means you’re effectively controlling for anything constant about each individual (things
 that don’t change over time), and now you’re just studying <em>changes over time</em> for each individual.</p>
 <div class="section" id="Clustering">
 <h2>Clustering<a class="headerlink" href="#Clustering" title="Permalink to this headline">¶</a></h2>
 <p>When working with fixed effects, however, it’s also often a good idea to cluster your standard errors by your fixed effect variable. Clustering is a method for taking into account some of the variation in your data isn’t coming from the individual level (where you have lots of observations), but rather from the group level. Since you have fewer groups than observations, clustering corrects your standard errors to reflect the smaller effective sample size being used to estimate those fixed
-effects.</p>
+effects (clustering <em>only</em> affects standard errors – it has no impact on coefficients themselves. This is just about adjustments to our confidence in our inferences).</p>
 <p>Clustering is thankfully easy to do – just use the <code class="docutils literal notranslate"><span class="pre">get_robustcov_results</span></code> method from <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, and use the <code class="docutils literal notranslate"><span class="pre">groups</span></code> keyword to pass the group assignments for each observation.</p>
 <p><strong>Note that if you’re using formulas in statsmodels, the regression is automatically dropping observations that can’t be estimated because of missing data, so you have to do the same before passing your group assignments to</strong> <code class="docutils literal notranslate"><span class="pre">get_robustcov_results</span></code> <strong>– otherwise you’ll get the error:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ValueError</span><span class="p">:</span> <span class="n">The</span> <span class="n">weights</span> <span class="ow">and</span> <span class="nb">list</span> <span class="n">don</span><span class="s1">&#39;t have the same length.</span>
 </pre></div>
 </div>
 <p><strong>because the number of observations in the model doesn’t match the number of observations in the group assignment vector you pass!</strong></p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
@@ -1445,13 +405,22 @@ effects.</p>
 <span class="n">fe_groups</span> <span class="o">=</span> <span class="n">cps</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;annual_earnings&#39;</span><span class="p">,</span> <span class="s1">&#39;female&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;county_code&#39;</span><span class="p">,</span> <span class="s1">&#39;has_college_educ&#39;</span><span class="p">]:</span>
     <span class="n">fe_groups</span> <span class="o">=</span> <span class="n">fe_groups</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">notnull</span><span class="p">(</span><span class="n">fe_groups</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span>
-
-<span class="c1"># Adjust SEs</span>
-<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">fe_groups</span><span class="o">.</span><span class="n">county_code</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Adjust SEs</span>
+<span class="c1"># Again, suppressing actual output for space with semicolon</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span>
+                            <span class="n">groups</span><span class="o">=</span><span class="n">fe_groups</span><span class="o">.</span><span class="n">county_code</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area stderr docutils container">
@@ -1460,1068 +429,26 @@ effects.</p>
   &#39;rank is %d&#39; % (J, J_), ValueWarning)
 </pre></div></div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<p><img alt="cps_fe_clustered_p1" src="_images/cps_fe_clustered_p1.png" /></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>
+<span class="o">.</span>
+<span class="o">.</span>
 </pre></div>
 </div>
-<div class="output_area rendered_html docutils container">
-<table class="simpletable">
-<caption>OLS Regression Results</caption>
-<tr>
-  <th>Dep. Variable:</th>     <td>annual_earnings</td> <th>  R-squared:         </th>  <td>   0.122</td>
-</tr>
-<tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th>  <td>   0.117</td>
-</tr>
-<tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   1769.</td>
-</tr>
-<tr>
-  <th>Date:</th>             <td>Sat, 15 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td>3.93e-202</td>
-</tr>
-<tr>
-  <th>Time:</th>                 <td>17:00:55</td>     <th>  Log-Likelihood:    </th> <td>-7.4990e+05</td>
-</tr>
-<tr>
-  <th>No. Observations:</th>      <td> 65755</td>      <th>  AIC:               </th>  <td>1.500e+06</td>
-</tr>
-<tr>
-  <th>Df Residuals:</th>          <td> 65423</td>      <th>  BIC:               </th>  <td>1.503e+06</td>
-</tr>
-<tr>
-  <th>Df Model:</th>              <td>   331</td>      <th>                     </th>      <td> </td>
-</tr>
-<tr>
-  <th>Covariance Type:</th>       <td>cluster</td>     <th>                     </th>      <td> </td>
-</tr>
-</table>
-<table class="simpletable">
-<tr>
-                 <td></td>                    <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
-</tr>
-<tr>
-  <th>Intercept</th>                       <td> 3.949e+04</td> <td>  350.955</td> <td>  112.510</td> <td> 0.000</td> <td> 3.88e+04</td> <td> 4.02e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AL_county_0]</th>   <td>-9652.4619</td> <td>   19.022</td> <td> -507.447</td> <td> 0.000</td> <td>-9689.882</td> <td>-9615.042</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AL_county_3]</th>   <td>-8355.2221</td> <td>   13.206</td> <td> -632.660</td> <td> 0.000</td> <td>-8381.202</td> <td>-8329.242</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AL_county_81]</th>  <td>-1.089e+04</td> <td>   27.360</td> <td> -398.135</td> <td> 0.000</td> <td>-1.09e+04</td> <td>-1.08e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AL_county_97]</th>  <td>-8272.5800</td> <td>   32.360</td> <td> -255.645</td> <td> 0.000</td> <td>-8336.239</td> <td>-8208.921</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AR_county_0]</th>   <td>-1.088e+04</td> <td>   19.843</td> <td> -548.076</td> <td> 0.000</td> <td>-1.09e+04</td> <td>-1.08e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AZ_county_0]</th>   <td>-1.046e+04</td> <td>    9.993</td> <td>-1046.982</td> <td> 0.000</td> <td>-1.05e+04</td> <td>-1.04e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AZ_county_13]</th>  <td>-7477.3995</td> <td>   12.749</td> <td> -586.531</td> <td> 0.000</td> <td>-7502.479</td> <td>-7452.320</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AZ_county_19]</th>  <td>-9807.0443</td> <td>   28.932</td> <td> -338.966</td> <td> 0.000</td> <td>-9863.960</td> <td>-9750.128</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AZ_county_21]</th>  <td>-8487.1774</td> <td>   45.123</td> <td> -188.089</td> <td> 0.000</td> <td>-8575.945</td> <td>-8398.410</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AZ_county_25]</th>  <td> 2372.8697</td> <td>   56.684</td> <td>   41.861</td> <td> 0.000</td> <td> 2261.359</td> <td> 2484.380</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.AZ_county_27]</th>  <td>-8879.7940</td> <td>   45.335</td> <td> -195.871</td> <td> 0.000</td> <td>-8968.978</td> <td>-8790.610</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_0]</th>   <td>-3952.5717</td> <td>    5.989</td> <td> -659.928</td> <td> 0.000</td> <td>-3964.354</td> <td>-3940.789</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_1]</th>   <td> 1036.9671</td> <td>   25.627</td> <td>   40.464</td> <td> 0.000</td> <td>  986.554</td> <td> 1087.381</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_107]</th> <td>-1.191e+04</td> <td>   21.069</td> <td> -565.359</td> <td> 0.000</td> <td> -1.2e+04</td> <td>-1.19e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_111]</th> <td>-4102.8017</td> <td>   28.583</td> <td> -143.537</td> <td> 0.000</td> <td>-4159.032</td> <td>-4046.572</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_113]</th> <td>-8407.7787</td> <td>   51.759</td> <td> -162.441</td> <td> 0.000</td> <td>-8509.600</td> <td>-8305.958</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_17]</th>  <td> 1.303e+04</td> <td>   47.262</td> <td>  275.775</td> <td> 0.000</td> <td> 1.29e+04</td> <td> 1.31e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_19]</th>  <td>-9143.1371</td> <td>   25.627</td> <td> -356.777</td> <td> 0.000</td> <td>-9193.551</td> <td>-9092.723</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_29]</th>  <td>-1.093e+04</td> <td>   23.250</td> <td> -470.150</td> <td> 0.000</td> <td> -1.1e+04</td> <td>-1.09e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_31]</th>  <td>-3347.2096</td> <td>   35.181</td> <td>  -95.141</td> <td> 0.000</td> <td>-3416.419</td> <td>-3278.000</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_37]</th>  <td>-6544.6140</td> <td>    9.595</td> <td> -682.069</td> <td> 0.000</td> <td>-6563.490</td> <td>-6525.738</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_53]</th>  <td>-6768.1589</td> <td>   38.391</td> <td> -176.293</td> <td> 0.000</td> <td>-6843.683</td> <td>-6692.634</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_59]</th>  <td>-7264.8388</td> <td>   10.096</td> <td> -719.579</td> <td> 0.000</td> <td>-7284.700</td> <td>-7244.978</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_61]</th>  <td> 7772.7521</td> <td>   44.901</td> <td>  173.108</td> <td> 0.000</td> <td> 7684.422</td> <td> 7861.083</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_67]</th>  <td>-5823.6499</td> <td>   23.314</td> <td> -249.792</td> <td> 0.000</td> <td>-5869.514</td> <td>-5777.786</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_7]</th>   <td>-2760.6904</td> <td>   24.738</td> <td> -111.597</td> <td> 0.000</td> <td>-2809.355</td> <td>-2712.025</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_73]</th>  <td>-6612.7252</td> <td>    4.797</td> <td>-1378.460</td> <td> 0.000</td> <td>-6622.162</td> <td>-6603.288</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_75]</th>  <td>  989.6344</td> <td>   45.708</td> <td>   21.651</td> <td> 0.000</td> <td>  899.716</td> <td> 1079.553</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_77]</th>  <td>-7233.6488</td> <td>   50.249</td> <td> -143.957</td> <td> 0.000</td> <td>-7332.499</td> <td>-7134.798</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_79]</th>  <td>-6660.9816</td> <td>   52.904</td> <td> -125.907</td> <td> 0.000</td> <td>-6765.056</td> <td>-6556.907</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_81]</th>  <td> 5733.6514</td> <td>   19.538</td> <td>  293.466</td> <td> 0.000</td> <td> 5695.216</td> <td> 5772.086</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_83]</th>  <td>-9111.2453</td> <td>   50.925</td> <td> -178.915</td> <td> 0.000</td> <td>-9211.426</td> <td>-9011.065</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_87]</th>  <td>-2113.6101</td> <td>   27.754</td> <td>  -76.155</td> <td> 0.000</td> <td>-2168.209</td> <td>-2059.011</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_89]</th>  <td> 1518.2503</td> <td>   25.754</td> <td>   58.953</td> <td> 0.000</td> <td> 1467.587</td> <td> 1568.914</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_95]</th>  <td> 1162.0077</td> <td>   45.495</td> <td>   25.541</td> <td> 0.000</td> <td> 1072.509</td> <td> 1251.507</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_97]</th>  <td> 2269.6081</td> <td>   19.454</td> <td>  116.664</td> <td> 0.000</td> <td> 2231.337</td> <td> 2307.879</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CA_county_99]</th>  <td>-3416.3231</td> <td>   38.201</td> <td>  -89.431</td> <td> 0.000</td> <td>-3491.473</td> <td>-3341.174</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CO_county_0]</th>   <td>-5837.9838</td> <td>   26.047</td> <td> -224.136</td> <td> 0.000</td> <td>-5889.223</td> <td>-5786.744</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CO_county_123]</th> <td>  704.8191</td> <td>   59.674</td> <td>   11.811</td> <td> 0.000</td> <td>  587.428</td> <td>  822.210</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CO_county_13]</th>  <td> 6281.0083</td> <td>   30.380</td> <td>  206.749</td> <td> 0.000</td> <td> 6221.244</td> <td> 6340.772</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CO_county_31]</th>  <td>-5045.4100</td> <td>   45.581</td> <td> -110.691</td> <td> 0.000</td> <td>-5135.078</td> <td>-4955.742</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CO_county_59]</th>  <td>-2186.4713</td> <td>   33.833</td> <td>  -64.625</td> <td> 0.000</td> <td>-2253.029</td> <td>-2119.913</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CO_county_69]</th>  <td>  591.1731</td> <td>   40.168</td> <td>   14.717</td> <td> 0.000</td> <td>  512.153</td> <td>  670.193</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CT_county_0]</th>   <td>-2782.3627</td> <td>   18.639</td> <td> -149.280</td> <td> 0.000</td> <td>-2819.029</td> <td>-2745.697</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CT_county_1]</th>   <td>-5564.8749</td> <td>   20.117</td> <td> -276.628</td> <td> 0.000</td> <td>-5604.449</td> <td>-5525.301</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CT_county_15]</th>  <td>-4990.6971</td> <td>   48.381</td> <td> -103.155</td> <td> 0.000</td> <td>-5085.872</td> <td>-4895.522</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CT_county_5]</th>   <td>-1362.1686</td> <td>   17.295</td> <td>  -78.762</td> <td> 0.000</td> <td>-1396.191</td> <td>-1328.146</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.CT_county_9]</th>   <td>-3042.9559</td> <td>   25.053</td> <td> -121.460</td> <td> 0.000</td> <td>-3092.241</td> <td>-2993.671</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.DC_county_1]</th>   <td>-3511.2394</td> <td>   91.963</td> <td>  -38.181</td> <td> 0.000</td> <td>-3692.151</td> <td>-3330.328</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.DE_county_1]</th>   <td>-9278.8969</td> <td>   17.505</td> <td> -530.060</td> <td> 0.000</td> <td>-9313.334</td> <td>-9244.460</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.DE_county_3]</th>   <td>-6950.4703</td> <td>   16.838</td> <td> -412.793</td> <td> 0.000</td> <td>-6983.594</td> <td>-6917.347</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.DE_county_5]</th>   <td>-9749.3355</td> <td>   33.652</td> <td> -289.712</td> <td> 0.000</td> <td>-9815.536</td> <td>-9683.135</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_0]</th>   <td>-9733.2882</td> <td>    9.716</td> <td>-1001.818</td> <td> 0.000</td> <td>-9752.401</td> <td>-9714.175</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_101]</th> <td>-1.309e+04</td> <td>   11.266</td> <td>-1162.101</td> <td> 0.000</td> <td>-1.31e+04</td> <td>-1.31e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_103]</th> <td>-8589.6329</td> <td>   30.266</td> <td> -283.802</td> <td> 0.000</td> <td>-8649.174</td> <td>-8530.092</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_105]</th> <td>-1.489e+04</td> <td>   35.840</td> <td> -415.357</td> <td> 0.000</td> <td> -1.5e+04</td> <td>-1.48e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_109]</th> <td>-3831.0319</td> <td>   28.852</td> <td> -132.783</td> <td> 0.000</td> <td>-3887.790</td> <td>-3774.274</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_11]</th>  <td>-7915.4546</td> <td>   37.399</td> <td> -211.648</td> <td> 0.000</td> <td>-7989.027</td> <td>-7841.882</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_111]</th> <td>-9926.5669</td> <td>   24.916</td> <td> -398.401</td> <td> 0.000</td> <td>-9975.582</td> <td>-9877.552</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_113]</th> <td>-9932.2897</td> <td>  101.071</td> <td>  -98.270</td> <td> 0.000</td> <td>-1.01e+04</td> <td>-9733.460</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_19]</th>  <td>-7735.4931</td> <td>   52.560</td> <td> -147.173</td> <td> 0.000</td> <td>-7838.891</td> <td>-7632.095</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_21]</th>  <td>-5362.1218</td> <td>   35.226</td> <td> -152.223</td> <td> 0.000</td> <td>-5431.418</td> <td>-5292.825</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_33]</th>  <td>-1.147e+04</td> <td>   49.669</td> <td> -230.828</td> <td> 0.000</td> <td>-1.16e+04</td> <td>-1.14e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_5]</th>   <td>-5673.8895</td> <td>   34.806</td> <td> -163.014</td> <td> 0.000</td> <td>-5742.361</td> <td>-5605.418</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_53]</th>  <td>-7387.4092</td> <td>   19.141</td> <td> -385.954</td> <td> 0.000</td> <td>-7425.063</td> <td>-7349.755</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_57]</th>  <td>-9019.5765</td> <td>   27.233</td> <td> -331.200</td> <td> 0.000</td> <td>-9073.150</td> <td>-8966.003</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_69]</th>  <td>-1.182e+04</td> <td>   15.364</td> <td> -769.426</td> <td> 0.000</td> <td>-1.19e+04</td> <td>-1.18e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_71]</th>  <td>-9819.9278</td> <td>   39.473</td> <td> -248.773</td> <td> 0.000</td> <td>-9897.581</td> <td>-9742.275</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_83]</th>  <td>-1.702e+04</td> <td>   63.437</td> <td> -268.252</td> <td> 0.000</td> <td>-1.71e+04</td> <td>-1.69e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_85]</th>  <td>-4622.5194</td> <td>   74.396</td> <td>  -62.134</td> <td> 0.000</td> <td>-4768.872</td> <td>-4476.167</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_86]</th>  <td>-1.347e+04</td> <td>   13.194</td> <td>-1021.252</td> <td> 0.000</td> <td>-1.35e+04</td> <td>-1.34e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_9]</th>   <td>-1.315e+04</td> <td>   37.424</td> <td> -351.434</td> <td> 0.000</td> <td>-1.32e+04</td> <td>-1.31e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_95]</th>  <td>-7853.4590</td> <td>   11.578</td> <td> -678.327</td> <td> 0.000</td> <td>-7876.235</td> <td>-7830.683</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.FL_county_99]</th>  <td>-1.039e+04</td> <td>   12.022</td> <td> -864.129</td> <td> 0.000</td> <td>-1.04e+04</td> <td>-1.04e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_0]</th>   <td>-1.076e+04</td> <td>   21.854</td> <td> -492.216</td> <td> 0.000</td> <td>-1.08e+04</td> <td>-1.07e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_113]</th> <td> -887.4776</td> <td>    6.789</td> <td> -130.728</td> <td> 0.000</td> <td> -900.833</td> <td> -874.123</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_117]</th> <td>-1.101e+04</td> <td>   40.773</td> <td> -269.927</td> <td> 0.000</td> <td>-1.11e+04</td> <td>-1.09e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_135]</th> <td>-1.002e+04</td> <td>   18.687</td> <td> -536.312</td> <td> 0.000</td> <td>-1.01e+04</td> <td>-9985.411</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_139]</th> <td>-1.433e+04</td> <td>   26.611</td> <td> -538.657</td> <td> 0.000</td> <td>-1.44e+04</td> <td>-1.43e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_15]</th>  <td>-8499.4395</td> <td>   50.375</td> <td> -168.724</td> <td> 0.000</td> <td>-8598.538</td> <td>-8400.341</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_151]</th> <td>-1.249e+04</td> <td>   22.665</td> <td> -551.181</td> <td> 0.000</td> <td>-1.25e+04</td> <td>-1.24e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_223]</th> <td>-1.457e+04</td> <td>   30.051</td> <td> -484.826</td> <td> 0.000</td> <td>-1.46e+04</td> <td>-1.45e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_45]</th>  <td>-8421.1734</td> <td>   77.602</td> <td> -108.518</td> <td> 0.000</td> <td>-8573.834</td> <td>-8268.513</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_57]</th>  <td>-4375.5270</td> <td>   69.206</td> <td>  -63.225</td> <td> 0.000</td> <td>-4511.670</td> <td>-4239.384</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_63]</th>  <td>-8701.9028</td> <td>   18.943</td> <td> -459.375</td> <td> 0.000</td> <td>-8739.168</td> <td>-8664.638</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_77]</th>  <td>-4572.7417</td> <td>   46.376</td> <td>  -98.602</td> <td> 0.000</td> <td>-4663.974</td> <td>-4481.510</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.GA_county_97]</th>  <td>-1.206e+04</td> <td>   22.477</td> <td> -536.463</td> <td> 0.000</td> <td>-1.21e+04</td> <td> -1.2e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.HI_county_0]</th>   <td>-7742.6828</td> <td>   28.402</td> <td> -272.610</td> <td> 0.000</td> <td>-7798.556</td> <td>-7686.810</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.HI_county_3]</th>   <td>-4714.9994</td> <td>   20.925</td> <td> -225.325</td> <td> 0.000</td> <td>-4756.164</td> <td>-4673.835</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IA_county_0]</th>   <td>-7483.3177</td> <td>   23.109</td> <td> -323.828</td> <td> 0.000</td> <td>-7528.778</td> <td>-7437.857</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IA_county_103]</th> <td>-3617.7321</td> <td>   13.905</td> <td> -260.166</td> <td> 0.000</td> <td>-3645.087</td> <td>-3590.377</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IA_county_113]</th> <td>-1.013e+04</td> <td>   37.129</td> <td> -272.711</td> <td> 0.000</td> <td>-1.02e+04</td> <td>-1.01e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IA_county_163]</th> <td>-2974.3145</td> <td>   15.364</td> <td> -193.585</td> <td> 0.000</td> <td>-3004.540</td> <td>-2944.089</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ID_county_0]</th>   <td>-7827.6138</td> <td>   22.256</td> <td> -351.713</td> <td> 0.000</td> <td>-7871.396</td> <td>-7783.832</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IL_county_0]</th>   <td>-5615.2964</td> <td>   12.846</td> <td> -437.113</td> <td> 0.000</td> <td>-5640.568</td> <td>-5590.025</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IL_county_111]</th> <td> 2734.0511</td> <td>   46.215</td> <td>   59.159</td> <td> 0.000</td> <td> 2643.135</td> <td> 2824.967</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IL_county_119]</th> <td>-3215.5354</td> <td>   36.954</td> <td>  -87.014</td> <td> 0.000</td> <td>-3288.232</td> <td>-3142.839</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IL_county_163]</th> <td>-9278.5305</td> <td>   49.527</td> <td> -187.343</td> <td> 0.000</td> <td>-9375.961</td> <td>-9181.100</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IL_county_179]</th> <td>-7276.7671</td> <td>   76.419</td> <td>  -95.223</td> <td> 0.000</td> <td>-7427.099</td> <td>-7126.435</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IL_county_97]</th>  <td>-1.086e+04</td> <td>   12.646</td> <td> -859.004</td> <td> 0.000</td> <td>-1.09e+04</td> <td>-1.08e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_0]</th>   <td>-7735.3748</td> <td>   12.493</td> <td> -619.177</td> <td> 0.000</td> <td>-7759.951</td> <td>-7710.798</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_105]</th> <td>-1.292e+04</td> <td>   31.116</td> <td> -415.116</td> <td> 0.000</td> <td> -1.3e+04</td> <td>-1.29e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_141]</th> <td>-1.109e+04</td> <td>   38.341</td> <td> -289.324</td> <td> 0.000</td> <td>-1.12e+04</td> <td> -1.1e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_19]</th>  <td>-7134.3267</td> <td>   21.162</td> <td> -337.135</td> <td> 0.000</td> <td>-7175.956</td> <td>-7092.697</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_39]</th>  <td>-8773.9387</td> <td>   36.416</td> <td> -240.934</td> <td> 0.000</td> <td>-8845.578</td> <td>-8702.300</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_63]</th>  <td>-1.054e+04</td> <td>   43.830</td> <td> -240.558</td> <td> 0.000</td> <td>-1.06e+04</td> <td>-1.05e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_81]</th>  <td>-6229.6231</td> <td>   39.842</td> <td> -156.359</td> <td> 0.000</td> <td>-6308.001</td> <td>-6151.245</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.IN_county_89]</th>  <td>-2107.7413</td> <td>   41.552</td> <td>  -50.725</td> <td> 0.000</td> <td>-2189.484</td> <td>-2025.998</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KS_county_0]</th>   <td>-1.024e+04</td> <td>   28.289</td> <td> -362.135</td> <td> 0.000</td> <td>-1.03e+04</td> <td>-1.02e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KS_county_173]</th> <td>-6701.6873</td> <td>   24.245</td> <td> -276.417</td> <td> 0.000</td> <td>-6749.382</td> <td>-6653.992</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KS_county_91]</th>  <td>-5478.8819</td> <td>   34.020</td> <td> -161.047</td> <td> 0.000</td> <td>-5545.808</td> <td>-5411.956</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KY_county_0]</th>   <td>-9357.0911</td> <td>   25.205</td> <td> -371.242</td> <td> 0.000</td> <td>-9406.675</td> <td>-9307.508</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KY_county_111]</th> <td>-1.015e+04</td> <td>   22.946</td> <td> -442.547</td> <td> 0.000</td> <td>-1.02e+04</td> <td>-1.01e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KY_county_117]</th> <td>-1.126e+04</td> <td>   65.079</td> <td> -172.969</td> <td> 0.000</td> <td>-1.14e+04</td> <td>-1.11e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KY_county_15]</th>  <td>-1.103e+04</td> <td>   66.821</td> <td> -164.995</td> <td> 0.000</td> <td>-1.12e+04</td> <td>-1.09e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.KY_county_67]</th>  <td>-1.257e+04</td> <td>   30.342</td> <td> -414.392</td> <td> 0.000</td> <td>-1.26e+04</td> <td>-1.25e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_0]</th>   <td>-7495.6960</td> <td>   21.782</td> <td> -344.123</td> <td> 0.000</td> <td>-7538.546</td> <td>-7452.846</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_103]</th> <td>-1647.1929</td> <td>   29.079</td> <td>  -56.646</td> <td> 0.000</td> <td>-1704.397</td> <td>-1589.988</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_33]</th>  <td>-1.015e+04</td> <td>   43.516</td> <td> -233.207</td> <td> 0.000</td> <td>-1.02e+04</td> <td>-1.01e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_5]</th>   <td>-3810.8848</td> <td>   30.403</td> <td> -125.344</td> <td> 0.000</td> <td>-3870.695</td> <td>-3751.074</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_51]</th>  <td>-6545.5514</td> <td>   36.933</td> <td> -177.229</td> <td> 0.000</td> <td>-6618.207</td> <td>-6472.896</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_63]</th>  <td>-7127.7678</td> <td>   12.597</td> <td> -565.822</td> <td> 0.000</td> <td>-7152.549</td> <td>-7102.986</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_71]</th>  <td>-1.295e+04</td> <td>   40.608</td> <td> -318.928</td> <td> 0.000</td> <td> -1.3e+04</td> <td>-1.29e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.LA_county_73]</th>  <td> -1.39e+04</td> <td>   44.417</td> <td> -313.020</td> <td> 0.000</td> <td> -1.4e+04</td> <td>-1.38e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_0]</th>   <td>-6329.8044</td> <td>   59.181</td> <td> -106.957</td> <td> 0.000</td> <td>-6446.226</td> <td>-6213.383</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_1]</th>   <td>-7936.8914</td> <td>   67.579</td> <td> -117.446</td> <td> 0.000</td> <td>-8069.834</td> <td>-7803.949</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_13]</th>  <td>-9543.7365</td> <td>   26.915</td> <td> -354.581</td> <td> 0.000</td> <td>-9596.685</td> <td>-9490.788</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_15]</th>  <td>-7081.0057</td> <td>   53.264</td> <td> -132.943</td> <td> 0.000</td> <td>-7185.787</td> <td>-6976.224</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_17]</th>  <td>  377.6384</td> <td>   64.262</td> <td>    5.877</td> <td> 0.000</td> <td>  251.220</td> <td>  504.057</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_21]</th>  <td> 3229.3846</td> <td>   59.042</td> <td>   54.696</td> <td> 0.000</td> <td> 3113.235</td> <td> 3345.534</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_23]</th>  <td>-3823.0719</td> <td>   30.156</td> <td> -126.774</td> <td> 0.000</td> <td>-3882.396</td> <td>-3763.747</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_25]</th>  <td>-3479.6966</td> <td>   48.334</td> <td>  -71.993</td> <td> 0.000</td> <td>-3574.780</td> <td>-3384.614</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_27]</th>  <td>-2051.5403</td> <td>   31.941</td> <td>  -64.229</td> <td> 0.000</td> <td>-2114.376</td> <td>-1988.705</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_5]</th>   <td>-2479.0374</td> <td>   28.518</td> <td>  -86.929</td> <td> 0.000</td> <td>-2535.138</td> <td>-2422.936</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MA_county_9]</th>   <td>-1406.5298</td> <td>   21.783</td> <td>  -64.569</td> <td> 0.000</td> <td>-1449.382</td> <td>-1363.677</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_0]</th>   <td>-4141.2705</td> <td>   18.903</td> <td> -219.077</td> <td> 0.000</td> <td>-4178.457</td> <td>-4104.084</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_13]</th>  <td> 4340.4022</td> <td>   12.434</td> <td>  349.078</td> <td> 0.000</td> <td> 4315.942</td> <td> 4364.862</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_15]</th>  <td>-1663.9802</td> <td>   25.152</td> <td>  -66.158</td> <td> 0.000</td> <td>-1713.459</td> <td>-1614.501</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_17]</th>  <td>-7111.8246</td> <td>   29.105</td> <td> -244.347</td> <td> 0.000</td> <td>-7169.081</td> <td>-7054.568</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_25]</th>  <td>-9899.0064</td> <td>   20.306</td> <td> -487.498</td> <td> 0.000</td> <td>-9938.952</td> <td>-9859.060</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_3]</th>   <td>  658.7847</td> <td>   43.263</td> <td>   15.227</td> <td> 0.000</td> <td>  573.676</td> <td>  743.893</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_31]</th>  <td>-4350.1855</td> <td>   56.555</td> <td>  -76.920</td> <td> 0.000</td> <td>-4461.442</td> <td>-4238.929</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_33]</th>  <td>-6518.9133</td> <td>   18.946</td> <td> -344.083</td> <td> 0.000</td> <td>-6556.184</td> <td>-6481.643</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MD_county_510]</th> <td>-1.232e+04</td> <td>   96.761</td> <td> -127.314</td> <td> 0.000</td> <td>-1.25e+04</td> <td>-1.21e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ME_county_0]</th>   <td>-5905.7544</td> <td>   23.007</td> <td> -256.698</td> <td> 0.000</td> <td>-5951.013</td> <td>-5860.495</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ME_county_1]</th>   <td>-5954.4954</td> <td>   27.580</td> <td> -215.900</td> <td> 0.000</td> <td>-6008.751</td> <td>-5900.240</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ME_county_11]</th>  <td>-1.001e+04</td> <td>   26.523</td> <td> -377.368</td> <td> 0.000</td> <td>-1.01e+04</td> <td>-9956.748</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ME_county_19]</th>  <td>-6300.7547</td> <td>   58.540</td> <td> -107.632</td> <td> 0.000</td> <td>-6415.916</td> <td>-6185.593</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ME_county_5]</th>   <td>-5072.9699</td> <td>   34.643</td> <td> -146.435</td> <td> 0.000</td> <td>-5141.121</td> <td>-5004.819</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_0]</th>   <td>-8153.7861</td> <td>   23.915</td> <td> -340.956</td> <td> 0.000</td> <td>-8200.831</td> <td>-8106.741</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_115]</th> <td> 6534.4347</td> <td>   42.743</td> <td>  152.876</td> <td> 0.000</td> <td> 6450.349</td> <td> 6618.520</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_121]</th> <td>-1.207e+04</td> <td>   14.121</td> <td> -854.976</td> <td> 0.000</td> <td>-1.21e+04</td> <td> -1.2e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_125]</th> <td>-4125.4790</td> <td>   38.459</td> <td> -107.270</td> <td> 0.000</td> <td>-4201.136</td> <td>-4049.822</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_145]</th> <td>-4892.6258</td> <td>   63.235</td> <td>  -77.372</td> <td> 0.000</td> <td>-5017.023</td> <td>-4768.229</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_161]</th> <td>-1408.8347</td> <td>   20.469</td> <td>  -68.829</td> <td> 0.000</td> <td>-1449.101</td> <td>-1368.568</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_163]</th> <td>-7392.6355</td> <td>   17.806</td> <td> -415.168</td> <td> 0.000</td> <td>-7427.665</td> <td>-7357.606</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_21]</th>  <td>-4548.6244</td> <td>   38.133</td> <td> -119.283</td> <td> 0.000</td> <td>-4623.641</td> <td>-4473.608</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_25]</th>  <td>-8482.0797</td> <td>   70.960</td> <td> -119.534</td> <td> 0.000</td> <td>-8621.673</td> <td>-8342.486</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_49]</th>  <td>-2235.2551</td> <td>   46.098</td> <td>  -48.490</td> <td> 0.000</td> <td>-2325.939</td> <td>-2144.571</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_5]</th>   <td>-6445.8518</td> <td>   24.275</td> <td> -265.531</td> <td> 0.000</td> <td>-6493.607</td> <td>-6398.097</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_75]</th>  <td>-7216.3719</td> <td>   41.325</td> <td> -174.623</td> <td> 0.000</td> <td>-7297.668</td> <td>-7135.076</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_81]</th>  <td>-3447.7860</td> <td>   68.933</td> <td>  -50.017</td> <td> 0.000</td> <td>-3583.392</td> <td>-3312.180</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_93]</th>  <td>-2988.5806</td> <td>   57.029</td> <td>  -52.405</td> <td> 0.000</td> <td>-3100.769</td> <td>-2876.393</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MI_county_99]</th>  <td>-1767.5776</td> <td>   29.278</td> <td>  -60.372</td> <td> 0.000</td> <td>-1825.174</td> <td>-1709.981</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MN_county_0]</th>   <td>-3548.9907</td> <td>   14.767</td> <td> -240.327</td> <td> 0.000</td> <td>-3578.041</td> <td>-3519.940</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MN_county_123]</th> <td>-5963.3925</td> <td>   29.327</td> <td> -203.344</td> <td> 0.000</td> <td>-6021.084</td> <td>-5905.701</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MN_county_139]</th> <td>-1.151e+04</td> <td>   79.599</td> <td> -144.655</td> <td> 0.000</td> <td>-1.17e+04</td> <td>-1.14e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MN_county_163]</th> <td> 3414.5054</td> <td>   52.599</td> <td>   64.915</td> <td> 0.000</td> <td> 3311.031</td> <td> 3517.980</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MN_county_171]</th> <td> 4786.3807</td> <td>   36.021</td> <td>  132.879</td> <td> 0.000</td> <td> 4715.520</td> <td> 4857.241</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MN_county_3]</th>   <td>-5306.0842</td> <td>   45.174</td> <td> -117.460</td> <td> 0.000</td> <td>-5394.951</td> <td>-5217.218</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MO_county_0]</th>   <td>-8408.0747</td> <td>   19.630</td> <td> -428.332</td> <td> 0.000</td> <td>-8446.691</td> <td>-8369.458</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MO_county_189]</th> <td>-8418.8786</td> <td>   36.092</td> <td> -233.264</td> <td> 0.000</td> <td>-8489.879</td> <td>-8347.878</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MO_county_71]</th>  <td> 1486.3071</td> <td>   47.307</td> <td>   31.418</td> <td> 0.000</td> <td> 1393.244</td> <td> 1579.370</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MO_county_99]</th>  <td>-5244.8677</td> <td>   52.756</td> <td>  -99.418</td> <td> 0.000</td> <td>-5348.650</td> <td>-5141.085</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MS_county_0]</th>   <td>-9268.5907</td> <td>   16.375</td> <td> -566.021</td> <td> 0.000</td> <td>-9300.804</td> <td>-9236.377</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MT_county_0]</th>   <td>-6521.7514</td> <td>    9.228</td> <td> -706.718</td> <td> 0.000</td> <td>-6539.905</td> <td>-6503.597</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.MT_county_111]</th> <td>-4013.9010</td> <td>   10.061</td> <td> -398.944</td> <td> 0.000</td> <td>-4033.694</td> <td>-3994.108</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_0]</th>   <td>-9393.3668</td> <td>   12.881</td> <td> -729.260</td> <td> 0.000</td> <td>-9418.706</td> <td>-9368.028</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_1]</th>   <td>-5324.0637</td> <td>   27.449</td> <td> -193.964</td> <td> 0.000</td> <td>-5378.061</td> <td>-5270.066</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_119]</th> <td>-8513.1484</td> <td>   20.095</td> <td> -423.637</td> <td> 0.000</td> <td>-8552.680</td> <td>-8473.616</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_133]</th> <td>-8472.4858</td> <td>   23.616</td> <td> -358.755</td> <td> 0.000</td> <td>-8518.944</td> <td>-8426.027</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_147]</th> <td>-1.604e+04</td> <td>   62.783</td> <td> -255.462</td> <td> 0.000</td> <td>-1.62e+04</td> <td>-1.59e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_155]</th> <td>-1.517e+04</td> <td>   33.224</td> <td> -456.474</td> <td> 0.000</td> <td>-1.52e+04</td> <td>-1.51e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_159]</th> <td>-1.387e+04</td> <td>   45.382</td> <td> -305.588</td> <td> 0.000</td> <td> -1.4e+04</td> <td>-1.38e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_179]</th> <td>-7186.0419</td> <td>   71.134</td> <td> -101.022</td> <td> 0.000</td> <td>-7325.978</td> <td>-7046.106</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_191]</th> <td>-1.318e+04</td> <td>   34.087</td> <td> -386.572</td> <td> 0.000</td> <td>-1.32e+04</td> <td>-1.31e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_21]</th>  <td>-1.029e+04</td> <td>   36.245</td> <td> -283.987</td> <td> 0.000</td> <td>-1.04e+04</td> <td>-1.02e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_57]</th>  <td> -1.01e+04</td> <td>   47.828</td> <td> -211.137</td> <td> 0.000</td> <td>-1.02e+04</td> <td>   -1e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NC_county_67]</th>  <td>-8209.4184</td> <td>   52.769</td> <td> -155.574</td> <td> 0.000</td> <td>-8313.226</td> <td>-8105.611</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.ND_county_0]</th>   <td>-4389.5346</td> <td>   24.517</td> <td> -179.039</td> <td> 0.000</td> <td>-4437.765</td> <td>-4341.304</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NE_county_0]</th>   <td>-7975.3169</td> <td>   17.822</td> <td> -447.489</td> <td> 0.000</td> <td>-8010.377</td> <td>-7940.256</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NE_county_55]</th>  <td>-5305.8309</td> <td>   27.455</td> <td> -193.252</td> <td> 0.000</td> <td>-5359.842</td> <td>-5251.820</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NH_county_0]</th>   <td>-7638.2641</td> <td>   38.728</td> <td> -197.231</td> <td> 0.000</td> <td>-7714.450</td> <td>-7562.078</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NH_county_11]</th>  <td>-5446.4311</td> <td>   28.412</td> <td> -191.697</td> <td> 0.000</td> <td>-5502.323</td> <td>-5390.539</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NH_county_13]</th>  <td>-6038.3030</td> <td>   44.984</td> <td> -134.232</td> <td> 0.000</td> <td>-6126.796</td> <td>-5949.810</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NH_county_15]</th>  <td>-1746.8507</td> <td>   26.692</td> <td>  -65.445</td> <td> 0.000</td> <td>-1799.360</td> <td>-1694.342</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NH_county_17]</th>  <td>-6472.2130</td> <td>   17.926</td> <td> -361.060</td> <td> 0.000</td> <td>-6507.477</td> <td>-6436.949</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_0]</th>   <td>-6982.6145</td> <td>   29.312</td> <td> -238.219</td> <td> 0.000</td> <td>-7040.277</td> <td>-6924.952</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_11]</th>  <td>-1.131e+04</td> <td>   12.169</td> <td> -929.791</td> <td> 0.000</td> <td>-1.13e+04</td> <td>-1.13e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_13]</th>  <td>-9024.8195</td> <td>    9.486</td> <td> -951.410</td> <td> 0.000</td> <td>-9043.480</td> <td>-9006.159</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_17]</th>  <td>-4310.8275</td> <td>   20.530</td> <td> -209.979</td> <td> 0.000</td> <td>-4351.214</td> <td>-4270.441</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_19]</th>  <td> 3801.5337</td> <td>   60.260</td> <td>   63.085</td> <td> 0.000</td> <td> 3682.988</td> <td> 3920.079</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_21]</th>  <td>-4883.2966</td> <td>   32.434</td> <td> -150.560</td> <td> 0.000</td> <td>-4947.102</td> <td>-4819.491</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_23]</th>  <td>-5565.0751</td> <td>   37.107</td> <td> -149.976</td> <td> 0.000</td> <td>-5638.072</td> <td>-5492.078</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_27]</th>  <td> 2187.9912</td> <td>   52.564</td> <td>   41.625</td> <td> 0.000</td> <td> 2084.586</td> <td> 2291.397</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_3]</th>   <td> -980.0876</td> <td>   48.175</td> <td>  -20.344</td> <td> 0.000</td> <td>-1074.858</td> <td> -885.317</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_31]</th>  <td>-9884.5314</td> <td>   25.543</td> <td> -386.971</td> <td> 0.000</td> <td>-9934.781</td> <td>-9834.282</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_35]</th>  <td>-3517.6092</td> <td>   90.650</td> <td>  -38.804</td> <td> 0.000</td> <td>-3695.939</td> <td>-3339.280</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_37]</th>  <td>  131.8527</td> <td>   55.613</td> <td>    2.371</td> <td> 0.018</td> <td>   22.450</td> <td>  241.256</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_39]</th>  <td>-4100.8675</td> <td>   13.275</td> <td> -308.910</td> <td> 0.000</td> <td>-4126.983</td> <td>-4074.752</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_5]</th>   <td> 2074.2856</td> <td>   35.905</td> <td>   57.771</td> <td> 0.000</td> <td> 2003.652</td> <td> 2144.919</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NJ_county_7]</th>   <td>-8532.0590</td> <td>   30.712</td> <td> -277.810</td> <td> 0.000</td> <td>-8592.476</td> <td>-8471.642</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NM_county_0]</th>   <td>-9117.7966</td> <td>    8.428</td> <td>-1081.839</td> <td> 0.000</td> <td>-9134.376</td> <td>-9101.217</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NM_county_1]</th>   <td>-8906.9387</td> <td>   22.313</td> <td> -399.176</td> <td> 0.000</td> <td>-8950.834</td> <td>-8863.043</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NM_county_13]</th>  <td>-9824.4307</td> <td>   37.918</td> <td> -259.098</td> <td> 0.000</td> <td>-9899.024</td> <td>-9749.838</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NM_county_45]</th>  <td>-6730.3583</td> <td>   25.225</td> <td> -266.812</td> <td> 0.000</td> <td>-6779.982</td> <td>-6680.735</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NM_county_49]</th>  <td>-4084.4636</td> <td>   75.070</td> <td>  -54.408</td> <td> 0.000</td> <td>-4232.144</td> <td>-3936.783</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NV_county_0]</th>   <td>-5386.4222</td> <td>   28.197</td> <td> -191.027</td> <td> 0.000</td> <td>-5441.892</td> <td>-5330.952</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NV_county_3]</th>   <td>-9340.1698</td> <td>   18.841</td> <td> -495.747</td> <td> 0.000</td> <td>-9377.233</td> <td>-9303.106</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_0]</th>   <td>-6864.9733</td> <td>   15.270</td> <td> -449.570</td> <td> 0.000</td> <td>-6895.013</td> <td>-6834.934</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_103]</th> <td>-3554.9572</td> <td>   15.986</td> <td> -222.373</td> <td> 0.000</td> <td>-3586.406</td> <td>-3523.508</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_119]</th> <td>-4758.3458</td> <td>   57.980</td> <td>  -82.069</td> <td> 0.000</td> <td>-4872.406</td> <td>-4644.286</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_47]</th>  <td>-1.154e+04</td> <td>   25.666</td> <td> -449.626</td> <td> 0.000</td> <td>-1.16e+04</td> <td>-1.15e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_5]</th>   <td>-6543.4481</td> <td>    8.691</td> <td> -752.940</td> <td> 0.000</td> <td>-6560.544</td> <td>-6526.352</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_55]</th>  <td>-9782.6094</td> <td>   14.962</td> <td> -653.846</td> <td> 0.000</td> <td>-9812.042</td> <td>-9753.177</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_59]</th>  <td>-2125.1357</td> <td>   29.088</td> <td>  -73.060</td> <td> 0.000</td> <td>-2182.358</td> <td>-2067.914</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_61]</th>  <td>-9228.4673</td> <td>   77.659</td> <td> -118.833</td> <td> 0.000</td> <td>-9381.240</td> <td>-9075.695</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_67]</th>  <td>-5746.0286</td> <td>    7.161</td> <td> -802.445</td> <td> 0.000</td> <td>-5760.115</td> <td>-5731.942</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_69]</th>  <td>-3773.8828</td> <td>   77.411</td> <td>  -48.751</td> <td> 0.000</td> <td>-3926.168</td> <td>-3621.598</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_71]</th>  <td> 6679.6150</td> <td>   51.669</td> <td>  129.277</td> <td> 0.000</td> <td> 6577.970</td> <td> 6781.260</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_81]</th>  <td>-9045.4401</td> <td>   15.520</td> <td> -582.827</td> <td> 0.000</td> <td>-9075.971</td> <td>-9014.909</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_85]</th>  <td>-4375.1158</td> <td>   45.895</td> <td>  -95.329</td> <td> 0.000</td> <td>-4465.401</td> <td>-4284.831</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_87]</th>  <td>  -84.3095</td> <td>   20.644</td> <td>   -4.084</td> <td> 0.000</td> <td> -124.921</td> <td>  -43.698</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.NY_county_91]</th>  <td> 5786.0477</td> <td>   29.157</td> <td>  198.447</td> <td> 0.000</td> <td> 5728.690</td> <td> 5843.405</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_0]</th>   <td>-7451.3280</td> <td>   15.774</td> <td> -472.388</td> <td> 0.000</td> <td>-7482.358</td> <td>-7420.298</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_103]</th> <td> 8464.9013</td> <td>   42.984</td> <td>  196.931</td> <td> 0.000</td> <td> 8380.342</td> <td> 8549.461</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_109]</th> <td>-1.192e+04</td> <td>   45.446</td> <td> -262.182</td> <td> 0.000</td> <td> -1.2e+04</td> <td>-1.18e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_113]</th> <td>-7457.4804</td> <td>    9.839</td> <td> -757.984</td> <td> 0.000</td> <td>-7476.835</td> <td>-7438.126</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_133]</th> <td>-1060.6485</td> <td>   30.880</td> <td>  -34.347</td> <td> 0.000</td> <td>-1121.397</td> <td> -999.900</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_153]</th> <td>-9659.1521</td> <td>   19.496</td> <td> -495.441</td> <td> 0.000</td> <td>-9697.505</td> <td>-9620.799</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_25]</th>  <td> -767.8108</td> <td>   53.402</td> <td>  -14.378</td> <td> 0.000</td> <td> -872.865</td> <td> -662.757</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_57]</th>  <td>-4282.6686</td> <td>  165.066</td> <td>  -25.945</td> <td> 0.000</td> <td>-4607.390</td> <td>-3957.947</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_85]</th>  <td>-6842.0161</td> <td>   58.475</td> <td> -117.008</td> <td> 0.000</td> <td>-6957.049</td> <td>-6726.984</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_89]</th>  <td>-9973.7392</td> <td>   37.752</td> <td> -264.194</td> <td> 0.000</td> <td>   -1e+04</td> <td>-9899.474</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OH_county_95]</th>  <td>-5947.9729</td> <td>   23.349</td> <td> -254.744</td> <td> 0.000</td> <td>-5993.905</td> <td>-5902.040</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OK_county_0]</th>   <td>-7688.5218</td> <td>   16.622</td> <td> -462.542</td> <td> 0.000</td> <td>-7721.222</td> <td>-7655.822</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OR_county_0]</th>   <td>-5455.4914</td> <td>   11.323</td> <td> -481.824</td> <td> 0.000</td> <td>-5477.765</td> <td>-5433.217</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OR_county_17]</th>  <td> -843.5374</td> <td>   12.590</td> <td>  -67.000</td> <td> 0.000</td> <td> -868.305</td> <td> -818.770</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OR_county_29]</th>  <td>-7517.5000</td> <td>   50.523</td> <td> -148.795</td> <td> 0.000</td> <td>-7616.889</td> <td>-7418.111</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.OR_county_39]</th>  <td>-7076.2795</td> <td>   16.753</td> <td> -422.384</td> <td> 0.000</td> <td>-7109.237</td> <td>-7043.322</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_0]</th>   <td>-8166.3228</td> <td>   23.420</td> <td> -348.696</td> <td> 0.000</td> <td>-8212.394</td> <td>-8120.251</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_101]</th> <td>-7276.1917</td> <td>   22.036</td> <td> -330.193</td> <td> 0.000</td> <td>-7319.542</td> <td>-7232.842</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_107]</th> <td>-5522.9713</td> <td>   48.864</td> <td> -113.027</td> <td> 0.000</td> <td>-5619.098</td> <td>-5426.844</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_11]</th>  <td>-6809.2853</td> <td>   29.399</td> <td> -231.618</td> <td> 0.000</td> <td>-6867.119</td> <td>-6751.451</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_125]</th> <td>-2405.3874</td> <td>   82.028</td> <td>  -29.324</td> <td> 0.000</td> <td>-2566.755</td> <td>-2244.020</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_129]</th> <td> 4956.6542</td> <td>   46.813</td> <td>  105.882</td> <td> 0.000</td> <td> 4864.563</td> <td> 5048.746</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_133]</th> <td>-6172.3931</td> <td>   51.012</td> <td> -120.999</td> <td> 0.000</td> <td>-6272.745</td> <td>-6072.041</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_17]</th>  <td>-5950.5769</td> <td>   55.437</td> <td> -107.340</td> <td> 0.000</td> <td>-6059.634</td> <td>-5841.520</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_19]</th>  <td>-8516.2213</td> <td>   62.369</td> <td> -136.546</td> <td> 0.000</td> <td>-8638.915</td> <td>-8393.528</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_21]</th>  <td>-1.181e+04</td> <td>   61.618</td> <td> -191.697</td> <td> 0.000</td> <td>-1.19e+04</td> <td>-1.17e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_29]</th>  <td> -132.5095</td> <td>   16.719</td> <td>   -7.926</td> <td> 0.000</td> <td> -165.400</td> <td>  -99.619</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_3]</th>   <td>-1.113e+04</td> <td>   26.911</td> <td> -413.743</td> <td> 0.000</td> <td>-1.12e+04</td> <td>-1.11e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_43]</th>  <td>-6098.3950</td> <td>   32.183</td> <td> -189.493</td> <td> 0.000</td> <td>-6161.705</td> <td>-6035.085</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_45]</th>  <td>-8968.3901</td> <td>   65.502</td> <td> -136.918</td> <td> 0.000</td> <td>-9097.247</td> <td>-8839.533</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_49]</th>  <td>-1883.5530</td> <td>   12.992</td> <td> -144.973</td> <td> 0.000</td> <td>-1909.112</td> <td>-1857.994</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_55]</th>  <td>-1.122e+04</td> <td>   54.855</td> <td> -204.512</td> <td> 0.000</td> <td>-1.13e+04</td> <td>-1.11e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_7]</th>   <td>-4660.3341</td> <td>   49.193</td> <td>  -94.736</td> <td> 0.000</td> <td>-4757.108</td> <td>-4563.561</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_71]</th>  <td>-7766.5063</td> <td>   24.349</td> <td> -318.965</td> <td> 0.000</td> <td>-7814.406</td> <td>-7718.606</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_81]</th>  <td>-1.282e+04</td> <td>   26.136</td> <td> -490.602</td> <td> 0.000</td> <td>-1.29e+04</td> <td>-1.28e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_85]</th>  <td>-1404.7511</td> <td>   49.638</td> <td>  -28.300</td> <td> 0.000</td> <td>-1502.401</td> <td>-1307.101</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_89]</th>  <td>-5616.1920</td> <td>   43.288</td> <td> -129.740</td> <td> 0.000</td> <td>-5701.349</td> <td>-5531.035</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.PA_county_91]</th>  <td>-5628.1471</td> <td>   32.666</td> <td> -172.292</td> <td> 0.000</td> <td>-5692.409</td> <td>-5563.885</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.RI_county_0]</th>   <td>-6549.7523</td> <td>   20.217</td> <td> -323.980</td> <td> 0.000</td> <td>-6589.523</td> <td>-6509.982</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.SC_county_0]</th>   <td>-9376.2173</td> <td>    7.841</td> <td>-1195.766</td> <td> 0.000</td> <td>-9391.643</td> <td>-9360.792</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.SC_county_41]</th>  <td>-1.331e+04</td> <td>   18.559</td> <td> -717.382</td> <td> 0.000</td> <td>-1.34e+04</td> <td>-1.33e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.SC_county_51]</th>  <td>-1.384e+04</td> <td>   72.110</td> <td> -191.896</td> <td> 0.000</td> <td> -1.4e+04</td> <td>-1.37e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.SC_county_83]</th>  <td> -1.16e+04</td> <td>   35.479</td> <td> -326.993</td> <td> 0.000</td> <td>-1.17e+04</td> <td>-1.15e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.SC_county_91]</th>  <td>-1555.6907</td> <td>   19.832</td> <td>  -78.443</td> <td> 0.000</td> <td>-1594.705</td> <td>-1516.676</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.SD_county_0]</th>   <td>-8116.9225</td> <td>   20.026</td> <td> -405.329</td> <td> 0.000</td> <td>-8156.317</td> <td>-8077.528</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TN_county_0]</th>   <td>-1.079e+04</td> <td>   19.682</td> <td> -548.153</td> <td> 0.000</td> <td>-1.08e+04</td> <td>-1.08e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TN_county_125]</th> <td>-1.073e+04</td> <td>   39.498</td> <td> -271.625</td> <td> 0.000</td> <td>-1.08e+04</td> <td>-1.07e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TN_county_165]</th> <td>-2830.5247</td> <td>   45.290</td> <td>  -62.498</td> <td> 0.000</td> <td>-2919.620</td> <td>-2741.430</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TN_county_189]</th> <td>-1611.2393</td> <td>   46.016</td> <td>  -35.015</td> <td> 0.000</td> <td>-1701.762</td> <td>-1520.716</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TN_county_9]</th>   <td>-9030.7283</td> <td>   45.585</td> <td> -198.109</td> <td> 0.000</td> <td>-9120.404</td> <td>-8941.053</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TN_county_93]</th>  <td>-1.399e+04</td> <td>   21.959</td> <td> -637.215</td> <td> 0.000</td> <td> -1.4e+04</td> <td>-1.39e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_0]</th>   <td>-9653.1643</td> <td>   14.126</td> <td> -683.352</td> <td> 0.000</td> <td>-9680.954</td> <td>-9625.375</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_135]</th> <td> -765.0116</td> <td>   61.401</td> <td>  -12.459</td> <td> 0.000</td> <td> -885.802</td> <td> -644.221</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_139]</th> <td>-8722.1734</td> <td>   46.622</td> <td> -187.081</td> <td> 0.000</td> <td>-8813.890</td> <td>-8630.457</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_181]</th> <td>-1.032e+04</td> <td>   50.565</td> <td> -204.092</td> <td> 0.000</td> <td>-1.04e+04</td> <td>-1.02e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_215]</th> <td>-1.643e+04</td> <td>   53.807</td> <td> -305.325</td> <td> 0.000</td> <td>-1.65e+04</td> <td>-1.63e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_251]</th> <td> 3241.9617</td> <td>   49.591</td> <td>   65.374</td> <td> 0.000</td> <td> 3144.405</td> <td> 3339.518</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_309]</th> <td>-1.238e+04</td> <td>   47.420</td> <td> -260.976</td> <td> 0.000</td> <td>-1.25e+04</td> <td>-1.23e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_41]</th>  <td>-1.448e+04</td> <td>   70.205</td> <td> -206.194</td> <td> 0.000</td> <td>-1.46e+04</td> <td>-1.43e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_423]</th> <td>-1.438e+04</td> <td>   55.323</td> <td> -260.005</td> <td> 0.000</td> <td>-1.45e+04</td> <td>-1.43e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_439]</th> <td>-5935.7751</td> <td>   37.361</td> <td> -158.877</td> <td> 0.000</td> <td>-6009.272</td> <td>-5862.278</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_441]</th> <td>-1.198e+04</td> <td>   49.935</td> <td> -240.000</td> <td> 0.000</td> <td>-1.21e+04</td> <td>-1.19e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_479]</th> <td>-1.142e+04</td> <td>   58.528</td> <td> -195.156</td> <td> 0.000</td> <td>-1.15e+04</td> <td>-1.13e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_485]</th> <td>-9952.3097</td> <td>   50.787</td> <td> -195.961</td> <td> 0.000</td> <td>-1.01e+04</td> <td>-9852.400</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.TX_county_61]</th>  <td>-1.449e+04</td> <td>   40.916</td> <td> -354.118</td> <td> 0.000</td> <td>-1.46e+04</td> <td>-1.44e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.UT_county_0]</th>   <td>-7031.8466</td> <td>   33.948</td> <td> -207.137</td> <td> 0.000</td> <td>-7098.630</td> <td>-6965.064</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.UT_county_53]</th>  <td>-1.202e+04</td> <td>   53.335</td> <td> -225.377</td> <td> 0.000</td> <td>-1.21e+04</td> <td>-1.19e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_0]</th>   <td>-7789.8359</td> <td>    9.585</td> <td> -812.674</td> <td> 0.000</td> <td>-7808.693</td> <td>-7770.979</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_107]</th> <td> -694.8866</td> <td>   47.512</td> <td>  -14.626</td> <td> 0.000</td> <td> -788.353</td> <td> -601.420</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_13]</th>  <td> 7316.1427</td> <td>   73.062</td> <td>  100.136</td> <td> 0.000</td> <td> 7172.414</td> <td> 7459.871</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_153]</th> <td>-6193.0288</td> <td>   33.040</td> <td> -187.438</td> <td> 0.000</td> <td>-6258.027</td> <td>-6128.031</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_177]</th> <td>-1.831e+04</td> <td>   34.077</td> <td> -537.198</td> <td> 0.000</td> <td>-1.84e+04</td> <td>-1.82e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_179]</th> <td>-1.848e+04</td> <td>  102.202</td> <td> -180.862</td> <td> 0.000</td> <td>-1.87e+04</td> <td>-1.83e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_41]</th>  <td>-8087.7936</td> <td>   26.683</td> <td> -303.107</td> <td> 0.000</td> <td>-8140.285</td> <td>-8035.302</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_550]</th> <td>-7930.6290</td> <td>   62.715</td> <td> -126.456</td> <td> 0.000</td> <td>-8054.003</td> <td>-7807.255</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_700]</th> <td>-5626.2034</td> <td>   99.656</td> <td>  -56.456</td> <td> 0.000</td> <td>-5822.249</td> <td>-5430.158</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_710]</th> <td>-1.014e+04</td> <td>   29.618</td> <td> -342.289</td> <td> 0.000</td> <td>-1.02e+04</td> <td>-1.01e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_760]</th> <td>-1.383e+04</td> <td>   36.701</td> <td> -376.924</td> <td> 0.000</td> <td>-1.39e+04</td> <td>-1.38e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_810]</th> <td>-5870.9406</td> <td>   35.882</td> <td> -163.618</td> <td> 0.000</td> <td>-5941.528</td> <td>-5800.353</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VA_county_87]</th>  <td>-1.048e+04</td> <td>  109.245</td> <td>  -95.911</td> <td> 0.000</td> <td>-1.07e+04</td> <td>-1.03e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.VT_county_0]</th>   <td>-5553.6656</td> <td>   14.832</td> <td> -374.435</td> <td> 0.000</td> <td>-5582.844</td> <td>-5524.487</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WA_county_0]</th>   <td>-1855.9419</td> <td>   27.169</td> <td>  -68.311</td> <td> 0.000</td> <td>-1909.390</td> <td>-1802.494</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WA_county_33]</th>  <td> 2881.3458</td> <td>  108.410</td> <td>   26.578</td> <td> 0.000</td> <td> 2668.080</td> <td> 3094.612</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WA_county_57]</th>  <td>-2175.1951</td> <td>   45.044</td> <td>  -48.290</td> <td> 0.000</td> <td>-2263.807</td> <td>-2086.583</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WA_county_61]</th>  <td>-5113.9342</td> <td>   21.293</td> <td> -240.171</td> <td> 0.000</td> <td>-5155.822</td> <td>-5072.046</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WI_county_0]</th>   <td>-5264.0021</td> <td>   35.437</td> <td> -148.543</td> <td> 0.000</td> <td>-5333.715</td> <td>-5194.289</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WI_county_101]</th> <td>-2864.9028</td> <td>   48.339</td> <td>  -59.267</td> <td> 0.000</td> <td>-2959.997</td> <td>-2769.809</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WI_county_105]</th> <td>-6224.7405</td> <td>   47.459</td> <td> -131.160</td> <td> 0.000</td> <td>-6318.103</td> <td>-6131.378</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WI_county_139]</th> <td>-9732.2355</td> <td>   34.558</td> <td> -281.617</td> <td> 0.000</td> <td>-9800.220</td> <td>-9664.251</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WI_county_59]</th>  <td>-1.111e+04</td> <td>   50.045</td> <td> -222.022</td> <td> 0.000</td> <td>-1.12e+04</td> <td> -1.1e+04</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WI_county_73]</th>  <td>-3838.2573</td> <td>   38.089</td> <td> -100.770</td> <td> 0.000</td> <td>-3913.188</td> <td>-3763.327</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WV_county_0]</th>   <td>-9354.7841</td> <td>   24.832</td> <td> -376.721</td> <td> 0.000</td> <td>-9403.634</td> <td>-9305.934</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WV_county_39]</th>  <td>-8040.4345</td> <td>   39.205</td> <td> -205.087</td> <td> 0.000</td> <td>-8117.559</td> <td>-7963.310</td>
-</tr>
-<tr>
-  <th>C(county_code)[T.WY_county_0]</th>   <td>-2786.2413</td> <td>   29.530</td> <td>  -94.352</td> <td> 0.000</td> <td>-2844.334</td> <td>-2728.149</td>
-</tr>
-<tr>
-  <th>female</th>                          <td>-7923.1566</td> <td>  273.168</td> <td>  -29.005</td> <td> 0.000</td> <td>-8460.538</td> <td>-7385.775</td>
-</tr>
-<tr>
-  <th>age</th>                             <td>  287.2761</td> <td>    7.725</td> <td>   37.187</td> <td> 0.000</td> <td>  272.079</td> <td>  302.473</td>
-</tr>
-<tr>
-  <th>has_college_educ</th>                <td> 2.313e+04</td> <td>  771.975</td> <td>   29.965</td> <td> 0.000</td> <td> 2.16e+04</td> <td> 2.47e+04</td>
-</tr>
-</table>
-<table class="simpletable">
-<tr>
-  <th>Omnibus:</th>       <td>31292.022</td> <th>  Durbin-Watson:     </th>  <td>   1.908</td>
-</tr>
-<tr>
-  <th>Prob(Omnibus):</th>  <td> 0.000</td>   <th>  Jarque-Bera (JB):  </th> <td>260133.811</td>
-</tr>
-<tr>
-  <th>Skew:</th>           <td> 2.123</td>   <th>  Prob(JB):          </th>  <td>    0.00</td>
-</tr>
-<tr>
-  <th>Kurtosis:</th>       <td>11.771</td>   <th>  Cond. No.          </th>  <td>7.95e+03</td>
-</tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors are robust to cluster correlation (cluster)<br/>[2] The condition number is large, 7.95e+03. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
-</div>
+<p><img alt="cps_fe_clustered_p2" src="_images/cps_fe_clustered_p2.png" /></p>
+<p>As you can see, while our point estimates haven’t changed at all (the coefficient on <code class="docutils literal notranslate"><span class="pre">female</span></code>, for example, is still -7,923), we have increased the size of our standard errors. The SE on <code class="docutils literal notranslate"><span class="pre">female</span></code>, for example, has gone from 171 without clustering to 273 with clustering.</p>
 </div>
 <div class="section" id="PanelOLS">
 <h2>PanelOLS<a class="headerlink" href="#PanelOLS" title="Permalink to this headline">¶</a></h2>
 <p>OK, so everything we’ve describe up till here is a reasonable approach to fixed effects, but it has two limitations: our regression output looks <em>terrible</em>, and computing all those intercepts was slow.</p>
 <p>This brings us to some of the specialized methods for calculating fixed effects. It turns out that if you aren’t interested in the coefficient on each fixed effect, there are much more computationally efficient methods of calculating fixed effects. But to use them, we’ll have to use a different library: <a class="reference external" href="https://bashtage.github.io/linearmodels/doc/index.html">linearmodels</a> (installable using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">linearmodels</span></code>).</p>
+<p>(R users:</p>
 <p>In particular, we’ll be using the <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> function from <code class="docutils literal notranslate"><span class="pre">linearmodels</span></code>. As the name implies, <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> is designed for linear regression (social scientists call linear regression Ordinary Least Squares, or OLS) with panel data, which is really any form of data organized along two dimensions. Normally a panel has data on many entities observed several times, so the first dimension is the <code class="docutils literal notranslate"><span class="pre">entity</span></code> dimension, and the second is the <code class="docutils literal notranslate"><span class="pre">time</span></code> dimension.</p>
 <p>In this case, we don’t really have a panel – just nested data – but because fixed effects are commonly used in panels, we’ll use this tool.</p>
 <p>The only catch is: you have to use <code class="docutils literal notranslate"><span class="pre">multiindexes</span></code> in <code class="docutils literal notranslate"><span class="pre">pandas</span></code>. I <em>know</em>, I hate them too. But the multi-index is required by the library for it to understand what variable constitutes the “group” for which you want to add fixed effects. Basically <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> calls the first level of the multi-index the <code class="docutils literal notranslate"><span class="pre">entity</span></code> and the second level <code class="docutils literal notranslate"><span class="pre">time</span></code>. In this case, though, we’ll just make the first level our counties, and the second level individual identifiers, then use <code class="docutils literal notranslate"><span class="pre">entity</span></code> fixed effects
 (and clustering).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -2530,7 +457,7 @@ effects.</p>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -2701,8 +628,8 @@ effects.</p>
 <p>5 rows × 30 columns</p>
 </div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -2710,17 +637,219 @@ effects.</p>
 <span class="c1"># with old index in second level.</span>
 <span class="c1"># PanelOLS will then see the first level as the `entity`</span>
 <span class="c1"># identifier.</span>
-<span class="n">cps</span> <span class="o">=</span> <span class="n">cps</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;county_code&#39;</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">index</span><span class="p">])</span>
+<span class="n">cps_w_multiindex</span> <span class="o">=</span> <span class="n">cps</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;county_code&#39;</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">index</span><span class="p">])</span>
+<span class="n">cps_w_multiindex</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>county</th>
+      <th>smsastat</th>
+      <th>age</th>
+      <th>sex</th>
+      <th>grade92</th>
+      <th>race</th>
+      <th>ethnic</th>
+      <th>marital</th>
+      <th>uhourse</th>
+      <th>earnhre</th>
+      <th>...</th>
+      <th>occ2012</th>
+      <th>lfsr94</th>
+      <th>class94</th>
+      <th>unioncov</th>
+      <th>ind02</th>
+      <th>stfips</th>
+      <th>earnhre_dollars</th>
+      <th>annual_earnings</th>
+      <th>female</th>
+      <th>has_college_educ</th>
+    </tr>
+    <tr>
+      <th>county_code</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">AL_county_0</th>
+      <th>2</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>52</td>
+      <td>2</td>
+      <td>39</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>5</td>
+      <td>40.0</td>
+      <td>2084.0</td>
+      <td>...</td>
+      <td>5700.0</td>
+      <td>Employed-At Work</td>
+      <td>Government - State</td>
+      <td></td>
+      <td>Residential care facilities, without nursing (...</td>
+      <td>AL</td>
+      <td>20.84</td>
+      <td>43347.2</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>19</td>
+      <td>2</td>
+      <td>39</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>7</td>
+      <td>40.0</td>
+      <td>1000.0</td>
+      <td>...</td>
+      <td>5240.0</td>
+      <td>Employed-At Work</td>
+      <td>Private, For Profit</td>
+      <td>No</td>
+      <td>Business support services (5614)</td>
+      <td>AL</td>
+      <td>10.00</td>
+      <td>20800.0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>56</td>
+      <td>2</td>
+      <td>43</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>5</td>
+      <td>40.0</td>
+      <td>2500.0</td>
+      <td>...</td>
+      <td>3255.0</td>
+      <td>Employed-At Work</td>
+      <td>Government - Federal</td>
+      <td></td>
+      <td>Hospitals (622)</td>
+      <td>AL</td>
+      <td>25.00</td>
+      <td>52000.0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">AL_county_97</th>
+      <th>6</th>
+      <td>97</td>
+      <td>1.0</td>
+      <td>48</td>
+      <td>1</td>
+      <td>39</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>7</td>
+      <td>40.0</td>
+      <td>1700.0</td>
+      <td>...</td>
+      <td>9130.0</td>
+      <td>Employed-At Work</td>
+      <td>Private, For Profit</td>
+      <td>No</td>
+      <td>Truck transportation (484)</td>
+      <td>AL</td>
+      <td>17.00</td>
+      <td>35360.0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>97</td>
+      <td>1.0</td>
+      <td>59</td>
+      <td>1</td>
+      <td>39</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>7</td>
+      <td>40.0</td>
+      <td>2000.0</td>
+      <td>...</td>
+      <td>9620.0</td>
+      <td>Employed-At Work</td>
+      <td>Private, For Profit</td>
+      <td>No</td>
+      <td>****Department stores and discount stores (s45...</td>
+      <td>AL</td>
+      <td>20.00</td>
+      <td>41600.0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 29 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="kn">import</span> <span class="n">PanelOLS</span>
-<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;annual_earnings ~ female + age + has_college_educ + EntityEffects&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">cps</span><span class="p">)</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;annual_earnings ~ female + age + has_college_educ + EntityEffects&#39;</span><span class="p">,</span>
+                            <span class="n">data</span><span class="o">=</span><span class="n">cps_w_multiindex</span><span class="p">)</span>
 <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2736,7 +865,7 @@ Inputs contain missing values. Dropping rows with missing observations.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -2752,10 +881,10 @@ Inputs contain missing values. Dropping rows with missing observations.
   <th>No. Observations:</th>       <td>65755</td>      <th>  R-squared (Within):</th>     <td>0.1000</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sat, Feb 15 2020</td> <th>  R-squared (Overall):</th>    <td>0.3265</td>
+  <th>Date:</th>             <td>Sun, Feb 16 2020</td> <th>  R-squared (Overall):</th>    <td>0.3265</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>17:00:55</td>     <th>  Log-likelihood     </th>   <td>-7.499e+05</td>
+  <th>Time:</th>                 <td>10:04:03</td>     <th>  Log-likelihood     </th>   <td>-7.499e+05</td>
 </tr>
 <tr>
   <th>Cov. Estimator:</th>       <td>Clustered</td>    <th>                     </th>        <td></td>
@@ -2808,7 +937,7 @@ Inputs contain missing values. Dropping rows with missing observations.
 <tr>
   <th>has_college_educ</th> <td>2.313e+04</td>  <td>768.88</td>   <td>30.086</td>  <td>0.0000</td>  <td>2.163e+04</td> <td>2.464e+04</td>
 </tr>
-</table><br/><br/>F-test for Poolability: 4.4314<br/>P-value: 0.0000<br/>Distribution: F(328,65423)<br/><br/>Included effects: Entity<br/>id: 0x7fe1514b06d8</div>
+</table><br/><br/>F-test for Poolability: 4.4314<br/>P-value: 0.0000<br/>Distribution: F(328,65423)<br/><br/>Included effects: Entity<br/>id: 0x7facca3dad68</div>
 </div>
 <p>As you can see, the coefficients of the <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> model are exactly the same as those we calculated above, and the standard errors are nearly identical (there are a few ways to calculate clustered standard errors, so they aren’t numerically equivalent). But the way <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> added fixed effects was much more computationally efficient efficient, and in these situations, we don’t usually want to see the coefficients, so they’re suppressed.</p>
 </div>
