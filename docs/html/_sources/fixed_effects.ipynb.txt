@@ -65,10 +65,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   2490.</td>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   \n",
+       "  <th>Date:</th>             <td>Mon, 17 Feb 2020</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>11:32:27</td>     <th>  Log-Likelihood:    </th> <td>-7.5063e+05</td>\n",
+       "  <th>Time:</th>                 <td>09:27:22</td>     <th>  Log-Likelihood:    </th> <td>-7.5063e+05</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td> 65755</td>      <th>  AIC:               </th>  <td>1.501e+06</td> \n",
@@ -123,8 +123,8 @@
        "Dep. Variable:        annual_earnings   R-squared:                       0.102\n",
        "Model:                            OLS   Adj. R-squared:                  0.102\n",
        "Method:                 Least Squares   F-statistic:                     2490.\n",
-       "Date:                Sun, 16 Feb 2020   Prob (F-statistic):               0.00\n",
-       "Time:                        11:32:27   Log-Likelihood:            -7.5063e+05\n",
+       "Date:                Mon, 17 Feb 2020   Prob (F-statistic):               0.00\n",
+       "Time:                        09:27:22   Log-Likelihood:            -7.5063e+05\n",
        "No. Observations:               65755   AIC:                         1.501e+06\n",
        "Df Residuals:                   65751   BIC:                         1.501e+06\n",
        "Df Model:                           3                                         \n",
@@ -223,6 +223,8 @@
     "\n",
     "Clustering is thankfully easy to do -- just use the `get_robustcov_results` method from `statsmodels`, and use the `groups` keyword to pass the group assignments for each observation. \n",
     "\n",
+    "(R users: as we'll discuss below, I think the easiest way to do this is to use the [plm package](https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html).) \n",
+    "\n",
     "**Note that if you're using formulas in statsmodels, the regression is automatically dropping observations that can't be estimated because of missing data, so you have to do the same before passing your group assignments to** `get_robustcov_results` **-- otherwise you'll get the error:**\n",
     "\n",
     "```\n",
@@ -297,7 +299,7 @@
     "\n",
     "This brings us to some of the specialized methods for calculating fixed effects. It turns out that if you aren't interested in the coefficient on each fixed effect, there are much more computationally efficient methods of calculating fixed effects. But to use them, we'll have to use a different library: [linearmodels](https://bashtage.github.io/linearmodels/doc/index.html) (installable using `pip install linearmodels`).\n",
     "\n",
-    "(R users: \n",
+    "(R users: see note at bottom on doing this in R)\n",
     "\n",
     "In particular, we'll be using the `PanelOLS` function from `linearmodels`. As the name implies, `PanelOLS` is designed for linear regression (social scientists call linear regression Ordinary Least Squares, or OLS) with panel data, which is really any form of data organized along two dimensions. Normally a panel has data on many entities observed several times, so the first dimension is the `entity` dimension, and the second is the `time` dimension. \n",
     "\n",
@@ -871,10 +873,10 @@
        "  <th>No. Observations:</th>       <td>65755</td>      <th>  R-squared (Within):</th>     <td>0.0783</td>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Sun, Feb 16 2020</td> <th>  R-squared (Overall):</th>    <td>0.2878</td>  \n",
+       "  <th>Date:</th>             <td>Mon, Feb 17 2020</td> <th>  R-squared (Overall):</th>    <td>0.2878</td>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>11:32:34</td>     <th>  Log-likelihood     </th>   <td>-7.465e+05</td>\n",
+       "  <th>Time:</th>                 <td>09:27:28</td>     <th>  Log-likelihood     </th>   <td>-7.465e+05</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>Cov. Estimator:</th>       <td>Clustered</td>    <th>                     </th>        <td></td>     \n",
@@ -927,7 +929,7 @@
        "<tr>\n",
        "  <th>has_college_educ</th> <td>1.997e+04</td>  <td>1555.4</td>   <td>12.839</td>  <td>0.0000</td>  <td>1.692e+04</td> <td>2.302e+04</td>\n",
        "</tr>\n",
-       "</table><br/><br/>F-test for Poolability: 34.810<br/>P-value: 0.0000<br/>Distribution: F(250,65501)<br/><br/>Included effects: Entity<br/>id: 0x7faf593bdda0"
+       "</table><br/><br/>F-test for Poolability: 34.810<br/>P-value: 0.0000<br/>Distribution: F(250,65501)<br/><br/>Included effects: Entity<br/>id: 0x7f86332e4fd0"
       ],
       "text/plain": [
        "                          PanelOLS Estimation Summary                           \n",
@@ -935,8 +937,8 @@
        "Dep. Variable:        annual_earnings   R-squared:                        0.0783\n",
        "Estimator:                   PanelOLS   R-squared (Between):              0.3536\n",
        "No. Observations:               65755   R-squared (Within):               0.0783\n",
-       "Date:                Sun, Feb 16 2020   R-squared (Overall):              0.2878\n",
-       "Time:                        11:32:34   Log-likelihood                -7.465e+05\n",
+       "Date:                Mon, Feb 17 2020   R-squared (Overall):              0.2878\n",
+       "Time:                        09:27:28   Log-likelihood                -7.465e+05\n",
        "Cov. Estimator:             Clustered                                           \n",
        "                                        F-statistic:                      1853.9\n",
        "Entities:                         251   P-value                           0.0000\n",
@@ -963,7 +965,7 @@
        "Distribution: F(250,65501)\n",
        "\n",
        "Included effects: Entity\n",
-       "PanelEffectsResults, id: 0x7faf593bdda0"
+       "PanelEffectsResults, id: 0x7f86332e4fd0"
       ]
      },
      "execution_count": 8,
@@ -983,6 +985,34 @@
    "metadata": {},
    "source": [
     "As you can see, the coefficients of the `PanelOLS` model are exactly the same as those we calculated above, and the standard errors are nearly identical (there are a few ways to calculate clustered standard errors, so they aren't numerically equivalent). But the way `PanelOLS` added fixed effects was much more computationally efficient efficient, and in these situations, we don't usually want to see the coefficients, so they're suppressed. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Panel Analysis in R\n",
+    "\n",
+    "If you're an R user, the best library I am aware of for these types of analyses is `plm`, which you can [read about here](https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html). In addition, you want to use `lmtest` to correct your standard errors. \n",
+    "\n",
+    "The analogue of the `PanelOLS` regression above with `plm` and `lmtest` would be:\n",
+    "\n",
+    "```r\n",
+    "library(plm)\n",
+    "library(lmtest)\n",
+    "\n",
+    "# estimate the fixed effects regression with plm()\n",
+    "model <- plm(voted ~ female + age + has_college_educ, \n",
+    "             data = cps,\n",
+    "             index = \"ind02\", \n",
+    "             model = \"within\")\n",
+    "\n",
+    "# print summary using robust standard errors with clustering\n",
+    "# This function comes from lmtest\n",
+    "coeftest(model, vcov. = vcovHC, type = \"HC1\")\n",
+    "```\n",
+    "\n",
+    "Note that `coeftest` is creating clustered standard errors because it recognizes `model` is a `plm` model using fixed effects. That same syntax, if used with a `lm` regression, would only calculate heteroskedastic robust standard errors. "
    ]
   }
  ],

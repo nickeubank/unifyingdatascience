@@ -296,10 +296,10 @@ all children in one school might tend to get lower grades) so we can focus on ex
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   2490.</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sun, 16 Feb 2020</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>
+  <th>Date:</th>             <td>Mon, 17 Feb 2020</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>11:32:30</td>     <th>  Log-Likelihood:    </th> <td>-7.5063e+05</td>
+  <th>Time:</th>                 <td>09:27:22</td>     <th>  Log-Likelihood:    </th> <td>-7.5063e+05</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td> 65755</td>      <th>  AIC:               </th>  <td>1.501e+06</td>
@@ -379,6 +379,7 @@ that don’t change over time), and now you’re just studying <em>changes over 
 <p>When working with fixed effects, however, it’s also often a good idea to cluster your standard errors by your fixed effect variable. Clustering is a method for taking into account some of the variation in your data isn’t coming from the individual level (where you have lots of observations), but rather from the group level. Since you have fewer groups than observations, clustering corrects your standard errors to reflect the smaller effective sample size being used to estimate those fixed
 effects (clustering <em>only</em> affects standard errors – it has no impact on coefficients themselves. This is just about adjustments to our confidence in our inferences).</p>
 <p>Clustering is thankfully easy to do – just use the <code class="docutils literal notranslate"><span class="pre">get_robustcov_results</span></code> method from <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, and use the <code class="docutils literal notranslate"><span class="pre">groups</span></code> keyword to pass the group assignments for each observation.</p>
+<p>(R users: as we’ll discuss below, I think the easiest way to do this is to use the <a class="reference external" href="https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html">plm package</a>.)</p>
 <p><strong>Note that if you’re using formulas in statsmodels, the regression is automatically dropping observations that can’t be estimated because of missing data, so you have to do the same before passing your group assignments to</strong> <code class="docutils literal notranslate"><span class="pre">get_robustcov_results</span></code> <strong>– otherwise you’ll get the error:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ValueError</span><span class="p">:</span> <span class="n">The</span> <span class="n">weights</span> <span class="ow">and</span> <span class="nb">list</span> <span class="n">don</span><span class="s1">&#39;t have the same length.</span>
 </pre></div>
@@ -432,7 +433,7 @@ effects (clustering <em>only</em> affects standard errors – it has no impact o
 <h2>Computationally Efficient Fixed Effects<a class="headerlink" href="#Computationally-Efficient-Fixed-Effects" title="Permalink to this headline">¶</a></h2>
 <p>OK, so everything we’ve describe up till here is a reasonable approach to fixed effects, but it has two limitations: our regression output looks <em>terrible</em>, and computing all those intercepts was slow.</p>
 <p>This brings us to some of the specialized methods for calculating fixed effects. It turns out that if you aren’t interested in the coefficient on each fixed effect, there are much more computationally efficient methods of calculating fixed effects. But to use them, we’ll have to use a different library: <a class="reference external" href="https://bashtage.github.io/linearmodels/doc/index.html">linearmodels</a> (installable using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">linearmodels</span></code>).</p>
-<p>(R users:</p>
+<p>(R users: see note at bottom on doing this in R)</p>
 <p>In particular, we’ll be using the <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> function from <code class="docutils literal notranslate"><span class="pre">linearmodels</span></code>. As the name implies, <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> is designed for linear regression (social scientists call linear regression Ordinary Least Squares, or OLS) with panel data, which is really any form of data organized along two dimensions. Normally a panel has data on many entities observed several times, so the first dimension is the <code class="docutils literal notranslate"><span class="pre">entity</span></code> dimension, and the second is the <code class="docutils literal notranslate"><span class="pre">time</span></code> dimension.</p>
 <p>In this case, we don’t really have a panel – just nested data – but because fixed effects are commonly used in panels, we’ll use this tool.</p>
 <p>The only catch is: you have to use <code class="docutils literal notranslate"><span class="pre">multiindexes</span></code> in <code class="docutils literal notranslate"><span class="pre">pandas</span></code>. I <em>know</em>, I hate them too. But the multi-index is required by the library for it to understand what variable constitutes the “group” for which you want to add fixed effects. Basically <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> calls the first level of the multi-index the <code class="docutils literal notranslate"><span class="pre">entity</span></code> and the second level <code class="docutils literal notranslate"><span class="pre">time</span></code>. In this case, though, we’ll just make the first level our counties, and the second level individual identifiers, then use <code class="docutils literal notranslate"><span class="pre">entity</span></code> fixed effects
@@ -874,10 +875,10 @@ Inputs contain missing values. Dropping rows with missing observations.
   <th>No. Observations:</th>       <td>65755</td>      <th>  R-squared (Within):</th>     <td>0.0783</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sun, Feb 16 2020</td> <th>  R-squared (Overall):</th>    <td>0.2878</td>
+  <th>Date:</th>             <td>Mon, Feb 17 2020</td> <th>  R-squared (Overall):</th>    <td>0.2878</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>11:32:37</td>     <th>  Log-likelihood     </th>   <td>-7.465e+05</td>
+  <th>Time:</th>                 <td>09:27:28</td>     <th>  Log-likelihood     </th>   <td>-7.465e+05</td>
 </tr>
 <tr>
   <th>Cov. Estimator:</th>       <td>Clustered</td>    <th>                     </th>        <td></td>
@@ -930,9 +931,29 @@ Inputs contain missing values. Dropping rows with missing observations.
 <tr>
   <th>has_college_educ</th> <td>1.997e+04</td>  <td>1555.4</td>   <td>12.839</td>  <td>0.0000</td>  <td>1.692e+04</td> <td>2.302e+04</td>
 </tr>
-</table><br/><br/>F-test for Poolability: 34.810<br/>P-value: 0.0000<br/>Distribution: F(250,65501)<br/><br/>Included effects: Entity<br/>id: 0x7f88e91652e8</div>
+</table><br/><br/>F-test for Poolability: 34.810<br/>P-value: 0.0000<br/>Distribution: F(250,65501)<br/><br/>Included effects: Entity<br/>id: 0x7f86332e4fd0</div>
 </div>
 <p>As you can see, the coefficients of the <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> model are exactly the same as those we calculated above, and the standard errors are nearly identical (there are a few ways to calculate clustered standard errors, so they aren’t numerically equivalent). But the way <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> added fixed effects was much more computationally efficient efficient, and in these situations, we don’t usually want to see the coefficients, so they’re suppressed.</p>
+</div>
+<div class="section" id="Panel-Analysis-in-R">
+<h2>Panel Analysis in R<a class="headerlink" href="#Panel-Analysis-in-R" title="Permalink to this headline">¶</a></h2>
+<p>If you’re an R user, the best library I am aware of for these types of analyses is <code class="docutils literal notranslate"><span class="pre">plm</span></code>, which you can <a class="reference external" href="https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html">read about here</a>. In addition, you want to use <code class="docutils literal notranslate"><span class="pre">lmtest</span></code> to correct your standard errors.</p>
+<p>The analogue of the <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> regression above with <code class="docutils literal notranslate"><span class="pre">plm</span></code> and <code class="docutils literal notranslate"><span class="pre">lmtest</span></code> would be:</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">plm</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">lmtest</span><span class="p">)</span>
+
+<span class="c1"># estimate the fixed effects regression with plm()</span>
+<span class="n">model</span> <span class="o">&lt;-</span> <span class="nf">plm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">female</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="n">has_college_educ</span><span class="p">,</span>
+             <span class="n">data</span> <span class="o">=</span> <span class="n">cps</span><span class="p">,</span>
+             <span class="n">index</span> <span class="o">=</span> <span class="s">&quot;ind02&quot;</span><span class="p">,</span>
+             <span class="n">model</span> <span class="o">=</span> <span class="s">&quot;within&quot;</span><span class="p">)</span>
+
+<span class="c1"># print summary using robust standard errors with clustering</span>
+<span class="c1"># This function comes from lmtest</span>
+<span class="nf">coeftest</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">vcov.</span> <span class="o">=</span> <span class="n">vcovHC</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;HC1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">coeftest</span></code> is creating clustered standard errors because it recognizes <code class="docutils literal notranslate"><span class="pre">model</span></code> is a <code class="docutils literal notranslate"><span class="pre">plm</span></code> model using fixed effects. That same syntax, if used with a <code class="docutils literal notranslate"><span class="pre">lm</span></code> regression, would only calculate heteroskedastic robust standard errors.</p>
 </div>
 </div>
 
@@ -970,6 +991,7 @@ Inputs contain missing values. Dropping rows with missing observations.
 <li class="toctree-l2"><a class="reference internal" href="#Implementing-Fixed-Effects">Implementing Fixed Effects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Clustering">Clustering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Computationally-Efficient-Fixed-Effects">Computationally Efficient Fixed Effects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Panel-Analysis-in-R">Panel Analysis in R</a></li>
 </ul>
 </li>
 </ul>
