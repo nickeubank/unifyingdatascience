@@ -937,32 +937,57 @@ Inputs contain missing values. Dropping rows with missing observations.
 </div>
 <div class="section" id="Panel-Analysis-in-R">
 <h2>Panel Analysis in R<a class="headerlink" href="#Panel-Analysis-in-R" title="Permalink to this headline">¶</a></h2>
-<p><strong>Note: Monday Feb 17, 12pm:</strong> Zeren just pointed me to a more intuitive package, so will update this today with a different package!</p>
-<p>If you’re an R user, the best library I am aware of for these types of analyses is <code class="docutils literal notranslate"><span class="pre">plm</span></code>, which you can <a class="reference external" href="https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html">read about here</a>. In addition, you want to use <code class="docutils literal notranslate"><span class="pre">lmtest</span></code> to correct your standard errors.</p>
-<p>The analogue of the <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> regression above with <code class="docutils literal notranslate"><span class="pre">plm</span></code> and <code class="docutils literal notranslate"><span class="pre">lmtest</span></code> would be:</p>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">plm</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">lmtest</span><span class="p">)</span>
+<p>If you’re an R user, the best library I am aware of for these types of analyses is <code class="docutils literal notranslate"><span class="pre">lfe</span></code>, which you can <a class="reference external" href="https://journal.r-project.org/archive/2013-2/gaure.pdf">read about here</a>.</p>
+<p>The analogue of the <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> regression above with <code class="docutils literal notranslate"><span class="pre">lfe</span></code> would be:</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># estimate the fixed effects regression with felm()</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">lfe</span><span class="p">)</span> <span class="c1">#fixed effect model package</span>
 
-<span class="c1"># estimate the fixed effects regression with plm()</span>
-<span class="n">model</span> <span class="o">&lt;-</span> <span class="nf">plm</span><span class="p">(</span><span class="n">voted</span> <span class="o">~</span> <span class="n">female</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="n">has_college_educ</span><span class="p">,</span>
-             <span class="n">data</span> <span class="o">=</span> <span class="n">cps</span><span class="p">,</span>
-             <span class="n">index</span> <span class="o">=</span> <span class="s">&quot;ind02&quot;</span><span class="p">,</span>
-             <span class="n">model</span> <span class="o">=</span> <span class="s">&quot;within&quot;</span><span class="p">)</span>
+<span class="c1">## Loading required package: Matrix</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">haven</span><span class="p">)</span> <span class="c1"># load stata package</span>
 
-<span class="c1"># print summary using robust standard errors with clustering</span>
-<span class="c1"># This function comes from lmtest</span>
-<span class="nf">coeftest</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">vcov.</span> <span class="o">=</span> <span class="n">vcovHC</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;HC1&quot;</span><span class="p">)</span>
+<span class="c1"># load data</span>
+<span class="n">cps</span> <span class="o">=</span> <span class="nf">read_dta</span><span class="p">(</span><span class="s">&#39;https://github.com/nickeubank/MIDS_Data/blob/master/Current_Population_Survey/morg18.dta?raw=true&#39;</span><span class="p">)</span>
+
+<span class="c1"># create dv</span>
+<span class="n">cps</span><span class="o">$</span><span class="n">earnhre_dollars</span> <span class="o">=</span> <span class="n">cps</span><span class="o">$</span><span class="n">earnhre</span> <span class="o">/</span> <span class="m">100</span>
+<span class="n">cps[</span><span class="s">&#39;annual_earnings&#39;</span><span class="n">]</span> <span class="o">=</span> <span class="n">cps[</span><span class="s">&#39;earnhre_dollars&#39;</span><span class="n">]</span> <span class="o">*</span> <span class="n">cps[</span><span class="s">&#39;uhourse&#39;</span><span class="n">]</span> <span class="o">*</span> <span class="m">52</span>
+
+<span class="c1"># model specification</span>
+<span class="n">model</span> <span class="o">&lt;-</span> <span class="nf">felm</span><span class="p">(</span><span class="n">annual_earnings</span> <span class="o">~</span> <span class="n">age</span>  <span class="o">|</span> <span class="n">county</span> <span class="o">|</span> <span class="m">0</span> <span class="o">|</span><span class="n">county</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">cps</span><span class="p">)</span>
+
+<span class="c1"># model summary</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="c1">##</span>
+<span class="c1">## Call:</span>
+<span class="c1">##    felm(formula = annual_earnings ~ age | county | 0 | county, data = cps)</span>
+<span class="c1">##</span>
+<span class="c1">## Residuals:</span>
+<span class="c1">##    Min     1Q Median     3Q    Max</span>
+<span class="c1">## -63187 -14735  -3622   9682 330934</span>
+<span class="c1">##</span>
+<span class="c1">## Coefficients:</span>
+<span class="c1">##     Estimate Cluster s.e. t value Pr(&gt;|t|)</span>
+<span class="c1">## age  296.703        5.347   55.49   &lt;2e-16 ***</span>
+<span class="c1">## ---</span>
+<span class="c1">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span>
+<span class="c1">##</span>
+<span class="c1">## Residual standard error: 24510 on 93599 degrees of freedom</span>
+<span class="c1">##   (208632 observations deleted due to missingness)</span>
+<span class="c1">## Multiple R-squared(full model): 0.03591   Adjusted R-squared: 0.03488</span>
+<span class="c1">## Multiple R-squared(proj model): 0.03234   Adjusted R-squared: 0.0313</span>
+<span class="c1">## F-statistic(full model, *iid*):34.87 on 100 and 93599 DF, p-value: &lt; 2.2e-16</span>
+<span class="c1">## F-statistic(proj model):  3079 on 1 and 99 DF, p-value: &lt; 2.2e-16</span>
 </pre></div>
 </div>
-<p>Note that <code class="docutils literal notranslate"><span class="pre">coeftest</span></code> is creating clustered standard errors because it recognizes <code class="docutils literal notranslate"><span class="pre">model</span></code> is a <code class="docutils literal notranslate"><span class="pre">plm</span></code> model using fixed effects. That same syntax, if used with a <code class="docutils literal notranslate"><span class="pre">lm</span></code> regression, would only calculate heteroskedastic robust standard errors.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<p>Where <code class="docutils literal notranslate"><span class="pre">felm</span></code> is the panel regression.</p>
+<p>The syntax for <code class="docutils literal notranslate"><span class="pre">felm</span></code> is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">felm</span><span class="p">(</span><span class="n">dependent</span> <span class="n">variable</span> <span class="o">~</span> <span class="n">independent</span> <span class="n">variable</span> <span class="o">|</span> <span class="n">fixed</span> <span class="n">effects</span> <span class="n">variables</span> <span class="p">(</span><span class="k">if</span> <span class="n">you</span> <span class="n">have</span> <span class="mi">2</span><span class="o">+</span><span class="p">,</span> <span class="n">add</span> <span class="n">them</span> <span class="n">like</span> <span class="s1">&#39;fe1 + fe2&#39;</span><span class="p">)</span>  <span class="o">|</span> <span class="n">instrumental</span> <span class="n">variables</span> <span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">no</span> <span class="n">instrument</span><span class="p">)</span> <span class="o">|</span> <span class="n">level</span> <span class="n">of</span> <span class="n">clustered</span> <span class="n">se</span><span class="p">,</span> <span class="n">data</span> <span class="p">)</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
+<p>We haven’t covered (and probably won’t cover) instrumental variables, so you’ll usually leave the middle entry as <code class="docutils literal notranslate"><span class="pre">0</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">felm</span><span class="p">(</span><span class="n">dependent</span> <span class="n">variable</span> <span class="o">~</span> <span class="n">independent</span> <span class="n">variables</span> <span class="o">|</span> <span class="n">fixed</span> <span class="n">effects</span> <span class="n">variables</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">level</span> <span class="n">of</span> <span class="n">clustered</span> <span class="n">se</span><span class="p">,</span> <span class="n">data</span> <span class="p">)</span>
 </pre></div>
-</div>
 </div>
 </div>
 </div>
