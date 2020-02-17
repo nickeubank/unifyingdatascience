@@ -937,6 +937,7 @@ Inputs contain missing values. Dropping rows with missing observations.
 </div>
 <div class="section" id="Panel-Analysis-in-R">
 <h2>Panel Analysis in R<a class="headerlink" href="#Panel-Analysis-in-R" title="Permalink to this headline">¶</a></h2>
+<p><strong>Note: Monday Feb 17, 12pm:</strong> Zeren just pointed me to a more intuitive package, so will update this today with a different package!</p>
 <p>If you’re an R user, the best library I am aware of for these types of analyses is <code class="docutils literal notranslate"><span class="pre">plm</span></code>, which you can <a class="reference external" href="https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html">read about here</a>. In addition, you want to use <code class="docutils literal notranslate"><span class="pre">lmtest</span></code> to correct your standard errors.</p>
 <p>The analogue of the <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> regression above with <code class="docutils literal notranslate"><span class="pre">plm</span></code> and <code class="docutils literal notranslate"><span class="pre">lmtest</span></code> would be:</p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">plm</span><span class="p">)</span>
@@ -954,6 +955,15 @@ Inputs contain missing values. Dropping rows with missing observations.
 </pre></div>
 </div>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">coeftest</span></code> is creating clustered standard errors because it recognizes <code class="docutils literal notranslate"><span class="pre">model</span></code> is a <code class="docutils literal notranslate"><span class="pre">plm</span></code> model using fixed effects. That same syntax, if used with a <code class="docutils literal notranslate"><span class="pre">lm</span></code> regression, would only calculate heteroskedastic robust standard errors.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 

@@ -993,6 +993,9 @@
    "source": [
     "## Panel Analysis in R\n",
     "\n",
+    "**Note: Monday Feb 17, 12pm:** Zeren just pointed me to a more intuitive package, so will update this today with a different package!\n",
+    "\n",
+    "\n",
     "If you're an R user, the best library I am aware of for these types of analyses is `plm`, which you can [read about here](https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html). In addition, you want to use `lmtest` to correct your standard errors. \n",
     "\n",
     "The analogue of the `PanelOLS` regression above with `plm` and `lmtest` would be:\n",
@@ -1014,6 +1017,13 @@
     "\n",
     "Note that `coeftest` is creating clustered standard errors because it recognizes `model` is a `plm` model using fixed effects. That same syntax, if used with a `lm` regression, would only calculate heteroskedastic robust standard errors. "
    ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
   }
  ],
  "metadata": {
