@@ -22,10 +22,11 @@
 "Mon, Feb 17",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). ",`Link <exercises/exercise_regressions_incomeineq.ipynb>`_
 "Wed, Feb 19",CI: Fixed Effects and Clustering,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
 - `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
-- `Fixed Effects <fixed_effects.ipynb>`_",
+- `Fixed Effects <fixed_effects.ipynb>`_","- `Indicators <exercises/exercise_indicators.ipynb>`_
+- `Fixed Effects <exercises/exercise_panel.ipynb>`_"
 "Mon, Feb 24",CI: Matching,`Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_ ,
-"Wed, Feb 26",CI: Difference-in-Differences,Angrist and Piscke Pages 222-247. ,
-"Mon, Mar 2",Backwards Project Design,- **Causal Inference Pset Due**,
+"Wed, Feb 26",CI: Difference-in-Differences,"Angrist and Piscke (MM), Chapter 5 (pp 178-208) ",
+"Mon, Mar 2",Backwards Project Design,,
 "Wed, Mar 4",CI: Natural Experiments,"- Dunning (2008). `Improving Causal Inference: Strengths and Limitations of Natural Experiments <http://www.thaddunning.com/wp-content/uploads/2010/03/Dunning_PRQ.pdf>`_
 - 99% Invisible, `Episode 352: Uptown Squirrel. <https://99percentinvisible.org/episode/uptown-squirrel>`_",
 "Mon, Mar 9",SPRING RECESS,,

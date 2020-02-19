@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Traffic Death Analysis &#8212; Unifying Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="Traffic-Death-Analysis">
+<h1>Traffic Death Analysis<a class="headerlink" href="#Traffic-Death-Analysis" title="Permalink to this headline">¶</a></h1>
+<p>In this exercise, we will be analyzing the effect of alcohol taxes on traffic death in the United States. The data set used in this exercise, <code class="docutils literal notranslate"><span class="pre">fatalities.csv</span></code>, is a state-year panel dataset (meaning it includes data on multiple states, and the data includes several years of data for each state. The data contains 336 observations on 34 variables. The variables used in the exercise are defined as follows:</p>
+<p><code class="docutils literal notranslate"><span class="pre">state</span></code>: factor variable indicating states</p>
+<p><code class="docutils literal notranslate"><span class="pre">year</span></code>: factor variable indicating years</p>
+<p><code class="docutils literal notranslate"><span class="pre">beertax</span></code>: numeric variable, Tax on the case of beer</p>
+<p>In these exercises, we’ll be looking at how beer taxes (which are believed to reduce alcohol consumption, potentially reducing drunk driving deaths) impact car accident fatality rates.</p>
+<p>More specifically, though, we’ll be approaching our estimation of the impact of beer taxes in a few different ways in an effort to give you more of an intuitive sense of what happens when you add fixed effects to a regression.</p>
+<div class="section" id="Exercise-1">
+<h2>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h2>
+<p>Download and load the data from <a class="reference external" href="https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/us_driving_fatalities.csv">this link</a>, or by going to <a class="reference external" href="www.github.com/nickeubank/MIDS_Data/">www.github.com/nickeubank/MIDS_Data/</a> and downloading the <code class="docutils literal notranslate"><span class="pre">us_driving_fatalities.csv</span></code> dataset.</p>
+<p>How many states does this dataset contain? What’s the time frame of this dataset? (From which year to which year). And what constitutes a single observation (i.e. what is the unit of analysis for each row of the data?)</p>
+</div>
+<div class="section" id="Exercise-2">
+<h2>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h2>
+<p>We use the fatality rate per 10,000 as the dependent variable. Construct this variable. Name it as <code class="docutils literal notranslate"><span class="pre">fat_rate</span></code>. Hint: You can compute it using total fatalities(<code class="docutils literal notranslate"><span class="pre">fatal</span></code>) and population (<code class="docutils literal notranslate"><span class="pre">pop</span></code>). Note that because <code class="docutils literal notranslate"><span class="pre">pop</span></code> is often the name of a method in Python, you may have to navigate around some issues.</p>
+</div>
+<div class="section" id="Exercise-3">
+<h2>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h2>
+<p>Draw a scatter plot using <code class="docutils literal notranslate"><span class="pre">beertax</span></code> as the x-axis, and <code class="docutils literal notranslate"><span class="pre">fat_rate</span></code> as the y-axis. Draw a fitted line showing the correlation between these two variables</p>
+</div>
+<div class="section" id="Exercise-4">
+<h2>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h2>
+<p>Fit a simple OLS regression. This is what is called a “pooled” regression because we’re “pooling” observations from different years into a single regression. What do your results imply about the relationship between Beer Taxes and fatalities?</p>
+<p><span class="math">\begin{align*}
+FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ data}), \\
+\end{align*}</span></p>
+</div>
+<div class="section" id="Exercise-5">
+<h2>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h2>
+<p>Now estimate your model again, this time adding state fixed effects (using the <code class="docutils literal notranslate"><span class="pre">C()</span></code> notation and your normal linear model machinery). What does this result imply about the relationship between beer taxes and fatalities?</p>
+</div>
+<div class="section" id="Exercise-6">
+<h2>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h2>
+<p>Explain whey your results in Exercises 4 (without fixed effects) and Exercise 5 (with state fixed effects) look so different. What does this imply about states with high beer taxes?</p>
+</div>
+<div class="section" id="Fixed-Effects-by-Demeaning">
+<h2>Fixed Effects by Demeaning<a class="headerlink" href="#Fixed-Effects-by-Demeaning" title="Permalink to this headline">¶</a></h2>
+<p>Rather than just add indicator variables, we’ll now use a different strategy for estimating fixed effects called an “entity-demeaning.” This method is more computationally efficient, and can also help you understand how fixed effects work.</p>
+<p>Let’s begin by assuming we want to estimate the following fixed-effect model:</p>
+<p><span class="math">\begin{align}
+FatalityRate_{it} = \beta BeerTax_{it} + Z_i + \epsilon_{it} \tag{1}
+\end{align}</span></p>
+<p>Where <span class="math notranslate nohighlight">\(FatalityRate_{it}\)</span> is the fatality rate of state <span class="math notranslate nohighlight">\(i\)</span> in year <span class="math notranslate nohighlight">\(t\)</span>, <span class="math notranslate nohighlight">\(\beta BeerTax_{it}\)</span> is the beer tax of state <span class="math notranslate nohighlight">\(i\)</span> in year <span class="math notranslate nohighlight">\(t\)</span>. <span class="math notranslate nohighlight">\(Z_i\)</span> is a state fixed effect.</p>
+<p>Rather than adding indicator variables, however, we’ll use entity-demean as follows:</p>
+<p>First, we take the average on both sides of the regression. Here <span class="math notranslate nohighlight">\(n\)</span> is the number of periods.</p>
+<p><span class="math">\begin{align*}
+\frac{1}{n} \sum_{i=1}^n FatalityRate_{it} =& \, \beta_1 \frac{1}{n} \sum_{i=1}^n BeerTax_{it} + \frac{1}{n} \sum_{i=1}^n Z_i + \frac{1}{n} \sum_{i=1}^n \epsilon_{it} \\
+\overline{FatalityRate} =& \, \beta_1 \overline{BeerTax}_i + Z_i + \overline{\epsilon}_i.  \tag{2}
+\end{align*}</span></p>
+<p>Substracting the from the main equation yields:</p>
+<p><span class="math">\begin{align}
+\begin{split}
+FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overline{BeerTax}_i) + (u_{it} - \overline{u}_i) \\
+\overset{\sim}{FatalityRate}_{it} =& \, \beta_1 \overset{\sim}{BeerTax}_{it} + \overset{\sim}{u}_{it}.
+\end{split}
+\end{align}</span></p>
+<p>By taking the difference between the value of each observation (state-year) and the mean value of the entity (state) over n periods, we analyze how the within-state variation of beer tax affects that of the fatality rate. Moreover, by doing so we no longer need to estimate the fixed effects of <span class="math notranslate nohighlight">\(Z_i\)</span>, saving computing power if we are working on a dataset with a large number of fixed effects.</p>
+</div>
+<div class="section" id="Exercise-6">
+<h2>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h2>
+<p>Implement the above entity-demeaned approach to estimate the fixed-effects model by hand (use basic functions, not full tools like <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> or <code class="docutils literal notranslate"><span class="pre">C()</span></code> notation in <code class="docutils literal notranslate"><span class="pre">python</span></code>, or <code class="docutils literal notranslate"><span class="pre">lfe</span></code> or <code class="docutils literal notranslate"><span class="pre">C()</span></code> notation in <code class="docutils literal notranslate"><span class="pre">R</span></code>).</p>
+</div>
+<div class="section" id="Exercise-7">
+<h2>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h2>
+<p>Fit the model with state fixed-effect using <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> / <code class="docutils literal notranslate"><span class="pre">lfe</span></code>. Compare it to your by-hand output. Interpret the result.</p>
+</div>
+<div class="section" id="Exercise-8">
+<h2>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h2>
+<p>Now (using <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> or <code class="docutils literal notranslate"><span class="pre">lfe</span></code>) estimate a fixed effects model using the following specification. Add fixed effects for <strong>both</strong> the state and the year, as well as the other covariates you think are important <span class="math notranslate nohighlight">\(X_{it}\)</span>).</p>
+<p>Explain (a) the type of phenomenon we control for by adding <code class="docutils literal notranslate"><span class="pre">year</span></code> fixed effects, and (b) your choice of covariates. Cluster the standard error at the state level. Interpret the result.</p>
+<p><span class="math">\begin{align}
+FatalityRate_{it} = \beta BeerTax_{it} + X_{it} + State_i + Year_t + \epsilon_{it}
+\end{align}</span></p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Unifying DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">QUESTIONS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../taxonomy_of_questions.html">Taxonomy of Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../limitations_of_ATE.html">Limitations of Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">METHODS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../interpreting_indicator_vars.html">Indicator Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fixed_effects.html">Fixed Effects</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/exercise_panel.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-151397036-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>

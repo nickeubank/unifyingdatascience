@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Interpreting Indicator Variables &#8212; Unifying Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="Interpreting-Indicator-Variables">
+<h1>Interpreting Indicator Variables<a class="headerlink" href="#Interpreting-Indicator-Variables" title="Permalink to this headline">¶</a></h1>
+<p>In this exercise we’ll work with a (somewhat canonical) dataset on the prices, mileages, weights, and other characteristics of 74 automobiles. These data originally came from the April 1979 issue of Consumer Reports and from the United States Government EPA statistics on fuel consumption; they were compiled and published by Chambers et al. (1983).</p>
+<p>To get the data, follow <a class="reference external" href="https://github.com/nickeubank/MIDS_Data/blob/master/automobile_dataset.dta?raw=true">this link</a> or go to <a class="reference external" href="http://www.github.com/nickeubank/MIDS%60Data">http://www.github.com/nickeubank/MIDS_Data</a> and download the <code class="docutils literal notranslate"><span class="pre">automobile_dataset.dta</span></code> file.</p>
+<div class="section" id="Indicator-Variables-and-Omitted-Variable-Bias">
+<h2>Indicator Variables and Omitted Variable Bias<a class="headerlink" href="#Indicator-Variables-and-Omitted-Variable-Bias" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h3>
+<p>Create a new variable named <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> that takes the value of 1 if the car’s miles per gallon (<code class="docutils literal notranslate"><span class="pre">mpg</span></code>) is less than 18 and takes value 0 otherwise (“guzzler” is a term for a car that consumes gas very quickly, or “guzzles gas”). Regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> and interpret the coefficients. Do gas guzzlers cost more than the other cars? How much more?</p>
+</div>
+<div class="section" id="Exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h3>
+<p>Create a scatter plot of <code class="docutils literal notranslate"><span class="pre">price</span></code> against <code class="docutils literal notranslate"><span class="pre">weight</span></code> and color code your markers by the value of <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> (red for <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> = 1 and green for <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> = 0).</p>
+<p>Based on the graph you just created, do you think <strong>not</strong> controlling for <code class="docutils literal notranslate"><span class="pre">weight</span></code> might lead to omitted variable bias in the regression in Exercise 1? What is the direction of the bias?</p>
+</div>
+<div class="section" id="Exercise-3">
+<h3>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h3>
+<p>Regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on <code class="docutils literal notranslate"><span class="pre">guzzler</span></code>, <code class="docutils literal notranslate"><span class="pre">weight</span></code>, <code class="docutils literal notranslate"><span class="pre">foreign</span></code>, <code class="docutils literal notranslate"><span class="pre">headroom</span></code>, and <code class="docutils literal notranslate"><span class="pre">displacement</span></code>. Interpret the coefficients. Do the regression results confirm your guess in Q3?</p>
+</div>
+<div class="section" id="Exercise-4">
+<h3>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h3>
+<p>Variable <code class="docutils literal notranslate"><span class="pre">rep78</span></code> indicates the car’s repair record. The variable is poorly documented (we don’t know that the value means) but take our word for it that the values from 1-5 indicate “very poor”, “poor”, “acceptable”, “good”, and “very good” record, respectively.</p>
+<p>Create five separate indicator variables from <code class="docutils literal notranslate"><span class="pre">rep78</span></code> and regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on indicators for values 2 through 5. Also control for <code class="docutils literal notranslate"><span class="pre">headroom</span></code>, <code class="docutils literal notranslate"><span class="pre">weight</span></code>, <code class="docutils literal notranslate"><span class="pre">foreign</span></code>, and <code class="docutils literal notranslate"><span class="pre">displacement</span></code>. Interpret the coefficients on the indicator for <code class="docutils literal notranslate"><span class="pre">rep78</span> <span class="pre">==</span> <span class="pre">3</span></code>.</p>
+<p>(Note: You can use the <code class="docutils literal notranslate"><span class="pre">C()</span></code> method for creating indicator variables, but your answers will only be right if the omitted category is <code class="docutils literal notranslate"><span class="pre">rep78</span> <span class="pre">==</span> <span class="pre">1</span></code>).</p>
+</div>
+</div>
+<div class="section" id="Interaction-Effects">
+<h2>Interaction Effects<a class="headerlink" href="#Interaction-Effects" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Exercise-5">
+<h3>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h3>
+<p>You suspect that the effect of <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> on <code class="docutils literal notranslate"><span class="pre">price</span></code> may be conditioned by whether or not the car is manufactured abroad. Regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on <code class="docutils literal notranslate"><span class="pre">guzzler</span></code>, <code class="docutils literal notranslate"><span class="pre">foreign</span></code> <strong>and their interaction,</strong> controlling for <code class="docutils literal notranslate"><span class="pre">headroom</span></code>, <code class="docutils literal notranslate"><span class="pre">weight</span></code> and <code class="docutils literal notranslate"><span class="pre">displacement</span></code>. Without using mathematical language, explain to your grandma what the coefficient on the interaction term means.</p>
+</div>
+<div class="section" id="Exercise-6">
+<h3>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h3>
+<p>What is the price difference between a foreign guzzler and a foreign non-guzzler?</p>
+</div>
+<div class="section" id="Exercise-7">
+<h3>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h3>
+<p>What is the price difference between a domestic non-guzzler and a foreign non-guzzler?</p>
+</div>
+<div class="section" id="Exercise-8">
+<h3>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h3>
+<p>Regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on <code class="docutils literal notranslate"><span class="pre">foreign</span></code>, <code class="docutils literal notranslate"><span class="pre">mpg</span></code> and their interaction, controlling for <code class="docutils literal notranslate"><span class="pre">headroom</span></code>, <code class="docutils literal notranslate"><span class="pre">weight</span></code> and <code class="docutils literal notranslate"><span class="pre">displacement</span></code>. Interpret the coefficients of the main independent variables. Explain in layman terms the coefficient on the interaction term.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Unifying DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">QUESTIONS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../taxonomy_of_questions.html">Taxonomy of Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../limitations_of_ATE.html">Limitations of Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">METHODS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../interpreting_indicator_vars.html">Indicator Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fixed_effects.html">Fixed Effects</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/exercise_indicators.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-151397036-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>
