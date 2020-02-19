@@ -12,7 +12,7 @@
     "\n",
     "There are several strategies for making these adjustments. The one the is most popular among statisticians (and which is most familiar to MIDS students) are hierarchical models. Hierarchical models accomplish two things: (a) they allow for different intercepts (or different slopes) for all observations within a group, and (b) they adjust our standard errors to account for the possibility of group-level shocks (if the 300 kids in a single school are all over-performing, hierarchical models don't think of that as 300 observations when calculating standard errors for group effects (which would generally result in small standard errors since we have a sample size of 300 kids); it sees it as a single observation of a good school (with larger standard errors due to the fact we only have a sample size of one school).\n",
     "\n",
-    "Hierarchical models are popular in many settings, and for good reason -- they are statistically *efficient* (meaning they generate estimates that tend to standard errors that are smaller than what you get from other methods). But they also have limitations. \n",
+    "Hierarchical models are popular in many settings, and for good reason -- they are statistically *efficient* (meaning they generate estimates that tend to standard errors that are smaller than what you get from other models designed to accomplish the same thing). But they also have limitations. \n",
     "\n",
     "The chief limitation of hierarchical models is that they assume that the magnitudes of group difference (i.e. the group intercepts or differences in slope) are uncorrelated with the other explanatory variables in the model. Indeed, it is this assumption that makes them statistically efficient. \n",
     "\n",
@@ -36,7 +36,7 @@
     "\n",
     "## Things To Remember:\n",
     "\n",
-    "- Everything you learned about when and how you can use hierarchical models applies to fixed effects + standard errors, except that fixed effects + clustered standard errors are even more robust. \n",
+    "- Everything you learned about when and how you can use hierarchical models applies to fixed effects + clustered standard errors, except that fixed effects + clustered standard errors are even more robust. \n",
     "- If you're using fixed effects for groups that might be subject to common shocks, you should probably also be using clustered standard errors.\n",
     "- Random effects + clustered standard errors is just a different term for hierarchical models, and often you'll just hear them called \"random effects models\" or \"mixed effects models\". "
    ]
