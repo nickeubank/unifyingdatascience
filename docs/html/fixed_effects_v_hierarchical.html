@@ -33,13 +33,213 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="Fixed-Effects-and-Hierarchical-Models">
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="section" id="Fixed-Effects-and-Hierarchical-Models">
 <h1>Fixed Effects and Hierarchical Models<a class="headerlink" href="#Fixed-Effects-and-Hierarchical-Models" title="Permalink to this headline">¶</a></h1>
 <p>It is often the case that the data you will work with as a data scientist will have a <em>nested</em> structure, meaning our individual observations can also be divided into groups. In a dataset on student test scores, for example, individual students can be grouped by classroom, or by school. In data on store revenues, it may be possible to group stores by the city in which they are located.</p>
 <p>When this happens, we often want to take this group structure into account. For students, for example, we might want to take into account that all the students in a good school may do better than average (because the school is good), or that all the stores in a poor city may be likely to under-perform (not because of anything the store has done, but because the city is poor).</p>
 <p>There are several strategies for making these adjustments. The one the is most popular among statisticians (and which is most familiar to MIDS students) are hierarchical models. Hierarchical models accomplish two things: (a) they allow for different intercepts (or different slopes) for all observations within a group, and (b) they adjust our standard errors to account for the possibility of group-level shocks (if the 300 kids in a single school are all over-performing, hierarchical models don’t
 think of that as 300 observations when calculating standard errors for group effects (which would generally result in small standard errors since we have a sample size of 300 kids); it sees it as a single observation of a good school (with larger standard errors due to the fact we only have a sample size of one school).</p>
-<p>Hierarchical models are popular in many settings, and for good reason – they are statistically <em>efficient</em> (meaning they generate estimates that tend to standard errors that are smaller than what you get from other models designed to accomplish the same thing). But they also have limitations.</p>
+<p>Hierarchical models are popular in many settings, and for good reason – they are statistically <em>efficient</em> (meaning they generate estimates that tend to standard errors that are smaller than what you get from other models designed to accomplish the same things). But they also have limitations.</p>
 <p>The chief limitation of hierarchical models is that they assume that the magnitudes of group difference (i.e. the group intercepts or differences in slope) are uncorrelated with the other explanatory variables in the model. Indeed, it is this assumption that makes them statistically efficient.</p>
 <p>But there are many settings where this assumption breaks down. For example, suppose we’re estimating the test scores of children, and we’re controlling for whether children are low-income. If we estimate a hierarchical model to allow for different schools to have different average test scores, then those estimates of school-level differences will be biased if low-income students tend to go to under-performing school (because our explanatory variable – a child’s income – is correlated with the
 school’s average performance).</p>
@@ -62,6 +262,15 @@ understand in principle what we’re doing, you’re smarter than me. :)</p>
 <li><p>If you’re using fixed effects for groups that might be subject to common shocks, you should probably also be using clustered standard errors.</p></li>
 <li><p>Random effects + clustered standard errors is just a different term for hierarchical models, and often you’ll just hear them called “random effects models” or “mixed effects models”.</p></li>
 </ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 

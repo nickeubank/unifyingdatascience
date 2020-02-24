@@ -1,0 +1,643 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Propensity Score Matching Exercise &#8212; Unifying Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="section" id="Propensity-Score-Matching-Exercise">
+<h1>Propensity Score Matching Exercise<a class="headerlink" href="#Propensity-Score-Matching-Exercise" title="Permalink to this headline">¶</a></h1>
+<p>To practice propensity score matching, Let’s estimate how college education impacts earnings in the US using data from the US Current Population Survey (CPS) on US wages in 2019.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Load survey</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">cps</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span><span class="s1">&#39;https://github.com/nickeubank/MIDS_Data/blob/master/Current_Population_Survey/morg18.dta?raw=true&#39;</span><span class="p">)</span>
+
+<span class="c1"># Limit to people currently employed and working full time.</span>
+<span class="n">cps</span> <span class="o">=</span> <span class="n">cps</span><span class="p">[</span><span class="n">cps</span><span class="o">.</span><span class="n">lfsr94</span> <span class="o">==</span> <span class="s1">&#39;Employed-At Work&#39;</span><span class="p">]</span>
+<span class="n">cps</span> <span class="o">=</span> <span class="n">cps</span><span class="p">[</span><span class="n">cps</span><span class="o">.</span><span class="n">uhourse</span> <span class="o">&gt;=</span> <span class="mi">35</span><span class="p">]</span>
+
+<span class="c1"># And we can adjust earnings per hour (in cents) into dollars,</span>
+<span class="n">cps</span><span class="p">[</span><span class="s1">&#39;earnhre_dollars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cps</span><span class="p">[</span><span class="s1">&#39;earnhre&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span>
+<span class="n">cps</span><span class="p">[</span><span class="s1">&#39;annual_earnings&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cps</span><span class="p">[</span><span class="s1">&#39;earnhre_dollars&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">cps</span><span class="p">[</span><span class="s1">&#39;uhourse&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">52</span>
+
+<span class="c1"># And create gender and college educ variable</span>
+<span class="n">cps</span><span class="p">[</span><span class="s1">&#39;female&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">sex</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+<span class="n">cps</span><span class="p">[</span><span class="s1">&#39;has_college_educ&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">grade92</span> <span class="o">&gt;</span> <span class="mi">43</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+
+<span class="n">cps</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>county</th>
+      <th>smsastat</th>
+      <th>age</th>
+      <th>sex</th>
+      <th>grade92</th>
+      <th>race</th>
+      <th>ethnic</th>
+      <th>marital</th>
+      <th>uhourse</th>
+      <th>earnhre</th>
+      <th>...</th>
+      <th>gedhigr</th>
+      <th>yrcoll</th>
+      <th>grprof</th>
+      <th>gr6cor</th>
+      <th>ms123</th>
+      <th>occ2012</th>
+      <th>earnhre_dollars</th>
+      <th>annual_earnings</th>
+      <th>female</th>
+      <th>has_college_educ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>133814.000000</td>
+      <td>132638.000000</td>
+      <td>133814.000000</td>
+      <td>133814.000000</td>
+      <td>133814.000000</td>
+      <td>133814.000000</td>
+      <td>18480.000000</td>
+      <td>133814.000000</td>
+      <td>133814.000000</td>
+      <td>65755.000000</td>
+      <td>...</td>
+      <td>3107.000000</td>
+      <td>36240.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>133814.000000</td>
+      <td>65755.000000</td>
+      <td>65755.000000</td>
+      <td>133814.000000</td>
+      <td>133814.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>25.735020</td>
+      <td>1.173932</td>
+      <td>43.335458</td>
+      <td>1.440320</td>
+      <td>41.059680</td>
+      <td>1.434274</td>
+      <td>2.581872</td>
+      <td>3.253359</td>
+      <td>42.596515</td>
+      <td>1940.998783</td>
+      <td>...</td>
+      <td>6.640489</td>
+      <td>2.853256</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3989.409128</td>
+      <td>19.409988</td>
+      <td>41757.890924</td>
+      <td>0.440320</td>
+      <td>0.148295</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>61.578816</td>
+      <td>0.379052</td>
+      <td>13.335412</td>
+      <td>0.496427</td>
+      <td>2.512128</td>
+      <td>1.270713</td>
+      <td>2.417939</td>
+      <td>2.676927</td>
+      <td>7.002970</td>
+      <td>1008.707762</td>
+      <td>...</td>
+      <td>1.321649</td>
+      <td>0.963869</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2708.186730</td>
+      <td>10.087078</td>
+      <td>23164.092147</td>
+      <td>0.496427</td>
+      <td>0.355394</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>16.000000</td>
+      <td>1.000000</td>
+      <td>31.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>35.000000</td>
+      <td>17.000000</td>
+      <td>...</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>10.000000</td>
+      <td>0.170000</td>
+      <td>397.800000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>32.000000</td>
+      <td>1.000000</td>
+      <td>39.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>40.000000</td>
+      <td>1300.000000</td>
+      <td>...</td>
+      <td>6.000000</td>
+      <td>2.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1550.000000</td>
+      <td>13.000000</td>
+      <td>27040.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>43.000000</td>
+      <td>1.000000</td>
+      <td>41.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>40.000000</td>
+      <td>1675.000000</td>
+      <td>...</td>
+      <td>7.000000</td>
+      <td>3.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4050.000000</td>
+      <td>16.750000</td>
+      <td>35360.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>29.000000</td>
+      <td>1.000000</td>
+      <td>54.000000</td>
+      <td>2.000000</td>
+      <td>43.000000</td>
+      <td>1.000000</td>
+      <td>4.000000</td>
+      <td>7.000000</td>
+      <td>40.000000</td>
+      <td>2300.000000</td>
+      <td>...</td>
+      <td>8.000000</td>
+      <td>3.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5700.000000</td>
+      <td>23.000000</td>
+      <td>49920.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>810.000000</td>
+      <td>2.000000</td>
+      <td>85.000000</td>
+      <td>2.000000</td>
+      <td>46.000000</td>
+      <td>26.000000</td>
+      <td>8.000000</td>
+      <td>7.000000</td>
+      <td>99.000000</td>
+      <td>9999.000000</td>
+      <td>...</td>
+      <td>8.000000</td>
+      <td>5.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>9750.000000</td>
+      <td>99.990000</td>
+      <td>361920.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>8 rows × 24 columns</p>
+</div></div>
+</div>
+<div class="section" id="Exercise-1">
+<h2>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h2>
+<p>How many observations have a college degree, how many does not have a college degree.</p>
+</div>
+<div class="section" id="Exercise-2">
+<h2>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h2>
+<p>Show the raw difference of <code class="docutils literal notranslate"><span class="pre">earnhre_dollars</span></code> between the group with college degree and that without the college.</p>
+</div>
+<div class="section" id="Exercise-3">
+<h2>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h2>
+<p>Select the covariates that may be correlated with the treatment and dependent variables, use these covariates fit a logistic model to obtain propensity score.</p>
+</div>
+<div class="section" id="Exercise-4">
+<h2>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h2>
+<p>Evaluate the common support of the treated and control groups</p>
+</div>
+<div class="section" id="Exercise-5">
+<h2>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h2>
+<p>Obtain a matched sample using k:1 nearest neighbor method. Show the top ten rows of the matched data</p>
+</div>
+<div class="section" id="Exercise-6">
+<h2>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h2>
+<p>Conduct a t-test between the treatment and control group using the matched data. Interpret the result. Are covariates balanced?</p>
+</div>
+<div class="section" id="Exercise-7">
+<h2>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h2>
+<p>Fit four separate regression models to estimate the effect of college education on earning per hour. - an OLS model, including only the treatment variable - an OLS model, including the treatment variable and covariates - a weighted least squared model, including only the treatment variable, using the weight obtained by propensity score matching - a weighted least squared model, including the treatment variable and covariates, using the weight obtained by propensity score matching</p>
+<p>Compare the above four models, interpret the results.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Unifying DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">QUESTIONS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../taxonomy_of_questions.html">Taxonomy of Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../limitations_of_ATE.html">Limitations of Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">METHODS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../interpreting_indicator_vars.html">Indicator Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fixed_effects.html">Fixed Effects</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/exercise_matching.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-151397036-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>
