@@ -24,7 +24,7 @@
 - `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
 - `Fixed Effects <fixed_effects.ipynb>`_","- `Indicators <exercises/exercise_indicators.ipynb>`_
 - `Fixed Effects <exercises/exercise_panel.ipynb>`_"
-"Mon, Feb 24",CI: Matching,`Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_ ,"- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/30_Matching/matching.pdf>`_
+"Mon, Feb 24",CI: Matching,`Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_ ,"- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/30_matching/matching.pdf>`_
 - `Exercises <exercises/exercise_matching.ipynb>`_"
 "Wed, Feb 26",CI: Difference-in-Differences,"Angrist and Piscke (MM), Chapter 5 (pp 178-208) ",
 "Mon, Mar 2",Backwards Project Design,,
