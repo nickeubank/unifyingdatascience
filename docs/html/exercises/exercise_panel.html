@@ -80,14 +80,14 @@ FatalityRate_{it} = \beta BeerTax_{it} + Z_i + \epsilon_{it} \tag{1}
 <p>Rather than adding indicator variables, however, we’ll use entity-demean as follows:</p>
 <p>First, we take the average on both sides of the regression. Here <span class="math notranslate nohighlight">\(n\)</span> is the number of periods.</p>
 <p><span class="math">\begin{align*}
-\frac{1}{n} \sum_{i=1}^n FatalityRate_{it} =& \, \beta_1 \frac{1}{n} \sum_{i=1}^n BeerTax_{it} + \frac{1}{n} \sum_{i=1}^n Z_i + \frac{1}{n} \sum_{i=1}^n \epsilon_{it} \\
+\frac{1}{n} \sum_{t=1}^n FatalityRate_{it} =& \, \beta_1 \frac{1}{n} \sum_{t=1}^n BeerTax_{it} + \frac{1}{n} \sum_{t=1}^n Z_i + \frac{1}{n} \sum_{t=1}^n \epsilon_{it} \\
 \overline{FatalityRate} =& \, \beta_1 \overline{BeerTax}_i + Z_i + \overline{\epsilon}_i.  \tag{2}
 \end{align*}</span></p>
 <p>Substracting the from the main equation yields:</p>
 <p><span class="math">\begin{align}
 \begin{split}
-FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overline{BeerTax}_i) + (u_{it} - \overline{u}_i) \\
-\overset{\sim}{FatalityRate}_{it} =& \, \beta_1 \overset{\sim}{BeerTax}_{it} + \overset{\sim}{u}_{it}.
+FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overline{BeerTax}_i) + (\epsilon_{it} - \overline{\epsilon}_i) \\
+\overset{\sim}{FatalityRate}_{it} =& \, \beta_1 \overset{\sim}{BeerTax}_{it} + \overset{\sim}{\epsilon}_{it}.
 \end{split}
 \end{align}</span></p>
 <p>By taking the difference between the value of each observation (state-year) and the mean value of the entity (state) over n periods, we analyze how the within-state variation of beer tax affects that of the fatality rate. Moreover, by doing so we no longer need to estimate the fixed effects of <span class="math notranslate nohighlight">\(Z_i\)</span>, saving computing power if we are working on a dataset with a large number of fixed effects.</p>
