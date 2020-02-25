@@ -52,7 +52,7 @@
     "Fit a simple OLS regression. This is what is called a \"pooled\" regression because we're \"pooling\" observations from different years into a single regression. What do your results imply about the relationship between Beer Taxes and fatalities?\n",
     "\n",
     "\\begin{align*}\n",
-    "FatalityRate_i = \\beta_0 + \\beta_1 \\times BeerTax_i \\quad (1982 or 1988 \\text{ data}), \\\\\n",
+    "FatalityRate_i = \\beta_0 + \\beta_1 \\times BeerTax_i\n",
     "\\end{align*}"
    ]
   },
