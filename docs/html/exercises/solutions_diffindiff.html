@@ -1,0 +1,856 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Groupby and Arrest Data &#8212; Unifying Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="section" id="Groupby-and-Arrest-Data">
+<h1>Groupby and Arrest Data<a class="headerlink" href="#Groupby-and-Arrest-Data" title="Permalink to this headline">¶</a></h1>
+<p>In recent years, many US states have decided to legalize the use of marijuana.</p>
+<p>When these ideas were first proposed, there were many theories about the relationship between crime and the “War on Drugs” (the term given to US efforts to arrest drug users and dealers over the past several decades).</p>
+<p>In this exercise, we’re going to test a few of those theories using drug arrest data from the state of California.</p>
+<p>Though California has passed a number of laws lessening penalities for marijuana possession over the years, arguably the biggest changes were in 2010, when the state changed the penalty for possessing a small amount of marijuana from a criminal crime to a “civil” penality (meaning those found guilty only had to pay a fine, not go to jail), though possessing, selling, or producing larger quantities remained illegal. Then in 2016, the state fully legalized marijuana for recreational use, not only
+making possession of small amounts legal, but also creating a regulatory system for producing marijuana for sale.</p>
+<p>Proponents of drug legalization have long argued that the war on drugs contributes to violent crime by creating an opportunity for drug dealers and organized crime to sell and distribute drugs, a business which tends to generate violence when gangs battle over territory. According to this theory, with drug legalization, we should see violent crime decrease after legalization in places where drug arrests had previously been common.</p>
+<p><strong>To be clear,</strong> this is far from the only argument for drug legalization! It is simply the argument we are well positioned to analyze today.</p>
+<p>(Students from Practical Data Science: This should sound familiar! Last semester we did this analysis in a very simple, crude manner; in this class we’ll do it rigorously with your new found difference-in-differences skills!)</p>
+<div class="section" id="Exercise-1">
+<h2>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h2>
+<p>Download and import California arrest data from <a class="reference external" href="https://www.github.com/nickeubank/MIDS_Data/UDS_arrest_data.csv">https://www.github.com/nickeubank/MIDS_Data/UDS_arrest_data.csv</a>. What is a unit of observation (a single row) in this data? What entities are being tracked, and over what time period?</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">VIOLENT</span></code> is a count of arrests for violent offenses, and <code class="docutils literal notranslate"><span class="pre">F_DRUGOFF</span></code> is a count of felony drug arrests. <code class="docutils literal notranslate"><span class="pre">total_population</span></code> is total population.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">arrests</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/UDS_arrest_data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YEAR</th>
+      <th>COUNTY</th>
+      <th>VIOLENT</th>
+      <th>F_DRUGOFF</th>
+      <th>total_population</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1980</td>
+      <td>Alameda County</td>
+      <td>4504</td>
+      <td>3569</td>
+      <td>1105379.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1981</td>
+      <td>Alameda County</td>
+      <td>4699</td>
+      <td>3926</td>
+      <td>1122759.3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1982</td>
+      <td>Alameda County</td>
+      <td>4389</td>
+      <td>4436</td>
+      <td>1140139.6</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1983</td>
+      <td>Alameda County</td>
+      <td>4500</td>
+      <td>5086</td>
+      <td>1157519.9</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1984</td>
+      <td>Alameda County</td>
+      <td>3714</td>
+      <td>5878</td>
+      <td>1174900.2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="Exercise-2">
+<h2>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h2>
+<p>In this analysis, we will split our sample into “treated” and “control” on the basis of whether a given county had a high average drug arrest rate in the three years before California began drug legalization in 2010. Counties with high drug arrest rates, after all, will be more impacted by drug liberalization policies.</p>
+<p>Calculate each county’s average drug arrest <em>rate</em> for the period from 2007-2009. Then calculate the median value across counties, and create an indicator called <code class="docutils literal notranslate"><span class="pre">treated</span></code> for counties with above-median average drug arrest rates during this period. Note that this indicator should be <em>time-invariant</em> – if a county is in the treated group, it should always be identified as being in the treated group.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests</span><span class="p">[</span><span class="s1">&#39;drug_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">F_DRUGOFF</span> <span class="o">/</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">total_population</span> <span class="o">/</span> <span class="mi">100000</span><span class="p">)</span>
+<span class="n">arrests</span><span class="p">[</span><span class="s1">&#39;violent_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">VIOLENT</span> <span class="o">/</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">total_population</span> <span class="o">/</span> <span class="mi">100000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">small</span> <span class="o">=</span> <span class="n">arrests</span><span class="p">[</span><span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">2007</span><span class="p">,</span> <span class="mi">2008</span><span class="p">,</span> <span class="mi">2009</span><span class="p">])]</span>
+<span class="n">avgs</span> <span class="o">=</span> <span class="n">small</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;COUNTY&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">violent_rate</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">avgs</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+367.16960903173793
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">high</span> <span class="o">=</span> <span class="p">(</span><span class="n">avgs</span> <span class="o">&gt;</span> <span class="n">avgs</span><span class="o">.</span><span class="n">median</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+<span class="n">high</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;treated&#39;</span>
+<span class="n">high</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+COUNTY
+Alameda County      0
+Alpine County       1
+Amador County       0
+Butte County        0
+Calaveras County    1
+Name: treated, dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">arrests</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;COUNTY&#39;</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">,</span> <span class="n">indicator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">validate</span><span class="o">=</span><span class="s1">&#39;m:1&#39;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">_merge</span> <span class="o">==</span> <span class="s1">&#39;both&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="n">arrests</span> <span class="o">=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;_merge&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+<span class="n">arrests</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YEAR</th>
+      <th>COUNTY</th>
+      <th>VIOLENT</th>
+      <th>F_DRUGOFF</th>
+      <th>total_population</th>
+      <th>drug_rate</th>
+      <th>violent_rate</th>
+      <th>treated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1980</td>
+      <td>Alameda County</td>
+      <td>4504</td>
+      <td>3569</td>
+      <td>1105379.0</td>
+      <td>322.875683</td>
+      <td>407.462056</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1981</td>
+      <td>Alameda County</td>
+      <td>4699</td>
+      <td>3926</td>
+      <td>1122759.3</td>
+      <td>349.674236</td>
+      <td>418.522474</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1982</td>
+      <td>Alameda County</td>
+      <td>4389</td>
+      <td>4436</td>
+      <td>1140139.6</td>
+      <td>389.075162</td>
+      <td>384.952860</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1983</td>
+      <td>Alameda County</td>
+      <td>4500</td>
+      <td>5086</td>
+      <td>1157519.9</td>
+      <td>439.387694</td>
+      <td>388.762215</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1984</td>
+      <td>Alameda County</td>
+      <td>3714</td>
+      <td>5878</td>
+      <td>1174900.2</td>
+      <td>500.297813</td>
+      <td>316.111956</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="Exercise-3">
+<h2>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h2>
+<p>Our outcome in this analysis is the violent arrest rate – if drug liberalization reduces crime overall, we would expect to see this rate fall in counties with high drug arrest rates after liberalization; if not, we would not expect to see any changes. Create a <code class="docutils literal notranslate"><span class="pre">violent_rate</span></code> variable with is violent arrests per 100,000 people.</p>
+</div>
+<div class="section" id="Exercise-4">
+<h2>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h2>
+<p>Differences-in-differences get their name from the fact that the estimator, in its most basic implementation, is just the difference between:</p>
+<ul class="simple">
+<li><p>difference in the average change in outcome among eventually-treated units from before to after when treatment is applied, and</p></li>
+<li><p>difference in the average change in outcome among never-treated units from before to after when treatment (to the treated units).</p></li>
+</ul>
+<p>(Obviously treatment is never a applied to the never-treated units – when we talk about pre / post, we refer to before and after the point in time in which treatment is applied to the treated units. So if treated units are treated in 2008, then for the never-treated units, we are also comparing outcomes before 2008 to after 2008, even though 2008 has no special significance for the never-treated units).</p>
+<p>In its most basic implementation, therefore, calculating a difference-in-difference estimate requires calculating just 4 numbers:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\bar y_{T=1,Post}\)</span> Avg for Treatment, Post-Treatment</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bar y_{T=0,Post}\)</span> Avg for Control, Post-Treatment</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bar y_{T=1,Pre}\)</span> Avg for Treatment, Pre-Treatment</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bar y_{T=0,Pre}\)</span> Avg for Control, Pre-Treatment</p></li>
+</ul>
+<p>The difference-in-differences estimator <span class="math notranslate nohighlight">\(\hat \delta\)</span> is defined as</p>
+<div class="math notranslate nohighlight">
+\[\hat{\delta}= (\bar{y}_{T=1,\,Post}-\bar{y}_{T=1,\,Pre})-(\bar{y}_{T=0,\,Post}-\bar{y}_{T=0,\,Pre})\]</div>
+<p>Calculate (a) the change in violent arrest rates for our treated groups from before legalization to after (<span class="math notranslate nohighlight">\(\bar y_{T=1,Post} - \bar y_{T=1, Pre}\)</span>), and (b) our difference in difference estimator <span class="math notranslate nohighlight">\(\hat\delta\)</span> by calculating these four values. Does doing your difference-in-difference estimate tell you something different from what you’d learn if you had just done a pre-post comparison?</p>
+<p>For the <code class="docutils literal notranslate"><span class="pre">Pre</span></code> period, consider the three years before liberalization begins in 2010 (e.g. 2007-2009). For the <code class="docutils literal notranslate"><span class="pre">Post</span></code> period, consider the three years after final legalization took place (2016-2018). We will ignore the middle period in which marijuana was decriminalized but not yet legal.</p>
+</div>
+<div class="section" id="Exercise-5">
+<h2>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h2>
+<p>Now calculate <span class="math notranslate nohighlight">\(\hat\delta\)</span> using a regression with an indicator for post-2010, an indicator for treated, and an interaction of the two. Use only the same set of years you used above. How does your estimate compare to the estimate you calculated in Exercise 4?</p>
+<p>What does this tell you about interpretation of interaction terms with two indicator variables?</p>
+<p>Note: You need to cluster your standard errors by county, since we expect counties (over time) to be subject to common fluctuations.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests</span><span class="p">[</span><span class="s1">&#39;post_2010&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&gt;=</span> <span class="mi">2010</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+<span class="n">arrests_sub</span> <span class="o">=</span> <span class="n">arrests</span><span class="p">[</span><span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">2007</span><span class="p">,</span> <span class="mi">2008</span><span class="p">,</span> <span class="mi">2009</span><span class="p">,</span> <span class="mi">2016</span><span class="p">,</span> <span class="mi">2017</span><span class="p">,</span> <span class="mi">2018</span><span class="p">])]</span>
+
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;violent_rate ~ post_2010 * treated&#39;</span><span class="p">,</span> <span class="n">arrests_sub</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span>
+                        <span class="n">groups</span><span class="o">=</span><span class="n">arrests_sub</span><span class="o">.</span><span class="n">COUNTY</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>      <td>violent_rate</td>   <th>  R-squared:         </th> <td>   0.480</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.475</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   51.48</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Tue, 25 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.13e-16</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>17:49:10</td>     <th>  Log-Likelihood:    </th> <td> -2023.8</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>   348</td>      <th>  AIC:               </th> <td>   4056.</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>   344</td>      <th>  BIC:               </th> <td>   4071.</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>
+</tr>
+<tr>
+  <th>Covariance Type:</th>       <td>cluster</td>     <th>                     </th>     <td> </td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+          <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>
+</tr>
+<tr>
+  <th>Intercept</th>         <td>  285.7453</td> <td>    9.088</td> <td>   31.443</td> <td> 0.000</td> <td>  267.548</td> <td>  303.943</td>
+</tr>
+<tr>
+  <th>post_2010</th>         <td>   -0.6812</td> <td>   10.511</td> <td>   -0.065</td> <td> 0.949</td> <td>  -21.730</td> <td>   20.367</td>
+</tr>
+<tr>
+  <th>treated</th>           <td>  174.9023</td> <td>   14.404</td> <td>   12.143</td> <td> 0.000</td> <td>  146.060</td> <td>  203.745</td>
+</tr>
+<tr>
+  <th>post_2010:treated</th> <td>  -44.8188</td> <td>   17.930</td> <td>   -2.500</td> <td> 0.015</td> <td>  -80.722</td> <td>   -8.915</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>63.141</td> <th>  Durbin-Watson:     </th> <td>   0.891</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.000</td> <th>  Jarque-Bera (JB):  </th> <td> 135.772</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 0.932</td> <th>  Prob(JB):          </th> <td>3.29e-30</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 5.426</td> <th>  Cond. No.          </th> <td>    6.85</td>
+</tr>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors are robust to cluster correlation (cluster)</div>
+</div>
+</div>
+<div class="section" id="Exercise-6">
+<h2>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h2>
+<p>In the preceding exercise, we did a simple pre-post / treated-control comparison. But one important limitation of these designs is that they do not allow us to test for <em>parallel trends</em>.</p>
+<p><strong>Plot</strong> a difference-in-difference model using data from 2000-2009 (inclusive) and from 2016-2018 (inclusive). Note this will have four different geometric components: a time trend for treated counties pre-2010, a time trend for control counties pre-2010, a time trend for treated counties post-2016 (include 2016), and a time trend for control counties post-2016 (include 2016).</p>
+<p>Do you see evidence of parallel trends for these two datasets? Does that make you feel more or less confident in your diff-in-diff estimates?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">arrests_sub2</span> <span class="o">=</span> <span class="n">arrests</span><span class="p">[((</span><span class="mi">2000</span> <span class="o">&lt;=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&lt;=</span> <span class="mi">2009</span><span class="p">))</span> <span class="o">|</span>
+                       <span class="p">(</span><span class="mi">2016</span> <span class="o">&lt;=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span><span class="p">)]</span>
+<span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">arrests_sub2</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;violent_rate&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;YEAR&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;treated&#39;</span><span class="p">))</span> <span class="o">+</span>
+         <span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">arrests_sub2</span><span class="p">[(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&lt;=</span> <span class="mi">2009</span><span class="p">)</span> <span class="o">&amp;</span>
+                                                     <span class="p">(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">treated</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)])</span> <span class="o">+</span>
+         <span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">arrests_sub2</span><span class="p">[(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&lt;=</span> <span class="mi">2009</span><span class="p">)</span> <span class="o">&amp;</span>
+                                                     <span class="p">(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">treated</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)])</span> <span class="o">+</span>
+         <span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">arrests_sub2</span><span class="p">[(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&gt;</span> <span class="mi">2010</span><span class="p">)</span> <span class="o">&amp;</span>
+                                                     <span class="p">(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">treated</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)])</span> <span class="o">+</span>
+         <span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">arrests_sub2</span><span class="p">[(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&gt;</span> <span class="mi">2010</span><span class="p">)</span> <span class="o">&amp;</span>
+                                                     <span class="p">(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">treated</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py:2495: FutureWarning: Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.
+  return ptp(axis=axis, out=out, **kwargs)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/exercises_solutions_diffindiff_16_1.png" src="../_images/exercises_solutions_diffindiff_16_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;ggplot: (-9223363249357043375)&gt;
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Exercise-7">
+<h2>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h2>
+<p>While we can estimate the model described above precisely as a regression, it’s actually much easier to estimate a more flexible model by running the regression we ran in Exercise 5 but with both <code class="docutils literal notranslate"><span class="pre">county</span></code> and <code class="docutils literal notranslate"><span class="pre">year</span></code> fixed effects. Use <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> (or <code class="docutils literal notranslate"><span class="pre">lfe</span></code> in R) to estimate this fixed effects regression.</p>
+<p>With all these additional fixed effects, do you find evidence that marijuana legalization reduced violent crime?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="kn">import</span> <span class="n">PanelOLS</span>
+
+<span class="n">arrests_for_panelols</span> <span class="o">=</span> <span class="n">arrests_sub2</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;COUNTY&#39;</span><span class="p">,</span> <span class="s1">&#39;YEAR&#39;</span><span class="p">])</span>
+
+<span class="c1"># model with state fixed effect</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;violent_rate ~ treated * post_2010 + TimeEffects + EntityEffects&#39;</span><span class="p">,</span>
+                            <span class="n">data</span><span class="o">=</span><span class="n">arrests_for_panelols</span><span class="p">,</span>
+                            <span class="n">drop_absorbed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+                          PanelOLS Estimation Summary
+================================================================================
+Dep. Variable:           violent_rate   R-squared:                        0.0532
+Estimator:                   PanelOLS   R-squared (Between):             -0.0423
+No. Observations:                 754   R-squared (Within):               0.1382
+Date:                Tue, Feb 25 2020   R-squared (Overall):             -0.0381
+Time:                        17:49:12   Log-likelihood                   -4091.4
+Cov. Estimator:            Unadjusted
+                                        F-statistic:                      38.379
+Entities:                          58   P-value                           0.0000
+Avg Obs:                       13.000   Distribution:                   F(1,683)
+Min Obs:                       13.000
+Max Obs:                       13.000   F-statistic (robust):             38.379
+                                        P-value                           0.0000
+Time periods:                      13   Distribution:                   F(1,683)
+Avg Obs:                       58.000
+Min Obs:                       58.000
+Max Obs:                       58.000
+
+                                 Parameter Estimates
+=====================================================================================
+                   Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+-------------------------------------------------------------------------------------
+treated:post_2010    -61.890     9.9903    -6.1951     0.0000     -81.506     -42.275
+=====================================================================================
+
+F-test for Poolability: 43.740
+P-value: 0.0000
+Distribution: F(69,683)
+
+Included effects: Entity, Time
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/linearmodels/panel/model.py:1316: AbsorbingEffectWarning:
+Variables have been fully absorbed and have removed from the regression:
+
+treated, post_2010
+
+  AbsorbingEffectWarning)
+</pre></div></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Unifying DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">QUESTIONS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../taxonomy_of_questions.html">Taxonomy of Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../limitations_of_ATE.html">Limitations of Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">METHODS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../interpreting_indicator_vars.html">Indicator Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fixed_effects.html">Fixed Effects</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/solutions_diffindiff.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-151397036-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>

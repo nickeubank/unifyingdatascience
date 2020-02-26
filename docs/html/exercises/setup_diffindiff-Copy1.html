@@ -1,0 +1,2849 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Groupby and Arrest Data &#8212; Unifying Data Science</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="section" id="Groupby-and-Arrest-Data">
+<h1>Groupby and Arrest Data<a class="headerlink" href="#Groupby-and-Arrest-Data" title="Permalink to this headline">¶</a></h1>
+<p>In our merging exercises, we examined the relationship between county-level violent arrest totals and county-level drug arrest totals. In those exercises, you were given a dataset that provided you with county-level arrest totals. But that’s not actually how the data is provided by the state of California. This week we will work with the <em>raw</em> California arrest data, which is not organized by county or even county-year.</p>
+<p><strong>(1)</strong> Download the raw California arrest data from the State Attorney General’s office <a class="reference external" href="https://openjustice.doj.ca.gov/data">here</a> by scrolling down to the “Arrests” category and downloading the “Arrests - CSV, 5.8 MB” file.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="c1">#arrests = pd.read_csv(&quot;https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2019-06/OnlineArrestData1980-2018.csv&quot;)</span>
+<span class="n">arrests</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;/users/nick/downloads/OnlineArrestData1980-2018.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YEAR</th>
+      <th>GENDER</th>
+      <th>RACE</th>
+      <th>AGE_GROUP</th>
+      <th>COUNTY</th>
+      <th>VIOLENT</th>
+      <th>PROPERTY</th>
+      <th>F_DRUGOFF</th>
+      <th>F_SEXOFF</th>
+      <th>F_ALLOTHER</th>
+      <th>F_TOTAL</th>
+      <th>M_TOTAL</th>
+      <th>S_TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1980</td>
+      <td>Male</td>
+      <td>Black</td>
+      <td>Under 18</td>
+      <td>Alameda County</td>
+      <td>505</td>
+      <td>1351</td>
+      <td>188</td>
+      <td>26</td>
+      <td>79</td>
+      <td>2149</td>
+      <td>2286</td>
+      <td>295</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1980</td>
+      <td>Male</td>
+      <td>Black</td>
+      <td>Under 18</td>
+      <td>Butte County</td>
+      <td>3</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8</td>
+      <td>7</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1980</td>
+      <td>Male</td>
+      <td>Black</td>
+      <td>Under 18</td>
+      <td>Calaveras County</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1980</td>
+      <td>Male</td>
+      <td>Black</td>
+      <td>Under 18</td>
+      <td>Contra Costa County</td>
+      <td>116</td>
+      <td>446</td>
+      <td>28</td>
+      <td>2</td>
+      <td>37</td>
+      <td>629</td>
+      <td>557</td>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1980</td>
+      <td>Male</td>
+      <td>Black</td>
+      <td>Under 18</td>
+      <td>El Dorado County</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>6</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests</span><span class="o">.</span><span class="n">RACE</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+White       26590
+Hispanic    23767
+Other       23328
+Black       21188
+Name: RACE, dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests</span><span class="o">.</span><span class="n">AGE_GROUP</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+20 to 29       17438
+30 to 39       17258
+40 to 69       17082
+Under 18       16305
+18 to 19       16040
+70 and over    10750
+Name: AGE_GROUP, dtype: int64
+</pre></div></div>
+</div>
+<div class="section" id="Learning-the-Group-Structure-of-Your-Data">
+<h2>Learning the Group Structure of Your Data<a class="headerlink" href="#Learning-the-Group-Structure-of-Your-Data" title="Permalink to this headline">¶</a></h2>
+<p><strong>(2)</strong> What is the unit of observation for this dataset? In other words, when row zero says that there were 505 arrests for <code class="docutils literal notranslate"><span class="pre">VIOLENT</span></code> crimes, what exactly is that telling you – 505 arrests in 1980? 505 arrests in Alameda County?</p>
+<div class="section" id="Testing-Your-Assumptions">
+<h3>Testing Your Assumptions<a class="headerlink" href="#Testing-Your-Assumptions" title="Permalink to this headline">¶</a></h3>
+<p>It’s important to be able to test whether the data you are working with really is organized the way you think it is, especially when working with groupby, so let’s discuss how to check your answer to number 2 with <code class="docutils literal notranslate"><span class="pre">duplicated</span></code>. Consider the following data:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;social_security_numbers&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">111111111</span><span class="p">,</span> <span class="mi">222222222</span><span class="p">,</span> <span class="mi">222222222</span><span class="p">,</span> <span class="mi">333333333</span><span class="p">,</span> <span class="mi">333333333</span><span class="p">],</span> <span class="s1">&#39;second_column&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">]})</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>social_security_numbers</th>
+      <th>second_column</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>111111111</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>222222222</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>222222222</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>333333333</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>333333333</td>
+      <td>b</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>If we want to see if there are any duplicate rows in the dataset, we can use <code class="docutils literal notranslate"><span class="pre">.duplicated()</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0    False
+1    False
+2     True
+3    False
+4    False
+dtype: bool
+</pre></div></div>
+</div>
+<p>As you can see, <code class="docutils literal notranslate"><span class="pre">.duplicated()</span></code> looks at each row, and returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if it has seen the row it is looking at before. Note that it doesn’t tag <em>all</em> the rows that look similar – it treats the first instance of a row as unique, and only tags subsequent repitions are “duplicates” (You can change this behavior with keyword arguments if you want all rows tagged).</p>
+<p>Duplicated can also be used to test for duplicates on a sub-set of rows. For example, if we want to test for rows with duplicate values of the variable <code class="docutils literal notranslate"><span class="pre">social_security_numbers</span></code>, we can type:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">([</span><span class="s1">&#39;social_security_numbers&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0    False
+1    False
+2     True
+3    False
+4     True
+dtype: bool
+</pre></div></div>
+</div>
+<p>Since <code class="docutils literal notranslate"><span class="pre">duplicated</span></code> is now only looking at the first column, the last row is now a duplicate (because 333333333 is duplicated), where when we considered all columns, it was not a duplicate (because the value in the second column varied.</p>
+<p>We can now pair <code class="docutils literal notranslate"><span class="pre">.duplicated()</span></code> with the <code class="docutils literal notranslate"><span class="pre">.any()</span></code> function to test for the presence of duplicates in your dataset, which is how we test if we really understand what constitutes a unique observation (i.e. if we think each row of our data is a unique person, then we shouldn’t see any duplicated values of social security numbers, which are unique to each person in the United States).</p>
+<p>When you run <code class="docutils literal notranslate"><span class="pre">.any()</span></code> on an array of booleans, it returns a single value of <code class="docutils literal notranslate"><span class="pre">True</span></code> if <em>any</em> entries are <code class="docutils literal notranslate"><span class="pre">True</span></code>, and a single value of <code class="docutils literal notranslate"><span class="pre">False</span></code> if <em>no</em> entries are <code class="docutils literal notranslate"><span class="pre">True</span></code>. (You can also use <code class="docutils literal notranslate"><span class="pre">.all()</span></code> to test if all entries are false).</p>
+<p>Thus the command: <code class="docutils literal notranslate"><span class="pre">df.duplicated(['social_security_numbers'])</span></code> will return <code class="docutils literal notranslate"><span class="pre">False</span></code> if <code class="docutils literal notranslate"><span class="pre">social_security_numbers</span></code> uniquely idenfies every row in our dataset (since there are no duplicates)! If any rows are duplicated, then <code class="docutils literal notranslate"><span class="pre">social_security_numbers</span></code> doesn’t uniquely identify our observations (i.e. each row does not represent a unique person):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">([</span><span class="s1">&#39;social_security_numbers&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<p>This might feel backward, so you can also add a <code class="docutils literal notranslate"><span class="pre">not</span></code> before the test if you want. :) In fact, in my code I add an explicit test using the <code class="docutils literal notranslate"><span class="pre">assert</span></code> statement. The command <code class="docutils literal notranslate"><span class="pre">assert</span></code> says “if the thing that follows this is <code class="docutils literal notranslate"><span class="pre">True</span></code>, don’t do anything; if it’s False, raise an exception. So in my code, I often write:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">assert</span> <span class="ow">not</span> <span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">([</span><span class="s1">&#39;social_security_numbers&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-51-f30d4b630726&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">assert</span> <span class="ansi-green-fg">not</span> df<span class="ansi-blue-fg">.</span>duplicated<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;social_security_numbers&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>any<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">AssertionError</span>:
+</pre></div></div>
+</div>
+<p>(which in this case raises an exception! Because the rows <em>aren’t</em> unique!)</p>
+<p><strong>(3)</strong> Use <code class="docutils literal notranslate"><span class="pre">duplicated</span></code> to test if the variables <em>you</em> think uniquely identify rows in your data really do uniquely identify rows. If you were wrong, update your beliefs!</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">assert</span> <span class="ow">not</span> <span class="n">arrests</span><span class="o">.</span><span class="n">duplicated</span><span class="p">([</span><span class="s1">&#39;YEAR&#39;</span><span class="p">,</span> <span class="s1">&#39;GENDER&#39;</span><span class="p">,</span> <span class="s1">&#39;RACE&#39;</span><span class="p">,</span> <span class="s1">&#39;AGE_GROUP&#39;</span><span class="p">,</span> <span class="s1">&#39;COUNTY&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p><strong>(4)</strong> Once you have a handle on how the data looks now, please <strong>collapse the data</strong> to be one observation per county-year-racial group.</p>
+<p><strong>Hint:</strong> Think carefully about the most appropriate aggregation function given the data we’re working with!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests_collapsed</span> <span class="o">=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;YEAR&#39;</span><span class="p">,</span> <span class="s1">&#39;COUNTY&#39;</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">arrests_collapsed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YEAR</th>
+      <th>COUNTY</th>
+      <th>VIOLENT</th>
+      <th>PROPERTY</th>
+      <th>F_DRUGOFF</th>
+      <th>F_SEXOFF</th>
+      <th>F_ALLOTHER</th>
+      <th>F_TOTAL</th>
+      <th>M_TOTAL</th>
+      <th>S_TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1980</td>
+      <td>Alameda County</td>
+      <td>4504</td>
+      <td>9377</td>
+      <td>3569</td>
+      <td>257</td>
+      <td>1651</td>
+      <td>19358</td>
+      <td>71342</td>
+      <td>2338</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1980</td>
+      <td>Alpine County</td>
+      <td>1</td>
+      <td>9</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>14</td>
+      <td>119</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1980</td>
+      <td>Amador County</td>
+      <td>10</td>
+      <td>59</td>
+      <td>12</td>
+      <td>3</td>
+      <td>6</td>
+      <td>90</td>
+      <td>305</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1980</td>
+      <td>Butte County</td>
+      <td>306</td>
+      <td>683</td>
+      <td>149</td>
+      <td>20</td>
+      <td>207</td>
+      <td>1365</td>
+      <td>4504</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1980</td>
+      <td>Calaveras County</td>
+      <td>52</td>
+      <td>130</td>
+      <td>83</td>
+      <td>3</td>
+      <td>29</td>
+      <td>297</td>
+      <td>679</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>This merges are an easy place to do things wrong, so I’d also recommend eye-balling your data to be sure you did things right!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests_collapsed</span> <span class="o">=</span> <span class="n">arrests_collapsed</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;YEAR&#39;</span><span class="p">,</span> <span class="s1">&#39;COUNTY&#39;</span><span class="p">])</span>
+<span class="n">arrests_collapsed</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YEAR</th>
+      <th>COUNTY</th>
+      <th>VIOLENT</th>
+      <th>PROPERTY</th>
+      <th>F_DRUGOFF</th>
+      <th>F_SEXOFF</th>
+      <th>F_ALLOTHER</th>
+      <th>F_TOTAL</th>
+      <th>M_TOTAL</th>
+      <th>S_TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1980</td>
+      <td>Alameda County</td>
+      <td>4504</td>
+      <td>9377</td>
+      <td>3569</td>
+      <td>257</td>
+      <td>1651</td>
+      <td>19358</td>
+      <td>71342</td>
+      <td>2338</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1980</td>
+      <td>Alpine County</td>
+      <td>1</td>
+      <td>9</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>14</td>
+      <td>119</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1980</td>
+      <td>Amador County</td>
+      <td>10</td>
+      <td>59</td>
+      <td>12</td>
+      <td>3</td>
+      <td>6</td>
+      <td>90</td>
+      <td>305</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1980</td>
+      <td>Butte County</td>
+      <td>306</td>
+      <td>683</td>
+      <td>149</td>
+      <td>20</td>
+      <td>207</td>
+      <td>1365</td>
+      <td>4504</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1980</td>
+      <td>Calaveras County</td>
+      <td>52</td>
+      <td>130</td>
+      <td>83</td>
+      <td>3</td>
+      <td>29</td>
+      <td>297</td>
+      <td>679</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1980</td>
+      <td>Colusa County</td>
+      <td>28</td>
+      <td>89</td>
+      <td>9</td>
+      <td>2</td>
+      <td>10</td>
+      <td>138</td>
+      <td>655</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1980</td>
+      <td>Contra Costa County</td>
+      <td>1596</td>
+      <td>3851</td>
+      <td>1089</td>
+      <td>74</td>
+      <td>929</td>
+      <td>7539</td>
+      <td>25788</td>
+      <td>590</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1980</td>
+      <td>Del Norte County</td>
+      <td>74</td>
+      <td>183</td>
+      <td>46</td>
+      <td>5</td>
+      <td>49</td>
+      <td>357</td>
+      <td>1078</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1980</td>
+      <td>El Dorado County</td>
+      <td>198</td>
+      <td>574</td>
+      <td>178</td>
+      <td>12</td>
+      <td>118</td>
+      <td>1080</td>
+      <td>3266</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1980</td>
+      <td>Fresno County</td>
+      <td>2367</td>
+      <td>3855</td>
+      <td>804</td>
+      <td>105</td>
+      <td>719</td>
+      <td>7850</td>
+      <td>37907</td>
+      <td>1178</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>1980</td>
+      <td>Glenn County</td>
+      <td>67</td>
+      <td>111</td>
+      <td>19</td>
+      <td>15</td>
+      <td>38</td>
+      <td>250</td>
+      <td>766</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1980</td>
+      <td>Humboldt County</td>
+      <td>211</td>
+      <td>593</td>
+      <td>196</td>
+      <td>33</td>
+      <td>212</td>
+      <td>1245</td>
+      <td>5953</td>
+      <td>197</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1980</td>
+      <td>Imperial County</td>
+      <td>565</td>
+      <td>1045</td>
+      <td>97</td>
+      <td>16</td>
+      <td>163</td>
+      <td>1886</td>
+      <td>6512</td>
+      <td>93</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1980</td>
+      <td>Inyo County</td>
+      <td>69</td>
+      <td>158</td>
+      <td>57</td>
+      <td>6</td>
+      <td>25</td>
+      <td>315</td>
+      <td>663</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>1980</td>
+      <td>Kern County</td>
+      <td>1732</td>
+      <td>3530</td>
+      <td>1098</td>
+      <td>135</td>
+      <td>401</td>
+      <td>6896</td>
+      <td>26372</td>
+      <td>890</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Check all counties have same years with black entries:</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">arrests_collapsed</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;COUNTY&#39;</span><span class="p">])[</span><span class="s1">&#39;YEAR&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">39</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">census</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/users/nick/dropbox/MIDS_Data_Prep/County_Demographics/census_ts_nominal_county.csv&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;latin-1&#39;</span><span class="p">)</span>
+<span class="n">census</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GISJOIN</th>
+      <th>YEAR</th>
+      <th>STATE</th>
+      <th>STATEFP</th>
+      <th>STATENH</th>
+      <th>COUNTY</th>
+      <th>COUNTYFP</th>
+      <th>COUNTYNH</th>
+      <th>NAME</th>
+      <th>B18AA</th>
+      <th>...</th>
+      <th>CV4AA</th>
+      <th>CV4AB</th>
+      <th>CV4AC</th>
+      <th>CV4AD</th>
+      <th>CV4AE</th>
+      <th>CV4AF</th>
+      <th>CV4AG</th>
+      <th>CV4AH</th>
+      <th>CV4AI</th>
+      <th>CV4AJ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>G0100010</td>
+      <td>1970</td>
+      <td>Alabama</td>
+      <td>1</td>
+      <td>10</td>
+      <td>Autauga County</td>
+      <td>1</td>
+      <td>10</td>
+      <td>Autauga</td>
+      <td>17511</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>G0100030</td>
+      <td>1970</td>
+      <td>Alabama</td>
+      <td>1</td>
+      <td>10</td>
+      <td>Baldwin County</td>
+      <td>3</td>
+      <td>30</td>
+      <td>Baldwin</td>
+      <td>48650</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>G0100050</td>
+      <td>1970</td>
+      <td>Alabama</td>
+      <td>1</td>
+      <td>10</td>
+      <td>Barbour County</td>
+      <td>5</td>
+      <td>50</td>
+      <td>Barbour</td>
+      <td>12134</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>G0100070</td>
+      <td>1970</td>
+      <td>Alabama</td>
+      <td>1</td>
+      <td>10</td>
+      <td>Bibb County</td>
+      <td>7</td>
+      <td>70</td>
+      <td>Bibb</td>
+      <td>9953</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>G0100090</td>
+      <td>1970</td>
+      <td>Alabama</td>
+      <td>1</td>
+      <td>10</td>
+      <td>Blount County</td>
+      <td>9</td>
+      <td>90</td>
+      <td>Blount</td>
+      <td>26205</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 24 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">census</span> <span class="o">=</span> <span class="n">census</span><span class="p">[</span><span class="n">census</span><span class="o">.</span><span class="n">STATE</span> <span class="o">==</span> <span class="s2">&quot;California&quot;</span><span class="p">]</span>
+<span class="n">census</span> <span class="o">=</span> <span class="n">census</span><span class="p">[</span><span class="n">census</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&gt;=</span> <span class="mi">1980</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">census</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Index([&#39;GISJOIN&#39;, &#39;YEAR&#39;, &#39;STATE&#39;, &#39;STATEFP&#39;, &#39;STATENH&#39;, &#39;COUNTY&#39;, &#39;COUNTYFP&#39;,
+       &#39;COUNTYNH&#39;, &#39;NAME&#39;, &#39;B18AA&#39;, &#39;B18AB&#39;, &#39;B18AC&#39;, &#39;B18AD&#39;, &#39;B18AE&#39;,
+       &#39;CV4AA&#39;, &#39;CV4AB&#39;, &#39;CV4AC&#39;, &#39;CV4AD&#39;, &#39;CV4AE&#39;, &#39;CV4AF&#39;, &#39;CV4AG&#39;, &#39;CV4AH&#39;,
+       &#39;CV4AI&#39;, &#39;CV4AJ&#39;],
+      dtype=&#39;object&#39;)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">census</span><span class="o">.</span><span class="n">CV4AA</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+514559.0    1
+265294.0    1
+17996.0     1
+103958.0    1
+41887.0     1
+           ..
+744282.0    1
+130795.0    1
+244309.0    1
+21154.0     1
+884.0       1
+Name: CV4AA, Length: 232, dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">census</span> <span class="o">=</span> <span class="n">census</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;GISJOIN&#39;</span><span class="p">,</span> <span class="s1">&#39;STATEFP&#39;</span><span class="p">,</span> <span class="s1">&#39;STATE&#39;</span><span class="p">,</span> <span class="s1">&#39;STATENH&#39;</span><span class="p">,</span> <span class="s1">&#39;COUNTYFP&#39;</span><span class="p">,</span> <span class="s1">&#39;COUNTYNH&#39;</span><span class="p">,</span> <span class="s1">&#39;NAME&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+<span class="n">census</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YEAR</th>
+      <th>COUNTY</th>
+      <th>B18AA</th>
+      <th>B18AB</th>
+      <th>B18AC</th>
+      <th>B18AD</th>
+      <th>B18AE</th>
+      <th>CV4AA</th>
+      <th>CV4AB</th>
+      <th>CV4AC</th>
+      <th>CV4AD</th>
+      <th>CV4AE</th>
+      <th>CV4AF</th>
+      <th>CV4AG</th>
+      <th>CV4AH</th>
+      <th>CV4AI</th>
+      <th>CV4AJ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6471</th>
+      <td>1990</td>
+      <td>Imperial County</td>
+      <td>73615</td>
+      <td>2622</td>
+      <td>1859</td>
+      <td>31207</td>
+      <td>NaN</td>
+      <td>31742.0</td>
+      <td>2272.0</td>
+      <td>3195.0</td>
+      <td>159.0</td>
+      <td>NaN</td>
+      <td>41873.0</td>
+      <td>350.0</td>
+      <td>799.0</td>
+      <td>28913.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3357</th>
+      <td>1980</td>
+      <td>San Joaquin County</td>
+      <td>266886</td>
+      <td>19288</td>
+      <td>4474</td>
+      <td>21738</td>
+      <td>NaN</td>
+      <td>237799.0</td>
+      <td>18443.0</td>
+      <td>23765.0</td>
+      <td>631.0</td>
+      <td>NaN</td>
+      <td>29087.0</td>
+      <td>845.0</td>
+      <td>2447.0</td>
+      <td>34325.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9608</th>
+      <td>2000</td>
+      <td>Contra Costa County</td>
+      <td>621490</td>
+      <td>88813</td>
+      <td>5830</td>
+      <td>183969</td>
+      <td>48714.0</td>
+      <td>549409.0</td>
+      <td>86851.0</td>
+      <td>109486.0</td>
+      <td>2636.0</td>
+      <td>32658.0</td>
+      <td>72081.0</td>
+      <td>1962.0</td>
+      <td>3803.0</td>
+      <td>73874.0</td>
+      <td>16056.0</td>
+    </tr>
+    <tr>
+      <th>12800</th>
+      <td>2010</td>
+      <td>Ventura County</td>
+      <td>565804</td>
+      <td>15163</td>
+      <td>8068</td>
+      <td>197342</td>
+      <td>36941.0</td>
+      <td>400868.0</td>
+      <td>13082.0</td>
+      <td>57841.0</td>
+      <td>1371.0</td>
+      <td>18589.0</td>
+      <td>164936.0</td>
+      <td>2081.0</td>
+      <td>7316.0</td>
+      <td>138882.0</td>
+      <td>18352.0</td>
+    </tr>
+    <tr>
+      <th>12764</th>
+      <td>2010</td>
+      <td>Madera County</td>
+      <td>94456</td>
+      <td>5629</td>
+      <td>4136</td>
+      <td>40344</td>
+      <td>6300.0</td>
+      <td>57380.0</td>
+      <td>5009.0</td>
+      <td>4430.0</td>
+      <td>649.0</td>
+      <td>2405.0</td>
+      <td>37076.0</td>
+      <td>620.0</td>
+      <td>2670.0</td>
+      <td>36731.0</td>
+      <td>3895.0</td>
+    </tr>
+    <tr>
+      <th>9635</th>
+      <td>2000</td>
+      <td>Sacramento County</td>
+      <td>783240</td>
+      <td>121804</td>
+      <td>13359</td>
+      <td>233704</td>
+      <td>71392.0</td>
+      <td>706655.0</td>
+      <td>118073.0</td>
+      <td>148459.0</td>
+      <td>3406.0</td>
+      <td>51016.0</td>
+      <td>76585.0</td>
+      <td>3731.0</td>
+      <td>7063.0</td>
+      <td>88135.0</td>
+      <td>20376.0</td>
+    </tr>
+    <tr>
+      <th>9606</th>
+      <td>2000</td>
+      <td>Calaveras County</td>
+      <td>36982</td>
+      <td>304</td>
+      <td>705</td>
+      <td>1222</td>
+      <td>1341.0</td>
+      <td>35465.0</td>
+      <td>300.0</td>
+      <td>965.0</td>
+      <td>40.0</td>
+      <td>1019.0</td>
+      <td>1517.0</td>
+      <td>4.0</td>
+      <td>123.0</td>
+      <td>799.0</td>
+      <td>322.0</td>
+    </tr>
+    <tr>
+      <th>6510</th>
+      <td>1990</td>
+      <td>Tehama County</td>
+      <td>45593</td>
+      <td>256</td>
+      <td>966</td>
+      <td>2810</td>
+      <td>NaN</td>
+      <td>43049.0</td>
+      <td>246.0</td>
+      <td>1174.0</td>
+      <td>32.0</td>
+      <td>NaN</td>
+      <td>2544.0</td>
+      <td>10.0</td>
+      <td>145.0</td>
+      <td>2425.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3321</th>
+      <td>1980</td>
+      <td>Amador County</td>
+      <td>18469</td>
+      <td>177</td>
+      <td>299</td>
+      <td>85</td>
+      <td>NaN</td>
+      <td>17811.0</td>
+      <td>177.0</td>
+      <td>363.0</td>
+      <td>29.0</td>
+      <td>NaN</td>
+      <td>658.0</td>
+      <td>0.0</td>
+      <td>21.0</td>
+      <td>255.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>12792</th>
+      <td>2010</td>
+      <td>Solano County</td>
+      <td>210751</td>
+      <td>60750</td>
+      <td>3212</td>
+      <td>107273</td>
+      <td>31358.0</td>
+      <td>168628.0</td>
+      <td>58743.0</td>
+      <td>64134.0</td>
+      <td>1463.0</td>
+      <td>21020.0</td>
+      <td>42123.0</td>
+      <td>2007.0</td>
+      <td>3115.0</td>
+      <td>41773.0</td>
+      <td>10338.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">census</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Index([&#39;YEAR&#39;, &#39;COUNTY&#39;, &#39;B18AA&#39;, &#39;B18AB&#39;, &#39;B18AC&#39;, &#39;B18AD&#39;, &#39;B18AE&#39;, &#39;CV4AA&#39;,
+       &#39;CV4AB&#39;, &#39;CV4AC&#39;, &#39;CV4AD&#39;, &#39;CV4AE&#39;, &#39;CV4AF&#39;, &#39;CV4AG&#39;, &#39;CV4AH&#39;, &#39;CV4AI&#39;,
+       &#39;CV4AJ&#39;],
+      dtype=&#39;object&#39;)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">race_table_vars</span> <span class="o">=</span> <span class="n">census</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">7</span><span class="p">:]</span>
+<span class="n">race_table_vars</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Index([&#39;CV4AA&#39;, &#39;CV4AB&#39;, &#39;CV4AC&#39;, &#39;CV4AD&#39;, &#39;CV4AE&#39;, &#39;CV4AF&#39;, &#39;CV4AG&#39;, &#39;CV4AH&#39;,
+       &#39;CV4AI&#39;, &#39;CV4AJ&#39;],
+      dtype=&#39;object&#39;)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">race_table_vars</span><span class="p">:</span>
+    <span class="n">census</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">census</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">census</span><span class="p">[</span><span class="s1">&#39;total_population&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">census</span><span class="o">.</span><span class="n">CV4AA</span> <span class="o">+</span> <span class="n">census</span><span class="o">.</span><span class="n">CV4AB</span> <span class="o">+</span> <span class="n">census</span><span class="o">.</span><span class="n">CV4AC</span> <span class="o">+</span>
+                              <span class="n">census</span><span class="o">.</span><span class="n">CV4AD</span> <span class="o">+</span> <span class="n">census</span><span class="o">.</span><span class="n">CV4AE</span> <span class="o">+</span> <span class="n">census</span><span class="o">.</span><span class="n">CV4AF</span> <span class="o">+</span>
+                              <span class="n">census</span><span class="o">.</span><span class="n">CV4AG</span> <span class="o">+</span> <span class="n">census</span><span class="o">.</span><span class="n">CV4AH</span> <span class="o">+</span> <span class="n">census</span><span class="o">.</span><span class="n">CV4AI</span> <span class="o">+</span> <span class="n">census</span><span class="o">.</span><span class="n">CV4AJ</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">census</span><span class="o">.</span><span class="n">total_population</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+3319    1105379.0
+3320       1097.0
+3321      19314.0
+3322     143851.0
+3323      20710.0
+Name: total_population, dtype: float64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">census</span> <span class="o">=</span> <span class="n">census</span><span class="p">[[</span><span class="s1">&#39;YEAR&#39;</span><span class="p">,</span> <span class="s1">&#39;COUNTY&#39;</span><span class="p">,</span> <span class="s1">&#39;total_population&#39;</span><span class="p">]]</span>
+<span class="n">census</span><span class="o">.</span><span class="n">YEAR</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2010    58
+2000    58
+1990    58
+1980    58
+Name: YEAR, dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests_w_pop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">arrests_collapsed</span><span class="p">,</span> <span class="n">census</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;COUNTY&#39;</span><span class="p">,</span> <span class="s1">&#39;YEAR&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="s1">&#39;1:1&#39;</span><span class="p">,</span> <span class="n">indicator</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">arrests_w_pop</span><span class="o">.</span><span class="n">_merge</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+left_only     2030
+both           232
+right_only       0
+Name: _merge, dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">assert</span> <span class="p">(</span><span class="n">arrests_w_pop</span><span class="o">.</span><span class="n">_merge</span> <span class="o">!=</span> <span class="s1">&#39;right_only&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="n">arrests_w_pop</span> <span class="o">=</span> <span class="n">arrests_w_pop</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;_merge&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests_w_pop</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YEAR</th>
+      <th>COUNTY</th>
+      <th>VIOLENT</th>
+      <th>PROPERTY</th>
+      <th>F_DRUGOFF</th>
+      <th>F_SEXOFF</th>
+      <th>F_ALLOTHER</th>
+      <th>F_TOTAL</th>
+      <th>M_TOTAL</th>
+      <th>S_TOTAL</th>
+      <th>total_population</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1980</td>
+      <td>Alameda County</td>
+      <td>4504</td>
+      <td>9377</td>
+      <td>3569</td>
+      <td>257</td>
+      <td>1651</td>
+      <td>19358</td>
+      <td>71342</td>
+      <td>2338</td>
+      <td>1105379.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1980</td>
+      <td>Alpine County</td>
+      <td>1</td>
+      <td>9</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>14</td>
+      <td>119</td>
+      <td>1</td>
+      <td>1097.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1980</td>
+      <td>Amador County</td>
+      <td>10</td>
+      <td>59</td>
+      <td>12</td>
+      <td>3</td>
+      <td>6</td>
+      <td>90</td>
+      <td>305</td>
+      <td>1</td>
+      <td>19314.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1980</td>
+      <td>Butte County</td>
+      <td>306</td>
+      <td>683</td>
+      <td>149</td>
+      <td>20</td>
+      <td>207</td>
+      <td>1365</td>
+      <td>4504</td>
+      <td>3</td>
+      <td>143851.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1980</td>
+      <td>Calaveras County</td>
+      <td>52</td>
+      <td>130</td>
+      <td>83</td>
+      <td>3</td>
+      <td>29</td>
+      <td>297</td>
+      <td>679</td>
+      <td>3</td>
+      <td>20710.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p><strong>(11)</strong> Because the US Census occurs once every 10 years, we only have population data for once every 10 years. To fill in the gaps in our data, we can <em>interpolate</em> the values between each census wave. For example, if a county is 75% White in 1990 and 25% in 2000, we could infer it was likely about 50% White in 1995.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pandas</span></code> offers an <code class="docutils literal notranslate"><span class="pre">interpolate</span></code> method that will do this for you, but <code class="docutils literal notranslate"><span class="pre">interpolate</span></code> just doesn’t interpolations for one set of observations. In this case, however, we need to do our interpolations <em>within each group</em>, so you’ll have to figure out how to use <code class="docutils literal notranslate"><span class="pre">interpolate</span></code> with groupby. (<em>Hint:</em> this is probably a job for <code class="docutils literal notranslate"><span class="pre">apply</span></code>).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Let&#39;s clean up a little</span>
+<span class="n">arrests_w_pop</span> <span class="o">=</span> <span class="n">arrests_w_pop</span><span class="p">[[</span><span class="s1">&#39;YEAR&#39;</span><span class="p">,</span> <span class="s1">&#39;COUNTY&#39;</span><span class="p">,</span> <span class="s1">&#39;VIOLENT&#39;</span><span class="p">,</span> <span class="s1">&#39;F_DRUGOFF&#39;</span><span class="p">,</span> <span class="s1">&#39;total_population&#39;</span><span class="p">]]</span>
+<span class="n">arrests_w_pop</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YEAR</th>
+      <th>COUNTY</th>
+      <th>VIOLENT</th>
+      <th>F_DRUGOFF</th>
+      <th>total_population</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1980</td>
+      <td>Alameda County</td>
+      <td>4504</td>
+      <td>3569</td>
+      <td>1105379.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1980</td>
+      <td>Alpine County</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1097.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1980</td>
+      <td>Amador County</td>
+      <td>10</td>
+      <td>12</td>
+      <td>19314.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1980</td>
+      <td>Butte County</td>
+      <td>306</td>
+      <td>149</td>
+      <td>143851.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1980</td>
+      <td>Calaveras County</td>
+      <td>52</td>
+      <td>83</td>
+      <td>20710.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests_w_pop</span> <span class="o">=</span> <span class="n">arrests_w_pop</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;COUNTY&#39;</span><span class="p">,</span> <span class="s1">&#39;YEAR&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">arrests_w_pop</span><span class="p">[</span><span class="s1">&#39;interpolated_total_population&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arrests_w_pop</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;COUNTY&#39;</span><span class="p">)[</span><span class="s1">&#39;total_population&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">interpolate</span><span class="p">())</span>
+<span class="n">arrests_w_pop</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YEAR</th>
+      <th>COUNTY</th>
+      <th>VIOLENT</th>
+      <th>F_DRUGOFF</th>
+      <th>total_population</th>
+      <th>interpolated_total_population</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1980</td>
+      <td>Alameda County</td>
+      <td>4504</td>
+      <td>3569</td>
+      <td>1105379.0</td>
+      <td>1105379.0</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>1981</td>
+      <td>Alameda County</td>
+      <td>4699</td>
+      <td>3926</td>
+      <td>NaN</td>
+      <td>1122759.3</td>
+    </tr>
+    <tr>
+      <th>116</th>
+      <td>1982</td>
+      <td>Alameda County</td>
+      <td>4389</td>
+      <td>4436</td>
+      <td>NaN</td>
+      <td>1140139.6</td>
+    </tr>
+    <tr>
+      <th>174</th>
+      <td>1983</td>
+      <td>Alameda County</td>
+      <td>4500</td>
+      <td>5086</td>
+      <td>NaN</td>
+      <td>1157519.9</td>
+    </tr>
+    <tr>
+      <th>232</th>
+      <td>1984</td>
+      <td>Alameda County</td>
+      <td>3714</td>
+      <td>5878</td>
+      <td>NaN</td>
+      <td>1174900.2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Check a few counties to make sure it worked!</span>
+<span class="n">arrests_w_pop</span><span class="p">[</span><span class="n">white_arrests_w_pop</span><span class="o">.</span><span class="n">COUNTY</span> <span class="o">==</span> <span class="s1">&#39;Alameda County&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/Nick/miniconda3/lib/python3.7/site-packages/ipykernel_launcher.py:2: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YEAR</th>
+      <th>COUNTY</th>
+      <th>VIOLENT</th>
+      <th>F_DRUGOFF</th>
+      <th>total_population</th>
+      <th>interpolated_total_population</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1980</td>
+      <td>Alameda County</td>
+      <td>4504</td>
+      <td>3569</td>
+      <td>1105379.0</td>
+      <td>1105379.0</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>1981</td>
+      <td>Alameda County</td>
+      <td>4699</td>
+      <td>3926</td>
+      <td>NaN</td>
+      <td>1122759.3</td>
+    </tr>
+    <tr>
+      <th>116</th>
+      <td>1982</td>
+      <td>Alameda County</td>
+      <td>4389</td>
+      <td>4436</td>
+      <td>NaN</td>
+      <td>1140139.6</td>
+    </tr>
+    <tr>
+      <th>174</th>
+      <td>1983</td>
+      <td>Alameda County</td>
+      <td>4500</td>
+      <td>5086</td>
+      <td>NaN</td>
+      <td>1157519.9</td>
+    </tr>
+    <tr>
+      <th>232</th>
+      <td>1984</td>
+      <td>Alameda County</td>
+      <td>3714</td>
+      <td>5878</td>
+      <td>NaN</td>
+      <td>1174900.2</td>
+    </tr>
+    <tr>
+      <th>290</th>
+      <td>1985</td>
+      <td>Alameda County</td>
+      <td>4199</td>
+      <td>7139</td>
+      <td>NaN</td>
+      <td>1192280.5</td>
+    </tr>
+    <tr>
+      <th>348</th>
+      <td>1986</td>
+      <td>Alameda County</td>
+      <td>4915</td>
+      <td>7720</td>
+      <td>NaN</td>
+      <td>1209660.8</td>
+    </tr>
+    <tr>
+      <th>406</th>
+      <td>1987</td>
+      <td>Alameda County</td>
+      <td>5137</td>
+      <td>10333</td>
+      <td>NaN</td>
+      <td>1227041.1</td>
+    </tr>
+    <tr>
+      <th>464</th>
+      <td>1988</td>
+      <td>Alameda County</td>
+      <td>5087</td>
+      <td>12574</td>
+      <td>NaN</td>
+      <td>1244421.4</td>
+    </tr>
+    <tr>
+      <th>522</th>
+      <td>1989</td>
+      <td>Alameda County</td>
+      <td>5551</td>
+      <td>14056</td>
+      <td>NaN</td>
+      <td>1261801.7</td>
+    </tr>
+    <tr>
+      <th>580</th>
+      <td>1990</td>
+      <td>Alameda County</td>
+      <td>6156</td>
+      <td>12378</td>
+      <td>1279182.0</td>
+      <td>1279182.0</td>
+    </tr>
+    <tr>
+      <th>638</th>
+      <td>1991</td>
+      <td>Alameda County</td>
+      <td>5942</td>
+      <td>11408</td>
+      <td>NaN</td>
+      <td>1295637.9</td>
+    </tr>
+    <tr>
+      <th>696</th>
+      <td>1992</td>
+      <td>Alameda County</td>
+      <td>6162</td>
+      <td>10712</td>
+      <td>NaN</td>
+      <td>1312093.8</td>
+    </tr>
+    <tr>
+      <th>754</th>
+      <td>1993</td>
+      <td>Alameda County</td>
+      <td>5878</td>
+      <td>9656</td>
+      <td>NaN</td>
+      <td>1328549.7</td>
+    </tr>
+    <tr>
+      <th>812</th>
+      <td>1994</td>
+      <td>Alameda County</td>
+      <td>5911</td>
+      <td>9764</td>
+      <td>NaN</td>
+      <td>1345005.6</td>
+    </tr>
+    <tr>
+      <th>870</th>
+      <td>1995</td>
+      <td>Alameda County</td>
+      <td>3844</td>
+      <td>3265</td>
+      <td>NaN</td>
+      <td>1361461.5</td>
+    </tr>
+    <tr>
+      <th>928</th>
+      <td>1996</td>
+      <td>Alameda County</td>
+      <td>5610</td>
+      <td>7322</td>
+      <td>NaN</td>
+      <td>1377917.4</td>
+    </tr>
+    <tr>
+      <th>986</th>
+      <td>1997</td>
+      <td>Alameda County</td>
+      <td>5976</td>
+      <td>7646</td>
+      <td>NaN</td>
+      <td>1394373.3</td>
+    </tr>
+    <tr>
+      <th>1044</th>
+      <td>1998</td>
+      <td>Alameda County</td>
+      <td>5636</td>
+      <td>7852</td>
+      <td>NaN</td>
+      <td>1410829.2</td>
+    </tr>
+    <tr>
+      <th>1102</th>
+      <td>1999</td>
+      <td>Alameda County</td>
+      <td>5168</td>
+      <td>8985</td>
+      <td>NaN</td>
+      <td>1427285.1</td>
+    </tr>
+    <tr>
+      <th>1160</th>
+      <td>2000</td>
+      <td>Alameda County</td>
+      <td>4356</td>
+      <td>7414</td>
+      <td>1443741.0</td>
+      <td>1443741.0</td>
+    </tr>
+    <tr>
+      <th>1218</th>
+      <td>2001</td>
+      <td>Alameda County</td>
+      <td>4478</td>
+      <td>6486</td>
+      <td>NaN</td>
+      <td>1450394.0</td>
+    </tr>
+    <tr>
+      <th>1276</th>
+      <td>2002</td>
+      <td>Alameda County</td>
+      <td>4424</td>
+      <td>6414</td>
+      <td>NaN</td>
+      <td>1457047.0</td>
+    </tr>
+    <tr>
+      <th>1334</th>
+      <td>2003</td>
+      <td>Alameda County</td>
+      <td>4749</td>
+      <td>6708</td>
+      <td>NaN</td>
+      <td>1463700.0</td>
+    </tr>
+    <tr>
+      <th>1392</th>
+      <td>2004</td>
+      <td>Alameda County</td>
+      <td>4301</td>
+      <td>6886</td>
+      <td>NaN</td>
+      <td>1470353.0</td>
+    </tr>
+    <tr>
+      <th>1450</th>
+      <td>2005</td>
+      <td>Alameda County</td>
+      <td>4090</td>
+      <td>6328</td>
+      <td>NaN</td>
+      <td>1477006.0</td>
+    </tr>
+    <tr>
+      <th>1508</th>
+      <td>2006</td>
+      <td>Alameda County</td>
+      <td>4042</td>
+      <td>5879</td>
+      <td>NaN</td>
+      <td>1483659.0</td>
+    </tr>
+    <tr>
+      <th>1566</th>
+      <td>2007</td>
+      <td>Alameda County</td>
+      <td>4443</td>
+      <td>6071</td>
+      <td>NaN</td>
+      <td>1490312.0</td>
+    </tr>
+    <tr>
+      <th>1624</th>
+      <td>2008</td>
+      <td>Alameda County</td>
+      <td>4336</td>
+      <td>5893</td>
+      <td>NaN</td>
+      <td>1496965.0</td>
+    </tr>
+    <tr>
+      <th>1682</th>
+      <td>2009</td>
+      <td>Alameda County</td>
+      <td>4318</td>
+      <td>5749</td>
+      <td>NaN</td>
+      <td>1503618.0</td>
+    </tr>
+    <tr>
+      <th>1740</th>
+      <td>2010</td>
+      <td>Alameda County</td>
+      <td>3823</td>
+      <td>5357</td>
+      <td>1510271.0</td>
+      <td>1510271.0</td>
+    </tr>
+    <tr>
+      <th>1798</th>
+      <td>2011</td>
+      <td>Alameda County</td>
+      <td>3504</td>
+      <td>3957</td>
+      <td>NaN</td>
+      <td>1510271.0</td>
+    </tr>
+    <tr>
+      <th>1856</th>
+      <td>2012</td>
+      <td>Alameda County</td>
+      <td>3406</td>
+      <td>3686</td>
+      <td>NaN</td>
+      <td>1510271.0</td>
+    </tr>
+    <tr>
+      <th>1914</th>
+      <td>2013</td>
+      <td>Alameda County</td>
+      <td>3183</td>
+      <td>4337</td>
+      <td>NaN</td>
+      <td>1510271.0</td>
+    </tr>
+    <tr>
+      <th>1972</th>
+      <td>2014</td>
+      <td>Alameda County</td>
+      <td>3491</td>
+      <td>4805</td>
+      <td>NaN</td>
+      <td>1510271.0</td>
+    </tr>
+    <tr>
+      <th>2030</th>
+      <td>2015</td>
+      <td>Alameda County</td>
+      <td>3452</td>
+      <td>1946</td>
+      <td>NaN</td>
+      <td>1510271.0</td>
+    </tr>
+    <tr>
+      <th>2088</th>
+      <td>2016</td>
+      <td>Alameda County</td>
+      <td>3513</td>
+      <td>1762</td>
+      <td>NaN</td>
+      <td>1510271.0</td>
+    </tr>
+    <tr>
+      <th>2146</th>
+      <td>2017</td>
+      <td>Alameda County</td>
+      <td>3965</td>
+      <td>1279</td>
+      <td>NaN</td>
+      <td>1510271.0</td>
+    </tr>
+    <tr>
+      <th>2204</th>
+      <td>2018</td>
+      <td>Alameda County</td>
+      <td>4132</td>
+      <td>1062</td>
+      <td>NaN</td>
+      <td>1510271.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests_w_pop</span><span class="p">[</span><span class="n">arrests_w_pop</span><span class="o">.</span><span class="n">COUNTY</span> <span class="o">==</span> <span class="s1">&#39;Los Angeles County&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YEAR</th>
+      <th>COUNTY</th>
+      <th>VIOLENT</th>
+      <th>F_DRUGOFF</th>
+      <th>total_population</th>
+      <th>interpolated_total_population</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>18</th>
+      <td>1980</td>
+      <td>Los Angeles County</td>
+      <td>37964</td>
+      <td>29319</td>
+      <td>7477503.0</td>
+      <td>7477503.0</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>1981</td>
+      <td>Los Angeles County</td>
+      <td>37610</td>
+      <td>27427</td>
+      <td>NaN</td>
+      <td>7616069.1</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>1982</td>
+      <td>Los Angeles County</td>
+      <td>36648</td>
+      <td>28807</td>
+      <td>NaN</td>
+      <td>7754635.2</td>
+    </tr>
+    <tr>
+      <th>192</th>
+      <td>1983</td>
+      <td>Los Angeles County</td>
+      <td>33858</td>
+      <td>36565</td>
+      <td>NaN</td>
+      <td>7893201.3</td>
+    </tr>
+    <tr>
+      <th>250</th>
+      <td>1984</td>
+      <td>Los Angeles County</td>
+      <td>35303</td>
+      <td>44331</td>
+      <td>NaN</td>
+      <td>8031767.4</td>
+    </tr>
+    <tr>
+      <th>308</th>
+      <td>1985</td>
+      <td>Los Angeles County</td>
+      <td>35659</td>
+      <td>51015</td>
+      <td>NaN</td>
+      <td>8170333.5</td>
+    </tr>
+    <tr>
+      <th>366</th>
+      <td>1986</td>
+      <td>Los Angeles County</td>
+      <td>45254</td>
+      <td>61035</td>
+      <td>NaN</td>
+      <td>8308899.6</td>
+    </tr>
+    <tr>
+      <th>424</th>
+      <td>1987</td>
+      <td>Los Angeles County</td>
+      <td>46020</td>
+      <td>61713</td>
+      <td>NaN</td>
+      <td>8447465.7</td>
+    </tr>
+    <tr>
+      <th>482</th>
+      <td>1988</td>
+      <td>Los Angeles County</td>
+      <td>51021</td>
+      <td>69363</td>
+      <td>NaN</td>
+      <td>8586031.8</td>
+    </tr>
+    <tr>
+      <th>540</th>
+      <td>1989</td>
+      <td>Los Angeles County</td>
+      <td>59012</td>
+      <td>69667</td>
+      <td>NaN</td>
+      <td>8724597.9</td>
+    </tr>
+    <tr>
+      <th>598</th>
+      <td>1990</td>
+      <td>Los Angeles County</td>
+      <td>64790</td>
+      <td>55218</td>
+      <td>8863164.0</td>
+      <td>8863164.0</td>
+    </tr>
+    <tr>
+      <th>656</th>
+      <td>1991</td>
+      <td>Los Angeles County</td>
+      <td>58701</td>
+      <td>42583</td>
+      <td>NaN</td>
+      <td>8928781.4</td>
+    </tr>
+    <tr>
+      <th>714</th>
+      <td>1992</td>
+      <td>Los Angeles County</td>
+      <td>59215</td>
+      <td>43212</td>
+      <td>NaN</td>
+      <td>8994398.8</td>
+    </tr>
+    <tr>
+      <th>772</th>
+      <td>1993</td>
+      <td>Los Angeles County</td>
+      <td>55079</td>
+      <td>43406</td>
+      <td>NaN</td>
+      <td>9060016.2</td>
+    </tr>
+    <tr>
+      <th>830</th>
+      <td>1994</td>
+      <td>Los Angeles County</td>
+      <td>53467</td>
+      <td>48161</td>
+      <td>NaN</td>
+      <td>9125633.6</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>1995</td>
+      <td>Los Angeles County</td>
+      <td>53218</td>
+      <td>45535</td>
+      <td>NaN</td>
+      <td>9191251.0</td>
+    </tr>
+    <tr>
+      <th>946</th>
+      <td>1996</td>
+      <td>Los Angeles County</td>
+      <td>51277</td>
+      <td>44102</td>
+      <td>NaN</td>
+      <td>9256868.4</td>
+    </tr>
+    <tr>
+      <th>1004</th>
+      <td>1997</td>
+      <td>Los Angeles County</td>
+      <td>50573</td>
+      <td>46951</td>
+      <td>NaN</td>
+      <td>9322485.8</td>
+    </tr>
+    <tr>
+      <th>1062</th>
+      <td>1998</td>
+      <td>Los Angeles County</td>
+      <td>46886</td>
+      <td>43947</td>
+      <td>NaN</td>
+      <td>9388103.2</td>
+    </tr>
+    <tr>
+      <th>1120</th>
+      <td>1999</td>
+      <td>Los Angeles County</td>
+      <td>43655</td>
+      <td>38253</td>
+      <td>NaN</td>
+      <td>9453720.6</td>
+    </tr>
+    <tr>
+      <th>1178</th>
+      <td>2000</td>
+      <td>Los Angeles County</td>
+      <td>40440</td>
+      <td>33499</td>
+      <td>9519338.0</td>
+      <td>9519338.0</td>
+    </tr>
+    <tr>
+      <th>1236</th>
+      <td>2001</td>
+      <td>Los Angeles County</td>
+      <td>42095</td>
+      <td>33570</td>
+      <td>NaN</td>
+      <td>9549264.7</td>
+    </tr>
+    <tr>
+      <th>1294</th>
+      <td>2002</td>
+      <td>Los Angeles County</td>
+      <td>39768</td>
+      <td>36060</td>
+      <td>NaN</td>
+      <td>9579191.4</td>
+    </tr>
+    <tr>
+      <th>1352</th>
+      <td>2003</td>
+      <td>Los Angeles County</td>
+      <td>39633</td>
+      <td>42002</td>
+      <td>NaN</td>
+      <td>9609118.1</td>
+    </tr>
+    <tr>
+      <th>1410</th>
+      <td>2004</td>
+      <td>Los Angeles County</td>
+      <td>37397</td>
+      <td>46060</td>
+      <td>NaN</td>
+      <td>9639044.8</td>
+    </tr>
+    <tr>
+      <th>1468</th>
+      <td>2005</td>
+      <td>Los Angeles County</td>
+      <td>36322</td>
+      <td>48411</td>
+      <td>NaN</td>
+      <td>9668971.5</td>
+    </tr>
+    <tr>
+      <th>1526</th>
+      <td>2006</td>
+      <td>Los Angeles County</td>
+      <td>35384</td>
+      <td>47549</td>
+      <td>NaN</td>
+      <td>9698898.2</td>
+    </tr>
+    <tr>
+      <th>1584</th>
+      <td>2007</td>
+      <td>Los Angeles County</td>
+      <td>36250</td>
+      <td>45112</td>
+      <td>NaN</td>
+      <td>9728824.9</td>
+    </tr>
+    <tr>
+      <th>1642</th>
+      <td>2008</td>
+      <td>Los Angeles County</td>
+      <td>36452</td>
+      <td>40928</td>
+      <td>NaN</td>
+      <td>9758751.6</td>
+    </tr>
+    <tr>
+      <th>1700</th>
+      <td>2009</td>
+      <td>Los Angeles County</td>
+      <td>35319</td>
+      <td>32193</td>
+      <td>NaN</td>
+      <td>9788678.3</td>
+    </tr>
+    <tr>
+      <th>1758</th>
+      <td>2010</td>
+      <td>Los Angeles County</td>
+      <td>33147</td>
+      <td>33920</td>
+      <td>9818605.0</td>
+      <td>9818605.0</td>
+    </tr>
+    <tr>
+      <th>1816</th>
+      <td>2011</td>
+      <td>Los Angeles County</td>
+      <td>30818</td>
+      <td>33244</td>
+      <td>NaN</td>
+      <td>9818605.0</td>
+    </tr>
+    <tr>
+      <th>1874</th>
+      <td>2012</td>
+      <td>Los Angeles County</td>
+      <td>29601</td>
+      <td>33775</td>
+      <td>NaN</td>
+      <td>9818605.0</td>
+    </tr>
+    <tr>
+      <th>1932</th>
+      <td>2013</td>
+      <td>Los Angeles County</td>
+      <td>27159</td>
+      <td>35972</td>
+      <td>NaN</td>
+      <td>9818605.0</td>
+    </tr>
+    <tr>
+      <th>1990</th>
+      <td>2014</td>
+      <td>Los Angeles County</td>
+      <td>28251</td>
+      <td>36372</td>
+      <td>NaN</td>
+      <td>9818605.0</td>
+    </tr>
+    <tr>
+      <th>2048</th>
+      <td>2015</td>
+      <td>Los Angeles County</td>
+      <td>28194</td>
+      <td>9753</td>
+      <td>NaN</td>
+      <td>9818605.0</td>
+    </tr>
+    <tr>
+      <th>2106</th>
+      <td>2016</td>
+      <td>Los Angeles County</td>
+      <td>27804</td>
+      <td>8970</td>
+      <td>NaN</td>
+      <td>9818605.0</td>
+    </tr>
+    <tr>
+      <th>2164</th>
+      <td>2017</td>
+      <td>Los Angeles County</td>
+      <td>28746</td>
+      <td>7302</td>
+      <td>NaN</td>
+      <td>9818605.0</td>
+    </tr>
+    <tr>
+      <th>2222</th>
+      <td>2018</td>
+      <td>Los Angeles County</td>
+      <td>28865</td>
+      <td>6412</td>
+      <td>NaN</td>
+      <td>9818605.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arrests_w_pop</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;/users/nick/github/MIDS_Data/UDS_arrest_data.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Unifying DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">QUESTIONS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../taxonomy_of_questions.html">Taxonomy of Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../limitations_of_ATE.html">Limitations of Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">METHODS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../interpreting_indicator_vars.html">Indicator Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fixed_effects.html">Fixed Effects</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/exercises/setup_diffindiff-Copy1.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-151397036-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>

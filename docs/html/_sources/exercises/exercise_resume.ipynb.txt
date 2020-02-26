@@ -144,6 +144,17 @@
     "\n",
     "What are the implications of your answers to Exercise 7 and to Exercise 9 to how you interpret the Average Treatment Effect you estimated in Exercise 6?"
    ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Absolutely positively need the solutions?\n",
+    "\n",
+    "*Don't use this link until you've really, really spent time struggling with your code!* Doing so only results in you cheating yourself. \n",
+    "\n",
+    "[Link](../solutions_warning.ipynb)"
+   ]
   }
  ],
  "metadata": {

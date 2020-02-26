@@ -44,6 +44,17 @@
     "- First, never be too trusting of your data or your summary statistics. It takes forever to get a feel for real datasets, so explore, explore, explore. \n",
     "- Second, plot your data. Plotting is an incredibly information-rich, and is one of the best ways to diagnose problems in your data."
    ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Absolutely positively need the solutions?\n",
+    "\n",
+    "*Don't use this link until you've really, really spent time struggling with your code!* Doing so only results in you cheating yourself. \n",
+    "\n",
+    "[Link](../solutions_warning.ipynb)"
+   ]
   }
  ],
  "metadata": {

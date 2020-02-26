@@ -204,6 +204,17 @@
     "\n",
     "(This is just for data manipulation practice!)"
    ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Absolutely positively need the solutions?\n",
+    "\n",
+    "*Don't use this link until you've really, really spent time struggling with your code!* Doing so only results in you cheating yourself. \n",
+    "\n",
+    "[Link](../solutions_warning.ipynb)"
+   ]
   }
  ],
  "metadata": {
