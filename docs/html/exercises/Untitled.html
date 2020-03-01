@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Differences in Differences &#8212; Unifying Data Science</title>
+    <title>&lt;no title&gt; &#8212; Unifying Data Science</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -233,152 +233,50 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<div class="section" id="Differences-in-Differences">
-<h1>Differences in Differences<a class="headerlink" href="#Differences-in-Differences" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="Difference-in-Differences-Bascis">
-<h2>Difference-in-Differences Bascis<a class="headerlink" href="#Difference-in-Differences-Bascis" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Implementation-of-DID">
-<h3>Implementation of DID<a class="headerlink" href="#Implementation-of-DID" title="Permalink to this headline">¶</a></h3>
-<p>Two differences:</p>
-<ul class="simple">
-<li><p>difference in the means of the treatment before and after the treatment</p></li>
-<li><p>difference in the means of the control before and after the treatment</p></li>
-</ul>
-<p>Let us denote four averages of the response, as follows:</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(\hat y_{T,A}\)</span> Treatment, After</p></li>
-<li><p><span class="math notranslate nohighlight">\(\hat y_{C,A}\)</span> Control, After</p></li>
-<li><p><span class="math notranslate nohighlight">\(\hat y_{T,B}\)</span> Treatment, Before</p></li>
-<li><p><span class="math notranslate nohighlight">\(\hat y_{C,B}\)</span> Control, Before</p></li>
-</ul>
-<p>The difference-in-differences estimator <span class="math notranslate nohighlight">\(\hat \delta\)</span> is defined as</p>
-<div class="math notranslate nohighlight">
-\[\hat{\delta}= (\bar{y}_{T,\,A}-\bar{y}_{T,\,B})-(\bar{y}_{C,\,A}-\bar{y}_{C,\,B})\]</div>
-</div>
-<div class="section" id="Card-and-Krueger-(1994)">
-<h3>Card and Krueger (1994)<a class="headerlink" href="#Card-and-Krueger-(1994)" title="Permalink to this headline">¶</a></h3>
-<p>Card &amp; Krueger (1994) use geography as the “as if” random treatment assignment to study the effect on employment in fast food restaurants caused by an increase in the state minimum wage in New Jersey in the year of 1992.</p>
-<p><code class="docutils literal notranslate"><span class="pre">{r</span> <span class="pre">echo=FALSE,</span> <span class="pre">fig.align='center',</span> <span class="pre">fig.cap='',</span> <span class="pre">out.width='70%'}</span> <span class="pre">knitr::include_graphics('card1994.png')</span></code></p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\hat{\delta}  = (\bar{y}_{T,\,A}-\bar{y}_{T,\,B})-(\bar{y}_{C,\,A}-\bar{y}_{C,\,B})
-             = \Delta \bar{y}_{T} - \Delta \bar{y}_{C} \\
-            \approx  (21.03 - 20.44) - (21.17- 23.33)  \\
-            \approx 2.75\end{split}\]</div>
-<p>install.packages(“haven”) library(foreign) library(haven) library(dplyr) # load data dat = read_dta(“<a class="reference external" href="https://github.com/zeren-li/PS630-R-Lab/blob/master/lab-9/njmin3.dta?raw=true">https://github.com/zeren-li/PS630-R-Lab/blob/master/lab-9/njmin3.dta?raw=true</a>”)</p>
-</div>
-</div>
-</div>
-<div class="section" id="2*2-DID-table">
-<h1>2*2 DID table<a class="headerlink" href="#2*2-DID-table" title="Permalink to this headline">¶</a></h1>
-<p>did = dat %&gt;% group_by(nj,d) %&gt;% summarise( mean = mean(fte, na.rm = T)) did # did estimate</p>
-<p>(did[4,3] - did[3,3]) - (did[2,3] - did[1,3])</p>
-<p><code class="docutils literal notranslate"><span class="pre">{r</span> <span class="pre">echo=FALSE,</span> <span class="pre">out.width='70%',</span> <span class="pre">fig.align='center',</span> <span class="pre">fig.cap=''}</span> <span class="pre">#</span> <span class="pre">From</span> <span class="pre">Mostly</span> <span class="pre">Harmless</span> <span class="pre">Econometrics</span> <span class="pre">by</span> <span class="pre">Joshua</span> <span class="pre">Angrist</span> <span class="pre">and</span>&#160; <span class="pre">knitr::include_graphics('card_vis.png')</span></code></p>
-<ul class="simple">
-<li><p>Difference-in-differences estimator can be obtained by running a regression that includes indicator variables for treatment and after and their interaction term.</p></li>
-<li><p>Advantage of a regression over manual calculation is that regression allows taking into account other factors that might influence the treatment effect</p></li>
-<li><p>Simplest difference-in-differences regression model is presented as follows, where <span class="math notranslate nohighlight">\(y_{it}\)</span> is the response for unit <span class="math notranslate nohighlight">\(i\)</span> in period <span class="math notranslate nohighlight">\(t\)</span> . In the typical difference-in-differences model there are only two periods, before and after</p></li>
-</ul>
-<div class="math notranslate nohighlight">
-\[y_{it}=\beta_{1}+\beta_{2}A+\beta_{3}T+\delta A \times T+e_{it}\]</div>
-<p>Show <span class="math notranslate nohighlight">\(\delta\)</span> is the Dif-in-Dif estimator</p>
-<div class="math notranslate nohighlight">
-\[E(y_{it}|T= 1, A = 1) - E(y_{it}|T= 1, A = 0) = (\beta_1+ \beta_2 + \beta_3 + \delta ) - (\beta_1 + \beta_3 ) = \beta_2 + \delta\]</div>
-<div class="math notranslate nohighlight">
-\[E(y_{it}|T= 0, A = 1) - E(y_{it}|T= 0, A = 0) = (\beta_1+ \beta_2) - \beta_1 = \beta_2\]</div>
-<div class="math notranslate nohighlight">
-\[\begin{split}[E(y_{it}|T= 1, A = 1) - E(y_{it}|T= 1, A = 0) ] - [E(y_{it}|T= 0, A = 1) - E(y_{it}|T= 0, A = 0)] \\ = (\beta_2 + \delta ) - \beta_2  \\=   \delta\end{split}\]</div>
-<div class="highlight-{r} notranslate"><div class="highlight"><pre><span></span>mod1 &lt;- lm(fte~nj*d, data=dat)
-mod2 &lt;- lm(fte~nj*d+
-             kfc+roys+wendys+co_owned, data=dat)
-mod3 &lt;- lm(fte~nj*d+
-             kfc+roys+wendys+co_owned+
-             southj+centralj+pa1, data=dat)
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">{r,results=</span> <span class="pre">&quot;asis&quot;}</span> <span class="pre">stargazer(mod1,mod2,mod3,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">header</span> <span class="pre">=</span> <span class="pre">F,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">type</span> <span class="pre">=</span> <span class="pre">&quot;html&quot;,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">title=&quot;Difference</span> <span class="pre">in</span> <span class="pre">Differences</span> <span class="pre">example&quot;</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">)</span></code></p>
-<div class="section" id="A-gernalized-case:-Malesky,-Nguyen,-Tran-(2014)">
-<h2>A gernalized case: Malesky, Nguyen, Tran (2014)<a class="headerlink" href="#A-gernalized-case:-Malesky,-Nguyen,-Tran-(2014)" title="Permalink to this headline">¶</a></h2>
-<p>They analyze how the removal of local councils will affect public service delivery in Vietnam using the following regression.</p>
-<p><code class="docutils literal notranslate"><span class="pre">{r</span> <span class="pre">echo=FALSE,</span> <span class="pre">out.width='70%',</span> <span class="pre">fig.align='center',</span> <span class="pre">fig.cap=''}</span> <span class="pre">#</span> <span class="pre">From</span> <span class="pre">Mostly</span> <span class="pre">Harmless</span> <span class="pre">Econometrics</span> <span class="pre">by</span> <span class="pre">Joshua</span> <span class="pre">Angrist</span> <span class="pre">and</span>&#160; <span class="pre">knitr::include_graphics('./regression_function.png')</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">{r</span> <span class="pre">echo=FALSE,</span> <span class="pre">out.width='70%',</span> <span class="pre">fig.align='center',</span> <span class="pre">fig.cap=''}</span> <span class="pre">#</span> <span class="pre">From</span> <span class="pre">Mostly</span> <span class="pre">Harmless</span> <span class="pre">Econometrics</span> <span class="pre">by</span> <span class="pre">Joshua</span> <span class="pre">Angrist</span> <span class="pre">and</span>&#160; <span class="pre">knitr::include_graphics('./agg_table.png')</span></code></p>
-<div class="highlight-{r} notranslate"><div class="highlight"><pre><span></span># load data
-recen &lt;- read_dta(&quot;~/PS630-R-Lab/lab-9/recen_apsr_main.dta&quot;)
-
-m1 = felm(index1 ~  time + treatment + time_treatment + lnarea + lnpopden + city | reg8-1 |0| tinh + huyen, recen, psdef=FALSE )
-
-m2 = felm(index2 ~  time + treatment + time_treatment + lnarea + lnpopden + city | reg8-1 |0| tinh + huyen, recen , psdef=FALSE)
-
-m3 = felm(index3 ~  time + treatment + time_treatment + lnarea + lnpopden + city | reg8-1 |0| tinh + huyen, recen , psdef=FALSE)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">cps</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span><span class="s1">&#39;https://github.com/nickeubank/MIDS_Data/blob/master/Current_Population_Survey/morg18.dta?raw=true&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">{r,</span> <span class="pre">results=&quot;asis&quot;}</span> <span class="pre">stargazer(m1,m2,m3,</span> <span class="pre">header</span> <span class="pre">=</span> <span class="pre">FALSE,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">title</span> <span class="pre">=</span> <span class="pre">&quot;Table3.</span> <span class="pre">Panel</span> <span class="pre">2:</span> <span class="pre">Between</span> <span class="pre">2008</span> <span class="pre">and</span> <span class="pre">2010&quot;,</span> <span class="pre">type</span> <span class="pre">=</span> <span class="pre">&quot;html&quot;)</span></code></p>
-<div class="section" id="Parallel-trends-assumption">
-<h3>Parallel trends assumption<a class="headerlink" href="#Parallel-trends-assumption" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>Parallel trends assumption is crucial</p></li>
-<li><p>If no program, outcomes of treatment &amp; control would have moved in tandem</p></li>
-<li><p>If outcome trends differ, estimate is biased i.e. If control is growing faster, we will underestimate impact</p></li>
-<li><p>Assumption impossible to prove definitively</p></li>
-<li><p>Can use placebo test to assess validity of assumption</p></li>
-</ul>
 </div>
-<div class="section" id="How-to-show-evidence-that-is-consistent-with-parallel-trends-assumption">
-<h3>How to show evidence that is consistent with parallel trends assumption<a class="headerlink" href="#How-to-show-evidence-that-is-consistent-with-parallel-trends-assumption" title="Permalink to this headline">¶</a></h3>
-<p>“We test this assumption by running diff-in-diff regressions using commune data from the 2006 and 2008 VHLSSs. The two surveys were conducted before the intervention in 2009, and therefore we should expect that the effect of the interaction between the time and treatment variables should not be statistically significant.”</p>
-<p><code class="docutils literal notranslate"><span class="pre">{r</span> <span class="pre">echo=FALSE,</span> <span class="pre">out.width='70%',</span> <span class="pre">fig.align='center',</span> <span class="pre">fig.cap=''}</span> <span class="pre">#</span> <span class="pre">From</span> <span class="pre">Mostly</span> <span class="pre">Harmless</span> <span class="pre">Econometrics</span> <span class="pre">by</span> <span class="pre">Joshua</span> <span class="pre">Angrist</span> <span class="pre">and</span>&#160; <span class="pre">knitr::include_graphics('./agg_placebo.png')</span></code></p>
-<div class="highlight-{r} notranslate"><div class="highlight"><pre><span></span>recen0608 &lt;- read_dta(&quot;~/PS630-R-Lab/lab-9/recen_apsr_pre.dta&quot;)
-
-m1 = felm(index1 ~  time + treatment + time_treatment + lnarea + lnpopden + city | reg8 |0| tinh + huyen , recen0608, psdef=FALSE )
-
-m2 = felm(index2 ~  time + treatment + time_treatment + lnarea + lnpopden + city | reg8 |0| tinh + huyen, recen0608, psdef=FALSE )
-
-m3 = felm(index3 ~  time + treatment + time_treatment + lnarea + lnpopden + city | reg8 |0| tinh + huyen , recen0608, psdef=FALSE )
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">{r,</span> <span class="pre">results=&quot;asis&quot;}</span> <span class="pre">stargazer(m1,m2,m3,</span> <span class="pre">header</span> <span class="pre">=</span> <span class="pre">FALSE,</span> <span class="pre">title</span> <span class="pre">=</span> <span class="pre">&quot;Table3.</span> <span class="pre">Panel</span> <span class="pre">2:</span> <span class="pre">Between</span> <span class="pre">2006</span> <span class="pre">and</span> <span class="pre">2008&quot;,</span> <span class="pre">type</span> <span class="pre">=</span> <span class="pre">&quot;html&quot;)</span></code></p>
-<p>You can find the article here:</p>
-<p><a class="reference external" href="https://sites.duke.edu/malesky/files/2014/07/TheImpactofRecentralization.pdf">https://sites.duke.edu/malesky/files/2014/07/TheImpactofRecentralization.pdf</a></p>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cps</span><span class="o">.</span><span class="n">ethnic</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+</pre></div>
 </div>
 </div>
-<div class="section" id="Dif-in-Dif-Robustness-Test-Checklist">
-<h2>Dif-in-Dif Robustness Test Checklist<a class="headerlink" href="#Dif-in-Dif-Robustness-Test-Checklist" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Pre-treatment trends in the outcome:</p>
-<ul>
-<li><p>Check if the trends are parallel in the pre-treatment periods</p></li>
-<li><p>Requires data on multiple pre-treatment periods (the more the better)</p></li>
-<li><p>Note this is only diagnostics, not a direct test of the assumption!</p></li>
-</ul>
-</li>
-<li><p>Placebo test using previous periods:</p>
-<ul>
-<li><p>Suppose DD with time periods t1, t2, t3, where treatment occurs in t3</p></li>
-<li><p>Exclude data from t3, assign t2 as “placebo” treatment period, and</p></li>
-<li><p>re-estimate DD</p></li>
-</ul>
-</li>
-<li><p>Placebo test using alternative groups:</p>
-<ul>
-<li><p>Re-code some control groups as treated</p></li>
-<li><p>Re-estimate DD with the placebo-treated units &amp; without actual treated units</p></li>
-</ul>
-</li>
-<li><p>Placebo outcomes:</p>
-<ul>
-<li><p>Find outcomes that, theoretically, should be unaffected by the treatment, but might</p></li>
-</ul>
-</li>
-<li><p>Re-estimate DD on these outcomes</p></li>
-</ul>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1.0    0.079628
+2.0    0.011259
+3.0    0.005054
+4.0    0.004277
+5.0    0.004823
+6.0    0.007154
+7.0    0.008345
+8.0    0.009192
+NaN    0.870268
+Name: ethnic, dtype: float64
+</pre></div></div>
+</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span>
 </pre></div>
-</div>
-</div>
 </div>
 </div>
 

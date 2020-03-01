@@ -9,7 +9,7 @@
 \usepackage{graphicx}
 \usepackage{color}
 
-\title{Backwards Design \\ in Data Science}
+\title{Backwards Design \\ in Data Science \\ Causal Inference Edition}
 \author{\small Nick Eubank}
 \date{\vspace*{.3in} \date}
 
@@ -47,8 +47,11 @@ Goals:
 \begin{frame}[c]{Backwards Design}
   \begin{enumerate}
     \pause \item Determine Problem / Topic Area
-    \pause \item What \emph{question} are you seeking to answer?
-    \pause \item What does an answer to your question look like?
+    \pause \item What \emph{causal question} are you seeking to answer?
+    \pause \item What would your ideal experiment be?
+    \pause \item Where can you (a) measure your outcome variable, and (b) find variation in your treatment variable?
+    \pause \item What would a feasible design be?
+    \pause \item What does an answer look like?
     \pause \item What variables do you need to generate that answer?
     \pause \item What data contains those variables?
   \end{enumerate}
@@ -60,9 +63,8 @@ Why are you doing this project? \\
 \vspace*{0.1cm}
 \pause Examples:
 \begin{itemize}
-  \item We don't know how to reduce mass incarceration
-  \item My business can't identify potential customers
-  \item We can't diagnose Alzheimers
+  \item Polling places change locations all the time. Are there consequences for voters? Could this be manipulated for political gain?
+  \item My company (Zarbucks) recently did major store renovations. Did they improve sales?
 \end{itemize}
 \end{frame}
 
@@ -95,16 +97,14 @@ A critical feature of a good question is that it is \emph{tractable} and \emph{a
 \begin{frame}[c]{Step 1: What \alert{question} are you seeking to answer?}
 Not answerable:
 \begin{itemize}
-  \item What policies reduce mass incarceration?
-  \item Can machine learning help me identify potential customers.
-  \item What indicates Alzheimers?
+  \item What happens when you move a polling place?
+  \item Are Zarbucks renovations worth it?
 \end{itemize}
 \pause
 Answerable:
 \begin{itemize}
-  \item Does the availability of grand juries result in longer sentences?
-  \item What attributes are common to the customers who buy the most from my business?
-  \item Are there lab results common to patients diagnosed (post-mortem) with Alzheimers not common to patients without Alzheimers?
+  \item What is the effect of moving a polling place on voter turnout?
+  \item Do Zarbucks renovations result in increased sales?
 \end{itemize}
 \end{frame}
 
@@ -118,7 +118,84 @@ How do I know if my answer is answerable / tractable?
 \end{enumerate}
 \end{frame}
 
-\begin{frame}[c]{Step 2: What does \alert{an answer} to your question look like?}
+
+
+\begin{frame}[c]{Step 2: What would the \alert{ideal experiment} look like?}
+
+Ignore feasibility -- if you were a god, what experiment would you want to run?
+\pause
+\vspace{1cm}
+Why is this helpful?
+\begin{itemize}
+  \item Helps you think through what your \alert{treatment} is,
+  \item What your outcome is, and
+  \item What \emph{variation} in your treatment looks like.
+\end{itemize}
+Separately from worrying about \emph{feasibility}.
+\end{frame}
+
+\begin{frame}[c]{Step 2: What would the \alert{ideal experiment} look like?}
+\begin{itemize}
+  \item Randomly assign voters to have new polling places or not
+  \item Randomly renovate stores and observe consequences
+\end{itemize}
+\end{frame}
+
+\begin{frame}[c]{Step 3: Pick a study context}
+Answering causal questions requires \alert{variation in treatment assignment}.
+\pause
+Need a place where you can:
+\begin{itemize}
+  \item Observe \alert{variation} in treatment assignment, and
+  \item Measure your target outcome
+\end{itemize}
+\end{frame}
+
+\begin{frame}[c]{Step 3: Pick a study context}
+\begin{itemize}
+  \item North Carolina: Polling places move, and North Carolina has public data on voter registration, polling place locations, and turnout
+  \pause \item Zarbucks: If we worked for Zarbucks: was there variation in \alert{when} people had renovations? If not, can we get data from before and after renovations?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[c]{Step 4: What design might be feasible?}
+
+In your \alert{ideal experiment}, you identified your ``treatment.''
+
+Now you need to find \alert{variation} in your treatment somewhere in the real world.
+\end{frame}
+
+\begin{frame}[c]{Step 4: What design might be feasible?}
+Once you find variation, decide what comparisons you want to make.
+
+Common strategies:
+
+\begin{itemize}
+  \item Experiment (e.g. AB testing)
+  \item Pre-Post (variation over time within a unit)
+  \item Cross-sectional (variation across units)
+  \item Differences-in-differences (variation across time and units)
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[c]{Step 4: What design might be feasible?}
+North Carolina
+\begin{itemize}
+  \item If data from one election, then cross-section (maybe matching?) \\
+  Could use census data for community demographics
+  \item If data from multiple elections, we can do a difference-in-difference
+\end{itemize}
+\pause
+Zarbucks:
+\begin{itemize}
+  \item If all renovations happened at once, pre-post
+  \item If variation in timing, difference-in-difference
+  \pause \item If you have POWER, randomize rollouts
+\end{itemize}
+\end{frame}
+
+\begin{frame}[c]{Step 5: What does \alert{an answer} to your question look like?}
 \alert{Write down} what the answer to your question will look like!
 \pause
 \begin{itemize}
@@ -131,28 +208,22 @@ $\Rightarrow$ Ask yourself: if I gave that to my stakeholder / put it in a paper
 \pause (OK, they might want robustness, and extensions, but at its core, is this an answer?)
 \end{frame}
 
-\begin{frame}[c]{Step 2: What does \alert{an answer} to your question look like?}
-  \begin{itemize}
-    \pause \item \textbf{Incarceration}: A regression that shows differences in sentences for arrestees in counties with standing grand juries as compared to counties without standing grand juries, controlling for details of charges.
-    \pause \item \textbf{Business:} A table showing the performance of a machine learning model that predicts (past) customer behavior using pre-purchase data on customer website interactions (and model parameters).
-    \pause \item \textbf{Alzheimers:} A regression showing a strong correlation between certain test results and receiving a positive diagnosis of Alzheimers in (post-mortem) testing.
-  \end{itemize}
-\end{frame}
 
-\begin{frame}[c]{Step 2: What does \alert{an answer} to your question look like?}
+\begin{frame}[c]{Step 4: What does \alert{an answer} to your question look like?}
 But it's not enough to imagine \emph{one} answer. You should be able to imagine what an answer to your question looks like if your hypothesis \alert{is true} and the if your hypothesis \alert{is false}. \\
 \pause Otherwise your question isn't falsifiable! \\
 \vspace*{0.3cm}
 Write down what your answer looks like if your hypothesis is true, \emph{and} if it's false!
 \end{frame}
 
-\begin{frame}[c]{Step 3: What do you need to generate that answer?}
+
+\begin{frame}[c]{Step 5: What do you need to generate that answer?}
   Congratulations! You've just specified the goal of your analysis! \\
   \pause In my view, that is actually the hardest part of being a good data scientist. \\
   \pause ...Though probably not the part that will take up the majority of your time.
 \end{frame}
 
-\begin{frame}[c]{Step 3: What do you need to generate that answer?}
+\begin{frame}[c]{Step 5: What do you need to generate that answer?}
   So you now have in mind a table you want to generate. What data and variables do you need to create that result?
   \pause
   \pause For each variable, specify:
@@ -162,35 +233,19 @@ Write down what your answer looks like if your hypothesis is true, \emph{and} if
   \end{enumerate}
 \end{frame}
 
-\begin{frame}[c]{Step 4: Where can you get those variables?}
+\begin{frame}[c]{Step 5: Where can you get those variables?}
   \begin{enumerate}
     \item Where can you get those variables?, and
     \item How will you relate your different datasets?
   \end{enumerate}
 \end{frame}
 
-\begin{frame}[c]{Is this what everyone does?}
-  \pause Not that I'm aware of. \\
-  \pause Most people who are \emph{successful} seem to do this implicitly \\
-  \pause People who don't use this, in my experience, tend to flail.
-\end{frame}
-
-\begin{frame}[c]{Final Project}
-  In teams of \emph{up to} three people, \pause you will have to develop \emph{your own project idea} from scratch using this model.
-  \begin{itemize}
-    \item Just as the last project emphasized all the data tasks \emph{before} analysis,
-    \pause \item The goal of this is to emphasize all the things you do \emph{before} you touch your data!
-  \end{itemize}
-  \vspace*{0.1cm}
-  If you're looking for a model... look back at the write up of your assignment for the mid-semester project!
-\end{frame}
-
 \begin{frame}[c]{In Class}
-You have been approached by a campaign to reduce teen vaping.
 
-Over the past year, they've tried several different pilot programs in several cities.
+You've been hired by an real estate agent industry group that wants to know if it should campaign against laws that require mandatory disclosure of problems with houses.
 
-They just got a huge donation, and want to know what they should do with it.
+They aren't sure if mandatory disclosure will increase sales (since buyers will be less worried about hidden problems), or decrease sales (since more problems may be made evident to customers).
+
 \end{frame}
 
 \end{document}
