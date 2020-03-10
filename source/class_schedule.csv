@@ -32,17 +32,18 @@
 - Come prepared to discuss `backwards design of your group project. <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_Assignment.pdf>`_ ",
 "Mon, Mar 9",SPRING RECESS,,
 "Wed, Mar 11",SPRING RECESS,,
-"Mon, Mar 16",A/B Testing Practicalities,,
-"Wed, Mar 18",Prediction: ML versus Casual Inference,"- Fragility
+"Mon, Mar 16",Prediction: ML versus Casual Inference,"- Fragility
 - Adversarial Users
 - Lucas Critique
 - `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_
 - **Project Proposal Draft Due**",
-"Mon, Mar 23",Prediction: ML Bias,"- `ProPublica: Machine Bias <https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing>`_
+"Wed, Mar 18",Prediction: ML Bias,"- `ProPublica: Machine Bias <https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing>`_
 - `Racial Bias in Medical Algorithm <https://www.washingtonpost.com/health/2019/10/24/racial-bias-medical-algorithm-favors-white-patients-over-sicker-black-patients/>`_
 - `Amazon scraps secret AI recruiting tool due to bias <https://www.reuters.com/article/us-amazon-com-jobs-automation-insight/amazon-scraps-secret-ai-recruiting-tool-that-showed-bias-against-women-idUSKCN1MK08G>`_
 - `Diversity in AI is not your problem, it's hers <https://medium.com/@robert.munro/bias-in-ai-3ea569f79d6a>`_
-- `Not all AI bias is unintentional... <https://www.washingtonpost.com/nation/2020/01/28/opioid-kickback-software/>`_",- **Final Project Proposal Due**
+- `Not all AI bias is unintentional... <https://www.washingtonpost.com/nation/2020/01/28/opioid-kickback-software/>`_
+- `Again, not all unintentional... <https://www.vice.com/en_us/article/epgmbw/this-company-is-using-racially-biased-algorithms-to-select-jurors>`_",
+"Mon, Mar 23",,,- **Final Project Proposal Due**
 "Wed, Mar 25",,,
 "Mon, Mar 30",,,
 "Wed, Apr 1",Project Presentations,7 minute presentations + 7 minutes of questions per group,
