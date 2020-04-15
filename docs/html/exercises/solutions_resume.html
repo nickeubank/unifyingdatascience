@@ -7,13 +7,13 @@
     <title>Resume Experiment Analysis &#8212; Unifying Data Science</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -368,9 +368,9 @@ these data were interested to learning more about how racial bias impacts job ma
     <span class="n">white</span> <span class="o">=</span> <span class="n">resumes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="n">pvalue</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">resumes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
                              <span class="n">resumes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">pvalue</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;For </span><span class="si">{i}</span><span class="s1">, the mean for Black applicants is </span><span class="si">{black:.2f}</span><span class="s1">,&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;            the mean for White applicants is </span><span class="si">{white:.2f}</span><span class="s1">,&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;and the p-value for this difference is </span><span class="si">{pvalue:.2f}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;For </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">, the mean for Black applicants is </span><span class="si">{</span><span class="n">black</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">,&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;            the mean for White applicants is </span><span class="si">{</span><span class="n">white</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">,&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;and the p-value for this difference is </span><span class="si">{</span><span class="n">pvalue</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -505,10 +505,10 @@ and the p-value for this difference is 0.85
         <span class="n">pvalue</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">black_share</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
                                  <span class="n">white_share</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">pvalue</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;For </span><span class="si">{v}</span><span class="s1">, value </span><span class="si">{i}</span><span class="s1">:&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;the mean for Black applicants is {black_share.mean():.2f},&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;the mean for White applicants is {white_share.mean():.2f},&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;and the p-value for this difference is </span><span class="si">{pvalue:.2f}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;For </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">, value </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;the mean for Black applicants is </span><span class="si">{</span><span class="n">black_share</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">,&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;the mean for White applicants is </span><span class="si">{</span><span class="n">white_share</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">,&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;and the p-value for this difference is </span><span class="si">{</span><span class="n">pvalue</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -586,10 +586,10 @@ and the p-value for this difference is 0.14
 <span class="n">t2</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">black</span><span class="p">,</span> <span class="n">white</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The mean callback rates are:&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;{black.mean() * 100 :.1f}</span><span class="si">% f</span><span class="s1">or Black applicants, and&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;{white.mean() * 100 :.1f}</span><span class="si">% f</span><span class="s1">or White applicants.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Thats a difference of {(white.mean() - black.mean()) * 100: .1f} percentage points, a difference of {(white.mean() - black.mean()) / (resumes.call.mean()) * 100 :.1f}</span><span class="si">% d</span><span class="s1">ifference.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This difference has a p-value of </span><span class="si">{p2:.3f}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">black</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span> <span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% for Black applicants, and&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">white</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span> <span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% for White applicants.&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Thats a difference of </span><span class="si">{</span><span class="p">(</span><span class="n">white</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">black</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="s1"> .1f</span><span class="si">}</span><span class="s1"> percentage points, a difference of </span><span class="si">{</span><span class="p">(</span><span class="n">white</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">black</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">resumes</span><span class="o">.</span><span class="n">call</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">*</span> <span class="mi">100</span> <span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% difference.&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This difference has a p-value of </span><span class="si">{</span><span class="n">p2</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1274,7 +1274,7 @@ This difference has a p-value of 0.000
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -1291,7 +1291,7 @@ This difference has a p-value of 0.000
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

@@ -7,13 +7,13 @@
     <title>Crime and Poverty Descriptive Analysis &#8212; Unifying Data Science</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -352,7 +352,7 @@ div.rendered_html tbody tr:hover {
     <span class="n">police</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">county_code</span> <span class="o">==</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;policeexpenditures&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="n">crime</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">county_code</span> <span class="o">==</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;crimeindex&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;for county </span><span class="si">{c}</span><span class="s1">, average policing expenditure is </span><span class="si">{police:.2f}</span><span class="s1"> and average crime index is </span><span class="si">{crime:.2f}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;for county </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s1">, average policing expenditure is </span><span class="si">{</span><span class="n">police</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> and average crime index is </span><span class="si">{</span><span class="n">crime</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
 </pre></div>
 </div>
@@ -379,7 +379,7 @@ for county 10, average policing expenditure is 54.24 and average crime index is 
     <span class="n">police</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">county_code</span> <span class="o">==</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;policeexpenditures&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
     <span class="n">crime</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">county_code</span> <span class="o">==</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;crimeindex&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;for county </span><span class="si">{c}</span><span class="s1">, the std of policing expend is </span><span class="si">{police:.2f}</span><span class="s1"> and the std of crime index is </span><span class="si">{crime:.2f}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;for county </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s1">, the std of policing expend is </span><span class="si">{</span><span class="n">police</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> and the std of crime index is </span><span class="si">{</span><span class="n">crime</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -404,7 +404,7 @@ for county 10, the std of policing expend is 16.68 and the std of crime index is
 <span></span><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">]:</span>
     <span class="n">corr</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">county_code</span> <span class="o">==</span> <span class="n">c</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;policeexpenditures&#39;</span><span class="p">,</span> <span class="s1">&#39;crimeindex&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
     <span class="n">corr</span> <span class="o">=</span> <span class="n">corr</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;for county </span><span class="si">{c}</span><span class="s1">, the correlation is </span><span class="si">{corr:.2f}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;for county </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s1">, the correlation is </span><span class="si">{</span><span class="n">corr</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -559,7 +559,7 @@ for county 10, the correlation is -0.06
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -576,7 +576,7 @@ for county 10, the correlation is -0.06
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
