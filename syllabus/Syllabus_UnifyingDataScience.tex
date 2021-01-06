@@ -75,15 +75,13 @@
 \begin{minipage}[t]{.5\textwidth}
 	Nicholas Eubank \\
 	 Assistant Research Professor\\
-	 Office Hours: TBD\\
-	 Gross Hall, Room TBD
+	 Zoom, \url{https://duke.zoom.us/my/nickeubank}
      \vspace*{0.1cm}
 \end{minipage}
 \begin{minipage}[t]{.5\textwidth}
-	\begin{flushright}  IDS 690-04\\
-	Spring 2019\\
-	Monday / Wednesday 10:05-11:20 \\
-	Gross Hall, Room 230
+	\begin{flushright}  IDS 701 \\
+	Spring 2021\\
+	Tuesday / Thursday 1:45-3:00 
     \vspace*{0.1cm}
 \end{flushright}
 \end{minipage}
@@ -108,24 +106,21 @@
 
 \section{Course Description}
 
-The aim of the course is to two-fold. First, it aims to provide students with a conceptual framework for understanding the relationship between the many tools that are currently taught under the ``data science'' umbrella. This course takes the view that data science is fundamentally about answering questions with data, and so is organized around helping students identify different classes of questions (descriptive, causal, and predictive). Over the course of the semester, we will explore each of these types of questions in turn, learning which tools are appropriate for each, and what pitfalls are common to efforts to answer each type of question.
+The aim of the course is three-fold. 
 
-Second, it also aims to give students experience both developing and actually answering real questions. Data science is a fundamentally applied field, and so while it is important to have the conceptual framework described above to aid your work, there is no substitute for practicing putting these principles into action.
+The first portion of the course will provide an application-focused introduction to *causal inference*, the art and science of using statistical data to make causal statements about the world. Our approach will be rooted in the potential outcomes framework, and will cover a range of methods of statistical inference including randomized experiments, pre-post analysis, differences-in-differences, and instrumental variables. In addition, we will also discuss concepts like the distinction between internal and external validity, and the limitations of estimating Average Treatment Effects. 
 
-To achieve this second learning goal, over the course of the semester students will develop their own data science projects in small teams. These projects will be developed incrementally over the course of the semester with instructor guidance. By the end of the semester, students will have picked a topic area, developed a (tractable) question, decided what an answer to that question would actually look like, developed a work plan for generating that answer, and executed and presented their project, and then iterated the project based on feedback from their initial presentation.
+In the second portion of the course, we will then pivot to developing a conceptual framework for understanding the relationship between the many tools that are currently taught under the "data science" umbrella. This course takes the view that data science is fundamentally about answering questions with data, and so is organized around helping students identify different classes of questions (descriptive, causal, and predictive). Over the course of the semester, we will explore each of these types of questions in turn, learning which tools are appropriate for each, and what what pitfalls are common to efforts to answer each type of question.
 
-In addition, to help students who plan to go into industry or the public policy realm, students will have multiple opportunities to reformulate vague prompts from simulated ``stakeholders'' (based on real stakeholder requests) into tractable questions that can form the basis of actual empirical investigations.
+Finally, over the semester students will conduct a complete data science project themselves. Data science is a fundamentally applied field, and so while it is important students have the conceptual framework described above to make sense of the world of data science, there is no substitute for learning to put these principles into action through practice. These projects will be developed incrementally over the course of the semester with instructor guidance. By the end of the semester, students will have picked a topic area, developed a (tractable) question, decided what an answer to that question would actually look like, developed a work plan for generating that answer, and executed and presented their project, and then iterated the project based on feedback from their initial presentation. For MIDS students, this will serve as a "capstone-project with training wheels" to prepare students for their second-year Capstone projects with external partners. And this project should provide all students with a portfolio piece they can present to potential future employers. 
 
-As this course is primarily designed for students in the MIDS program, it will assume familiarity with statistical modeling (basic statistics, linear regression, logistic regression, model selection) and the basics of both supervised and unsupervised machine learning. The goal of this course will not be to teach these topics, but rather to help \emph{contextualize} them.
+\subsection{Pre-Requisites for Non-MIDS Students}
 
-Of the three types of questions we will cover, methods for answering causal questions will receive the greatest attention. This course assumes no familiarity with causal inference, and will cover everything from the basic problem of causal inference to experiments, and to the range of tools available for making causal inferences from observational data.
+This course is primarily designed for students in the Duke Masters in Interdisciplinary Data Science (MIDS) program, but students from other programs are more then welcome if they have the appropriate pre-requisite training. Data Science is a fundamentally interdisciplinary field, so the more perspectives we have represented in the classroom the better!
 
+This course will assume that enrolled students have a good grasp of inferential statistics and statistical modelling (e.g. a course in linear models), though no prior experience with causal inference is expected. In addition, MIDS students will be taking a concurrent course in applied machine learning, and so incoming students will also be expected to have some basic experience with machine learning, or be concurrently enrolled in an applied machine learning course.
 
-\subsection{Pre-Requisites}
-
-This course will assume that enrolled students have a good grasp of inferential statistics, statistical modeling, and have experience with machine learning (or be concurrently enrolled in an applied machine learning course).
-
-This course will also assume students are comfortable manipulating real-world data in either Python or R. The substantive content of this course is language-independent, but because students will be required to work on their projects in teams, comfort with one of these two languages will be required to facilitate collaboration (MIDS students are, generally, "bilingual" in R and Python). Where code examples are provided in class, they will use Python (\texttt{pandas}), but both the instructor and TA are also capable of providing support in R.
+This course will also assume students are comfortable manipulating real-world data in either Python or R. The substantive content of this course is language-independent, but because students will be required to work on their projects in teams, comfort with one of these two languages will be required to facilitate collaboration (MIDS students are, generally, "bilingual" in R and Python). Where code examples are provided in class, they will use Python (`pandas`), but both the instructor and our TAs are also capable of providing support in R.
 
 Finally, students will also be expected to be comfortable collaborating using git and github. If you meet the other requirements for this course but are not familiar with git and github, this is a skill you should be able to pickup on your own in advance of the course without too much difficulty. You can read more about \href{https://www.practicaldatascience.org/html/git_and_github.html}{git and github here}. The \href{https://library.duke.edu/data/}{Duke Center for Data and Visualization Science} also hosts git and github workshops for Duke students.
 
@@ -144,15 +139,13 @@ As we explore these tools, we will continually come back to the fundamental prob
 
 \subsection{Causal Questions}
 
-[Note that this section is stolen shamelessly from the syllabus of \href{http://www.adrianefresh.com}{\underline{Adriane Fresh}}, whose research design course provides the basis of the organization of this portion of the class.]
+[Note that this section is stolen shamelessly (but with permission) from the syllabus of \href{http://www.adrianefresh.com}{\underline{Adriane Fresh}}]
 
 A few big ideas and enduring understandings will facilitate our exploration of causal inference in this course.  The first big idea is that \emph{causality is fundamentally unknowable, and we must therefore} approximate \emph{an unobserved and unobserv}able \emph{outcome} in order to draw causal inferences.  This is sometimes referred to as the fundamental problem of causal inference --- the idea that an understanding of cause and effect depends on our ability to understand outcomes that never happened.  In this way, I (personally) think the study and application of causality is about as close as science gets to magical thinking, which, when you think about it deeply, is pretty cool.  Thus, our work as empirical social scientists is in how we \emph{approximate} the unobserved counterfactual outcome, with the understanding that it will \emph{always be} an approximation.
 
 The second big idea is that \emph{causal inference is a} logical \emph{process of making comparisons, not a quantitative nor a qualitative process.}  Regardless of which type of evidence you are utilizing, causality depends on making thoughtful comparisons that allow you the best opportunity to approximate an unobservable occurrence.  In understanding what this means, we will hopefully dispel (or ward off) notions that one type of research is inherently better than another, and see that the choice of evidentiary approach, and research design more broadly, are question-driven rather than ideological.
 
 Finally, the third big idea is that \emph{causal inference always requires assumptions, and evaluating those assumptions requires judgement}.  The extent to which we think the necessary assumptions are \emph{true} will dictate how confident we are in a given causal inference.  But we will always need assumptions, because our approaches are only approximating the counterfactual.  Yet evaluating those assumptions is an inherently subjective process --- there is no test, no summary statistic, no one number or set of numbers that will tell you exactly whether an assumption is true or not.\footnote{\rmfamily As an aside, this is the same as statistical inference in the frequentist tradition of statistics.  The choice, for instance, of which \emph{p-value} one is willing to accept in order to believe that an estimate of a parameter is different from some null hypothesis value is a personal, subjective choice.  It is a choice that balances the probability of two types of opposing errors --- Type I and Type II.  While there may be \emph{norms} that see groups converge on being willing to accept a particular value --- say, 5\% --- there is no objective truth that makes that choice of a value ``better'' than another.}  And although some of the assumptions we'll study have statistical analogues, we'll the learn the importance of recognizing (in the vein of the big idea above) that assumptions for causal inference are logical assumptions, not necessarily statistical assumptions.
-
-
 
 \subsection{Predictive Questions}
 
@@ -166,12 +159,11 @@ With that in mind, we will split our discussion of predictive questions into two
 
 Stable contexts are situations where we plan to make predictions in situations where the behavior observed during training is nearly identical to the context in which we will apply our algorithm. For example, a stable context is one in which we might use machine learning to predict the likely future value of new customers at a big box store (like Target) on the basis of the behavior of current customers. In these contexts, supervised machine learning algorithms can be very helpful.
 
-In unstable contexts, by contrast, supervised machine learning algorithms struggle, and better predictions may often come from more robust causal analyses. For example, we if wanted to plan a major change to US insurance subsidies, it is unlikely that a machine algorithm would be able to predict how Americans would respond to this kind of novel change.
+In unstable contexts, by contrast, supervised machine learning algorithms struggle, and better predictions may often come from more robust causal analyses. For example, any time we want to understand the effect of a change or manipulation of the environment -- e.g. if we want to plan a major change to US insurance subsidies -- it is unlikely that a machine algorithm would be able to predict how Americans would respond to this kind of novel change.
 
 Finally, we will also discuss what makes a context stable or unstable, which is not always obvious. One major problem with the use of machine learning algorithms, for example, is that they sometimes fail not because the context in which agents operate is unstable, but because the subjects of machine learning algorithms (i.e. people) may change their behavior once they are aware that they are interacting with algorithms (so called ``adversarial users''), a phenomenon that comes up not only in information security, but also when algorithms are used to grade elementary student essays.
 
 \section{Developing and Answering Questions: The Big Ideas}
-
 
 A core idea of this course is that converting your task into a question should be both the first step of your work, and perhaps the most important. The question you seek to answer is what motivates everything you do with your data. And if you haven't clearly defined the question you're seeking to answer, I can absolutely guarantee that when you turn to your data, you will find yourself unsure of what to look at, and you will not be able to use your time efficiently.
 
@@ -200,7 +192,7 @@ If this seems strange, don't worry: question generation is something we'll pract
 %--------------------------------------------COURSE ASSIGNMENTS------------------------------------------------%
 \section{Assignments \& Grading}
 
-\subsection{Participation (25\% of Grade)}
+\subsection{Participation (20\% of Grade)}
 
 A major component of good participation is good \emph{preparation}. Because we will often use class time for exercises, it is absolutely critical that students do their assigned readings before \emph{every} class. Students who do not work through the instructional materials they have been assigned before class will not only get very little out of in-class exercises designed to reinforce the assigned materials, but they will also undermine the learning of the students they are asked to work with. With that in mind, students who do not complete their assigned readings before every class should expected to see this reflected in their participation grades.
 
@@ -216,6 +208,10 @@ Participation will be graded as follows:
 
 \textbf{As should be clear from this rubric, above all it is important to emphasize that participation is evaluated on the basis of \emph{quality} and \emph{consistently}, \emph{not} quantity. Moreover, when completing in-class exercises, good participation is not about finishing first or without ever asking for help; good participation in in-class exercises is about helping your partner understand the material, and asking for help when you need it.}
 
+\subsection{Causal Inference Mid-Term (20\% of Grade)}
+
+At the completion of the causal inference portion of our course we will have a mid-term exam. 
+
 \subsection{Interim Assignments (20\% of Grade)}
 
 Over the course of the semester, students will be asked to complete a number of small assignments as homework. These assignments will, in total, be worth 25\% of student grades.
@@ -224,7 +220,7 @@ Over the course of the semester, students will be asked to complete a number of 
 
 Unfortunately, experience suggests that short, closed-book quizzes given regularly at the start of class are necessary to ensure students stay on top of their readings. Your scores on these reading quizzes will form 20\% of your course grade.
 
-\subsection{Team Data Science Project (35\% of Grade)}
+\subsection{Team Data Science Project (20\% of Grade)}
 
 Over the course of the semester, you and your team will develop a full data science project -- from conception to execution and presentation. Your scores on the various components of this project -- including graded drafts, intermediate work, teamwork, and project management skills -- will jointly constitute 35\% of your overall grade.
 
@@ -255,20 +251,20 @@ After that, because of the difficulty associated with managing late assignment i
 % We will also do some readings from \href{https://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319}{Code: The Hidden Language of Computer Hardware and Software} by Petzold, Charles. It's a fun book and not very expensive, but we won't use it a lot so copies of relevant chapters will be provided if you don't want to buy it.
 %
 % \section{Course Schedule}
-%
+
 % Because one aim of this course is to ensure that all MIDS students have a solid foundation for their time at Duke, the exact organization of this course is likely to change regularly as the course proceeds. Students will therefore be expected to regularly (i.e. before every class) check on the updated course schedule (which will include assignments for the next class) at \href{https://www.practicaldatascience.org}{www.practicaldatascience.org}.
 
-\section{Laptop Policy}
+% \section{Laptop Policy}
 
-The causal evidence from the teaching and learning field clearly shows that learning outcomes are worse when students have laptops in the classroom. This appears to be due in part to computers allowing students to become easily distracted (e.g. Facebook), and also in part because significant information synthesis occurs when we take notes by hand because we are not fast enough writers to transcribe everything being said.  Most typists, on the other hand, can conceivably transcribe word for word for what's being said, but this requires little to no mental processing of the information.\footnote{For excellent work on this topic as well as a nice summary of existing literature on the impact of laptops on learning outcomes, see \href{https://cpb-us-w2.wpmucdn.com/sites.udel.edu/dist/6/132/files/2010/11/Psychological-Science-2014-Mueller-0956797614524581-1u0h0yu.pdf}{Mueller and Oppenheimer (2014, \emph{The Pen Is Mightier Than the Keyboard: Advantages of Longhand Over Laptop  Note Taking})}. \href{https://www.winona.edu/psychology/media/friedlaptopfinal.pdf}{Fried (2007, \emph{In-class laptop use and its effects on student learning})} and  \href{https://www.ncbi.nlm.nih.gov/pubmed/28182528}{Ravizza et. al. (2017, \emph{Logged In and Zoned Out})} are also worth reading.}
+% The causal evidence from the teaching and learning field clearly shows that learning outcomes are worse when students have laptops in the classroom. This appears to be due in part to computers allowing students to become easily distracted (e.g. Facebook), and also in part because significant information synthesis occurs when we take notes by hand because we are not fast enough writers to transcribe everything being said.  Most typists, on the other hand, can conceivably transcribe word for word for what's being said, but this requires little to no mental processing of the information.\footnote{For excellent work on this topic as well as a nice summary of existing literature on the impact of laptops on learning outcomes, see \href{https://cpb-us-w2.wpmucdn.com/sites.udel.edu/dist/6/132/files/2010/11/Psychological-Science-2014-Mueller-0956797614524581-1u0h0yu.pdf}{Mueller and Oppenheimer (2014, \emph{The Pen Is Mightier Than the Keyboard: Advantages of Longhand Over Laptop  Note Taking})}. \href{https://www.winona.edu/psychology/media/friedlaptopfinal.pdf}{Fried (2007, \emph{In-class laptop use and its effects on student learning})} and  \href{https://www.ncbi.nlm.nih.gov/pubmed/28182528}{Ravizza et. al. (2017, \emph{Logged In and Zoned Out})} are also worth reading.}
 
-Moreover, research also makes clear that the presence of laptops in the classroom undermines learning not only for the person with the laptop, but also for other students in the room (presumably it is distracting to have the computer next to you jumping back and forth from instagram to facebook).
+% Moreover, research also makes clear that the presence of laptops in the classroom undermines learning not only for the person with the laptop, but also for other students in the room (presumably it is distracting to have the computer next to you jumping back and forth from instagram to facebook).
 
-For these reasons, during portions of the class when I am speaking and when you are not actively engaged in programming exercises, I do not allow laptops out in class. (When I use slides, those will be provided online so you can refer back to them later if you would like).
+% For these reasons, during portions of the class when I am speaking and when you are not actively engaged in programming exercises, I do not allow laptops out in class. (When I use slides, those will be provided online so you can refer back to them later if you would like).
 
-However, please \textbf{do bring your laptops every day}, as we will use them for in-class quizzes, and some in-class exercises.
+% However, please \textbf{do bring your laptops every day}, as we will use them for in-class quizzes, and some in-class exercises.
 
-\textbf{Note:} If you would like an exception to this rule for medical reasons or due to learning differences, please speak to me and/or follow the directions in the Disability Policy section below, and we will be sure to find an arrangement that works for you.
+% \textbf{Note:} If you would like an exception to this rule for medical reasons or due to learning differences, please speak to me and/or follow the directions in the Disability Policy section below, and we will be sure to find an arrangement that works for you.
 
 \section{Submitting Homework}
 
@@ -299,7 +295,7 @@ If you have any problems with SDAO, please let me know as soon as possible.
 
 \section{Final}
 
-We may use our ``final'' time slot for group presentations, so please keep it open. That window is: 4/28/2020 from 9am - 12pm.
+While this course does not have a final exam, we may use our ``final'' time slot for group presentations, so please keep it open.
 
 \section{Student Signature}
 

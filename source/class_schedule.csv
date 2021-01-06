@@ -1,67 +1,60 @@
 ﻿Date,Topic,Do Before Class,In-Class Exercise
-"Wed, Jan 8",Course Overview,,
-"Mon, Jan 13",Taxonomy of Questions,"- Read, sign, submit syllabus. 
-- `Submit substantive interest survey <https://forms.gle/cpr9SB4d7unXRx3j6>`_
-- Read `Taxonomy of Questions <taxonomy_of_questions.ipynb>`_",`Types of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
-"Wed, Jan 15",CI: Potential Outcomes Framework,"- Angrist and Piscke (MM), Pages xi - 30
-- `Read first homework <https://github.com/nickeubank/unifyingdatascience/blob/master/project/UDS_Topics_And_Questions/UDS_Topics_And_Questions.pdf>`_",`Potential Outcome Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Eubank_UDS_PotentialOutcomes_Handout.pdf>`_
-"Mon, Jan 20",NO CLASS; MLK DAY,,
-"Wed, Jan 22",CI: Potential Outcomes Framework,- `Potential Outcomes <https://www.dropbox.com/s/l85ci4au234jtff/Causal_inference_Materials.zip?dl=0&file_subpath=%2FCausal_inference_Materials%2FPotential_Outcomes.pdf>`_,`Link <exercises/exercise_counterfactuals.ipynb>`_
-"Mon, Jan 27",CI: Experiments,"- Angrist and Piscke (MHE) Part 1 (pages 3-24)
-- Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3)",`Link <exercises/exercise_abtesting.ipynb>`_
-"Wed, Jan 29",- Limitations of Experiments and ATE,"- `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
-- **Topic and 3 Questions Due**",`Link <exercises/exercise_resume.ipynb>`_
-"Mon, Feb 3",CI: Ghost Map,"- `The Ghost Map <https://www.amazon.com/Ghost-Map-Londons-Terrifying-Epidemic/dp/1594482691>`_ pp. 25-54, 111-230","`Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
+"Thurs, Jan 21",Course Overview,,What is causal inference?
+"Tues, Jan 26",CI: Potential Outcomes Framework,"- Angrist and Piscke (MM), Pages xi - 30
+- Read, sign, submit syllabus. 
+- `Submit substantive interest survey <https://forms.gle/cpr9SB4d7unXRx3j6>`_",`Potential Outcome Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Eubank_UDS_PotentialOutcomes_Handout.pdf>`_
+"Thurs,  Jan 28",CI: Potential Outcomes Framework,- `Potential Outcomes <https://www.dropbox.com/s/l85ci4au234jtff/Causal_inference_Materials.zip?dl=0&file_subpath=%2FCausal_inference_Materials%2FPotential_Outcomes.pdf>`_,`Link <exercises/exercise_counterfactuals.ipynb>`_
+"Tues, Feb 2",CI: Experiments,"- Angrist and Piscke (MHE) Part 1 (pages 3-24)
+- Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3)
+- `Experiments in Advertising <https://overcast.fm/+QLduPjO1I>`_",`Link <exercises/exercise_abtesting.ipynb>`_
+"Thurs, Feb 4","- Internal v. External Validity
+- Limitations of Experiments and ATE","- `Internal versus External Validity
+- `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
+",`Link <exercises/exercise_resume.ipynb>`_
+"Tues, Feb 9",CI: Ghost Map,"- `The Ghost Map <https://www.amazon.com/Ghost-Map-Londons-Terrifying-Epidemic/dp/1594482691>`_ pp. 25-54, 111-230","`Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
 `Link 2 <exercises/exercise_ghostmap_2.ipynb>`_"
-"Wed, Feb 5",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). ",`Link <exercises/exercise_regressions_incomeineq.ipynb>`_
-"Mon, Feb 10",CI: Fixed Effects and Clustering,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
+"Thurs, Feb 11",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). ",`Link <exercises/exercise_regressions_incomeineq.ipynb>`_
+"Tues,  Feb 16",CI: Fixed Effects and Clustering,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
 - `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
 - `Fixed Effects <fixed_effects.ipynb>`_","- `Indicators <exercises/exercise_indicators.ipynb>`_
 - `Fixed Effects <exercises/exercise_panel.ipynb>`_"
-"Wed, Feb 12",CI: Matching,`Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_ ,"- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/30_matching/matching.pdf>`_
+"Thurs, Feb 18",CI: Matching,`Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_ ,"- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/30_matching/matching.pdf>`_
 - `Exercises <exercises/exercise_matching.ipynb>`_"
-"Mon, Feb 17",CI: Difference-in-Differences,"Angrist and Piscke (MM), Chapter 5 (pp 178-208) ",- `Link <exercises/exercise_diffindiff.ipynb>`_
-"Wed, Feb 19",Backward Design,,
-"Mon, Feb 24",CI: Natural Experiments,"- Angrist and Pischke (MM), Chapter 3 (pp 98-146)
+"Tues, Feb 23",CI: Difference-in-Differences,"Angrist and Piscke (MM), Chapter 5 (pp 178-208) ",- `Link <exercises/exercise_diffindiff.ipynb>`_
+"Thurs, Feb 25  ",Backward Design,`Backwards Design <backwards_design.ipynb>`_,
+"Tues, Mar 2",CI: Natural Experiments,"- Angrist and Pischke (MM), Chapter 3 (pp 98-146)
 - Come prepared to discuss `backwards design of your group project. <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_Assignment.pdf>`_ ",
-"Wed, Feb 26",,,
-"Mon, Mar 2",**MIDTERM**,**MIDTERM**,
-"Wed, Mar 4",**SPRING RECESS**,,
-"Mon, Mar 9",**SPRING RECESS**,,
-"Wed, Mar 11",Answering Questions,"- `Moving from Problems to Questions <moving_from_problems_to_questions>`_
+"Thurs, Mar 4",**MIDTERM**,**MIDTERM**,
+"Tues, Mar 9",**NO CLASS*,Pseudo-Spring Break,
+"Thurs, Mar 11",**NO CLASS*,Pseudo-Spring Break,
+"Tues, Mar 16",Taxonomy of Questions,"- `Taxonomy of Questions <taxonomy_of_questions.ipynb>`_
+- **Backwards Design Due**",`Types of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
+"Thurs, Mar 18",Answering Questions,"- `Moving from Problems to Questions <moving_from_problems_to_questions>`_
 - `Why It's Important To Get Your Question Right <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_
-- **Backwards Design Due**",`Converting stakeholder prompts to questions <exercises/exercise_generating_questions.ipynb>`_
-"Mon, Mar 16",Descriptive Questions,"- `Discretion in Descriptive Analyses <descriptive_questions.ipynb>`_
+",`Converting stakeholder prompts to questions <exercises/exercise_generating_questions.ipynb>`_
+"Tues, Mar 23",Descriptive Questions,"- `Discretion in Descriptive Analyses <descriptive_questions.ipynb>`_
 - `Positive versus Normative Questions <https://www.youtube.com/watch?v=YtX6SGw7E3c>`_",`Link <exercises/exercise_descriptive.ipynb>`_
-"Wed, Mar 18",Prediction: ML versus Casual Inference,"- Fragility
+"Thurs, Mar 25",Prediction: ML versus Casual Inference,"- Fragility
 - Adversarial Users
 - Lucas Critique
-- `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_
-- **Project Proposal Draft Due**",- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/50_prediction/Eubank_UDS_prediction_handout.pdf>`_
-"Mon, Mar 23",Prediction: ML Bias," **Required:**
+- `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_",- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/50_prediction/Eubank_UDS_prediction_handout.pdf>`_
+"Tues, Mar 30",Prediction: ML Bias," **Required:**
 - `ProPublica: Machine Bias <https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing>`_
 - `ProPublica Analysis of COMPAS <https://www.propublica.org/article/how-we-analyzed-the-compas-recidivism-algorithm>`_
 - `Racial Bias in Medical Algorithm <https://www.washingtonpost.com/health/2019/10/24/racial-bias-medical-algorithm-favors-white-patients-over-sicker-black-patients/>`_
 - `Amazon scraps secret AI recruiting tool due to bias <https://www.reuters.com/article/us-amazon-com-jobs-automation-insight/amazon-scraps-secret-ai-recruiting-tool-that-showed-bias-against-women-idUSKCN1MK08G>`_
 - `Algorithm Blocks Kidney Transplants to Black Patients <https://www.wired.com/story/how-algorithm-blocked-kidney-transplants-black-patients/>`_
+- `The Problem with Controlling for Race <https://www.nejm.org/doi/10.1056/NEJMms2004740>`_
 - `Not all AI bias is unintentional... <https://www.washingtonpost.com/nation/2020/01/28/opioid-kickback-software/>`_
 - `Openning the Black Box: <https://pratt.duke.edu/about/news/podcast/opening-black-box>`_
 
 **Optional:**
 - `Diversity in AI is not your problem, it's hers <https://medium.com/@robert.munro/bias-in-ai-3ea569f79d6a>`_
 - `Again, not all unintentional... <https://www.vice.com/en_us/article/epgmbw/this-company-is-using-racially-biased-algorithms-to-select-jurors>`_",
-"Wed, Mar 25",Practice Presentations,"- Modelling of Presentations and Feedback
+"Thurs, Apr 1 ",Practice Presentations,"- Modelling of Presentations and Feedback
 - **PROJECT ROUGH DRAFTS DUE**",
-"Mon, Mar 30",Project Presentations,7 minute presentations + 7 minutes of questions per group,
-"Wed, Apr 1",Project Presentations,7 minute presentations + 7 minutes of questions per group,
-"Mon, Apr 6",Project Presentations,7 minute presentations + 7 minutes of questions per group,
-"Wed, Apr 8",Project Presentations,7 minute presentations + 7 minutes of questions per group,
-"Mon, Apr 13",,,
-"Wed, Apr 15",Course Summary Class,,- `Summary Cheatsheet <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/80_final_cheatsheet/UDS_Final_Cheatsheet.pdf>`_
-,,,
-,,,
-,,,
-,,,
-,,,
-,,,
-,,,
+"Tues, Apr 6",Project Presentations,7 minute presentations + 7 minutes of questions per group,
+"Thurs, Apr 8",Project Presentations,7 minute presentations + 7 minutes of questions per group,
+"Tues, Apr 13",Project Presentations,7 minute presentations + 7 minutes of questions per group,
+"Thurs, Apr 15",Project Presentations,7 minute presentations + 7 minutes of questions per group,
+"Tues, Apr 20",Course Summary Class,,- `Summary Cheatsheet <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/80_final_cheatsheet/UDS_Final_Cheatsheet.pdf>`_

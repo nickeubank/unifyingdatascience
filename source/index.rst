@@ -3,27 +3,36 @@
 Welcome to Unifying Data Science!
 =================================
 
-Hello, and welcome to the course site for IDS 690.04 (listed in some places as "Practicing Data Science II")!
+Hello, and welcome to the course site for IDS 701!
 
-The aim of the course is to two-fold. First, it aims to provide students with a conceptual framework for understanding the relationship between the many tools that are currently taught under the "data science" umbrella. This course takes the view that data science is fundamentally about answering questions with data, and so is organized around helping students identify different classes of questions (descriptive, causal, and predictive). Over the course of the semester, we will explore each of these types of questions in turn, learning which tools are appropriate for each, and what what pitfalls are common to efforts to answer each type of question.
+The aim of the course is three-fold. 
 
-Second, it aims to provide students with experience both developing and actually answering real questions. Data science is a fundamentally applied field, and so while it is important to have the conceptual framework described above to aid your work, there is no substitute for learning to put these principles into action through practice.
+The first portion of the course will provide an application-focused introduction to *causal inference*, the art and science of using statistical data to make causal statements about the world. Our approach will be rooted in the potential outcomes framework, and will cover a range of methods of statistical inference including randomized experiments, pre-post analysis, differences-in-differences, and instrumental variables. In addition, we will also discuss concepts like the distinction between internal and external validity, and the limitations of estimating Average Treatment Effects. 
 
-To achieve this second learning goal, over the course of the semester students will develop their own data science projects in small teams. These projects will be developed incrementally over the course of the semester with instructor guidance. By the end of the semester, students will have picked a topic area, developed a (tractable) question, decided what an answer to that question would actually look like, developed a work plan for generating that answer, and executed and presented their project, and then iterated the project based on feedback from their initial presentation.
+In the second portion of the course, we will then pivot to developing a conceptual framework for understanding the relationship between the many tools that are currently taught under the "data science" umbrella. This course takes the view that data science is fundamentally about answering questions with data, and so is organized around helping students identify different classes of questions (descriptive, causal, and predictive). Over the course of the semester, we will explore each of these types of questions in turn, learning which tools are appropriate for each, and what what pitfalls are common to efforts to answer each type of question.
 
-As this course is primarily designed for students in the MIDS program, it will assume familiarity with statistical modeling (basic statistics, linear regression, logistic regression, model selection) and the basics of both supervised and unsupervised machine learning. The goal of this course will not be to teach these topics, but rather to help *contextualize* them.
+Finally, over the semester students will conduct a complete data science project themselves. Data science is a fundamentally applied field, and so while it is important students have the conceptual framework described above to make sense of the world of data science, there is no substitute for learning to put these principles into action through practice. These projects will be developed incrementally over the course of the semester with instructor guidance. By the end of the semester, students will have picked a topic area, developed a (tractable) question, decided what an answer to that question would actually look like, developed a work plan for generating that answer, and executed and presented their project, and then iterated the project based on feedback from their initial presentation. For MIDS students, this will serve as a "capstone-project with training wheels" to prepare students for their second-year Capstone projects with external partners. And this project should provide all students with a portfolio piece they can present to potential future employers. 
 
-Of the three types of questions we will cover, methods for answering causal questions will receive the greatest attention. This course assumes no familiarity with causal inference, and will cover everything from the basic problem of causal inference to experiments, and to the range of tools available for making causal inferences from observational data.
+Pre-Requisites for Non-MIDS Students
+------------------------------------
 
+This course is primarily designed for students in the Duke Masters in Interdisciplinary Data Science (MIDS) program, but students from other programs are more then welcome if they have the appropriate pre-requisite training. Data Science is a fundamentally interdisciplinary field, so the more perspectives we have represented in the classroom the better!
 
-Pre-Requisites
---------------
+This course will assume that enrolled students have a good grasp of inferential statistics and statistical modelling (e.g. a course in linear models), though no prior experience with causal inference is expected. In addition, MIDS students will be taking a concurrent course in applied machine learning, and so incoming students will also be expected to have some basic experience with machine learning, or be concurrently enrolled in an applied machine learning course.
 
-This course will assume that enrolled students have a good grasp of inferential statistics, statistical modelling, and have experience with machine learning (or are concurrently enrolled in an applied machine learning course).
-
-This course will also assume students are comfortable manipulating real-world data in either Python or R. The substantive content of this course is language-independent, but because students will be required to work on their projects in teams, comfort with one of these two languages will be required to facilitate collaboration (MIDS students are, generally, "bilingual" in R and Python). Where code examples are provided in class, they will use Python (`pandas`), but both the instructor and TA are also capable of providing support in R.
+This course will also assume students are comfortable manipulating real-world data in either Python or R. The substantive content of this course is language-independent, but because students will be required to work on their projects in teams, comfort with one of these two languages will be required to facilitate collaboration (MIDS students are, generally, "bilingual" in R and Python). Where code examples are provided in class, they will use Python (`pandas`), but both the instructor and our TAs are also capable of providing support in R.
 
 Finally, students will also be expected to be comfortable collaborating using git and github. If you meet the other requirements for this course but are not familiar with git and github, this is a skill you should be able to pickup on your own in advance of the course without too much difficulty. You can read more about `git and github here <https://www.practicaldatascience.org/html/git_and_github.html>`_. The `Duke Center for Data and Visualization Science <https://library.duke.edu/data/>`_ also hosts git and github workshops if you are a Duke student.
+
+
+Remote Learning Expectations
+----------------------------
+
+Sigh. Well, 2020 is behind us, but while it seems we'll be back in the classroom soon, students should expect that all classes will be held on Zoom for Spring 2021. 
+
+Thankfully, however, this will be a relatively small class, and so I will work hard to ensure that our class remains an interactive learning experience. Whereever possible, for example, this course will employ a "flipped classroom" design where students are expected to read instructional material before class, and we will use significant portions of class time for group activities. 
+
+However, that does mean that class attendance is absolutely mandatory unless you face extenuating circumstances (e.g. time zone issues, internet connectivity issues, medical constraints, etc.). If that is the case, please reach out to me as soon as possible so we can make appropriate accomodations.
 
 Syllabus
 --------
