@@ -3,4 +3,4 @@
 Repo for www.unifyingdatascience.org
 
 
-Copyright Nicholas Eubank, 2019
+Copyright Nicholas Eubank, 2021

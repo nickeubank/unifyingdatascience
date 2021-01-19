@@ -1,6 +1,14 @@
 Class Schedule
 ==============
 
+Class: Tuesday / Thursday, 1:45-3pm
+
+Office Hours: 
+
+- Nick: Thursday, 9:00-10:00am, `https://duke.zoom.us/my/nickeubank <https://duke.zoom.us/my/nickeubank>`_
+- Nathan: TBD
+- Becky: TBD 
+
 .. csv-table::
    :file: class_schedule.csv
    :widths: 10, 32, 32, 5
