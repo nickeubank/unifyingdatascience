@@ -16,6 +16,10 @@ Office Hours:
 
 Texts Referenced in Schedule:
 
-- **Angrist and Piscke (MM)**: `Mastering 'Metrics <https://www.amazon.com/Mastering-Metrics-Path-Cause-Effect/dp/0691152845>`_, Joshua D. Angrist and Jorn-Steffan Piscke. 2015.
-- **Angrist and Piscke (MHE)**: `Mostly Harmless Econometrics <https://www.amazon.com/Mastering-Metrics-Path-Cause-Effect/dp/0691152845>`_, Joshua D. Angrist and Jorn-Steffan Piscke. 2009.
-- **The Ghost Map**: `The Ghost Map: The Story of London's Most Terrifying Epidemic--and How It Changed Science, Cities, and the Modern World <https://www.amazon.com/Ghost-Map-Londons-Terrifying-Epidemic/dp/1594482691>`_ by Steven Johnson. 2007. 
+- **Angrist and Piscke (MM)**: `Mastering 'Metrics <https://www.amazon.com/Mastering-Metrics-Path-Cause-Effect/dp/0691152845>`_
+- **Angrist and Piscke (MHE)**: `Mostly Harmless Econometrics <https://www.amazon.com/Mastering-Metrics-Path-Cause-Effect/dp/0691152845>`_
+- **Freedman (SMaCI)**: `Statistical Models and Causal Inferece: A Dialogue with the Social Sciences <https://www.amazon.com/Statistical-Models-Causal-Inference-Dialogue/dp/0521123909>`_ 
+- **Imbens and Rubin (CI)**: `Causal Inference for Statistics, Social, and Biomedical Sciences <https://www.amazon.com/Causal-Inference-Statistics-Biomedical-Sciences/dp/0521885884>`_ 
+- **Kennedy (GtE)**: `A Guide to Econometrics <https://www.amazon.com/Guide-Econometrics-6th-Peter-Kennedy/dp/1405182571>`_ 
+- **Wooldridge**: `Econometric Analysis of Cross Section and Panel Data <https://www.amazon.com/Econometric-Analysis-Cross-Section-Panel/dp/0262232588>`_
+
