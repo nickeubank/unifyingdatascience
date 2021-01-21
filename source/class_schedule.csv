@@ -4,7 +4,8 @@
 "Tues, Jan 26",CI: Potential Outcomes Framework,"- Read Angrist and Piscke (MM), Pages xi - 30
 - Read, sign, submit syllabus on gradescope. 
 - `Submit substantive interest survey <https://forms.gle/cpr9SB4d7unXRx3j6>`_
-- Submit Reading Reflections on Gradescope.",`Potential Outcome Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Eubank_UDS_PotentialOutcomes_Handout.pdf>`_
+- Submit Reading Reflections on Gradescope.","- `Potential Outcome Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Eubank_UDS_PotentialOutcomes_Handout.pdf>`_
+- `Potential Outcomes Exercise <exercises/exercise_potential_outcomes1.ipynb>`_"
 "Thurs,  Jan 28",CI: Potential Outcomes Framework,"- `Potential Outcomes <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Fresh_Potential_Outcomes.pdf>`_
 Optional (Alternative presentation, slightly different notation):
 - Imbens and Rubin (CI), Chpt 1.",`Link <exercises/exercise_counterfactuals.ipynb>`_
