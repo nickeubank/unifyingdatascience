@@ -5,9 +5,9 @@ Class: Tuesday / Thursday, 1:45-3pm
 
 Office Hours: 
 
-- Nick: Thursday, 9:00-10:00am, `https://duke.zoom.us/my/nickeubank <https://duke.zoom.us/my/nickeubank>`_
-- Nathan: TBD
-- Becky: TBD 
+- Nick: Thursday, 9-10am, `https://duke.zoom.us/my/nickeubank <https://duke.zoom.us/my/nickeubank>`_
+- Nathan: Tue 4-5pm, `https://duke.zoom.us/j/4551839718 <https://duke.zoom.us/j/4551839718>`_
+- Becky: Wed 2-3pm, `https://duke.zoom.us/j/3613280647 <https://duke.zoom.us/j/3613280647>`_
 
 .. csv-table::
    :file: class_schedule.csv
