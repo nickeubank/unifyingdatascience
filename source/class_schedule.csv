@@ -19,18 +19,20 @@ Optional:
 - Limitations of Experiments and ATE","- `Internal versus External Validity
 - `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
 - `Experiments in Advertising <https://overcast.fm/+QLduPjO1I>`_",`Link <exercises/exercise_resume.ipynb>`_
-"Tues, Feb 9",CI: Ghost Map,"- Freedman (SMaCI), Chapter 3","`Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
+"Tues, Feb 9",- Compliance / ITT / Etc.,,
+"Thurs, Feb 11",CI: Ghost Map,"- Freedman (SMaCI), Chapter 3","`Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
 `Link 2 <exercises/exercise_ghostmap_2.ipynb>`_"
-"Thurs, Feb 11",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). ",`Link <exercises/exercise_regressions_incomeineq.ipynb>`_
-"Tues,  Feb 16",CI: Fixed Effects and Clustering,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
+"Tues,  Feb 16",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). ",`Link <exercises/exercise_regressions_incomeineq.ipynb>`_
+"Thurs, Feb 18",CI: Fixed Effects and Clustering,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
 - Kennedy (GtE), Chpt 18.
 - `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
 - `Fixed Effects <fixed_effects.ipynb>`_","- `Indicators <exercises/exercise_indicators.ipynb>`_
 - `Fixed Effects <exercises/exercise_panel.ipynb>`_"
-"Thurs, Feb 18",CI: Matching,`Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_ ,"- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/30_matching/matching.pdf>`_
+"Tues, Feb 23",CI: Matching,`Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_ ,"- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/30_matching/matching.pdf>`_
 - `Exercises <exercises/exercise_matching.ipynb>`_"
-"Tues, Feb 23",CI: Difference-in-Differences,"Angrist and Piscke (MM), Chapter 5 (pp 178-208) ",- `Link <exercises/exercise_diffindiff.ipynb>`_
-"Thurs, Feb 25  ",Backward Design,`Backwards Design <backwards_design.ipynb>`_,
+"Thurs, Feb 25  ","- CI: Difference-in-Differences
+- Backwards Design","- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
+- `Backwards Design <backwards_design.ipynb>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
 "Tues, Mar 2",CI: Natural Experiments,"- Angrist and Pischke (MM), Chapter 3 (pp 98-146)
 - Come prepared to discuss `backwards design of your group project. <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_Assignment.pdf>`_ ",
 "Thurs, Mar 4",**MIDTERM**,**MIDTERM**,
