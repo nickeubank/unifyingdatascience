@@ -85,8 +85,11 @@ $\underbrace{E(Y_{T=1}|D=1) - E(Y_{T=0}|D=1)}_{\text{Avg Treatment on the Treate
 \vspace*{1cm}
 \emph{Treatment on the Treated:} What we measure. This is equal to Average Treatment effect iff
 \begin{eqnarray}
-E(Y_{T=1}|D=1) - E(Y_{T=0}|D=1) &=& E(Y_{T=1}|D=0) - E(Y_{T=0}|D=0)\nonumber \\
-                                &=& E(Y_{T=1}) - E(Y_{T=0})\nonumber
+E(Y_{T=1}|D=1) - E(Y_{T=0}|D=1) &=& E(Y_{T=1}|D=0) - E(Y_{T=0}|D=0)\nonumber
+\end{eqnarray}
+in which case 
+\begin{eqnarray}
+E(Y_{T=1}|D=1) - E(Y_{T=0}|D=1) = E(Y_{T=1}) - E(Y_{T=0})
 \end{eqnarray}
 In other words, $ATT = ATE$ if the response to treatment of people for whom $D=1$ is the same as that of those for whom $D=0$.
 \end{frame}
