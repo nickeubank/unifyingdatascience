@@ -8,12 +8,14 @@
 - `Potential Outcomes Exercise <exercises/exercise_potential_outcomes1.ipynb>`_"
 "Thurs,  Jan 28",CI: Potential Outcomes Framework,"- `Potential Outcomes <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Fresh_Potential_Outcomes.pdf>`_
 Optional (Alternative presentation, slightly different notation):
+
 - Imbens and Rubin (CI), Chpt 1.",`Link <exercises/exercise_counterfactuals.ipynb>`_
 "Tues, Feb 2",CI: Experiments,"- Angrist and Piscke (MHE) Part 1 (pages 3-24)
 - Kennedy (GtE), pp. 18-21, Notes for 2.8
 - Kennedy (GtE), pp. 241-244, Notes Optional
 - Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3) 
 Optional:
+
 - Wooldridge, Section 15.2",`Link <exercises/exercise_abtesting.ipynb>`_
 "Thurs, Feb 4","- Internal v. External Validity
 - Limitations of Experiments and ATE","- `Internal versus External Validity
