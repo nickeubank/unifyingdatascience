@@ -18,10 +18,14 @@ Optional:
 
 - Wooldridge, Section 15.2",`Link <exercises/exercise_abtesting.ipynb>`_
 "Thurs, Feb 4","- Internal v. External Validity
-- Limitations of Experiments and ATE","- `Internal versus External Validity
+- Limitations of Experiments and ATE","- Internal versus External Validity
 - `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
 - `Experiments in Advertising <https://overcast.fm/+QLduPjO1I>`_",`Link <exercises/exercise_resume.ipynb>`_
-"Tues, Feb 9",- Compliance / ITT / Etc.,"- Angrist and Pischke (MM), Chapter 3 (pp 98-146)",
+"Tues, Feb 9","- SUTVA
+- Compliance / ITT / Etc.","- Imbens and Rubin (CI), Section 1.6 (SUTVA, p. 10-13)
+- Angrist and Pischke (MM), Chapter 3 (pp 98-146)
+
+(Note that Imben & Rubin potential outcomes notation is a little different -- just skip notational parts if needed)",
 "Thurs, Feb 11",CI: Ghost Map,"- Freedman (SMaCI), Chapter 3","`Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
 `Link 2 <exercises/exercise_ghostmap_2.ipynb>`_"
 "Tues,  Feb 16",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). ",`Link <exercises/exercise_regressions_incomeineq.ipynb>`_
