@@ -20,7 +20,8 @@ Optional:
 "Thurs, Feb 4","- Internal v. External Validity
 - Limitations of Experiments and ATE","- Internal versus External Validity
 - `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
-- `Experiments in Advertising <https://overcast.fm/+QLduPjO1I>`_",`Link <exercises/exercise_resume.ipynb>`_
+- `Endogenous Stopping Times in Experiments <http://sl8r000.github.io/ab_testing_statistics/avoid_biased_stopping_times/>`_
+- Optional: `Discussion in part About Experiments in Advertising <https://overcast.fm/+QLduPjO1I>`_",`Link <exercises/exercise_resume.ipynb>`_
 "Tues, Feb 9","- SUTVA
 - Compliance / ITT / Etc.","- Imbens and Rubin (CI), Section 1.6 (SUTVA, p. 10-13)
 - Angrist and Pischke (MM), Chapter 3 (pp 98-146)
