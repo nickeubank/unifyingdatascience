@@ -18,9 +18,10 @@ Optional:
 
 - Wooldridge, Section 15.2",`Link <exercises/exercise_abtesting.ipynb>`_
 "Thurs, Feb 4","- Internal v. External Validity
-- Limitations of Experiments and ATE","- Internal versus External Validity
+- Limitations of Experiments and ATE","- `Internal versus External Validity <internal_v_external_validity.ipynb>`_
 - `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
-- `Endogenous Stopping Times in Experiments <http://sl8r000.github.io/ab_testing_statistics/avoid_biased_stopping_times/>`_
+- `A/B Testing and Stopping Early <https://medium.com/airbnb-engineering/experiments-at-airbnb-e2db3abf39e7>`_
+- Optional: `More on endogenous stopping <http://sl8r000.github.io/ab_testing_statistics/avoid_biased_stopping_times/>`_
 - Optional: `Discussion in part About Experiments in Advertising <https://overcast.fm/+QLduPjO1I>`_",`Link <exercises/exercise_resume.ipynb>`_
 "Tues, Feb 9","- SUTVA
 - Compliance / ITT / Etc.","- Imbens and Rubin (CI), Section 1.6 (SUTVA, p. 10-13)
@@ -35,8 +36,8 @@ Optional:
 - `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
 - `Fixed Effects <fixed_effects.ipynb>`_","- `Indicators <exercises/exercise_indicators.ipynb>`_
 - `Fixed Effects <exercises/exercise_panel.ipynb>`_"
-"Tues, Feb 23",CI: Matching,`Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_ ,"- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/30_matching/matching.pdf>`_
-- `Exercises <exercises/exercise_matching.ipynb>`_"
+"Tues, Feb 23",CI: Matching,"- `Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_
+- `DAME-FLAME User Guide <https://almost-matching-exactly.github.io/DAME-FLAME-Python-Package/user-guide>`_",- `Exercises <exercises/exercise_matching.ipynb>`_
 "Thurs, Feb 25  ","- CI: Difference-in-Differences
 - Backwards Design","- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
 - `Backwards Design <backwards_design.ipynb>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
