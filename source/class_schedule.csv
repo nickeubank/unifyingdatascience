@@ -26,6 +26,7 @@ Optional:
 "Tues, Feb 9","- SUTVA
 - Compliance / ITT / Etc.","- Imbens and Rubin (CI), Section 1.6 (SUTVA, p. 10-13)
 - Angrist and Pischke (MM), Chapter 3 (pp 98-146)
+- Power Calculations <https://emj.bmj.com/content/emermed/20/5/453.full.pdf>`_
 
 (Note that Imben & Rubin potential outcomes notation is a little different -- just skip notational parts if needed)",
 "Thurs, Feb 11",CI: Ghost Map,"- Freedman (SMaCI), Chapter 3","`Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
