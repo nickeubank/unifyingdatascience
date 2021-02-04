@@ -25,8 +25,8 @@ Optional:
 - Optional: `Discussion in part About Experiments in Advertising <https://overcast.fm/+QLduPjO1I>`_",`Link <exercises/exercise_resume.ipynb>`_
 "Tues, Feb 9","- SUTVA
 - Compliance / ITT / Etc.","- Imbens and Rubin (CI), Section 1.6 (SUTVA, p. 10-13)
-- Angrist and Pischke (MM), Chapter 3 (pp 98-146)
-- Power Calculations <https://emj.bmj.com/content/emermed/20/5/453.full.pdf>`_
+- Angrist and Pischke (MM), Chapter 3 (pp 98-123)
+- `Power Calculations <https://emj.bmj.com/content/emermed/20/5/453.full.pdf>`_
 
 (Note that Imben & Rubin potential outcomes notation is a little different -- just skip notational parts if needed)",
 "Thurs, Feb 11",CI: Ghost Map,"- Freedman (SMaCI), Chapter 3","`Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
@@ -42,7 +42,7 @@ Optional:
 "Thurs, Feb 25  ","- CI: Difference-in-Differences
 - Backwards Design","- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
 - `Backwards Design <backwards_design.ipynb>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
-"Tues, Mar 2",CI: Natural Experiments,"- Angrist and Pischke (MM), Chapter 3 (pp 98-146)
+"Tues, Mar 2",CI: Natural Experiments,"- Angrist and Pischke (MM), Chapter 3 (pp 123-146)
 - Come prepared to discuss `backwards design of your group project. <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_Assignment.pdf>`_ ",
 "Thurs, Mar 4",**MIDTERM**,**MIDTERM**,
 "Tues, Mar 9",**NO CLASS**,Pseudo-Spring Break,
