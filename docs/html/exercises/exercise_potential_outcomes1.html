@@ -46,10 +46,11 @@
 <div class="section" id="Mapping-to-the-Potential-Outcomes-Framework">
 <h2>Mapping to the Potential Outcomes Framework<a class="headerlink" href="#Mapping-to-the-Potential-Outcomes-Framework" title="Permalink to this headline">¶</a></h2>
 <p>In words, describe exactly what quantities in this study context would correspond to the different components of the Potential Outcomes Framework we’ve been studying. When defining these, remember to define both the <em>thing</em> being measured <em>and the population</em> being measured.</p>
+<p>As you do so, avoid using terms like “treatment”, “control group”, or “potential outcome”. The goal of this exercise is to move from the abstract conceptual derivations we’ve read to the specifics of this study. For example, I’ve put in an answer to Question 1 below:</p>
 <p><strong>1</strong>: <span class="math notranslate nohighlight">\(E(Y_0)\)</span></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
-</pre></div>
-</div>
+<blockquote>
+<div><p>The average BMI of all Duke students if everyone was drinking regular soda.</p>
+</div></blockquote>
 <p><strong>2</strong>: <span class="math notranslate nohighlight">\(E(Y_1)\)</span></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
 </pre></div>
@@ -92,11 +93,11 @@
 </div>
 <div class="section" id="Causal-Inference">
 <h2>Causal Inference<a class="headerlink" href="#Causal-Inference" title="Permalink to this headline">¶</a></h2>
-<p>In order for the difference in BMIs found in the report – that those who drink diet soda have higher BMIs – to be a true estimate of the average effect of drinking diet soda, we knowthat it must be the case that:</p>
+<p>In order for the difference in BMIs found in the report – that those who drink diet soda have higher BMIs – to be a true estimate of the average effect of drinking diet soda, we know that it must be the case that:</p>
 <p><span class="math notranslate nohighlight">\(E(Y_0| D=1) - E(Y_0| D=0) = 0\)</span></p>
 <p>and</p>
 <p><span class="math notranslate nohighlight">\(E(Y_1| D=0) - E(Y_0| D=0) = E(Y_1| D=1) - E(Y_0 | D=1)\)</span>.</p>
-<p>In the context of this study, what do those two conditions mean <em>in plain english</em>?</p>
+<p>In the context of this study, what do those two conditions mean <em>in plain english</em>? As above, avoid using abstract terms (“treatment”, “baseline”, etc.) and try and be as concrete as possible.</p>
 <p><strong>11</strong> <span class="math notranslate nohighlight">\(E(Y_0| D=1) - E(Y_0| D=0) = 0\)</span>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
 </pre></div>
@@ -106,6 +107,7 @@
 </pre></div>
 </div>
 <p>Now, for each of the conditions above, please give one reason – <em>in plain english</em> – why those conditions may <strong>not</strong> be met in the context of this study?</p>
+<p>As you do so, be specific! Tell me a story about why <em>in the case of this study</em> you think one of these conditions may hold. One can always say things like “people in the two groups may have been different”, but I want a specific reason you think they might have been different in a way that meets the conditions.</p>
 <p><strong>13</strong> It may be the case that <span class="math notranslate nohighlight">\(E(Y_0| D=1) - E(Y_0| D=0) \neq 0\)</span> because…:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
 </pre></div>
