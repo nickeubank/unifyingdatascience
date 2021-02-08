@@ -24,12 +24,13 @@ Optional:
 - Optional: `More on endogenous stopping <http://sl8r000.github.io/ab_testing_statistics/avoid_biased_stopping_times/>`_
 - Optional: `Discussion in part About Experiments in Advertising <https://overcast.fm/+QLduPjO1I>`_",`Link <exercises/exercise_resume.ipynb>`_
 "Tues, Feb 9","- SUTVA
-- Compliance / ITT / Etc.","- Imbens and Rubin (CI), Section 1.6 (SUTVA, p. 10-13)
-- Angrist and Pischke (MM), Chapter 3 (pp 98-123)
+- Compliance / ITT / Etc.","- Evaluating Studies <evaluating_real_studies.ipynb>`_
+- Angrist and Pischke (MM), Chapter 3 (pp 98-123)",
+"Thurs, Feb 11",CI: Ghost Map,"- Freedman (SMaCI), Chapter 3
+- Imbens and Rubin (CI), Section 1.6 (SUTVA, p. 10-13)
 - `Power Calculations <https://emj.bmj.com/content/emermed/20/5/453.full.pdf>`_
 
-(Note that Imben & Rubin potential outcomes notation is a little different -- just skip notational parts if needed)",
-"Thurs, Feb 11",CI: Ghost Map,"- Freedman (SMaCI), Chapter 3","`Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
+(Note that Imben & Rubin potential outcomes notation is a little different -- just skip notational parts if needed)","`Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
 `Link 2 <exercises/exercise_ghostmap_2.ipynb>`_"
 "Tues,  Feb 16",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). ",`Link <exercises/exercise_regressions_incomeineq.ipynb>`_
 "Thurs, Feb 18",CI: Fixed Effects and Clustering,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
