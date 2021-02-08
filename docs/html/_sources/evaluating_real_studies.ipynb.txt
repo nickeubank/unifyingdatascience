@@ -29,7 +29,7 @@
     "\n",
     "To promote your business, you start running ads with a 10\\% off coupon on the New York Times website, because you figure people who live in NY are the kind of people who would buy their dogs sunglasses. \n",
     "\n",
-    "You then look at the amount that people coming to your website spend, and compare the behavior of people who came to your site through your ad (e.g. the people getting the discount) and those who came to your site after seeing your normal ads on other sites (no discount). And sure enough, you find that people who saw the ad spent 30% more on your website -- enough that you made more money on them than your average customer, even after the 10% discount. \n",
+    "You then look at the amount that people coming to your website spend, and compare the behavior of people who came to your site through your ad (e.g. the people getting the discount) and those who came to your site after seeing your normal ads on other sites (no discount). And sure enough, you find that people who saw the ad spent 30% more on your website (i.e. 30% more dollars in revenue per 1,000 ad views) -- enough that you made more money on them than your average customer, even after the 10% discount. \n",
     "\n",
     "So now you're thinking, should I roll out this ad all over Facebook and Instagram?!\n",
     "\n",
