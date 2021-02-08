@@ -6,10 +6,10 @@
    "source": [
     "# Evaluating Real Studies\n",
     "\n",
-    "In our past classes, we've discussed in detail -- and derived mathematically -- the conditions required for a correlation to constitute a valid causal estimate. In particular, we saw that if we see a correlation between a treatment (say, seeing an advertisement) and an outcome (the amount a consumer spends at a store), that correlation will only be a good causal estimate of the Average Treatment Effect (ATE) for the population in the study if:\n",
+    "In our past classes, we've discussed in detail -- and derived mathematically -- the conditions required for a correlation to constitute a valid causal estimate. In particular, we saw that if we see a correlation between a treatment (say, seeing an advertisement with a discount offer) and an outcome (the amount a consumer spends at a store), that correlation will only be a good causal estimate of the Average Treatment Effect (ATE) for the population in the study if:\n",
     "\n",
     "1. There are no baseline differences in outcome between the treated and untreated groups.\n",
-    "2. The treated and untreated groups would respond, on average, the same way to the treatment. \n",
+    "2. The treated and untreated groups would respond, on average, the same way to the treatment. (No differential treatment effects)\n",
     "\n",
     "We've seen mathematically what these two conditions look like: \n",
     "\n",

@@ -24,7 +24,7 @@ Optional:
 - Optional: `More on endogenous stopping <http://sl8r000.github.io/ab_testing_statistics/avoid_biased_stopping_times/>`_
 - Optional: `Discussion in part About Experiments in Advertising <https://overcast.fm/+QLduPjO1I>`_",`Link <exercises/exercise_resume.ipynb>`_
 "Tues, Feb 9","- SUTVA
-- Compliance / ITT / Etc.","- Evaluating Studies <evaluating_real_studies.ipynb>`_
+- Compliance / ITT / Etc.","- `Evaluating Studies <evaluating_real_studies.ipynb>`_
 - Angrist and Pischke (MM), Chapter 3 (pp 98-123)",
 "Thurs, Feb 11",CI: Ghost Map,"- Freedman (SMaCI), Chapter 3
 - Imbens and Rubin (CI), Section 1.6 (SUTVA, p. 10-13)
