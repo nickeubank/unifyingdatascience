@@ -4,19 +4,19 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Making Potential Outcomes Concrete\n",
+    "# Making Potential Outcomes Concrete 2\n",
     "\n",
     "In this exercise, I will describe a simple data science project, and your job is to map the elements of that project onto the Potential Outcomes Framework. \n",
     "\n",
     "## The Study\n",
     "\n",
-    "You have been approached by the Duke Office of Student Wellbeing. They are worried that due to the COVID pandemic, students are spending too much time sitting in front of their computers and not being active, leading to an increase in student Body Mass Index (BMI) scores (a measure of whether someone's weight is more or less than one might expect given their height) which might, in extreme cases, have negative health consequences. \n",
+    "You work for the HR department of a large company, WeMakeWidgets LLC. WeMakeWidgets is struggling because their health insurance costs have been skyrocketing, and they're looking for ways to control costs.\n",
     "\n",
-    "One policy they're considering implementing to address this issue is to replace all sodas in the dining halls with diet (sugar-free) sodas. But they aren't sure if this will actually make a difference. \n",
+    "For the past few years, WeMakeWidgets (WMW) has allowed its employees to enroll in a program where, instead of being allowed to see doctors in person, they have to first see a nurse via Zoom who offers advice, and then only sends them to see a doctor in person if necessary. In exchange, for doing these Zoom triage appointments, these employees are given a 50 dollar a month bonus. \n",
     "\n",
-    "To help them decide, they wanted to measure the effect of diet soda on BMI, so they collected data on all Duke students, and compared student BMI scores for students who drink diet soda with those who drink regular soda (they're students -- they *all* drink some soda :)). \n",
+    "Employees who are enrolled in the program spend substantially less on healthcare than people not in the program, saving the company money. \n",
     "\n",
-    "They found that students who drink diet soda actually have higher BMIs (suggesting they may actually be *less* healthy). They interpreted this as evidence that diet soda is making students *less* healthy, so they changed their plans, and instead of removing sugary soda, they've decided to remove all *diet* soda from the campus. "
+    "With that in mind, the HR department is thinking of making an initial Zoom appointment mandatory for all employees seeking medical care."
    ]
   },
   {
@@ -41,7 +41,7 @@
    "source": [
     "**1**: $E(Y_0)$\n",
     "\n",
-    "> The average BMI of all Duke students if everyone was drinking regular soda. "
+    "> The average healthcare a WMW employee would consume if there were no Zoom triage appointments. "
    ]
   },
   {
@@ -189,7 +189,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "In order for the difference in BMIs found in the report -- that those who drink diet soda have higher BMIs -- to be a true estimate of the average effect of drinking diet soda, we know that it must be the case that:\n",
+    "In order for the difference in healthcare consumption for Zoom enrollees -- that those enrolled in the Zoom program consume less healthcare -- to be a true estimate of the average effect of Zoom triage appointments, we know that it must be the case that:\n",
     "\n",
     "$E(Y_0| D=1) - E(Y_0| D=0) = 0$\n",
     "\n",

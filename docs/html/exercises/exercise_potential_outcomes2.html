@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Making Potential Outcomes Concrete &#8212; Unifying Data Science</title>
+    <title>Making Potential Outcomes Concrete 2 &#8212; Unifying Data Science</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -33,15 +33,15 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="Making-Potential-Outcomes-Concrete">
-<h1>Making Potential Outcomes Concrete<a class="headerlink" href="#Making-Potential-Outcomes-Concrete" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="Making-Potential-Outcomes-Concrete-2">
+<h1>Making Potential Outcomes Concrete 2<a class="headerlink" href="#Making-Potential-Outcomes-Concrete-2" title="Permalink to this headline">¶</a></h1>
 <p>In this exercise, I will describe a simple data science project, and your job is to map the elements of that project onto the Potential Outcomes Framework.</p>
 <div class="section" id="The-Study">
 <h2>The Study<a class="headerlink" href="#The-Study" title="Permalink to this headline">¶</a></h2>
-<p>You have been approached by the Duke Office of Student Wellbeing. They are worried that due to the COVID pandemic, students are spending too much time sitting in front of their computers and not being active, leading to an increase in student Body Mass Index (BMI) scores (a measure of whether someone’s weight is more or less than one might expect given their height) which might, in extreme cases, have negative health consequences.</p>
-<p>One policy they’re considering implementing to address this issue is to replace all sodas in the dining halls with diet (sugar-free) sodas. But they aren’t sure if this will actually make a difference.</p>
-<p>To help them decide, they wanted to measure the effect of diet soda on BMI, so they collected data on all Duke students, and compared student BMI scores for students who drink diet soda with those who drink regular soda (they’re students – they <em>all</em> drink some soda :)).</p>
-<p>They found that students who drink diet soda actually have higher BMIs (suggesting they may actually be <em>less</em> healthy). They interpreted this as evidence that diet soda is making students <em>less</em> healthy, so they changed their plans, and instead of removing sugary soda, they’ve decided to remove all <em>diet</em> soda from the campus.</p>
+<p>You work for the HR department of a large company, WeMakeWidgets LLC. WeMakeWidgets is struggling because their health insurance costs have been skyrocketing, and they’re looking for ways to control costs.</p>
+<p>For the past few years, WeMakeWidgets (WMW) has allowed its employees to enroll in a program where, instead of being allowed to see doctors in person, they have to first see a nurse via Zoom who offers advice, and then only sends them to see a doctor in person if necessary. In exchange, for doing these Zoom triage appointments, these employees are given a 50 dollar a month bonus.</p>
+<p>Employees who are enrolled in the program spend substantially less on healthcare than people not in the program, saving the company money.</p>
+<p>With that in mind, the HR department is thinking of making an initial Zoom appointment mandatory for all employees seeking medical care.</p>
 </div>
 <div class="section" id="Mapping-to-the-Potential-Outcomes-Framework">
 <h2>Mapping to the Potential Outcomes Framework<a class="headerlink" href="#Mapping-to-the-Potential-Outcomes-Framework" title="Permalink to this headline">¶</a></h2>
@@ -49,7 +49,7 @@
 <p>As you do so, avoid using terms like “treatment”, “control group”, or “potential outcome”. The goal of this exercise is to move from the abstract conceptual derivations we’ve read to the specifics of this study. For example, I’ve put in an answer to Question 1 below:</p>
 <p><strong>1</strong>: <span class="math notranslate nohighlight">\(E(Y_0)\)</span></p>
 <blockquote>
-<div><p>The average BMI of all Duke students if everyone was drinking regular soda.</p>
+<div><p>The average healthcare a WMW employee would consume if there were no Zoom triage appointments.</p>
 </div></blockquote>
 <p><strong>2</strong>: <span class="math notranslate nohighlight">\(E(Y_1)\)</span></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
@@ -93,7 +93,7 @@
 </div>
 <div class="section" id="Causal-Inference">
 <h2>Causal Inference<a class="headerlink" href="#Causal-Inference" title="Permalink to this headline">¶</a></h2>
-<p>In order for the difference in BMIs found in the report – that those who drink diet soda have higher BMIs – to be a true estimate of the average effect of drinking diet soda, we know that it must be the case that:</p>
+<p>In order for the difference in healthcare consumption for Zoom enrollees – that those enrolled in the Zoom program consume less healthcare – to be a true estimate of the average effect of Zoom triage appointments, we know that it must be the case that:</p>
 <p><span class="math notranslate nohighlight">\(E(Y_0| D=1) - E(Y_0| D=0) = 0\)</span></p>
 <p>and</p>
 <p><span class="math notranslate nohighlight">\(E(Y_1| D=0) - E(Y_0| D=0) = E(Y_1| D=1) - E(Y_0 | D=1)\)</span>.</p>
@@ -189,7 +189,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="../_sources/exercises/exercise_potential_outcomes1.ipynb.txt"
+      <a href="../_sources/exercises/exercise_potential_outcomes2.ipynb.txt"
           rel="nofollow">Page source</a>
     </div>
 
