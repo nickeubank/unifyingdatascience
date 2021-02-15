@@ -48,7 +48,7 @@
    "source": [
     "## Have Something In Mind I Didn't Cover?\n",
     "\n",
-    "It's hard to overstate how much data is freely available online. There are datasets on armed conflicts, terrorism, air pollution anywhere in the world, flooding and natural disaster data from satellites, measures of democratic institutions and freedom, data on elections, trade, shipping traffic, "
+    "It's hard to overstate how much data is freely available online. There are datasets on armed conflicts and terrorism ([here](https://www.prio.org/Data/Armed-Conflict/UCDP-PRIO/) and [here](https://acleddata.com/#/dashboard)), [air pollution anywhere in the world](https://earthdata.nasa.gov/earth-observation-data/near-real-time/hazards-and-disasters/air-quality), flooding and natural disaster data from satellites (e.g. [here](https://earthdata.nasa.gov/earth-observation-data/near-real-time/hazards-and-disasters/floods)), measures of democratic institutions and freedom ([here](https://www.systemicpeace.org/polityproject.html)), data on elections, [trade](https://www.imf.org/en/Data), [shipping traffic](https://www.data.gov/maritime/), and oh so much more. "
    ]
   }
  ],
