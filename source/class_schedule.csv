@@ -34,11 +34,14 @@ Optional:
 (Note that Imben & Rubin potential outcomes notation is a little different -- just skip notational parts if needed)","- `Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
 - `Link 2 <exercises/exercise_ghostmap_2.ipynb>`_"
 "Tues,  Feb 16",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). 
-- Bias in Research <https://www.youtube.com/watch?v=42QuXLucH3Q>`_",`Link <exercises/exercise_regressions_incomeineq.ipynb>`_
+- `Bias in Research <https://www.youtube.com/watch?v=42QuXLucH3Q>`_",`Link <exercises/exercise_regressions_incomeineq.ipynb>`_
 "Thurs, Feb 18",CI: Fixed Effects and Clustering,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
-- Kennedy (GtE), Chpt 18.
 - `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
-- `Fixed Effects <fixed_effects.ipynb>`_","- `Indicators <exercises/exercise_indicators.ipynb>`_
+- `Fixed Effects and Causal Inference <fixed_effects_and_causal_inference.ipynb>`_
+- `Implementing Fixed Effects <fixed_effects.ipynb>`_
+
+Optional: 
+- Kennedy (GtE), Chpt 18.","- `Indicators <exercises/exercise_indicators.ipynb>`_
 - `Fixed Effects <exercises/exercise_panel.ipynb>`_"
 "Tues, Feb 23",CI: Matching,"- `Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_
 - `DAME-FLAME User Guide <https://almost-matching-exactly.github.io/DAME-FLAME-Python-Package/user-guide>`_",- `Exercises <exercises/exercise_matching.ipynb>`_

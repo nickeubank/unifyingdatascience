@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fixed Effects and Causal Inference &#8212; Unifying Data Science</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="Fixed-Effects-and-Causal-Inference">
+<h1>Fixed Effects and Causal Inference<a class="headerlink" href="#Fixed-Effects-and-Causal-Inference" title="Permalink to this headline">¶</a></h1>
+<p>So, you’re working with panel data. You have either multiple observations per entity (usually data over time), or you have nested data (data on individuals, each of whom belongs to a larger group, like kids in a school). So you want to add fixed effects for the group or entity. But what does that mean from the perspective of causal inference?</p>
+<p>The simple answer is that a fixed effect is a tool for controlling for a specific type of source of baseline differences (namely, baseline differences across entities). In that sense, fixed effects are no different from any other type of control variable we put in a regression.</p>
+<p>But there is an important difference: with most variables we put in a regression, those variables are only controlling for a specific thing, the thing they measure. If you add age, you’re controlling for age; add income, you’re controlling for income. But fixed effects are a little more powerful: they control for <em>any</em> stable source of baseline differences between entities!</p>
+<p>Uh, what?</p>
+<p>Suppose you have sales data for all your stores each week for a couple years, and you’re interested in better understanding the effect of each store’s local unemployment rate on sales. For simplicity, we’ll assume that in any week, a given store is said to experience high unemployment (<span class="math notranslate nohighlight">\(D=1\)</span>) or low unemployment (<span class="math notranslate nohighlight">\(D=0\)</span>), though this extends to using thinking of unemployment as a continuous variable.</p>
+<p>If you just ran a regression of local unemployment rates on sales, you might find that sales are extremely sensitive to the local unemployment rate. But when you dig in, that’s because your New York City store in Times Square makes tons of sales, and NYC tends to always have low unemployment.</p>
+<p>In our usual causal framework, we’d say that our NYC store had important <em>baseline differences</em> in our outcome (sales per week) that happened to be correlated with treatment assignment (NY tends to have low unemployment), though we don’t think it’s because of it’s NY has low unemployment (we think it’s because the store is in Times Square!). As a result, <span class="math notranslate nohighlight">\(E(Y_0|D=0) \neq E(Y_0|D=1)\)</span>, so we have a problem of baseline differences.</p>
+<p>But what if you add store fixed effects to the model? You can think of those fixed effects as <em>demeaning</em> your store sales. In other words, you’re removing <em>level</em> differences across scores from the relationship you’re trying to estimate. As a result, instead of estimating how differences in unemployment are correlated with sales, you’re instead estimating how <em>changes</em> in unemployment relate to <em>changes</em> in sales. That’s because after fixed effects effectively demean your dependent variable,
+the only variation in the data you’re left with are the deviations in your dependent variable above or below it’s mean value for a given store.</p>
+<p>From a causal perspective, now that our focus is on how <em>changes</em> in unemployment affect <em>changes</em> in sales, any differences between stores that don’t vary over time – no matter what caused those differences – have been accounted for. In other words, we’re now leveraging <em>within-store</em> variation in our regressions.</p>
+<p>To reiterate, this means our regression is no longer estimating the relationship between unemployment and store sales, but rather how <em>changes</em> in unemployment are correlated with <em>changes</em> in sales.</p>
+<p>Mathematically, we can think of this as a change in our <span class="math notranslate nohighlight">\(Y\)</span>: instead of <span class="math notranslate nohighlight">\(y_i\)</span> being absolute sales, it’s now deviations in sales above or below the average sales for a given store <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<p>Thus baseline differences (<span class="math notranslate nohighlight">\(E(Y_0|D=0) = E(Y_0|D=1)\)</span>) has become a question about whether, in a world where unemployment is below the local average, sales for all groups tend to be the same amount above (or below) store average sales. And the fact that we have a store in Times Square is no longer an obvious threat to that condition!</p>
+<p>The limit to this magic is that we’re only controlling for <em>non-time varying</em> differences between stores. If store sales in NYC are always high because of their location, that’s something controlled for by the fixed effects. However, if in the middle of your data NYC experiences a hurricane, and so sales dip, that isn’t taken into account by your fixed effects (since it was “time varying”, affected the store for only a fixed period of time), so you’d want a separate control for those kinds of
+disruptions in your regression.</p>
+<p>One way you can see this is that if you try and stick a variable into your regression that is not time varying (it has the same value for each store throughout the data), you’ll find that you don’t get back a regression coefficient. That’s because anything non-time varying is actually co-linear (in terms of the underlying linear algebra) with the fixed effects, meaning you literally <em>can’t</em> estimate a coefficient. It’d be like trying to include the variable “age” twice in the same regression.</p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Unifying DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">QUESTIONS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="taxonomy_of_questions.html">Taxonomy of Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="moving_from_problems_to_questions.html">From Problems to Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="descriptive_questions.html">Discretion and Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="limitations_of_ATE.html">Limitations of Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">METHODS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="interpreting_indicator_vars.html">Indicator Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fixed_effects.html">Fixed Effects</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/fixed_effects_and_causal_inference.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-151397036-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>
