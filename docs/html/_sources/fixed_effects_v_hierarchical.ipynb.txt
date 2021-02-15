@@ -14,15 +14,17 @@
     "\n",
     "Hierarchical models are popular in many settings, and for good reason -- they are statistically *efficient* (meaning they generate estimates that tend to standard errors that are smaller than what you get from other models designed to accomplish the same things). But they also have limitations. \n",
     "\n",
-    "The chief limitation of hierarchical models is that they assume that the magnitudes of group difference (i.e. the group intercepts or differences in slope) are uncorrelated with the other explanatory variables in the model. Indeed, it is this assumption that makes them statistically efficient. \n",
+    "The chief limitation of hierarchical models is that they assume that the magnitudes of group difference (i.e. the group intercepts or differences in slope) are uncorrelated with the other explanatory variables in the model. Indeed, it the fact that they can leverage this assumption to make precise estimates that makes them statistically efficient *if that assumption is true*. \n",
     "\n",
     "But there are many settings where this assumption breaks down. For example, suppose we're estimating the test scores of children, and we're controlling for whether children are low-income. If we estimate a hierarchical model to allow for different schools to have different average test scores, then those estimates of school-level differences will be biased if low-income students tend to go to under-performing school (because our explanatory variable -- a child's income -- is correlated with the school's average performance). \n",
     "\n",
     "With that in mind, social scientists (who work with data where *almost everything* is extremely correlated) often prefer a different strategy: fixed effects with clustered standard errors. \n",
     "\n",
+    "However, it's worth noting that the question of whether to use Fixed Effects or Hierarchical Models is one of htose situations where we *can* statistically evaluate which strategy is the right answer! Because we know that the fixed effects estimates are always *right* (even if they have larger standard errors than we might want), we can run our models using both a higherarchical model strategy *and* a fixed effect strategy. If they answers are statistically similar, then we're probably OK using the hierarhcical models. If they're substantially different, then we know we can't trust the hierarchical model, and should use the Fixed Effects. The test for this difference is called a \"Hausman Test\". \n",
+    "\n",
     "## Fixed Effects & Clustered Standard Errors\n",
     "\n",
-    "Fixed effects are just like hierarchical group estimates, except they don't require that the level (or slope) differences of groups be uncorrelated with other explanatory variables. This does make them less statistically efficient (you tend to get larger standard errors than in hierarchical models), but it also makes them more robust (they give you unbiased estimates whether a correlation with explanatory variables exists or not). \n",
+    "Fixed effects are just like hierarchical group estimates, except they don't require that the level (or slope) differences of groups be uncorrelated with other explanatory variables. This does make them less statistically efficient when these differences are uncorrelated with other explanatory variables (you tend to get larger standard errors than in hierarchical models), but it also makes them more robust (they give you unbiased estimates whether a correlation with explanatory variables exists or not). \n",
     "\n",
     "But fixed effects don't address the second purpose of hierarchical models -- correcting your standard errors. For that, we use clustered standard errors. The idea of clustered standard errors is to account for the fact that if everyone in a given group has a high (or low) error, we want our standard errors to reflect the fact we shouldn't treat that like lots of *individual* high (or low) errors (which would generate small standard errors because of the implied large sample size), but rather a *single* high (or low) error for the group (with an accompanyingly large standard error since really, there's only one observation of a group error common to all observations). As a result, we *generally* get larger standard errors when we cluster.\n",
     "\n",
@@ -65,7 +67,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.7.3"
+   "version": "3.7.8"
   }
  },
  "nbformat": 4,
