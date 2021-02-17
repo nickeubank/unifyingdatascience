@@ -55,7 +55,7 @@
    "source": [
     "### Exercise 3\n",
     "\n",
-    "What do you make of the overall results on resume characteristics? Why do we care about whether these variables look similar across the race groups? (1 point)\n",
+    "What do you make of the overall results on resume characteristics? Why do we care about whether these variables look similar across the race groups?\n",
     "\n",
     "```\n",
     "\n",
@@ -85,7 +85,7 @@
    "source": [
     "### Exercise 5\n",
     "\n",
-    "Now, use a regression model to estimate the differential likelihood of being called back by applicant race (i.e. the racial discrimination by employers)."
+    "Now, use a regression model to estimate the differential likelihood of being called back by applicant race (i.e. the racial discrimination by employers). Is the difference statistically significant?"
    ]
   },
   {
@@ -112,7 +112,7 @@
     "\n",
     "These effects are the *average* effects. Now let's look for heterogeneous treatment effects. \n",
     "\n",
-    "Look only at candidates with high educations. Is there more or less racial discrimination among these highly educated candidates?"
+    "Look only at candidates with high educations. Is there more or less racial discrimination among these highly educated candidates? Is the difference statistically significant?"
    ]
   },
   {
@@ -121,7 +121,7 @@
    "source": [
     "### Exercise 8\n",
     "\n",
-    "Now let's compare men and women -- is discrimination greater for Black men or Black women?"
+    "Now let's compare men and women -- is discrimination greater for Black men or Black women? Is the difference statistically significant?"
    ]
   },
   {
