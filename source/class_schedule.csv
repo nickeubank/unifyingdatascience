@@ -43,8 +43,9 @@ Optional:
 Optional: 
 - Kennedy (GtE), Chpt 18.","- `Indicators <exercises/exercise_indicators.ipynb>`_
 - `Fixed Effects <exercises/exercise_panel.ipynb>`_"
-"Tues, Feb 23",CI: Matching,"- `Matching Methods for Causal Inference: A Review and a Look Forward <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/>`_
-- `DAME-FLAME User Guide <https://almost-matching-exactly.github.io/DAME-FLAME-Python-Package/user-guide>`_",- `Exercises <exercises/exercise_matching.ipynb>`_
+"Tues, Feb 23",CI: Matching,"- `Matching <matching.ipynb>`_
+- `Methods for Matching (watch first 34 minutes)<https://www.youtube.com/watch?v=tvMyjDi4dyg>`_
+- **If you know about Propensity Score Matching:** `Keep watching video above starting at 34 minutes) <https://youtu.be/tvMyjDi4dyg?t=2070>`_",- `Exercises <exercises/exercise_matching.ipynb>`_
 "Thurs, Feb 25  ","- CI: Difference-in-Differences
 - Backwards Design","- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
 - `Backwards Design <backwards_design.ipynb>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
