@@ -4,15 +4,15 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Matching"
+    "# How Matching is Done (A Summary)"
    ]
   },
   {
-   "cell_type": "markdown",
+   "cell_type": "code",
+   "execution_count": null,
    "metadata": {},
-   "source": [
-    "Like regression"
-   ]
+   "outputs": [],
+   "source": []
   }
  ],
  "metadata": {

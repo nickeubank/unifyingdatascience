@@ -8,11 +8,12 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
+   "cell_type": "markdown",
    "metadata": {},
-   "outputs": [],
-   "source": []
+   "source": [
+    "In this reading, I'll give a high level summary of how matching works before referring to a youtube lesson a the nitty gritty of a few specific implementations. \n",
+    "\n"
+   ]
   }
  ],
  "metadata": {

@@ -90,18 +90,12 @@ you’re really into this topic, that source material may be extremely valuable 
 <p>In these situtations – where during matching you get to keep all your treated observations because they all have close controls, but you drop some controls, then what you’re estimating is the Average Treated on the Treated, which isn’t half bad (it’s often all we get with observational data).</p>
 <p>But if you have Treated observations that don’t look like <em>any</em> control observations and so you have to drop them, well now you’re estimating an effect on… the sample of people in the range of explanatory variables for which there are both treated and untreated observations? And who really knows what that is.</p>
 </div>
-<div class="section" id="Causal-Inference-Assumptions">
-<h2>Causal Inference Assumptions<a class="headerlink" href="#Causal-Inference-Assumptions" title="Permalink to this headline">¶</a></h2>
-<p>Before closing our discussion of the high level pros and cons of matching, it’s worth emphasizing one important point: both matching and good old fashion linear regression rest on the same basic assumption when it comes to causal inference: there are no baseline differences between the treatment and control groups <em>after conditioning on observable variables</em>.</p>
-<p>Matching, in other words, is a way to address possible <em>modelling errors</em>, not to fundamentally change what assumptions we’re making about the differences between treatment and control groups in terms of potential outcomes.</p>
-</div>
 <div class="section" id="In-Summary">
 <h2>In Summary<a class="headerlink" href="#In-Summary" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Matching is really best thought of a way of <strong>pruning</strong> your data to a sample where C and T observations look similar (impoves balance)</p></li>
 <li><p>Where the original data has observations of C and T that <em>don’t</em> look similar (it’s imbalanced), matching helps reduce the sensitivity of results to the functional form assumptions you make in your regression.</p></li>
 <li><p>But by changing the data on which you’re making an estimate, you are also changing the actually population for which you’re estimating your effect, which may be important to understand.</p></li>
-<li><p>To use matching for causal inference, you have to make the same basic assumption you use for regular linear regression: controlling for observable differences is enough to eliminate baseline differences in terms of potential outcomes for our treated and untreated observations.</p></li>
 </ul>
 </div>
 </div>
@@ -176,7 +170,7 @@ you’re really into this topic, that source material may be extremely valuable 
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="_sources/matching.ipynb.txt"
+      <a href="_sources/matching2.ipynb.txt"
           rel="nofollow">Page source</a>
     </div>
 
