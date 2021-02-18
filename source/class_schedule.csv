@@ -44,7 +44,7 @@ Optional:
 - Kennedy (GtE), Chpt 18.","- `Indicators <exercises/exercise_indicators.ipynb>`_
 - `Fixed Effects <exercises/exercise_panel.ipynb>`_"
 "Tues, Feb 23",CI: Matching,"- `The Why of Matching <matching_why.ipynb>`_
-- The How of Matching Summary
+- `The How of Matching Summary <matching_how.ipynb>`_
 - `Methods for Matching <https://youtu.be/tvMyjDi4dyg?t=910>`_
 
 *Watch the video above from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercises <exercises/exercise_matching.ipynb>`_
