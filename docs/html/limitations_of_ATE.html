@@ -45,7 +45,7 @@
 <p>In the real world, however, there are almost always heterogeneous (varying) treatment effects across groups and individuals.</p>
 <p>Consider the following example: In 2018, the FDA approved a new drug for treating chronic migraines (Aimovig) that is being hailed by some as a “game changer” in migraine treatment. As is required for drug approval in the US, the pharmaceutical companies developing Aimovig had to undergo clinical trials in which a random sample of people with chronic migraines were given Aimovig (treatment), and a random sample was not (control). They then calculated an “Average Treatment Effect,” which the FDA
 then used to determine whether to release the drug. If you see an ad for Aimovig, you’ll probably see this ATE reported as follows:</p>
-<p><img alt="migraine_average_effect" src="_images/migraine_average_effect.png" /></p>
+<img alt="migraine_average_effect" src="_images/migraine_average_effect.png" />
 <p>Cool! Setting aside the fact the companies selling Aimovig are pushing the reduction in migraines count from before the trial to after (and hiding the actual difference between control and treatment in the fine print – <em>any</em> medical intervention tends to reduces symptoms, so you really do have to compare outcomes between treatment and control groups), the ATE of the drug appears to be about 2-3 fewer days of migraine a month (reduction of 6-7 in treatment minus 4 in control) for people who have
 15+ headaches and &gt;8 migraines a month.</p>
 <p>That’s good – chronic migraines can be a crippling disability, and any improvements are exciting – but you’d be excused for asking why people are so excited about what seems like a relatively small reduction.</p>
@@ -89,7 +89,7 @@ SUTVA. But since rural villages in developing countries are <em>relatively</em> 
 more amazing than it really is, or more terrible than it really is; probability only ensures those moments will be relatively rare. But if you choose to stop an experiment <em>because</em> you’ve hit on of those moments (that should be fleeting), you’ll end up with erroneous results.</p>
 <p>To illustrate this point, <a class="reference external" href="https://arxiv.org/pdf/1512.04922.pdf">Ramesh Johari, Leo Pekelis, and David Walsh</a> created a great illustration where they ran a fake A/B test on a large website in which the two treatment conditions (A and B) were exactly the same. They ran this over several days, then plotted – for each moment in time – whether the data would say A is better than B if the experiment were stopped and analyzed at that time. As the figure shows, over the long run the data shows
 there’s no significant difference between A and B; but there are moments where random fluctuations make the difference <em>look</em> significant. So if you had chosen to stop the experiment as soon as you hit one of those moments, you’d be in deep trouble!</p>
-<p><img alt="ab_significance_over_time" src="_images/ab_significance_over_time.png" /></p>
+<img alt="ab_significance_over_time" src="_images/ab_significance_over_time.png" />
 <p>To be clear, that doesn’t mean there <em>aren’t</em> ways you can stop experiments early based on results – see Johari, Pekelist, and Walsh’s paper for ways to do so in a statistically sound sense – but don’t do it unless you really understand the statistics (even if your boss really wants to!).</p>
 </div>
 </div>
@@ -167,7 +167,7 @@ there’s no significant difference between A and B; but there are moments where
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

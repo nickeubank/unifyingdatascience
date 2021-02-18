@@ -47,7 +47,7 @@ Optional:
 - The How of Matching Summary
 - `Methods for Matching <https://youtu.be/tvMyjDi4dyg?t=910>`_
 
-*Watch the video above till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercises <exercises/exercise_matching.ipynb>`_
+*Watch the video above from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercises <exercises/exercise_matching.ipynb>`_
 "Thurs, Feb 25  ","- CI: Difference-in-Differences
 - Backwards Design","- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
 - `Backwards Design <backwards_design.ipynb>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_

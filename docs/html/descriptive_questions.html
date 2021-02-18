@@ -59,7 +59,7 @@ it is a meaningful characterization of the central tendency of the data. Moreove
 is doing a reasonable job teach their students, and not have reason to suspect that 15% of the class failed in the worst possible way for some reason.</p>
 <p>This is a simple example, but the principle generalizes. Suppose, for example, I ran a linear model that showed that income rose with age, and that a person 10 years older than another likely earns $10,000 more on average. Imagine, in your mind, what you think of when you hear that.</p>
 <p>Now supposed I showed you the following plot, where <span class="math notranslate nohighlight">\(x_2\)</span> is age in 5 year bins and <span class="math notranslate nohighlight">\(y_2\)</span> is income in 10 thousand dollar increments:</p>
-<p><img alt="anscombes_quartet_number_2" src="_images/anscombes_2.png" /></p>
+<img alt="anscombes_quartet_number_2" src="_images/anscombes_2.png" />
 <p>Yup… my characterization of the linear fit is technically accurate, but clearly the data is doing something not captured in that summarization. That’s because linear models estimate linear trends; applied to non-linear data they still give you an answer, but I don’t think anyone would say that telling the reader that people who are ten years older earn $10,000 more on average is faithfully representing the non-monotonic nature of the data.</p>
 <p>So how do you protect yourself from these kind of errors? The specific answer often depends on the method in question (e.g. for linear regressions, you might want to look at residual plots; for simple means you might want to plot a histogram), but a general rule of thumb is that <strong>you should always do analyses that go beyond what you’re presenting to the reader.</strong> Plot your data. See if your mean and median are radically different. Check your residual plots. Correlate your primary variable of
 interest with other variables just to see if there’s some story there you’re missing. Explored your data to the point that you’re not finding anything new and important during your explorations that add substantive meaning to the summary statistics you would like to provide the reader. If you just present a summary statistic without digging around behind it, you really can’t know if your summary statistic is faithfully representing the data.</p>
@@ -171,7 +171,7 @@ hiring</a>.</p>
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

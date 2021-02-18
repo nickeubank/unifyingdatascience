@@ -13,8 +13,6 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Using and Interpreting Indicator (Dummy) Variables" href="interpreting_indicator_vars.html" />
@@ -394,13 +392,13 @@ all children in one school might tend to get lower grades) so we can focus on ex
 </div>
 </div>
 <p>which will generate output that will look approximately like this (note your output will be VERY long – I’m omitting all the county coeffients for space. We’ll talk later about how to suppress those in your output):</p>
-<p><img alt="cps_fe_unclustered_p1" src="_images/cps_fe_unclustered_p1.png" /></p>
+<img alt="cps_fe_unclustered_p1" src="_images/cps_fe_unclustered_p1.png" />
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>
 <span class="o">.</span>
 <span class="o">.</span>
 </pre></div>
 </div>
-<p><img alt="cps_fe_unclustered_p2" src="_images/cps_fe_unclustered_p2.png" /></p>
+<img alt="cps_fe_unclustered_p2" src="_images/cps_fe_unclustered_p2.png" />
 <p>Voila! What you’ve just estimated is no longer the relationship between gender and income across all Americans, but rather the relationship between gender and income <em>within each industry</em>.</p>
 <p>To be clear, fixed effects aren’t <em>mathematically</em> different from adding a normal control variable. One could say that adding <code class="docutils literal notranslate"><span class="pre">has_college_educ</span></code> means that we’re now estimating the relationship between gender and income among college educated and among non-college educated. <em>Mechnically</em>, fixed effects are just additional indicator variables. But because we often use them for groups, thinking about the fact that, when added, one is effectively estimating variation <em>within</em> the groups specified
 by the fixed effects is a powerful idea.</p>
@@ -453,13 +451,13 @@ effects (clustering <em>only</em> affects standard errors – it has no impact o
   &#39;rank is %d&#39; % (J, J_), ValueWarning)
 </pre></div></div>
 </div>
-<p><img alt="cps_fe_clustered_p1" src="_images/cps_fe_clustered_p1.png" /></p>
+<img alt="cps_fe_clustered_p1" src="_images/cps_fe_clustered_p1.png" />
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>
 <span class="o">.</span>
 <span class="o">.</span>
 </pre></div>
 </div>
-<p><img alt="cps_fe_clustered_p2" src="_images/cps_fe_clustered_p2.png" /></p>
+<img alt="cps_fe_clustered_p2" src="_images/cps_fe_clustered_p2.png" />
 <p>As you can see, while our point estimates haven’t changed at all (the coefficient on <code class="docutils literal notranslate"><span class="pre">female</span></code>, for example, is still -6,892), we have increased the size of our standard errors. The SE on <code class="docutils literal notranslate"><span class="pre">female</span></code>, for example, has gone from 190 without clustering to 420 with clustering.</p>
 </div>
 <div class="section" id="Computationally-Efficient-Fixed-Effects">
@@ -1098,7 +1096,7 @@ Inputs contain missing values. Dropping rows with missing observations.
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

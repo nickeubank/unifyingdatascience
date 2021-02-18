@@ -13,8 +13,6 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -36,6 +34,57 @@
   <div class="section" id="How-Matching-is-Done-(A-Summary)">
 <h1>How Matching is Done (A Summary)<a class="headerlink" href="#How-Matching-is-Done-(A-Summary)" title="Permalink to this headline">¶</a></h1>
 <p>In this reading, I’ll give a high level summary of how matching works before referring to a youtube lesson a the nitty gritty of a few specific implementations.</p>
+<div class="section" id="Pruning-Your-Data">
+<h2>Pruning Your Data<a class="headerlink" href="#Pruning-Your-Data" title="Permalink to this headline">¶</a></h2>
+<p>As noted in our last reading (this reading is a follow-on to <a class="reference internal" href="matching_why.html"><span class="doc">The Why of Matching</span></a>, so if you haven’t read that start there), matching could be more appropriately called “pruning”, as the goal is to winnow down your dataset until you have a set of observations for which your control and treatment variables look very similar in terms of observable characteristics. So how do we do that?</p>
+<p>A simple matching algorithm would proceed like this:</p>
+<ol class="arabic simple">
+<li><p>Loop over all your treated observations.</p></li>
+<li><p>For each treated observation, look for the most similar untreated observation in terms of your control variables that isn’t already in a pair.</p></li>
+<li><p>If that untreated observation is too dissimilar to the treated observation (as the user you have to pick a threshold for how dissimilar is ok), then throw away the treated observation.</p></li>
+<li><p>If not, call them a pair and keep both.</p></li>
+<li><p>When you’ve finished looping over your treated observations, throw away any unpaired untreated observations.</p></li>
+</ol>
+<p>When you’re done, you’ll have a collected of pairs of observations (one treated, one untreated), where both members of each pair are very similar in terms of their observable control variables. All other data has been thrown away.</p>
+<p>To illustrate with the example from the last reading, if we started with this data: <img alt="matching_king_1" src="_images/matching_king_1.png" /></p>
+<p>A simple matching algorithm would probably prune it down to something like this:</p>
+<img alt="matching_king_4" src="_images/matching_king_4.png" />
+<p>Then, and here’s the cool part, you take this dataset and analyze just the way you would otherwise! Just run your regression on this dataset!</p>
+<div class="section" id="Measuring-Similarity">
+<h3>Measuring Similarity<a class="headerlink" href="#Measuring-Similarity" title="Permalink to this headline">¶</a></h3>
+<p>The biggest decision you have to make when doing matching is deciding how you want to measure whether two observations are “similar”. The most simple strategy is to:</p>
+<ul class="simple">
+<li><p>For each control variable, calculate the difference between the two observations (so if one has Education of 20 and one of 14, you’d get 6). Note the example above just has Education, but in reality you likely have dozens of these variables, so you do this for each variable.</p></li>
+<li><p>Normalize those differences by the standard deviation of the variable (so divide 6 by the standard deviation of Education)</p></li>
+<li><p>Square all those differences, add them up, and take the square root. That’s your “similarity” score.</p></li>
+</ul>
+<p>Basically, this is like taking the euclidean distance between the points in some really high dimensional space, except you also normalize distances by their standard deviation, a strategy called “Mahalanobis Distance Matching”.</p>
+<p>Of course it’s not the other strategy – the video linked at the bottom of this reading will direct you to a talk on three very good strategies, as well as their strengths and weaknesses – but that’s generally the idea.</p>
+</div>
+</div>
+<div class="section" id="When-Can-/-Should-I-Use-Matching?">
+<h2>When Can / Should I Use Matching?<a class="headerlink" href="#When-Can-/-Should-I-Use-Matching?" title="Permalink to this headline">¶</a></h2>
+<p>Matching is best used in a somewhat odd situation: a place where you have some overlap in what your treated and untreated observations look like (called having “common support”), but where you also have some areas where they <em>don’t</em> overlap (imbalance).</p>
+<p>The first is necessary because when you prune your data, the goal is to keep only observations that look similar, so you need <em>some</em> area of overlap, or you won’t have anything to match!</p>
+<p>At the same time, however, if there’s <em>no</em> imbalance, then you don’t really need to do matching.</p>
+<p>So when should you use it? When your distributions have <strong>both</strong> areas of overlap and areas of imbalance.</p>
+</div>
+<div class="section" id="Checking-Balance">
+<h2>Checking Balance<a class="headerlink" href="#Checking-Balance" title="Permalink to this headline">¶</a></h2>
+<p>There’s a balance you have to strike when matching: the more strict you are about the maximium dissimilarity you’re willing to include before you throw out a pair of observations, the more balanced your final dataset will be, but the smaller your dataset will be do.</p>
+<p>Right? If you reject any pairs that aren’t almost exactly identical, you’ll end up with less data, but what’s left will be more balanced.</p>
+<p>So for your application, you have to decide on whether it’s better to have the statistical power of more observations, or the better balance from fewer.</p>
+</div>
+<div class="section" id="Analyze!">
+<h2>Analyze!<a class="headerlink" href="#Analyze!" title="Permalink to this headline">¶</a></h2>
+<p>Now the best part of matching: now you just do do what you would have done normally.</p>
+<p>In other words, you can think of this as a kind of “pre-processing step”, and now you can carry forward by feeding this into a regression just the way you would with the original data.</p>
+</div>
+<div class="section" id="Specific-Models">
+<h2>Specific Models<a class="headerlink" href="#Specific-Models" title="Permalink to this headline">¶</a></h2>
+<p>OK, for the details of a few common models, please go watch this great video by Gary King – you can probably start 15 minuntes in, and should watch till at least 45 minutes, though what follows is also really interesting!</p>
+<p><a class="reference external" href="https://youtu.be/tvMyjDi4dyg?t=910">Gary King on Matching</a></p>
+</div>
 </div>
 
 
@@ -104,7 +153,7 @@
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
