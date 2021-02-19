@@ -40,8 +40,8 @@
 <p>A simple matching algorithm would proceed like this:</p>
 <ol class="arabic simple">
 <li><p>Loop over all your treated observations.</p></li>
-<li><p>For each treated observation, look for the most similar untreated observation in terms of your control variables that isn’t already in a pair.</p></li>
-<li><p>If that untreated observation is too dissimilar to the treated observation (as the user you have to pick a threshold for how dissimilar is ok), then throw away the treated observation.</p></li>
+<li><p>For each treated observation, look for the most similar untreated observation (not already in a pair) in terms of your control variables.</p></li>
+<li><p>If that untreated observation is too dissimilar to the treated observation, throw away the treated observation. (As the user you have to pick a threshold for how dissimilar is ok.)</p></li>
 <li><p>If not, call them a pair and keep both.</p></li>
 <li><p>When you’ve finished looping over your treated observations, throw away any unpaired untreated observations.</p></li>
 </ol>
@@ -52,14 +52,14 @@
 <p>Then, and here’s the cool part, you take this dataset and analyze just the way you would otherwise! Just run your regression on this dataset!</p>
 <div class="section" id="Measuring-Similarity">
 <h3>Measuring Similarity<a class="headerlink" href="#Measuring-Similarity" title="Permalink to this headline">¶</a></h3>
-<p>The biggest decision you have to make when doing matching is deciding how you want to measure whether two observations are “similar”. The most simple strategy is to:</p>
+<p>The biggest decision you have to make when doing matching is deciding how you want to measure whether two observations are “similar”. The most simple, commonly used strategy is to measure the dissimilarity of two observations in a pair by:</p>
 <ul class="simple">
-<li><p>For each control variable, calculate the difference between the two observations (so if one has Education of 20 and one of 14, you’d get 6). Note the example above just has Education, but in reality you likely have dozens of these variables, so you do this for each variable.</p></li>
+<li><p>For each control variable, calculate the difference between the two observations in the pair (so if one has Education of 20 and one of 14, you’d get 6). Note the example above just has Education, but in reality you likely have dozens of these variables, so you do this for each variable.</p></li>
 <li><p>Normalize those differences by the standard deviation of the variable (so divide 6 by the standard deviation of Education)</p></li>
 <li><p>Square all those differences, add them up, and take the square root. That’s your “similarity” score.</p></li>
 </ul>
 <p>Basically, this is like taking the euclidean distance between the points in some really high dimensional space, except you also normalize distances by their standard deviation, a strategy called “Mahalanobis Distance Matching”.</p>
-<p>Of course it’s not the other strategy – the video linked at the bottom of this reading will direct you to a talk on three very good strategies, as well as their strengths and weaknesses – but that’s generally the idea.</p>
+<p>Of course it’s not the only strategy – the video linked at the bottom of this reading will direct you to a talk on three very good strategies, as well as their strengths and weaknesses – but that’s generally the idea.</p>
 </div>
 </div>
 <div class="section" id="When-Can-/-Should-I-Use-Matching?">
