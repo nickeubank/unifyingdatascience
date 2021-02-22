@@ -194,11 +194,34 @@ matching in a given iteration. By design, of course, this is always increasing.<
 <p>So for now (though I think this will get updated in the package), we’ll have to do it ourselves! Just copy-paste this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_dataframe</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">result_of_fit</span><span class="p">):</span>
 
+    <span class="c1"># Get original data</span>
     <span class="n">better</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">result_of_fit</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
-    <span class="n">better</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">model</span><span class="o">.</span><span class="n">groups_per_unit</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">repeats</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="p">(</span><span class="n">better</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="c1"># Get match groups for clustering</span>
+    <span class="n">better</span><span class="p">[</span><span class="s2">&quot;match_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">better</span><span class="p">[</span><span class="s2">&quot;match_group_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">units_per_group</span><span class="p">):</span>
+        <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">,</span> <span class="s2">&quot;match_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+        <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">,</span> <span class="s2">&quot;match_group_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+
+    <span class="c1"># Get weights. I THINK this is right?! At least for with repeat=False?</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">treatment_column_name</span>
+    <span class="n">better</span><span class="p">[</span><span class="s2">&quot;t_in_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">better</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;match_group&quot;</span><span class="p">)[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">)</span>
+    <span class="n">better</span><span class="p">[</span><span class="s2">&quot;share_t_in_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;t_in_group&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;match_group_size&quot;</span><span class="p">]</span>
+    <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;prelim_weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;prelim_weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;share_t_in_group&quot;</span><span class="p">]</span>
+    <span class="n">better</span><span class="p">[</span><span class="s2">&quot;group_prelim_weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">better</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;match_group&quot;</span><span class="p">)[</span>
+        <span class="p">[</span><span class="s2">&quot;prelim_weight&quot;</span><span class="p">]</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
+
+    <span class="n">better</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;prelim_weight&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span>
+        <span class="n">better</span><span class="p">[</span><span class="s2">&quot;match_group_size&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;group_prelim_weight&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">better</span> <span class="o">=</span> <span class="n">better</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;prelim_weight&quot;</span><span class="p">,</span> <span class="s2">&quot;group_prelim_weight&quot;</span><span class="p">,</span> <span class="s2">&quot;t_in_group&quot;</span><span class="p">,</span> <span class="s2">&quot;share_t_in_group&quot;</span><span class="p">],</span>
+        <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="c1"># Make sure right N!</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">result_of_fit</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">better</span><span class="p">)</span>
@@ -216,42 +239,33 @@ matching in a given iteration. By design, of course, this is always increasing.<
 <div class="section" id="Exercise-12">
 <h3>Exercise 12<a class="headerlink" href="#Exercise-12" title="Permalink to this headline">¶</a></h3>
 <p>We previously tested balance on <code class="docutils literal notranslate"><span class="pre">simplified_race</span></code>, and by county. Check those again. Are there still statistically significant differences in college education by <code class="docutils literal notranslate"><span class="pre">simplified_race</span></code>?</p>
+<p>Note that when you test for this, you’ll need to take into account the <code class="docutils literal notranslate"><span class="pre">weights</span></code> column you got back from <code class="docutils literal notranslate"><span class="pre">get_dataframe</span></code>. What DAME does is not actually the 1-to-1 matching described in our readings – instead, however many observations that exact match it finds it puts in the same “group”. (These groups are identified in the dataframe you got from <code class="docutils literal notranslate"><span class="pre">get_dataframe</span></code> by the column <code class="docutils literal notranslate"><span class="pre">match_group</span></code>, and the size of each group is in <code class="docutils literal notranslate"><span class="pre">match_group_size</span></code>.)</p>
+<p>So to analyze the data, you need to use the <code class="docutils literal notranslate"><span class="pre">wls</span></code> (weighted least squares) function in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>. For example, if your data is called <code class="docutils literal notranslate"><span class="pre">matched_data</span></code>, you might run:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">smf</span><span class="o">.</span><span class="n">wls</span><span class="p">(</span>
+    <span class="s2">&quot;has_college ~ C(simplified_race)&quot;</span><span class="p">,</span> <span class="n">matched_data</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">matched_data</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="Exercise-13">
 <h3>Exercise 13<a class="headerlink" href="#Exercise-13" title="Permalink to this headline">¶</a></h3>
-<p>OK, it’s finally time to run some analyses! As we discussed, for this kind of 1:1 matching, we can just stick this matched dataset into a regression to analyze it.</p>
-<p>Use a linear regression on your matched data to regress annual earnings on <em>just</em> having a college eduction. What is the apparent effect of earnings? How does that compare to our initial estimate using the raw CPS data (before matching)?</p>
+<p>Now use a weighted least squares regression on your matched data to regress annual earnings on <em>just</em> having a college eduction. What is the apparent effect of earnings? How does that compare to our initial estimate using the raw CPS data (before matching)?</p>
 </div>
 <div class="section" id="Exercise-14">
 <h3>Exercise 14<a class="headerlink" href="#Exercise-14" title="Permalink to this headline">¶</a></h3>
 <p>Now include our other matching variables as controls. Does the coefficient change?</p>
 </div>
+</div>
 <div class="section" id="Exercise-15">
-<h3>Exercise 15<a class="headerlink" href="#Exercise-15" title="Permalink to this headline">¶</a></h3>
-<p>If you stopped matching after Iteration 2 back in Exercise XXX, you may be finding that (a) there are still some imbalances by race, and (b) the results of your estimate are about the same with matching as they were initially!</p>
-<p>This likely means one of two things:</p>
-<ol class="arabic simple">
-<li><p>The returns to a college education really just don’t vary across people, and so the raw average difference is a pretty good guess for the ATT.</p></li>
-<li><p>Our matching was a little sloppy (implied by the statistically significant racial differences we found in our matched data).</p></li>
-</ol>
-<p>So to test for number 2, let’s go back and stop DAME after the first iteration instead of the second.</p>
-<p>Then re-check balance and your estimate of the effects of a college education. What do you see?</p>
-</div>
-<div class="section" id="Exercise-16">
-<h3>Exercise 16<a class="headerlink" href="#Exercise-16" title="Permalink to this headline">¶</a></h3>
-<p>Use a linear regression on your matched data to regress annual earnings on <em>just</em> having a college eduction. What is the apparent effect of earnings? How does that compare to our initial estimate using the raw CPS data (before matching)?</p>
-</div>
-<div class="section" id="Exercise-17">
-<h3>Exercise 17<a class="headerlink" href="#Exercise-17" title="Permalink to this headline">¶</a></h3>
-<p>Now include our other matching variables as controls. Does the coefficient change?</p>
-</div>
+<h2>Exercise 15<a class="headerlink" href="#Exercise-15" title="Permalink to this headline">¶</a></h2>
+<p>If you stopped matching after Iteration 2 back in Exercise 10, you may be wondering if that was a good choice! Let’s check by restricting our attention to ONLY exact matches (<code class="docutils literal notranslate"><span class="pre">iteration</span> <span class="pre">=</span> <span class="pre">1</span></code>). Run that match.</p>
 </div>
 <div class="section" id="Other-Forms-of-Matching">
 <h2>Other Forms of Matching<a class="headerlink" href="#Other-Forms-of-Matching" title="Permalink to this headline">¶</a></h2>
 <p>OK, hopefully this gives you a taste of matching! There are, of course, <em>many</em> other permutations to be aware of though.</p>
 <ul class="simple">
-<li><p>Many-to-1 matching: In this exercise, we set <code class="docutils literal notranslate"><span class="pre">repeat=False</span></code>, so each observation could only end up in our final dataset once. However, if we use <code class="docutils literal notranslate"><span class="pre">repeat=True</span></code>, if an untreated observation is the closest observation to multiple treated observations, it may get put in the dataset multiple times. We can still use this dataset in <em>almost</em> the same way, though, except we have to make use of weights so that if an observation appears, say, twice, each observation has a weight that’s 1/2 the
-weight of an observation only appearing once.</p></li>
+<li><p>Matching with replacement. In this exercise, we set <code class="docutils literal notranslate"><span class="pre">repeat=False</span></code>, so each observation could only end up in our final dataset once. However, if we use <code class="docutils literal notranslate"><span class="pre">repeat=True</span></code>, if an untreated observation is the closest observation to multiple treated observations, it may get put in the dataset multiple times. We can still use this dataset in <em>almost</em> the same way, though, except we have to make use of weights so that if an observation appears, say, twice, each observation has a weight that’s 1/2
+the weight of an observation only appearing once.</p></li>
 <li><p>Matching with continuous variables: DAME is used for exact matching, but if you have lots of continuous variables, you can also match on those. In fact, the Almost Exact Matching Lab also has a library called <a class="reference external" href="https://almost-matching-exactly.github.io/MALTS/">MALTS</a> that will do matching with continuous variables. That package does something <em>like</em> Mahalanobis Distance matching, but ulike Mahalanobis, which calculates the distance between observations in terms of the difference in all the
 matching variables normalized by each matching variable’s standard deviation, MALTS does something much more clever. (Here’s <a class="reference external" href="https://arxiv.org/abs/1811.07415">the paper</a> describing the technique if you want all the details). Basically, it figures out how well each matching variable predicts our outcome <span class="math notranslate nohighlight">\(Y\)</span>, then weights the different variables by their predictive power instead of just normalizing by something arbitrary like their standard deviation. As a result, final matches will
 prioritize matching more closely on variables that are outcome-relevant. In addition, when it sees a categorical variable, it recognizes that and only pairs observations when they are an exact match on that categorical variable.</p></li>

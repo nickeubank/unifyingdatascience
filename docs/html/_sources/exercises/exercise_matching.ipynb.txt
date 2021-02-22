@@ -268,11 +268,34 @@
     "\n",
     "def get_dataframe(model, result_of_fit):\n",
     "\n",
+    "    # Get original data\n",
     "    better = model.input_data.loc[result_of_fit.index]\n",
-    "    better[\"weights\"] = 1 / model.groups_per_unit\n",
     "\n",
-    "    if not model.repeats:\n",
-    "        assert (better[\"weights\"] == 1).all()\n",
+    "    # Get match groups for clustering\n",
+    "    better[\"match_group\"] = np.nan\n",
+    "    better[\"match_group_size\"] = np.nan\n",
+    "    for idx, group in enumerate(model.units_per_group):\n",
+    "        better.loc[group, \"match_group\"] = idx\n",
+    "        better.loc[group, \"match_group_size\"] = len(group)\n",
+    "\n",
+    "    # Get weights. I THINK this is right?! At least for with repeat=False?\n",
+    "    t = model.treatment_column_name\n",
+    "    better[\"t_in_group\"] = better.groupby(\"match_group\")[t].transform(np.sum)\n",
+    "    better[\"share_t_in_group\"] = better[\"t_in_group\"] / better[\"match_group_size\"]\n",
+    "    better.loc[better[t] == 0, \"prelim_weight\"] = 1\n",
+    "    better.loc[better[t] == 1, \"prelim_weight\"] = 1 / better[\"share_t_in_group\"]\n",
+    "    better[\"group_prelim_weight\"] = better.groupby(\"match_group\")[\n",
+    "        [\"prelim_weight\"]\n",
+    "    ].transform(sum)\n",
+    "\n",
+    "    better[\"weights\"] = better[\"prelim_weight\"] * (\n",
+    "        better[\"match_group_size\"] / better[\"group_prelim_weight\"]\n",
+    "    )\n",
+    "\n",
+    "    better = better.drop(\n",
+    "        [\"prelim_weight\", \"group_prelim_weight\", \"t_in_group\", \"share_t_in_group\"],\n",
+    "        axis=\"columns\",\n",
+    "    )\n",
     "\n",
     "    # Make sure right N!\n",
     "    assert len(result_of_fit) == len(better)\n",
@@ -294,7 +317,17 @@
     "\n",
     "### Exercise 12\n",
     "\n",
-    "We previously tested balance on `simplified_race`, and by county. Check those again. Are there still statistically significant differences in college education by `simplified_race`?"
+    "We previously tested balance on `simplified_race`, and by county. Check those again. Are there still statistically significant differences in college education by `simplified_race`?\n",
+    "\n",
+    "Note that when you test for this, you'll need to take into account the `weights` column you got back from `get_dataframe`. What DAME does is not actually the 1-to-1 matching described in our readings -- instead, however many observations that exact match it finds it puts in the same \"group\". (These groups are identified in the dataframe you got from `get_dataframe` by the column `match_group`, and the size of each group is in `match_group_size`.)\n",
+    "\n",
+    "So to analyze the data, you need to use the `wls` (weighted least squares) function in `statsmodels`. For example, if your data is called `matched_data`, you might run:\n",
+    "\n",
+    "```python\n",
+    "smf.wls(\n",
+    "    \"has_college ~ C(simplified_race)\", matched_data, weights=matched_data[\"weights\"]\n",
+    ").fit().summary()\n",
+    "```"
    ]
   },
   {
@@ -304,9 +337,7 @@
     "\n",
     "### Exercise 13\n",
     "\n",
-    "OK, it's finally time to run some analyses! As we discussed, for this kind of 1:1 matching, we can just stick this matched dataset into a regression to analyze it. \n",
-    "\n",
-    "Use a linear regression on your matched data to regress annual earnings on *just* having a college eduction. What is the apparent effect of earnings? How does that compare to our initial estimate using the raw CPS data (before matching)?"
+    "Now use a weighted least squares regression on your matched data to regress annual earnings on *just* having a college eduction. What is the apparent effect of earnings? How does that compare to our initial estimate using the raw CPS data (before matching)?"
    ]
   },
   {
@@ -322,37 +353,9 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Exercise 15\n",
+    "## Exercise 15\n",
     "\n",
-    "If you stopped matching after Iteration 2 back in Exercise XXX, you may be finding that (a) there are still some imbalances by race, and (b) the results of your estimate are about the same with matching as they were initially!\n",
-    "\n",
-    "This likely means one of two things: \n",
-    "\n",
-    "1. The returns to a college education really just don't vary across people, and so the raw average difference is a pretty good guess for the ATT. \n",
-    "2. Our matching was a little sloppy (implied by the statistically significant racial differences we found in our matched data).\n",
-    "\n",
-    "So to test for number 2, let's go back and stop DAME after the first iteration instead of the second. \n",
-    "\n",
-    "Then re-check balance and your estimate of the effects of a college education. What do you see?"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "\n",
-    "### Exercise 16\n",
-    "\n",
-    "Use a linear regression on your matched data to regress annual earnings on *just* having a college eduction. What is the apparent effect of earnings? How does that compare to our initial estimate using the raw CPS data (before matching)?"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "### Exercise 17\n",
-    "\n",
-    "Now include our other matching variables as controls. Does the coefficient change?"
+    "If you stopped matching after Iteration 2 back in Exercise 10, you may be wondering if that was a good choice! Let's check by restricting our attention to ONLY exact matches (`iteration = 1`). Run that match."
    ]
   },
   {
@@ -363,7 +366,7 @@
     "\n",
     "OK, hopefully this gives you a taste of matching! There are, of course, *many* other permutations to be aware of though. \n",
     "\n",
-    "- Many-to-1 matching: In this exercise, we set `repeat=False`, so each observation could only end up in our final dataset once. However, if we use `repeat=True`, if an untreated observation is the closest observation to multiple treated observations, it may get put in the dataset multiple times. We can still use this dataset in *almost* the same way, though, except we have to make use of weights so that if an observation appears, say, twice, each observation has a weight that's 1/2 the weight of an observation only appearing once. \n",
+    "- Matching with replacement.  In this exercise, we set `repeat=False`, so each observation could only end up in our final dataset once. However, if we use `repeat=True`, if an untreated observation is the closest observation to multiple treated observations, it may get put in the dataset multiple times. We can still use this dataset in *almost* the same way, though, except we have to make use of weights so that if an observation appears, say, twice, each observation has a weight that's 1/2 the weight of an observation only appearing once. \n",
     "- Matching with continuous variables: DAME is used for exact matching, but if you have lots of continuous variables, you can also match on those. In fact, the Almost Exact Matching Lab also has a library called [MALTS](https://almost-matching-exactly.github.io/MALTS/) that will do matching with continuous variables. That package does something *like* Mahalanobis Distance matching, but ulike Mahalanobis, which calculates the distance between observations in terms of the difference in all the matching variables normalized by each matching variable's standard deviation, MALTS does something much more clever. (Here's [the paper](https://arxiv.org/abs/1811.07415) describing the technique if you want all the details). Basically, it figures out how well each matching variable predicts our outcome $Y$, then weights the different variables by their predictive power instead of just normalizing by something arbitrary like their standard deviation. As a result, final matches will prioritize matching more closely on variables that are outcome-relevant. In addition, when it sees a categorical variable, it recognizes that and only pairs observations when they are an exact match on that categorical variable. \n",
     "- If you're dataset is huge, use `FLAME`: this dataset is small, but if you have lots of observations and lots of matching variable, the computational complexity of this task explodes, so the AEML created FLAME, which works with millions of observations at only a small cost to match quality. "
    ]
