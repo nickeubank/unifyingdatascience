@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Propensity Score Matching Exercise &#8212; Unifying Data Science</title>
+    <title>Matching Exercise &#8212; Unifying Data Science</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -13,6 +13,8 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -31,545 +33,235 @@
 
           <div class="body" role="main">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* avoid gaps between output lines */
-div.nboutput.container div[class*=highlight] pre {
-    line-height: normal;
-}
-
-/* input/output containers */
-div.nbinput.container,
-div.nboutput.container {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    width: 100%;
-}
-@media (max-width: 540px) {
-    div.nbinput.container,
-    div.nboutput.container {
-        flex-direction: column;
-    }
-}
-
-/* input container */
-div.nbinput.container {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast.container {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput.container div.prompt pre {
-    color: #307FC1;
-}
-
-/* output prompt */
-div.nboutput.container div.prompt pre {
-    color: #BF5B3D;
-}
-
-/* all prompts */
-div.nbinput.container div.prompt,
-div.nboutput.container div.prompt {
-    width: 4.5ex;
-    padding-top: 5px;
-    position: relative;
-    user-select: none;
-}
-
-div.nbinput.container div.prompt > div,
-div.nboutput.container div.prompt > div {
-    position: absolute;
-    right: 0;
-    margin-right: 0.3ex;
-}
-
-@media (max-width: 540px) {
-    div.nbinput.container div.prompt,
-    div.nboutput.container div.prompt {
-        width: unset;
-        text-align: left;
-        padding: 0.4em;
-    }
-    div.nboutput.container div.prompt.empty {
-        padding: 0;
-    }
-
-    div.nbinput.container div.prompt > div,
-    div.nboutput.container div.prompt > div {
-        position: unset;
-    }
-}
-
-/* disable scrollbars on prompts */
-div.nbinput.container div.prompt pre,
-div.nboutput.container div.prompt pre {
-    overflow: hidden;
-}
-
-/* input/output area */
-div.nbinput.container div.input_area,
-div.nboutput.container div.output_area {
-    -webkit-flex: 1;
-    flex: 1;
-    overflow: auto;
-}
-@media (max-width: 540px) {
-    div.nbinput.container div.input_area,
-    div.nboutput.container div.output_area {
-        width: 100%;
-    }
-}
-
-/* input area */
-div.nbinput.container div.input_area {
-    border: 1px solid #e0e0e0;
-    border-radius: 2px;
-    background: #f5f5f5;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput.container div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput.container div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput.container div.output_area.stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansi-black-fg { color: #3E424D; }
-.ansi-black-bg { background-color: #3E424D; }
-.ansi-black-intense-fg { color: #282C36; }
-.ansi-black-intense-bg { background-color: #282C36; }
-.ansi-red-fg { color: #E75C58; }
-.ansi-red-bg { background-color: #E75C58; }
-.ansi-red-intense-fg { color: #B22B31; }
-.ansi-red-intense-bg { background-color: #B22B31; }
-.ansi-green-fg { color: #00A250; }
-.ansi-green-bg { background-color: #00A250; }
-.ansi-green-intense-fg { color: #007427; }
-.ansi-green-intense-bg { background-color: #007427; }
-.ansi-yellow-fg { color: #DDB62B; }
-.ansi-yellow-bg { background-color: #DDB62B; }
-.ansi-yellow-intense-fg { color: #B27D12; }
-.ansi-yellow-intense-bg { background-color: #B27D12; }
-.ansi-blue-fg { color: #208FFB; }
-.ansi-blue-bg { background-color: #208FFB; }
-.ansi-blue-intense-fg { color: #0065CA; }
-.ansi-blue-intense-bg { background-color: #0065CA; }
-.ansi-magenta-fg { color: #D160C4; }
-.ansi-magenta-bg { background-color: #D160C4; }
-.ansi-magenta-intense-fg { color: #A03196; }
-.ansi-magenta-intense-bg { background-color: #A03196; }
-.ansi-cyan-fg { color: #60C6C8; }
-.ansi-cyan-bg { background-color: #60C6C8; }
-.ansi-cyan-intense-fg { color: #258F8F; }
-.ansi-cyan-intense-bg { background-color: #258F8F; }
-.ansi-white-fg { color: #C5C1B4; }
-.ansi-white-bg { background-color: #C5C1B4; }
-.ansi-white-intense-fg { color: #A1A6B2; }
-.ansi-white-intense-bg { background-color: #A1A6B2; }
-
-.ansi-default-inverse-fg { color: #FFFFFF; }
-.ansi-default-inverse-bg { background-color: #000000; }
-
-.ansi-bold { font-weight: bold; }
-.ansi-underline { text-decoration: underline; }
-
-
-div.nbinput.container div.input_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight].math,
-div.nboutput.container div.output_area.rendered_html,
-div.nboutput.container div.output_area > div.output_javascript,
-div.nboutput.container div.output_area:not(.rendered_html) > img{
-    padding: 5px;
-}
-
-/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
-div.nbinput.container div.input_area > div[class^='highlight'],
-div.nboutput.container div.output_area > div[class^='highlight']{
-    overflow-y: hidden;
-}
-
-/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt a.copybtn {
-    display: none;
-}
-
-/* Some additional styling taken form the Jupyter notebook CSS */
-div.rendered_html table {
-  border: none;
-  border-collapse: collapse;
-  border-spacing: 0;
-  color: black;
-  font-size: 12px;
-  table-layout: fixed;
-}
-div.rendered_html thead {
-  border-bottom: 1px solid black;
-  vertical-align: bottom;
-}
-div.rendered_html tr,
-div.rendered_html th,
-div.rendered_html td {
-  text-align: right;
-  vertical-align: middle;
-  padding: 0.5em 0.5em;
-  line-height: normal;
-  white-space: normal;
-  max-width: none;
-  border: none;
-}
-div.rendered_html th {
-  font-weight: bold;
-}
-div.rendered_html tbody tr:nth-child(odd) {
-  background: #f5f5f5;
-}
-div.rendered_html tbody tr:hover {
-  background: rgba(66, 165, 245, 0.2);
-}
-</style>
-<div class="section" id="Propensity-Score-Matching-Exercise">
-<h1>Propensity Score Matching Exercise<a class="headerlink" href="#Propensity-Score-Matching-Exercise" title="Permalink to this headline">¶</a></h1>
-<p>To practice propensity score matching, Let’s estimate how college education impacts earnings in the US using data from the US Current Population Survey (CPS) on US wages in 2019.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+  <div class="section" id="Matching-Exercise">
+<h1>Matching Exercise<a class="headerlink" href="#Matching-Exercise" title="Permalink to this headline">¶</a></h1>
+<p>In this exercise, we’ll be evaluating how getting a college degree impacts earnings in the US using matching.</p>
+<div class="section" id="Matching-Packages:-Python-v.-R">
+<h2>Matching Packages: Python v. R<a class="headerlink" href="#Matching-Packages:-Python-v.-R" title="Permalink to this headline">¶</a></h2>
+<p>Just as the best tools for machine learning tend to be in Python since they’re developed by CS people (who prefer Python), most of the best tools for causal inference are implemented in R since innovation in causal inference tends to be lead by social scientists using R. As a result, the most well developed matching package is called <a class="reference external" href="https://kosukeimai.github.io/MatchIt/index.html">MatchIt</a>, and is only available in R (though you can always call it from Python using <code class="docutils literal notranslate"><span class="pre">rpy2</span></code>).</p>
+<p>In the last year, though, a group of computer scientists and statisticians here at Duke have made some great advancements in matching (especially the computational side of things), and they recently released a set of matching packages in both R and Python that we’ll be using today. They have some great algorithms we’ll use today, but be aware these packages aren’t as mature, and aren’t general purpose packages yet. So if you ever get deep into matching, be aware you will probably still want to
+make at least partial use of the R package <a class="reference external" href="https://kosukeimai.github.io/MatchIt/index.html">MatchIt</a>, as well as some other R packages for new innovative techniques (like <a class="reference external" href="https://projects.iq.harvard.edu/frontier/home">Matching Frontier estimation</a>), or <a class="reference external" href="https://almost-matching-exactly.github.io/AHB-R-package/">Adaptive Hyper-Box Matching</a>.</p>
+</div>
+<div class="section" id="Installing-dame-flame.">
+<h2>Installing dame-flame.<a class="headerlink" href="#Installing-dame-flame." title="Permalink to this headline">¶</a></h2>
+<p>For this lesson, begin by installing <code class="docutils literal notranslate"><span class="pre">dame-flame</span></code> with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">dame-flame</span></code> (it’s not on conda yet).</p>
+<p><a class="reference external" href="https://almost-matching-exactly.github.io/DAME-FLAME-Python-Package">DAME</a> is an algorithm that we can use for a version of course exact matching. The package only accepts a list of categorical variables, and then attempts to match pairs that match exactly on those variables. That means that if you want to match on, say, age, you have to break it up into categories (say, under 18, 18-29, 30-39, etc. etc.).</p>
+<p>Of course, one cannot always find exact matches on all variables, so what DAME does is:</p>
+<ol class="arabic simple">
+<li><p>Find all observations that match on <em>all</em> matching variables.</p></li>
+<li><p>Figure out which matching variable is least useful in predicting the outcome of interest <span class="math notranslate nohighlight">\(Y\)</span> and drops that, then tries to match the remaining observations on the narrowed set of matching variables.</p></li>
+<li><p>This repeats until you run out of variables, all observations are matched, or you hit a stopping run (namely: quality of matches falls below a threshold).</p></li>
+</ol>
+<p>In addition, the lab has also created FLAME, which does the same thing, but employs some tricks to make it <em>massively</em> more computationally efficient, meaning it can be used on datasets with millions of observations (which most matching algorithms cannot). It’s a little less accurate, but an amazing contribution never the less.</p>
+</div>
+<div class="section" id="Data-Setup">
+<h2>Data Setup<a class="headerlink" href="#Data-Setup" title="Permalink to this headline">¶</a></h2>
+<p>To save you some time and let you focus on matching, I’ve <em>pre-cleaned</em> about one month worth of of data from the US Current Population Survey data we used for our <a class="reference external" href="exercises/exercises_regression_incomeineq.ipynb">gender discrimination analysis</a>. You can download the data <a class="reference external" href="https://github.com/nickeubank/MIDS_Data/blob/master/Current_Population_Survey/cps_for_matching.dta?raw=true%22">from here</a>, or read it directly with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cps</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span>
+    <span class="s2">&quot;https://github.com/nickeubank/MIDS_Data/blob/master&quot;</span>
+    <span class="s2">&quot;/Current_Population_Survey/cps_for_matching.dta?raw=true&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Load survey</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
-<span class="n">cps</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span><span class="s1">&#39;https://github.com/nickeubank/MIDS_Data/blob/master/Current_Population_Survey/morg18.dta?raw=true&#39;</span><span class="p">)</span>
-
-<span class="c1"># Limit to people currently employed and working full time.</span>
-<span class="n">cps</span> <span class="o">=</span> <span class="n">cps</span><span class="p">[</span><span class="n">cps</span><span class="o">.</span><span class="n">lfsr94</span> <span class="o">==</span> <span class="s1">&#39;Employed-At Work&#39;</span><span class="p">]</span>
-<span class="n">cps</span> <span class="o">=</span> <span class="n">cps</span><span class="p">[</span><span class="n">cps</span><span class="o">.</span><span class="n">uhourse</span> <span class="o">&gt;=</span> <span class="mi">35</span><span class="p">]</span>
-
-<span class="c1"># And we can adjust earnings per hour (in cents) into dollars,</span>
-<span class="n">cps</span><span class="p">[</span><span class="s1">&#39;earnhre_dollars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cps</span><span class="p">[</span><span class="s1">&#39;earnhre&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span>
-<span class="n">cps</span><span class="p">[</span><span class="s1">&#39;annual_earnings&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cps</span><span class="p">[</span><span class="s1">&#39;earnhre_dollars&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">cps</span><span class="p">[</span><span class="s1">&#39;uhourse&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">52</span>
-
-<span class="c1"># And create gender and college educ variable</span>
-<span class="n">cps</span><span class="p">[</span><span class="s1">&#39;female&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">sex</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
-<span class="n">cps</span><span class="p">[</span><span class="s1">&#39;has_college_educ&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">grade92</span> <span class="o">&gt;</span> <span class="mi">43</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
-
-<span class="n">cps</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-</pre></div>
+<p>Load the data and quickly familiarize yourself with its contents.</p>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>county</th>
-      <th>smsastat</th>
-      <th>age</th>
-      <th>sex</th>
-      <th>grade92</th>
-      <th>race</th>
-      <th>ethnic</th>
-      <th>marital</th>
-      <th>uhourse</th>
-      <th>earnhre</th>
-      <th>...</th>
-      <th>gedhigr</th>
-      <th>yrcoll</th>
-      <th>grprof</th>
-      <th>gr6cor</th>
-      <th>ms123</th>
-      <th>occ2012</th>
-      <th>earnhre_dollars</th>
-      <th>annual_earnings</th>
-      <th>female</th>
-      <th>has_college_educ</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>count</th>
-      <td>133814.000000</td>
-      <td>132638.000000</td>
-      <td>133814.000000</td>
-      <td>133814.000000</td>
-      <td>133814.000000</td>
-      <td>133814.000000</td>
-      <td>18480.000000</td>
-      <td>133814.000000</td>
-      <td>133814.000000</td>
-      <td>65755.000000</td>
-      <td>...</td>
-      <td>3107.000000</td>
-      <td>36240.000000</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>133814.000000</td>
-      <td>65755.000000</td>
-      <td>65755.000000</td>
-      <td>133814.000000</td>
-      <td>133814.000000</td>
-    </tr>
-    <tr>
-      <th>mean</th>
-      <td>25.735020</td>
-      <td>1.173932</td>
-      <td>43.335458</td>
-      <td>1.440320</td>
-      <td>41.059680</td>
-      <td>1.434274</td>
-      <td>2.581872</td>
-      <td>3.253359</td>
-      <td>42.596515</td>
-      <td>1940.998783</td>
-      <td>...</td>
-      <td>6.640489</td>
-      <td>2.853256</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>3989.409128</td>
-      <td>19.409988</td>
-      <td>41757.890924</td>
-      <td>0.440320</td>
-      <td>0.148295</td>
-    </tr>
-    <tr>
-      <th>std</th>
-      <td>61.578816</td>
-      <td>0.379052</td>
-      <td>13.335412</td>
-      <td>0.496427</td>
-      <td>2.512128</td>
-      <td>1.270713</td>
-      <td>2.417939</td>
-      <td>2.676927</td>
-      <td>7.002970</td>
-      <td>1008.707762</td>
-      <td>...</td>
-      <td>1.321649</td>
-      <td>0.963869</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>2708.186730</td>
-      <td>10.087078</td>
-      <td>23164.092147</td>
-      <td>0.496427</td>
-      <td>0.355394</td>
-    </tr>
-    <tr>
-      <th>min</th>
-      <td>0.000000</td>
-      <td>1.000000</td>
-      <td>16.000000</td>
-      <td>1.000000</td>
-      <td>31.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>35.000000</td>
-      <td>17.000000</td>
-      <td>...</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>10.000000</td>
-      <td>0.170000</td>
-      <td>397.800000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>25%</th>
-      <td>0.000000</td>
-      <td>1.000000</td>
-      <td>32.000000</td>
-      <td>1.000000</td>
-      <td>39.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>40.000000</td>
-      <td>1300.000000</td>
-      <td>...</td>
-      <td>6.000000</td>
-      <td>2.000000</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>1550.000000</td>
-      <td>13.000000</td>
-      <td>27040.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>50%</th>
-      <td>0.000000</td>
-      <td>1.000000</td>
-      <td>43.000000</td>
-      <td>1.000000</td>
-      <td>41.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>40.000000</td>
-      <td>1675.000000</td>
-      <td>...</td>
-      <td>7.000000</td>
-      <td>3.000000</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>4050.000000</td>
-      <td>16.750000</td>
-      <td>35360.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>75%</th>
-      <td>29.000000</td>
-      <td>1.000000</td>
-      <td>54.000000</td>
-      <td>2.000000</td>
-      <td>43.000000</td>
-      <td>1.000000</td>
-      <td>4.000000</td>
-      <td>7.000000</td>
-      <td>40.000000</td>
-      <td>2300.000000</td>
-      <td>...</td>
-      <td>8.000000</td>
-      <td>3.000000</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>5700.000000</td>
-      <td>23.000000</td>
-      <td>49920.000000</td>
-      <td>1.000000</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td>810.000000</td>
-      <td>2.000000</td>
-      <td>85.000000</td>
-      <td>2.000000</td>
-      <td>46.000000</td>
-      <td>26.000000</td>
-      <td>8.000000</td>
-      <td>7.000000</td>
-      <td>99.000000</td>
-      <td>9999.000000</td>
-      <td>...</td>
-      <td>8.000000</td>
-      <td>5.000000</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>9750.000000</td>
-      <td>99.990000</td>
-      <td>361920.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-    </tr>
-  </tbody>
-</table>
-<p>8 rows × 24 columns</p>
-</div></div>
-</div>
+<div class="section" id="Getting-To-Know-Your-Data">
+<h2>Getting To Know Your Data<a class="headerlink" href="#Getting-To-Know-Your-Data" title="Permalink to this headline">¶</a></h2>
+<p>Before you start matching, it is important to examine your data to ensure that matching is feasible (you have some overlap the the features of people in the treated and untreated groups), and also that there is a reason <em>to</em> match: either you’re unsure about some of the functional forms at play, or your have some imbalance between the two groups.</p>
 <div class="section" id="Exercise-1">
-<h2>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h2>
-<p>How many observations have a college degree, how many does not have a college degree.</p>
+<h3>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h3>
+<p>Show the raw difference of <code class="docutils literal notranslate"><span class="pre">annual_earnings</span></code> between those with and without a college degree (<code class="docutils literal notranslate"><span class="pre">has_college</span></code>). Is the difference statistically significant?</p>
 </div>
 <div class="section" id="Exercise-2">
-<h2>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h2>
-<p>Show the raw difference of <code class="docutils literal notranslate"><span class="pre">earnhre_dollars</span></code> between the group with college degree and that without the college.</p>
+<h3>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h3>
+<p>Next we can check for balance. Check the share of people in different racial groups who have college degrees. Are those differences statistically significant?</p>
+<p>Does the distribution also look different across counties (I don’t need statistical significance for this)?</p>
+<p>Does the data seem balanced?</p>
 </div>
 <div class="section" id="Exercise-3">
-<h2>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h2>
-<p>Select the covariates that may be correlated with the treatment and dependent variables, use these covariates fit a logistic model to obtain propensity score.</p>
+<h3>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h3>
+<p>One of the other advantages of matching is that even when you have balanced data, you don’t have to go through the process of testing out different functional forms to see what fits the data base.</p>
+<p>In our last exercise, we looked at the relationship between gender and earnings “controlling for age”, where we just put in age as a linear control. Plot a non-linear regression of annual_earnings on age (if you’re using <code class="docutils literal notranslate"><span class="pre">plotnine</span></code>, use <code class="docutils literal notranslate"><span class="pre">geom_smooth(method=&quot;lowess&quot;)</span></code>.</p>
+<p>Does the relationship look linear?</p>
+<p>Does this speak to why it’s nice to not have to think about functional forms with matching as much?</p>
 </div>
+</div>
+<div class="section" id="Matching!">
+<h2>Matching!<a class="headerlink" href="#Matching!" title="Permalink to this headline">¶</a></h2>
+<p>Because DAME is an implementation of exact matching, we have to discretize all of our continuous variables. Thankfully, in this case we only have <code class="docutils literal notranslate"><span class="pre">age</span></code>, so this shouldn’t be too hard!</p>
 <div class="section" id="Exercise-4">
-<h2>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h2>
-<p>Evaluate the common support of the treated and control groups</p>
+<h3>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h3>
+<p>Create a new variable that discretizes age into a single value for each decade of age.</p>
+<p>Because CPS only has employment data on people 18 or over, though, include people who are 18 or 19 with the 20 year olds so that group isn’t too small, and if you see any other really small groups, please merge those too.</p>
 </div>
 <div class="section" id="Exercise-5">
-<h2>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h2>
-<p>Obtain a matched sample using k:1 nearest neighbor method. Show the top ten rows of the matched data</p>
+<h3>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h3>
+<p>We also have to covert our string variables into numeric variables for DAME, so convert <code class="docutils literal notranslate"><span class="pre">county</span></code> and <code class="docutils literal notranslate"><span class="pre">class94</span></code> to a numeric vector of intergers.</p>
+<p>(Note: it’s not clear whether <code class="docutils literal notranslate"><span class="pre">class94</span></code> belongs: if it reflects people choosing fields based on passion, it belongs; if people choose certain jobs because of their degrees, its not something we’d actually want in our regression.</p>
+<p>Hint: if you use <code class="docutils literal notranslate"><span class="pre">pd.Categorical</span></code> to convert you var to a categorical, you can pull the underlying integer codes with <code class="docutils literal notranslate"><span class="pre">.codes</span></code>.</p>
 </div>
+</div>
+<div class="section" id="Let’s-Do-Matching-with-DAME">
+<h2>Let’s Do Matching with DAME<a class="headerlink" href="#Let’s-Do-Matching-with-DAME" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="Exercise-6">
-<h2>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h2>
-<p>Conduct a t-test between the treatment and control group using the matched data. Interpret the result. Are covariates balanced?</p>
+<h3>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h3>
+<p>First, drop all the variables you <em>don’t</em> want in matching (e.g. your original <code class="docutils literal notranslate"><span class="pre">age</span></code> variable), and any observations for which <code class="docutils literal notranslate"><span class="pre">annual_earnings</span></code> is missing.</p>
+<p>You will probably also have to drop a column named <code class="docutils literal notranslate"><span class="pre">index</span></code>: DAME will try and match on ANY included variables, and so because there was a column called <code class="docutils literal notranslate"><span class="pre">index</span></code> in the data we imported, if we leave it in DAME will try (and obviously fail) to match on index.</p>
+<p>Also, it’s best to reset your index, as <code class="docutils literal notranslate"><span class="pre">dame_flame</span></code> using index labels to identify matches.</p>
 </div>
 <div class="section" id="Exercise-7">
-<h2>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h2>
-<p>Fit four separate regression models to estimate the effect of college education on earning per hour. - an OLS model, including only the treatment variable - an OLS model, including the treatment variable and covariates - a weighted least squared model, including only the treatment variable, using the weight obtained by propensity score matching - a weighted least squared model, including the treatment variable and covariates, using the weight obtained by propensity score matching</p>
-<p>Compare the above four models, interpret the results.</p>
+<h3>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h3>
+<p>The syntax of <code class="docutils literal notranslate"><span class="pre">dame_flame</span></code> is similar to the syntax of <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>. If you start with a dataset called <code class="docutils literal notranslate"><span class="pre">my_data</span></code> with a <code class="docutils literal notranslate"><span class="pre">treat</span></code> variable with treatment assignment and an <code class="docutils literal notranslate"><span class="pre">outcome</span></code> variable for my outcome of interest (<span class="math notranslate nohighlight">\(Y\)</span>), the syntax to do basic matching would be:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dame_flame</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dame_flame</span><span class="o">.</span><span class="n">matching</span><span class="o">.</span><span class="n">DAME</span><span class="p">(</span><span class="n">repeats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">want_pe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">my_data</span><span class="p">,</span>
+    <span class="n">treatment_column_name</span><span class="o">=</span><span class="s2">&quot;treat&quot;</span><span class="p">,</span>
+    <span class="n">outcome_column_name</span><span class="o">=</span><span class="s2">&quot;outcome&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">my_data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Where the arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">repeats=False</span></code> says that I want to do 1:1 matching (each observation is only paired once). We’ll talke about what happens if we use <code class="docutils literal notranslate"><span class="pre">repeats=True</span></code> below.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">verbose=3</span></code> tells dame to report everything it’s doing as it goes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">want_pe</span></code> says “please include the predictive error in your printout at each step”. This is a measure of match quality.</p></li>
+</ul>
+<p>So run DAME on your data!</p>
+</div>
+</div>
+<div class="section" id="Interpreting-DAME-output">
+<h2>Interpreting DAME output<a class="headerlink" href="#Interpreting-DAME-output" title="Permalink to this headline">¶</a></h2>
+<p>The output you get from doing this <em>should</em> be reports from about 8 iterations of matching. In each iteration, you’ll see a description of the number of matches made in the interation, the number of treatment units still unmatched, and the number of control units unmatched.</p>
+<p>In the first iteration, the algorithm tries to match observations that match on <em>all</em> the variables in your data. That’s why in the first iteration, you see the set of variables being drop is an empty set – it <em>hasn’t</em> dropped any variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Iteration</span> <span class="n">number</span><span class="p">:</span>  <span class="mi">1</span>
+    <span class="n">Number</span> <span class="n">of</span> <span class="n">matched</span> <span class="n">groups</span> <span class="n">formed</span> <span class="ow">in</span> <span class="n">total</span><span class="p">:</span>  <span class="mi">370</span>
+    <span class="n">Unmatched</span> <span class="n">treated</span> <span class="n">units</span><span class="p">:</span>  <span class="mi">644</span> <span class="n">out</span> <span class="n">of</span> <span class="n">a</span> <span class="n">total</span> <span class="n">of</span>  <span class="mi">1150</span> <span class="n">treated</span> <span class="n">units</span>
+    <span class="n">Unmatched</span> <span class="n">control</span> <span class="n">units</span><span class="p">:</span>  <span class="mi">3187</span> <span class="n">out</span> <span class="n">of</span> <span class="n">a</span> <span class="n">total</span> <span class="n">of</span>  <span class="mi">4365</span> <span class="n">control</span> <span class="n">units</span>
+    <span class="n">Predictive</span> <span class="n">error</span> <span class="n">of</span> <span class="n">covariates</span> <span class="n">chosen</span> <span class="n">this</span> <span class="n">iteration</span><span class="p">:</span>  <span class="mi">0</span>
+    <span class="n">Number</span> <span class="n">of</span> <span class="n">matches</span> <span class="n">made</span> <span class="ow">in</span> <span class="n">this</span> <span class="n">iteration</span><span class="p">:</span>  <span class="mi">1684</span>
+    <span class="n">Number</span> <span class="n">of</span> <span class="n">matches</span> <span class="n">made</span> <span class="n">so</span> <span class="n">far</span><span class="p">:</span>  <span class="mi">1684</span>
+    <span class="n">In</span> <span class="n">this</span> <span class="n">iteration</span><span class="p">,</span> <span class="n">the</span> <span class="n">covariates</span> <span class="n">dropped</span> <span class="n">are</span><span class="p">:</span>  <span class="nb">set</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>But as we can see from this output, the algorithm found 1,684 perfect matches – pairs of observations (one treated, one untreated) that had <em>exactly</em> the same value of all the variables we included. But we also see we still have 644 unmatched treated units, so what do we do? The answer is that we have to drop some of our matching variables and try again. But what variable should we drop?</p>
+<p>This is the secret sauce of DAME. DAME picks the variables to drop by trying to predict our outcome <span class="math notranslate nohighlight">\(Y\)</span> using all our variables (by default using a ridge regression), then it drops the matching variable that is contributing the least to that prediction. Since our goal in matching is to eliminate baseline differences (<span class="math notranslate nohighlight">\(E(Y_0|D=1) - E(Y_1|D=0)\)</span>), dropping the covariates least related to <span class="math notranslate nohighlight">\(Y\)</span> makes sense.</p>
+<p>As a result, in the second iteration, we see that the variable it drops first is <code class="docutils literal notranslate"><span class="pre">county</span></code>, and it’s subsequently able to make another 3,626 new matches on the remaining variables!</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Iteration</span> <span class="n">number</span><span class="p">:</span>  <span class="mi">2</span>
+    <span class="n">Number</span> <span class="n">of</span> <span class="n">matched</span> <span class="n">groups</span> <span class="n">formed</span> <span class="ow">in</span> <span class="n">total</span><span class="p">:</span>  <span class="mi">494</span>
+    <span class="n">Unmatched</span> <span class="n">treated</span> <span class="n">units</span><span class="p">:</span>  <span class="mi">25</span> <span class="n">out</span> <span class="n">of</span> <span class="n">a</span> <span class="n">total</span> <span class="n">of</span>  <span class="mi">1150</span> <span class="n">treated</span> <span class="n">units</span>
+    <span class="n">Unmatched</span> <span class="n">control</span> <span class="n">units</span><span class="p">:</span>  <span class="mi">180</span> <span class="n">out</span> <span class="n">of</span> <span class="n">a</span> <span class="n">total</span> <span class="n">of</span>  <span class="mi">4365</span> <span class="n">control</span> <span class="n">units</span>
+    <span class="n">Predictive</span> <span class="n">error</span> <span class="n">of</span> <span class="n">covariates</span> <span class="n">chosen</span> <span class="n">this</span> <span class="n">iteration</span><span class="p">:</span>  <span class="mf">1199421883.1095908</span>
+    <span class="n">Number</span> <span class="n">of</span> <span class="n">matches</span> <span class="n">made</span> <span class="ow">in</span> <span class="n">this</span> <span class="n">iteration</span><span class="p">:</span>  <span class="mi">3626</span>
+    <span class="n">Number</span> <span class="n">of</span> <span class="n">matches</span> <span class="n">made</span> <span class="n">so</span> <span class="n">far</span><span class="p">:</span>  <span class="mi">5310</span>
+    <span class="n">In</span> <span class="n">this</span> <span class="n">iteration</span><span class="p">,</span> <span class="n">the</span> <span class="n">covariates</span> <span class="n">dropped</span> <span class="n">are</span><span class="p">:</span>  <span class="nb">frozenset</span><span class="p">({</span><span class="s1">&#39;county&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>And so DAME continues until after 8 iterations, it’s matched all treated observations.</p>
+<div class="section" id="Exercise-8">
+<h3>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h3>
+<p>Congratulations! You just on your first one-to-one matching!</p>
+<p>The next step is to think about which of the matches that DAME generated are good enough for inclusion in our analysis. As you may recall, one of the choices you have to make as a researcher when doing matching is how “good” a match has to be in order to be included in your final data set. By default, DAME will keep dropping matching variables until it has been able to match all of the treated observations or runs out of variables. It will do this no matter how bad the matches start to become –
+if it ends up with the treated observation and a control observation that can only be matched on gender, it will match them just on gender, even though we probably don’t think that that’s a “good” match.</p>
+<p>The way to control this behavior is to tell DAME when to stop manually using the <code class="docutils literal notranslate"><span class="pre">early_stop_iterations</span></code> argument to tell the matching algorithm when to stop.</p>
+<p>So when is a good time to stop? There’s no objective or “right” answer to that question. It fundamentally comes down to a trade-off between bias (which gets higher is you allow more low quality matches into your data) and variance (which will go down as you increase the number of matches you keep).</p>
+<p>But one way to start the process of picking a cutpoint is to examine how the quality of matches evolves over iterations. DAME keep this information in <code class="docutils literal notranslate"><span class="pre">model.pe_each_iter</span></code>. This shows, for each iteration, the “prediction error” resulting from dropping the variables excluded in each step. This “prediction error” is the difference in the mean-squared error of regressing <span class="math notranslate nohighlight">\(Y\)</span> on our matching variables (by default in a ridge regression) with all variables versus with the subset being used for
+matching in a given iteration. By design, of course, this is always increasing.</p>
+<p>To see how this evolves, plot your <code class="docutils literal notranslate"><span class="pre">pe</span></code> against iteration numbers. Note that our first iteration doesn’t count, since by definition the first iteration has an error of 0, and also note that the iterations count from 1, not 0 (weird for Python… but whatever). You can also see the <code class="docutils literal notranslate"><span class="pre">pe</span></code> values for each iteration reported in the output from when DAME ran above if you want to make your you’re lining up the errors with iterations right.</p>
+<p>Are there any points where the match quality seems to fall off dramatically?</p>
+</div>
+<div class="section" id="Exercise-9">
+<h3>Exercise 9<a class="headerlink" href="#Exercise-9" title="Permalink to this headline">¶</a></h3>
+<p>Suppose we want to ensure we have at least 5,000 observations in our data – where might you cut off the data to get a sample size of at least that but before a big quality falloff?</p>
+</div>
+<div class="section" id="Exercise-10">
+<h3>Exercise 10<a class="headerlink" href="#Exercise-10" title="Permalink to this headline">¶</a></h3>
+<p>Re-run your matching, stopping at the point you picked above using <code class="docutils literal notranslate"><span class="pre">early_stop_iterations</span></code>.</p>
+</div>
+</div>
+<div class="section" id="Getting-Back-a-Dataset">
+<h2>Getting Back a Dataset<a class="headerlink" href="#Getting-Back-a-Dataset" title="Permalink to this headline">¶</a></h2>
+<p>OK, my one current complaint with DAME is that it doesn’t just give you back a nice dataset of your matches for analysis. If we look at our results – <code class="docutils literal notranslate"><span class="pre">matches</span></code> – it’s <em>almost</em> what we want, except it’s dropped our treatment and outcome columns, and it’s put a string <code class="docutils literal notranslate"><span class="pre">*</span></code> in any entry where a value <em>wasn’t</em> used for matching:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">female</span> <span class="n">simplified_race</span>   <span class="n">county</span>   <span class="n">class94</span>   <span class="n">discretized_age</span>
+<span class="mi">0</span>  <span class="mf">1.0</span>     <span class="mf">0.0</span>              <span class="mf">10.0</span>      <span class="mf">3.0</span>          <span class="mf">5.0</span>
+<span class="mi">1</span>  <span class="mf">0.0</span>     <span class="mf">2.0</span>              <span class="o">*</span>         <span class="mf">3.0</span>          <span class="mf">3.0</span>
+<span class="mi">2</span>  <span class="mf">0.0</span>     <span class="mf">0.0</span>              <span class="mf">8.0</span>        <span class="mf">3.0</span>         <span class="mf">6.0</span>
+<span class="mi">3</span>  <span class="mf">0.0</span>     <span class="mf">0.0</span>              <span class="o">*</span>         <span class="mf">1.0</span>          <span class="mf">4.0</span>
+<span class="mi">4</span>  <span class="mf">0.0</span>     <span class="mf">0.0</span>              <span class="mf">24.0</span>      <span class="mf">3.0</span>          <span class="mf">3.0</span>
+</pre></div>
+</div>
+<p>So for now (though I think this will get updated in the package), we’ll have to do it ourselves! Just copy-paste this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_dataframe</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">result_of_fit</span><span class="p">):</span>
+
+    <span class="n">better</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">result_of_fit</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+    <span class="n">better</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">model</span><span class="o">.</span><span class="n">groups_per_unit</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">repeats</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">better</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="c1"># Make sure right N!</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">result_of_fit</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">better</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">better</span>
+</pre></div>
+</div>
+<div class="section" id="Exercise-11">
+<h3>Exercise 11<a class="headerlink" href="#Exercise-11" title="Permalink to this headline">¶</a></h3>
+<p>Copy-paste that code and run it with your original data, your (fit) model, and what you got back when you ran <code class="docutils literal notranslate"><span class="pre">result_of_fit</span></code>. Then we’ll work with the output of that. You should get back a single dataframe of the same length as your original model. Note you’ll see a bunch of “Unit X does not have any matches” warnings – ignore those!</p>
+</div>
+</div>
+<div class="section" id="Check-Your-Matches-and-Analyze">
+<h2>Check Your Matches and Analyze<a class="headerlink" href="#Check-Your-Matches-and-Analyze" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Exercise-12">
+<h3>Exercise 12<a class="headerlink" href="#Exercise-12" title="Permalink to this headline">¶</a></h3>
+<p>We previously tested balance on <code class="docutils literal notranslate"><span class="pre">simplified_race</span></code>, and by county. Check those again. Are there still statistically significant differences in college education by <code class="docutils literal notranslate"><span class="pre">simplified_race</span></code>?</p>
+</div>
+<div class="section" id="Exercise-13">
+<h3>Exercise 13<a class="headerlink" href="#Exercise-13" title="Permalink to this headline">¶</a></h3>
+<p>OK, it’s finally time to run some analyses! As we discussed, for this kind of 1:1 matching, we can just stick this matched dataset into a regression to analyze it.</p>
+<p>Use a linear regression on your matched data to regress annual earnings on <em>just</em> having a college eduction. What is the apparent effect of earnings? How does that compare to our initial estimate using the raw CPS data (before matching)?</p>
+</div>
+<div class="section" id="Exercise-14">
+<h3>Exercise 14<a class="headerlink" href="#Exercise-14" title="Permalink to this headline">¶</a></h3>
+<p>Now include our other matching variables as controls. Does the coefficient change?</p>
+</div>
+<div class="section" id="Exercise-15">
+<h3>Exercise 15<a class="headerlink" href="#Exercise-15" title="Permalink to this headline">¶</a></h3>
+<p>If you stopped matching after Iteration 2 back in Exercise XXX, you may be finding that (a) there are still some imbalances by race, and (b) the results of your estimate are about the same with matching as they were initially!</p>
+<p>This likely means one of two things:</p>
+<ol class="arabic simple">
+<li><p>The returns to a college education really just don’t vary across people, and so the raw average difference is a pretty good guess for the ATT.</p></li>
+<li><p>Our matching was a little sloppy (implied by the statistically significant racial differences we found in our matched data).</p></li>
+</ol>
+<p>So to test for number 2, let’s go back and stop DAME after the first iteration instead of the second.</p>
+<p>Then re-check balance and your estimate of the effects of a college education. What do you see?</p>
+</div>
+<div class="section" id="Exercise-16">
+<h3>Exercise 16<a class="headerlink" href="#Exercise-16" title="Permalink to this headline">¶</a></h3>
+<p>Use a linear regression on your matched data to regress annual earnings on <em>just</em> having a college eduction. What is the apparent effect of earnings? How does that compare to our initial estimate using the raw CPS data (before matching)?</p>
+</div>
+<div class="section" id="Exercise-17">
+<h3>Exercise 17<a class="headerlink" href="#Exercise-17" title="Permalink to this headline">¶</a></h3>
+<p>Now include our other matching variables as controls. Does the coefficient change?</p>
+</div>
+</div>
+<div class="section" id="Other-Forms-of-Matching">
+<h2>Other Forms of Matching<a class="headerlink" href="#Other-Forms-of-Matching" title="Permalink to this headline">¶</a></h2>
+<p>OK, hopefully this gives you a taste of matching! There are, of course, <em>many</em> other permutations to be aware of though.</p>
+<ul class="simple">
+<li><p>Many-to-1 matching: In this exercise, we set <code class="docutils literal notranslate"><span class="pre">repeat=False</span></code>, so each observation could only end up in our final dataset once. However, if we use <code class="docutils literal notranslate"><span class="pre">repeat=True</span></code>, if an untreated observation is the closest observation to multiple treated observations, it may get put in the dataset multiple times. We can still use this dataset in <em>almost</em> the same way, though, except we have to make use of weights so that if an observation appears, say, twice, each observation has a weight that’s 1/2 the
+weight of an observation only appearing once.</p></li>
+<li><p>Matching with continuous variables: DAME is used for exact matching, but if you have lots of continuous variables, you can also match on those. In fact, the Almost Exact Matching Lab also has a library called <a class="reference external" href="https://almost-matching-exactly.github.io/MALTS/">MALTS</a> that will do matching with continuous variables. That package does something <em>like</em> Mahalanobis Distance matching, but ulike Mahalanobis, which calculates the distance between observations in terms of the difference in all the
+matching variables normalized by each matching variable’s standard deviation, MALTS does something much more clever. (Here’s <a class="reference external" href="https://arxiv.org/abs/1811.07415">the paper</a> describing the technique if you want all the details). Basically, it figures out how well each matching variable predicts our outcome <span class="math notranslate nohighlight">\(Y\)</span>, then weights the different variables by their predictive power instead of just normalizing by something arbitrary like their standard deviation. As a result, final matches will
+prioritize matching more closely on variables that are outcome-relevant. In addition, when it sees a categorical variable, it recognizes that and only pairs observations when they are an exact match on that categorical variable.</p></li>
+<li><p>If you’re dataset is huge, use <code class="docutils literal notranslate"><span class="pre">FLAME</span></code>: this dataset is small, but if you have lots of observations and lots of matching variable, the computational complexity of this task explodes, so the AEML created FLAME, which works with millions of observations at only a small cost to match quality.</p></li>
+</ul>
+</div>
 <div class="section" id="Absolutely-positively-need-the-solutions?">
-<h3>Absolutely positively need the solutions?<a class="headerlink" href="#Absolutely-positively-need-the-solutions?" title="Permalink to this headline">¶</a></h3>
+<h2>Absolutely positively need the solutions?<a class="headerlink" href="#Absolutely-positively-need-the-solutions?" title="Permalink to this headline">¶</a></h2>
 <p><em>Don’t use this link until you’ve really, really spent time struggling with your code!</em> Doing so only results in you cheating yourself.</p>
 <p><a class="reference internal" href="../solutions_warning.html"><span class="doc">Link</span></a></p>
-</div>
 </div>
 </div>
 
