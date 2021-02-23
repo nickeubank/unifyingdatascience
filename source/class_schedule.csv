@@ -49,10 +49,9 @@ Optional:
 
 *Watch the video above from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercises <exercises/exercise_matching.ipynb>`_
 "Thurs, Feb 25  ","- CI: Difference-in-Differences
-- Backwards Design","- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
-- `Backwards Design <backwards_design.ipynb>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
-"Tues, Mar 2",CI: Natural Experiments,"- Angrist and Pischke (MM), Chapter 3 (pp 123-146)
-- Come prepared to discuss `backwards design of your group project. <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_Assignment.pdf>`_ ",
+- Backwards Design","- Angrist and Piscke (MM), Chapter 5 (pp 178-208) ",- `Link <exercises/exercise_diffindiff.ipynb>`_
+"Tues, Mar 2",CI: A/B Testing in Industry,"- Kohavi, Tang and Xu, Chapters 2, 5, 22
+- `Backwards Design <backwards_design.ipynb>`_",
 "Thurs, Mar 4",**MIDTERM**,**MIDTERM**,
 "Tues, Mar 9",**NO CLASS**,Pseudo-Spring Break,
 "Thurs, Mar 11",**NO CLASS**,Pseudo-Spring Break,
