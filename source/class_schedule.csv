@@ -48,11 +48,11 @@ Optional:
 - `Methods for Matching <https://youtu.be/tvMyjDi4dyg?t=910>`_
 
 *Watch the video above from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercises <exercises/exercise_matching.ipynb>`_
-"Thurs, Feb 25  ","- CI: Difference-in-Differences
-- Backwards Design","- Angrist and Piscke (MM), Chapter 5 (pp 178-208) ",- `Link <exercises/exercise_diffindiff.ipynb>`_
-"Tues, Mar 2",CI: A/B Testing in Industry,"- Kohavi, Tang and Xu, Chapters 2, 5, 22
-- `Backwards Design <backwards_design.ipynb>`_
-- `Backwards Design Assignment <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_Assignment.pdf>`_",
+"Thurs, Feb 25  ",- CI: Difference-in-Differences,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
+- `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
+"Tues, Mar 2","- CI: A/B Testing in Industry
+- Backwards Design","- Kohavi, Tang and Xu, Chapters 2, 5, 22
+- `Backwards Design <backwards_design.ipynb>`_",
 "Thurs, Mar 4",**MIDTERM**,**MIDTERM**,
 "Tues, Mar 9",**NO CLASS**,Pseudo-Spring Break,
 "Thurs, Mar 11",**NO CLASS**,Pseudo-Spring Break,
