@@ -196,6 +196,8 @@ matching in a given iteration. By design, of course, this is always increasing.<
 
     <span class="c1"># Get original data</span>
     <span class="n">better</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">result_of_fit</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">better</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">is_unique</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Need index values in input data to be unique&quot;</span><span class="p">)</span>
 
     <span class="c1"># Get match groups for clustering</span>
     <span class="n">better</span><span class="p">[</span><span class="s2">&quot;match_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
@@ -208,18 +210,31 @@ matching in a given iteration. By design, of course, this is always increasing.<
     <span class="n">t</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">treatment_column_name</span>
     <span class="n">better</span><span class="p">[</span><span class="s2">&quot;t_in_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">better</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;match_group&quot;</span><span class="p">)[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">)</span>
 
+    <span class="c1"># Make weights</span>
     <span class="n">better</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-    <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># treaments are 1</span>
+
+    <span class="c1"># Controls start as proportional to num of treatments</span>
+    <span class="c1"># each observation is matched to.</span>
     <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;t_in_group&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span>
         <span class="n">better</span><span class="p">[</span><span class="s2">&quot;match_group_size&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;t_in_group&quot;</span><span class="p">]</span>
     <span class="p">)</span>
 
+    <span class="c1"># Then re-normalize for num unique control observations.</span>
+    <span class="n">control_weights</span> <span class="o">=</span> <span class="n">better</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">][</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+    <span class="n">num_control_obs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">better</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">())</span>
+    <span class="n">renormalization</span> <span class="o">=</span> <span class="n">num_control_obs</span> <span class="o">/</span> <span class="n">control_weights</span>
+    <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">renormalization</span>
+    <span class="p">)</span>
     <span class="k">assert</span> <span class="n">better</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
     <span class="n">better</span> <span class="o">=</span> <span class="n">better</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;t_in_group&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Make sure right N!</span>
+    <span class="c1"># Make sure right length and values!</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">result_of_fit</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">better</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;weights&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="n">num_control_obs</span>
 
     <span class="k">return</span> <span class="n">better</span>
 </pre></div>
