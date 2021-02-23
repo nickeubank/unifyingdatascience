@@ -207,21 +207,16 @@ matching in a given iteration. By design, of course, this is always increasing.<
     <span class="c1"># Get weights. I THINK this is right?! At least for with repeat=False?</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">treatment_column_name</span>
     <span class="n">better</span><span class="p">[</span><span class="s2">&quot;t_in_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">better</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;match_group&quot;</span><span class="p">)[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">)</span>
-    <span class="n">better</span><span class="p">[</span><span class="s2">&quot;share_t_in_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;t_in_group&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;match_group_size&quot;</span><span class="p">]</span>
-    <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;prelim_weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;prelim_weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;share_t_in_group&quot;</span><span class="p">]</span>
-    <span class="n">better</span><span class="p">[</span><span class="s2">&quot;group_prelim_weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">better</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;match_group&quot;</span><span class="p">)[</span>
-        <span class="p">[</span><span class="s2">&quot;prelim_weight&quot;</span><span class="p">]</span>
-    <span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
 
-    <span class="n">better</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;prelim_weight&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span>
-        <span class="n">better</span><span class="p">[</span><span class="s2">&quot;match_group_size&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;group_prelim_weight&quot;</span><span class="p">]</span>
-    <span class="p">)</span>
+    <span class="n">better</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">better</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">better</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">better</span><span class="p">[</span><span class="s2">&quot;match_group_size&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;t_in_group&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">/</span> <span class="n">better</span><span class="p">[</span><span class="s2">&quot;t_in_group&quot;</span><span class="p">]</span>
 
-    <span class="n">better</span> <span class="o">=</span> <span class="n">better</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span>
-        <span class="p">[</span><span class="s2">&quot;prelim_weight&quot;</span><span class="p">,</span> <span class="s2">&quot;group_prelim_weight&quot;</span><span class="p">,</span> <span class="s2">&quot;t_in_group&quot;</span><span class="p">,</span> <span class="s2">&quot;share_t_in_group&quot;</span><span class="p">],</span>
-        <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">better</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="n">better</span> <span class="o">=</span> <span class="n">better</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;t_in_group&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
 
     <span class="c1"># Make sure right N!</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">result_of_fit</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">better</span><span class="p">)</span>
@@ -249,7 +244,7 @@ matching in a given iteration. By design, of course, this is always increasing.<
 </div>
 <div class="section" id="Exercise-13">
 <h3>Exercise 13<a class="headerlink" href="#Exercise-13" title="Permalink to this headline">¶</a></h3>
-<p>Now use a weighted least squares regression on your matched data to regress annual earnings on <em>just</em> having a college eduction. What is the apparent effect of earnings? How does that compare to our initial estimate using the raw CPS data (before matching)?</p>
+<p>Now use a weighted least squares regression on your matched data to regress annual earnings on <em>just</em> having a college eduction. What is the apparent effect of a BA? How does that compare to our initial estimate using the raw CPS data (before matching)?</p>
 </div>
 <div class="section" id="Exercise-14">
 <h3>Exercise 14<a class="headerlink" href="#Exercise-14" title="Permalink to this headline">¶</a></h3>
