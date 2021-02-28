@@ -22,4 +22,4 @@ Texts Referenced in Schedule:
 - **Imbens and Rubin (CI)**: `Causal Inference for Statistics, Social, and Biomedical Sciences <https://www.amazon.com/Causal-Inference-Statistics-Biomedical-Sciences/dp/0521885884>`_ 
 - **Kennedy (GtE)**: `A Guide to Econometrics <https://www.amazon.com/Guide-Econometrics-6th-Peter-Kennedy/dp/1405182571>`_ 
 - **Wooldridge**: `Econometric Analysis of Cross Section and Panel Data <https://www.amazon.com/Econometric-Analysis-Cross-Section-Panel/dp/0262232588>`_
-
+- **Kohvani, Tang and Xu**: `Trustworthy Online Controlled Experiments: A Practical Guide to A/B Testing <https://www.amazon.com/gp/product/1108724264/>`_
