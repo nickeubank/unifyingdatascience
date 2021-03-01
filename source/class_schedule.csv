@@ -21,7 +21,8 @@ Optional:
 - Limitations of Experiments and ATE","- `Internal versus External Validity <internal_v_external_validity.ipynb>`_
 - `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
 - `A/B Testing and Stopping Early <https://medium.com/airbnb-engineering/experiments-at-airbnb-e2db3abf39e7>`_
-- Optional: `More on endogenous stopping <http://sl8r000.github.io/ab_testing_statistics/avoid_biased_stopping_times/>`_
+- `On Correctly Stopping A/B Tests Early <https://netflixtechblog.com/improving-experimentation-efficiency-at-netflix-with-meta-analysis-and-optimal-stopping-d8ec290ae5be>`_
+- Optional: `More on bad endogenous stopping <http://sl8r000.github.io/ab_testing_statistics/avoid_biased_stopping_times/>`_
 - Optional: `Discussion in part About Experiments in Advertising <https://overcast.fm/+QLduPjO1I>`_",`Link <exercises/exercise_resume.ipynb>`_
 "Tues, Feb 9","- SUTVA
 - Compliance / ITT / Etc.","- `Evaluating Studies <evaluating_real_studies.ipynb>`_
