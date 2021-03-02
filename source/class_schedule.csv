@@ -60,10 +60,10 @@ Optional:
 "Thurs, Mar 11",**NO CLASS**,Pseudo-Spring Break,
 "Tues, Mar 16","- Regression Discontinuity
 - Two Stage Least Squares","- Angrist and Pischke (MM), Chapter 3, Sections 3.3 - End
-- Angrist and Pischke (MM), Chapter 4
-- `RDD at Coursera <https://medium.com/coursera-engineering/regression-discontinuity-understanding-the-benefit-of-subtitles-on-coursera-dd82bb25a0f1>`_",
-"Thurs, Mar 18",Taxonomy of Questions,"- `Taxonomy of Questions <taxonomy_of_questions.ipynb>`_
-- **Backwards Design Due**",`Types of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
+- Morgan and Winship, Chapter 11
+- `RDD at Coursera <https://medium.com/coursera-engineering/regression-discontinuity-understanding-the-benefit-of-subtitles-on-coursera-dd82bb25a0f1>`_
+- **Backwards Design Due**",
+"Thurs, Mar 18",Taxonomy of Questions,- `Taxonomy of Questions <taxonomy_of_questions.ipynb>`_,`Types of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
 "Tues, Mar 23",Answering Questions,"- `Moving from Problems to Questions <moving_from_problems_to_questions>`_
 - `Why It's Important To Get Your Question Right <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_
 - `Most ML Doesn't Make Money <https://www.wired.com/story/companies-rushing-use-ai-few-see-payoff/>`_
