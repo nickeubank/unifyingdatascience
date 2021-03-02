@@ -283,7 +283,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span></span><span class="o">%</span><span class="k">load_ext</span> lab_black
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
@@ -296,7 +297,9 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/us_driving_fatalities.csv&quot;</span><span class="p">)</span>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&quot;https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/us_driving_fatalities.csv&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -541,8 +544,8 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Make sure all same min and max</span>
-<span class="k">assert</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">==</span> <span class="n">df</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-<span class="k">assert</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">==</span> <span class="n">df</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;state&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">==</span> <span class="n">df</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;state&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">==</span> <span class="n">df</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -565,7 +568,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;fat_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">fatal</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pop&#39;</span><span class="p">])</span> <span class="o">*</span> <span class="mi">10000</span>
+<span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;fat_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">fatal</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;pop&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="mi">10000</span>
 </pre></div>
 </div>
 </div>
@@ -581,11 +584,11 @@ div.rendered_html tbody tr:hover {
 <span></span><span class="c1"># fit a model</span>
 <span class="kn">from</span> <span class="nn">numpy.polynomial.polynomial</span> <span class="kn">import</span> <span class="n">polyfit</span>
 
-<span class="n">b</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">polyfit</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;beertax&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;fat_rate&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">b</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">polyfit</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;beertax&quot;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;fat_rate&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># scatterplot with fitted line</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="s1">&#39;beertax&#39;</span><span class="p">,</span> <span class="s1">&#39;fat_rate&#39;</span><span class="p">,</span>  <span class="n">data</span><span class="o">=</span> <span class="n">df</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;beertax&#39;</span><span class="p">],</span> <span class="n">b</span> <span class="o">+</span> <span class="n">m</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;beertax&#39;</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="s2">&quot;beertax&quot;</span><span class="p">,</span> <span class="s2">&quot;fat_rate&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;beertax&quot;</span><span class="p">],</span> <span class="n">b</span> <span class="o">+</span> <span class="n">m</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;beertax&quot;</span><span class="p">],</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -595,7 +598,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&lt;matplotlib.lines.Line2D at 0x7fc0e858a860&gt;]
+[&lt;matplotlib.lines.Line2D at 0x7fb0a87b8e90&gt;]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -618,7 +621,8 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
-<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;fat_rate ~ beertax&#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;fat_rate ~ beertax&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -639,10 +643,10 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   34.39</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 18 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.08e-08</td>
+  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>1.08e-08</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:13:24</td>     <th>  Log-Likelihood:    </th> <td> -271.04</td>
+  <th>Time:</th>                 <td>18:57:18</td>     <th>  Log-Likelihood:    </th> <td> -271.04</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   336</td>      <th>  AIC:               </th> <td>   546.1</td>
@@ -681,7 +685,7 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
 <tr>
   <th>Kurtosis:</th>      <td> 4.707</td> <th>  Cond. No.          </th> <td>    2.76</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
 </div>
 <div class="section" id="Exercise-5">
@@ -692,7 +696,7 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;fat_rate ~ beertax + C(state)&#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;fat_rate ~ beertax + C(state)&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -713,10 +717,10 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   56.97</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 18 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.96e-120</td>
+  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>1.96e-120</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:13:24</td>     <th>  Log-Likelihood:    </th> <td>  107.97</td>
+  <th>Time:</th>                 <td>18:57:18</td>     <th>  Log-Likelihood:    </th> <td>  107.97</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   336</td>      <th>  AIC:               </th> <td>  -117.9</td>
@@ -896,7 +900,7 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
 <tr>
   <th>Kurtosis:</th>      <td> 6.786</td> <th>  Cond. No.          </th> <td>    187.</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
 </div>
 <div class="section" id="Exercise-6">
@@ -935,11 +939,13 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># get demeaned variables</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;beertax_dm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;beertax&#39;</span><span class="p">]</span> <span class="o">-</span>  <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">beertax</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;fat_rate_dm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;fat_rate&#39;</span><span class="p">]</span>  <span class="o">-</span>  <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fat_rate</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;beertax_dm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;beertax&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;state&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">beertax</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;fat_rate_dm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;fat_rate&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;state&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fat_rate</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
 
 <span class="c1"># perform ols</span>
-<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;fat_rate_dm ~ beertax_dm&#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span> <span class="c1"># it should be the same as the output using PanelOls</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span>
+    <span class="s2">&quot;fat_rate_dm ~ beertax_dm&quot;</span><span class="p">,</span> <span class="n">df</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>  <span class="c1"># it should be the same as the output using PanelOls</span>
 </pre></div>
 </div>
 </div>
@@ -960,10 +966,10 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   14.19</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 18 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>0.000196</td>
+  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>0.000196</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:13:24</td>     <th>  Log-Likelihood:    </th> <td>  107.97</td>
+  <th>Time:</th>                 <td>18:57:18</td>     <th>  Log-Likelihood:    </th> <td>  107.97</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   336</td>      <th>  AIC:               </th> <td>  -211.9</td>
@@ -1002,7 +1008,7 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
 <tr>
   <th>Kurtosis:</th>      <td> 6.786</td> <th>  Cond. No.          </th> <td>    18.1</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
 </div>
 <div class="section" id="Exercise-7">
@@ -1013,7 +1019,7 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">])</span>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;year&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1025,8 +1031,7 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
 <span></span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="kn">import</span> <span class="n">PanelOLS</span>
 
 <span class="c1"># model with state fixed effect</span>
-<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;fat_rate ~ beertax + EntityEffects&#39;</span><span class="p">,</span>
-                            <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s2">&quot;fat_rate ~ beertax + EntityEffects&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -1041,8 +1046,8 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
 Dep. Variable:               fat_rate   R-squared:                        0.0407
 Estimator:                   PanelOLS   R-squared (Between):             -0.3805
 No. Observations:                 336   R-squared (Within):               0.0407
-Date:                Tue, Feb 18 2020   R-squared (Overall):             -0.3775
-Time:                        20:13:24   Log-likelihood                    107.97
+Date:                Mon, Mar 01 2021   R-squared (Overall):             -0.3775
+Time:                        18:57:18   Log-likelihood                    107.97
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      12.190
 Entities:                          48   P-value                           0.0006
@@ -1078,14 +1083,13 @@ Included effects: Entity
 FatalityRate_{it} = \beta BeerTax_{it} + X_{it} + State_i + Year_t + \epsilon_{it}
 \end{align}</span></p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># model with state and year fixed effect effects</span>
-<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;fat_rate ~ beertax + EntityEffects + TimeEffects&#39;</span><span class="p">,</span>
-                            <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s2">&quot;fat_rate ~ beertax + EntityEffects + TimeEffects&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s2">&quot;clustered&quot;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1094,15 +1098,37 @@ FatalityRate_{it} = \beta BeerTax_{it} + X_{it} + State_i + Year_t + \epsilon_{i
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-red-fg">--------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                          Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-2-dc405a842caf&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg"># model with state and year fixed effect effects</span>
-<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> mod = PanelOLS.from_formula(&#39;fat_rate ~ beertax + EntityEffects + TimeEffects&#39;,
-</span><span class="ansi-green-intense-fg ansi-bold">      3</span>                             data=df)
-<span class="ansi-green-intense-fg ansi-bold">      4</span> print<span class="ansi-blue-fg">(</span>mod<span class="ansi-blue-fg">.</span>fit<span class="ansi-blue-fg">(</span>cov_type<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;clustered&#39;</span><span class="ansi-blue-fg">,</span> cluster_entity<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+                          PanelOLS Estimation Summary
+================================================================================
+Dep. Variable:               fat_rate   R-squared:                        0.0361
+Estimator:                   PanelOLS   R-squared (Between):             -0.3701
+No. Observations:                 336   R-squared (Within):               0.0407
+Date:                Mon, Mar 01 2021   R-squared (Overall):             -0.3672
+Time:                        18:57:18   Log-likelihood                    115.04
+Cov. Estimator:             Clustered
+                                        F-statistic:                      10.513
+Entities:                          48   P-value                           0.0013
+Avg Obs:                       7.0000   Distribution:                   F(1,281)
+Min Obs:                       7.0000
+Max Obs:                       7.0000   F-statistic (robust):             2.8021
+                                        P-value                           0.0953
+Time periods:                       7   Distribution:                   F(1,281)
+Avg Obs:                       48.000
+Min Obs:                       48.000
+Max Obs:                       48.000
 
-<span class="ansi-red-fg">NameError</span>: name &#39;PanelOLS&#39; is not defined
+                             Parameter Estimates
+==============================================================================
+            Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+beertax       -0.6400     0.3823    -1.6740     0.0953     -1.3925      0.1126
+==============================================================================
+
+F-test for Poolability: 47.479
+P-value: 0.0000
+Distribution: F(53,281)
+
+Included effects: Entity, Time
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -1183,7 +1209,7 @@ FatalityRate_{it} = \beta BeerTax_{it} + X_{it} + State_i + Year_t + \epsilon_{i
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

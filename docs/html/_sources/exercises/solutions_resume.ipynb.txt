@@ -36,15 +36,28 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "import pandas as pd\n",
-    "from scipy import stats\n",
-    "import statsmodels.api as sm\n",
-    "resumes = pd.read_stata('https://github.com/nickeubank/MIDS_Data/blob/master/resume_experiment/resume_experiment.dta?raw=true')"
+    "%load_ext lab_black"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "from scipy import stats\n",
+    "import statsmodels.api as sm\n",
+    "\n",
+    "resumes = pd.read_stata(\n",
+    "    \"https://github.com/nickeubank/MIDS_Data/blob/master/resume_experiment/\"\n",
+    "    \"resume_experiment.dta?raw=true\"\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
    "metadata": {},
    "outputs": [
     {
@@ -141,7 +154,7 @@
        "4          3       3        22               1   0.0     1.0    0.0"
       ]
      },
-     "execution_count": 2,
+     "execution_count": 3,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -152,7 +165,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 4,
    "metadata": {},
    "outputs": [
     {
@@ -178,27 +191,29 @@
     }
    ],
    "source": [
-    "for i in ['female', 'computerskills', 'yearsexp']:\n",
+    "for i in [\"female\", \"computerskills\", \"yearsexp\"]:\n",
     "    black = resumes.loc[resumes.black == 1, i].mean()\n",
     "    white = resumes.loc[resumes.black == 0, i].mean()\n",
-    "    pvalue = stats.ttest_ind(resumes.loc[resumes.black == 1, i].values, \n",
-    "                             resumes.loc[resumes.black == 0, i].values).pvalue\n",
-    "    print(f'For {i}, the mean for Black applicants is {black:.2f},')\n",
-    "    print(f'            the mean for White applicants is {white:.2f},')\n",
-    "    print(f'and the p-value for this difference is {pvalue:.2f}')\n",
-    "    print('\\n')"
+    "    pvalue = stats.ttest_ind(\n",
+    "        resumes.loc[resumes.black == 1, i].values,\n",
+    "        resumes.loc[resumes.black == 0, i].values,\n",
+    "    ).pvalue\n",
+    "    print(f\"For {i}, the mean for Black applicants is {black:.2f},\")\n",
+    "    print(f\"            the mean for White applicants is {white:.2f},\")\n",
+    "    print(f\"and the p-value for this difference is {pvalue:.2f}\")\n",
+    "    print(\"\\n\")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 5,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Yes, gender and computer skills are roughly balanced across race groups. \n",
-    "# Black shows a statisticallly significantly higher level of computer \n",
+    "# Yes, gender and computer skills are roughly balanced across race groups.\n",
+    "# Black shows a statisticallly significantly higher level of computer\n",
     "# computer skills than White, but the magnitude isn't too worrying.\n",
-    "# Provided other things seem balanced, this is hopefully spurious. "
+    "# Provided other things seem balanced, this is hopefully spurious."
    ]
   },
   {
@@ -222,7 +237,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 6,
    "metadata": {},
    "outputs": [
     {
@@ -289,19 +304,19 @@
        "1.0        28  22  132  493  1760"
       ]
      },
-     "execution_count": 5,
+     "execution_count": 6,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "# Quick and dirty:\n",
-    "pd.crosstab(resumes['black'], resumes['education'])"
+    "pd.crosstab(resumes[\"black\"], resumes[\"education\"])"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 7,
    "metadata": {},
    "outputs": [
     {
@@ -342,20 +357,19 @@
     }
    ],
    "source": [
-    "for v in ['education']:\n",
+    "for v in [\"education\"]:\n",
     "    for i in resumes[v].unique():\n",
     "        black_share = resumes.loc[(resumes.black == 1), v] == i\n",
-    "        \n",
+    "\n",
     "        white_share = resumes.loc[(resumes.black == 0), v] == i\n",
     "\n",
-    "        pvalue = stats.ttest_ind(black_share.values, \n",
-    "                                 white_share.values).pvalue\n",
-    "        \n",
-    "        print(f'For {v}, value {i}:')\n",
-    "        print(f'the mean for Black applicants is {black_share.mean():.2f},')\n",
-    "        print(f'the mean for White applicants is {white_share.mean():.2f},')\n",
-    "        print(f'and the p-value for this difference is {pvalue:.2f}')\n",
-    "        print('\\n')"
+    "        pvalue = stats.ttest_ind(black_share.values, white_share.values).pvalue\n",
+    "\n",
+    "        print(f\"For {v}, value {i}:\")\n",
+    "        print(f\"the mean for Black applicants is {black_share.mean():.2f},\")\n",
+    "        print(f\"the mean for White applicants is {white_share.mean():.2f},\")\n",
+    "        print(f\"and the p-value for this difference is {pvalue:.2f}\")\n",
+    "        print(\"\\n\")"
    ]
   },
   {
@@ -374,12 +388,12 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 8,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Checking on the balance across groups on a number of key variables ensures that the resumes sent \n",
-    "# out are the same or almost the same, which allows us to confidently isolate the independent \n",
+    "# Checking on the balance across groups on a number of key variables ensures that the resumes sent\n",
+    "# out are the same or almost the same, which allows us to confidently isolate the independent\n",
     "# variable, the \"black-ness\" or \"white-ness\" of the name."
    ]
   },
@@ -401,7 +415,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 9,
    "metadata": {},
    "outputs": [
     {
@@ -417,15 +431,17 @@
     }
    ],
    "source": [
-    "black = resumes[resumes.black == 1]['call']\n",
-    "white = resumes[resumes.black == 0]['call']\n",
+    "black = resumes[resumes.black == 1][\"call\"]\n",
+    "white = resumes[resumes.black == 0][\"call\"]\n",
     "t2, p2 = stats.ttest_ind(black, white)\n",
     "\n",
-    "print(f'The mean callback rates are:')\n",
-    "print(f'{black.mean() * 100 :.1f}% for Black applicants, and')\n",
-    "print(f'{white.mean() * 100 :.1f}% for White applicants.')\n",
-    "print(f'Thats a difference of {(white.mean() - black.mean()) * 100: .1f} percentage points, a difference of {(white.mean() - black.mean()) / (resumes.call.mean()) * 100 :.1f}% difference.')\n",
-    "print(f'This difference has a p-value of {p2:.3f}')"
+    "print(f\"The mean callback rates are:\")\n",
+    "print(f\"{black.mean() * 100 :.1f}% for Black applicants, and\")\n",
+    "print(f\"{white.mean() * 100 :.1f}% for White applicants.\")\n",
+    "print(\n",
+    "    f\"Thats a difference of {(white.mean() - black.mean()) * 100: .1f} percentage points, a difference of {(white.mean() - black.mean()) / (resumes.call.mean()) * 100 :.1f}% difference.\"\n",
+    ")\n",
+    "print(f\"This difference has a p-value of {p2:.3f}\")"
    ]
   },
   {
@@ -439,7 +455,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 10,
    "metadata": {},
    "outputs": [
     {
@@ -457,10 +473,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   16.92</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Fri, 14 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.96e-05</td>\n",
+       "  <th>Date:</th>             <td>Thu, 04 Feb 2021</td> <th>  Prob (F-statistic):</th> <td>3.96e-05</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>11:22:39</td>     <th>  Log-Likelihood:    </th> <td> -562.24</td>\n",
+       "  <th>Time:</th>                 <td>10:51:49</td>     <th>  Log-Likelihood:    </th> <td> -562.24</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  4870</td>      <th>  AIC:               </th> <td>   1128.</td>\n",
@@ -499,7 +515,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>       <td>10.458</td>  <th>  Cond. No.          </th> <td>    2.62</td> \n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -509,8 +525,8 @@
        "Dep. Variable:                   call   R-squared:                       0.003\n",
        "Model:                            OLS   Adj. R-squared:                  0.003\n",
        "Method:                 Least Squares   F-statistic:                     16.92\n",
-       "Date:                Fri, 14 Feb 2020   Prob (F-statistic):           3.96e-05\n",
-       "Time:                        11:22:39   Log-Likelihood:                -562.24\n",
+       "Date:                Thu, 04 Feb 2021   Prob (F-statistic):           3.96e-05\n",
+       "Time:                        10:51:49   Log-Likelihood:                -562.24\n",
        "No. Observations:                4870   AIC:                             1128.\n",
        "Df Residuals:                    4868   BIC:                             1141.\n",
        "Df Model:                           1                                         \n",
@@ -527,20 +543,21 @@
        "Kurtosis:                      10.458   Cond. No.                         2.62\n",
        "==============================================================================\n",
        "\n",
-       "Warnings:\n",
+       "Notes:\n",
        "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
        "\"\"\""
       ]
      },
-     "execution_count": 9,
+     "execution_count": 10,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "import statsmodels.formula.api as smf\n",
-    "model = smf.ols('call ~ black', resumes).fit()\n",
-    "model.get_robustcov_results(cov_type='HC3').summary()"
+    "\n",
+    "model = smf.ols(\"call ~ black\", resumes).fit()\n",
+    "model.get_robustcov_results(cov_type=\"HC3\").summary()"
    ]
   },
   {
@@ -554,7 +571,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 11,
    "metadata": {},
    "outputs": [
     {
@@ -572,10 +589,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   4.350</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Fri, 14 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.04e-05</td>\n",
+       "  <th>Date:</th>             <td>Thu, 04 Feb 2021</td> <th>  Prob (F-statistic):</th> <td>3.04e-05</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>11:22:39</td>     <th>  Log-Likelihood:    </th> <td> -551.02</td>\n",
+       "  <th>Time:</th>                 <td>10:51:49</td>     <th>  Log-Likelihood:    </th> <td> -551.02</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  4870</td>      <th>  AIC:               </th> <td>   1120.</td>\n",
@@ -635,7 +652,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>       <td>10.395</td>  <th>  Cond. No.          </th> <td>    225.</td> \n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -645,8 +662,8 @@
        "Dep. Variable:                   call   R-squared:                       0.008\n",
        "Model:                            OLS   Adj. R-squared:                  0.006\n",
        "Method:                 Least Squares   F-statistic:                     4.350\n",
-       "Date:                Fri, 14 Feb 2020   Prob (F-statistic):           3.04e-05\n",
-       "Time:                        11:22:39   Log-Likelihood:                -551.02\n",
+       "Date:                Thu, 04 Feb 2021   Prob (F-statistic):           3.04e-05\n",
+       "Time:                        10:51:49   Log-Likelihood:                -551.02\n",
        "No. Observations:                4870   AIC:                             1120.\n",
        "Df Residuals:                    4861   BIC:                             1178.\n",
        "Df Model:                           8                                         \n",
@@ -670,20 +687,23 @@
        "Kurtosis:                      10.395   Cond. No.                         225.\n",
        "==============================================================================\n",
        "\n",
-       "Warnings:\n",
+       "Notes:\n",
        "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
        "\"\"\""
       ]
      },
-     "execution_count": 10,
+     "execution_count": 11,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "import statsmodels.formula.api as smf\n",
-    "model = smf.ols('call ~ black + C(education) + yearsexp + computerskills + female', resumes).fit()\n",
-    "model.get_robustcov_results(cov_type='HC3').summary()"
+    "\n",
+    "model = smf.ols(\n",
+    "    \"call ~ black + C(education) + yearsexp + computerskills + female\", resumes\n",
+    ").fit()\n",
+    "model.get_robustcov_results(cov_type=\"HC3\").summary()"
    ]
   },
   {
@@ -706,7 +726,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 12,
    "metadata": {},
    "outputs": [
     {
@@ -724,10 +744,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   4.245</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Fri, 14 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td>0.00198</td>\n",
+       "  <th>Date:</th>             <td>Thu, 04 Feb 2021</td> <th>  Prob (F-statistic):</th>  <td>0.00198</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>11:22:39</td>     <th>  Log-Likelihood:    </th> <td> -372.64</td>\n",
+       "  <th>Time:</th>                 <td>10:51:49</td>     <th>  Log-Likelihood:    </th> <td> -372.64</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  3504</td>      <th>  AIC:               </th> <td>   755.3</td>\n",
@@ -775,7 +795,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>       <td>10.657</td>  <th>  Cond. No.          </th> <td>    35.7</td> \n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -785,8 +805,8 @@
        "Dep. Variable:                   call   R-squared:                       0.005\n",
        "Model:                            OLS   Adj. R-squared:                  0.004\n",
        "Method:                 Least Squares   F-statistic:                     4.245\n",
-       "Date:                Fri, 14 Feb 2020   Prob (F-statistic):            0.00198\n",
-       "Time:                        11:22:39   Log-Likelihood:                -372.64\n",
+       "Date:                Thu, 04 Feb 2021   Prob (F-statistic):            0.00198\n",
+       "Time:                        10:51:49   Log-Likelihood:                -372.64\n",
        "No. Observations:                3504   AIC:                             755.3\n",
        "Df Residuals:                    3499   BIC:                             786.1\n",
        "Df Model:                           4                                         \n",
@@ -806,25 +826,27 @@
        "Kurtosis:                      10.657   Cond. No.                         35.7\n",
        "==============================================================================\n",
        "\n",
-       "Warnings:\n",
+       "Notes:\n",
        "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
        "\"\"\""
       ]
      },
-     "execution_count": 11,
+     "execution_count": 12,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "college_grads = resumes[resumes.education == 4]\n",
-    "model = smf.ols('call ~ black + yearsexp + computerskills + female', college_grads).fit()\n",
-    "model.get_robustcov_results(cov_type='HC3').summary()"
+    "model = smf.ols(\n",
+    "    \"call ~ black + yearsexp + computerskills + female\", college_grads\n",
+    ").fit()\n",
+    "model.get_robustcov_results(cov_type=\"HC3\").summary()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 30,
+   "execution_count": 13,
    "metadata": {},
    "outputs": [
     {
@@ -842,10 +864,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   6.837</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Fri, 14 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.90e-05</td>\n",
+       "  <th>Date:</th>             <td>Thu, 04 Feb 2021</td> <th>  Prob (F-statistic):</th> <td>1.90e-05</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>11:29:53</td>     <th>  Log-Likelihood:    </th> <td> -170.01</td>\n",
+       "  <th>Time:</th>                 <td>10:51:49</td>     <th>  Log-Likelihood:    </th> <td> -170.01</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  1366</td>      <th>  AIC:               </th> <td>   350.0</td>\n",
@@ -893,7 +915,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>      <td> 9.636</td>  <th>  Cond. No.          </th> <td>    46.2</td>\n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -903,8 +925,8 @@
        "Dep. Variable:                   call   R-squared:                       0.026\n",
        "Model:                            OLS   Adj. R-squared:                  0.023\n",
        "Method:                 Least Squares   F-statistic:                     6.837\n",
-       "Date:                Fri, 14 Feb 2020   Prob (F-statistic):           1.90e-05\n",
-       "Time:                        11:29:53   Log-Likelihood:                -170.01\n",
+       "Date:                Thu, 04 Feb 2021   Prob (F-statistic):           1.90e-05\n",
+       "Time:                        10:51:49   Log-Likelihood:                -170.01\n",
        "No. Observations:                1366   AIC:                             350.0\n",
        "Df Residuals:                    1361   BIC:                             376.1\n",
        "Df Model:                           4                                         \n",
@@ -924,25 +946,27 @@
        "Kurtosis:                       9.636   Cond. No.                         46.2\n",
        "==============================================================================\n",
        "\n",
-       "Warnings:\n",
+       "Notes:\n",
        "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
        "\"\"\""
       ]
      },
-     "execution_count": 30,
+     "execution_count": 13,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "non_college_grads = resumes[resumes.education != 4]\n",
-    "model = smf.ols('call ~ black + yearsexp + computerskills + female', non_college_grads).fit()\n",
-    "model.get_robustcov_results(cov_type='HC3').summary()"
+    "model = smf.ols(\n",
+    "    \"call ~ black + yearsexp + computerskills + female\", non_college_grads\n",
+    ").fit()\n",
+    "model.get_robustcov_results(cov_type=\"HC3\").summary()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 24,
+   "execution_count": 14,
    "metadata": {},
    "outputs": [
     {
@@ -951,7 +975,7 @@
        "0.15"
       ]
      },
-     "execution_count": 24,
+     "execution_count": 14,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -962,11 +986,11 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 15,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Less discrimination among those with college degrees. "
+    "# Less discrimination among those with college degrees."
    ]
   },
   {
@@ -980,7 +1004,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 16,
    "metadata": {},
    "outputs": [
     {
@@ -998,10 +1022,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1.172</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Fri, 14 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td> 0.316</td> \n",
+       "  <th>Date:</th>             <td>Thu, 04 Feb 2021</td> <th>  Prob (F-statistic):</th>  <td> 0.316</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>11:22:39</td>     <th>  Log-Likelihood:    </th> <td> -81.051</td>\n",
+       "  <th>Time:</th>                 <td>10:51:49</td>     <th>  Log-Likelihood:    </th> <td> -81.051</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  1124</td>      <th>  AIC:               </th> <td>   178.1</td>\n",
@@ -1058,7 +1082,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>      <td>11.473</td>  <th>  Cond. No.          </th> <td>    175.</td>\n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -1068,8 +1092,8 @@
        "Dep. Variable:                   call   R-squared:                       0.011\n",
        "Model:                            OLS   Adj. R-squared:                  0.005\n",
        "Method:                 Least Squares   F-statistic:                     1.172\n",
-       "Date:                Fri, 14 Feb 2020   Prob (F-statistic):              0.316\n",
-       "Time:                        11:22:39   Log-Likelihood:                -81.051\n",
+       "Date:                Thu, 04 Feb 2021   Prob (F-statistic):              0.316\n",
+       "Time:                        10:51:49   Log-Likelihood:                -81.051\n",
        "No. Observations:                1124   AIC:                             178.1\n",
        "Df Residuals:                    1116   BIC:                             218.3\n",
        "Df Model:                           7                                         \n",
@@ -1092,12 +1116,12 @@
        "Kurtosis:                      11.473   Cond. No.                         175.\n",
        "==============================================================================\n",
        "\n",
-       "Warnings:\n",
+       "Notes:\n",
        "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
        "\"\"\""
       ]
      },
-     "execution_count": 14,
+     "execution_count": 16,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -1106,13 +1130,13 @@
     "men = resumes[resumes.female == 0]\n",
     "women = resumes[resumes.female == 1]\n",
     "\n",
-    "model = smf.ols('call ~ black + yearsexp + computerskills + C(education)', men).fit()\n",
-    "model.get_robustcov_results(cov_type='HC3').summary()"
+    "model = smf.ols(\"call ~ black + yearsexp + computerskills + C(education)\", men).fit()\n",
+    "model.get_robustcov_results(cov_type=\"HC3\").summary()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 17,
    "metadata": {},
    "outputs": [
     {
@@ -1130,10 +1154,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   14.35</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Fri, 14 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.58e-18</td>\n",
+       "  <th>Date:</th>             <td>Thu, 04 Feb 2021</td> <th>  Prob (F-statistic):</th> <td>1.58e-18</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>11:22:39</td>     <th>  Log-Likelihood:    </th> <td> -458.45</td>\n",
+       "  <th>Time:</th>                 <td>10:51:49</td>     <th>  Log-Likelihood:    </th> <td> -458.45</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  3746</td>      <th>  AIC:               </th> <td>   932.9</td>\n",
@@ -1190,7 +1214,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>       <td>10.047</td>  <th>  Cond. No.          </th> <td>    254.</td> \n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -1200,8 +1224,8 @@
        "Dep. Variable:                   call   R-squared:                       0.012\n",
        "Model:                            OLS   Adj. R-squared:                  0.010\n",
        "Method:                 Least Squares   F-statistic:                     14.35\n",
-       "Date:                Fri, 14 Feb 2020   Prob (F-statistic):           1.58e-18\n",
-       "Time:                        11:22:39   Log-Likelihood:                -458.45\n",
+       "Date:                Thu, 04 Feb 2021   Prob (F-statistic):           1.58e-18\n",
+       "Time:                        10:51:49   Log-Likelihood:                -458.45\n",
        "No. Observations:                3746   AIC:                             932.9\n",
        "Df Residuals:                    3738   BIC:                             982.7\n",
        "Df Model:                           7                                         \n",
@@ -1224,28 +1248,28 @@
        "Kurtosis:                      10.047   Cond. No.                         254.\n",
        "==============================================================================\n",
        "\n",
-       "Warnings:\n",
+       "Notes:\n",
        "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
        "\"\"\""
       ]
      },
-     "execution_count": 15,
+     "execution_count": 17,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "model = smf.ols('call ~ black + yearsexp + computerskills + C(education)', women).fit()\n",
-    "model.get_robustcov_results(cov_type='HC3').summary()"
+    "model = smf.ols(\"call ~ black + yearsexp + computerskills + C(education)\", women).fit()\n",
+    "model.get_robustcov_results(cov_type=\"HC3\").summary()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 16,
+   "execution_count": 18,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# About the same. "
+    "# About the same."
    ]
   },
   {
@@ -1262,7 +1286,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 17,
+   "execution_count": 19,
    "metadata": {},
    "outputs": [
     {
@@ -1271,19 +1295,19 @@
        "0.7195071868583163"
       ]
      },
-     "execution_count": 17,
+     "execution_count": 19,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "# In our data: \n",
-    "(resumes['education'] == 4).mean()"
+    "# In our data:\n",
+    "(resumes[\"education\"] == 4).mean()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 18,
+   "execution_count": 20,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -1301,14 +1325,14 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 19,
+   "execution_count": 21,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Given that discrimination seems higher for less educated job applicants \n",
-    "# and the resume experiment over-represented people with college degrees, \n",
-    "# real workplace discrimination is likely higher than suggested by the \n",
-    "# ATE estimated in Exercise 6. "
+    "# Given that discrimination seems higher for less educated job applicants\n",
+    "# and the resume experiment over-represented people with college degrees,\n",
+    "# real workplace discrimination is likely higher than suggested by the\n",
+    "# ATE estimated in Exercise 6."
    ]
   }
  ],
@@ -1328,7 +1352,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.7.3"
+   "version": "3.7.8"
   }
  },
  "nbformat": 4,

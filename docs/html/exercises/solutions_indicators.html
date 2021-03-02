@@ -13,8 +13,6 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -276,18 +274,23 @@ div.rendered_html tbody tr:hover {
 <h3>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h3>
 <p>Create a new variable named <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> that takes the value of 1 if the car’s miles per gallon (<code class="docutils literal notranslate"><span class="pre">mpg</span></code>) is less than 18 and takes value 0 otherwise (“guzzler” is a term for a car that consumes gas very quickly, or “guzzles gas”). Regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> and interpret the coefficients. Do gas guzzlers cost more than the other cars? How much more?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">cars</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span><span class="s1">&#39;https://github.com/nickeubank/MIDS_Data/blob/master/automobile_dataset.dta?raw=true&#39;</span><span class="p">)</span>
+<span></span><span class="o">%</span><span class="k">load_ext</span> lab_black
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">cars</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span>
+    <span class="s2">&quot;https://github.com/nickeubank/MIDS_Data/&quot;</span>
+    <span class="s2">&quot;blob/master/automobile_dataset.dta?raw=true&quot;</span>
+<span class="p">)</span>
 <span class="n">cars</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -309,75 +312,76 @@ div.rendered_html tbody tr:hover {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>54</th>
+      <th>47</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>make</th>
-      <td>BMW 320i</td>
+      <td>Pont. Firebird</td>
     </tr>
     <tr>
       <th>price</th>
-      <td>9735</td>
+      <td>4934</td>
     </tr>
     <tr>
       <th>mpg</th>
-      <td>25</td>
+      <td>18</td>
     </tr>
     <tr>
       <th>rep78</th>
-      <td>4</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>headroom</th>
-      <td>2.5</td>
+      <td>1.5</td>
     </tr>
     <tr>
       <th>trunk</th>
-      <td>12</td>
+      <td>7</td>
     </tr>
     <tr>
       <th>weight</th>
-      <td>2650</td>
+      <td>3470</td>
     </tr>
     <tr>
       <th>length</th>
-      <td>177</td>
+      <td>198</td>
     </tr>
     <tr>
       <th>turn</th>
-      <td>34</td>
+      <td>42</td>
     </tr>
     <tr>
       <th>displacement</th>
-      <td>121</td>
+      <td>231</td>
     </tr>
     <tr>
       <th>gear_ratio</th>
-      <td>3.64</td>
+      <td>3.08</td>
     </tr>
     <tr>
       <th>foreign</th>
-      <td>Foreign</td>
+      <td>Domestic</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">cars</span><span class="p">[</span><span class="s1">&#39;guzzler&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cars</span><span class="o">.</span><span class="n">mpg</span> <span class="o">&lt;</span> <span class="mi">18</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+<span></span><span class="n">cars</span><span class="p">[</span><span class="s2">&quot;guzzler&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cars</span><span class="o">.</span><span class="n">mpg</span> <span class="o">&lt;</span> <span class="mi">18</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
-<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;price ~ guzzler&#39;</span><span class="p">,</span> <span class="n">cars</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;price ~ guzzler&quot;</span><span class="p">,</span> <span class="n">cars</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -393,10 +397,10 @@ div.rendered_html tbody tr:hover {
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   43.90</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 18 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>5.38e-09</td>
+  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>5.38e-09</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:25:58</td>     <th>  Log-Likelihood:    </th> <td> -678.10</td>
+  <th>Time:</th>                 <td>18:57:48</td>     <th>  Log-Likelihood:    </th> <td> -678.10</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>    74</td>      <th>  AIC:               </th> <td>   1360.</td>
@@ -435,7 +439,7 @@ div.rendered_html tbody tr:hover {
 <tr>
   <th>Kurtosis:</th>      <td> 8.126</td> <th>  Cond. No.          </th> <td>    2.50</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
 </div>
 <div class="section" id="Exercise-2">
@@ -443,12 +447,13 @@ div.rendered_html tbody tr:hover {
 <p>Create a scatter plot of <code class="docutils literal notranslate"><span class="pre">price</span></code> against <code class="docutils literal notranslate"><span class="pre">weight</span></code> and color code your markers by the value of <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> (red for <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> = 1 and green for <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> = 0).</p>
 <p>Based on the graph you just created, do you think <strong>not</strong> controlling for <code class="docutils literal notranslate"><span class="pre">weight</span></code> might lead to omitted variable bias in the regression in Exercise 1? What is the direction of the bias?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">cars</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;weight&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;guzzler&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="n">geom_point</span><span class="p">())</span>
+
+<span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">cars</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;price&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;guzzler&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="n">geom_point</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -460,12 +465,12 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;ggplot: (8769703215792)&gt;
+&lt;ggplot: (8789568076389)&gt;
 </pre></div></div>
 </div>
 </div>
@@ -473,16 +478,18 @@ div.rendered_html tbody tr:hover {
 <h3>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h3>
 <p>Regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on <code class="docutils literal notranslate"><span class="pre">guzzler</span></code>, <code class="docutils literal notranslate"><span class="pre">weight</span></code>, <code class="docutils literal notranslate"><span class="pre">foreign</span></code>, <code class="docutils literal notranslate"><span class="pre">headroom</span></code>, and <code class="docutils literal notranslate"><span class="pre">displacement</span></code>. Interpret the coefficients. Do the regression results confirm your guess in Q3?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;price ~ guzzler + weight + foreign + headroom + displacement&#39;</span><span class="p">,</span> <span class="n">cars</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span>
+    <span class="s2">&quot;price ~ guzzler + weight + foreign + headroom + displacement&quot;</span><span class="p">,</span> <span class="n">cars</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -498,10 +505,10 @@ div.rendered_html tbody tr:hover {
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   20.04</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 18 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.14e-12</td>
+  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>3.14e-12</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:25:58</td>     <th>  Log-Likelihood:    </th> <td> -662.20</td>
+  <th>Time:</th>                 <td>18:57:49</td>     <th>  Log-Likelihood:    </th> <td> -662.20</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>    74</td>      <th>  AIC:               </th> <td>   1336.</td>
@@ -552,7 +559,7 @@ div.rendered_html tbody tr:hover {
 <tr>
   <th>Kurtosis:</th>      <td> 5.663</td> <th>  Cond. No.          </th> <td>2.36e+04</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 2.36e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 2.36e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
 </div>
 </div>
 <div class="section" id="Exercise-4">
@@ -561,16 +568,18 @@ div.rendered_html tbody tr:hover {
 <p>Create five separate indicator variables from <code class="docutils literal notranslate"><span class="pre">rep78</span></code> and regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on indicators for values 2 through 5. Also control for <code class="docutils literal notranslate"><span class="pre">headroom</span></code>, <code class="docutils literal notranslate"><span class="pre">weight</span></code>, <code class="docutils literal notranslate"><span class="pre">foreign</span></code>, and <code class="docutils literal notranslate"><span class="pre">displacement</span></code>. Interpret the coefficients on the indicator for <code class="docutils literal notranslate"><span class="pre">rep78</span> <span class="pre">==</span> <span class="pre">3</span></code>.</p>
 <p>(Note: You can use the <code class="docutils literal notranslate"><span class="pre">C()</span></code> method for creating indicator variables, but your answers will only be right if the omitted category is <code class="docutils literal notranslate"><span class="pre">rep78</span> <span class="pre">==</span> <span class="pre">1</span></code>).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;price ~ C(rep78) + guzzler + weight + foreign + headroom + displacement&#39;</span><span class="p">,</span> <span class="n">cars</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span>
+    <span class="s2">&quot;price ~ C(rep78) + guzzler + weight + foreign + headroom + displacement&quot;</span><span class="p">,</span> <span class="n">cars</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -586,10 +595,10 @@ div.rendered_html tbody tr:hover {
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   9.557</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 18 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>8.11e-09</td>
+  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>8.11e-09</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:25:58</td>     <th>  Log-Likelihood:    </th> <td> -616.77</td>
+  <th>Time:</th>                 <td>18:57:49</td>     <th>  Log-Likelihood:    </th> <td> -616.77</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>    69</td>      <th>  AIC:               </th> <td>   1254.</td>
@@ -652,7 +661,7 @@ div.rendered_html tbody tr:hover {
 <tr>
   <th>Kurtosis:</th>      <td> 5.478</td> <th>  Cond. No.          </th> <td>4.54e+04</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 4.54e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 4.54e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
 </div>
 </div>
 </div>
@@ -662,16 +671,18 @@ div.rendered_html tbody tr:hover {
 <h3>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h3>
 <p>You suspect that the effect of <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> on <code class="docutils literal notranslate"><span class="pre">price</span></code> may be conditioned by whether or not the car is manufactured abroad. Regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on <code class="docutils literal notranslate"><span class="pre">guzzler</span></code>, <code class="docutils literal notranslate"><span class="pre">foreign</span></code> <strong>and their interaction,</strong> controlling for <code class="docutils literal notranslate"><span class="pre">headroom</span></code>, <code class="docutils literal notranslate"><span class="pre">weight</span></code> and <code class="docutils literal notranslate"><span class="pre">displacement</span></code>. Without using mathematical language, explain to your grandma what the coefficient on the interaction term means.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;price ~ guzzler * foreign + weight + headroom + displacement&#39;</span><span class="p">,</span> <span class="n">cars</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span>
+    <span class="s2">&quot;price ~ guzzler * foreign + weight + headroom + displacement&quot;</span><span class="p">,</span> <span class="n">cars</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -687,10 +698,10 @@ div.rendered_html tbody tr:hover {
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   18.15</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 18 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>2.21e-12</td>
+  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>2.21e-12</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:25:58</td>     <th>  Log-Likelihood:    </th> <td> -660.00</td>
+  <th>Time:</th>                 <td>18:57:49</td>     <th>  Log-Likelihood:    </th> <td> -660.00</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>    74</td>      <th>  AIC:               </th> <td>   1334.</td>
@@ -744,7 +755,7 @@ div.rendered_html tbody tr:hover {
 <tr>
   <th>Kurtosis:</th>      <td> 5.885</td> <th>  Cond. No.          </th> <td>2.39e+04</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 2.39e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 2.39e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
 </div>
 </div>
 <div class="section" id="Exercise-6">
@@ -759,16 +770,18 @@ div.rendered_html tbody tr:hover {
 <h3>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h3>
 <p>Regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on <code class="docutils literal notranslate"><span class="pre">foreign</span></code>, <code class="docutils literal notranslate"><span class="pre">mpg</span></code> and their interaction, controlling for <code class="docutils literal notranslate"><span class="pre">headroom</span></code>, <code class="docutils literal notranslate"><span class="pre">weight</span></code> and <code class="docutils literal notranslate"><span class="pre">displacement</span></code>. Interpret the coefficients of the main independent variables. Explain in layman terms the coefficient on the interaction term.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;price ~ foreign * mpg + weight + headroom + displacement&#39;</span><span class="p">,</span> <span class="n">cars</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span>
+    <span class="s2">&quot;price ~ foreign * mpg + weight + headroom + displacement&quot;</span><span class="p">,</span> <span class="n">cars</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -784,10 +797,10 @@ div.rendered_html tbody tr:hover {
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   16.71</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 18 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.12e-11</td>
+  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>1.12e-11</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:25:58</td>     <th>  Log-Likelihood:    </th> <td> -661.86</td>
+  <th>Time:</th>                 <td>18:57:49</td>     <th>  Log-Likelihood:    </th> <td> -661.86</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>    74</td>      <th>  AIC:               </th> <td>   1338.</td>
@@ -841,7 +854,7 @@ div.rendered_html tbody tr:hover {
 <tr>
   <th>Kurtosis:</th>      <td> 5.204</td> <th>  Cond. No.          </th> <td>6.89e+04</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 6.89e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 6.89e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
 </div>
 </div>
 </div>
@@ -913,7 +926,7 @@ div.rendered_html tbody tr:hover {
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

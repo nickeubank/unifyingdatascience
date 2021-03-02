@@ -13,8 +13,6 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -288,15 +286,28 @@ these data were interested to learning more about how racial bias impacts job ma
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">load_ext</span> lab_black
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 <span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
-<span class="n">resumes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span><span class="s1">&#39;https://github.com/nickeubank/MIDS_Data/blob/master/resume_experiment/resume_experiment.dta?raw=true&#39;</span><span class="p">)</span>
+
+<span class="n">resumes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span>
+    <span class="s2">&quot;https://github.com/nickeubank/MIDS_Data/blob/master/resume_experiment/&quot;</span>
+    <span class="s2">&quot;resume_experiment.dta?raw=true&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -305,7 +316,7 @@ these data were interested to learning more about how racial bias impacts job ma
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -392,19 +403,21 @@ these data were interested to learning more about how racial bias impacts job ma
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;female&#39;</span><span class="p">,</span> <span class="s1">&#39;computerskills&#39;</span><span class="p">,</span> <span class="s1">&#39;yearsexp&#39;</span><span class="p">]:</span>
+<span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="s2">&quot;computerskills&quot;</span><span class="p">,</span> <span class="s2">&quot;yearsexp&quot;</span><span class="p">]:</span>
     <span class="n">black</span> <span class="o">=</span> <span class="n">resumes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="n">white</span> <span class="o">=</span> <span class="n">resumes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="n">pvalue</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">resumes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                             <span class="n">resumes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">pvalue</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;For </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">, the mean for Black applicants is </span><span class="si">{</span><span class="n">black</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">,&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;            the mean for White applicants is </span><span class="si">{</span><span class="n">white</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">,&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;and the p-value for this difference is </span><span class="si">{</span><span class="n">pvalue</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">pvalue</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span>
+        <span class="n">resumes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">resumes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">pvalue</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;For </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, the mean for Black applicants is </span><span class="si">{</span><span class="n">black</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">,&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;            the mean for White applicants is </span><span class="si">{</span><span class="n">white</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">,&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;and the p-value for this difference is </span><span class="si">{</span><span class="n">pvalue</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -431,7 +444,7 @@ and the p-value for this difference is 0.85
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -456,17 +469,17 @@ and the p-value for this difference is 0.85
 <p>Because these are categorical, you shouldn’t just calculate and compare means – you should compare share of observations with each value.</p>
 <p>Does education and the number of previous jobs look balanced across racial groups? (2 points)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Quick and dirty:</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">resumes</span><span class="p">[</span><span class="s1">&#39;black&#39;</span><span class="p">],</span> <span class="n">resumes</span><span class="p">[</span><span class="s1">&#39;education&#39;</span><span class="p">])</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">resumes</span><span class="p">[</span><span class="s2">&quot;black&quot;</span><span class="p">],</span> <span class="n">resumes</span><span class="p">[</span><span class="s2">&quot;education&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -525,24 +538,23 @@ and the p-value for this difference is 0.85
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;education&#39;</span><span class="p">]:</span>
+<span></span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;education&quot;</span><span class="p">]:</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">resumes</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
         <span class="n">black_share</span> <span class="o">=</span> <span class="n">resumes</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">1</span><span class="p">),</span> <span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span>
 
         <span class="n">white_share</span> <span class="o">=</span> <span class="n">resumes</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span>
 
-        <span class="n">pvalue</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">black_share</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                                 <span class="n">white_share</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">pvalue</span>
+        <span class="n">pvalue</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">black_share</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">white_share</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">pvalue</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;For </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">, value </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;the mean for Black applicants is </span><span class="si">{</span><span class="n">black_share</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">,&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;the mean for White applicants is </span><span class="si">{</span><span class="n">white_share</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">,&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;and the p-value for this difference is </span><span class="si">{</span><span class="n">pvalue</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;For </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">, value </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;the mean for Black applicants is </span><span class="si">{</span><span class="n">black_share</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">,&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;the mean for White applicants is </span><span class="si">{</span><span class="n">white_share</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">,&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;and the p-value for this difference is </span><span class="si">{</span><span class="n">pvalue</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -591,7 +603,7 @@ and the p-value for this difference is 0.14
 </pre></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -609,19 +621,21 @@ and the p-value for this difference is 0.14
 <h3>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h3>
 <p>The variable of interest in the data set is the variable <code class="docutils literal notranslate"><span class="pre">call</span></code>, which indicates a call back for an interview. Perform a two-sample t-test comparing applicants with black sounding names and white sounding names.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">black</span> <span class="o">=</span> <span class="n">resumes</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">1</span><span class="p">][</span><span class="s1">&#39;call&#39;</span><span class="p">]</span>
-<span class="n">white</span> <span class="o">=</span> <span class="n">resumes</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">0</span><span class="p">][</span><span class="s1">&#39;call&#39;</span><span class="p">]</span>
+<span></span><span class="n">black</span> <span class="o">=</span> <span class="n">resumes</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;call&quot;</span><span class="p">]</span>
+<span class="n">white</span> <span class="o">=</span> <span class="n">resumes</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">black</span> <span class="o">==</span> <span class="mi">0</span><span class="p">][</span><span class="s2">&quot;call&quot;</span><span class="p">]</span>
 <span class="n">t2</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">black</span><span class="p">,</span> <span class="n">white</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The mean callback rates are:&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">black</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span> <span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% for Black applicants, and&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">white</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span> <span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% for White applicants.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Thats a difference of </span><span class="si">{</span><span class="p">(</span><span class="n">white</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">black</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="s1"> .1f</span><span class="si">}</span><span class="s1"> percentage points, a difference of </span><span class="si">{</span><span class="p">(</span><span class="n">white</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">black</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">resumes</span><span class="o">.</span><span class="n">call</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">*</span> <span class="mi">100</span> <span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% difference.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This difference has a p-value of </span><span class="si">{</span><span class="n">p2</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The mean callback rates are:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">black</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span> <span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% for Black applicants, and&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">white</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span> <span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% for White applicants.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Thats a difference of </span><span class="si">{</span><span class="p">(</span><span class="n">white</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">black</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="s2"> .1f</span><span class="si">}</span><span class="s2"> percentage points, a difference of </span><span class="si">{</span><span class="p">(</span><span class="n">white</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">black</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">resumes</span><span class="o">.</span><span class="n">call</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">*</span> <span class="mi">100</span> <span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% difference.&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;This difference has a p-value of </span><span class="si">{</span><span class="n">p2</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -642,18 +656,19 @@ This difference has a p-value of 0.000
 <h3>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h3>
 <p>Now, use a regression model to estimate the differential likelihood of being called back by applicant race (i.e. the racial discrimination by employers).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;call ~ black&#39;</span><span class="p">,</span> <span class="n">resumes</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;call ~ black&quot;</span><span class="p">,</span> <span class="n">resumes</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s2">&quot;HC3&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -669,10 +684,10 @@ This difference has a p-value of 0.000
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   16.92</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Fri, 14 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.96e-05</td>
+  <th>Date:</th>             <td>Thu, 04 Feb 2021</td> <th>  Prob (F-statistic):</th> <td>3.96e-05</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>11:22:39</td>     <th>  Log-Likelihood:    </th> <td> -562.24</td>
+  <th>Time:</th>                 <td>10:51:49</td>     <th>  Log-Likelihood:    </th> <td> -562.24</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4870</td>      <th>  AIC:               </th> <td>   1128.</td>
@@ -711,25 +726,28 @@ This difference has a p-value of 0.000
 <tr>
   <th>Kurtosis:</th>       <td>10.458</td>  <th>  Cond. No.          </th> <td>    2.62</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
 </div>
 <div class="section" id="Exercise-6">
 <h3>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h3>
 <p>Now let’s see if we can improve our estimates by adding in other variables as controls. Add in <code class="docutils literal notranslate"><span class="pre">education</span></code>, <code class="docutils literal notranslate"><span class="pre">yearsexp</span></code>, <code class="docutils literal notranslate"><span class="pre">female</span></code>, and <code class="docutils literal notranslate"><span class="pre">computerskills</span></code> – be sure to treat education as a categorical variable!</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;call ~ black + C(education) + yearsexp + computerskills + female&#39;</span><span class="p">,</span> <span class="n">resumes</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span>
+    <span class="s2">&quot;call ~ black + C(education) + yearsexp + computerskills + female&quot;</span><span class="p">,</span> <span class="n">resumes</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s2">&quot;HC3&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -745,10 +763,10 @@ This difference has a p-value of 0.000
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   4.350</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Fri, 14 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.04e-05</td>
+  <th>Date:</th>             <td>Thu, 04 Feb 2021</td> <th>  Prob (F-statistic):</th> <td>3.04e-05</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>11:22:39</td>     <th>  Log-Likelihood:    </th> <td> -551.02</td>
+  <th>Time:</th>                 <td>10:51:49</td>     <th>  Log-Likelihood:    </th> <td> -551.02</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4870</td>      <th>  AIC:               </th> <td>   1120.</td>
@@ -808,7 +826,7 @@ This difference has a p-value of 0.000
 <tr>
   <th>Kurtosis:</th>       <td>10.395</td>  <th>  Cond. No.          </th> <td>    225.</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
 </div>
 </div>
@@ -819,18 +837,20 @@ This difference has a p-value of 0.000
 <p>These effects are the <em>average</em> effects. Now let’s look for heterogeneous treatment effects.</p>
 <p>Look only at candidates with high educations. Is there more or less racial discrimination among these highly educated candidates?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">college_grads</span> <span class="o">=</span> <span class="n">resumes</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">education</span> <span class="o">==</span> <span class="mi">4</span><span class="p">]</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;call ~ black + yearsexp + computerskills + female&#39;</span><span class="p">,</span> <span class="n">college_grads</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span>
+    <span class="s2">&quot;call ~ black + yearsexp + computerskills + female&quot;</span><span class="p">,</span> <span class="n">college_grads</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s2">&quot;HC3&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -846,10 +866,10 @@ This difference has a p-value of 0.000
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   4.245</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Fri, 14 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td>0.00198</td>
+  <th>Date:</th>             <td>Thu, 04 Feb 2021</td> <th>  Prob (F-statistic):</th>  <td>0.00198</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>11:22:39</td>     <th>  Log-Likelihood:    </th> <td> -372.64</td>
+  <th>Time:</th>                 <td>10:51:49</td>     <th>  Log-Likelihood:    </th> <td> -372.64</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  3504</td>      <th>  AIC:               </th> <td>   755.3</td>
@@ -897,21 +917,23 @@ This difference has a p-value of 0.000
 <tr>
   <th>Kurtosis:</th>       <td>10.657</td>  <th>  Cond. No.          </th> <td>    35.7</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">non_college_grads</span> <span class="o">=</span> <span class="n">resumes</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">education</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">]</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;call ~ black + yearsexp + computerskills + female&#39;</span><span class="p">,</span> <span class="n">non_college_grads</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span>
+    <span class="s2">&quot;call ~ black + yearsexp + computerskills + female&quot;</span><span class="p">,</span> <span class="n">non_college_grads</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s2">&quot;HC3&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -927,10 +949,10 @@ This difference has a p-value of 0.000
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   6.837</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Fri, 14 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.90e-05</td>
+  <th>Date:</th>             <td>Thu, 04 Feb 2021</td> <th>  Prob (F-statistic):</th> <td>1.90e-05</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>11:29:53</td>     <th>  Log-Likelihood:    </th> <td> -170.01</td>
+  <th>Time:</th>                 <td>10:51:49</td>     <th>  Log-Likelihood:    </th> <td> -170.01</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  1366</td>      <th>  AIC:               </th> <td>   350.0</td>
@@ -978,10 +1000,10 @@ This difference has a p-value of 0.000
 <tr>
   <th>Kurtosis:</th>      <td> 9.636</td>  <th>  Cond. No.          </th> <td>    46.2</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -990,7 +1012,7 @@ This difference has a p-value of 0.000
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -999,7 +1021,7 @@ This difference has a p-value of 0.000
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1012,20 +1034,20 @@ This difference has a p-value of 0.000
 <h3>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h3>
 <p>Now let’s compare men and women – is discrimination greater for Black men or Black women?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">men</span> <span class="o">=</span> <span class="n">resumes</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">female</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
 <span class="n">women</span> <span class="o">=</span> <span class="n">resumes</span><span class="p">[</span><span class="n">resumes</span><span class="o">.</span><span class="n">female</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;call ~ black + yearsexp + computerskills + C(education)&#39;</span><span class="p">,</span> <span class="n">men</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;call ~ black + yearsexp + computerskills + C(education)&quot;</span><span class="p">,</span> <span class="n">men</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s2">&quot;HC3&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1041,10 +1063,10 @@ This difference has a p-value of 0.000
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1.172</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Fri, 14 Feb 2020</td> <th>  Prob (F-statistic):</th>  <td> 0.316</td>
+  <th>Date:</th>             <td>Thu, 04 Feb 2021</td> <th>  Prob (F-statistic):</th>  <td> 0.316</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>11:22:39</td>     <th>  Log-Likelihood:    </th> <td> -81.051</td>
+  <th>Time:</th>                 <td>10:51:49</td>     <th>  Log-Likelihood:    </th> <td> -81.051</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  1124</td>      <th>  AIC:               </th> <td>   178.1</td>
@@ -1101,20 +1123,20 @@ This difference has a p-value of 0.000
 <tr>
   <th>Kurtosis:</th>      <td>11.473</td>  <th>  Cond. No.          </th> <td>    175.</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;call ~ black + yearsexp + computerskills + C(education)&#39;</span><span class="p">,</span> <span class="n">women</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;HC3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;call ~ black + yearsexp + computerskills + C(education)&quot;</span><span class="p">,</span> <span class="n">women</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s2">&quot;HC3&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1130,10 +1152,10 @@ This difference has a p-value of 0.000
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   14.35</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Fri, 14 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.58e-18</td>
+  <th>Date:</th>             <td>Thu, 04 Feb 2021</td> <th>  Prob (F-statistic):</th> <td>1.58e-18</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>11:22:39</td>     <th>  Log-Likelihood:    </th> <td> -458.45</td>
+  <th>Time:</th>                 <td>10:51:49</td>     <th>  Log-Likelihood:    </th> <td> -458.45</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  3746</td>      <th>  AIC:               </th> <td>   932.9</td>
@@ -1190,10 +1212,10 @@ This difference has a p-value of 0.000
 <tr>
   <th>Kurtosis:</th>       <td>10.047</td>  <th>  Cond. No.          </th> <td>    254.</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1210,17 +1232,17 @@ This difference has a p-value of 0.000
 <li><p>What share of Black adult Americans have college degrees (i.e. have completed a bachelors degree)?</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># In our data:</span>
-<span class="p">(</span><span class="n">resumes</span><span class="p">[</span><span class="s1">&#39;education&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="p">(</span><span class="n">resumes</span><span class="p">[</span><span class="s2">&quot;education&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1229,7 +1251,7 @@ This difference has a p-value of 0.000
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1242,7 +1264,7 @@ This difference has a p-value of 0.000
 <h3>Exercise 10<a class="headerlink" href="#Exercise-10" title="Permalink to this headline">¶</a></h3>
 <p>What are the implications of your answers to Exercise 7 and to Exercise 9 to how you interpret the Average Treatment Effect you estimated in Exercise 6?</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1323,7 +1345,7 @@ This difference has a p-value of 0.000
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

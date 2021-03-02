@@ -56,9 +56,27 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "import pandas as pd\n",
-    "control = pd.read_csv('https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/udacity_AB_testing/control_data.csv')\n",
-    "treat = pd.read_csv('https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/udacity_AB_testing/experiment_data.csv')"
+    "# First, load pandas and an extension that\n",
+    "# applies Black formatting to all cells.\n",
+    "\n",
+    "%load_ext lab_black\n",
+    "import pandas as pd"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "control = pd.read_csv(\n",
+    "    \"https://media.githubusercontent.com/media/nickeubank/\"\n",
+    "    \"MIDS_Data/master/udacity_AB_testing/control_data.csv\"\n",
+    ")\n",
+    "treat = pd.read_csv(\n",
+    "    \"https://media.githubusercontent.com/media/nickeubank/\"\n",
+    "    \"MIDS_Data/master/udacity_AB_testing/experiment_data.csv\"\n",
+    ")"
    ]
   },
   {
@@ -72,11 +90,11 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 3,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Each row is a single day of behavior for each treatment arm. "
+    "# Each row is a single day of behavior for each treatment arm."
    ]
   },
   {
@@ -104,7 +122,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 4,
    "metadata": {},
    "outputs": [
     {
@@ -195,21 +213,123 @@
        "4  Wed, Oct 15      10014     837        163.0      64.0          0"
       ]
      },
-     "execution_count": 3,
+     "execution_count": 4,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "control['treatment'] = 0\n",
-    "treat['treatment'] = 1\n",
+    "control[\"treatment\"] = 0\n",
+    "treat[\"treatment\"] = 1\n",
     "users = pd.concat([control, treat])\n",
     "users.head()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Date</th>\n",
+       "      <th>Pageviews</th>\n",
+       "      <th>Clicks</th>\n",
+       "      <th>Enrollments</th>\n",
+       "      <th>Payments</th>\n",
+       "      <th>treatment</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>32</th>\n",
+       "      <td>Wed, Nov 12</td>\n",
+       "      <td>10042</td>\n",
+       "      <td>802</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>33</th>\n",
+       "      <td>Thu, Nov 13</td>\n",
+       "      <td>9721</td>\n",
+       "      <td>829</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>34</th>\n",
+       "      <td>Fri, Nov 14</td>\n",
+       "      <td>9304</td>\n",
+       "      <td>770</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>35</th>\n",
+       "      <td>Sat, Nov 15</td>\n",
+       "      <td>8668</td>\n",
+       "      <td>724</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>36</th>\n",
+       "      <td>Sun, Nov 16</td>\n",
+       "      <td>8988</td>\n",
+       "      <td>710</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "           Date  Pageviews  Clicks  Enrollments  Payments  treatment\n",
+       "32  Wed, Nov 12      10042     802          NaN       NaN          1\n",
+       "33  Thu, Nov 13       9721     829          NaN       NaN          1\n",
+       "34  Fri, Nov 14       9304     770          NaN       NaN          1\n",
+       "35  Sat, Nov 15       8668     724          NaN       NaN          1\n",
+       "36  Sun, Nov 16       8988     710          NaN       NaN          1"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "users.tail()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -228,31 +348,35 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 7,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Udacity wants a decline in the number of users who enroll \n",
-    "# in the number of people who enroll in a trial but don't \n",
-    "# end up continuing (paying) at the end of the trial. \n",
-    "# So first we want the number of enrollments that end in \n",
-    "# non-payment per person who sees trial page. \n",
+    "# Udacity wants a decline in the number of people\n",
+    "# who enroll in a trial but don't\n",
+    "# end up continuing (paying) at the end of the trial.\n",
+    "# So first we want the number of enrollments that end in\n",
+    "# non-payment per person who sees trial page.\n",
     "\n",
-    "users['enroll_but_nopayment_per_click'] = (users['Enrollments'] - users['Payments']) / users['Clicks']\n",
+    "# Note that because \"clicks\" is pre-treatment\n",
+    "# and we have the same number of people in both\n",
+    "# treatment arms, on average we have the\n",
+    "# same number of clicks in both groups\n",
+    "# so you don't technically have to normalize.\n",
     "\n",
-    "# Second, they don't actually want to see a decline in enrollees, so we also want to measure \n",
-    "# the conversion rate from clicks to payments. Ideally, this won't change. \n",
+    "# It's also ok to just look at the share of Enrollments\n",
+    "# that end up as payments.\n",
     "\n",
-    "users['payments_per_click'] = users['Payments'] / users['Clicks']\n",
+    "users[\"enroll_but_nopayment_per_click\"] = (\n",
+    "    users[\"Enrollments\"] - users[\"Payments\"]\n",
+    ") / users[\"Clicks\"]\n",
     "\n",
-    "# However, one could ALSO measure share of clicks that become enrollments. This \n",
-    "# is actually the metric Udacity used, though honestly I think it's the wrong metric --\n",
-    "# the goal isn't to reduce enrollments, it's to reduce enrollments that don't end in \n",
-    "# payment!\n",
+    "# Second, they don't want to see a decline in payments, so we also want to measure\n",
+    "# the conversion rate from clicks to payments. Ideally, this won't change.\n",
     "\n",
-    "# But I'll include for completeness. \n",
+    "# Again, dividing by clicks is optional.\n",
     "\n",
-    "users['enrollments_per_click'] = users['Enrollments'] / users['Clicks']"
+    "users[\"payments_per_click\"] = users[\"Payments\"] / users[\"Clicks\"]"
    ]
   },
   {
@@ -279,7 +403,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 8,
    "metadata": {},
    "outputs": [
     {
@@ -288,18 +412,18 @@
        "9315.135135135135"
       ]
      },
-     "execution_count": 6,
+     "execution_count": 8,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "users.loc[users['treatment'] == 1, 'Pageviews'].mean()"
+    "users.loc[users[\"treatment\"] == 1, \"Pageviews\"].mean()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 9,
    "metadata": {},
    "outputs": [
     {
@@ -308,13 +432,13 @@
        "9339.0"
       ]
      },
-     "execution_count": 7,
+     "execution_count": 9,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "users.loc[users['treatment'] == 0, 'Pageviews'].mean()"
+    "users.loc[users[\"treatment\"] == 0, \"Pageviews\"].mean()"
    ]
   },
   {
@@ -336,7 +460,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 10,
    "metadata": {},
    "outputs": [
     {
@@ -345,24 +469,27 @@
        "Ttest_indResult(statistic=-0.1417118298287496, pvalue=0.8877034068650902)"
       ]
      },
-     "execution_count": 8,
+     "execution_count": 10,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "from scipy.stats import ttest_ind\n",
-    "ttest_ind(users.loc[users['treatment'] == 1, 'Pageviews'].values, \n",
-    "          users.loc[users['treatment'] == 0, 'Pageviews'].values)"
+    "\n",
+    "ttest_ind(\n",
+    "    users.loc[users[\"treatment\"] == 1, \"Pageviews\"].values,\n",
+    "    users.loc[users[\"treatment\"] == 0, \"Pageviews\"].values,\n",
+    ")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 11,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# p-value of 0.8877 -- nope! Not statistically different at all. "
+    "# p-value of 0.8877 -- nope! Not statistically different at all."
    ]
   },
   {
@@ -376,7 +503,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 12,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -394,7 +521,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 13,
    "metadata": {},
    "outputs": [
     {
@@ -403,19 +530,21 @@
        "Ttest_indResult(statistic=-0.09270642968639531, pvalue=0.9263942642482703)"
       ]
      },
-     "execution_count": 11,
+     "execution_count": 13,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "ttest_ind(users.loc[users['treatment'] == 1, 'Clicks'].values, \n",
-    "          users.loc[users['treatment'] == 0, 'Clicks'].values)"
+    "ttest_ind(\n",
+    "    users.loc[users[\"treatment\"] == 1, \"Clicks\"].values,\n",
+    "    users.loc[users[\"treatment\"] == 0, \"Clicks\"].values,\n",
+    ")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 14,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -439,68 +568,70 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 15,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Because trials last 2 weeks, you don't get enrollment stats from the last two weeks of data. \n",
-    "# So we drop them. \n",
+    "# Because trials last 2 weeks, you don't get payment\n",
+    "# stats from the last two weeks of data.\n",
+    "# So we drop them.\n",
+    "\n",
     "users = users[pd.notnull(users.Enrollments)]"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 16,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "change from orig to experiment in enroll_but_nopayment_per_click is -1.589 percentage points\n",
+      "change from orig to experiment in enroll_but_nopayment_per_click is  -1.6 percentage points\n",
       "a change of -15.56%\n",
       "p-value of difference is 0.132\n",
       "\n",
       "\n",
-      "change from orig to experiment in payments_per_click is -0.490 percentage points\n",
+      "change from orig to experiment in payments_per_click is  -0.5 percentage points\n",
       "a change of -4.14%\n",
       "p-value of difference is 0.593\n",
-      "\n",
-      "\n",
-      "change from orig to experiment in enrollments_per_click is -2.078 percentage points\n",
-      "a change of -9.43%\n",
-      "p-value of difference is 0.131\n",
       "\n",
       "\n"
      ]
     }
    ],
    "source": [
-    "for i in 'enroll_but_nopayment_per_click', 'payments_per_click', 'enrollments_per_click':\n",
-    "    wo_change = users.loc[users['treatment'] == 0, i].mean()\n",
-    "    w_change = users.loc[users['treatment'] == 1, i].mean()\n",
-    "    pvalue = ttest_ind(users.loc[users['treatment'] == 1, i].values, \n",
-    "                       users.loc[users['treatment'] == 0, i].values).pvalue\n",
-    "    \n",
-    "    print(f'change from orig to experiment in {i} is {(w_change - wo_change)*100:.3f} percentage points')\n",
-    "    print(f'a change of {((w_change - wo_change) / wo_change)*100:.2f}%')\n",
-    "    print(f'p-value of difference is {pvalue:.3f}')\n",
-    "    print('\\n')"
+    "for i in [\"enroll_but_nopayment_per_click\", \"payments_per_click\"]:\n",
+    "    wo_change = users.loc[users[\"treatment\"] == 0, i].mean()\n",
+    "    w_change = users.loc[users[\"treatment\"] == 1, i].mean()\n",
+    "    pvalue = ttest_ind(\n",
+    "        users.loc[users[\"treatment\"] == 1, i].values,\n",
+    "        users.loc[users[\"treatment\"] == 0, i].values,\n",
+    "    ).pvalue\n",
+    "\n",
+    "    print(\n",
+    "        f\"change from orig to experiment in {i} is \"\n",
+    "        f\" {(w_change - wo_change)*100:.1f} percentage points\"\n",
+    "    )\n",
+    "    print(f\"a change of {((w_change - wo_change) / wo_change)*100:.2f}%\")\n",
+    "    print(f\"p-value of difference is {pvalue:.3f}\")\n",
+    "    print(\"\\n\")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 17,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# So we do see a decrease in share of people who click trial, \n",
-    "# enroll but then don't pay, and it's borderline significant \n",
+    "# So we do see a decrease in share of people who click trial,\n",
+    "# enroll but then don't pay, and it's borderline significant\n",
     "# (has p-value < 0.1 if we had used a 1-tailed tests).\n",
-    "# But we don't see decline in share of people who click \n",
-    "# who end up enrolling after trial, \n",
-    "# so the change was basically successful in only filtering out \n",
-    "# people who weren't really interested. "
+    "# But we don't see a significant decline in share of people who\n",
+    "# click who end up enrolling after trial,\n",
+    "# so the change was basically successful in only filtering out\n",
+    "# people who weren't really interested."
    ]
   },
   {
@@ -516,7 +647,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 16,
+   "execution_count": 18,
    "metadata": {},
    "outputs": [
     {
@@ -534,10 +665,10 @@
        "  <th>Method:</th>              <td>Least Squares</td>   <th>  F-statistic:       </th> <td>  0.2903</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>              <td>Mon, 03 Feb 2020</td>  <th>  Prob (F-statistic):</th>  <td> 0.593</td> \n",
+       "  <th>Date:</th>              <td>Wed, 03 Feb 2021</td>  <th>  Prob (F-statistic):</th>  <td> 0.593</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                  <td>15:27:00</td>      <th>  Log-Likelihood:    </th> <td>  95.810</td>\n",
+       "  <th>Time:</th>                  <td>14:27:31</td>      <th>  Log-Likelihood:    </th> <td>  95.810</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>       <td>    46</td>       <th>  AIC:               </th> <td>  -187.6</td>\n",
@@ -576,7 +707,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>      <td> 2.662</td> <th>  Cond. No.          </th> <td>    2.62</td>\n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -586,8 +717,8 @@
        "Dep. Variable:     payments_per_click   R-squared:                       0.007\n",
        "Model:                            OLS   Adj. R-squared:                 -0.016\n",
        "Method:                 Least Squares   F-statistic:                    0.2903\n",
-       "Date:                Mon, 03 Feb 2020   Prob (F-statistic):              0.593\n",
-       "Time:                        15:27:00   Log-Likelihood:                 95.810\n",
+       "Date:                Wed, 03 Feb 2021   Prob (F-statistic):              0.593\n",
+       "Time:                        14:27:31   Log-Likelihood:                 95.810\n",
        "No. Observations:                  46   AIC:                            -187.6\n",
        "Df Residuals:                      44   BIC:                            -184.0\n",
        "Df Model:                           1                                         \n",
@@ -604,19 +735,20 @@
        "Kurtosis:                       2.662   Cond. No.                         2.62\n",
        "==============================================================================\n",
        "\n",
-       "Warnings:\n",
+       "Notes:\n",
        "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
        "\"\"\""
       ]
      },
-     "execution_count": 16,
+     "execution_count": 18,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "import statsmodels.formula.api as smf\n",
-    "smf.ols('payments_per_click ~ treatment', users).fit().summary()"
+    "\n",
+    "smf.ols(\"payments_per_click ~ treatment\", users).fit().summary()"
    ]
   },
   {
@@ -630,7 +762,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 17,
+   "execution_count": 19,
    "metadata": {},
    "outputs": [
     {
@@ -648,10 +780,10 @@
        "  <th>Method:</th>              <td>Least Squares</td>   <th>  F-statistic:       </th> <td>   2.770</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>              <td>Mon, 03 Feb 2020</td>  <th>  Prob (F-statistic):</th>  <td>0.00991</td>\n",
+       "  <th>Date:</th>              <td>Wed, 03 Feb 2021</td>  <th>  Prob (F-statistic):</th>  <td>0.00991</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                  <td>15:27:00</td>      <th>  Log-Likelihood:    </th> <td>  126.94</td>\n",
+       "  <th>Time:</th>                  <td>14:27:31</td>      <th>  Log-Likelihood:    </th> <td>  126.94</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>       <td>    46</td>       <th>  AIC:               </th> <td>  -205.9</td>\n",
@@ -756,7 +888,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>      <td> 2.032</td> <th>  Cond. No.          </th> <td>    27.3</td>\n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -766,8 +898,8 @@
        "Dep. Variable:     payments_per_click   R-squared:                       0.743\n",
        "Model:                            OLS   Adj. R-squared:                  0.475\n",
        "Method:                 Least Squares   F-statistic:                     2.770\n",
-       "Date:                Mon, 03 Feb 2020   Prob (F-statistic):            0.00991\n",
-       "Time:                        15:27:00   Log-Likelihood:                 126.94\n",
+       "Date:                Wed, 03 Feb 2021   Prob (F-statistic):            0.00991\n",
+       "Time:                        14:27:31   Log-Likelihood:                 126.94\n",
        "No. Observations:                  46   AIC:                            -205.9\n",
        "Df Residuals:                      22   BIC:                            -162.0\n",
        "Df Model:                          23                                         \n",
@@ -806,19 +938,20 @@
        "Kurtosis:                       2.032   Cond. No.                         27.3\n",
        "==============================================================================\n",
        "\n",
-       "Warnings:\n",
+       "Notes:\n",
        "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
        "\"\"\""
       ]
      },
-     "execution_count": 17,
+     "execution_count": 19,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "import statsmodels.formula.api as smf\n",
-    "smf.ols('payments_per_click ~ treatment + C(Date)', users).fit().summary()"
+    "\n",
+    "smf.ols(\"payments_per_click ~ treatment + C(Date)\", users).fit().summary()"
    ]
   },
   {
@@ -834,13 +967,13 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 18,
+   "execution_count": 20,
    "metadata": {},
    "outputs": [],
    "source": [
     "# It seems like everything is going in the expected direction. However\n",
-    "# before rolling out something that affects something as important \n",
-    "# as on-boarding, I would run a longer trial to get a little greater \n",
+    "# before rolling out something that affects something as important\n",
+    "# as on-boarding, I would run a longer trial to get a little greater\n",
     "# statistical significance..."
    ]
   },
@@ -857,16 +990,16 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 19,
+   "execution_count": 21,
    "metadata": {},
    "outputs": [],
    "source": [
-    "users['day_of_week'] = users.Date.str.split(',', expand=True)[0]"
+    "users[\"day_of_week\"] = users.Date.str.split(\",\", expand=True)[0]"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 20,
+   "execution_count": 22,
    "metadata": {},
    "outputs": [
     {
@@ -884,10 +1017,10 @@
        "  <th>Method:</th>              <td>Least Squares</td>   <th>  F-statistic:       </th> <td>  0.8687</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>              <td>Mon, 03 Feb 2020</td>  <th>  Prob (F-statistic):</th>  <td> 0.540</td> \n",
+       "  <th>Date:</th>              <td>Wed, 03 Feb 2021</td>  <th>  Prob (F-statistic):</th>  <td> 0.540</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                  <td>15:27:00</td>      <th>  Log-Likelihood:    </th> <td>  99.073</td>\n",
+       "  <th>Time:</th>                  <td>14:27:31</td>      <th>  Log-Likelihood:    </th> <td>  99.073</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>       <td>    46</td>       <th>  AIC:               </th> <td>  -182.1</td>\n",
@@ -944,7 +1077,7 @@
        "<tr>\n",
        "  <th>Kurtosis:</th>      <td> 3.168</td> <th>  Cond. No.          </th> <td>    9.27</td>\n",
        "</tr>\n",
-       "</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
@@ -954,8 +1087,8 @@
        "Dep. Variable:     payments_per_click   R-squared:                       0.138\n",
        "Model:                            OLS   Adj. R-squared:                 -0.021\n",
        "Method:                 Least Squares   F-statistic:                    0.8687\n",
-       "Date:                Mon, 03 Feb 2020   Prob (F-statistic):              0.540\n",
-       "Time:                        15:27:00   Log-Likelihood:                 99.073\n",
+       "Date:                Wed, 03 Feb 2021   Prob (F-statistic):              0.540\n",
+       "Time:                        14:27:31   Log-Likelihood:                 99.073\n",
        "No. Observations:                  46   AIC:                            -182.1\n",
        "Df Residuals:                      38   BIC:                            -167.5\n",
        "Df Model:                           7                                         \n",
@@ -978,18 +1111,18 @@
        "Kurtosis:                       3.168   Cond. No.                         9.27\n",
        "==============================================================================\n",
        "\n",
-       "Warnings:\n",
+       "Notes:\n",
        "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
        "\"\"\""
       ]
      },
-     "execution_count": 20,
+     "execution_count": 22,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "smf.ols('payments_per_click ~ treatment + C(day_of_week)', users).fit().summary()"
+    "smf.ols(\"payments_per_click ~ treatment + C(day_of_week)\", users).fit().summary()"
    ]
   }
  ],
@@ -1009,7 +1142,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.7.3"
+   "version": "3.7.8"
   }
  },
  "nbformat": 4,

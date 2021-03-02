@@ -285,8 +285,13 @@ making possession of small amounts legal, but also creating a regulatory system 
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">arrests</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/UDS_arrest_data.csv&quot;</span><span class="p">)</span>
+<span></span><span class="o">%</span><span class="k">load_ext</span> lab_black
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">arrests</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&quot;https://media.githubusercontent.com/media/&quot;</span>
+    <span class="s2">&quot;nickeubank/MIDS_Data/master/UDS_arrest_data.csv&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -384,8 +389,8 @@ making possession of small amounts legal, but also creating a regulatory system 
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">arrests</span><span class="p">[</span><span class="s1">&#39;drug_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">F_DRUGOFF</span> <span class="o">/</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">total_population</span> <span class="o">/</span> <span class="mi">100000</span><span class="p">)</span>
-<span class="n">arrests</span><span class="p">[</span><span class="s1">&#39;violent_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">VIOLENT</span> <span class="o">/</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">total_population</span> <span class="o">/</span> <span class="mi">100000</span><span class="p">)</span>
+<span></span><span class="n">arrests</span><span class="p">[</span><span class="s2">&quot;drug_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">F_DRUGOFF</span> <span class="o">/</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">total_population</span> <span class="o">/</span> <span class="mi">100000</span><span class="p">)</span>
+<span class="n">arrests</span><span class="p">[</span><span class="s2">&quot;violent_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">VIOLENT</span> <span class="o">/</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">total_population</span> <span class="o">/</span> <span class="mi">100000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -395,7 +400,7 @@ making possession of small amounts legal, but also creating a regulatory system 
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">small</span> <span class="o">=</span> <span class="n">arrests</span><span class="p">[</span><span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">2007</span><span class="p">,</span> <span class="mi">2008</span><span class="p">,</span> <span class="mi">2009</span><span class="p">])]</span>
-<span class="n">avgs</span> <span class="o">=</span> <span class="n">small</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;COUNTY&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">violent_rate</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">avgs</span> <span class="o">=</span> <span class="n">small</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;COUNTY&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">violent_rate</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -422,8 +427,8 @@ making possession of small amounts legal, but also creating a regulatory system 
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">high</span> <span class="o">=</span> <span class="p">(</span><span class="n">avgs</span> <span class="o">&gt;</span> <span class="n">avgs</span><span class="o">.</span><span class="n">median</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
-<span class="n">high</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;treated&#39;</span>
+<span></span><span class="n">high</span> <span class="o">=</span> <span class="p">(</span><span class="n">avgs</span> <span class="o">&gt;</span> <span class="n">avgs</span><span class="o">.</span><span class="n">median</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+<span class="n">high</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;treated&quot;</span>
 <span class="n">high</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -448,11 +453,17 @@ Name: treated, dtype: int64
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">arrests</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">arrests</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;COUNTY&#39;</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                   <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">,</span> <span class="n">indicator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                   <span class="n">validate</span><span class="o">=</span><span class="s1">&#39;m:1&#39;</span><span class="p">)</span>
-<span class="k">assert</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">_merge</span> <span class="o">==</span> <span class="s1">&#39;both&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-<span class="n">arrests</span> <span class="o">=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;_merge&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+<span></span><span class="n">arrests</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">arrests</span><span class="p">,</span>
+    <span class="n">high</span><span class="p">,</span>
+    <span class="n">left_on</span><span class="o">=</span><span class="s2">&quot;COUNTY&quot;</span><span class="p">,</span>
+    <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">,</span>
+    <span class="n">indicator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">validate</span><span class="o">=</span><span class="s2">&quot;m:1&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">_merge</span> <span class="o">==</span> <span class="s2">&quot;both&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="n">arrests</span> <span class="o">=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;_merge&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
 <span class="n">arrests</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -554,6 +565,15 @@ Name: treated, dtype: int64
 <div class="section" id="Exercise-3">
 <h2>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h2>
 <p>Our outcome in this analysis is the violent arrest rate – if drug liberalization reduces crime overall, we would expect to see this rate fall in counties with high drug arrest rates after liberalization; if not, we would not expect to see any changes. Create a <code class="docutils literal notranslate"><span class="pre">violent_rate</span></code> variable with is violent arrests per 100,000 people.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># See above, already did!</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="Exercise-4">
 <h2>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h2>
@@ -582,22 +602,22 @@ Name: treated, dtype: int64
 <p>What does this tell you about interpretation of interaction terms with two indicator variables?</p>
 <p>Note: You need to cluster your standard errors by county, since we expect counties (over time) to be subject to common fluctuations.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">arrests</span><span class="p">[</span><span class="s1">&#39;post_2010&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&gt;=</span> <span class="mi">2010</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+<span></span><span class="n">arrests</span><span class="p">[</span><span class="s2">&quot;post_2010&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&gt;=</span> <span class="mi">2010</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
 <span class="n">arrests_sub</span> <span class="o">=</span> <span class="n">arrests</span><span class="p">[</span><span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">2007</span><span class="p">,</span> <span class="mi">2008</span><span class="p">,</span> <span class="mi">2009</span><span class="p">,</span> <span class="mi">2016</span><span class="p">,</span> <span class="mi">2017</span><span class="p">,</span> <span class="mi">2018</span><span class="p">])]</span>
 
 <span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
-<span class="n">m</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;violent_rate ~ post_2010 * treated&#39;</span><span class="p">,</span> <span class="n">arrests_sub</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="n">m</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span>
-                        <span class="n">groups</span><span class="o">=</span><span class="n">arrests_sub</span><span class="o">.</span><span class="n">COUNTY</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;violent_rate ~ post_2010 * treated&quot;</span><span class="p">,</span> <span class="n">arrests_sub</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">get_robustcov_results</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s2">&quot;cluster&quot;</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">arrests_sub</span><span class="o">.</span><span class="n">COUNTY</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -613,10 +633,10 @@ Name: treated, dtype: int64
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   51.48</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 25 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>3.13e-16</td>
+  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>3.13e-16</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>17:49:10</td>     <th>  Log-Likelihood:    </th> <td> -2023.8</td>
+  <th>Time:</th>                 <td>18:56:51</td>     <th>  Log-Likelihood:    </th> <td> -2023.8</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   348</td>      <th>  AIC:               </th> <td>   4056.</td>
@@ -661,7 +681,7 @@ Name: treated, dtype: int64
 <tr>
   <th>Kurtosis:</th>      <td> 5.426</td> <th>  Cond. No.          </th> <td>    6.85</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors are robust to cluster correlation (cluster)</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors are robust to cluster correlation (cluster)</div>
 </div>
 </div>
 <div class="section" id="Exercise-6">
@@ -670,50 +690,51 @@ Name: treated, dtype: int64
 <p><strong>Plot</strong> a difference-in-difference model using data from 2000-2009 (inclusive) and from 2016-2018 (inclusive). Note this will have four different geometric components: a time trend for treated counties pre-2010, a time trend for control counties pre-2010, a time trend for treated counties post-2016 (include 2016), and a time trend for control counties post-2016 (include 2016).</p>
 <p>Do you see evidence of parallel trends for these two datasets? Does that make you feel more or less confident in your diff-in-diff estimates?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="n">arrests_sub2</span> <span class="o">=</span> <span class="n">arrests</span><span class="p">[((</span><span class="mi">2000</span> <span class="o">&lt;=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&lt;=</span> <span class="mi">2009</span><span class="p">))</span> <span class="o">|</span>
-                       <span class="p">(</span><span class="mi">2016</span> <span class="o">&lt;=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span><span class="p">)]</span>
-<span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">arrests_sub2</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;violent_rate&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;YEAR&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;treated&#39;</span><span class="p">))</span> <span class="o">+</span>
-         <span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">arrests_sub2</span><span class="p">[(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&lt;=</span> <span class="mi">2009</span><span class="p">)</span> <span class="o">&amp;</span>
-                                                     <span class="p">(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">treated</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)])</span> <span class="o">+</span>
-         <span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">arrests_sub2</span><span class="p">[(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&lt;=</span> <span class="mi">2009</span><span class="p">)</span> <span class="o">&amp;</span>
-                                                     <span class="p">(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">treated</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)])</span> <span class="o">+</span>
-         <span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">arrests_sub2</span><span class="p">[(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&gt;</span> <span class="mi">2010</span><span class="p">)</span> <span class="o">&amp;</span>
-                                                     <span class="p">(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">treated</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)])</span> <span class="o">+</span>
-         <span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">arrests_sub2</span><span class="p">[(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&gt;</span> <span class="mi">2010</span><span class="p">)</span> <span class="o">&amp;</span>
-                                                     <span class="p">(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">treated</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)])</span>
- <span class="p">)</span>
+<span class="n">arrests_sub2</span> <span class="o">=</span> <span class="n">arrests</span><span class="p">[</span>
+    <span class="p">((</span><span class="mi">2000</span> <span class="o">&lt;=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&lt;=</span> <span class="mi">2009</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="mi">2016</span> <span class="o">&lt;=</span> <span class="n">arrests</span><span class="o">.</span><span class="n">YEAR</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="p">(</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">arrests_sub2</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;violent_rate&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;YEAR&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;treated&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">geom_smooth</span><span class="p">(</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;lm&quot;</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">arrests_sub2</span><span class="p">[(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&lt;=</span> <span class="mi">2009</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">treated</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)],</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">geom_smooth</span><span class="p">(</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;lm&quot;</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">arrests_sub2</span><span class="p">[(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&lt;=</span> <span class="mi">2009</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">treated</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)],</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">geom_smooth</span><span class="p">(</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;lm&quot;</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">arrests_sub2</span><span class="p">[(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&gt;</span> <span class="mi">2010</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">treated</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)],</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">geom_smooth</span><span class="p">(</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;lm&quot;</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">arrests_sub2</span><span class="p">[(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">YEAR</span> <span class="o">&gt;</span> <span class="mi">2010</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">arrests_sub2</span><span class="o">.</span><span class="n">treated</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)],</span>
+    <span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/Users/Nick/miniconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py:2495: FutureWarning: Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.
-  return ptp(axis=axis, out=out, **kwargs)
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
 <div class="output_area docutils container">
-<img alt="../_images/exercises_solutions_diffindiff_16_1.png" src="../_images/exercises_solutions_diffindiff_16_1.png" />
+<img alt="../_images/exercises_solutions_diffindiff_17_0.png" src="../_images/exercises_solutions_diffindiff_17_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;ggplot: (-9223363249357043375)&gt;
+&lt;ggplot: (8788410819233)&gt;
 </pre></div></div>
 </div>
 </div>
@@ -721,19 +742,28 @@ Name: treated, dtype: int64
 <h2>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h2>
 <p>While we can estimate the model described above precisely as a regression, it’s actually much easier to estimate a more flexible model by running the regression we ran in Exercise 5 but with both <code class="docutils literal notranslate"><span class="pre">county</span></code> and <code class="docutils literal notranslate"><span class="pre">year</span></code> fixed effects. Use <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> (or <code class="docutils literal notranslate"><span class="pre">lfe</span></code> in R) to estimate this fixed effects regression.</p>
 <p>With all these additional fixed effects, do you find evidence that marijuana legalization reduced violent crime?</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="kn">import</span> <span class="n">PanelOLS</span>
 
-<span class="n">arrests_for_panelols</span> <span class="o">=</span> <span class="n">arrests_sub2</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;COUNTY&#39;</span><span class="p">,</span> <span class="s1">&#39;YEAR&#39;</span><span class="p">])</span>
-
-<span class="c1"># model with state fixed effect</span>
-<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;violent_rate ~ treated * post_2010 + TimeEffects + EntityEffects&#39;</span><span class="p">,</span>
-                            <span class="n">data</span><span class="o">=</span><span class="n">arrests_for_panelols</span><span class="p">,</span>
-                            <span class="n">drop_absorbed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">arrests_for_panelols</span> <span class="o">=</span> <span class="n">arrests_sub2</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;COUNTY&quot;</span><span class="p">,</span> <span class="s2">&quot;YEAR&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># model with state fixed effect</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span>
+    <span class="s2">&quot;violent_rate ~ treated * post_2010 + TimeEffects + EntityEffects&quot;</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">arrests_for_panelols</span><span class="p">,</span>
+    <span class="n">drop_absorbed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -748,8 +778,8 @@ Name: treated, dtype: int64
 Dep. Variable:           violent_rate   R-squared:                        0.0532
 Estimator:                   PanelOLS   R-squared (Between):             -0.0423
 No. Observations:                 754   R-squared (Within):               0.1382
-Date:                Tue, Feb 25 2020   R-squared (Overall):             -0.0381
-Time:                        17:49:12   Log-likelihood                   -4091.4
+Date:                Mon, Mar 01 2021   R-squared (Overall):             -0.0381
+Time:                        18:56:53   Log-likelihood                   -4091.4
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      38.379
 Entities:                          58   P-value                           0.0000
@@ -781,12 +811,11 @@ Included effects: Entity, Time
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/Users/Nick/miniconda3/lib/python3.7/site-packages/linearmodels/panel/model.py:1316: AbsorbingEffectWarning:
+/Users/Nick/miniconda3/lib/python3.7/site-packages/linearmodels/panel/model.py:1745: AbsorbingEffectWarning:
 Variables have been fully absorbed and have removed from the regression:
 
 treated, post_2010
 
-  AbsorbingEffectWarning)
 </pre></div></div>
 </div>
 </div>
@@ -858,7 +887,7 @@ treated, post_2010
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
