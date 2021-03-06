@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Traffic Death Analysis &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -99,20 +99,33 @@ div.nboutput.container div.prompt pre {
 /* all prompts */
 div.nbinput.container div.prompt,
 div.nboutput.container div.prompt {
-    min-width: 5ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
 }
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
 @media (max-width: 540px) {
     div.nbinput.container div.prompt,
     div.nboutput.container div.prompt {
+        width: unset;
         text-align: left;
         padding: 0.4em;
     }
     div.nboutput.container div.prompt.empty {
         padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
     }
 }
 
@@ -125,7 +138,6 @@ div.nboutput.container div.prompt pre {
 /* input/output area */
 div.nbinput.container div.input_area,
 div.nboutput.container div.output_area {
-    padding: 0.4em;
     -webkit-flex: 1;
     flex: 1;
     overflow: auto;
@@ -199,6 +211,27 @@ div.nboutput.container div.output_area.stderr {
 .ansi-bold { font-weight: bold; }
 .ansi-underline { text-decoration: underline; }
 
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
 /* Some additional styling taken form the Jupyter notebook CSS */
 div.rendered_html table {
   border: none;
@@ -250,7 +283,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span></span><span class="o">%</span><span class="k">load_ext</span> lab_black
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
@@ -263,7 +297,9 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/us_driving_fatalities.csv&quot;</span><span class="p">)</span>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&quot;https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/us_driving_fatalities.csv&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -508,8 +544,8 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Make sure all same min and max</span>
-<span class="k">assert</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">==</span> <span class="n">df</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-<span class="k">assert</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">==</span> <span class="n">df</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;state&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">==</span> <span class="n">df</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;state&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">==</span> <span class="n">df</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -532,7 +568,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;fat_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">fatal</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pop&#39;</span><span class="p">])</span> <span class="o">*</span> <span class="mi">10000</span>
+<span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;fat_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">fatal</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;pop&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="mi">10000</span>
 </pre></div>
 </div>
 </div>
@@ -548,11 +584,11 @@ div.rendered_html tbody tr:hover {
 <span></span><span class="c1"># fit a model</span>
 <span class="kn">from</span> <span class="nn">numpy.polynomial.polynomial</span> <span class="kn">import</span> <span class="n">polyfit</span>
 
-<span class="n">b</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">polyfit</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;beertax&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;fat_rate&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">b</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">polyfit</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;beertax&quot;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;fat_rate&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># scatterplot with fitted line</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="s1">&#39;beertax&#39;</span><span class="p">,</span> <span class="s1">&#39;fat_rate&#39;</span><span class="p">,</span>  <span class="n">data</span><span class="o">=</span> <span class="n">df</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;beertax&#39;</span><span class="p">],</span> <span class="n">b</span> <span class="o">+</span> <span class="n">m</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;beertax&#39;</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="s2">&quot;beertax&quot;</span><span class="p">,</span> <span class="s2">&quot;fat_rate&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;beertax&quot;</span><span class="p">],</span> <span class="n">b</span> <span class="o">+</span> <span class="n">m</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;beertax&quot;</span><span class="p">],</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -562,7 +598,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&lt;matplotlib.lines.Line2D at 0x7fafd04bdc88&gt;]
+[&lt;matplotlib.lines.Line2D at 0x7f8b28283c10&gt;]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -586,8 +622,7 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
 
-<span class="c1"># estimate simple regression models using 1982 and 1988 data</span>
-<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;fat_rate ~ beertax&#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;fat_rate ~ beertax&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -608,10 +643,10 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   34.39</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 18 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.08e-08</td>
+  <th>Date:</th>             <td>Tue, 02 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>1.08e-08</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:00:26</td>     <th>  Log-Likelihood:    </th> <td> -271.04</td>
+  <th>Time:</th>                 <td>11:06:34</td>     <th>  Log-Likelihood:    </th> <td> -271.04</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   336</td>      <th>  AIC:               </th> <td>   546.1</td>
@@ -650,7 +685,7 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
 <tr>
   <th>Kurtosis:</th>      <td> 4.707</td> <th>  Cond. No.          </th> <td>    2.76</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
 </div>
 <div class="section" id="Exercise-5">
@@ -661,7 +696,7 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;fat_rate ~ beertax + C(state)&#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;fat_rate ~ beertax + C(state)&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -682,10 +717,10 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   56.97</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 18 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>1.96e-120</td>
+  <th>Date:</th>             <td>Tue, 02 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>1.96e-120</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:00:26</td>     <th>  Log-Likelihood:    </th> <td>  107.97</td>
+  <th>Time:</th>                 <td>11:06:34</td>     <th>  Log-Likelihood:    </th> <td>  107.97</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   336</td>      <th>  AIC:               </th> <td>  -117.9</td>
@@ -865,7 +900,7 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
 <tr>
   <th>Kurtosis:</th>      <td> 6.786</td> <th>  Cond. No.          </th> <td>    187.</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
 </div>
 <div class="section" id="Exercise-6">
@@ -895,8 +930,8 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
 \end{align}</span></p>
 <p>By taking the difference between the value of each observation (state-year) and the mean value of the entity (state) over n periods, we analyze how the within-state variation of beer tax affects that of the fatality rate. Moreover, by doing so we no longer need to estimate the fixed effects of <span class="math notranslate nohighlight">\(Z_i\)</span>, saving computing power if we are working on a dataset with a large number of fixed effects.</p>
 </div>
-<div class="section" id="Exercise-6">
-<h2>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Exercise-7">
+<h2>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h2>
 <p>Implement the above entity-demeaned approach to estimate the fixed-effects model by hand (use basic functions, not full tools like <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> or <code class="docutils literal notranslate"><span class="pre">C()</span></code> notation in <code class="docutils literal notranslate"><span class="pre">python</span></code>, or <code class="docutils literal notranslate"><span class="pre">lfe</span></code> or <code class="docutils literal notranslate"><span class="pre">C()</span></code> notation in <code class="docutils literal notranslate"><span class="pre">R</span></code>).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
@@ -904,11 +939,13 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># get demeaned variables</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;beertax_dm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;beertax&#39;</span><span class="p">]</span> <span class="o">-</span>  <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">beertax</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;fat_rate_dm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;fat_rate&#39;</span><span class="p">]</span>  <span class="o">-</span>  <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fat_rate</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;beertax_dm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;beertax&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;state&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">beertax</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;fat_rate_dm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;fat_rate&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;state&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fat_rate</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
 
 <span class="c1"># perform ols</span>
-<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;fat_rate_dm ~ beertax_dm&#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span> <span class="c1"># it should be the same as the output using PanelOls</span>
+<span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span>
+    <span class="s2">&quot;fat_rate_dm ~ beertax_dm&quot;</span><span class="p">,</span> <span class="n">df</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>  <span class="c1"># it should be the same as the output using PanelOls</span>
 </pre></div>
 </div>
 </div>
@@ -929,10 +966,10 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   14.19</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 18 Feb 2020</td> <th>  Prob (F-statistic):</th> <td>0.000196</td>
+  <th>Date:</th>             <td>Tue, 02 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>0.000196</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:00:26</td>     <th>  Log-Likelihood:    </th> <td>  107.97</td>
+  <th>Time:</th>                 <td>11:06:34</td>     <th>  Log-Likelihood:    </th> <td>  107.97</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   336</td>      <th>  AIC:               </th> <td>  -211.9</td>
@@ -971,18 +1008,18 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
 <tr>
   <th>Kurtosis:</th>      <td> 6.786</td> <th>  Cond. No.          </th> <td>    18.1</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
 </div>
-<div class="section" id="Exercise-7">
-<h2>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Exercise-8">
+<h2>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h2>
 <p>Fit the model with state fixed-effect using <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> / <code class="docutils literal notranslate"><span class="pre">lfe</span></code>. Compare it to your by-hand output. Interpret the result.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">])</span>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;year&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -994,8 +1031,7 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
 <span></span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="kn">import</span> <span class="n">PanelOLS</span>
 
 <span class="c1"># model with state fixed effect</span>
-<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;fat_rate ~ beertax + EntityEffects&#39;</span><span class="p">,</span>
-                            <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s2">&quot;fat_rate ~ beertax + EntityEffects&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -1010,8 +1046,8 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
 Dep. Variable:               fat_rate   R-squared:                        0.0407
 Estimator:                   PanelOLS   R-squared (Between):             -0.3805
 No. Observations:                 336   R-squared (Within):               0.0407
-Date:                Tue, Feb 18 2020   R-squared (Overall):             -0.3775
-Time:                        20:00:26   Log-likelihood                    107.97
+Date:                Tue, Mar 02 2021   R-squared (Overall):             -0.3775
+Time:                        11:06:34   Log-likelihood                    107.97
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      12.190
 Entities:                          48   P-value                           0.0006
@@ -1039,8 +1075,8 @@ Included effects: Entity
 </pre></div></div>
 </div>
 </div>
-<div class="section" id="Exercise-8">
-<h2>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Exercise-9">
+<h2>Exercise 9<a class="headerlink" href="#Exercise-9" title="Permalink to this headline">¶</a></h2>
 <p>Now (using <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> or <code class="docutils literal notranslate"><span class="pre">lfe</span></code>) estimate a fixed effects model using the following specification. Add fixed effects for <strong>both</strong> the state and the year, as well as the other covariates you think are important <span class="math notranslate nohighlight">\(X_{it}\)</span>).</p>
 <p>Explain (a) the type of phenomenon we control for by adding <code class="docutils literal notranslate"><span class="pre">year</span></code> fixed effects, and (b) your choice of covariates. Cluster the standard error at the state level. Interpret the result.</p>
 <p><span class="math">\begin{align}
@@ -1052,9 +1088,8 @@ FatalityRate_{it} = \beta BeerTax_{it} + X_{it} + State_i + Year_t + \epsilon_{i
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># model with state and year fixed effect effects</span>
-<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;fat_rate ~ beertax + EntityEffects + TimeEffects&#39;</span><span class="p">,</span>
-                            <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s2">&quot;fat_rate ~ beertax + EntityEffects + TimeEffects&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s2">&quot;clustered&quot;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1068,8 +1103,8 @@ FatalityRate_{it} = \beta BeerTax_{it} + X_{it} + State_i + Year_t + \epsilon_{i
 Dep. Variable:               fat_rate   R-squared:                        0.0361
 Estimator:                   PanelOLS   R-squared (Between):             -0.3701
 No. Observations:                 336   R-squared (Within):               0.0407
-Date:                Tue, Feb 18 2020   R-squared (Overall):             -0.3672
-Time:                        20:00:26   Log-likelihood                    115.04
+Date:                Tue, Mar 02 2021   R-squared (Overall):             -0.3672
+Time:                        11:06:34   Log-likelihood                    115.04
 Cov. Estimator:             Clustered
                                         F-statistic:                      10.513
 Entities:                          48   P-value                           0.0013
@@ -1095,6 +1130,15 @@ Distribution: F(53,281)
 
 Included effects: Entity, Time
 </pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -1148,7 +1192,7 @@ Included effects: Entity, Time
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -1165,7 +1209,7 @@ Included effects: Entity, Time
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
