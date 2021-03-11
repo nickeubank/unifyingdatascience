@@ -61,20 +61,24 @@ Optional:
 "Tues, Mar 16","- Regression Discontinuity
 - Two Stage Least Squares","- Angrist and Pischke (MM), Chapter 3, Sections 3.3 - End
 - Morgan and Winship, Chapter 11
-- `RDD at Coursera <https://medium.com/coursera-engineering/regression-discontinuity-understanding-the-benefit-of-subtitles-on-coursera-dd82bb25a0f1>`_
+- `RDD at Coursera <https://medium.com/coursera-engineering/regression-discontinuity-understanding-the-benefit-of-subtitles-on-coursera-dd82bb25a0f1>`_",
+"Thurs, Mar 18",- Workflow Management,"- `DS Workflow <https://www.practicaldatascience.org/html/workflow.html>`_
+- `A Model Code Review <https://www.practicaldatascience.org/html/pr_review.html`_
 - **Backwards Design Due**",
-"Thurs, Mar 18",Taxonomy of Questions,- `Taxonomy of Questions <taxonomy_of_questions.ipynb>`_,`Types of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
-"Tues, Mar 23",Answering Questions,"- `Moving from Problems to Questions <moving_from_problems_to_questions>`_
+"Tues, Mar 23",Taxonomy of Questions,- `Taxonomy of Questions <taxonomy_of_questions.ipynb>`_,`Types of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
+"Thurs, Mar 25",Answering Questions,"- `Moving from Problems to Questions <moving_from_problems_to_questions>`_
 - `Why It's Important To Get Your Question Right <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_
 - `Most ML Doesn't Make Money <https://www.wired.com/story/companies-rushing-use-ai-few-see-payoff/>`_
 ",`Converting stakeholder prompts to questions <exercises/exercise_generating_questions.ipynb>`_
-"Thurs, Mar 25",Descriptive Questions,"- `Discretion in Descriptive Analyses <descriptive_questions.ipynb>`_
+"Tues, Mar 30",Descriptive Questions,"- `Discretion in Descriptive Analyses <descriptive_questions.ipynb>`_
 - `Positive versus Normative Questions <https://www.youtube.com/watch?v=YtX6SGw7E3c>`_",`Link <exercises/exercise_descriptive.ipynb>`_
-"Tues, Mar 30",Prediction: ML versus Casual Inference,"- Fragility
+"Thurs, Apr 1 ",Prediction: ML versus Casual Inference,"- Fragility
+- Measuring Uncertainty
 - Adversarial Users
+- `Fooling OpenAI <https://www.theverge.com/2021/3/8/22319173/openai-machine-vision-adversarial-typographic-attacka-clip-multimodal-neuron>`_
 - Lucas Critique
 - `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_",- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/50_prediction/Eubank_UDS_prediction_handout.pdf>`_
-"Thurs, Apr 1 ",Prediction: ML Bias," **Required:**
+"Tues, Apr 6",Prediction: ML Bias," **Required:**
 - `ProPublica: Machine Bias <https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing>`_
 - `ProPublica Analysis of COMPAS <https://www.propublica.org/article/how-we-analyzed-the-compas-recidivism-algorithm>`_
 - `Racial Bias in Medical Algorithm <https://www.washingtonpost.com/health/2019/10/24/racial-bias-medical-algorithm-favors-white-patients-over-sicker-black-patients/>`_
@@ -87,9 +91,8 @@ Optional:
 **Optional:**
 - `Diversity in AI is not your problem, it's hers <https://medium.com/@robert.munro/bias-in-ai-3ea569f79d6a>`_
 - `Again, not all unintentional... <https://www.vice.com/en_us/article/epgmbw/this-company-is-using-racially-biased-algorithms-to-select-jurors>`_",
-"Tues, Apr 6",Practice Presentations,"- Modelling of Presentations and Feedback
+"Thurs, Apr 8",Practice Presentations,"- Modelling of Presentations and Feedback
 - **PROJECT ROUGH DRAFTS DUE**",
-"Thurs, Apr 8",Project Presentations,7 minute presentations + 7 minutes of questions per group,
 "Tues, Apr 13",**NO CLASS**,Wellness Day,
 "Thurs, Apr 15",Project Presentations,7 minute presentations + 7 minutes of questions per group,
 "Tues, Apr 20",Project Presentations,7 minute presentations + 7 minutes of questions per group,
