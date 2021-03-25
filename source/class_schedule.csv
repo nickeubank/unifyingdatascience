@@ -61,10 +61,9 @@ Optional:
 "Tues, Mar 16","- Regression Discontinuity
 - Two Stage Least Squares","- Angrist and Pischke (MM), Chapter 3, Sections 3.3 - End
 - Morgan and Winship, Chapter 11
-- `RDD at Coursera <https://medium.com/coursera-engineering/regression-discontinuity-understanding-the-benefit-of-subtitles-on-coursera-dd82bb25a0f1>`_
-- OPTIONAL: Angrist and Pischke (MM), Chpt 4 (more on RDDs)",
+- `RDD at Coursera <https://medium.com/coursera-engineering/regression-discontinuity-understanding-the-benefit-of-subtitles-on-coursera-dd82bb25a0f1>`_",
 "Thurs, Mar 18",- Workflow Management,"- `DS Workflow <https://www.practicaldatascience.org/html/workflow.html>`_
-- `A Model Code Review <https://www.practicaldatascience.org/html/pr_review.html`_
+- `A Model Code Review <https://www.practicaldatascience.org/html/pr_review.html>`_
 - **Backwards Design Due**",
 "Tues, Mar 23",Taxonomy of Questions,- `Taxonomy of Questions <taxonomy_of_questions.ipynb>`_,`Types of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
 "Thurs, Mar 25",Answering Questions,"- `Moving from Problems to Questions <moving_from_problems_to_questions>`_
