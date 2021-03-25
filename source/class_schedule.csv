@@ -72,12 +72,11 @@ Optional:
 ",`Converting stakeholder prompts to questions <exercises/exercise_generating_questions.ipynb>`_
 "Tues, Mar 30",Descriptive Questions,"- `Discretion in Descriptive Analyses <descriptive_questions.ipynb>`_
 - `Positive versus Normative Questions <https://www.youtube.com/watch?v=YtX6SGw7E3c>`_",`Link <exercises/exercise_descriptive.ipynb>`_
-"Thurs, Apr 1 ",Prediction: ML versus Casual Inference,"- Fragility
-- Measuring Uncertainty
+"Thurs, Apr 1 ",Prediction: ML versus Casual Inference,"- `Contraining Artificial Stupidity <https://www.youtube.com/watch?v=Z8MEFI7ZJlA>`_
 - Adversarial Users
 - `Fooling OpenAI <https://www.theverge.com/2021/3/8/22319173/openai-machine-vision-adversarial-typographic-attacka-clip-multimodal-neuron>`_
-- Lucas Critique
-- `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_",- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/50_prediction/Eubank_UDS_prediction_handout.pdf>`_
+- `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_
+",- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/50_prediction/Eubank_UDS_prediction_handout.pdf>`_
 "Tues, Apr 6",Prediction: ML Bias," **Required:**
 - `ProPublica: Machine Bias <https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing>`_
 - `ProPublica Analysis of COMPAS <https://www.propublica.org/article/how-we-analyzed-the-compas-recidivism-algorithm>`_
@@ -86,14 +85,14 @@ Optional:
 - `Algorithm Blocks Kidney Transplants to Black Patients <https://www.wired.com/story/how-algorithm-blocked-kidney-transplants-black-patients/>`_
 - `The Problem with Controlling for Race <https://www.nejm.org/doi/10.1056/NEJMms2004740>`_
 - `Not all AI bias is unintentional... <https://www.washingtonpost.com/nation/2020/01/28/opioid-kickback-software/>`_
-- `Openning the Black Box: <https://pratt.duke.edu/about/news/podcast/opening-black-box>`_
 
 **Optional:**
 - `Diversity in AI is not your problem, it's hers <https://medium.com/@robert.munro/bias-in-ai-3ea569f79d6a>`_
 - `Again, not all unintentional... <https://www.vice.com/en_us/article/epgmbw/this-company-is-using-racially-biased-algorithms-to-select-jurors>`_",
-"Thurs, Apr 8",Practice Presentations,"- Modelling of Presentations and Feedback
-- **PROJECT ROUGH DRAFTS DUE**",
+"Thurs, Apr 8",Prediction: Do I need complexity?,"- `In Defence of Simplicity (Up to 30min) <https://www.youtube.com/watch?v=68ABAU_V8qI>`_
+- `Openning the Black Box: <https://pratt.duke.edu/about/news/podcast/opening-black-box>`_",
 "Tues, Apr 13",**NO CLASS**,Wellness Day,
-"Thurs, Apr 15",Project Presentations,7 minute presentations + 7 minutes of questions per group,
+"Thurs, Apr 15",Practice Presentations,"- Modelling of Presentations and Feedback
+- **PROJECT ROUGH DRAFTS DUE**",
 "Tues, Apr 20",Project Presentations,7 minute presentations + 7 minutes of questions per group,
 "Thurs, Apr 22",Course Summary Class,,- `Summary Cheatsheet <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/80_final_cheatsheet/UDS_Final_Cheatsheet.pdf>`_
