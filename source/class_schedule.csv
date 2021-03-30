@@ -72,12 +72,7 @@ Optional:
 ",`Converting stakeholder prompts to questions <exercises/exercise_generating_questions.ipynb>`_
 "Tues, Mar 30",Descriptive Questions,"- `Discretion in Descriptive Analyses <descriptive_questions.ipynb>`_
 - `Positive versus Normative Questions <https://www.youtube.com/watch?v=YtX6SGw7E3c>`_",`Link <exercises/exercise_descriptive.ipynb>`_
-"Thurs, Apr 1 ",Prediction: ML versus Casual Inference,"- `Contraining Artificial Stupidity <https://www.youtube.com/watch?v=Z8MEFI7ZJlA>`_
-- Adversarial Users:
-    - `Fooling OpenAI <https://www.theverge.com/2021/3/8/22319173/openai-machine-vision-adversarial-typographic-attacka-clip-multimodal-neuron>`_
-    - `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_
-**GITHUB REPO FIRST REVIEW**",- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/50_prediction/Eubank_UDS_prediction_handout.pdf>`_
-"Tues, Apr 6",Prediction: ML Bias," **Required:**
+"Thurs, Apr 1 ",Prediction: ML Bias," **Required:**
 - `ProPublica: Machine Bias <https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing>`_
 - `ProPublica Analysis of COMPAS <https://www.propublica.org/article/how-we-analyzed-the-compas-recidivism-algorithm>`_
 - `Racial Bias in Medical Algorithm <https://www.washingtonpost.com/health/2019/10/24/racial-bias-medical-algorithm-favors-white-patients-over-sicker-black-patients/>`_
@@ -89,10 +84,15 @@ Optional:
 **Optional:**
 - `Diversity in AI is not your problem, it's hers <https://medium.com/@robert.munro/bias-in-ai-3ea569f79d6a>`_
 - `Again, not all unintentional... <https://www.vice.com/en_us/article/epgmbw/this-company-is-using-racially-biased-algorithms-to-select-jurors>`_",
-"Thurs, Apr 8",Prediction: Are interpretable models enough?,"- `In Defence of Simplicity (Up to 30min) <https://www.youtube.com/watch?v=68ABAU_V8qI>`_
+"Tues, Apr 6",Prediction: Are interpretable models enough?,"- `In Defence of Simplicity (Up to 30min) <https://www.youtube.com/watch?v=68ABAU_V8qI>`_
 - `Openning the Black Box: <https://pratt.duke.edu/about/news/podcast/opening-black-box>`_
-- Combining explicit models and SML in Scientific ML <https://notamonadtutorial.com/scientific-machine-learning-with-julia-the-sciml-ecosystem-b22802951c8a>`_
+- `Combining explicit models and SML in Scientific ML <https://notamonadtutorial.com/scientific-machine-learning-with-julia-the-sciml-ecosystem-b22802951c8a>`_
 (Don't expect to follow everything in that... just a heads up it exists!) ",
+"Thurs, Apr 8",Prediction: ML versus Casual Inference,"- `Contraining Artificial Stupidity <https://www.youtube.com/watch?v=Z8MEFI7ZJlA>`_
+- Adversarial Users:
+    - `Fooling OpenAI <https://www.theverge.com/2021/3/8/22319173/openai-machine-vision-adversarial-typographic-attacka-clip-multimodal-neuron>`_
+    - `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_
+**GITHUB REPO FIRST REVIEW**",- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/50_prediction/Eubank_UDS_prediction_handout.pdf>`_
 "Tues, Apr 13",**NO CLASS**,Wellness Day,
 "Thurs, Apr 15",Practice Presentations,"- Modelling of Presentations and Feedback
 - **PROJECT ROUGH DRAFTS DUE**",
