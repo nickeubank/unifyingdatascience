@@ -2,7 +2,7 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "id": "egyptian-lincoln",
+   "id": "exterior-poetry",
    "metadata": {},
    "source": [
     "# Recommendations for Ethical Machine Learning\n",
@@ -14,7 +14,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "shaped-professor",
+   "id": "hybrid-classic",
    "metadata": {},
    "source": [
     "## 1. Choose Your Training Data Carefully\n",
@@ -24,7 +24,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "hourly-compatibility",
+   "id": "committed-corrections",
    "metadata": {},
    "source": [
     "## 2. Only Use Opaque Models When You Have To\n",
@@ -48,7 +48,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "innocent-garage",
+   "id": "affected-pension",
    "metadata": {},
    "source": [
     "## 3. Use Models with Functional Form Constraints\n",
@@ -72,7 +72,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "sunset-psychiatry",
+   "id": "considered-subscriber",
    "metadata": {},
    "source": [
     "## 4. Compare Predictions for Sub-Populations\n",
@@ -104,7 +104,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "funky-desperate",
+   "id": "unexpected-velvet",
    "metadata": {},
    "source": [
     "## 5. \"No\" is Always An Option\n",
@@ -120,7 +120,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "conservative-ability",
+   "id": "neither-davis",
    "metadata": {},
    "source": [
     "## Tools for Interpretable / Constrained Machine Learning\n",
@@ -147,8 +147,10 @@
     "\n",
     "### Tools for Introspection\n",
     "\n",
+    "- [Counterfactual Introspection Tools](https://interpret.ml/DiCE/index.html)\n",
     "- [Better Decision Tree Visualizations from dtreeviz](https://github.com/parrt/dtreeviz) Better visualizations of decision trees from sklearn and XGBoost. \n",
-    "- [Understand your LDA (especially text topic) models](https://pyldavis.readthedocs.io/en/latest/readme.html)"
+    "- [Understand your LDA (especially text topic) models](https://pyldavis.readthedocs.io/en/latest/readme.html)\n",
+    "- [More tools for text introspection](https://github.com/interpretml/interpret-text)"
    ]
   }
  ],
