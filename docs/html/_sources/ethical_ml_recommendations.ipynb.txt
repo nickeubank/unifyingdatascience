@@ -2,7 +2,7 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "id": "authentic-drawing",
+   "id": "egyptian-lincoln",
    "metadata": {},
    "source": [
     "# Recommendations for Ethical Machine Learning\n",
@@ -14,7 +14,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "contained-latex",
+   "id": "shaped-professor",
    "metadata": {},
    "source": [
     "## 1. Choose Your Training Data Carefully\n",
@@ -24,7 +24,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "bigger-enhancement",
+   "id": "hourly-compatibility",
    "metadata": {},
    "source": [
     "## 2. Only Use Opaque Models When You Have To\n",
@@ -33,7 +33,7 @@
     "\n",
     "Many people's first response to this claim will be \"What?! No way. I hear every day about how fancy models are being used to crack formally unsolvable problems\", or \"but the models that win at Kaggle are always crazy complex!\" And that's true.... to a point. But...\n",
     "\n",
-    "First, news articles aren't reporting about a representative sample of what real data scientists run into on a day to day basis. The *reason* you read about fancy models solving new problems is precisely *because* they are exceptional. If you are working on one of those problems -- self-driving cars, or protein folding -- then by all means you will probably need the most cutting edge tools available. But for most of us, most of the time, I will posit that you will find interpretable models will generally perform just as well as opaque ones.\n",
+    "First, news articles aren't reporting about a representative sample of what real data scientists run into on a day to day basis. The *reason* you read about fancy models solving new problems is precisely *because* they are exceptional. If you are working on one of those problems -- self-driving cars, or protein folding -- then by all means you will probably need the most cutting edge tools available. (Computer vision is one area where neural networks are almost always necessary). But for most of us, most of the time, I will posit that you will find interpretable models will generally perform just as well as opaque ones.\n",
     "\n",
     "And second, it's important to remember that the models that win Kaggle problems aren't necessarily the best model to use in the real world! Part of that is because, like the stories you hear in the news, Kaggle problems are a representative sample of the problems you'll face in your career. But the bigger reason is that in a Kaggle competition, the *only* goal of your model is to maximize a few evaluation statistics, and that's *not* how the real world works. \n",
     "\n",
@@ -48,7 +48,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "celtic-gilbert",
+   "id": "innocent-garage",
    "metadata": {},
    "source": [
     "## 3. Use Models with Functional Form Constraints\n",
@@ -72,7 +72,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "handmade-degree",
+   "id": "sunset-psychiatry",
    "metadata": {},
    "source": [
     "## 4. Compare Predictions for Sub-Populations\n",
@@ -104,7 +104,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "running-arrow",
+   "id": "funky-desperate",
    "metadata": {},
    "source": [
     "## 5. \"No\" is Always An Option\n",
@@ -120,7 +120,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "coordinate-jesus",
+   "id": "conservative-ability",
    "metadata": {},
    "source": [
     "## Tools for Interpretable / Constrained Machine Learning\n",
@@ -147,7 +147,8 @@
     "\n",
     "### Tools for Introspection\n",
     "\n",
-    "- [Better Decision Tree Visualizations from dtreeviz](https://github.com/parrt/dtreeviz) Better visualizations of decision trees from sklearn and XGBoost. "
+    "- [Better Decision Tree Visualizations from dtreeviz](https://github.com/parrt/dtreeviz) Better visualizations of decision trees from sklearn and XGBoost. \n",
+    "- [Understand your LDA (especially text topic) models](https://pyldavis.readthedocs.io/en/latest/readme.html)"
    ]
   }
  ],
