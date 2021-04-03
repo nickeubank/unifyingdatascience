@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recommendations for Ethical Machine Learning &#8212; Unifying Data Science</title>
+    <title>Recommendations for Responsible Machine Learning &#8212; Unifying Data Science</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -31,30 +31,273 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="Recommendations-for-Ethical-Machine-Learning">
-<h1>Recommendations for Ethical Machine Learning<a class="headerlink" href="#Recommendations-for-Ethical-Machine-Learning" title="Permalink to this headline">¶</a></h1>
-<p>What follows are a collection of recommendations for approaching a data science project (especially one using supervised machine learning) in an ethical and responsible manner.</p>
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="section" id="Recommendations-for-Responsible-Machine-Learning">
+<h1>Recommendations for Responsible Machine Learning<a class="headerlink" href="#Recommendations-for-Responsible-Machine-Learning" title="Permalink to this headline">¶</a></h1>
+<p>Having just spent two days discussing issues of bias and discrimination in supervised machine learning models, it’s easy to feel discouraged. But the risk of bias in data science is something that can be managed – indeed, many of the accounts of bias we’ve covered were clearly just the result of no one thinking to check whether a given model worked for people of different racial backgrounds. But in the interest of being constructive, here are a set of concrete, actionable recommendations I think
+can be helpful in minimizing the risk of developing (and deploying) discriminatory models.</p>
 <p>Note that these recommendations are not the be-all-and-end-all of responsible machine learning, or even uncontested. ML bias is such a new area of study that people are still coming to grips with best practices. However, these are some of the things that <em>I</em> have come to feel are critical, and which I will list in approximate order of importance.</p>
 <div class="section" id="1.-Choose-Your-Training-Data-Carefully">
 <h2>1. Choose Your Training Data Carefully<a class="headerlink" href="#1.-Choose-Your-Training-Data-Carefully" title="Permalink to this headline">¶</a></h2>
-<p>Choosing your training data carefully is without a doubt the <strong>most</strong> important thing you can do when trying to develop an ethical model. That’s because every tool that you use as a data scientist is designed to build a model that emulates the behavior observed in your training data, which means that if you’re trying to make adjustments to your model downstream of picking your training data to manage bias, you will <em>always</em> be fighting against your tools. But if you can pick training data this
-is unbiased (or if you are at least picking the <em>least</em> biased available training data), your model will be working for you, not against you.</p>
+<p>Choosing your training data carefully is without a doubt the <strong>most</strong> important thing you can do when trying to develop an ethical model. That’s because, as we’ve discussed in previous classes, the goal of every supervised machine learning tool is to emulate the behavior of the entity that labeled the training data you use. That means that if your training data was generated by a biased or discriminatory social process, your model will attempt to replicate that bias.</p>
+<p>(Note in this reading, I’ll use the term “bias” to mean bias in the social sense of being discriminatory or systematically inaccurate for a specific population, not in the statistical sense, though obviously these are often related).</p>
+<p>As a result, the <strong>best</strong> place to try and minimize the risk of bias is with choosing your training data thoughtfully, because if you start with biased training data, then anything you try and down downstream to reduce bias will leave you fighting your own tools. But pick good data, and your model will work with you, not against you.</p>
 </div>
 <div class="section" id="2.-Only-Use-Opaque-Models-When-You-Have-To">
 <h2>2. Only Use Opaque Models When You Have To<a class="headerlink" href="#2.-Only-Use-Opaque-Models-When-You-Have-To" title="Permalink to this headline">¶</a></h2>
-<p>It’s very tempting as a data scientists to reach first for the fanciest tool. In the vast majority of cases, however, it’s not at all clear that they fancy, opaque tools (SVM, neural networks, etc.) actually perform substantially better than more interpretable models (a well specified linear model, decision trees, etc.) in many real world application (e.g. <a class="reference external" href="https://hdsr.mitpress.mit.edu/pub/f9kuryi8/release/6">this</a>).</p>
+<p>In my view, one of the best ways to avoid unforeseen problems with supervised machine learning is to use interpretable models whenever possible. I make this recommendation not because interpretable models can’t be discriminatory or unethical – just like opaque models, given biased training data, an interpretable model will try to recapitulate that bias in its predictions – but rather because I think they make it much easier for you, the data scientist, to fully understand and evaluate the
+decision making process underlying your model and see potential problems.</p>
+<p>Before diving into all the advantages of intepretable models, however, it’s important to address the elephant in the room: most data scientists assume a trade-off between model simplicity and accuracy. Linear regression or decision trees are nice, one may say, but they can’t compete with neural networks for predictive power. However, I will posit that in the vast majority of cases, fancy opaque tools (e.g. neural networks) actually <em>won’t</em> perform substantially better than more interpretable
+models in many real world application.</p>
 <p>Many people’s first response to this claim will be “What?! No way. I hear every day about how fancy models are being used to crack formally unsolvable problems”, or “but the models that win at Kaggle are always crazy complex!” And that’s true…. to a point. But…</p>
 <p>First, news articles aren’t reporting about a representative sample of what real data scientists run into on a day to day basis. The <em>reason</em> you read about fancy models solving new problems is precisely <em>because</em> they are exceptional. If you are working on one of those problems – self-driving cars, or protein folding – then by all means you will probably need the most cutting edge tools available. (Computer vision is one area where neural networks are almost always necessary). But for most of
-us, most of the time, I will posit that you will find interpretable models will generally perform just as well as opaque ones.</p>
+us, most of the time, I think you will find interpretable models will generally perform just as well as opaque ones. (Indeed, here’s an article about the experience of folks in some data science competitions <a class="reference external" href="https://hdsr.mitpress.mit.edu/pub/f9kuryi8/release/6">using interpretable models</a>, and a great talk on the real-world experience of a <a class="reference external" href="https://www.youtube.com/watch?v=68ABAU_V8qI">data science consultant discussing these issues</a>.</p>
 <p>And second, it’s important to remember that the models that win Kaggle problems aren’t necessarily the best model to use in the real world! Part of that is because, like the stories you hear in the news, Kaggle problems are a representative sample of the problems you’ll face in your career. But the bigger reason is that in a Kaggle competition, the <em>only</em> goal of your model is to maximize a few evaluation statistics, and that’s <em>not</em> how the real world works.</p>
 <p>In the real world, there are LOTS of additional considerations you need to bear in mind. Maintainability, for example: if you build a good model that your company wants to use for a while, then chances are the time will come when you and your model go off in different directions, and somebody will have to take over maintenance of the model. If you have developed something that is so crazy complex and weird that your company has to hire somebody with the same education level you have to even
 begin to understand the model, that’s not good. Simplicity means maintainability.</p>
 <p>Interpretability also comes with certain guarantees around model behavior (see functional form constraints discussion below). With opaque, highly-non-linear models, it can be very hard (in some cases effectively impossible) to know if the model will spit out nonsense or dangerous predictions when faced with certain inputs that you didn’t explicitly test. Given that, in important domains (e.g. finance, healthcare, etc.) opaque models may contain virtual time-bombs just waiting to be triggered by
 the right inputs.</p>
-<p>Finally, but relatedly, companies using models in the real world have to worry about manipulation and adversarial users, and it can be <em>extremely</em> difficult to predict how a model many be manipulated if you don’t even know how it works yourself. For example, many school systems have adopted the use of an “auto-grader” (almost certainly a neural net) for high school essays to free up teachers to spend less time grading and more time teaching. The problem, however, is that what the world has
-discovered is that the model is <em>deeply</em> manipulatable. In particular, what it appears to have found is that essays in the training data that received good grades from human graders were the essays with lots of big words. So… turns out the model was mostly just looking for big words, and once this was realized, students discovered they could get good grades by <a class="reference external" href="https://www.vice.com/en/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays">just submitting lists of big
-words</a>. (This also make them quite discriminatory, as discussed in the article). And similarly, some of the best computer vision systems around are also <a class="reference external" href="https://www.theverge.com/2021/3/8/22319173/openai-machine-vision-adversarial-typographic-attacka-clip-multimodal-neuron">incredibly easy to fool</a>.</p>
+<p>Relatedly, companies using models in the real world have to worry about manipulation and adversarial users, and it can be <em>extremely</em> difficult to predict how a model many be manipulated if you don’t even know how it works yourself. For example, many school systems have adopted the use of an “auto-grader” (almost certainly a neural net) for high school essays to free up teachers to spend less time grading and more time teaching. The problem, however, is that what the world has discovered is that
+the model is <em>deeply</em> manipulatable. In particular, what it appears to have found is that essays in the training data that received good grades from human graders were the essays with lots of big words. So… turns out the model was mostly just looking for big words, and once this was realized, students discovered they could get good grades by <a class="reference external" href="https://www.vice.com/en/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays">just submitting lists of big words</a>. (This also make
+them quite discriminatory, as discussed in the article). And similarly, some of the best computer vision systems around are also <a class="reference external" href="https://www.theverge.com/2021/3/8/22319173/openai-machine-vision-adversarial-typographic-attacka-clip-multimodal-neuron">incredibly easy to fool</a>.</p>
 <p>As a result, those types of models may score well on Kaggle, but believe me when I say your managers would be mad if your financial analysis model turned out to be so easy to game.</p>
+<p>And if what you’re interested in is <em>ethical</em> data science, than a really interpretable model (like a decision tree) is also something that non-data scientists can evaluate and engage with in a way that just isn’t possible with complex models. For example, consider the decision tree created by Hu et. al. to replace the <a class="reference external" href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing">opaque, proprietary (and extremely biased) algorithm</a> being used in the US court
+systems to advise judges on whether to grant bail or not:</p>
+<img alt="rudin_model_compas" src="_images/rudin_model_compas.png" />
+<p>This model is so simple that you can share it with <em>anyone</em>, making it possible for people to engage in thoughtful discussions about things like: is it ethical to include a person’s juvenile arrest record in adult risk assessment? (In the US, juvenile records are generally sealed in the belief that decisions made in childhood shouldn’t determine someones fate in life. But here they’re being considered once more. Is that ethical?).</p>
+<p>Don’t get me wrong – there are applications where you need opaque models (e.g. most things in computer vision, or advanced NLP modeling). And there’s more and more great work on trying to find ways to introspect these complicated models. But why don’t you try something simple first? Because if it works, it can save you LOTS of headaches.</p>
 </div>
 <div class="section" id="3.-Use-Models-with-Functional-Form-Constraints">
 <h2>3. Use Models with Functional Form Constraints<a class="headerlink" href="#3.-Use-Models-with-Functional-Form-Constraints" title="Permalink to this headline">¶</a></h2>
@@ -134,6 +377,15 @@ and many of the recent innovations in self-driving cars).</p></li>
 <li><p><a class="reference external" href="https://pyldavis.readthedocs.io/en/latest/readme.html">Understand your LDA (especially text topic) models</a></p></li>
 <li><p><a class="reference external" href="https://github.com/interpretml/interpret-text">More tools for text introspection</a></p></li>
 </ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 </div>
