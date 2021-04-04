@@ -92,6 +92,7 @@ Optional:
 
 **Optional:**
 
+- `All The Flavors of Training Data Bias <https://arxiv.org/pdf/1901.10002.pdf>`_
 - `Accuracy of Interpretable Models <https://hdsr.mitpress.mit.edu/pub/f9kuryi8/release/6>`_
 - `Combining explicit models and black boxes in Scientific ML <https://notamonadtutorial.com/scientific-machine-learning-with-julia-the-sciml-ecosystem-b22802951c8a>`_
 
