@@ -48,18 +48,25 @@ To learn more about the course, please `read the course syllabus available here.
 
 .. toctree::
    :maxdepth: 2
-   :caption: QUESTIONS
+   :caption: Data Science Concepts
    :hidden:
 
    Taxonomy of Questions <taxonomy_of_questions>
    From Problems to Questions <moving_from_problems_to_questions>
    Discretion and Description <descriptive_questions.ipynb>
-   Limitations of Experiments <limitations_of_ATE.ipynb>
+   Ethical Machine Learning <ethical_ml_recommendations.ipynb>
 
 .. toctree::
    :maxdepth: 2
-   :caption: METHODS
+   :caption: Causal Inference
    :hidden:
 
+   Limitations of ATE <limitations_of_ATE>
+   Internal v. External Validity <internal_v_external_validity>
+   Evaluating A Real Study <evaluating_real_studies>
+   Matching (Why) <matching_why>
+   Matching (How) <matching_how>
    Indicator Variables <interpreting_indicator_vars>
-   Fixed Effects <fixed_effects>
+   Fixed Effects (FEs) <fixed_effects>
+   FEs & Causality <fixed_effects_and_causal_inference>
+   FEs & Hierarchical Models <fixed_effects_v_hierarchical>
