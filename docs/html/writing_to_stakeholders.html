@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Writing Data Science Report for Non-Technical Audiences &#8212; Unifying Data Science</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Limitations of Experiments (and Average Treatment Effects)" href="limitations_of_ATE.html" />
+    <link rel="prev" title="Recommendations for Responsible Machine Learning" href="ethical_ml_recommendations.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="Writing-Data-Science-Report-for-Non-Technical-Audiences">
+<h1>Writing Data Science Report for Non-Technical Audiences<a class="headerlink" href="#Writing-Data-Science-Report-for-Non-Technical-Audiences" title="Permalink to this headline">¶</a></h1>
+<p>As a data scientist, you’ll often be required to summarize your analyses and present them to non-data scientists. This type of translation of technical analyses to something of use to less-technical audiences is an absolutely critical part of being an effective data scientist – if you don’t communicate what you’ve done to decision makers, it often doesn’t matter how rigorous or careful your work has been up to that point.</p>
+<p>With that in mind, here is an outline of one strategy for writing for non-technical audiences. Obviously different people may prefer slightly different approaches, but I think this is a good model to start with.</p>
+<p>Also, note that this <em>is</em> the model I’d like you to use when writing your final report for this class, so there are a few notes that are specific to class expectations!</p>
+<div class="section" id="Identify-your-audience">
+<h2>Identify your audience<a class="headerlink" href="#Identify-your-audience" title="Permalink to this headline">¶</a></h2>
+<p>Before you write a single word, you should pause to reflect on exactly who you wish to address with your report, and their background. What follows are general guidelines, but the better you know your audience, the more precisely you can tailor the level of detail in your report.</p>
+<p><strong>For this class:</strong> At the top of your report, please specify the stakeholder to whom you are addressing your report – a product manager, a legislative aid, a policymaker, etc. This stakeholder should be relevant to your study, but should not be someone with data science training. You may assume they know about basic statistical concepts (means and standard deviations), but no more (no assumed understanding of potential outcomes, the theoretical underpinnings of experiments, specific designs
+like differences-in-differences, etc.). Obviously this is not something you’d put in a real write-up, but will be helpful for evaluation of your project.</p>
+</div>
+<div class="section" id="Introduction-/-Executive-Summary">
+<h2>Introduction / Executive Summary<a class="headerlink" href="#Introduction-/-Executive-Summary" title="Permalink to this headline">¶</a></h2>
+<p>One of the most important things to remember when writing up an analysis is that the person your writing to has too many things to do, and is <strong>definitely</strong> less interested in your project than you are. With that in mind, it’s important that you write and organize your report in a way that catches their attention early and gets them invested so they keep reading. As a result, one generally wants to start with the most important parts of the analysis, then slowly draw back and lay out additional
+details.</p>
+<p>You may have never noticed this before, but this is how most news articles are written: one of the first two or three paragraphs is what’s referred to as the “nut graf” (or nutshell paragraph) in which the journalist basically summarizes the entire news article in a single paragraph. In the words of <a class="reference external" href="https://www.poynter.org/archive/2003/the-nut-graf-part-i/">Ken Wells from the Wall Street Journal</a>, the nut graf is “a paragraph that says what this whole story is about and why you should read
+it. It’s a flag to the reader, high up in the story: You can decide to proceed or not, but if you read no farther, you know what that story’s about.</p>
+<p>Thankfully you probably aren’t <em>so</em> pressed for time that you have to summarize everything in a single paragraph, but we will follow a similar structure in which we try and give the reader a full summary of why your project is important, how you do your analysis, and broadly what you conclude up front. In particular, I would argue that your introduction / executive summary should be organized as follows:</p>
+<p><strong>Identify the problem you wish to address</strong></p>
+<p>The first thing to do in any report is <em>motivate</em> your analysis – tell us about <em>why</em> you need to undertake this project. At this point in the report, keep this relatively brief – the motivation for the project is important, but you don’t want to drown the reader in background. This should probably be one-to-two solid paragraphs. But don’t draw it out – we can get more into background on the problem later, and you don’t want to get bogged down talking about the problem, you want to get to how
+you’re gonna help the reader.</p>
+<p><strong>What question will you try to answer, and how will it help you address</strong></p>
+<p>Here’s the linchpin of the report: announce the question you’re seeking to answer in your project <em>and</em> make it clear how this will help address the problem you’ve identified. This transition is where you will either get the reader to buy into the report and read it carefully, or lose their interest.</p>
+<p><strong>Summarize your strategy</strong></p>
+<p>Now in one to two paragraphs provide an overview of your project, your approach, and a preliminary summary of your results.</p>
+<p>In all, you should have covered all this is about one page, maybe a page and a half, and <em>hopefully</em> now you’ve got your reader hooked!</p>
+</div>
+<div class="section" id="Background">
+<h2>Background<a class="headerlink" href="#Background" title="Permalink to this headline">¶</a></h2>
+<p>OK, so at this point you’ve hopefully caught your readers interest, so now you can circle back and provide any additional background needed to help the reader better understand your motivation or the specific context you are analyzing (if you’re looking at a policy change, the details of the policy, the context in which it occurred, the players involved, etc.) The amount of background needed will vary across projects, but whatever you need goes here.</p>
+</div>
+<div class="section" id="Your-Design">
+<h2>Your Design<a class="headerlink" href="#Your-Design" title="Permalink to this headline">¶</a></h2>
+<p>Here’s where you lay out how you plan to answer the question you laid out in your summary.</p>
+<p>As you do so, bear in mind the difference between your goals in writing to a non-technical stakeholder and your goals when writing to a fellow data scientist (most of your professors).</p>
+<p>When writing to a fellow data scientist, you’re generally writing to a skeptical audience. Your goal is to try and convince them that you did everything correctly – crossed every t and dotted every i. This is especially true when writing to professors in technical classes, since you’re usually trying to demonstrate your mastery of a technical skill, which means communicating very detail.</p>
+<p>But a stakeholder reading your analysis is generally someone who mostly decided to put their trust in you when they hired you, and at this point your job is not to convince them every technical nuance of the project is right – by definition, most non-technical audiences wouldn’t be able to read a balance table showing that your randomization created balanced samples – but rather to communicate to them <strong>the key take-aways</strong> of the analysis.</p>
+<p>That’s not to say you don’t need to engage with some technical aspects of your project. For example, if you’re using a good causal design, it’s critical the reader know why your causal research design is better than just looking at observational data in a regular regression (especially since someone else may try and argue with your results using that type of data). And of course they need to know about any limitations of what you’ve learned. But you don’t have to put every bit of due deligience
+you’ve done in the main report.</p>
+<p>With that in mind, one thing that’s crucial to this section if you’re doing causal inference is to help the reader <strong>understand why you’re using a specific causal design without using technical language.</strong> To do so, you want to lay out <em>specific, concrete reasons</em> that just using observational data might lead to erroneous conclusions (e.g. do the same thing you did on the homework assignments / midterm when asked about how people were interpreting observational studies.)</p>
+<p>For example, if you are doing an experiment to see how sending people coupons would impact consumer behavior, you want to explain that “we can’t just use data on sales from stores that chose to send out coupons to evaluate whether we should be sending out coupons to all our customers because it’s possible that the stores that sent out coupons did so precisely because they knew that their customers were struggling financially, and thus needed coupons to be able to afford products. As a result, if
+we compared sales to customers who got coupons to those who did not, we might inadvertently assume the lower sales to customers who got coupons was the result of the coupons, when in fact it actually reflected the fact that the coupons went to customers who were less well-off financially to begin with.”</p>
+<p>“But if we run an experiment in which we randomly assign customers to either receive a coupon or not, then we know that on average the people getting coupons will be the same as the people not getting coupons (since who gets coupons is random, and not related to anything like customer income). As a result, we can compare sales to customers who got coupons and those that did not, and infer with confidence that any difference we see is the result of getting coupons, not other differences in the
+customers with or without coupons.”</p>
+<p>(See? No discussion of potential outcomes or use of terms like “baseline differences!”</p>
+</div>
+<div class="section" id="Your-Results">
+<h2>Your Results<a class="headerlink" href="#Your-Results" title="Permalink to this headline">¶</a></h2>
+<p>Now it’s time for results! As with your design, remember your goal is to emphasize the key take-aways of your analysis, which means both what the data can tell you <em>and what it can’t</em>. Remember that honest humility is a key part of being a good data scientist – don’t over-sell your results!</p>
+</div>
+<div class="section" id="Conclusions">
+<h2>Conclusions<a class="headerlink" href="#Conclusions" title="Permalink to this headline">¶</a></h2>
+<p>Now the final part of the project – quickly recapitulate the problem you wanted to address, the question you sought to answer, the answer you reached, and the implications of this result. In this discussion, make sure you talk a lot about <em>external validity</em>: where are these results likely applicable? Where are they not? What other research could be done to learn more? Do you have concrete recommendations?</p>
+</div>
+<div class="section" id="Appendix">
+<h2>Appendix<a class="headerlink" href="#Appendix" title="Permalink to this headline">¶</a></h2>
+<p>Remember when I said that in writing to a non-technical stakeholder, you don’t have to detail all the nuances of your analysis? Well… that’s true. BUT: it’s often good to put the details of all the careful analyses of robustness and diagnostic tests you completed in appendices. That way you can reference them in the body of your report (communicating in broad terms that you were careful without boring your reader), but then also include them in case your stakeholder wants to share your report
+with another data scientist for a second opinion.</p>
+<p>So you probably want (<strong>and for this class, should have</strong>) an appendix with things like balance tests, A/A tests, evidence of parallel trends, discussion of why you chose certain sample restrictions, alternate specifications, etc., depending on what’s appropriate for your particular research design.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Unifying DS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="class_schedule.html">CLASS SCHEDULE</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data Science Concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="taxonomy_of_questions.html">Taxonomy of Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="moving_from_problems_to_questions.html">From Problems to Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="descriptive_questions.html">Discretion and Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Writing for Lay Audiences</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Identify-your-audience">Identify your audience</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Introduction-/-Executive-Summary">Introduction / Executive Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Your-Design">Your Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Your-Results">Your Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Conclusions">Conclusions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Appendix">Appendix</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Causal Inference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="limitations_of_ATE.html">Limitations of ATE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="internal_v_external_validity.html">Internal v. External Validity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evaluating_real_studies.html">Evaluating A Real Study</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matching_why.html">Matching (Why)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matching_how.html">Matching (How)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interpreting_indicator_vars.html">Indicator Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fixed_effects.html">Fixed Effects (FEs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fixed_effects_and_causal_inference.html">FEs &amp; Causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fixed_effects_v_hierarchical.html">FEs &amp; Hierarchical Models</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ethical_ml_recommendations.html" title="previous chapter">Recommendations for Responsible Machine Learning</a></li>
+      <li>Next: <a href="limitations_of_ATE.html" title="next chapter">Limitations of Experiments (and Average Treatment Effects)</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nick Eubank.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/writing_to_stakeholders.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-151397036-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    
+  </body>
+</html>

@@ -102,7 +102,8 @@ Optional:
 "Thurs, Apr 8",Prediction: ML versus Casual Inference,"- `Contraining Artificial Stupidity <https://www.youtube.com/watch?v=Z8MEFI7ZJlA>`_
 - Adversarial Users:
     - `Fooling OpenAI <https://www.theverge.com/2021/3/8/22319173/openai-machine-vision-adversarial-typographic-attacka-clip-multimodal-neuron>`_
-    - `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_",- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/50_prediction/Eubank_UDS_prediction_handout.pdf>`_
+    - `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_","- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/50_prediction/Eubank_UDS_prediction_handout.pdf>`_
+- `Writing to Stakeholders <writing_to_stakeholders.ipynb>`_"
 "Tues, Apr 13",**NO CLASS**,Wellness Day,
 "Thurs, Apr 15",Practice Presentations,"- Modelling of Presentations and Feedback
 - **PROJECT ROUGH DRAFTS DUE**",

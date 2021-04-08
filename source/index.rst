@@ -55,6 +55,7 @@ To learn more about the course, please `read the course syllabus available here.
    From Problems to Questions <moving_from_problems_to_questions>
    Discretion and Description <descriptive_questions.ipynb>
    Ethical Machine Learning <ethical_ml_recommendations.ipynb>
+   Writing for Lay Audiences <writing_to_stakeholders>
 
 .. toctree::
    :maxdepth: 2
