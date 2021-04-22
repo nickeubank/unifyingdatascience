@@ -1,0 +1,84 @@
+% So we make this "beamer" rather than document!
+
+\documentclass[11pt]{beamer}
+% For handout add ,handout after 11pt
+
+\usetheme[sectionpage=none,numbering=none]{metropolis}           % Use metropolis theme
+	% To do printouts, add ", handout"  after aspectratio.
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{ulem}
+\title{What You Can Do}
+\author{\small Nick Eubank}
+\date{\vspace*{.3in} \date}
+
+
+% This is the beginning of a real document!
+\begin{document}
+
+
+\begin{frame}[c]
+\maketitle
+\end{frame}
+
+
+\begin{frame}[c]
+    \centering
+    \textbf{Modeling} \\
+    Developing Model to Faithfully Represent Data \\
+    \vspace*{0.2cm}
+    \pause $\Downarrow$ \\
+    \vspace*{0.2cm}
+     \textbf{Inference} \\
+    Interpreting Model Parameters \\
+    for Application \\
+    \vspace{1cm}
+    \begin{enumerate}
+        \pause \item Are my estimates causal?
+        \pause \item Will they generalize?
+        \pause \item Are they biased?
+    \end{enumerate}
+  \end{frame}
+
+
+\begin{frame}[c]{Day 1}
+\pause By the end of this course, you will:
+    \begin{itemize}
+        \item Understand why causal inference is hard, \\
+        \uncover<3->{{\color{gray} \small Potential Outcomes framework, learned to apply it in a wide range of contexts.}}
+        \item Be able to critically evaluate causal evidence collected by others, \\
+        \uncover<4->{{\color{gray} \small Evaluated and learned to respond to claims about insurance, advertising, health, and the effects of products}}
+        \item Articulate causal questions, \\
+        \uncover<5->{{\color{gray} \small  Convert vague stakeholder prompts into actionable questions}}
+        \item And develop research designs to answer those questions. \\
+        \uncover<6->{{\color{gray} \small Developing, along the way, great portfolio pieces!}}
+    \end{itemize}
+    \end{frame}
+
+\begin{frame}[c]{Along the way...}
+    \begin{itemize}
+        \pause \item  Used randomization and A/B test data to measure effect of website design changes and racial discrimination in hiring.
+        \pause \item  Used regression to estimate gender wage discrimination in the US
+        \pause \item  Used fixed effects to understand tax policy's impact on car accidents
+        \pause \item  Used matching to estimate labor market returns to education
+        \pause \item  Used diff-in-diffs to understand impact of drug legalization on crime
+    \end{itemize}
+    \pause 
+    \alert{And all in the middle of a pandemic.}
+\end{frame}
+
+\begin{frame}[c]
+\pause 
+\centering
+      \includegraphics[width=0.8\textwidth]{maybe_the_real_treasure.png}
+\end{frame}
+
+\begin{frame}[c]
+    \centering 
+    \alert{I hope you feel really proud of everything you've accomplished.}
+\end{frame}
+    
+
+
+\end{document}
