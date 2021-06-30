@@ -4,15 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>How Matching is Done (A Summary) &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Using and Interpreting Indicator (Dummy) Variables" href="interpreting_indicator_vars.html" />
@@ -33,10 +36,10 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="How-Matching-is-Done-(A-Summary)">
+  <section id="How-Matching-is-Done-(A-Summary)">
 <h1>How Matching is Done (A Summary)<a class="headerlink" href="#How-Matching-is-Done-(A-Summary)" title="Permalink to this headline">¶</a></h1>
 <p>In this reading, I’ll give a high level summary of how matching works before referring to a youtube lesson a the nitty gritty of a few specific implementations.</p>
-<div class="section" id="Pruning-Your-Data">
+<section id="Pruning-Your-Data">
 <h2>Pruning Your Data<a class="headerlink" href="#Pruning-Your-Data" title="Permalink to this headline">¶</a></h2>
 <p>As noted in our last reading (this reading is a follow-on to <a class="reference internal" href="matching_why.html"><span class="doc">The Why of Matching</span></a>, so if you haven’t read that start there), matching could be more appropriately called “pruning”, as the goal is to winnow down your dataset until you have a set of observations for which your control and treatment variables look very similar in terms of observable characteristics. So how do we do that?</p>
 <p>A simple matching algorithm would proceed like this:</p>
@@ -52,7 +55,7 @@
 <p>A simple matching algorithm would probably prune it down to something like this:</p>
 <img alt="matching_king_4" src="_images/matching_king_4.png" />
 <p>Then, and here’s the cool part, you take this dataset and analyze just the way you would otherwise! Just run your regression on this dataset!</p>
-<div class="section" id="Measuring-Similarity">
+<section id="Measuring-Similarity">
 <h3>Measuring Similarity<a class="headerlink" href="#Measuring-Similarity" title="Permalink to this headline">¶</a></h3>
 <p>The biggest decision you have to make when doing matching is deciding how you want to measure whether two observations are “similar”. The most simple, commonly used strategy is to measure the dissimilarity of two observations in a pair by:</p>
 <ul class="simple">
@@ -62,32 +65,32 @@
 </ul>
 <p>Basically, this is like taking the euclidean distance between the points in some really high dimensional space, except you also normalize distances by their standard deviation, a strategy called “Mahalanobis Distance Matching”.</p>
 <p>Of course it’s not the only strategy – the video linked at the bottom of this reading will direct you to a talk on three very good strategies, as well as their strengths and weaknesses – but that’s generally the idea.</p>
-</div>
-</div>
-<div class="section" id="When-Can-/-Should-I-Use-Matching?">
+</section>
+</section>
+<section id="When-Can-/-Should-I-Use-Matching?">
 <h2>When Can / Should I Use Matching?<a class="headerlink" href="#When-Can-/-Should-I-Use-Matching?" title="Permalink to this headline">¶</a></h2>
 <p>Matching is best used in a somewhat odd situation: a place where you have some overlap in what your treated and untreated observations look like (called having “common support”), but where you also have some areas where they <em>don’t</em> overlap (imbalance).</p>
 <p>The first is necessary because when you prune your data, the goal is to keep only observations that look similar, so you need <em>some</em> area of overlap, or you won’t have anything to match!</p>
 <p>At the same time, however, if there’s <em>no</em> imbalance, then you don’t really need to do matching.</p>
 <p>So when should you use it? When your distributions have <strong>both</strong> areas of overlap and areas of imbalance.</p>
-</div>
-<div class="section" id="Checking-Balance">
+</section>
+<section id="Checking-Balance">
 <h2>Checking Balance<a class="headerlink" href="#Checking-Balance" title="Permalink to this headline">¶</a></h2>
 <p>There’s a balance you have to strike when matching: the more strict you are about the maximium dissimilarity you’re willing to include before you throw out a pair of observations, the more balanced your final dataset will be, but the smaller your dataset will be do.</p>
 <p>Right? If you reject any pairs that aren’t almost exactly identical, you’ll end up with less data, but what’s left will be more balanced.</p>
 <p>So for your application, you have to decide on whether it’s better to have the statistical power of more observations, or the better balance from fewer.</p>
-</div>
-<div class="section" id="Analyze!">
+</section>
+<section id="Analyze!">
 <h2>Analyze!<a class="headerlink" href="#Analyze!" title="Permalink to this headline">¶</a></h2>
 <p>Now the best part of matching: now you just do do what you would have done normally.</p>
 <p>In other words, you can think of this as a kind of “pre-processing step”, and now you can carry forward by feeding this into a regression just the way you would with the original data.</p>
-</div>
-<div class="section" id="Specific-Models">
+</section>
+<section id="Specific-Models">
 <h2>Specific Models<a class="headerlink" href="#Specific-Models" title="Permalink to this headline">¶</a></h2>
 <p>OK, for the details of a few common models, please go watch this great video by Gary King – you can probably start 15 minuntes in, and should watch till at least 45 minutes, though what follows is also really interesting!</p>
 <p><a class="reference external" href="https://youtu.be/tvMyjDi4dyg?t=910">Gary King on Matching</a></p>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -115,6 +118,7 @@
 <li class="toctree-l1"><a class="reference internal" href="moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul class="current">
@@ -171,7 +175,7 @@
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

@@ -4,17 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Fixed Effects and Causal Inference &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Fixed Effects and Hierarchical Models" href="fixed_effects_v_hierarchical.html" />
@@ -35,7 +36,7 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="Fixed-Effects-and-Causal-Inference">
+  <section id="Fixed-Effects-and-Causal-Inference">
 <h1>Fixed Effects and Causal Inference<a class="headerlink" href="#Fixed-Effects-and-Causal-Inference" title="Permalink to this headline">¶</a></h1>
 <p>So, you’re working with panel data. You have either multiple observations per entity (usually data over time), or you have nested data (data on individuals, each of whom belongs to a larger group, like kids in a school). And you want to add fixed effects for the entities or groups. But what does that mean from the perspective of causal inference?</p>
 <p>The simple answer is that a fixed effect is a tool for controlling for a specific source of baseline differences (namely, baseline differences across entities). In that sense, fixed effects are no different from any other type of control variable we put in a regression.</p>
@@ -52,7 +53,7 @@ longer an obvious threat to that condition!</p>
 <p>The limit to this magic is that we’re only controlling for <em>non-time varying</em> differences between stores. If store sales in NYC are always high because of their location, that’s something controlled for by the fixed effects. However, if in the middle of your data NYC experiences a hurricane, and so sales dip, that isn’t taken into account by your fixed effects (since it was “time varying”, affected the store for only a fixed period of time), so you’d want a separate control for those kinds of
 disruptions in your regression.</p>
 <p>One way you can see this is that if you try and stick a variable into your regression that is not time varying (it has the same value for each store throughout the data), you’ll find that you don’t get back a regression coefficient. That’s because anything non-time varying is actually co-linear (in terms of the underlying linear algebra) with the fixed effects, meaning you literally <em>can’t</em> estimate a coefficient. It’d be like trying to include the variable “age” twice in the same regression.</p>
-</div>
+</section>
 
 
           </div>
@@ -80,6 +81,7 @@ disruptions in your regression.</p>
 <li class="toctree-l1"><a class="reference internal" href="moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul class="current">
@@ -129,7 +131,7 @@ disruptions in your regression.</p>
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

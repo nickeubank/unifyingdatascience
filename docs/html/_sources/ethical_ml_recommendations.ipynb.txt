@@ -2,7 +2,7 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "id": "hidden-objective",
+   "id": "mechanical-course",
    "metadata": {},
    "source": [
     "# Recommendations for Responsible Machine Learning\n",
@@ -14,7 +14,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "institutional-blues",
+   "id": "extreme-parallel",
    "metadata": {},
    "source": [
     "## 1. Choose Your Training Data Carefully\n",
@@ -30,7 +30,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "crucial-newfoundland",
+   "id": "ignored-article",
    "metadata": {},
    "source": [
     "## 2. Only Use Opaque Models When You Have To\n",
@@ -64,7 +64,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "pleasant-genealogy",
+   "id": "biological-archive",
    "metadata": {},
    "source": [
     "## 3. Use Models with Functional Form Constraints\n",
@@ -83,12 +83,12 @@
     "\n",
     "If this were, say, health on the y-axis and smoking on the x-axis, it seems *very* clear that the isotonic regressor is going a better job! And the best part is, that regressor is already in `sklearn` here: [Isotonic Regression](https://scikit-learn.org/stable/modules/isotonic.html)!\n",
     "\n",
-    "Moreover, **functional form constraints are available even for some opaque models** like [XGBoost](https://xgboost.readthedocs.io/en/latest/tutorials/monotonic.html). \n"
+    "Moreover, **functional form constraints are available even for some opaque models** like [XGBoost](https://xgboost.readthedocs.io/en/latest/tutorials/monotonic.html) or [Tensor Flow](https://www.tensorflow.org/lattice/tutorials/shape_constraints_for_ethics).\n"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "twenty-buying",
+   "id": "foster-retail",
    "metadata": {},
    "source": [
     "## 4. Compare Predictions for Sub-Populations\n",
@@ -120,7 +120,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "eastern-league",
+   "id": "lightweight-registration",
    "metadata": {},
    "source": [
     "## 5. \"No\" is Always An Option\n",
@@ -136,7 +136,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "adequate-chocolate",
+   "id": "seventh-matter",
    "metadata": {},
    "source": [
     "#### Tools for Interpretable / Constrained Machine Learning\n",
@@ -160,6 +160,7 @@
     "\n",
     "- [Isotonic Regression](https://scikit-learn.org/stable/modules/isotonic.html)\n",
     "- [Monotonic XGBoost](https://xgboost.readthedocs.io/en/latest/tutorials/monotonic.html)\n",
+    "- [Shape Constraints for Tensor Flow with Lattice](https://www.tensorflow.org/lattice/tutorials/shape_constraints_for_ethics).\n",
     "\n",
     "### Tools for Introspection\n",
     "\n",

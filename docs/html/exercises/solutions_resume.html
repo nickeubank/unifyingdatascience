@@ -4,15 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Resume Experiment Analysis &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -36,21 +39,35 @@
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
 }
 
 /* avoid gaps between output lines */
@@ -151,7 +168,7 @@ div.nboutput.container div.output_area {
 div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
@@ -217,6 +234,7 @@ div.nboutput.container div.output_area.rendered_html,
 div.nboutput.container div.output_area > div.output_javascript,
 div.nboutput.container div.output_area:not(.rendered_html) > img{
     padding: 5px;
+    margin: 0;
 }
 
 /* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
@@ -264,7 +282,7 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<div class="section" id="Resume-Experiment-Analysis">
+<section id="Resume-Experiment-Analysis">
 <h1>Resume Experiment Analysis<a class="headerlink" href="#Resume-Experiment-Analysis" title="Permalink to this headline">¶</a></h1>
 <p>In this exercise, we will be using a data set from a randomized experiment conducted by Marianne Bertrand and Sendhil Mullainathan, who sent 4,870 fictious resumes out to employers in response to job adverts in Boston and Chicago in 2001. The resumes differ in various attributes including the names of the applicants, and different resumes were randomly allocated to job openings. To manipulate perceived race, resumes are randomly assigned Black- or White-sounding names. The researchers collecting
 these data were interested to learning more about how racial bias impacts job market outcomes by testing whether Black sounding names obtain fewer callbacks for interviews than White names.</p>
@@ -276,9 +294,9 @@ these data were interested to learning more about how racial bias impacts job ma
 <li><p><code class="docutils literal notranslate"><span class="pre">call</span></code> is the dependent variable of interest (did the employer call the fictitious applicant for an interview)</p></li>
 </ul>
 <p>In addition, the data includes a number of variables the describe the other features in each fictitious resume, including applicants education level (<code class="docutils literal notranslate"><span class="pre">education</span></code>), years of experience (<code class="docutils literal notranslate"><span class="pre">yearsexp</span></code>), gender (<code class="docutils literal notranslate"><span class="pre">female</span></code>), computer skills (<code class="docutils literal notranslate"><span class="pre">computerskills</span></code>), and number of previous jobs (<code class="docutils literal notranslate"><span class="pre">ofjobs</span></code>). Each resume has a random selection of these attributes, so on average the Black-named fictitious applicant resumes have the same qualifications as the White-named applicant resumes.</p>
-<div class="section" id="Checking-for-Balance">
+<section id="Checking-for-Balance">
 <h2>Checking for Balance<a class="headerlink" href="#Checking-for-Balance" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Exercise-1">
+<section id="Exercise-1">
 <h3>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h3>
 <p>Check for balance in terms of applicant gender (<code class="docutils literal notranslate"><span class="pre">female</span></code>), computer skills (<code class="docutils literal notranslate"><span class="pre">computerskills</span></code>), and years of experience (<code class="docutils literal notranslate"><span class="pre">yearsexp</span></code>) across the two arms of the experiment (i.e. by <code class="docutils literal notranslate"><span class="pre">black</span></code>). Calculate both the differences across treatment arms <em>and</em> test for statistical significance of these differences. Do gender and computer skills look balanced across race groups? (1 point)</p>
 <div class="nbinput nblast docutils container">
@@ -455,8 +473,8 @@ and the p-value for this difference is 0.85
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-2">
+</section>
+<section id="Exercise-2">
 <h3>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h3>
 <p>Do a similar tabulation for education (<code class="docutils literal notranslate"><span class="pre">education</span></code>). Education is a categorical variable coded as follows:</p>
 <ul class="simple">
@@ -595,11 +613,11 @@ and the p-value for this difference is 0.14
 
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Exercise-3">
+</section>
+<section id="Exercise-3">
 <h3>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h3>
 <p>What do you make of the overall results on resume characteristics? Why do we care about whether these variables look similar across the race groups? (1 point)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -613,11 +631,11 @@ and the p-value for this difference is 0.14
 </pre></div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="Estimating-Effect-of-Race">
+</section>
+</section>
+<section id="Estimating-Effect-of-Race">
 <h2>Estimating Effect of Race<a class="headerlink" href="#Estimating-Effect-of-Race" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Exercise-4">
+<section id="Exercise-4">
 <h3>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h3>
 <p>The variable of interest in the data set is the variable <code class="docutils literal notranslate"><span class="pre">call</span></code>, which indicates a call back for an interview. Perform a two-sample t-test comparing applicants with black sounding names and white sounding names.</p>
 <div class="nbinput docutils container">
@@ -651,8 +669,8 @@ Thats a difference of  3.2 percentage points, a difference of 39.8% difference.
 This difference has a p-value of 0.000
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Exercise-5">
+</section>
+<section id="Exercise-5">
 <h3>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h3>
 <p>Now, use a regression model to estimate the differential likelihood of being called back by applicant race (i.e. the racial discrimination by employers).</p>
 <div class="nbinput docutils container">
@@ -728,8 +746,8 @@ This difference has a p-value of 0.000
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
-</div>
-<div class="section" id="Exercise-6">
+</section>
+<section id="Exercise-6">
 <h3>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h3>
 <p>Now let’s see if we can improve our estimates by adding in other variables as controls. Add in <code class="docutils literal notranslate"><span class="pre">education</span></code>, <code class="docutils literal notranslate"><span class="pre">yearsexp</span></code>, <code class="docutils literal notranslate"><span class="pre">female</span></code>, and <code class="docutils literal notranslate"><span class="pre">computerskills</span></code> – be sure to treat education as a categorical variable!</p>
 <div class="nbinput docutils container">
@@ -828,11 +846,11 @@ This difference has a p-value of 0.000
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)</div>
 </div>
-</div>
-</div>
-<div class="section" id="Estimating-Heterogeneous-Effects">
+</section>
+</section>
+<section id="Estimating-Heterogeneous-Effects">
 <h2>Estimating Heterogeneous Effects<a class="headerlink" href="#Estimating-Heterogeneous-Effects" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Exercise-7">
+<section id="Exercise-7">
 <h3>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h3>
 <p>These effects are the <em>average</em> effects. Now let’s look for heterogeneous treatment effects.</p>
 <p>Look only at candidates with high educations. Is there more or less racial discrimination among these highly educated candidates?</p>
@@ -1029,8 +1047,8 @@ This difference has a p-value of 0.000
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-8">
+</section>
+<section id="Exercise-8">
 <h3>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h3>
 <p>Now let’s compare men and women – is discrimination greater for Black men or Black women?</p>
 <div class="nbinput docutils container">
@@ -1223,8 +1241,8 @@ This difference has a p-value of 0.000
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-9">
+</section>
+<section id="Exercise-9">
 <h3>Exercise 9<a class="headerlink" href="#Exercise-9" title="Permalink to this headline">¶</a></h3>
 <p>Calculate and/or lookup the following online:</p>
 <ul class="simple">
@@ -1259,8 +1277,8 @@ This difference has a p-value of 0.000
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-10">
+</section>
+<section id="Exercise-10">
 <h3>Exercise 10<a class="headerlink" href="#Exercise-10" title="Permalink to this headline">¶</a></h3>
 <p>What are the implications of your answers to Exercise 7 and to Exercise 9 to how you interpret the Average Treatment Effect you estimated in Exercise 6?</p>
 <div class="nbinput nblast docutils container">
@@ -1275,9 +1293,9 @@ This difference has a p-value of 0.000
 </pre></div>
 </div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
           </div>
@@ -1305,6 +1323,7 @@ This difference has a p-value of 0.000
 <li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul>
@@ -1352,7 +1371,7 @@ This difference has a p-value of 0.000
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

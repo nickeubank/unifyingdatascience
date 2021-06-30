@@ -4,17 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Researcher Discretion in Descriptive Analysis &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Recommendations for Responsible Machine Learning" href="ethical_ml_recommendations.html" />
@@ -35,7 +36,7 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="Researcher-Discretion-in-Descriptive-Analysis">
+  <section id="Researcher-Discretion-in-Descriptive-Analysis">
 <h1>Researcher Discretion in Descriptive Analysis<a class="headerlink" href="#Researcher-Discretion-in-Descriptive-Analysis" title="Permalink to this headline">¶</a></h1>
 <p>More than anything, the goal of descriptive analyses is to extract patterns from otherwise incomprehensibly messy data and present them to readers in a digestible manner.</p>
 <p>But intrinsic to this is choosing what constitutes a pattern (and is thus something worth reporting), and what information can be safely discarded. Descriptive analysis, in other words, <em>always</em> entails setting aside lots of information. After all, the only way to <em>not</em> set aside information would be to literally hand your original dataset over to the reader. All summarization for descriptive analysis – be that reporting summary statistics and plotting simple distributions, or running
@@ -50,7 +51,7 @@ it is a meaningful characterization of the central tendency of the data. Moreove
 <li><p>Am I faithfully representing the full data?</p></li>
 <li><p>Am I presenting the data that is most important?</p></li>
 </ol>
-<div class="section" id="Faithful-Representation">
+<section id="Faithful-Representation">
 <h2>Faithful Representation<a class="headerlink" href="#Faithful-Representation" title="Permalink to this headline">¶</a></h2>
 <p>The fundamental goal of descriptive analysis is to take messy, incomprehensible data in its raw form and extract from it summaries of the most critical features of that data. When you are doing this, it is sometimes helpful to think of yourself as a guide for the eventual reader of your analysis. And as a guide, your goal is to ensure that they <em>understand</em> the essential nature of your data without having to dive into themselves.</p>
 <p>With this in mind, it can be helpful when presenting data to ask yourself whether what you have presented gives a faithful representation of the data, and to think about what the reader may infer after seeing just what you present.</p>
@@ -63,18 +64,18 @@ is doing a reasonable job teach their students, and not have reason to suspect t
 <p>Yup… my characterization of the linear fit is technically accurate, but clearly the data is doing something not captured in that summarization. That’s because linear models estimate linear trends; applied to non-linear data they still give you an answer, but I don’t think anyone would say that telling the reader that people who are ten years older earn $10,000 more on average is faithfully representing the non-monotonic nature of the data.</p>
 <p>So how do you protect yourself from these kind of errors? The specific answer often depends on the method in question (e.g. for linear regressions, you might want to look at residual plots; for simple means you might want to plot a histogram), but a general rule of thumb is that <strong>you should always do analyses that go beyond what you’re presenting to the reader.</strong> Plot your data. See if your mean and median are radically different. Check your residual plots. Correlate your primary variable of
 interest with other variables just to see if there’s some story there you’re missing. Explored your data to the point that you’re not finding anything new and important during your explorations that add substantive meaning to the summary statistics you would like to provide the reader. If you just present a summary statistic without digging around behind it, you really can’t know if your summary statistic is faithfully representing the data.</p>
-</div>
-<div class="section" id="Choosing-What-To-Ask-and-Present">
+</section>
+<section id="Choosing-What-To-Ask-and-Present">
 <h2>Choosing What To Ask and Present<a class="headerlink" href="#Choosing-What-To-Ask-and-Present" title="Permalink to this headline">¶</a></h2>
 <p>OK… by now you’ve probably noticed that I’ve been saying you want to make sure you faithfully represent the “important” and “critical” properties of your data, but I haven’t defined those terms. And here’s why: there are no objective definitions of these terms. What is <em>important</em> depends both (a) on the context, and (b) on the value system of you (the data scientist) and your stakeholder.</p>
-<div class="section" id="Context">
+<section id="Context">
 <h3>Context<a class="headerlink" href="#Context" title="Permalink to this headline">¶</a></h3>
 <p>To illustrate the importance of context, suppose you have data on antibiotic resistant infections in a hospital. If you were brought in by the hospital facilities director who wanted to learn what could be done to reduce infections by, say, removing fabric chairs that are hard to disinfect, the location of infections is likely important. If, by contrast, you were brought in by someone studying how the ways antibiotics were prescribed impacted infections, you would instead want to focus on the
 treatment histories of patients. And if you were hired by the hospital itself who just wanted to reduce infections by any means possible, you’d want to study both to know where future efforts might be best targeted.</p>
 <p>The features of the data that are important, in other words, depends on what we may be able to do in response to what we learn. Telling the hospital facilities manager that one of the biggest contributors to antibiotic resistance is the <a class="reference external" href="https://www.who.int/news-room/detail/07-11-2017-stop-using-antibiotics-in-healthy-animals-to-prevent-the-spread-of-antibiotic-resistance">use of antibiotics in raising livestock</a> may be true, and important to society, but not in the context of your
 stakeholder.</p>
-</div>
-<div class="section" id="Values">
+</section>
+<section id="Values">
 <h3>Values<a class="headerlink" href="#Values" title="Permalink to this headline">¶</a></h3>
 <p>The role of values is more subtle, but no less important.</p>
 <p>Suppose you are a policy maker choosing between two possible policies for reducing <span class="math notranslate nohighlight">\(CO_2\)</span> emissions in the United States. You are told:</p>
@@ -95,9 +96,9 @@ predominantly light-skinned workforce?”</p>
 hiring</a>.</p>
 <p>(And it is also the case that these are machine learning examples, not descriptive analyses per se. Machine learning examples get a lot more press, so it’s easy to point to these kinds of news stories. But while the principle that the questions we ask reflect our values is especially important in descriptive analyses, it also has broad salience, as illustrated here.)</p>
 <p>So remember: when deciding what to look at and report in your analyses, remember that people will make decisions on the basis of the data you provide, so if you don’t stop to ask a question about, say, gender or racial bias, odds are it won’t be something considered by your stakeholders.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
           </div>
@@ -129,6 +130,7 @@ hiring</a>.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul>
@@ -178,7 +180,7 @@ hiring</a>.</p>
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

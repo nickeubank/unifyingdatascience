@@ -4,15 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Fixed Effects: Indicator Variables for Groups &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Fixed Effects and Causal Inference" href="fixed_effects_and_causal_inference.html" />
@@ -38,21 +41,35 @@
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
 }
 
 /* avoid gaps between output lines */
@@ -153,7 +170,7 @@ div.nboutput.container div.output_area {
 div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
@@ -219,6 +236,7 @@ div.nboutput.container div.output_area.rendered_html,
 div.nboutput.container div.output_area > div.output_javascript,
 div.nboutput.container div.output_area:not(.rendered_html) > img{
     padding: 5px;
+    margin: 0;
 }
 
 /* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
@@ -266,7 +284,7 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<div class="section" id="Fixed-Effects:-Indicator-Variables-for-Groups">
+<section id="Fixed-Effects:-Indicator-Variables-for-Groups">
 <h1>Fixed Effects: Indicator Variables for Groups<a class="headerlink" href="#Fixed-Effects:-Indicator-Variables-for-Groups" title="Permalink to this headline">¶</a></h1>
 <p>One common use of indicator variables are as <em>fixed effects</em>. Fixed effects are used when our data as a “nested” structure (we think individual observations belong to groups), and we suspect different things may be happening in each group.</p>
 <p>For example, suppose we have a dataset of student test scores, and students are all grouped into different schools; or perhaps we have data on earnings and gender across US cities. In these examples, individual observations can be thought of as being grouped into schools or cities.</p>
@@ -274,7 +292,7 @@ div.rendered_html tbody tr:hover {
 <p>But suppose we were interested in understanding whether school administrators treat minority children differently, and whether this affects academic performance. Principles, for example, may be more likely to suspect Black children than White children. If that were our interest, then what we really want to know about is how race impacts academic performance <em>among students in the same school</em>. And that’s where fixed effects are useful – they let us control for group-level effects (like the fact
 all children in one school might tend to get lower grades) so we can focus on explaining <em>intra-group</em> variation (differences among children <em>at the same school</em>).</p>
 <p>In this regard, fixed effects are analogous in purpose to hierarchical models, though they are slightly different in implementation (differences between fixed effects and hierarchical models are <a class="reference internal" href="fixed_effects_v_hierarchical.html"><span class="doc">discussed here</span></a>).</p>
-<div class="section" id="Implementing-Fixed-Effects">
+<section id="Implementing-Fixed-Effects">
 <h2>Implementing Fixed Effects<a class="headerlink" href="#Implementing-Fixed-Effects" title="Permalink to this headline">¶</a></h2>
 <p>To illustrate, let’s try and estimate how gender impacts earnings in the US using data from the US Current Population Survey (CPS) on US wages in 2019. We’ll begin with a simple model of earnings:</p>
 <div class="nbinput nblast docutils container">
@@ -394,9 +412,9 @@ all children in one school might tend to get lower grades) so we can focus on ex
 </div>
 <p>which will generate output that will look approximately like this (note your output will be VERY long – I’m omitting all the county coeffients for space. We’ll talk later about how to suppress those in your output):</p>
 <img alt="cps_fe_unclustered_p1" src="_images/cps_fe_unclustered_p1.png" />
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>
-<span class="o">.</span>
-<span class="o">.</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.
+.
+.
 </pre></div>
 </div>
 <img alt="cps_fe_unclustered_p2" src="_images/cps_fe_unclustered_p2.png" />
@@ -405,15 +423,15 @@ all children in one school might tend to get lower grades) so we can focus on ex
 by the fixed effects is a powerful idea.</p>
 <p>Perhaps no place is this more clear than in full panel data, where you have data on the same entities over time. In a panel regression, the addition of entity fixed effects allow you to difference out any <em>constant</em> differences between entities, and focus only on changes within each entity over time. This even works for people! In a panel with individuals observed over time, adding individual fixed effects means you’re effectively controlling for anything constant about each individual (things
 that don’t change over time), and now you’re just studying <em>changes over time</em> for each individual.</p>
-</div>
-<div class="section" id="Clustering">
+</section>
+<section id="Clustering">
 <h2>Clustering<a class="headerlink" href="#Clustering" title="Permalink to this headline">¶</a></h2>
 <p>When working with fixed effects, however, it’s also often a good idea to cluster your standard errors by your fixed effect variable. Clustering is a method for taking into account some of the variation in your data isn’t coming from the individual level (where you have lots of observations), but rather from the group level. Since you have fewer groups than observations, clustering corrects your standard errors to reflect the smaller effective sample size being used to estimate those fixed
 effects (clustering <em>only</em> affects standard errors – it has no impact on coefficients themselves. This is just about adjustments to our confidence in our inferences).</p>
 <p>Clustering is thankfully easy to do – just use the <code class="docutils literal notranslate"><span class="pre">get_robustcov_results</span></code> method from <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, and use the <code class="docutils literal notranslate"><span class="pre">groups</span></code> keyword to pass the group assignments for each observation.</p>
 <p>(R users: as we’ll discuss below, I think the easiest way to do this is to use the <a class="reference external" href="https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html">plm package</a>.)</p>
 <p><strong>Note that if you’re using formulas in statsmodels, the regression is automatically dropping observations that can’t be estimated because of missing data, so you have to do the same before passing your group assignments to</strong> <code class="docutils literal notranslate"><span class="pre">get_robustcov_results</span></code> <strong>– otherwise you’ll get the error:</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ValueError</span><span class="p">:</span> <span class="n">The</span> <span class="n">weights</span> <span class="ow">and</span> <span class="nb">list</span> <span class="n">don</span><span class="s1">&#39;t have the same length.</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ValueError: The weights and list don&#39;t have the same length.
 </pre></div>
 </div>
 <p><strong>because the number of observations in the model doesn’t match the number of observations in the group assignment vector you pass!</strong></p>
@@ -453,15 +471,15 @@ effects (clustering <em>only</em> affects standard errors – it has no impact o
 </pre></div></div>
 </div>
 <img alt="cps_fe_clustered_p1" src="_images/cps_fe_clustered_p1.png" />
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>
-<span class="o">.</span>
-<span class="o">.</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.
+.
+.
 </pre></div>
 </div>
 <img alt="cps_fe_clustered_p2" src="_images/cps_fe_clustered_p2.png" />
 <p>As you can see, while our point estimates haven’t changed at all (the coefficient on <code class="docutils literal notranslate"><span class="pre">female</span></code>, for example, is still -6,892), we have increased the size of our standard errors. The SE on <code class="docutils literal notranslate"><span class="pre">female</span></code>, for example, has gone from 190 without clustering to 420 with clustering.</p>
-</div>
-<div class="section" id="Computationally-Efficient-Fixed-Effects">
+</section>
+<section id="Computationally-Efficient-Fixed-Effects">
 <h2>Computationally Efficient Fixed Effects<a class="headerlink" href="#Computationally-Efficient-Fixed-Effects" title="Permalink to this headline">¶</a></h2>
 <p>OK, so everything we’ve describe up till here is a reasonable approach to fixed effects, but it has two limitations: our regression output looks <em>terrible</em>, and computing all those intercepts was slow.</p>
 <p>This brings us to some of the specialized methods for calculating fixed effects. It turns out that if you aren’t interested in the coefficient on each fixed effect, there are much more computationally efficient methods of calculating fixed effects. But to use them, we’ll have to use a different library: <a class="reference external" href="https://bashtage.github.io/linearmodels/doc/index.html">linearmodels</a> (installable using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">linearmodels</span></code>).</p>
@@ -966,8 +984,8 @@ Inputs contain missing values. Dropping rows with missing observations.
 </table><br/><br/>F-test for Poolability: 34.810<br/>P-value: 0.0000<br/>Distribution: F(250,65501)<br/><br/>Included effects: Entity<br/>id: 0x7f86332e4fd0</div>
 </div>
 <p>As you can see, the coefficients of the <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> model are exactly the same as those we calculated above, and the standard errors are nearly identical (there are a few ways to calculate clustered standard errors, so they aren’t numerically equivalent). But the way <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> added fixed effects was much more computationally efficient efficient, and in these situations, we don’t usually want to see the coefficients, so they’re suppressed.</p>
-</div>
-<div class="section" id="Panel-Analysis-in-R">
+</section>
+<section id="Panel-Analysis-in-R">
 <h2>Panel Analysis in R<a class="headerlink" href="#Panel-Analysis-in-R" title="Permalink to this headline">¶</a></h2>
 <p>If you’re an R user, the best library I am aware of for these types of analyses is <code class="docutils literal notranslate"><span class="pre">lfe</span></code>, which you can <a class="reference external" href="https://journal.r-project.org/archive/2013-2/gaure.pdf">read about here</a>.</p>
 <p>The analogue of the <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> regression above with <code class="docutils literal notranslate"><span class="pre">lfe</span></code> would be:</p>
@@ -1014,15 +1032,15 @@ Inputs contain missing values. Dropping rows with missing observations.
 </div>
 <p>Where <code class="docutils literal notranslate"><span class="pre">felm</span></code> is the panel regression.</p>
 <p>The syntax for <code class="docutils literal notranslate"><span class="pre">felm</span></code> is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">felm</span><span class="p">(</span><span class="n">dependent</span> <span class="n">variable</span> <span class="o">~</span> <span class="n">independent</span> <span class="n">variable</span> <span class="o">|</span> <span class="n">fixed</span> <span class="n">effects</span> <span class="n">variables</span> <span class="p">(</span><span class="k">if</span> <span class="n">you</span> <span class="n">have</span> <span class="mi">2</span><span class="o">+</span><span class="p">,</span> <span class="n">add</span> <span class="n">them</span> <span class="n">like</span> <span class="s1">&#39;fe1 + fe2&#39;</span><span class="p">)</span>  <span class="o">|</span> <span class="n">instrumental</span> <span class="n">variables</span> <span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">no</span> <span class="n">instrument</span><span class="p">)</span> <span class="o">|</span> <span class="n">level</span> <span class="n">of</span> <span class="n">clustered</span> <span class="n">se</span><span class="p">,</span> <span class="n">data</span> <span class="p">)</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>felm(dependent variable ~ independent variable | fixed effects variables (if you have 2+, add them like &#39;fe1 + fe2&#39;)  | instrumental variables (0 if no instrument) | level of clustered se, data )
 </pre></div>
 </div>
 <p>We haven’t covered (and probably won’t cover) instrumental variables, so you’ll usually leave the middle entry as <code class="docutils literal notranslate"><span class="pre">0</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">felm</span><span class="p">(</span><span class="n">dependent</span> <span class="n">variable</span> <span class="o">~</span> <span class="n">independent</span> <span class="n">variables</span> <span class="o">|</span> <span class="n">fixed</span> <span class="n">effects</span> <span class="n">variables</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">level</span> <span class="n">of</span> <span class="n">clustered</span> <span class="n">se</span><span class="p">,</span> <span class="n">data</span> <span class="p">)</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>felm(dependent variable ~ independent variables | fixed effects variables | 0 | level of clustered se, data )
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -1050,6 +1068,7 @@ Inputs contain missing values. Dropping rows with missing observations.
 <li class="toctree-l1"><a class="reference internal" href="moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul class="current">
@@ -1105,7 +1124,7 @@ Inputs contain missing values. Dropping rows with missing observations.
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

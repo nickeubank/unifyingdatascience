@@ -4,17 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>A/B Testing the Udacity Website &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -38,21 +39,35 @@
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
 }
 
 /* avoid gaps between output lines */
@@ -153,7 +168,7 @@ div.nboutput.container div.output_area {
 div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
@@ -219,6 +234,7 @@ div.nboutput.container div.output_area.rendered_html,
 div.nboutput.container div.output_area > div.output_javascript,
 div.nboutput.container div.output_area:not(.rendered_html) > img{
     padding: 5px;
+    margin: 0;
 }
 
 /* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
@@ -266,13 +282,13 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<div class="section" id="A/B-Testing-the-Udacity-Website">
+<section id="A/B-Testing-the-Udacity-Website">
 <h1>A/B Testing the Udacity Website<a class="headerlink" href="#A/B-Testing-the-Udacity-Website" title="Permalink to this headline">¶</a></h1>
 <p>In these exercises, we’ll be analyzing data on user behavior from an experiment run by Udacity, the online education company. More specifically, we’ll be looking at a test Udacity ran to improve the onboarding process on their site.</p>
 <p>Udacity’s test is an example of an “A/B” test, in which some portion of users visiting a website (or using an app) are randomly selected to see a new version of the site. An analyst can then compare the behavior of users who see a new website design to users seeing their normal website to estimate the effect of rolling out the proposed changes to all users. While this kind of experiment has it’s own name in industry (A/B testing), to be clear it’s just a randomized experiment, and so everything
 we’ve learned about potential outcomes and randomized experiments apply here.</p>
 <p>(Udacity has generously provides the data from this test under an Apache open-source license, and you can find their <a class="reference external" href="https://www.kaggle.com/tammyrotem/ab-tests-with-python/notebook">original writeup here</a>. If you’re interested in learning more on A/B testing in particular, it seems only fair while we use their data to flag they have a full course on the subject <a class="reference external" href="https://www.udacity.com/course/ab-testing--ud257">here</a>.)</p>
-<div class="section" id="Udacity’s-Test">
+<section id="Udacity’s-Test">
 <h2>Udacity’s Test<a class="headerlink" href="#Udacity’s-Test" title="Permalink to this headline">¶</a></h2>
 <p>The test <a class="reference external" href="https://www.kaggle.com/tammyrotem/ab-tests-with-python/notebook">is described by Udacity as follows</a>:</p>
 <p>At the time of this experiment, Udacity courses currently have two options on the course overview page: “start free trial”, and “access course materials”.</p>
@@ -291,10 +307,10 @@ we’ve learned about potential outcomes and randomized experiments apply here.<
 <blockquote>
 <div><p>this might set clearer expectations for students upfront, thus reducing the number of frustrated students who left the free trial because they didn’t have enough time – without significantly reducing the number of students to continue past the free trial and eventually complete the course. If this hypothesis held true, Udacity could improve the overall student experience and improve coaches’ capacity to support students who are likely to complete the course.</p>
 </div></blockquote>
-</div>
-<div class="section" id="Import-the-Data">
+</section>
+<section id="Import-the-Data">
 <h2>Import the Data<a class="headerlink" href="#Import-the-Data" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Exercise-1">
+<section id="Exercise-1">
 <h3>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h3>
 <p>Begin by importing Udacity’s data on user behavior by going to <a class="reference external" href="http://www.github/nickeubank/MIDS_Data/">http://www.github/nickeubank/MIDS_Data/</a> and using the <code class="docutils literal notranslate"><span class="pre">udacity_AB_testing</span></code>folder, or by clicking <a class="reference external" href="https://github.com/nickeubank/MIDS_Data/tree/master/udacity_AB_testing">here.</a> Note that there are TWO datasets for this test – one for the control data (users who saw the original design), and one for treatment data (users who saw the experimental design). Udacity decided to show their test site to 1/2 of visitors, so there are
 roughly the same number of users appearing in each dataset (though this is not a requirement of AB tests).</p>
@@ -327,8 +343,8 @@ roughly the same number of users appearing in each dataset (though this is not a
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-2">
+</section>
+<section id="Exercise-2">
 <h3>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h3>
 <p>Explore the data. Can you identifying the unit of observation of the data (e.g. what is represented by each row)?</p>
 <div class="nbinput nblast docutils container">
@@ -340,11 +356,11 @@ roughly the same number of users appearing in each dataset (though this is not a
 </pre></div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="Pick-your-measures">
+</section>
+</section>
+<section id="Pick-your-measures">
 <h2>Pick your measures<a class="headerlink" href="#Pick-your-measures" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Exercise-3">
+<section id="Exercise-3">
 <h3>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h3>
 <p>The easiest way to analyze this data is to stack it into a single dataset where each observation is a day-treatment-arm (so you should end up with two rows per day, one for those who are in the treated groups, and one for those who were in the control group). Note that currently nothing in the data identifies whether a given observation is a treatment group observation or a control group observation, so you’ll want to make sure to add a “treatment” indicator variable.</p>
 <p>The variables in the data are:</p>
@@ -547,8 +563,8 @@ roughly the same number of users appearing in each dataset (though this is not a
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-4">
+</section>
+<section id="Exercise-4">
 <h3>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h3>
 <p>Given the outcomes of interest to Udacity, what outcomes do you want to measure? (In the language of the Potential Outcomes Framework, what are your <span class="math notranslate nohighlight">\(Y\)</span> variables?). Add these to your data.</p>
 <div class="nbinput nblast docutils container">
@@ -584,11 +600,11 @@ roughly the same number of users appearing in each dataset (though this is not a
 </pre></div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="Validating-The-Data">
+</section>
+</section>
+<section id="Validating-The-Data">
 <h2>Validating The Data<a class="headerlink" href="#Validating-The-Data" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Exercise-5">
+<section id="Exercise-5">
 <h3>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h3>
 <p>Whenever you are working with experimental data, the first thing you want to do is verify that users actually were randomly sorted into the two arms of the experiment. In this data, half of users were supposed to be shown the old version of the site and half were supposed to see the new version.</p>
 <p><code class="docutils literal notranslate"><span class="pre">Pageviews</span></code> tells you how many unique users visited the welcome site we are experimenting on. <code class="docutils literal notranslate"><span class="pre">Pageviews</span></code> is what is sometimes called an “invariant” variable, meaning that it shouldn’t vary across treatment arms – after all, people have to visit the site before they get a chance to see the treatment, so there’s no way that being assigned to treatment or control should affect the number of pageviews assigned to each group.</p>
@@ -631,8 +647,8 @@ pre-treatment attributes aren’t balanced, then we know our attempt to randomly
 9339.0
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Exercise-6">
+</section>
+<section id="Exercise-6">
 <h3>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h3>
 <p>“Similar” is a tricky concept – obviously, we expect <em>some</em> differences across groups since users were <em>randomly</em> divided across treatment arms. The question is whether the differences between groups are larger than we’d expect to emerge given our random assignment process. To evaluate this, let’s use a <code class="docutils literal notranslate"><span class="pre">ttest</span></code> to test the statistical significance of the differences we see.</p>
 <p>If you’re using R, you can just use the <code class="docutils literal notranslate"><span class="pre">t.test</span></code> function.</p>
@@ -671,8 +687,8 @@ Ttest_indResult(statistic=-0.1417118298287496, pvalue=0.8877034068650902)
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-7">
+</section>
+<section id="Exercise-7">
 <h3>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">Pageviews</span></code> is not the only pre-treatment variable in this data. What other measure is pre-treatment? Review the description of the experiment if you’re not sure.</p>
 <div class="nbinput nblast docutils container">
@@ -684,8 +700,8 @@ Ttest_indResult(statistic=-0.1417118298287496, pvalue=0.8877034068650902)
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-8">
+</section>
+<section id="Exercise-8">
 <h3>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h3>
 <p>Check if the other pre-treatment variable is also balanced.</p>
 <div class="nbinput docutils container">
@@ -718,11 +734,11 @@ Ttest_indResult(statistic=-0.09270642968639531, pvalue=0.9263942642482703)
 </pre></div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="Estimating-the-Effect-of-Experiment">
+</section>
+</section>
+<section id="Estimating-the-Effect-of-Experiment">
 <h2>Estimating the Effect of Experiment<a class="headerlink" href="#Estimating-the-Effect-of-Experiment" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Exercise-9">
+<section id="Exercise-9">
 <h3>Exercise 9<a class="headerlink" href="#Exercise-9" title="Permalink to this headline">¶</a></h3>
 <p>Now that we’ve established we have good balance (meaning we think randomization was likely successful), we can evaluate the effects of the experiment. Test whether the two metrics you picked have different average values in the control group and treatment group. Because we’ve randomized, this is a consistent estimate of the Average Treatment Effect of Udacity’s website change.</p>
 <p>Did Udacity achieve their goal?</p>
@@ -795,8 +811,8 @@ p-value of difference is 0.593
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-10">
+</section>
+<section id="Exercise-10">
 <h3>Exercise 10<a class="headerlink" href="#Exercise-10" title="Permalink to this headline">¶</a></h3>
 <p>One of the magic things about experiments is that all you have to do is compare averages to get an average treatment effect. However, you <em>can</em> do other things to try and increase the statistical power of your experiments, like add controls in a linear regression model.</p>
 <p>As you likely know, a bivariate regression is exactly equivalent to a t-test, so let’s start by re-estimating the effect of treatment on payments-per-click using a linear regression. Can you replicate the results from your t-test? They shouldn’t just be close – they should be numerically equivalent (i.e. exactly the same to the limits of floating point number precision).</p>
@@ -872,8 +888,8 @@ p-value of difference is 0.593
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
-</div>
-<div class="section" id="Exercise-11">
+</section>
+<section id="Exercise-11">
 <h3>Exercise 11<a class="headerlink" href="#Exercise-11" title="Permalink to this headline">¶</a></h3>
 <p>Now add indicator variables for the day of each observation. Do the standard errors on your <code class="docutils literal notranslate"><span class="pre">treatment</span></code> variable change? If so, in what direction?</p>
 <div class="nbinput docutils container">
@@ -1016,8 +1032,8 @@ p-value of difference is 0.593
 </div>
 <p>You should have found that your standard errors decreased by about 20% – this is why, although just comparing means <em>works</em>, if you have additional variables you should add them as covariates in your analysis. Moreover, in other settings you may find this effect is even larger – the date indicators we added to our data are perfectly balanced between treatment and control, so we aren’t adding a lot of data to the model by adding them as variables. As we’ll see in later exercises, adding variables
 like “gender” or “age” (which will never be perfectly balanced across treatment and control) will help even more.</p>
-</div>
-<div class="section" id="Exercise-12">
+</section>
+<section id="Exercise-12">
 <h3>Exercise 12<a class="headerlink" href="#Exercise-12" title="Permalink to this headline">¶</a></h3>
 <p>Given your results, what would you tell Udacity about their trial?</p>
 <div class="nbinput nblast docutils container">
@@ -1032,8 +1048,8 @@ like “gender” or “age” (which will never be perfectly balanced across tr
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-13">
+</section>
+<section id="Exercise-13">
 <h3>Exercise 13<a class="headerlink" href="#Exercise-13" title="Permalink to this headline">¶</a></h3>
 <p>As a last exercise, instead of adding indicators for each date, add indicators for <em>day of the week</em> (e.g. Monday, Tuesday, etc.).</p>
 <p>(This is just for data manipulation practice!)</p>
@@ -1134,9 +1150,9 @@ like “gender” or “age” (which will never be perfectly balanced across tr
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
           </div>
@@ -1164,6 +1180,7 @@ like “gender” or “age” (which will never be perfectly balanced across tr
 <li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul>
@@ -1211,7 +1228,7 @@ like “gender” or “age” (which will never be perfectly balanced across tr
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

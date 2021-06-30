@@ -4,15 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Internal and External Validity &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Evaluating Real Studies" href="evaluating_real_studies.html" />
@@ -33,7 +36,7 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="Internal-and-External-Validity">
+  <section id="Internal-and-External-Validity">
 <h1>Internal and External Validity<a class="headerlink" href="#Internal-and-External-Validity" title="Permalink to this headline">¶</a></h1>
 <p>When evaluating any study, it is often helpful to think about two different types of study validity: internal and external.</p>
 <p>The <strong>internal validity</strong> of a study is the degree to which it has accurately interpreted its case. In the context of causal inference research, internal validity is about whether a study has accurately measured a causal effect <em>in the context being studied.</em> That is to say, how confident are we that the reported causal effect is the real causal effect <em>for the specific entities in the study</em>?</p>
@@ -42,20 +45,20 @@
 <p>The <strong>internal validity</strong> of the study is the degree to which the study accurately measured the causal effect of the offer on signup rates. Internal validity hinges on things we’ve talked about a lot in class, like whether the people who received the deal had the same potential outcomes as the people who got the generic email.</p>
 <p>The <strong>external validity</strong> of the study, by contrast, is about whether we think the estimated effect is the same effect we would see if we tried to send out a similar email to recruit customers to an <em>established</em> streaming service (instead of a new one), or if we tried to use a similar offer to recruit people to a new <em>music</em> streaming service.</p>
 <p>All studies are subject to both types of concerns, and as we’ll discuss below, there are often trade-offs between internal and external validity, especially in causal research.</p>
-<div class="section" id="Internal-Validity">
+<section id="Internal-Validity">
 <h2>Internal Validity<a class="headerlink" href="#Internal-Validity" title="Permalink to this headline">¶</a></h2>
 <p>As described above, internal validity is about whether we think a study has accurately interpreted the case it is studying. In the context of causal inference, this amounts to asking whether the study properly estimated the causal effect studied <em>for the set of entities it was focused on.</em></p>
 <p>Internal validity is about the concerns we’ve been focused on in this class so far, like whether our control and treatment groups have the same potential outcomes. As we will discuss again and again, the validity of <em>any</em> causal estimate depends on whether we believe a set of unverifiable assumptions are met. Evaluating whether those assumptions are met is a big part of evaluating the internal validity of a study.</p>
 <p>With that said, internal validity also rests on all sorts of more banal concerns, like whether the researchers actually measured their outcomes correctly, calculated the right standard errors, and chose a reasonable model specification.</p>
 <p>Internal validity is often the focus of causal inference textbooks and classes, and we’ll introduce even more conditions that have to be met for a study to have good internal validity as we continue (like SUTVA). But while internal validity is important, it’s not the <em>only</em> thing we care about, because there’s also…</p>
-</div>
-<div class="section" id="External-Validity">
+</section>
+<section id="External-Validity">
 <h2>External Validity<a class="headerlink" href="#External-Validity" title="Permalink to this headline">¶</a></h2>
 <p>External validity is fundamentally about the <em>generalizability</em> of a study: whether the causal estimate found in a study is likely to also be a good guess for the causal effect in a different context.</p>
 <p>External validity is one of the most important things to think about as a <em>consumer</em> of other people’s research, because when you read other people’s research, you’re usually doing so because you’re looking for information you can use to address a specific problem you face. In these situations, it’s critical that you always ask yourself: are the results from this study likely to also be valid in the context of my problem?</p>
 <p>Of course, when asking about the external validity of a study, we have to specify the setting to which we want to generalize its results. A study that looks at how Duke undergraduates’ consumer behavior changes when faced with different types of ads on google may have good external validity in terms of its generalizability to other elite Univerities like Emory, Vanderbilt, or UNC. But it might not generalize to the US population as a whole.</p>
 <p>This means that external validity is different from internal validity in an important way: when faced with the same facts about a study, everyone should <em>generally</em> agree on the internal validity of a study, but the external validity of a study really depends on how you want to use the results.</p>
-<div class="section" id="External-Validity-Considerations">
+<section id="External-Validity-Considerations">
 <h3>External Validity Considerations<a class="headerlink" href="#External-Validity-Considerations" title="Permalink to this headline">¶</a></h3>
 <p>There are many reasons that the results of a study may not generalize to a new context. Here are a handful of the most common issues to bear in mind:</p>
 <p><strong>The study population may be different from the population in the new context.</strong></p>
@@ -83,9 +86,9 @@ police</a>).</p>
 levels 16 months after the program began.</p>
 <p>This is an example of what economists call a “general equilibrium” effect – when we introduce a treatment to the world, the world responds. But often these responses don’t happen in small trials the same way they do when policies go big, creating serious generalizability problems.</p>
 <p>Relatedly: if you are a public policy person or an economic development person, I cannot recommend <a class="reference external" href="https://www.nber.org/papers/w22595">this paper</a> by Angus Deaton and Nancy Cartwright enough for discussing the limitations of RCTs for learning about the effects of policy or nature of social processes. It’s a long, very thoughtful paper, but it’s really, <em>really</em> good.</p>
-</div>
-</div>
-<div class="section" id="Trade-Offs-Between-Internal-and-External-Validity">
+</section>
+</section>
+<section id="Trade-Offs-Between-Internal-and-External-Validity">
 <h2>Trade-Offs Between Internal and External Validity<a class="headerlink" href="#Trade-Offs-Between-Internal-and-External-Validity" title="Permalink to this headline">¶</a></h2>
 <p>OK, great. So let’s just maximize internal AND external validity whenever we’re doing research!</p>
 <p>The problem is that there is often a <strong>trade-off</strong> between internal and external validity. That’s because the best way to ensure internal validity is to try and control <em>everything you can</em> about the entities being studied, which often means doing things like bring people into a lab setting, or making an experiment quick so you can monitor people carefully. After all, the more control you have, the more sure you are that all the assumptions necessary for your design to generate a valid causal
@@ -99,13 +102,13 @@ estimate are met.</p>
 <p>In the OHP study, by contrast, the people in the study were <em>exactly</em> the population of people who are uninsured in the US, and the exact type of insurance they got was Medicaid.</p>
 <p>So in terms of internal validity, RAND was probably more successful; but in terms of external validity with respect to whether the results would generalize to expansion of government insurance in the US, many would argue that despite its internal validity problems, the OHP study is probably more informative.</p>
 <p>This tension between internal and external validity exists everywhere: bringing users into a lab allows researchers to study how users interact with different user interfaces with remarkable precision, and researchers can be sure participants are only using the interface their supposed to; but who knows if those same users would act differently if they were at home and their dog was barking and they were hurrying to answer an email from their boss?</p>
-</div>
-<div class="section" id="Conclusion">
+</section>
+<section id="Conclusion">
 <h2>Conclusion<a class="headerlink" href="#Conclusion" title="Permalink to this headline">¶</a></h2>
 <p>Internal validity is really important, and understanding how to evaluate internal validity is hard because of the the challenges caused by the fundamental problem of causal inference.</p>
 <p>But remember that internal validity isn’t everything, and that when evaluating research, also think about <em>both</em> internal <em>and</em> external validity.</p>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -133,6 +136,7 @@ estimate are met.</p>
 <li class="toctree-l1"><a class="reference internal" href="moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul class="current">
@@ -188,7 +192,7 @@ estimate are met.</p>
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

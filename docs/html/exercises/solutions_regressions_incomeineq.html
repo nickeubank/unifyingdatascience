@@ -4,15 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Estimating Gender Discrimination in the Workplace &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -36,21 +39,35 @@
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
 }
 
 /* avoid gaps between output lines */
@@ -151,7 +168,7 @@ div.nboutput.container div.output_area {
 div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
@@ -217,6 +234,7 @@ div.nboutput.container div.output_area.rendered_html,
 div.nboutput.container div.output_area > div.output_javascript,
 div.nboutput.container div.output_area:not(.rendered_html) > img{
     padding: 5px;
+    margin: 0;
 }
 
 /* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
@@ -264,10 +282,10 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<div class="section" id="Estimating-Gender-Discrimination-in-the-Workplace">
+<section id="Estimating-Gender-Discrimination-in-the-Workplace">
 <h1>Estimating Gender Discrimination in the Workplace<a class="headerlink" href="#Estimating-Gender-Discrimination-in-the-Workplace" title="Permalink to this headline">¶</a></h1>
 <p>In this exercise we’ll use data from the 2018 US Current Population Survey (CPS) to try and estimate the effect of being a woman on workplace compensation. Note that our focus will be <em>only</em> on differential compensation in the work place, and as a result it is important to bear in mind that our estimates are not estimates of <em>all</em> forms of gender discrimination. For example, these analyses will not account for things like gender discrimination in terms of <em>getting</em> jobs.</p>
-<div class="section" id="Exercise-1:">
+<section id="Exercise-1:">
 <h2>Exercise 1:<a class="headerlink" href="#Exercise-1:" title="Permalink to this headline">¶</a></h2>
 <p>Begin by downloading and importing 2018 CPS data from <a class="reference external" href="http://www.github.com/nickeubank/MIDS_Data/Current_Population_Survey">http://www.github.com/nickeubank/MIDS_Data/Current_Population_Survey</a>. The file is called <code class="docutils literal notranslate"><span class="pre">morg18.dta</span></code> and is a Stata dataset. Additional data on the dataset can be found by following the links in the README.txt file in the folder, but for the moment it is sufficient to know this is a national survey run in the United States.</p>
 <p>The survey does include some survey weights we won’t be using (i.e. not everyone in the sample was included with the same probability), so the numbers we estimate will not be perfect estimates of the gender wage gap in the United States, but they are pretty close.</p>
@@ -286,8 +304,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-2:">
+</section>
+<section id="Exercise-2:">
 <h2>Exercise 2:<a class="headerlink" href="#Exercise-2:" title="Permalink to this headline">¶</a></h2>
 <p>Because our interest is only in-the-workplace wage discrimination among full-time workers, we need to start by subsetting our data for people currently employed at the time of this survey using the <code class="docutils literal notranslate"><span class="pre">lfsr94</span></code> variable, who are employed full time (meaning that their usual hours per week – <code class="docutils literal notranslate"><span class="pre">uhourse</span></code> – is 35 or above).</p>
 <p>As noted above, this analysis will miss many forms of gender discrimination. For example, in dropping anyone who isn’t working, we immediately lose any women who couldn’t get jobs, or who chose to lose the workforce because the wages they were offered (which were likely lower than those offered men) were lower than they were willing / could accept. And in focusing on full time employees, we miss the fact women may not be offered full time jobs at the same rate as men.</p>
@@ -474,8 +492,8 @@ div.rendered_html tbody tr:hover {
 <p>5 rows × 25 columns</p>
 </div></div>
 </div>
-</div>
-<div class="section" id="Exercise-3">
+</section>
+<section id="Exercise-3">
 <h2>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h2>
 <p>Now let’s estimate the basic wage gap for the United States!</p>
 <p>Earnings per hour worked can be found in the <code class="docutils literal notranslate"><span class="pre">earnhre</span></code> variable. Two things are worth noting about this variable:</p>
@@ -520,8 +538,8 @@ hourly gender wage gap is 2.48 dollars,
 a difference of 0.13%
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Exercise-4">
+</section>
+<section id="Exercise-4">
 <h2>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h2>
 <p>The variable <code class="docutils literal notranslate"><span class="pre">uhourse</span></code> is the number of hours that the respondent usually works per week. What is the wage gap not per hour, but per year?</p>
 <div class="nbinput nblast docutils container">
@@ -555,8 +573,8 @@ annual gender wage gap is 7,240.67 dollars,
 a difference of 0.17%
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Exercise-5">
+</section>
+<section id="Exercise-5">
 <h2>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h2>
 <p>We just compared all full-time working men to all full-time working women. For this to be an accurate <em>causal</em> estimate of the effect of being a woman in the work place, what must be true of these two groups? What is one reason that this may <em>not</em> be true?</p>
 <div class="nbinput nblast docutils container">
@@ -574,8 +592,8 @@ a difference of 0.17%
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-6">
+</section>
+<section id="Exercise-6">
 <h2>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h2>
 <p>One answer to the second part of Exercise 5 is that working women are likely to be younger, since a larger portion of younger women are entering the workforce as compared to older generations.</p>
 <p>To <em>control</em> for this difference, let’s now regress annual earnings on gender and age. What is the implied average annual wage difference between women and men? Is it different from your raw estimate?</p>
@@ -654,8 +672,8 @@ a difference of 0.17%
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
-</div>
-<div class="section" id="Exercise-7">
+</section>
+<section id="Exercise-7">
 <h2>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h2>
 <p>In running this regression and interpreting the coefficient on <code class="docutils literal notranslate"><span class="pre">female</span></code>, what is the implicit comparison you are making? In other words, when we run this regression and interpreting the coefficient on <code class="docutils literal notranslate"><span class="pre">female</span></code>, we’re basically pretending we are comparing two groups and assuming they are counter-factuals for one another. What are these two groups?</p>
 <div class="nbinput nblast docutils container">
@@ -667,8 +685,8 @@ a difference of 0.17%
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-8">
+</section>
+<section id="Exercise-8">
 <h2>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h2>
 <p>Now let’s add to our regression an indicator variable for whether the respondent has at least graduated high school, and an indicator for whether the respondent at least has a BA.</p>
 <p>In answering this question, use the following table of codes for the variable <code class="docutils literal notranslate"><span class="pre">grade92</span></code>.</p>
@@ -755,8 +773,8 @@ a difference of 0.17%
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
-</div>
-<div class="section" id="Exercise-9">
+</section>
+<section id="Exercise-9">
 <h2>Exercise 9<a class="headerlink" href="#Exercise-9" title="Permalink to this headline">¶</a></h2>
 <p>In running this regression and interpreting the coefficient on <code class="docutils literal notranslate"><span class="pre">female</span></code>, what is the implicit comparison you are making? In other words, when we run this regression and interpreting the coefficient on <code class="docutils literal notranslate"><span class="pre">female</span></code>, we are once more basically pretending we are comparing two groups and assuming they are counter-factuals for one another. What are these two groups?</p>
 <div class="nbinput nblast docutils container">
@@ -768,8 +786,8 @@ a difference of 0.17%
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-10">
+</section>
+<section id="Exercise-10">
 <h2>Exercise 10<a class="headerlink" href="#Exercise-10" title="Permalink to this headline">¶</a></h2>
 <p>Given how the coefficient on <code class="docutils literal notranslate"><span class="pre">female</span></code> has changed between Exercise 6 and Exercise 8, what can you infer about the educational attainment of the women in your survey data (as compared to the educational attainment of men)?</p>
 <div class="nbinput nblast docutils container">
@@ -785,12 +803,12 @@ a difference of 0.17%
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-11">
+</section>
+<section id="Exercise-11">
 <h2>Exercise 11<a class="headerlink" href="#Exercise-11" title="Permalink to this headline">¶</a></h2>
 <p>What does that tell you about the <em>potential outcomes</em> of men and women before you added education as a control?</p>
-</div>
-<div class="section" id="Exercise-12">
+</section>
+<section id="Exercise-12">
 <h2>Exercise 12<a class="headerlink" href="#Exercise-12" title="Permalink to this headline">¶</a></h2>
 <p>Finally, let’s include <em>fixed effects</em> for the type of job held by each respondent.</p>
 <p>Fixed effects are a method used when we have a nested data structure in which respondents belong to groups, and those groups may all be subject to different pressures. In this context, for example, we can add fixed effects for the industry of each respondent – since wages often vary across industries, controlling for industry is likely to improve our estimates.</p>
@@ -1628,8 +1646,8 @@ a difference of 0.17%
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 7.93e+03. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
 </div>
-</div>
-<div class="section" id="Exercise-13">
+</section>
+<section id="Exercise-13">
 <h2>Exercise 13<a class="headerlink" href="#Exercise-13" title="Permalink to this headline">¶</a></h2>
 <p>Now that we’ve added industry fixed effects, what groups are we implicitly treated as counter-factuals for one another now?</p>
 <div class="nbinput nblast docutils container">
@@ -1642,8 +1660,8 @@ a difference of 0.17%
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-14">
+</section>
+<section id="Exercise-14">
 <h2>Exercise 14<a class="headerlink" href="#Exercise-14" title="Permalink to this headline">¶</a></h2>
 <p>What happened to your estimate of the gender wage gap when you added industry fixed effects? What does that tell you about the industries chosen by women as opposed to men?</p>
 <div class="nbinput nblast docutils container">
@@ -1655,8 +1673,8 @@ a difference of 0.17%
 </pre></div>
 </div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -1684,6 +1702,7 @@ a difference of 0.17%
 <li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul>
@@ -1731,7 +1750,7 @@ a difference of 0.17%
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

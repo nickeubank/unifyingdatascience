@@ -83,6 +83,15 @@
     "\n",
     "But in this situations, it is still best to break you question down into smaller components. "
    ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## What to Read Next\n",
+    "\n",
+    "If you're in my class we'll get to this next, but if you're reading on your own, the next reading in this sequence is [Discretion in Descriptive Questions](descriptive_questions.ipynb)! "
+   ]
   }
  ],
  "metadata": {
@@ -101,7 +110,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.7.3"
+   "version": "3.7.8"
   }
  },
  "nbformat": 4,

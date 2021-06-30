@@ -4,15 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Converting Stakeholder Prompts into Questions &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Researcher Discretion in Descriptive Analysis" href="descriptive_questions.html" />
@@ -33,7 +36,7 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="Converting-Stakeholder-Prompts-into-Questions">
+  <section id="Converting-Stakeholder-Prompts-into-Questions">
 <h1>Converting Stakeholder Prompts into Questions<a class="headerlink" href="#Converting-Stakeholder-Prompts-into-Questions" title="Permalink to this headline">¶</a></h1>
 <p>As a data scientist, it will probably be the case that the people you work with will not come to you with well-formed research questions they want investigated. Instead, it is much more likely they will come to you with a problem they are facing, and in some cases a poorly formed idea of how they think you can solve their problem using data science (a solution that will almost certain invoke the magic of “machine learning”).</p>
 <p>When this happens, it is your job to do two things:</p>
@@ -41,7 +44,7 @@
 <li><p>Figure out the <em>real</em> core problem / need of the stakeholder,</p></li>
 <li><p>Determine what questions, if answered, would help you address that problem.</p></li>
 </ol>
-<div class="section" id="What’s-The-Real-Problem-/-Need">
+<section id="What’s-The-Real-Problem-/-Need">
 <h2>What’s The <em>Real</em> Problem / Need<a class="headerlink" href="#What’s-The-Real-Problem-/-Need" title="Permalink to this headline">¶</a></h2>
 <p>You might think that the on thing that the stakeholder knows best is nature of their problem. But one thing you will quickly find is that stakeholders will very often mis-identify or mis-represent their true problem / need.</p>
 <p>For example, suppose you are approached by a real estate group interested in developments in the United Kingdom. They tell you:</p>
@@ -56,8 +59,8 @@ identified-but-not-yet-excavated-ruins. And its not at all clear such data could
 <p>But second, and more importantly, it seems like it’d be <em>much</em> more helpful and cost effective if you could make a guess about whether there are archeological sites at a location <em>before</em> the company buys the land and clears away the existing buildings!</p>
 <p>So what would I propose to a stake holder like this? I would say: “If I could tell you the likelihood that an archeological site is under a plot of land *you’re thinking about buying, would that be more helpful to you?”</p>
 <p>Now to be clear, you may not always be right in your assessment. They may come back and say “No, sorry – there’s this other consideration we didn’t explain initially” (like “we’ve already bought all this land. We’re committed.”). But before diving in, you always want to be sure <em>you’re solving the right problem.</em> And you should never <strong>assume</strong> that the problem to be addressed has been properly specified.</p>
-</div>
-<div class="section" id="What-Questions-Do-I-Need-To-Ask?">
+</section>
+<section id="What-Questions-Do-I-Need-To-Ask?">
 <h2>What Questions Do I Need To Ask?<a class="headerlink" href="#What-Questions-Do-I-Need-To-Ask?" title="Permalink to this headline">¶</a></h2>
 <p>Data science tools aren’t designed to solve problems; they answer questions. And so to have any hope of successfully solving the problem presented by your stakeholder, you must first determine what questions, if answered, would help solve the problem at hand.</p>
 <p>In the example of the real estate development company above, for example, a question which, if answered, would make it essentially solve the stakeholder’s problem would be:</p>
@@ -65,15 +68,15 @@ identified-but-not-yet-excavated-ruins. And its not at all clear such data could
 <p>Unlike using machine learning to process ground penetrating radar scans, the training data required to build a supervised machine learning algorithm to answer this question – information on the locations of previously located archeological ruins – is likely public, and there are <em>lots</em> of public sources of data on landscape features and soil types. You would have to deal with the fact that people will only have figured out if archeological ruins are present in places where development has taken
 place in the past (so you’d want to build your training data using only the locations of large real estate developments that <em>would</em> find ruins if ruins were present), but this is emminently doable.</p>
 <p>Again, I am not saying this is the <em>best</em> strategy – there may be considerations we don’t know about yet – but this approach is certainly something I would bring back to the real estate company before doing any actual data work.</p>
-</div>
-<div class="section" id="Make-Your-Questions-Specific-and-Actionable">
+</section>
+<section id="Make-Your-Questions-Specific-and-Actionable">
 <h2>Make Your Questions Specific and Actionable<a class="headerlink" href="#Make-Your-Questions-Specific-and-Actionable" title="Permalink to this headline">¶</a></h2>
 <p>In developing your questions, it is important to make them specific and actionable. A specific and actionable question is one that makes it very clear what you need to do next. For example, suppose an international aid organization told you they were worried that urbanization in Africa, Asia and Latin America was impacting efforts to reduce infant mortality. Some examples of specific, actionable questions are: “Is infant mortality higher among recent migrants to urban centers, controlling for
 income?” or “are the causes of infant mortality among recent migrants to urban centers different from those living in rural area?” Reading those questions, you can probably immediately think of what data you’d need to collect, and what regressions you’d want to run to generate answers to those questions.</p>
 <p>Vague questions would be “is urbanization impacting efforts to reduce infant mortality?”, or “does urbanization affect infant mortality?” Note that when you read these, they don’t seem to obviously imply a way forward.</p>
 <p>Perhaps the best way to figure out if your question is answerable is to write down what an answer to your question would look like. Seriously – try it. Can you write down, on a piece of paper, the graph, regression table, or machine learning diagnostic statistics (complete with labels on your axes, names for variables, etc.) that would constitute an answer to your question? If not, it’s probably too vague!</p>
-</div>
-<div class="section" id="Many-Questions?">
+</section>
+<section id="Many-Questions?">
 <h2>Many Questions?<a class="headerlink" href="#Many-Questions?" title="Permalink to this headline">¶</a></h2>
 <p>To be clear, it may not always be the case that you can solve your stakeholder’s problem by answering a <em>single</em> question. For example, suppose you’re working with an educational agency trying to decide which of two pilot programs designed to provide early education to children they should launch nationally. To help them reach a decision, you may need to ask <em>several</em> questions, like:</p>
 <ol class="arabic simple">
@@ -82,8 +85,12 @@ income?” or “are the causes of infant mortality among recent migrants to urb
 <li><p>What were the costs of the two program (so we can determine the cost effectiveness of each program)?</p></li>
 </ol>
 <p>But in this situations, it is still best to break you question down into smaller components.</p>
-</div>
-</div>
+<section id="What-to-Read-Next">
+<h3>What to Read Next<a class="headerlink" href="#What-to-Read-Next" title="Permalink to this headline">¶</a></h3>
+<p>If you’re in my class we’ll get to this next, but if you’re reading on your own, the next reading in this sequence is <a class="reference internal" href="descriptive_questions.html"><span class="doc">Discretion in Descriptive Questions</span></a>!</p>
+</section>
+</section>
+</section>
 
 
           </div>
@@ -117,6 +124,7 @@ income?” or “are the causes of infant mortality among recent migrants to urb
 </li>
 <li class="toctree-l1"><a class="reference internal" href="descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul>
@@ -166,7 +174,7 @@ income?” or “are the causes of infant mortality among recent migrants to urb
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

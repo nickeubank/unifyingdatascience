@@ -4,17 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Making Potential Outcomes Concrete 2 &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -33,17 +34,17 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="Making-Potential-Outcomes-Concrete-2">
+  <section id="Making-Potential-Outcomes-Concrete-2">
 <h1>Making Potential Outcomes Concrete 2<a class="headerlink" href="#Making-Potential-Outcomes-Concrete-2" title="Permalink to this headline">¶</a></h1>
 <p>In this exercise, I will describe a simple data science project, and your job is to map the elements of that project onto the Potential Outcomes Framework.</p>
-<div class="section" id="The-Study">
+<section id="The-Study">
 <h2>The Study<a class="headerlink" href="#The-Study" title="Permalink to this headline">¶</a></h2>
 <p>You work for the HR department of a large company, WeMakeWidgets LLC. WeMakeWidgets is struggling because their health insurance costs have been skyrocketing, and they’re looking for ways to control costs.</p>
 <p>For the past few years, WeMakeWidgets (WMW) has allowed its employees to enroll in a program where, instead of being allowed to see doctors in person, they have to first see a nurse via Zoom who offers advice, and then only sends them to see a doctor in person if necessary. In exchange, for doing these Zoom triage appointments, these employees are given a 50 dollar a month bonus.</p>
 <p>Employees who are enrolled in the program spend substantially less on healthcare than people not in the program, saving the company money.</p>
 <p>With that in mind, the HR department is thinking of making an initial Zoom appointment mandatory for all employees seeking medical care.</p>
-</div>
-<div class="section" id="Mapping-to-the-Potential-Outcomes-Framework">
+</section>
+<section id="Mapping-to-the-Potential-Outcomes-Framework">
 <h2>Mapping to the Potential Outcomes Framework<a class="headerlink" href="#Mapping-to-the-Potential-Outcomes-Framework" title="Permalink to this headline">¶</a></h2>
 <p>In words, describe exactly what quantities in this study context would correspond to the different components of the Potential Outcomes Framework we’ve been studying. When defining these, remember to define both the <em>thing</em> being measured <em>and the population</em> being measured.</p>
 <p>As you do so, avoid using terms like “treatment”, “control group”, or “potential outcome”. The goal of this exercise is to move from the abstract conceptual derivations we’ve read to the specifics of this study. For example, I’ve put in an answer to Question 1 below:</p>
@@ -52,46 +53,46 @@
 <div><p>The average healthcare a WMW employee would consume if there were no Zoom triage appointments.</p>
 </div></blockquote>
 <p><strong>2</strong>: <span class="math notranslate nohighlight">\(E(Y_1)\)</span></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
 <p><strong>3</strong>: <span class="math notranslate nohighlight">\(E(Y_1) - E(Y_0)\)</span></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
 <p><strong>4</strong>: <span class="math notranslate nohighlight">\(E(Y_1| D=1)\)</span></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
 <p><strong>5</strong>: <span class="math notranslate nohighlight">\(E(Y_0| D=0)\)</span></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
 <p><strong>6</strong>: <span class="math notranslate nohighlight">\(E(Y_1|D=0)\)</span></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
 <p><strong>7</strong>: <span class="math notranslate nohighlight">\(E(Y_0| D=1)\)</span></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
 <p><strong>8</strong>: <span class="math notranslate nohighlight">\(E(Y_1| D=0) - E(Y_0|D=0)\)</span></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
 <p><strong>9</strong>: <span class="math notranslate nohighlight">\(E(Y_0| D=1) - E(Y_0|D=0)\)</span></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
-</div>
-<div class="section" id="Observability">
+</section>
+<section id="Observability">
 <h2>Observability<a class="headerlink" href="#Observability" title="Permalink to this headline">¶</a></h2>
 <p><strong>10</strong>: Now, which of the quantities above can be directly observed?</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
-</div>
-<div class="section" id="Causal-Inference">
+</section>
+<section id="Causal-Inference">
 <h2>Causal Inference<a class="headerlink" href="#Causal-Inference" title="Permalink to this headline">¶</a></h2>
 <p>In order for the difference in healthcare consumption for Zoom enrollees – that those enrolled in the Zoom program consume less healthcare – to be a true estimate of the average effect of Zoom triage appointments, we know that it must be the case that:</p>
 <p><span class="math notranslate nohighlight">\(E(Y_0| D=1) - E(Y_0| D=0) = 0\)</span></p>
@@ -99,25 +100,25 @@
 <p><span class="math notranslate nohighlight">\(E(Y_1| D=0) - E(Y_0| D=0) = E(Y_1| D=1) - E(Y_0 | D=1)\)</span>.</p>
 <p>In the context of this study, what do those two conditions mean <em>in plain english</em>? As above, avoid using abstract terms (“treatment”, “baseline”, etc.) and try and be as concrete as possible.</p>
 <p><strong>11</strong> <span class="math notranslate nohighlight">\(E(Y_0| D=1) - E(Y_0| D=0) = 0\)</span>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
 <p><strong>12</strong> <span class="math notranslate nohighlight">\(E(Y_1| D=0) - E(Y_0| D=0) = E(Y_1| D=1) - E(Y_0| D=1)\)</span>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
 <p>Now, for each of the conditions above, please give one reason – <em>in plain english</em> – why those conditions may <strong>not</strong> be met in the context of this study?</p>
 <p>As you do so, be specific! Tell me a story about why <em>in the case of this study</em> you think one of these conditions may hold. One can always say things like “people in the two groups may have been different”, but I want a specific reason you think they might have been different in a way that meets the conditions.</p>
 <p><strong>13</strong> It may be the case that <span class="math notranslate nohighlight">\(E(Y_0| D=1) - E(Y_0| D=0) \neq 0\)</span> because…:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
 <p><strong>14</strong> It may be the case that <span class="math notranslate nohighlight">\(E(Y_1| D=0) - E(Y_0|D=0) \neq E(Y_1| D=1) - E(Y_0| D=1)\)</span> because…:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>..
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -145,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul>
@@ -192,7 +194,7 @@
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

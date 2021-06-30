@@ -4,17 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Marijuana Legalization and Violent Crime &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -33,7 +34,7 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="Marijuana-Legalization-and-Violent-Crime">
+  <section id="Marijuana-Legalization-and-Violent-Crime">
 <h1>Marijuana Legalization and Violent Crime<a class="headerlink" href="#Marijuana-Legalization-and-Violent-Crime" title="Permalink to this headline">¶</a></h1>
 <p>In recent years, many US states have decided to legalize the use of marijuana.</p>
 <p>When these ideas were first proposed, there were many theories about the relationship between crime and the “War on Drugs” (the term given to US efforts to arrest drug users and dealers over the past several decades).</p>
@@ -43,21 +44,21 @@ making possession of small amounts legal, but also creating a regulatory system 
 <p>Proponents of drug legalization have long argued that the war on drugs contributes to violent crime by creating an opportunity for drug dealers and organized crime to sell and distribute drugs, a business which tends to generate violence when gangs battle over territory. According to this theory, with drug legalization, we should see violent crime decrease after legalization in places where drug arrests had previously been common.</p>
 <p><strong>To be clear,</strong> this is far from the only argument for drug legalization! It is simply the argument we are well positioned to analyze today.</p>
 <p>(Students from Practical Data Science: This should sound familiar! Last semester we did this analysis in a very simple, crude manner; in this class we’ll do it rigorously with your new found difference-in-differences skills!)</p>
-<div class="section" id="Exercise-1">
+<section id="Exercise-1">
 <h2>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h2>
 <p>Download and import California arrest data from <a class="reference external" href="https://www.github.com/nickeubank/MIDS_Data/UDS_arrest_data.csv">https://www.github.com/nickeubank/MIDS_Data/UDS_arrest_data.csv</a>. What is a unit of observation (a single row) in this data? What entities are being tracked, and over what time period? (This data is derived from raw California arrest data from the State Attorney General’s office <a class="reference external" href="https://openjustice.doj.ca.gov/data">here</a>, in the “Arrests” category.)</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">VIOLENT</span></code> is a count of arrests for violent offenses, and <code class="docutils literal notranslate"><span class="pre">F_DRUGOFF</span></code> is a count of felony drug arrests. <code class="docutils literal notranslate"><span class="pre">total_population</span></code> is total population.</p>
-</div>
-<div class="section" id="Exercise-2">
+</section>
+<section id="Exercise-2">
 <h2>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h2>
 <p>In this analysis, we will split our sample into “treated” and “control” on the basis of whether a given county had a high average drug arrest rate in the three years before California began drug legalization in 2010. Counties with high drug arrest rates, after all, will be more impacted by drug liberalization policies.</p>
 <p>Calculate each county’s average drug arrest <em>rate</em> for the period from 2007-2009. Then calculate the median value across counties, and create an indicator called <code class="docutils literal notranslate"><span class="pre">treated</span></code> for counties with above-median average drug arrest rates during this period. Note that this indicator should be <em>time-invariant</em> – if a county is in the treated group, it should always be identified as being in the treated group.</p>
-</div>
-<div class="section" id="Exercise-3">
+</section>
+<section id="Exercise-3">
 <h2>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h2>
 <p>Our outcome in this analysis is the violent arrest rate – if drug liberalization reduces crime overall, we would expect to see this rate fall in counties with high drug arrest rates after liberalization; if not, we would not expect to see any changes. Create a <code class="docutils literal notranslate"><span class="pre">violent_rate</span></code> variable with is violent arrests per 100,000 people.</p>
-</div>
-<div class="section" id="Exercise-4">
+</section>
+<section id="Exercise-4">
 <h2>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h2>
 <p>Differences-in-differences get their name from the fact that the estimator, in its most basic implementation, is just the difference between:</p>
 <ul class="simple">
@@ -77,25 +78,25 @@ making possession of small amounts legal, but also creating a regulatory system 
 \[\hat{\delta}= (\bar{y}_{T=1,\,Post}-\bar{y}_{T=1,\,Pre})-(\bar{y}_{T=0,\,Post}-\bar{y}_{T=0,\,Pre})\]</div>
 <p>Calculate (a) the change in violent arrest rates for our treated groups from before legalization to after (<span class="math notranslate nohighlight">\(\bar y_{T=1,Post} - \bar y_{T=1, Pre}\)</span>), and (b) our difference in difference estimator <span class="math notranslate nohighlight">\(\hat\delta\)</span> by calculating these four values. Does doing your difference-in-difference estimate tell you something different from what you’d learn if you had just done a pre-post comparison?</p>
 <p>For the <code class="docutils literal notranslate"><span class="pre">Pre</span></code> period, consider the three years before liberalization begins in 2010 (e.g. 2007-2009). For the <code class="docutils literal notranslate"><span class="pre">Post</span></code> period, consider the three years after final legalization took place (2016-2018). We will ignore the middle period in which marijuana was decriminalized but not yet legal.</p>
-</div>
-<div class="section" id="Exercise-5">
+</section>
+<section id="Exercise-5">
 <h2>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h2>
 <p>Now calculate <span class="math notranslate nohighlight">\(\hat\delta\)</span> using a regression with an indicator for post-2010, an indicator for treated, and an interaction of the two. Use only the same set of years you used above. How does your estimate compare to the estimate you calculated in Exercise 4?</p>
 <p>What does this tell you about interpretation of interaction terms with two indicator variables?</p>
 <p>Note: You need to cluster your standard errors by county, since we expect counties (over time) to be subject to common fluctuations.</p>
-</div>
-<div class="section" id="Exercise-6">
+</section>
+<section id="Exercise-6">
 <h2>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h2>
 <p>In the preceding exercise, we did a simple pre-post / treated-control comparison. But one important limitation of these designs is that they do not allow us to test for <em>parallel trends</em>.</p>
 <p><strong>Plot</strong> a difference-in-difference model using data from 2000-2009 (inclusive) and from 2016-2018 (inclusive). Note this will have four different geometric components: a time trend for treated counties pre-2010, a time trend for control counties pre-2010, a time trend for treated counties post-2016 (include 2016), and a time trend for control counties post-2016 (include 2016).</p>
 <p>Do you see evidence of parallel trends for these two datasets? Does that make you feel more or less confident in your diff-in-diff estimates?</p>
-</div>
-<div class="section" id="Exercise-7">
+</section>
+<section id="Exercise-7">
 <h2>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h2>
 <p>While we can estimate the model described above precisely as a regression, it’s actually much easier to estimate a more flexible model by running the regression we ran in Exercise 5 but with both <code class="docutils literal notranslate"><span class="pre">county</span></code> and <code class="docutils literal notranslate"><span class="pre">year</span></code> fixed effects. Use <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> (or <code class="docutils literal notranslate"><span class="pre">lfe</span></code> in R) to estimate this fixed effects regression.</p>
 <p>With all these additional fixed effects, do you find evidence that marijuana legalization reduced violent crime?</p>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -123,6 +124,7 @@ making possession of small amounts legal, but also creating a regulatory system 
 <li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul>
@@ -170,7 +172,7 @@ making possession of small amounts legal, but also creating a regulatory system 
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

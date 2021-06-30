@@ -4,15 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Interpreting Indicator Variables &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -36,21 +39,35 @@
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
 }
 
 /* avoid gaps between output lines */
@@ -151,7 +168,7 @@ div.nboutput.container div.output_area {
 div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
@@ -217,6 +234,7 @@ div.nboutput.container div.output_area.rendered_html,
 div.nboutput.container div.output_area > div.output_javascript,
 div.nboutput.container div.output_area:not(.rendered_html) > img{
     padding: 5px;
+    margin: 0;
 }
 
 /* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
@@ -264,13 +282,13 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<div class="section" id="Interpreting-Indicator-Variables">
+<section id="Interpreting-Indicator-Variables">
 <h1>Interpreting Indicator Variables<a class="headerlink" href="#Interpreting-Indicator-Variables" title="Permalink to this headline">¶</a></h1>
 <p>In this exercise we’ll work with a (somewhat canonical) dataset on the prices, mileages, weights, and other characteristics of 74 automobiles. These data originally came from the April 1979 issue of Consumer Reports and from the United States Government EPA statistics on fuel consumption; they were compiled and published by Chambers et al. (1983).</p>
 <p>To get the data, follow <a class="reference external" href="https://github.com/nickeubank/MIDS_Data/blob/master/automobile_dataset.dta?raw=true">this link</a> or go to <a class="reference external" href="http://www.github.com/nickeubank/MIDS%60Data">http://www.github.com/nickeubank/MIDS_Data</a> and download the <code class="docutils literal notranslate"><span class="pre">automobile_dataset.dta</span></code> file.</p>
-<div class="section" id="Indicator-Variables-and-Omitted-Variable-Bias">
+<section id="Indicator-Variables-and-Omitted-Variable-Bias">
 <h2>Indicator Variables and Omitted Variable Bias<a class="headerlink" href="#Indicator-Variables-and-Omitted-Variable-Bias" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Exercise-1">
+<section id="Exercise-1">
 <h3>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h3>
 <p>Create a new variable named <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> that takes the value of 1 if the car’s miles per gallon (<code class="docutils literal notranslate"><span class="pre">mpg</span></code>) is less than 18 and takes value 0 otherwise (“guzzler” is a term for a car that consumes gas very quickly, or “guzzles gas”). Regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> and interpret the coefficients. Do gas guzzlers cost more than the other cars? How much more?</p>
 <div class="nbinput docutils container">
@@ -441,8 +459,8 @@ div.rendered_html tbody tr:hover {
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
-</div>
-<div class="section" id="Exercise-2">
+</section>
+<section id="Exercise-2">
 <h3>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h3>
 <p>Create a scatter plot of <code class="docutils literal notranslate"><span class="pre">price</span></code> against <code class="docutils literal notranslate"><span class="pre">weight</span></code> and color code your markers by the value of <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> (red for <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> = 1 and green for <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> = 0).</p>
 <p>Based on the graph you just created, do you think <strong>not</strong> controlling for <code class="docutils literal notranslate"><span class="pre">weight</span></code> might lead to omitted variable bias in the regression in Exercise 1? What is the direction of the bias?</p>
@@ -473,8 +491,8 @@ div.rendered_html tbody tr:hover {
 &lt;ggplot: (8789568076389)&gt;
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Exercise-3">
+</section>
+<section id="Exercise-3">
 <h3>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h3>
 <p>Regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on <code class="docutils literal notranslate"><span class="pre">guzzler</span></code>, <code class="docutils literal notranslate"><span class="pre">weight</span></code>, <code class="docutils literal notranslate"><span class="pre">foreign</span></code>, <code class="docutils literal notranslate"><span class="pre">headroom</span></code>, and <code class="docutils literal notranslate"><span class="pre">displacement</span></code>. Interpret the coefficients. Do the regression results confirm your guess in Q3?</p>
 <div class="nbinput docutils container">
@@ -561,8 +579,8 @@ div.rendered_html tbody tr:hover {
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 2.36e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
 </div>
-</div>
-<div class="section" id="Exercise-4">
+</section>
+<section id="Exercise-4">
 <h3>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h3>
 <p>Variable <code class="docutils literal notranslate"><span class="pre">rep78</span></code> indicates the car’s repair record. The variable is poorly documented (we don’t know that the value means) but take our word for it that the values from 1-5 indicate “very poor”, “poor”, “acceptable”, “good”, and “very good” record, respectively.</p>
 <p>Create five separate indicator variables from <code class="docutils literal notranslate"><span class="pre">rep78</span></code> and regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on indicators for values 2 through 5. Also control for <code class="docutils literal notranslate"><span class="pre">headroom</span></code>, <code class="docutils literal notranslate"><span class="pre">weight</span></code>, <code class="docutils literal notranslate"><span class="pre">foreign</span></code>, and <code class="docutils literal notranslate"><span class="pre">displacement</span></code>. Interpret the coefficients on the indicator for <code class="docutils literal notranslate"><span class="pre">rep78</span> <span class="pre">==</span> <span class="pre">3</span></code>.</p>
@@ -663,11 +681,11 @@ div.rendered_html tbody tr:hover {
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 4.54e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
 </div>
-</div>
-</div>
-<div class="section" id="Interaction-Effects">
+</section>
+</section>
+<section id="Interaction-Effects">
 <h2>Interaction Effects<a class="headerlink" href="#Interaction-Effects" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Exercise-5">
+<section id="Exercise-5">
 <h3>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h3>
 <p>You suspect that the effect of <code class="docutils literal notranslate"><span class="pre">guzzler</span></code> on <code class="docutils literal notranslate"><span class="pre">price</span></code> may be conditioned by whether or not the car is manufactured abroad. Regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on <code class="docutils literal notranslate"><span class="pre">guzzler</span></code>, <code class="docutils literal notranslate"><span class="pre">foreign</span></code> <strong>and their interaction,</strong> controlling for <code class="docutils literal notranslate"><span class="pre">headroom</span></code>, <code class="docutils literal notranslate"><span class="pre">weight</span></code> and <code class="docutils literal notranslate"><span class="pre">displacement</span></code>. Without using mathematical language, explain to your grandma what the coefficient on the interaction term means.</p>
 <div class="nbinput docutils container">
@@ -757,16 +775,16 @@ div.rendered_html tbody tr:hover {
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 2.39e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
 </div>
-</div>
-<div class="section" id="Exercise-6">
+</section>
+<section id="Exercise-6">
 <h3>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h3>
 <p>What is the price difference between a foreign guzzler and a foreign non-guzzler?</p>
-</div>
-<div class="section" id="Exercise-7">
+</section>
+<section id="Exercise-7">
 <h3>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h3>
 <p>What is the price difference between a domestic non-guzzler and a foreign non-guzzler?</p>
-</div>
-<div class="section" id="Exercise-8">
+</section>
+<section id="Exercise-8">
 <h3>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h3>
 <p>Regress <code class="docutils literal notranslate"><span class="pre">price</span></code> on <code class="docutils literal notranslate"><span class="pre">foreign</span></code>, <code class="docutils literal notranslate"><span class="pre">mpg</span></code> and their interaction, controlling for <code class="docutils literal notranslate"><span class="pre">headroom</span></code>, <code class="docutils literal notranslate"><span class="pre">weight</span></code> and <code class="docutils literal notranslate"><span class="pre">displacement</span></code>. Interpret the coefficients of the main independent variables. Explain in layman terms the coefficient on the interaction term.</p>
 <div class="nbinput docutils container">
@@ -856,9 +874,9 @@ div.rendered_html tbody tr:hover {
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 6.89e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
           </div>
@@ -886,6 +904,7 @@ div.rendered_html tbody tr:hover {
 <li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul>
@@ -933,7 +952,7 @@ div.rendered_html tbody tr:hover {
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

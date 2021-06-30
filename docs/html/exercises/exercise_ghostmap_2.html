@@ -4,17 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Causality in the Time of Cholera &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -38,21 +39,35 @@
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
 }
 
 /* avoid gaps between output lines */
@@ -153,7 +168,7 @@ div.nboutput.container div.output_area {
 div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
@@ -219,6 +234,7 @@ div.nboutput.container div.output_area.rendered_html,
 div.nboutput.container div.output_area > div.output_javascript,
 div.nboutput.container div.output_area:not(.rendered_html) > img{
     padding: 5px;
+    margin: 0;
 }
 
 /* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
@@ -266,46 +282,46 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<div class="section" id="Causality-in-the-Time-of-Cholera">
+<section id="Causality-in-the-Time-of-Cholera">
 <h1>Causality in the Time of Cholera<a class="headerlink" href="#Causality-in-the-Time-of-Cholera" title="Permalink to this headline">¶</a></h1>
 <p><strong>Exercise 2</strong></p>
 <p><strong>Instructions (read aloud in your group):</strong> Your group’s task is to use the facts described below to devise a test of the theory that a waterborne organism/pathogen is responsible for infecting humans with cholera. Your test must be feasible with the technology and resources available at the time. Your test must also be falsifiable; that is, it must be possible that you find evidence inconsistent with the waterborne germ theory of cholera’s spread. The questions on this worksheet will walk you
 through developing your test. You do not have to use all of the facts below in devising your test, but try not to use information beyond what you are told below.</p>
 <p><strong>Facts:</strong> In early 1854 numerous cholera cases clustered around the Broad Street pump in the neighborhood of Soho in London. Like nearly all of the water supply of London, the pump was a public source of drinking water, cooking water and water for all other household chores for anyone who wanted it. Indoor plumbing was almost completely unheard of at this time, which meant that individuals from all walks of life obtained their water from public pumps like the Broad Street pump that were located
 on street corners throughout the city. Theorizing that contaminated water from the Broad Street pump was spreading cholera, John Snow convinced the authorities to dismantle the pump’s handle on September 7, 1854. Subsequently, cases of Cholera decreased dramatically, convincing many that Snow was right about the cause of Cholera.</p>
-<div class="section" id="Question-1:">
+<section id="Question-1:">
 <h2>Question 1:<a class="headerlink" href="#Question-1:" title="Permalink to this headline">¶</a></h2>
 <p>Using the language of the potential outcomes framework, identify the outcome of interest (<span class="math notranslate nohighlight">\(Y\)</span>) of interest.</p>
-</div>
-<div class="section" id="Question-2:">
+</section>
+<section id="Question-2:">
 <h2>Question 2:<a class="headerlink" href="#Question-2:" title="Permalink to this headline">¶</a></h2>
 <p>Who or what do you want to observe? Do you want to observe something about individuals? Groups? Places? Things? (This is your unit of analysis.)</p>
-</div>
-<div class="section" id="Question-3:">
+</section>
+<section id="Question-3:">
 <h2>Question 3:<a class="headerlink" href="#Question-3:" title="Permalink to this headline">¶</a></h2>
 <p>What is the treatment (<span class="math notranslate nohighlight">\(T\)</span>) in John Snow’s analysis?</p>
-</div>
-<div class="section" id="Question-4">
+</section>
+<section id="Question-4">
 <h2>Question 4<a class="headerlink" href="#Question-4" title="Permalink to this headline">¶</a></h2>
 <p>Given the observations you’ve made of the outcome <span class="math notranslate nohighlight">\(Y\)</span>, who or what do you want to compare? That is, how do you want to group your unit of analysis so that you can compare between groups? Will you make comparisons across space? Across time? Both? (This is the fundamental component of your test.)</p>
-</div>
-<div class="section" id="Question-5">
+</section>
+<section id="Question-5">
 <h2>Question 5<a class="headerlink" href="#Question-5" title="Permalink to this headline">¶</a></h2>
 <p>If the waterborne germ theory of disease is correct, what differences (or lack of differences) do you expect to see in the comparisons of outcomes between groups from 4 above?</p>
-</div>
-<div class="section" id="Question-6">
+</section>
+<section id="Question-6">
 <h2>Question 6<a class="headerlink" href="#Question-6" title="Permalink to this headline">¶</a></h2>
 <p>If the waterborne germ theory of disease is incorrect, what differences (or lack of differences) do you expect to see in the comparisons of outcomes between groups from 4 above?</p>
-</div>
-<div class="section" id="Question-7:">
+</section>
+<section id="Question-7:">
 <h2>Question 7:<a class="headerlink" href="#Question-7:" title="Permalink to this headline">¶</a></h2>
 <p>In order to make this inference valid, what assumptions was Snow (implicitly) making about what would happen after September 7th?</p>
-</div>
-<div class="section" id="Question-8:">
+</section>
+<section id="Question-8:">
 <h2>Question 8:<a class="headerlink" href="#Question-8:" title="Permalink to this headline">¶</a></h2>
 <p>If you observe the differences (or lack of differences) in outcomes between groups that support the waterborne germ theory of disease, is there anything else that could be going on that could also or alternatively account for the differences? What worries you? (This is a question about potential confounders.)</p>
-</div>
-<div class="section" id="Question-9:">
+</section>
+<section id="Question-9:">
 <h2>Question 9:<a class="headerlink" href="#Question-9:" title="Permalink to this headline">¶</a></h2>
 <p>If you don’t observe the differences (or lack of differences) in outcomes between groups that support the waterborne germ theory of disease, is there anything else that could be going on that could also or alternatively account for the differences? What worries you? (This is a question about potential confounders.)</p>
 <div class="nbinput nblast docutils container">
@@ -317,8 +333,8 @@ on street corners throughout the city. Theorizing that contaminated water from t
 </pre></div>
 </div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -346,6 +362,7 @@ on street corners throughout the city. Theorizing that contaminated water from t
 <li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul>
@@ -393,7 +410,7 @@ on street corners throughout the city. Theorizing that contaminated water from t
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

@@ -4,17 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Traffic Death Analysis &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -38,21 +39,35 @@
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
 }
 
 /* avoid gaps between output lines */
@@ -153,7 +168,7 @@ div.nboutput.container div.output_area {
 div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
@@ -219,6 +234,7 @@ div.nboutput.container div.output_area.rendered_html,
 div.nboutput.container div.output_area > div.output_javascript,
 div.nboutput.container div.output_area:not(.rendered_html) > img{
     padding: 5px;
+    margin: 0;
 }
 
 /* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
@@ -266,7 +282,7 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<div class="section" id="Traffic-Death-Analysis">
+<section id="Traffic-Death-Analysis">
 <h1>Traffic Death Analysis<a class="headerlink" href="#Traffic-Death-Analysis" title="Permalink to this headline">¶</a></h1>
 <p>In this exercise, we will be analyzing the effect of alcohol taxes on traffic death in the United States. The data set used in this exercise, <code class="docutils literal notranslate"><span class="pre">fatalities.csv</span></code>, is a state-year panel dataset (meaning it includes data on multiple states, and the data includes several years of data for each state. The data contains 336 observations on 34 variables. The variables used in the exercise are defined as follows:</p>
 <p><code class="docutils literal notranslate"><span class="pre">state</span></code>: factor variable indicating states</p>
@@ -274,7 +290,7 @@ div.rendered_html tbody tr:hover {
 <p><code class="docutils literal notranslate"><span class="pre">beertax</span></code>: numeric variable, Tax on the case of beer</p>
 <p>In these exercises, we’ll be looking at how beer taxes (which are believed to reduce alcohol consumption, potentially reducing drunk driving deaths) impact car accident fatality rates.</p>
 <p>More specifically, though, we’ll be approaching our estimation of the impact of beer taxes in a few different ways in an effort to give you more of an intuitive sense of what happens when you add fixed effects to a regression.</p>
-<div class="section" id="Exercise-1">
+<section id="Exercise-1">
 <h2>Exercise 1<a class="headerlink" href="#Exercise-1" title="Permalink to this headline">¶</a></h2>
 <p>Download and load the data from <a class="reference external" href="https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/us_driving_fatalities.csv">this link</a>, or by going to <a class="reference external" href="www.github.com/nickeubank/MIDS_Data/">www.github.com/nickeubank/MIDS_Data/</a> and downloading the <code class="docutils literal notranslate"><span class="pre">us_driving_fatalities.csv</span></code> dataset.</p>
 <p>How many states does this dataset contain? What’s the time frame of this dataset? (From which year to which year). And what constitutes a single observation (i.e. what is the unit of analysis for each row of the data?)</p>
@@ -559,8 +575,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-2">
+</section>
+<section id="Exercise-2">
 <h2>Exercise 2<a class="headerlink" href="#Exercise-2" title="Permalink to this headline">¶</a></h2>
 <p>We use the fatality rate per 10,000 as the dependent variable. Construct this variable. Name it as <code class="docutils literal notranslate"><span class="pre">fat_rate</span></code>. Hint: You can compute it using total fatalities(<code class="docutils literal notranslate"><span class="pre">fatal</span></code>) and population (<code class="docutils literal notranslate"><span class="pre">pop</span></code>). Note that because <code class="docutils literal notranslate"><span class="pre">pop</span></code> is often the name of a method in Python, you may have to navigate around some issues.</p>
 <div class="nbinput nblast docutils container">
@@ -572,8 +588,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-3">
+</section>
+<section id="Exercise-3">
 <h2>Exercise 3<a class="headerlink" href="#Exercise-3" title="Permalink to this headline">¶</a></h2>
 <p>Draw a scatter plot using <code class="docutils literal notranslate"><span class="pre">beertax</span></code> as the x-axis, and <code class="docutils literal notranslate"><span class="pre">fat_rate</span></code> as the y-axis. Draw a fitted line showing the correlation between these two variables</p>
 <div class="nbinput docutils container">
@@ -608,8 +624,8 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/exercises_solutions_panel_12_1.png" src="../_images/exercises_solutions_panel_12_1.png" />
 </div>
 </div>
-</div>
-<div class="section" id="Exercise-4">
+</section>
+<section id="Exercise-4">
 <h2>Exercise 4<a class="headerlink" href="#Exercise-4" title="Permalink to this headline">¶</a></h2>
 <p>Fit a simple OLS regression. This is what is called a “pooled” regression because we’re “pooling” observations from different years into a single regression. What do your results imply about the relationship between Beer Taxes and fatalities?</p>
 <p><span class="math">\begin{align*}
@@ -687,8 +703,8 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
-</div>
-<div class="section" id="Exercise-5">
+</section>
+<section id="Exercise-5">
 <h2>Exercise 5<a class="headerlink" href="#Exercise-5" title="Permalink to this headline">¶</a></h2>
 <p>Now estimate your model again, this time adding state fixed effects (using the <code class="docutils literal notranslate"><span class="pre">C()</span></code> notation and your normal linear model machinery). What does this result imply about the relationship between beer taxes and fatalities?</p>
 <div class="nbinput docutils container">
@@ -902,12 +918,12 @@ FatalityRate_i = \beta_0 + \beta_1 \times BeerTax_i \quad (1982 or 1988 \text{ d
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
-</div>
-<div class="section" id="Exercise-6">
+</section>
+<section id="Exercise-6">
 <h2>Exercise 6<a class="headerlink" href="#Exercise-6" title="Permalink to this headline">¶</a></h2>
 <p>Explain whey your results in Exercises 4 (without fixed effects) and Exercise 5 (with state fixed effects) look so different. What does this imply about states with high beer taxes?</p>
-</div>
-<div class="section" id="Fixed-Effects-by-Demeaning">
+</section>
+<section id="Fixed-Effects-by-Demeaning">
 <h2>Fixed Effects by Demeaning<a class="headerlink" href="#Fixed-Effects-by-Demeaning" title="Permalink to this headline">¶</a></h2>
 <p>Rather than just add indicator variables, we’ll now use a different strategy for estimating fixed effects called an “entity-demeaning.” This method is more computationally efficient, and can also help you understand how fixed effects work.</p>
 <p>Let’s begin by assuming we want to estimate the following fixed-effect model:</p>
@@ -929,8 +945,8 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
 \end{split}
 \end{align}</span></p>
 <p>By taking the difference between the value of each observation (state-year) and the mean value of the entity (state) over n periods, we analyze how the within-state variation of beer tax affects that of the fatality rate. Moreover, by doing so we no longer need to estimate the fixed effects of <span class="math notranslate nohighlight">\(Z_i\)</span>, saving computing power if we are working on a dataset with a large number of fixed effects.</p>
-</div>
-<div class="section" id="id1">
+</section>
+<section id="id1">
 <h2>Exercise 6<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>Implement the above entity-demeaned approach to estimate the fixed-effects model by hand (use basic functions, not full tools like <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> or <code class="docutils literal notranslate"><span class="pre">C()</span></code> notation in <code class="docutils literal notranslate"><span class="pre">python</span></code>, or <code class="docutils literal notranslate"><span class="pre">lfe</span></code> or <code class="docutils literal notranslate"><span class="pre">C()</span></code> notation in <code class="docutils literal notranslate"><span class="pre">R</span></code>).</p>
 <div class="nbinput docutils container">
@@ -1010,8 +1026,8 @@ FatalityRate_{it} - \overline{FatalityRate}_i =& \, \beta_1(BeerTax_{it}-\overli
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div>
 </div>
-</div>
-<div class="section" id="Exercise-7">
+</section>
+<section id="Exercise-7">
 <h2>Exercise 7<a class="headerlink" href="#Exercise-7" title="Permalink to this headline">¶</a></h2>
 <p>Fit the model with state fixed-effect using <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> / <code class="docutils literal notranslate"><span class="pre">lfe</span></code>. Compare it to your by-hand output. Interpret the result.</p>
 <div class="nbinput nblast docutils container">
@@ -1074,8 +1090,8 @@ Distribution: F(47,287)
 Included effects: Entity
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Exercise-8">
+</section>
+<section id="Exercise-8">
 <h2>Exercise 8<a class="headerlink" href="#Exercise-8" title="Permalink to this headline">¶</a></h2>
 <p>Now (using <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code> or <code class="docutils literal notranslate"><span class="pre">lfe</span></code>) estimate a fixed effects model using the following specification. Add fixed effects for <strong>both</strong> the state and the year, as well as the other covariates you think are important <span class="math notranslate nohighlight">\(X_{it}\)</span>).</p>
 <p>Explain (a) the type of phenomenon we control for by adding <code class="docutils literal notranslate"><span class="pre">year</span></code> fixed effects, and (b) your choice of covariates. Cluster the standard error at the state level. Interpret the result.</p>
@@ -1140,8 +1156,8 @@ Included effects: Entity, Time
 </pre></div>
 </div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -1169,6 +1185,7 @@ Included effects: Entity, Time
 <li class="toctree-l1"><a class="reference internal" href="../moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul>
@@ -1216,7 +1233,7 @@ Included effects: Entity, Time
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

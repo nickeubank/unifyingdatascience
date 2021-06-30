@@ -4,15 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Writing Data Science Report for Non-Technical Audiences &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Limitations of Experiments (and Average Treatment Effects)" href="limitations_of_ATE.html" />
@@ -33,18 +36,18 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="Writing-Data-Science-Report-for-Non-Technical-Audiences">
+  <section id="Writing-Data-Science-Report-for-Non-Technical-Audiences">
 <h1>Writing Data Science Report for Non-Technical Audiences<a class="headerlink" href="#Writing-Data-Science-Report-for-Non-Technical-Audiences" title="Permalink to this headline">¶</a></h1>
 <p>As a data scientist, you’ll often be required to summarize your analyses and present them to non-data scientists. This type of translation of technical analyses to something of use to less-technical audiences is an absolutely critical part of being an effective data scientist – if you don’t communicate what you’ve done to decision makers, it often doesn’t matter how rigorous or careful your work has been up to that point.</p>
 <p>With that in mind, here is an outline of one strategy for writing for non-technical audiences. Obviously different people may prefer slightly different approaches, but I think this is a good model to start with.</p>
 <p>Also, note that this <em>is</em> the model I’d like you to use when writing your final report for this class, so there are a few notes that are specific to class expectations!</p>
-<div class="section" id="Identify-your-audience">
+<section id="Identify-your-audience">
 <h2>Identify your audience<a class="headerlink" href="#Identify-your-audience" title="Permalink to this headline">¶</a></h2>
 <p>Before you write a single word, you should pause to reflect on exactly who you wish to address with your report, and their background. What follows are general guidelines, but the better you know your audience, the more precisely you can tailor the level of detail in your report.</p>
 <p><strong>For this class:</strong> At the top of your report, please specify the stakeholder to whom you are addressing your report – a product manager, a legislative aid, a policymaker, etc. This stakeholder should be relevant to your study, but should not be someone with data science training. You may assume they know about basic statistical concepts (means and standard deviations), but no more (no assumed understanding of potential outcomes, the theoretical underpinnings of experiments, specific designs
 like differences-in-differences, etc.). Obviously this is not something you’d put in a real write-up, but will be helpful for evaluation of your project.</p>
-</div>
-<div class="section" id="Introduction-/-Executive-Summary">
+</section>
+<section id="Introduction-/-Executive-Summary">
 <h2>Introduction / Executive Summary<a class="headerlink" href="#Introduction-/-Executive-Summary" title="Permalink to this headline">¶</a></h2>
 <p>One of the most important things to remember when writing up an analysis is that the person your writing to has too many things to do, and is <strong>definitely</strong> less interested in your project than you are. With that in mind, it’s important that you write and organize your report in a way that catches their attention early and gets them invested so they keep reading. As a result, one generally wants to start with the most important parts of the analysis, then slowly draw back and lay out additional
 details.</p>
@@ -59,12 +62,12 @@ you’re gonna help the reader.</p>
 <p><strong>Summarize your strategy</strong></p>
 <p>Now in one to two paragraphs provide an overview of your project, your approach, and a preliminary summary of your results.</p>
 <p>In all, you should have covered all this is about one page, maybe a page and a half, and <em>hopefully</em> now you’ve got your reader hooked!</p>
-</div>
-<div class="section" id="Background">
+</section>
+<section id="Background">
 <h2>Background<a class="headerlink" href="#Background" title="Permalink to this headline">¶</a></h2>
 <p>OK, so at this point you’ve hopefully caught your readers interest, so now you can circle back and provide any additional background needed to help the reader better understand your motivation or the specific context you are analyzing (if you’re looking at a policy change, the details of the policy, the context in which it occurred, the players involved, etc.) The amount of background needed will vary across projects, but whatever you need goes here.</p>
-</div>
-<div class="section" id="Your-Design">
+</section>
+<section id="Your-Design">
 <h2>Your Design<a class="headerlink" href="#Your-Design" title="Permalink to this headline">¶</a></h2>
 <p>Here’s where you lay out how you plan to answer the question you laid out in your summary.</p>
 <p>As you do so, bear in mind the difference between your goals in writing to a non-technical stakeholder and your goals when writing to a fellow data scientist (most of your professors).</p>
@@ -78,22 +81,22 @@ we compared sales to customers who got coupons to those who did not, we might in
 <p>“But if we run an experiment in which we randomly assign customers to either receive a coupon or not, then we know that on average the people getting coupons will be the same as the people not getting coupons (since who gets coupons is random, and not related to anything like customer income). As a result, we can compare sales to customers who got coupons and those that did not, and infer with confidence that any difference we see is the result of getting coupons, not other differences in the
 customers with or without coupons.”</p>
 <p>(See? No discussion of potential outcomes or use of terms like “baseline differences!”</p>
-</div>
-<div class="section" id="Your-Results">
+</section>
+<section id="Your-Results">
 <h2>Your Results<a class="headerlink" href="#Your-Results" title="Permalink to this headline">¶</a></h2>
 <p>Now it’s time for results! As with your design, remember your goal is to emphasize the key take-aways of your analysis, which means both what the data can tell you <em>and what it can’t</em>. Remember that honest humility is a key part of being a good data scientist – don’t over-sell your results!</p>
-</div>
-<div class="section" id="Conclusions">
+</section>
+<section id="Conclusions">
 <h2>Conclusions<a class="headerlink" href="#Conclusions" title="Permalink to this headline">¶</a></h2>
 <p>Now the final part of the project – quickly recapitulate the problem you wanted to address, the question you sought to answer, the answer you reached, and the implications of this result. In this discussion, make sure you talk a lot about <em>external validity</em>: where are these results likely applicable? Where are they not? What other research could be done to learn more? Do you have concrete recommendations?</p>
-</div>
-<div class="section" id="Appendix">
+</section>
+<section id="Appendix">
 <h2>Appendix<a class="headerlink" href="#Appendix" title="Permalink to this headline">¶</a></h2>
 <p>Remember when I said that in writing to a non-technical stakeholder, you don’t have to detail all the nuances of your analysis? Well… that’s true. BUT: it’s often good to put the details of all the careful analyses of robustness and diagnostic tests you completed in appendices. That way you can reference them in the body of your report (communicating in broad terms that you were careful without boring your reader), but then also include them in case your stakeholder wants to share your report
 with another data scientist for a second opinion.</p>
 <p>So you probably want (<strong>and for this class, should have</strong>) an appendix with things like balance tests, A/A tests, evidence of parallel trends, discussion of why you chose certain sample restrictions, alternate specifications, etc., depending on what’s appropriate for your particular research design.</p>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -180,7 +183,7 @@ with another data scientist for a second opinion.</p>
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

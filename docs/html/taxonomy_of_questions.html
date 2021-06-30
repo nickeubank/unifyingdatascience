@@ -4,15 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Taxonomy of Questions &#8212; Unifying Data Science</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Converting Stakeholder Prompts into Questions" href="moving_from_problems_to_questions.html" />
@@ -33,7 +36,7 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="Taxonomy-of-Questions">
+  <section id="Taxonomy-of-Questions">
 <h1>Taxonomy of Questions<a class="headerlink" href="#Taxonomy-of-Questions" title="Permalink to this headline">¶</a></h1>
 <p>A central focus of this course will be thinking about how the tools of data science can best be brought to bear on different types of questions about the world. To that end, we must begin by introducing a taxonomy of questions.</p>
 <p>To be clear, this taxonomy is my own, and thus you may not find that everyone you encounter will immediately recognize the distinctions that, by the end of this class, I hope will be clear to you. Indeed, part of the reason that data science is so fragmented is that different disciplines tend to focus (almost myopically) on certain classes of questions. As a result, they often fail to recognize that while the tools they use may be effective for <em>their</em> preferred questions, different tools may be
@@ -44,15 +47,15 @@ required by those interested in different questions. In this class, we will stri
 <li><p><strong>Causal Questions</strong>: Questions about causes and effects – <em>why</em> does the world look the way it does? What <em>caused</em> the current state of the world? What is the <em>effect</em> of, say, a drug?</p></li>
 <li><p><strong>Predictive Questions</strong>: Questions about the future, or questions that require extrapolation beyond current data.</p></li>
 </ul>
-<div class="section" id="Positive-versus-Normative-Questions">
+<section id="Positive-versus-Normative-Questions">
 <h2>Positive versus Normative Questions<a class="headerlink" href="#Positive-versus-Normative-Questions" title="Permalink to this headline">¶</a></h2>
 <p>Before we dive into each of these types of questions, it is worth pausing to emphasize that this is a taxonomy of questions about how the world <em>is</em>, not about how world <em>should be</em>. That’s because while data science is an amazing tool for telling us about the state of the world, it <em>cannot</em>, on its own, answer <em>should</em> questions. That is because answering <em>should</em> questions requires evaluating the desirability of different possible outcomes, and that can only be done using on the basis of a
 system of values. Data science may tell us the <em>consequences</em> of different courses of action, but it cannot tell us whether those consequences make a given course of action worthwhile.</p>
 <p>To illustrate, suppose you are interested in reducing opioid overdoses. Your rigorous data science analysis may tell you that increasing the regulation of opioid prescriptions will reduce overdoses by some amount X and reduce access to opioids for those with chronic pain by some amount Y. But does that mean you should enact the policy? Well, that depends on how much <em>value</em> you place on patients with chronic pain having access to opioids, and how much <em>value</em> you place on preventing overdoses.
 And the answers to those questions simply can’t come from your data.</p>
 <p>In this course, we will refer to questions about how the world <em>is</em> as “positive questions”, and questions about how the world <em>should be</em> as normative questions. But be aware these terms aren’t universal. Some people use the term “descriptive” instead of positive, and “proscriptive” instead of normative. Since we are using the term “descriptive” for a different purpose in this class, I will use normative and positive throughout this course to avoid confusion.</p>
-</div>
-<div class="section" id="Descriptive-Questions">
+</section>
+<section id="Descriptive-Questions">
 <h2>Descriptive Questions<a class="headerlink" href="#Descriptive-Questions" title="Permalink to this headline">¶</a></h2>
 <p>Descriptive questions are questions about the current or past state of the world. In the words of <a class="reference external" href="https://doi.org/10.1017/S0007123412000130">John Gerring (we’ll read more of his work for a future class)</a>:</p>
 <blockquote>
@@ -60,27 +63,27 @@ And the answers to those questions simply can’t come from your data.</p>
 </div></blockquote>
 <p>Of all the types of questions we will study in this class, descriptive questions tend to be the least appreciated, but I would argue that in many ways they are the most important. That is because descriptive analyses are often the foundation for all other work. After all, it is only by first understanding the patterns in our world can we then move on to asking questions about how they arrose, or how they may evolve in the future.</p>
 <p>To illustrate, let’s consider a few important descriptive analysis:</p>
-<div class="section" id="Descriptive-Example-1:-Nope,-This-Time-Isn’t-Different">
+<section id="Descriptive-Example-1:-Nope,-This-Time-Isn’t-Different">
 <h3>Descriptive Example 1: Nope, This Time Isn’t Different<a class="headerlink" href="#Descriptive-Example-1:-Nope,-This-Time-Isn’t-Different" title="Permalink to this headline">¶</a></h3>
 <p>A great example of descriptive analysis comes from economics. In 2011, Carmen Reinhart and Kenneth Rogoff published a book called <a class="reference external" href="https://www.amazon.com/This-Time-Different-Centuries-Financial/dp/0691152640">This Time Is Different: Eight Centuries of Financial Folly</a>. In it, they comprehensively analyze hundreds of years of economic history across more than sixty countries to document how, despite pundits regularly decrying that “this time things are different,” financial crises occur with
 remarkable frequency, duration, and ferocity. They offer some theories about why this may be, but their core contribution is documenting clearly that whatever it is that drives financial crises, it is not something specific to any geography or period, but rather something common to human economic systems the world over, wiping away dozens of attempts to explain specific financial crises as special cases in the process.</p>
-</div>
-<div class="section" id="Descriptive-Example-3:-Disease-Surveillance">
+</section>
+<section id="Descriptive-Example-3:-Disease-Surveillance">
 <h3>Descriptive Example 3: Disease Surveillance<a class="headerlink" href="#Descriptive-Example-3:-Disease-Surveillance" title="Permalink to this headline">¶</a></h3>
 <p>It is hard to think of a public health discovery that didn’t start with disease surveillance – the practice of keeping <em>descriptive</em> statistics about causes of death or disease. Efforts to understand HIV began when public health officials saw a huge rise in gay men dying from diseases that shouldn’t have been fatal for young otherwise healthy men, and research into the role of cigarettes in causing lung cancer started when data showed that lung cancer rates were exploding across the world.</p>
-</div>
-<div class="section" id="Descriptive-Example-4:-Global-Warming">
+</section>
+<section id="Descriptive-Example-4:-Global-Warming">
 <h3>Descriptive Example 4: Global Warming<a class="headerlink" href="#Descriptive-Example-4:-Global-Warming" title="Permalink to this headline">¶</a></h3>
 <p>Before we began to develop a rigorous understanding of the dynamics that were causing our climate to warm, we first had to become aware that, well, our climate was warming! Yup, yet another current discipline that began with a “simple” (I put “simple” in quotes because there’s nothing actually simple about measuring the temperature of the entire world over (initially) decades and (later) centuries) descriptive analysis: what is the temperature of the Earth, and how has it changed over time?</p>
-</div>
-<div class="section" id="Last-Thoughts">
+</section>
+<section id="Last-Thoughts">
 <h3>Last Thoughts<a class="headerlink" href="#Last-Thoughts" title="Permalink to this headline">¶</a></h3>
 <p>By now you can hopefully recognize the importance of descriptive analyses. Description is rarely the <em>end</em> of the scientific inquiry, but it is often the <em>start</em>, and without it, it is hard to imagine where we would be today.</p>
 <p>And while descriptive analyses may seem simple (e.g. Vera Rubin <em>just</em> measured the rate of rotation of stars in a galaxy, and Carmen Reinhart and Ken Rogoff <em>just</em> documented every financial crisis in the past several hundred years) because they often don’t entail sophisticated machine learning algorithms or extremely complicated statistical models, in truth descriptive analyses are often extremely difficult to undertake in their own way. For example, because they usually entail measuring
 something that hasn’t been measured before, descriptive analyses generally require massive data collection efforts and innovations in measurement. And as we will also discuss in future classes, in some ways that put even greater demands on the researcher (and the researcher’s judgement and case knowledge) than some of the other types of questions we will discuss.</p>
-</div>
-</div>
-<div class="section" id="Causal-Questions">
+</section>
+</section>
+<section id="Causal-Questions">
 <h2>Causal Questions<a class="headerlink" href="#Causal-Questions" title="Permalink to this headline">¶</a></h2>
 <p>Causal questions are questions about causes and effects, and <em>why</em> we see certain patterns in the world. They often take the form of “What is the effect of X on Y”, where X could be a drug and Y is a disease, or where X is a goverment policy and Y is a public health or economic outcome.</p>
 <p>In many cases, as described above, causal questions are prompted by the answers to descriptive questions. Vera Rubin discovered that the rotational curves of galaxies couldn’t be explained by current physics, so now dozens of experiments are trying to find particles whose presence would <em>cause</em> the patterns she has documented.</p>
@@ -95,16 +98,16 @@ something that hasn’t been measured before, descriptive analyses generally req
 <li><p>What is the effect of Iowa voting first in US Presidential Primaries on the types of politicians who become president?</p></li>
 </ul>
 <p>At the same time, though, they can also be awfully hard to answer…</p>
-<div class="section" id="Why-Causal-Inference-is-Hard">
+<section id="Why-Causal-Inference-is-Hard">
 <h3>Why Causal Inference is Hard<a class="headerlink" href="#Why-Causal-Inference-is-Hard" title="Permalink to this headline">¶</a></h3>
 <p>As we will explore in <em>lots</em> of detail, causal questions can be very hard to answer. To understand why, suppose we were interested in the effect of an increase in cigarette taxes that took place in Durham in 2019 on smoking rates.</p>
 <p>In a magical, idealized world, the way we would answer this causal question is by creating two worlds: one in which our causal treatment (e.g. the tax increase) was enacted, and one where it was not. Then we could ask “were smoking rates different in the 2019 Durham with a policy change <em>as compared to the world where no policy change took place in Durham in 2019</em>?”</p>
 <p>In the real world, however, we can never actually see both the world with the policy change and a world without the policy change <em>for the same unit of observation at the same moment in time</em>. In the language of causal inference, we can never directly observe our <em>counter factual</em> – the outcome that didn’t actually occur. This is what is referred to as the <em>fundamental problem of causal inference.</em></p>
 <p>To get around this fundamental problem, we must instead estimate what we think <em>would</em> have happened in Durham had there been no tax increase. For example, we might assume that Durham in 2018 (before the tax increase) is a good stand-in for a 2019 Durham without a tax increase; or we might think other counties in North Carolina in 2019 are a good model for what Durham would have been like absent a policy change.</p>
 <p>But because we can never see Durham in 2019 absent the policy change, we can never really be sure if we’ve modelled our counter-factual accurately. We can only use our knowledge of the cases and circumstantial evidence to <em>argue</em> that we’ve estimated is a good stand-in for our counter-factual world. And that, in a nutshell, is the art of causal inference.</p>
-</div>
-</div>
-<div class="section" id="Prediction-/-Extrapolation-Questions">
+</section>
+</section>
+<section id="Prediction-/-Extrapolation-Questions">
 <h2>Prediction / Extrapolation Questions<a class="headerlink" href="#Prediction-/-Extrapolation-Questions" title="Permalink to this headline">¶</a></h2>
 <p>Finally, we come to what is likely the most trendy topic in data science: prediction!</p>
 <p>In this course, we will use the terms “prediction” and “extrapolation” pretty interchangably. Thus when we say “prediction”, we won’t just mean “offering guesses about what will happen <em>in the future</em>,” but also “what might happen if we consider cases that are outside the domain for which we currently have data.” That means that not only does building a model future stock market returns count as prediction, but so too does using data from a set of mammogram scans that have already been analyzed
@@ -116,13 +119,13 @@ by human radiologists to build a model for analyze mammograms that haven’t bee
 <li><p>What features of MRI scans predict alzheimers?</p></li>
 </ul>
 <p>In this course, we will discuss two general forms of predictive analyses: predictive analyses based on causal inference, and predictive analyses based on supervised machine learning.</p>
-<div class="section" id="Prediction-Based-on-Causal-Methods">
+<section id="Prediction-Based-on-Causal-Methods">
 <h3>Prediction Based on Causal Methods<a class="headerlink" href="#Prediction-Based-on-Causal-Methods" title="Permalink to this headline">¶</a></h3>
 <p>When one answers a causal question, one is generating an answer that, by its very nature, should be useful for prediction. If we run an experiment to test the effects of, say, statins on cholesterol, and we find that statins <em>cause</em> a reduction in cholesterol, then presumably we know what will happen if we give statins to more people.</p>
 <p>There are limits to this, of course – that’s why we’ve spent lots of time discussing the concept of <em>external validity</em>. A drug study that only examined the effects of statins on white men between 45 and 75 with dangerously high cholesterol, for example, is probably a good basis for predicting the effect of statins on a 65 year-old white man with sky-high cholesterol; but how likely is it to predict outcomes for a 65 year-old black man with sky-high cholesterol, or a 45 year-old woman with
 sky-high cholesterol, or a 65 year-old white man with only moderately high cholesterol? But with causal research designs, we generally have a well developed understanding of exactly what we’re measuring and how we’re measuring it, which makes it possible to think critically about the external validity of our conclusions.</p>
-</div>
-<div class="section" id="Prediction-Based-on-Supervised-Machine-Learning">
+</section>
+<section id="Prediction-Based-on-Supervised-Machine-Learning">
 <h3>Prediction Based on Supervised Machine Learning<a class="headerlink" href="#Prediction-Based-on-Supervised-Machine-Learning" title="Permalink to this headline">¶</a></h3>
 <p>In this class, we’ll treat all supervised machine learning (SML) models as tools for “prediction”, since in essence all a supervised machine learning tool is designed to do is to <em>predict</em> what the agent that labeled the SML’s training data would do when given unlabeled data. For example, what a SML model that is trained using mammogram scans and diagnoses provided by human radiologists if fundamentally trying to do is guess, when given a new mammogram scan, what a human radiologist would label
 that data. (Note: there are some machine learning approaches – like reinforcement learning – that don’t fit this model, but those are currently pretty rare in data science applications.)</p>
@@ -144,14 +147,18 @@ new place, it can be hard to predict model performance.</p>
 <p>But again, because we don’t know how most SML models work, it can be hard to predict how they may be manipulated.</p>
 <p><strong>Uncertainty</strong></p>
 <p>Finally, most SML approaches do a poor job of measuring the undercertainty of their predictions. You split your data, train your model, and evaluate how it performs on your test data. But how sensitive is that performance to the split of the data you used? If you split your data again, would your predictions change dramatically?</p>
-</div>
-</div>
-<div class="section" id="Conclusion">
+</section>
+</section>
+<section id="Conclusion">
 <h2>Conclusion<a class="headerlink" href="#Conclusion" title="Permalink to this headline">¶</a></h2>
 <p>This has been a quick tour of the taxonomy of questions we’ll be examining in this class, and some of the issues associated with each. I know that it introduces a <em>lot</em> of material. Please do your best to wrestle with what is provided here, and read this over a few times. It will help contextualize everything we do moving forward. At the same time, however, know that we’ll return to all of the topics introduced here in much more detail later, so don’t worry if you don’t feel like you’ve fully
 internalized everything this covers.</p>
-</div>
-</div>
+</section>
+<section id="What-to-Read-Next">
+<h2>What to Read Next<a class="headerlink" href="#What-to-Read-Next" title="Permalink to this headline">¶</a></h2>
+<p>If you’re in my class we’ll get to this next, but if you’re reading on your own, the next reading in this sequence is <a class="reference internal" href="moving_from_problems_to_questions.html"><span class="doc">Moving from Problems to Questions</span></a>!</p>
+</section>
+</section>
 
 
           </div>
@@ -181,11 +188,13 @@ internalized everything this covers.</p>
 <li class="toctree-l2"><a class="reference internal" href="#Causal-Questions">Causal Questions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Prediction-/-Extrapolation-Questions">Prediction / Extrapolation Questions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#What-to-Read-Next">What to Read Next</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="moving_from_problems_to_questions.html">From Problems to Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="descriptive_questions.html">Discretion and Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ethical_ml_recommendations.html">Ethical Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_to_stakeholders.html">Writing for Lay Audiences</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Causal Inference</span></p>
 <ul>
@@ -235,7 +244,7 @@ internalized everything this covers.</p>
       &copy;2019, Nick Eubank.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
