@@ -11,6 +11,17 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
+    "> A Problem Well Stated is a Problem Half Solved\n",
+    "\n",
+    "Charles Kettering\n",
+    "Head of Research at General Motors\n",
+    "1920 to 1947"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "As a data scientist, it will probably be the case that the people you work with will not come to you with well-formed research questions they want investigated. Instead, it is much more likely they will come to you with a problem they are facing, and in some cases a poorly formed idea of how they think you can solve their problem using data science (a solution that will almost certain invoke the magic of \"machine learning\"). \n",
     "\n",
     "When this happens, it is your job to do two things: \n",
