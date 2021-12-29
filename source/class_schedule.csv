@@ -1,27 +1,26 @@
 ﻿Date,Topic,Do Before Class,In-Class Exercise
 "Thurs, Jan 6",Course Overview,,"- `Welcome! Slides Part 1 <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/10_FirstClass/Eubank_UDS_FirstClass_Part1_handout.pdf>`_
 - `Welcome! Slides Part 2 <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/10_FirstClass/Eubank_UDS_FirstClass_Part2_handout.pdf>`_"
-"Tues, Jan 11",CI: Potential Outcomes Framework,"- Read Angrist and Piscke (MM), Pages xi - 30
-- Read, sign, submit syllabus on gradescope. 
+"Tues, Jan 11",CI: Potential Outcomes Framework,"- Read, sign, submit syllabus on gradescope. 
 - `Submit substantive interest survey <https://forms.gle/cpr9SB4d7unXRx3j6>`_
+- Read Angrist and Piscke (MM), Pages xi - 30
+- `Potential Outcomes <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Fresh_Potential_Outcomes.pdf>`_
 - Submit Reading Reflections on Gradescope.","- `Potential Outcome Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Eubank_UDS_PotentialOutcomes_handout.pdf>`_
 - `Potential Outcomes Exercise <exercises/exercise_potential_outcomes1.ipynb>`_"
-"Thurs, Jan 13",CI: Potential Outcomes Framework,"- `Potential Outcomes <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Fresh_Potential_Outcomes.pdf>`_
-Optional (Alternative presentation, slightly different notation):
-
-- Imbens and Rubin (CI), Chpt 1.",`Link <exercises/exercise_counterfactuals.ipynb>`_
+"Thurs, Jan 13",CI: Potential Outcomes Framework,,`Link <exercises/exercise_counterfactuals.ipynb>`_
 "Tues, Jan 18",CI: AB Testing / Experiments,"- Angrist and Piscke (MHE) Part 1 (pages 3-24)
 - Kennedy (GtE), pp. 18-21, Notes for 2.8
 - Kennedy (GtE), pp. 241-244, Notes Optional
 - Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3) 
 Optional:
 
-- Wooldridge, Section 15.2","`- Thinking about AB Testing Discussion
-- Link <exercises/exercise_abtesting.ipynb>`_"
+- Wooldridge, Section 15.2","`- Link <exercises/exercise_abtesting.ipynb>`_
+- Thinking about AB Testing Discussion"
 "Thurs, Jan 20","CI: AB Testing / Experiments
 
 - Limitations of Experiments and ATE
-- Internal v. External Validity","- `Internal versus External Validity <internal_v_external_validity.ipynb>`_
+- Internal v. External Validity
+- Stopping Early","- `Internal versus External Validity <internal_v_external_validity.ipynb>`_
 - `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
 - `A/B Testing and Stopping Early <https://medium.com/airbnb-engineering/experiments-at-airbnb-e2db3abf39e7>`_
 - `On Correctly Stopping A/B Tests Early <https://netflixtechblog.com/improving-experimentation-efficiency-at-netflix-with-meta-analysis-and-optimal-stopping-d8ec290ae5be>`_
@@ -29,21 +28,21 @@ Optional:
 - Optional: `Discussion in part About Experiments in Advertising <https://overcast.fm/+QLduPjO1I>`_",`Link <exercises/exercise_resume.ipynb>`_
 "Tues, Jan 25","CI: AB Testing / Experiments
 
-- SUTVA
-- Compliance / ITT / Etc.","- `Evaluating Studies <evaluating_real_studies.ipynb>`_
-- Angrist and Pischke (MM), Chapter 3 (pp 98-123)
+- Evaluating studies
+- Testing in industry
+- SUTVA","- `Evaluating Studies <evaluating_real_studies.ipynb>`_
 - Imbens and Rubin (CI), Section 1.6 (SUTVA, p. 10-13)
+- Kohavi, Tang and Xu, Intro - Chpt 4, 22
 
 (Note that Imben & Rubin potential outcomes notation is a little different -- just skip notational parts if needed)","- `Evaluating Studies <exercises/exercise_evaluating_studies.ipynb>`_
 - `Redo HW <exercises/exercise_potential_outcomes2.ipynb>`_"
 "Thurs, Jan 27","CI: AB Testing / Experiments
 
-- Experiments with Spillovers (Networks)
-- Power Calculations","- Freedman (SMaCI), Chapter 3
-- `Power Calculations <https://emj.bmj.com/content/emermed/20/5/453.full.pdf>`_
-- `Bias in A/B Testing <https://medium.com/airbnb-engineering/selection-bias-in-online-experimentation-c3d67795cceb>`_",
-"Tues, Feb 1",CI: Ghost Map,,"- `Link 1 <exercises/exercise_ghostmap_1.ipynb>`_
-- `Link 2 <exercises/exercise_ghostmap_2.ipynb>`_"
+- Compliance","- Kohavi, Tang and Xu, Chpts 5, 19
+- Angrist and Pischke (MM), Chapter 3 (pp 98-123)",
+"Tues, Feb 1",CI: AB Testing / Experiments,"- `Bias in A/B Testing <https://medium.com/airbnb-engineering/selection-bias-in-online-experimentation-c3d67795cceb>`_
+- Kohavi, Tang and Xu, Chpt 3
+- `Power Calculations <https://emj.bmj.com/content/emermed/20/5/453.full.pdf>`_",Experiments recap
 "Thurs, Feb 3",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). 
 - `Bias in Research <https://www.youtube.com/watch?v=42QuXLucH3Q>`_
 ",`Link <exercises/exercise_regressions_incomeineq.ipynb>`_
@@ -62,25 +61,23 @@ Optional:
 *Watch the video above from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercises <exercises/exercise_matching.ipynb>`_
 "Tues, Feb 15",- CI: Difference-in-Differences,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
 - `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
-"Thurs, Feb 17","- CI: A/B Testing in Industry
-- Backwards Design","- Kohavi, Tang and Xu, Chapters 2, 5, 22
-- `Backwards Design <backwards_design.ipynb>`_",
-"Tues, Feb 22","- Regression Discontinuity
+"Thurs, Feb 17","- Regression Discontinuity
 - Two Stage Least Squares","- Angrist and Pischke (MM), Chapter 3, Sections 3.3 - End
 - Morgan and Winship, Chapter 11
 - `RDD at Coursera <https://medium.com/coursera-engineering/regression-discontinuity-understanding-the-benefit-of-subtitles-on-coursera-dd82bb25a0f1>`_",
+"Tues, Feb 22",Questions?,,
 "Thurs, Feb 24",**MIDTERM**,**MIDTERM**,
-"Tues, Mar 1",- Workflow Management,"- `DS Workflow <https://www.practicaldatascience.org/html/workflow.html>`_
-- `A Model Code Review <https://www.practicaldatascience.org/html/pr_review.html>`_
-- **Backwards Design Due**",
-"Thurs, Mar 3",Taxonomy of Questions,- `Taxonomy of Questions <taxonomy_of_questions.ipynb>`_,
-"Tues, Mar 8",**NO CLASS**,Pseudo-Spring Break,
-"Thurs, Mar 10",**NO CLASS**,Pseudo-Spring Break,
-"Tues, Mar 15",`Types of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_,Answering Questions,"- `Moving from Problems to Questions <moving_from_problems_to_questions>`_
+"Tues, Mar 1",- Backwards Design,- `Backwards Design <backwards_design.ipynb>`_,
+"Thurs, Mar 3",Answering Questions,"- `Moving from Problems to Questions <moving_from_problems_to_questions>`_
 - `Why It's Important To Get Your Question Right <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_
 - `Most ML Doesn't Make Money <https://www.wired.com/story/companies-rushing-use-ai-few-see-payoff/>`_
-"
-"Thurs, Mar 17",,,
+",
+"Tues, Mar 8",**NO CLASS**,Pseudo-Spring Break,
+"Thurs, Mar 10",**NO CLASS**,Pseudo-Spring Break,
+"Tues, Mar 15",Taxonomy of Questions,- `Taxonomy of Questions <taxonomy_of_questions.ipynb>`_,`Types of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
+"Thurs, Mar 17",- Workflow Management,"- `DS Workflow <https://www.practicaldatascience.org/html/workflow.html>`_
+- `A Model Code Review <https://www.practicaldatascience.org/html/pr_review.html>`_
+- **Backwards Design Due**",
 "Tues, Mar 22",Descriptive Questions,"- `Discretion in Descriptive Analyses <descriptive_questions.ipynb>`_
 - `Positive versus Normative Questions <https://www.youtube.com/watch?v=YtX6SGw7E3c>`_",`Link <exercises/exercise_descriptive.ipynb>`_
 "Thurs, Mar 24",Prediction: ML Bias," **Examples of AI Bias:**

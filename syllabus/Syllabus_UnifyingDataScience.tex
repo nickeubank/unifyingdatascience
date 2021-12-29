@@ -76,12 +76,12 @@
 	Nicholas Eubank \\
 	 Assistant Research Professor\\
 	 Zoom, \url{https://duke.zoom.us/my/nickeubank} \\
-	 Office Hours: Thursday 9:00-10:00
+	 Office Hours: Friday 1:30-2:30
      \vspace*{0.1cm}
 \end{minipage}
 \begin{minipage}[t]{.5\textwidth}
 	\begin{flushright}  IDS 701 \\
-	Spring 2021\\
+	Spring 2022\\
 	Tuesday / Thursday 1:45-3:00 
     \vspace*{0.1cm}
 \end{flushright}
@@ -107,13 +107,13 @@
 
 \section{Course Description}
 
-The aim of the course is three-fold. 
-
 The first portion of the course will provide an application-focused introduction to *causal inference*, the art and science of using statistical data to make causal statements about the world. Our approach will be rooted in the potential outcomes framework, and will cover a range of methods of statistical inference including randomized experiments, pre-post analysis, differences-in-differences, and instrumental variables. In addition, we will also discuss concepts like the distinction between internal and external validity, and the limitations of estimating Average Treatment Effects. 
 
-In the second portion of the course, we will then pivot to developing a conceptual framework for understanding the relationship between the many tools that are currently taught under the "data science" umbrella. This course takes the view that data science is fundamentally about answering questions with data, and so is organized around helping students identify different classes of questions (descriptive, causal, and predictive). Over the course of the semester, we will explore each of these types of questions in turn, learning which tools are appropriate for each, and what what pitfalls are common to efforts to answer each type of question.
+In the second portion of the course, we will turn to the fundamental task of the data scientist: executing a full data science project from conceptualization through planning and execution. In particular, we will introduce a question-first, backwards design framework for systematically designing a data science project. Through exercises, students will practice each step of this approach, from working with stakeholders to properly articulate the problem they are seeking to address, to picking a question (which, if answered, will help the stakeholder solve their problem), selecting the appropriate methodological approach to answering that question, and developing a concrete strategy for generating an answer.
 
-Finally, over the semester students will conduct a complete data science project themselves. Data science is a fundamentally applied field, and so while it is important students have the conceptual framework described above to make sense of the world of data science, there is no substitute for learning to put these principles into action through practice. These projects will be developed incrementally over the course of the semester with instructor guidance. By the end of the semester, students will have picked a topic area, developed a (tractable) question, decided what an answer to that question would actually look like, developed a work plan for generating that answer, and executed and presented their project, and then iterated the project based on feedback from their initial presentation. For MIDS students, this will serve as a "capstone-project with training wheels" to prepare students for their second-year Capstone projects with external partners. And this project should provide all students with a portfolio piece they can present to potential future employers. 
+In addition to completing a number of exercises related to project design, over the semester students will conduct a complete data science project themselves. Data science is a fundamentally applied field, and there is no substitute for learning to put these project design principles into action through practice. These projects will be developed incrementally over the course of the semester with instructor guidance. By the end of the semester, students will have picked a topic area, developed a (tractable) question, decided what an answer to that question would actually look like, developed a work plan for generating that answer, and executed and presented their project, and then iterated the project based on feedback from their initial presentation. For MIDS students, this will serve as a "capstone-project with training wheels" to prepare students for their second-year Capstone projects with external partners. And this project should provide all students with a portfolio piece they can present to potential future employers. 
+
+Throughout the course, we will also be consistently returning to a few themes, chief among them the importance of developing a skeptical mindset. This is a core data science skill, but one that students do not always have the opportunity to practice. In this course, we will discuss *and practice* approaching our data, our code, our statistical models, our problem statements, and the work of others from a constructive but skeptical perspective.
 
 \subsection{Pre-Requisites for Non-MIDS Students}
 
@@ -125,10 +125,38 @@ This course will also assume students are comfortable manipulating real-world da
 
 Finally, students will also be expected to be comfortable collaborating using git and github. If you meet the other requirements for this course but are not familiar with git and github, this is a skill you should be able to pickup on your own in advance of the course without too much difficulty. You can read more about \href{https://www.practicaldatascience.org/html/git_and_github.html}{git and github here}. The \href{https://library.duke.edu/data/}{Duke Center for Data and Visualization Science} also hosts git and github workshops for Duke students.
 
+\section{The Big Ideas: Developing and Answering Questions}
 
-\section{Types of Questions: The Big Ideas}
+A core idea of this course is that converting your task into a question should be both the first step of your work, and perhaps the most important. The question you seek to answer is what motivates everything you do with your data. And if you haven't clearly defined the question you're seeking to answer, I can absolutely guarantee that when you turn to your data, you will find yourself unsure of what to look at, and you will not be able to use your time efficiently.
 
-The instructional material for this course will be organized around a three-fold taxonomy of questions one may seek to answer as a data scientist: Descriptive Questions, Causal Questions, and Predictive Questions.
+With that in mind, in this course we will focus on using \emph{backwards design} to develop your data science projects, in which you:
+
+\begin{itemize}
+	\item begin by identifying a topic area of interest (if you're a researcher) or a problem to be solved (if you're of a more applied mindset),
+	\item decide what question, if answered, would either improve your understanding of the topic that motivates you (if you're a researcher) or allow you to solve the problem you identified (if you're in an applied setting),
+	\item decide what an answer to your question would look like in concrete terms (what figure, regression, or machine learning output would constitute an ``answer'' to your question),
+	\item figure out what data you need to generate that answer, and finally
+	\item figure out where you will find the data you need and merge / manipulate it to allow you to generate your answer.
+\end{itemize}
+
+\textbf{But wait, I thought the job of a data scientist was to make recommendations, not answer questions?}
+
+If you are working in the public policy or private sector realms, making a recommendation is often the last step of your data science project. However, I will posit that the key to making a good recommendation is to ask yourself:
+
+\emph{What question, if answered, would make deciding what to do next easy?}
+
+Suppose, for example, you are hired by a company that gives you its customer data and says ``we want you to use machine learning to help us target customers.'' That certainly doesn't sound like a question.
+
+But if you think about it for a little while, you come to realize that there is a question implicit in the task you've been given: \emph{Which of our customers are most likely to respond positively to targeting?} If you can answer that question, then making your recommendation (``target the customers I've identified'') is almost trivial.
+
+If this seems strange, don't worry: question generation is something we'll practice repeatedly in this class.
+
+
+\section{The Big Ideas: Types of Questions}
+
+Once a question has been clearly articulated, it is the job of the data scientist to develop a practical strategy for generating an answer to that question that is useful for the stakeholder. Key to generating a \emph{useful} answer to a question is understanding (a) the \emph{type} of question that's being asked, (b) the method that is most appropriate for answering the question, and (c) the considerations that go into ensuring one generates an answer that is relevant to the stakeholder.
+
+To aid in this, we will use a three-fold taxonomy of questions: Descriptive Questions, Causal Questions, and Predictive Questions.
 
 \subsection{Descriptive Questions}
 
@@ -164,42 +192,18 @@ In unstable contexts, by contrast, supervised machine learning algorithms strugg
 
 Finally, we will also discuss what makes a context stable or unstable, which is not always obvious. One major problem with the use of machine learning algorithms, for example, is that they sometimes fail not because the context in which agents operate is unstable, but because the subjects of machine learning algorithms (i.e. people) may change their behavior once they are aware that they are interacting with algorithms (so called ``adversarial users''), a phenomenon that comes up not only in information security, but also when algorithms are used to grade elementary student essays.
 
-\section{Developing and Answering Questions: The Big Ideas}
-
-A core idea of this course is that converting your task into a question should be both the first step of your work, and perhaps the most important. The question you seek to answer is what motivates everything you do with your data. And if you haven't clearly defined the question you're seeking to answer, I can absolutely guarantee that when you turn to your data, you will find yourself unsure of what to look at, and you will not be able to use your time efficiently.
-
-With that in mind, in this course we will focus on using \emph{backwards design} to develop your data science projects, in which you:
-
-\begin{itemize}
-	\item begin by identifying a topic area of interest (if you're a researcher) or a problem to be solved (if you're of a more applied mindset),
-	\item decide what question, if answered, would either improve your understanding of the topic that motivates you (if you're a researcher) or allow you to solve the problem you identified (if you're in an applied setting),
-	\item decide what an answer to your question would look like in concrete terms (what figure, regression, or machine learning output would constitute an ``answer'' to your question),
-	\item figure out what data you need to generate that answer, and finally
-	\item figure out where you will find the data you need and merge / manipulate it to allow you to generate your answer.
-\end{itemize}
-
-\textbf{But wait, I thought the job of a data scientist was to make recommendations, not answer questions?}
-
-If you are working in the public policy or private sector realms, making a recommendation is often the last step of your data science project. However, I will posit that the key to making a good recommendation is to ask yourself:
-
-\emph{What question, if answered, would make deciding what to do next easy?}
-
-Suppose, for example, you are hired by a company that gives you its customer data and says ``we want you to use machine learning to help us target customers.'' That certainly doesn't sound like a question.
-
-But if you think about it for a little while, you come to realize that there is a question implicit in the task you've been given: \emph{Which of our customers are most likely to respond positively to targeting?} If you can answer that question, then making your recommendation (``target the customers I've identified'') is almost trivial.
-
-If this seems strange, don't worry: question generation is something we'll practice repeatedly in this class.
-
 %--------------------------------------------COURSE ASSIGNMENTS------------------------------------------------%
 \section{Assignments \& Grading}
 
 \subsection{Participation (20\% of Grade)}
 
-A major component of good participation is good \emph{preparation}. Because we will often use class time for exercises, it is absolutely critical that students do their assigned readings before \emph{every} class. Students who do not work through the instructional materials they have been assigned before class will not only get very little out of in-class exercises designed to reinforce the assigned materials, but they will also undermine the learning of the students they are asked to work with. With that in mind, students who do not complete their assigned readings before every class should expected to see this reflected in their participation grades.
+A major component of good participation is good \emph{preparation}. Because we will often use class time for exercises, it is absolutely critical that students do their assigned readings before \emph{every} class. Students who do not work through the instructional materials they have been assigned before class will not only get very little out of in-class exercises designed to reinforce the assigned materials, but they will also undermine the learning of the students they are asked to work with. With that in mind, students who do not complete their assigned readings before every class should be expected to see this reflected in their participation grades.
+
+\textbf{Cold calling:} In the interest of creating an interactive learning experience, I will often ``cold call'' students with questions about the material we are discussing. To be clear my goal with cold calling is not to ``catch'' students who haven't done the reading, but rather to ensure that everyone is getting an opportunity to participate in the discussion. However, students who regularly demonstrating \emph{unfamiliarity with readings} can expect to receive lower participation scores (not having the right answer will not get you a low score, to be clear! The material in this course is difficult, so I don't always expect everyone to have the right answers on the tip of their time, but it's pretty easy for an instructor to recognize the difference between somebody who is really wrestling with the material and a student who just hasn't done the reading). 
 
 Participation will be graded as follows:
 
-\textbf{A range.}  You are fully \emph{and consistently} engaged in class discussion and exercises.  You both listen and contribute actively.  You are well prepared for class.  Having done more than merely read the material, you have spent time thinking \emph{carefully and deeply} about the material's relationship to other materials and ideas presented in previous classes. You are not only able to answer questions about the material, but also come to class with thoughtful questions.  When working in teams, you work \emph{with} your partner. If your partner is struggling with an exercise, you help them understand the material rather than just completing the material on your own. If you are struggling with material, you ask for help (both from the instructor and your fellow students) and do not simply lean on your partner to complete the exercise. \\
+\textbf{A range.}  You are fully \emph{and consistently} engaged in class discussion and exercises.  You both listen and contribute actively.  You are well-prepared for class.  Having done more than merely read the material, you have spent time thinking \emph{carefully and deeply} about the material's relationship to other materials and ideas presented in previous classes. You are not only able to answer questions about the material, but also come to class with thoughtful questions.  When working in teams, you work \emph{with} your partner. If your partner is struggling with an exercise, you help them understand the material rather than just completing the material on your own. If you are struggling with material, you ask for help (both from the instructor and your fellow students) and do not simply lean on your partner to complete the exercise. \\
 
 \textbf{B range.}  You are engaged in class discussion and exercises.  You listen and contribute regularly.  You come well-prepared to class having read the material and your contributions show your familiarity, but your level of engagement lacks the depth accumulated through extra time spent thinking about the material.  When working in teams, you work \emph{with} your partner when they have a similar level of understanding, but do not always invest in helping a struggling partner to understand the material. You often ask for help when you are struggling, but other times you let your partner just complete the exercise. \\
 
@@ -217,9 +221,9 @@ At the completion of the causal inference portion of our course we will have a m
 
 Over the course of the semester, students will be asked to complete a number of small assignments as homework. These assignments will, in total, be worth 20\% of student grades.
 
-\subsection{Reading Quizzes (20\% of Grade)}
+\subsection{Reading Reflections (20\% of Grade)}
 
-Unfortunately, experience suggests that short, closed-book quizzes given regularly at the start of class are necessary to ensure students stay on top of their readings. Your scores on these reading quizzes will form 20\% of your course grade.
+Both to provide the instructor and teaching assistants with information about what topics students have found difficult, and also to ensure that students are doing the required readings (a necessity for a flipped classroom designed to be effective), students will be required to submit answers to a set of prompts about the required readings by 9am on the morning of each class.
 
 \subsection{Team Data Science Project (20\% of Grade)}
 
@@ -229,6 +233,7 @@ Over the course of the semester, you and your team will develop a full data scie
 
 
 \textbf{Grading}
+
 All assignments will be given a numerical score on a 0-1 scale.  These scores will then be combined and weighted to form you final course grade.
 
 \textbf{Late Assignment}
@@ -237,7 +242,7 @@ All students get one ``freebie'' -- they may submit \emph{one} assignment \emph{
 
 Freebie's may be used for team assignments, but only if all team members have a freebie to use, and all agree to use their freebie for the team assignment.
 
-After that, because of the difficulty associated with managing late assignment in large classes, all late assignments will be penalized 20\% per late day. Exceptions may be made for students dealing with exceptional circumstances (illness for themselves or family, etc.) -- if you are dealing with a difficult situation, please feel free to contact me to discuss your situation.
+After that, because of the difficulty associated with managing late assignment in large classes, all late assignments will be penalized 10\% per school day the assignment is late, up to a maximum penalty of 50\%. The final deadline for accepting assignments that are more than five school days late is at the discretion of the instructor, and may vary by assignment. Exceptions may be made for students dealing with exceptional circumstances (illness for themselves or family, etc.) -- if you are dealing with a difficult situation, please feel free to contact me to discuss your situation.
 
 % \section{Texts}
 %

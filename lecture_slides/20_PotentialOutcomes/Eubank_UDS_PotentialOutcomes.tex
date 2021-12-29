@@ -70,22 +70,22 @@ What we \emph{want} is for $\widehat{ATE} = ATE$. When is that true?
   \widehat{ATE} &=&E(Y_{T=1}|D=1) - E(Y_{T=0}|D=0) \nonumber \\
                 \pause &=&E(Y_{T=1}|D=1) - E(Y_{T=0}|D=0) + \nonumber \\
                 &&E(Y_{T=0}|D=1) - E(Y_{T=0}|D=1)  \nonumber \\
-               \pause &=& \underbrace{E(Y_{T=1}|D=1) - E(Y_{T=0}|D=1)}_{\text{Avg Treatment on the Treated}} + \nonumber \\ &&\underbrace{E(Y_{T=0}|D=1) - E(Y_{T=0}|D=0)}_{\text{Baseline Difference}} \nonumber
+               \pause &=& \underbrace{E(Y_{T=1}|D=1) - E(Y_{T=0}|D=1)}_{\text{Avg Treatment on the Treated}} + \nonumber \\ &&\underbrace{E(Y_{T=0}|D=1) - E(Y_{T=0}|D=0)}_{\text{Baseline Difference Selection}} \nonumber
   \end{eqnarray}
 \end{frame}
 
 \begin{frame}[c]{Potential Outcomes}
-$\underbrace{E(Y_{T=1}|D=1) - E(Y_{T=0}|D=1)}_{\text{Treatment on the Treated}} + \underbrace{E(Y_{T=0}|D=1) - E(Y_{T=0}|D=0)}_{\text{Baseline Difference}}$ \\
+$\underbrace{E(Y_{T=1}|D=1) - E(Y_{T=0}|D=1)}_{\text{Treatment on the Treated}} + \underbrace{E(Y_{T=0}|D=1) - E(Y_{T=0}|D=0)}_{\text{Baseline Difference Selection}}$ \\
 \vspace*{1cm}
 \emph{Baseline Difference:} Absent treatment, would those who actually got treatment have turned out the same as those who hadn't received treatment.
 \end{frame}
 
 \begin{frame}[c]{Potential Outcomes Framework}
-$\underbrace{E(Y_{T=1}|D=1) - E(Y_{T=0}|D=1)}_{\text{Avg Treatment on the Treated}} + \underbrace{E(Y_{T=0}|D=1) - E(Y_{T=0}|D=0)}_{\text{Baseline Differences}}$ \\
+$\underbrace{E(Y_{T=1}|D=1) - E(Y_{T=0}|D=1)}_{\text{Avg Treatment on the Treated}} + \underbrace{E(Y_{T=0}|D=1) - E(Y_{T=0}|D=0)}_{\text{Baseline Difference Selection}}$ \\
 \vspace*{1cm}
 \emph{Treatment on the Treated:} What we measure. This is equal to Average Treatment effect iff
 \begin{eqnarray}
-E(Y_{T=1}|D=1) - E(Y_{T=0}|D=1) &=& E(Y_{T=1}|D=0) - E(Y_{T=0}|D=0)\nonumber
+E(Y_{T=1}|D=1) - E(Y_{T=0}|D=1) = E(Y_{T=1}|D=0) - E(Y_{T=0}|D=0)\nonumber
 \end{eqnarray}
 in which case 
 \begin{eqnarray}
@@ -98,7 +98,7 @@ In other words, $ATT = ATE$ if the response to treatment of people for whom $D=1
 What we estimate is equivalent to $ATE = E(Y_{T=1}) - E(Y_{T=0})$ if:
 
 \begin{enumerate}
-  \item No baseline difference (absent treatment, same outcomes)
+  \item No baseline difference selection (absent treatment, same outcomes)
   \item Same treatment response (no difference in how treated and untreated would respond if treated)
 \end{enumerate}
 $\Rightarrow$ Both groups to have \alert{same potential outcomes}
@@ -108,7 +108,7 @@ $\Rightarrow$ Both groups to have \alert{same potential outcomes}
 Suppose we measured the effect of an exercise program on health by just comparing health of people in an exercise class with health of people not in an exercise class. \\
 How might these two things have been violated:
 \begin{enumerate}
-  \item No baseline difference
+  \item No baseline difference selection
   \item Same treatment response
 \end{enumerate}
 \end{frame}
@@ -119,7 +119,7 @@ Suppose we measured the effect of advertising on sales by correlating sales with
 
 How might these two things have been violated:
   \begin{enumerate}
-    \item No baseline difference
+    \item No baseline difference selection
     \item Same treatment response
   \end{enumerate}
 \end{frame}
