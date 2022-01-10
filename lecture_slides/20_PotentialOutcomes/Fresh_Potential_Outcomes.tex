@@ -211,7 +211,7 @@ Rearranging the first line to obtain the second line allows us to see that the f
 
 Let's start with that baseline difference selection bias term on the right. If -- and it is a big if -- it is the case that $E(Y_{0}|D=0) = E(Y_{0}|D=1)$ then the term at the end will be zero.
 
-So what is this baseline difference selection bias term? It's the difference in the outcome $Y$ for the treated group ($D=1$) and the untreated group ($D=1$) \emph{in a world where neither was treated (T=0).} Or, expressed more succinctly, it's the expected difference in our outcome in a world where we never did anything to anyone. So if our two groups ($D=1$ and $D=0$) would have looked the same in terms of $Y$ absent intervention, then that term is zero.
+So what is this baseline difference selection bias term? It's the difference in the outcome $Y$ for the treated group ($D=1$) and the untreated group ($D=0$) \emph{in a world where neither was treated (T=0).} Or, expressed more succinctly, it's the expected difference in our outcome in a world where we never did anything to anyone. So if our two groups ($D=1$ and $D=0$) would have looked the same in terms of $Y$ absent intervention, then that term is zero.
 
 Now let's look at ATT: $E(Y_{1}|D=1) - E(Y_{0}|D=1)$. Clearly, even if our baseline difference selection term is zero, that's not the same as our ATE ($E(Y_{1}) - E(Y_{0})$).
 
