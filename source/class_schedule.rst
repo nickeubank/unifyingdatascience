@@ -13,7 +13,7 @@ Office Hours:
 
 .. csv-table::
    :file: class_schedule.csv
-   :widths: 10, 32, 32, 5
+   :widths: 2, 15, 25, 9
    :header-rows: 1
 
 
