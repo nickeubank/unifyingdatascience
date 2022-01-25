@@ -62,7 +62,8 @@ Optional:
 
 *Watch the video above from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercise <exercises/exercise_matching.ipynb>`_
 "Tu, Feb 15",CI: Difference-in-Differences,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
-- `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
+- `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_
+- `Enfranchisement and Incarceration <https://www.cambridge.org/core/journals/american-political-science-review/article/enfranchisement-and-incarceration-after-the-1965-voting-rights-act/C68FA7BB8CA313BDD8D9A39BA666A21D>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
 "Th, Feb 17","CI: Odds and ends
 
 - Regression Discontinuity

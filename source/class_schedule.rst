@@ -6,7 +6,7 @@ Class: Tuesday / Thursday, 1:45-3pm
 Office Hours: 
 
 - Nick: Monday, 12:30-1:30pm, `https://duke.zoom.us/my/nickeubank <https://duke.zoom.us/my/nickeubank>`_
-- Xinyi: Wednesday 8-9 am, Friday 3-4 pm `https://duke.zoom.us/j/94030538509 <https://duke.zoom.us/j/94030538509>`_
+- Xinyi: Wednesday 8-9 am, Friday 4-5 pm `https://duke.zoom.us/j/94030538509 <https://duke.zoom.us/j/94030538509>`_
 - Yi: Monday & Tuesday 4-5 pm `https://duke.zoom.us/j/6948114114 <https://duke.zoom.us/j/6948114114>`_
 
 

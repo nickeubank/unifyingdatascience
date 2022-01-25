@@ -101,7 +101,7 @@
     "\n",
     "![ab_significance_over_time](images/ab_significance_over_time.png)\n",
     "\n",
-    "To be clear, that doesn't mean there *aren't* ways you can stop experiments early based on results -- see Johari, Pekelist, and Walsh's paper for ways to do so in a statistically sound sense -- but don't do it unless you really understand the statistics (even if your boss really wants to!)."
+    "To be clear, that doesn't mean there *aren't* ways you can stop experiments early based on results -- see [Johari, Pekelis, and Walsh](https://arxiv.org/abs/1512.04922)'s paper for ways to do so in a statistically sound sense -- but don't do it unless you really understand the statistics (even if your boss really wants to!)."
    ]
   }
  ],
