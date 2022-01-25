@@ -33,16 +33,14 @@ Optional:
 - Testing in industry
 - SUTVA","- `Evaluating Studies <evaluating_real_studies.ipynb>`_
 - Imbens and Rubin (CI), Section 1.6 (SUTVA, p. 10-13)
-- Kohavi, Tang and Xu, Intro - Chpt 4, 22
+- Kohavi, Tang and Xu, Chpt 1, 2, 3, 4, 22
 
-(Note that Imben & Rubin potential outcomes notation is a little different -- just skip notational parts if needed)","- `Evaluating Studies <exercises/exercise_evaluating_studies.ipynb>`_
-- `Redo HW <exercises/exercise_potential_outcomes2.ipynb>`_"
-"Th, Jan 27","CI: AB Testing / Experiments
+(Note that Imben & Rubin potential outcomes notation is a little different -- just skip notational parts if needed)",- `Evaluating Studies <exercises/exercise_evaluating_studies.ipynb>`_
+"Th, Jan 27",CI: AB Testing / Experiments,"- Kohavi, Tang and Xu, Chpts 1, 2, 3, 5, 19",
+"Tu, Feb 1","CI: AB Testing / Experiments
 
-- Compliance","- Kohavi, Tang and Xu, Chpts 5, 19
-- Angrist and Pischke (MM), Chapter 3 (pp 98-123)",
-"Tu, Feb 1",CI: AB Testing / Experiments,"- `Bias in A/B Testing <https://medium.com/airbnb-engineering/selection-bias-in-online-experimentation-c3d67795cceb>`_
-- Kohavi, Tang and Xu, Chpt 3
+- Compliance","- `Bias in A/B Testing <https://medium.com/airbnb-engineering/selection-bias-in-online-experimentation-c3d67795cceb>`_
+- Angrist and Pischke (MM), Chapter 3 (pp 98-123)
 - `Power Calculations <https://emj.bmj.com/content/emermed/20/5/453.full.pdf>`_",Experiments recap
 "Th, Feb 3",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). 
 - `Bias in Research <https://www.youtube.com/watch?v=42QuXLucH3Q>`_
