@@ -56,11 +56,8 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "# First, load pandas and an extension that\n",
-    "# applies Black formatting to all cells.\n",
-    "\n",
-    "%load_ext lab_black\n",
-    "import pandas as pd"
+    "# First, load pandas\n",
+    "import pandas as pd\n"
    ]
   },
   {
@@ -76,7 +73,7 @@
     "treat = pd.read_csv(\n",
     "    \"https://media.githubusercontent.com/media/nickeubank/\"\n",
     "    \"MIDS_Data/master/udacity_AB_testing/experiment_data.csv\"\n",
-    ")"
+    ")\n"
    ]
   },
   {
@@ -85,7 +82,7 @@
    "source": [
     "### Exercise 2\n",
     "\n",
-    "Explore the data. Can you identifying the unit of observation of the data (e.g. what is represented by each row)? "
+    "Explore the data. Can you identify the unit of observation of the data (e.g. what is represented by each row)?"
    ]
   },
   {
@@ -94,7 +91,8 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Each row is a single day of behavior for each treatment arm."
+    "# Each row is the behavior of all of the users who arrived at the website\n",
+    "# on a given day and were assigned to a given treatment arm.\n"
    ]
   },
   {
@@ -117,7 +115,7 @@
     "- Pageviews: number of unique users visiting homepage\n",
     "- Clicks: number of those users clicking \"Start Free Trial\"\n",
     "- Enrollments: Number of people enrolling in trial\n",
-    "- Payments: Number of people who eventually pay for the service"
+    "- Payments: Number of people who eventually pay for the service. Note the `payment` column reports payments for the users who first visited the site on the reported date, not payments occurring on the reported date."
    ]
   },
   {
@@ -222,7 +220,7 @@
     "control[\"treatment\"] = 0\n",
     "treat[\"treatment\"] = 1\n",
     "users = pd.concat([control, treat])\n",
-    "users.head()"
+    "users.head()\n"
    ]
   },
   {
@@ -324,7 +322,7 @@
     }
    ],
    "source": [
-    "users.tail()"
+    "users.tail()\n"
    ]
   },
   {
@@ -334,7 +332,7 @@
    "outputs": [],
    "source": [
     "# Make sure it worked well!\n",
-    "assert len(users) == len(control) + len(treat)"
+    "assert len(users) == len(control) + len(treat)\n"
    ]
   },
   {
@@ -376,7 +374,7 @@
     "\n",
     "# Again, dividing by clicks is optional.\n",
     "\n",
-    "users[\"payments_per_click\"] = users[\"Payments\"] / users[\"Clicks\"]"
+    "users[\"payments_per_click\"] = users[\"Payments\"] / users[\"Clicks\"]\n"
    ]
   },
   {
@@ -407,18 +405,17 @@
    "metadata": {},
    "outputs": [
     {
-     "data": {
-      "text/plain": [
-       "9315.135135135135"
-      ]
-     },
-     "execution_count": 8,
-     "metadata": {},
-     "output_type": "execute_result"
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Avg num pageviews for treated users per day was: 9315.1\n"
+     ]
     }
    ],
    "source": [
-    "users.loc[users[\"treatment\"] == 1, \"Pageviews\"].mean()"
+    "print(\n",
+    "    f\"Avg num pageviews for treated users per day was: {users.loc[users['treatment'] == 1, 'Pageviews'].mean():.1f}\"\n",
+    ")\n"
    ]
   },
   {
@@ -427,18 +424,17 @@
    "metadata": {},
    "outputs": [
     {
-     "data": {
-      "text/plain": [
-       "9339.0"
-      ]
-     },
-     "execution_count": 9,
-     "metadata": {},
-     "output_type": "execute_result"
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Avg num pageviews for untreated users per day was: 9339.0\n"
+     ]
     }
    ],
    "source": [
-    "users.loc[users[\"treatment\"] == 0, \"Pageviews\"].mean()"
+    "print(\n",
+    "    f\"Avg num pageviews for untreated users per day was: {users.loc[users['treatment'] == 0, 'Pageviews'].mean():.1f}\"\n",
+    ")\n"
    ]
   },
   {
@@ -480,7 +476,7 @@
     "ttest_ind(\n",
     "    users.loc[users[\"treatment\"] == 1, \"Pageviews\"].values,\n",
     "    users.loc[users[\"treatment\"] == 0, \"Pageviews\"].values,\n",
-    ")"
+    ")\n"
    ]
   },
   {
@@ -489,7 +485,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "# p-value of 0.8877 -- nope! Not statistically different at all."
+    "# p-value of 0.8877 -- nope! Not statistically different at all.\n"
    ]
   },
   {
@@ -507,7 +503,8 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Clicks. The experiment only changes what happens AFTER people click on \"free trial\", so clicks are \"pre-treatment\","
+    "# Clicks. The experiment only changes what happens\n",
+    "# AFTER people click on \"free trial\", so clicks are \"pre-treatment\",\n"
    ]
   },
   {
@@ -539,7 +536,7 @@
     "ttest_ind(\n",
     "    users.loc[users[\"treatment\"] == 1, \"Clicks\"].values,\n",
     "    users.loc[users[\"treatment\"] == 0, \"Clicks\"].values,\n",
-    ")"
+    ")\n"
    ]
   },
   {
@@ -548,7 +545,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Yup, good balance! Difference has a p-value of only 0.93!"
+    "# Yup, good balance! Difference has a p-value of only 0.93!\n"
    ]
   },
   {
@@ -576,7 +573,7 @@
     "# stats from the last two weeks of data.\n",
     "# So we drop them.\n",
     "\n",
-    "users = users[pd.notnull(users.Enrollments)]"
+    "users = users[pd.notnull(users.Enrollments)]\n"
    ]
   },
   {
@@ -616,7 +613,7 @@
     "    )\n",
     "    print(f\"a change of {((w_change - wo_change) / wo_change)*100:.2f}%\")\n",
     "    print(f\"p-value of difference is {pvalue:.3f}\")\n",
-    "    print(\"\\n\")"
+    "    print(\"\\n\")\n"
    ]
   },
   {
@@ -628,10 +625,11 @@
     "# So we do see a decrease in share of people who click trial,\n",
     "# enroll but then don't pay, and it's borderline significant\n",
     "# (has p-value < 0.1 if we had used a 1-tailed tests).\n",
+    "\n",
     "# But we don't see a significant decline in share of people who\n",
     "# click who end up enrolling after trial,\n",
     "# so the change was basically successful in only filtering out\n",
-    "# people who weren't really interested."
+    "# people who weren't really interested.\n"
    ]
   },
   {
@@ -665,10 +663,10 @@
        "  <th>Method:</th>              <td>Least Squares</td>   <th>  F-statistic:       </th> <td>  0.2903</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>              <td>Wed, 03 Feb 2021</td>  <th>  Prob (F-statistic):</th>  <td> 0.593</td> \n",
+       "  <th>Date:</th>              <td>Mon, 24 Jan 2022</td>  <th>  Prob (F-statistic):</th>  <td> 0.593</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                  <td>14:27:31</td>      <th>  Log-Likelihood:    </th> <td>  95.810</td>\n",
+       "  <th>Time:</th>                  <td>14:11:48</td>      <th>  Log-Likelihood:    </th> <td>  95.810</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>       <td>    46</td>       <th>  AIC:               </th> <td>  -187.6</td>\n",
@@ -717,8 +715,8 @@
        "Dep. Variable:     payments_per_click   R-squared:                       0.007\n",
        "Model:                            OLS   Adj. R-squared:                 -0.016\n",
        "Method:                 Least Squares   F-statistic:                    0.2903\n",
-       "Date:                Wed, 03 Feb 2021   Prob (F-statistic):              0.593\n",
-       "Time:                        14:27:31   Log-Likelihood:                 95.810\n",
+       "Date:                Mon, 24 Jan 2022   Prob (F-statistic):              0.593\n",
+       "Time:                        14:11:48   Log-Likelihood:                 95.810\n",
        "No. Observations:                  46   AIC:                            -187.6\n",
        "Df Residuals:                      44   BIC:                            -184.0\n",
        "Df Model:                           1                                         \n",
@@ -748,7 +746,7 @@
    "source": [
     "import statsmodels.formula.api as smf\n",
     "\n",
-    "smf.ols(\"payments_per_click ~ treatment\", users).fit().summary()"
+    "smf.ols(\"payments_per_click ~ treatment\", users).fit().summary()\n"
    ]
   },
   {
@@ -780,10 +778,10 @@
        "  <th>Method:</th>              <td>Least Squares</td>   <th>  F-statistic:       </th> <td>   2.770</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>              <td>Wed, 03 Feb 2021</td>  <th>  Prob (F-statistic):</th>  <td>0.00991</td>\n",
+       "  <th>Date:</th>              <td>Mon, 24 Jan 2022</td>  <th>  Prob (F-statistic):</th>  <td>0.00991</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                  <td>14:27:31</td>      <th>  Log-Likelihood:    </th> <td>  126.94</td>\n",
+       "  <th>Time:</th>                  <td>14:11:48</td>      <th>  Log-Likelihood:    </th> <td>  126.94</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>       <td>    46</td>       <th>  AIC:               </th> <td>  -205.9</td>\n",
@@ -898,8 +896,8 @@
        "Dep. Variable:     payments_per_click   R-squared:                       0.743\n",
        "Model:                            OLS   Adj. R-squared:                  0.475\n",
        "Method:                 Least Squares   F-statistic:                     2.770\n",
-       "Date:                Wed, 03 Feb 2021   Prob (F-statistic):            0.00991\n",
-       "Time:                        14:27:31   Log-Likelihood:                 126.94\n",
+       "Date:                Mon, 24 Jan 2022   Prob (F-statistic):            0.00991\n",
+       "Time:                        14:11:48   Log-Likelihood:                 126.94\n",
        "No. Observations:                  46   AIC:                            -205.9\n",
        "Df Residuals:                      22   BIC:                            -162.0\n",
        "Df Model:                          23                                         \n",
@@ -951,18 +949,14 @@
    "source": [
     "import statsmodels.formula.api as smf\n",
     "\n",
-    "smf.ols(\"payments_per_click ~ treatment + C(Date)\", users).fit().summary()"
+    "smf.ols(\"payments_per_click ~ treatment + C(Date)\", users).fit().summary()\n"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "You should have found that your standard errors decreased by about 20\\% -- this is why, although just comparing means *works*, if you have additional variables you should add them as covariates in your analysis. Moreover, in other settings you may find this effect is even larger -- the date indicators we added to our data are perfectly balanced between treatment and control, so we aren't adding a lot of data to the model by adding them as variables. As we'll see in later exercises, adding variables like \"gender\" or \"age\" (which will never be perfectly balanced across treatment and control) will help even more. \n",
-    "\n",
-    "### Exercise 12\n",
-    "\n",
-    "Given your results, what would you tell Udacity about their trial?"
+    "You should have found that your standard errors decreased by about 20\\% -- this is why, although just comparing means *works*, if you have additional variables you should add them as covariates in your analysis. Moreover, in other settings you may find this effect is even larger -- the date indicators we added to our data are perfectly balanced between treatment and control, so we aren't adding a lot of data to the model by adding them as variables. As we'll see in later exercises, adding variables like \"gender\" or \"age\" (which will never be perfectly balanced across treatment and control) will help even more. \n"
    ]
   },
   {
@@ -971,10 +965,29 @@
    "metadata": {},
    "outputs": [],
    "source": [
+    "# Yup! my standard error moved from 0.009 to 0.007."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "\n",
+    "### Exercise 12\n",
+    "\n",
+    "Given your results, what would you tell Udacity about their trial?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [],
+   "source": [
     "# It seems like everything is going in the expected direction. However\n",
     "# before rolling out something that affects something as important\n",
     "# as on-boarding, I would run a longer trial to get a little greater\n",
-    "# statistical significance..."
+    "# statistical significance...\n"
    ]
   },
   {
@@ -990,16 +1003,16 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 21,
+   "execution_count": 22,
    "metadata": {},
    "outputs": [],
    "source": [
-    "users[\"day_of_week\"] = users.Date.str.split(\",\", expand=True)[0]"
+    "users[\"day_of_week\"] = users.Date.str.split(\",\", expand=True)[0]\n"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 22,
+   "execution_count": 23,
    "metadata": {},
    "outputs": [
     {
@@ -1017,10 +1030,10 @@
        "  <th>Method:</th>              <td>Least Squares</td>   <th>  F-statistic:       </th> <td>  0.8687</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>              <td>Wed, 03 Feb 2021</td>  <th>  Prob (F-statistic):</th>  <td> 0.540</td> \n",
+       "  <th>Date:</th>              <td>Mon, 24 Jan 2022</td>  <th>  Prob (F-statistic):</th>  <td> 0.540</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                  <td>14:27:31</td>      <th>  Log-Likelihood:    </th> <td>  99.073</td>\n",
+       "  <th>Time:</th>                  <td>14:11:48</td>      <th>  Log-Likelihood:    </th> <td>  99.073</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>       <td>    46</td>       <th>  AIC:               </th> <td>  -182.1</td>\n",
@@ -1087,8 +1100,8 @@
        "Dep. Variable:     payments_per_click   R-squared:                       0.138\n",
        "Model:                            OLS   Adj. R-squared:                 -0.021\n",
        "Method:                 Least Squares   F-statistic:                    0.8687\n",
-       "Date:                Wed, 03 Feb 2021   Prob (F-statistic):              0.540\n",
-       "Time:                        14:27:31   Log-Likelihood:                 99.073\n",
+       "Date:                Mon, 24 Jan 2022   Prob (F-statistic):              0.540\n",
+       "Time:                        14:11:48   Log-Likelihood:                 99.073\n",
        "No. Observations:                  46   AIC:                            -182.1\n",
        "Df Residuals:                      38   BIC:                            -167.5\n",
        "Df Model:                           7                                         \n",
@@ -1116,13 +1129,22 @@
        "\"\"\""
       ]
      },
-     "execution_count": 22,
+     "execution_count": 23,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "smf.ols(\"payments_per_click ~ treatment + C(day_of_week)\", users).fit().summary()"
+    "smf.ols(\"payments_per_click ~ treatment + C(day_of_week)\", users).fit().summary()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# But doesn't seem to have any effect on our standard errors."
    ]
   }
  ],
@@ -1142,7 +1164,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.7.8"
+   "version": "3.9.7"
   }
  },
  "nbformat": 4,
