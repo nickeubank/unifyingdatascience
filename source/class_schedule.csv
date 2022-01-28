@@ -36,16 +36,18 @@ Optional:
 - Kohavi, Tang and Xu, Chpt 1, 2, 3, 4, 22
 
 (Note that Imben & Rubin potential outcomes notation is a little different -- just skip notational parts if needed)",- `Evaluating Studies <exercises/exercise_evaluating_studies.ipynb>`_
-"Th, Jan 27",CI: AB Testing / Experiments,"- Kohavi, Tang and Xu, Chpts 1, 2, 3, 5, 19",
-"Tu, Feb 1","CI: AB Testing / Experiments
+"Th, Jan 27",CI: AB Testing / Experiments,"- Kohavi, Tang and Xu, Chpts 1, 2, 3, 5, 19, 22",
+"Tu, Feb 1",CI: AB Testing / Experiments,"- Kohavi, Tang and Xu, Chpts 1, 2, 3, 5, 19, 22",
+"Th, Feb 3","CI: AB Testing / Experiments
 
 - Compliance","- `Bias in A/B Testing <https://medium.com/airbnb-engineering/selection-bias-in-online-experimentation-c3d67795cceb>`_
-- Angrist and Pischke (MM), Chapter 3 (pp 98-123)
-- `Power Calculations <https://emj.bmj.com/content/emermed/20/5/453.full.pdf>`_",Experiments recap
-"Th, Feb 3",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). 
 - `Bias in Research <https://www.youtube.com/watch?v=42QuXLucH3Q>`_
-",- `Link <exercises/exercise_regressions_incomeineq.ipynb>`_
-"Tu, Feb 8",CI: Fixed Effects and Clustering,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
+- `Power Calculations <https://cxl.com/blog/statistical-power/>`_
+- Kohavi, Tang, and Xu, Chpt 23
+- Angrist and Pischke (MM), Chapter 3 (pp 98-123)",Experiments recap
+"Tu, Feb 8",CI: Regression,"- `Causal Inference In Industry Beyond AB Testing <causal_inference_beyond_ab_testing.ipynb`_
+- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). ",- `Link <exercises/exercise_regressions_incomeineq.ipynb>`_
+"Th, Feb 10",CI: Fixed Effects and Clustering,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
 - `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
 - `Fixed Effects and Causal Inference <fixed_effects_and_causal_inference.ipynb>`_
 - `Implementing Fixed Effects <fixed_effects.ipynb>`_
@@ -54,21 +56,20 @@ Optional:
 
 - Kennedy (GtE), Chpt 18.","- `Indicators <exercises/exercise_indicators.ipynb>`_
 - `Fixed Effects <exercises/exercise_panel.ipynb>`_"
-"Th, Feb 10",CI: Matching,"- `The Why of Matching <matching_why.ipynb>`_
+"Tu, Feb 15",CI: Matching,"- `The Why of Matching <matching_why.ipynb>`_
 - `The How of Matching Summary <matching_how.ipynb>`_
 - `Methods for Matching <https://youtu.be/tvMyjDi4dyg?t=910>`_
 
 *Watch the video above from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercise <exercises/exercise_matching.ipynb>`_
-"Tu, Feb 15",CI: Difference-in-Differences,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
+"Th, Feb 17",CI: Difference-in-Differences,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
 - `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_
 - `Enfranchisement and Incarceration <https://www.cambridge.org/core/journals/american-political-science-review/article/enfranchisement-and-incarceration-after-the-1965-voting-rights-act/C68FA7BB8CA313BDD8D9A39BA666A21D>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
-"Th, Feb 17","CI: Odds and ends
+"Tu, Feb 22","CI: Odds and ends
 
 - Regression Discontinuity
 - Two Stage Least Squares","- Angrist and Pischke (MM), Chapter 3, Sections 3.3 - End
 - Morgan and Winship, Chapter 11
 - `RDD at Coursera <https://medium.com/coursera-engineering/regression-discontinuity-understanding-the-benefit-of-subtitles-on-coursera-dd82bb25a0f1>`_",
-"Tu, Feb 22",Questions?,,
 "Th, Feb 24",**MIDTERM**,**MIDTERM**,
 "Tu, Mar 1",Backwards Design,- `Backwards Design <backwards_design.ipynb>`_,
 "Th, Mar 3",Answering Questions,"- `Moving from Problems to Questions <moving_from_problems_to_questions>`_
