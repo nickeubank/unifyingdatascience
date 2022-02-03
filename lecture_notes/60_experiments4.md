@@ -20,12 +20,10 @@ Considerations:
 
 - AA tests
 - Spillovers
-- Long term effects
 
 Randomization isn't magic! Assumptions: 
 
 - No spillovers
-- Immediate results good for future?
 
 
 NO MAGIC

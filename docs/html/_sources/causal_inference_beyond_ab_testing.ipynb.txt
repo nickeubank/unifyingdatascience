@@ -15,9 +15,9 @@
    "source": [
     "**The Role for Causal Inference with Observational Data in Industry**\n",
     "\n",
-    "I don't think there's anyone who would question the importance of A/B testing in the tech sector today. It is used *constantly* to help companies refine their products, better target their ads, and incrementally innovate. \n",
+    "I don't think there's anyone who would question the importance of A/B testing in the tech sector today. It is used *constantly* to help companies refine their products, better target their ads, and incrementally innovate.\n",
     "\n",
-    "But while A/B testing is definitely a skill a good data scientist should have in their toolbox, it's important to understand that it is not the be-all and end-all of causal inference in industry. In this reading, we'll discuss *why* it's important to learn how to think critically about causality when working with observational data. "
+    "But while A/B testing is definitely a skill a good data scientist should have in their toolbox, it's important to understand that it is not the be-all and end-all of causal inference in industry. In this reading, we'll discuss *why* it's important to learn how to think critically about causality when working with observational data (\"observational data\" is data that we gather by passively observing the world -- or that somebody else collected by passively observing the world -- rather than data that we get by directly manipulating subjects in an experiment)."
    ]
   },
   {
@@ -27,12 +27,12 @@
    "source": [
     "## A/B Testing Isn't Always Feasible\n",
     "\n",
-    "The first reason it's important to not only know A/B testing is that A/B testing isn't always a tool you can turn to. A/B testing only works when you can efficiently randomize people into different treatment arms, and where you can do it at low cost (if running a test is expensive, then even if you want to run the test, you should be doing some analysis first to make sure it's worth while!). But this isn't possible for every decision, even in big tech companies. Here's just a handful of situations where you can't run an A/B test:\n",
+    "The first reason it's important to know about tools that go beyond A/B testing is that A/B testing isn't always feasible. A/B testing only works when you can efficiently randomize people into different treatment arms, and where you can do it at low cost (if running a test is expensive, then even if you want to run the test, you should be doing some analysis first to make sure it's worth while!). But this isn't possible for every decision, even in big tech companies. Here's just a handful of situations where you can't run an A/B test:\n",
     "\n",
-    "- **You Don't Control User Behavior:** Suppose you want to know the effect of, say, following a specific person on facebook or twitter on user satisfaction. The \"ideal experiment\" would be to randomly assign some users to follow that person, and block others from doing so, but of course you can't do that! So you have to find other ways to compare followers and non-followers that accounts for ways they may be different in terms of user satisfaction. \n",
-    "- **It's a One-Shot Deal:** Suppose you're trying to decide whether to run a super bowl ad, or open a second store. You can't A/B test these small-N events. \n",
+    "- **You Don't Control The Relevant User Behavior:** Suppose you want to know the effect of, say, following a specific person on facebook or twitter on user satisfaction, or choosing to use a certain function in your product. The \"ideal experiment\" would be to randomly assign some users to follow the person in question / use your new function, and block others from doing so. But of course you can't do that! So you have to find other ways to compare followers and non-followers that accounts for ways they may be different in terms of user satisfaction or behavior.\n",
+    "- **It's a One-Shot Deal:** Suppose you're trying to decide whether to run a Super Bowl ad, or open a second store. You can't A/B test these small-N events. When dealing with these types of \"big strategic\" decisions, the best you can do is look to your companies past experiences / the experiences of other companies that you think are comparable using the best available tools for observational causal inference.\n",
     "- **Randomization is Bad Business:** It's one thing to randomize someone's landing page color scheme; it's another thing entirely to randomly show people different prices for your products -- customers wouldn't stand for it! Similarly, sometimes you want a big rollout -- like the launch of a new title on Netflix, or the premier of a new movie -- and an A/B test would interfere with that. (Not an abstract example: here's [Netflix talking about this constraint](https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852)).\n",
-    "- **Time Horizons are Too Long:** A/B testing is popular in tech because you get so much data from users so quickly that they're easy to run *on short time horizons*. But if you're thinking about openning more stores across the country, you can't put your business on hold, pick a few locations, setup new shops, and wait for sales data; you need to get a sense of what's going to happen *now*. "
+    "- **Time Horizons are Too Long:** A/B testing is popular in tech because you get so much data from users so quickly that they're easy to run *on short time horizons*. But if you're thinking about opening more stores across the country, you can't put your business on hold, pick a few locations, setup new shops, and wait for sales data; you need to get a sense of what's going to happen *now*. As we read in [Kohavi, Tang and Xu,](https://www.amazon.com/Trustworthy-Online-Controlled-Experiments-Practical/dp/1108724264) A/B tests work best when we have an Overall Evaluation Criterion (OEC) that is \"measurable in the short term (the duration of an experiment) yet believed to causally drive long-term strategic objectives.\" But when that is not available / the shortest experiment available that would allow you to measure a meaningful OEC would take too long, you need other options!"
    ]
   },
   {
@@ -62,16 +62,15 @@
    "source": [
     "## Going Beyond Average Effects\n",
     "\n",
-    "Another limitation of A/B tests is that they're only useful for estimating *average* effects. But often in business, we need to measure the effect of the actions of a specific entity!\n",
+    "Another limitation of A/B tests is that they're only useful for estimating *average* effects. But increasingly, businesses want to go beyond measuring average effects and instead measure the *actual* effect of the actions of a specific entity as a part of something called \"at-risk contracting.\"\n",
     "\n",
-    "In a lot of areas of business, it's increasingly common to hire outside companies to do work using what's called \"at-risk contracting\". In these arrangements, the company doing the hiring offers to pay the vendor if they achieve a specific outcome. For example, a hospital might hire a company to reduce in-hospital infections, or a company may hire a vendor to minimize the downtime of their internal network. \n",
+    "In many areas of business, it's increasingly common to hire outside companies to do very complicated projects, like administering government programs or providing a service to employees. In these situations, companies have increasingly found that paying vendors based on inputs (hours worked, money spent) doesn't actually encourage vendors to do a very good job, or to try to be efficient -- if you're being paid on the basis of what you spend, you will obviously you will not have an incentive to cut costs!\n",
     "\n",
-    "(These types of contracts are especially popular in areas where the work the vendor is doing is very complicated, so it's hard to pay them based on inputs (hours worked) because those may or may not result in improvements in the outcome you want addressed, so instead you just pay the vendor for final outcomes).\n",
+    "In these situations, companies are increasingly turning to something called \"at-risk contracting.\" In these arrangements, the company doing the hiring offers to pay the vendor if they achieve a specific outcome. For example, a hospital might hire a company to reduce in-hospital infections and pay them based on reductions in infections, or a company may hire a vendor to minimize the downtime of their internal network, and pay them based on downtime. By tying compensation to the outcome that the hiring party actually cares about, the vendors well incentivized to do precisely what the hiring company wants them to do!\n",
     "\n",
+    "But in these arrangements, it's critical to both parties that there's a good way to measure the effect *of the vendor's efforts* or someone will get over or under paid. That's not an average effect, that's a specific effect, and something for which experiments are not well-suited.\n",
     "\n",
-    "In these situations, it's critical to both parties that there's a good way to measure the effect *of the vendor's efforts*, or someone will get over or under paid. \n",
-    "\n",
-    "In these circumstances, it's unfortunately the case that people often just measure outcomes before the vendor starts and compares them to outcomes when they're done. But of course, if the outcome in question has any kind of seasonality to it, then we expect the outcome to vary whether the vendor does anything or not, and so you need a better causal design (e.g. difference-in-difference) to take those types of confounders into account. "
+    "In these circumstances, it's unfortunately the case that people often just measure outcomes before the vendor starts and compare them to outcomes when the vendor finishes. But if the outcome in question is subject to natural variation -- such as seasonality -- then we expect the outcome to vary whether the vendor does anything or not, and so you need a better causal design (e.g. difference-in-difference) to take those types of confounders into account."
    ]
   },
   {
@@ -81,43 +80,9 @@
    "source": [
     "## Don't want to be limited\n",
     "\n",
-    "Here's another important thought: professionally, if you only know how to do A/B testing, you risk limiting your opportunities for upward advancement. Big companies are getting better and better at providing analysts with extremely user friendly A/B testing tools, which means doing A/B tests is getting easier and easier. Twitter, for example, has an [internal tool called Duck, Duck, Goose](https://blog.twitter.com/engineering/en_us/a/2015/twitter-experimentation-technical-overview.html) that makes running an A/B test a relatively low-difficulty task. Thus if all you know how to do are A/B tests, you may find it increasingly hard to differentiate yourself in the data science market.\n",
+    "Here's another important thought: professionally, if you only know how to do A/B testing, you risk limiting your opportunities for upward advancement. Big companies are getting better and better at providing analysts with extremely user friendly A/B testing tools, which means doing A/B tests is getting easier and easier. Twitter, for example, has an [internal tool called Duck, Duck, Goose](https://blog.twitter.com/engineering/en_us/a/2015/twitter-experimentation-technical-overview.html) that makes running an A/B test a relatively low-difficulty task. And while running a good A/B test is never easy (as we have discussed at length, even with A/B testing, the internal and external validity of our causal estimates will always be dependent on a wide range of assumptions), it is something that more and more people are learning to do well and which companies are learning to make easier. Thus, if all you know how to do are A/B tests, you may find it increasingly hard to differentiate yourself in the data science market.\n",
     "\n",
     "Again, this isn't to say you shouldn't learn to do A/B testing, just don't *only* learn A/B testing. "
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "unlike-edward",
-   "metadata": {},
-   "source": [
-    "## Logic of Causal Inference\n",
-    "\n",
-    "- Want to show ads to *compliers* and avoid always-takers. So can't just track whether someone clicks. \n",
-    "- Critical for reading reports to make decisions\n",
-    "- Even your A/B tests will inevitably be mucked with by other changes at your company. How to you evaluate your results in light of that disruption?\n",
-    "\n",
-    "https://research.fb.com/publications/counterfactual-reasoning-and-learning-systems-the-example-of-computational-advertising/"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "peaceful-surname",
-   "metadata": {},
-   "source": [
-    "## Understanding limitations of Supervised ML\n",
-    "\n",
-    "ML reinforces! Low medical use --> predicts low use --> black people get screwed. \n",
-    "\n",
-    "Also: the coin of the realm is good training data, which means thinking about how to label things well is critical!"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "suspended-dating",
-   "metadata": {},
-   "source": [
-    "## Most Supervised ML Doesn't Make Money"
    ]
   },
   {
@@ -133,42 +98,7 @@
    "id": "governing-butler",
    "metadata": {},
    "source": [
-    "Microsoft on Causal Inference: https://medium.com/data-science-at-microsoft/causal-inference-part-1-of-3-understanding-the-fundamentals-816f4723e54a"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "d8f131ed",
-   "metadata": {},
-   "source": []
-  },
-  {
-   "cell_type": "markdown",
-   "id": "4a236315",
-   "metadata": {},
-   "source": [
-    "caveat: industry data usually isn't available!\n",
-    "\n",
-    "\n",
-    "## AB Testing Isn't Always Feasible\n",
-    "\n",
-    "- you can't force users at twitter to follow a certain person / force a certain person to tweet something. Not all treatments are under your control\n",
-    "- Some things are one offs: Super Bowl ads!\n",
-    "- You can't randomize prices (if everyone saw different prices people would be furious)\n",
-    "- People don't like being experimented on\n",
-    "  - https://www.nytimes.com/2014/07/29/technology/okcupid-publishes-findings-of-user-experiments.html\n",
-    "  - https://www.theatlantic.com/technology/archive/2014/06/everything-we-know-about-facebooks-secret-mood-manipulation-experiment/373648/\n",
-    "- Sometimes it's not legal: you can't offer different benefits to different people in the same class of unionized workers\n",
-    "- sometimes we don't want average treatment effects, we want the effective and actual individual! \"at risk contracts\" (payments based on output). But if you just do a pre/post and don't adjust for things like seasonalities...\n",
-    "\n",
-    "ML doesn't think about counterfactuals.\n",
-    "\n",
-    "- counterfactual advertising\n",
-    "\n",
-    "Other people are going to present observational data and you not only have to understand why certain interpretations are incorrect, you also have to be able to explain why it's wrong to other people.\n",
-    "\n",
-    "## AB Testing Is Unethical\n",
-    "\n"
+    "One final reason it's important to understand how to apply the logic of causal inference to observational data is that even if *you* only work with A/B data, it is almost inevitable that you will interact with other people in your company who want to use observational data. In these situations, it's not enough that *you* understand the considerations that go into making causal inferences from observational data; you also need to be able to explain those to colleagues."
    ]
   }
  ],

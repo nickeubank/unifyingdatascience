@@ -45,9 +45,9 @@ Optional:
 - `Power Calculations <https://cxl.com/blog/statistical-power/>`_
 - Kohavi, Tang, and Xu, Chpt 23
 - Angrist and Pischke (MM), Chapter 3 (pp 98-123)",Experiments recap
-"Tu, Feb 8",CI: Regression,"- `Causal Inference In Industry Beyond AB Testing <causal_inference_beyond_ab_testing.ipynb>`_
-- `Moving to a World Beyond p less than 0.05 <https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913> `_
-- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). ",- `Link <exercises/exercise_regressions_incomeineq.ipynb>`_
+"Tu, Feb 8",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). 
+- `Causal Inference In Industry Beyond AB Testing <causal_inference_beyond_ab_testing.ipynb>`_
+- `Moving to a World Beyond p less than 0.05 <https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913>`_",- `Link <exercises/exercise_regressions_incomeineq.ipynb>`_
 "Th, Feb 10",CI: Fixed Effects and Clustering,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
 - `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
 - `Fixed Effects and Causal Inference <fixed_effects_and_causal_inference.ipynb>`_
