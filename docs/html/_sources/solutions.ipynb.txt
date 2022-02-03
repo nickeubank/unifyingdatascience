@@ -11,6 +11,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
+    "- [Potential Outcomes (Diet Soda)](exercises/solutions_potential_outcomes1.ipynb)\n",
     "- [Udacity AB Testing](exercises/solutions_abtesting.ipynb)\n",
     "- [Resume Experiment](exercises/solutions_resume.ipynb)"
    ]

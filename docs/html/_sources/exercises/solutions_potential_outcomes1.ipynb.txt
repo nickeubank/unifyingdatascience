@@ -1,0 +1,216 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Making Potential Outcomes Concrete\n",
+    "\n",
+    "In this exercise, I will describe a simple data science project, and your job is to map the elements of that project onto the Potential Outcomes Framework. \n",
+    "\n",
+    "## The Study\n",
+    "\n",
+    "You have been approached by the Duke Office of Student Wellbeing. They are worried that due to the COVID pandemic, students are spending too much time sitting in front of their computers and not being active, leading to an increase in student Body Mass Index (BMI) scores (a measure of whether someone's weight is more or less than one might expect given their height) which might, in extreme cases, have negative health consequences. \n",
+    "\n",
+    "One policy they're considering implementing to address this issue is to replace all sodas in the dining halls with diet (sugar-free) sodas. But they aren't sure if this will actually make a difference. \n",
+    "\n",
+    "To help them decide, they wanted to measure the effect of diet soda on BMI, so they collected data on all Duke students, and compared student BMI scores for students who drink diet soda with those who drink regular soda (they're students -- they *all* drink some soda :)). \n",
+    "\n",
+    "They found that students who drink diet soda actually have higher BMIs (suggesting they may actually be *less* healthy). They interpreted this as evidence that diet soda is making students *less* healthy, so they changed their plans, and instead of removing sugary soda, they've decided to remove all *diet* soda from the campus. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Mapping to the Potential Outcomes Framework"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In words, describe exactly what quantities in this study context would correspond to the different components of the Potential Outcomes Framework we've been studying. When defining these, remember to define both the *thing* being measured *and the population* being measured.\n",
+    "\n",
+    "As you do so, avoid using terms like \"treatment\", \"control group\", or \"potential outcome\". The goal of this exercise is to move from the abstract conceptual derivations we've read to the specifics of this study. For example, I've put in an answer to Question 1 below:"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**1**: $E(Y_{T=0})$\n",
+    "\n",
+    "> The average BMI of all Duke students in a world where everyone drinks regular soda. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**2**: $E(Y_{T=1})$\n",
+    "\n",
+    "> The average BMI of all Duke students in a world where no one drinks diet soda. \n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**3**: $E(Y_{T=1}) - E(Y_{T=0})$\n",
+    "\n",
+    ">  The average difference in the BMI of all Duke students between a world where all Duke students drank diet soda and a world where no Duke students drank diet soda (i.e. the average treatment effect of diet soda on Duke students)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**4**: $E(Y_{T=1}| D=1)$\n",
+    "\n",
+    "> The average BMI of Duke students who we actually observe drinking diet soda (in a world where they drink diet soda)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**5**: $E(Y_{T=0}| D=0)$\n",
+    "\n",
+    "> the average BMI of Duke students who we actually observe not drinking diet soda (in a world where they don't drink diet soda)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**6**: $E(Y_{T=1}|D=0)$\n",
+    "\n",
+    "> The average BMI of Duke students who we actually observe not drinking diet soda in a world where they do drink diet soda. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**7**: $E(Y_{T=0}| D=1)$\n",
+    "\n",
+    "\n",
+    "> The average BMI of Duke students who we actually observe drinking diet soda in a world that they don't drink diet soda."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**8**: $E(Y_{T=1}| D=0) - E(Y_{T=0}|D=0)$\n",
+    "\n",
+    "> For Duke students who we actually observe not drinking diet soda, this is the average difference in BMI between a world where those students do drink diet soda and a world where they do not (i.e. it is the effect of diet soda on BMI for students who don't actually drink diet soda, or Average Treatment on the Control (ATC))."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**9**: $E(Y_{T=0}| D=1) - E(Y_{T=0}|D=0)$\n",
+    "\n",
+    "> The average difference in BMI between Duke students who we actually observe drinking diet soda and Duke students who we actually observe not drinking diet soda in a world whether neither group drinks diet soda. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Observability\n",
+    "\n",
+    "**10**: Now, which of the quantities above can be directly observed?\n",
+    "\n",
+    "> Quantity in Q4 & Q5"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Causal Inference"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In order for the difference in BMIs found in the report -- that those who drink diet soda have higher BMIs -- to be a true estimate of the average effect of drinking diet soda, we know that it must be the case that:\n",
+    "\n",
+    "$E(Y_{T=0}| D=1) - E(Y_{T=0}| D=0) = 0$\n",
+    "\n",
+    "and \n",
+    "\n",
+    "$E(Y_{T=1}| D=0) - E(Y_{T=0}| D=0) = E(Y_{T=1}| D=1) - E(Y_{T=0} | D=1)$. \n",
+    "\n",
+    "In the context of this study, what do those two conditions mean *in plain english*? As above, avoid using abstract terms (\"treatment\", \"baseline\", etc.) and try and be as concrete as possible. \n",
+    "\n",
+    "**11** $E(Y_{T=0}| D=1) - E(Y_{T=0}| D=0) = 0$:\n",
+    "\n",
+    "\n",
+    ">  This condition means that if no one were drinking diet soda, the students who we actually observe drinking diet soda and the students who we actually observe not drinking diet soda would have the same average BMIs. In other words, there are no baseline differences in BMI. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**12** $E(Y_{T=1}| D=0) - E(Y_{T=0}| D=0) = E(Y_{T=1}| D=1) - E(Y_{T=0}| D=1)$:\n",
+    "\n",
+    ">  This condition means that the differences in BMI between a world where students drink diet soda and a\n",
+    "> world where students don't drink diet soda is the same for the students we actually observe drinking\n",
+    "> diet soda and the students we actually observe not drinking diet soda. In other words, the two groups\n",
+    "> of students' BMIs respond to diet soda the same way."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, for each of the conditions above, please give one reason -- *in plain english* -- why those conditions may **not** be met in the context of this study? \n",
+    "\n",
+    "As you do so, be specific! Tell me a story about why *in the case of this study* you think one of these conditions may hold. One can always say things like \"people in the two groups may have been different\", but I want a specific reason you think they might have been different in a way that meets the conditions.\n",
+    "\n",
+    "**13** It may be the case that $E(Y_{T=0}| D=1) - E(Y_{T=0}| D=0) \\neq 0$ because...:\n",
+    "\n",
+    "\n",
+    "> People who have more difficulty controlling their weight (and thus BMI) may be more likely to drink diet soda, meaning that even if they didn't drink soda coke, we'd expect them to have higher BMIs. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**14**  It may be the case that $E(Y_{T=1}| D=0) - E(Y_{T=0}|D=0) \\neq E(Y_{T=1}| D=1) - E(Y_{T=0}| D=1)$ because...:\n",
+    "\n",
+    "\n",
+    "> The people who drink soda may be doing so precisely because they find it helps them control their weight, so for that reason they drink diet soda. At the same time, those who drink regular soda may be choosing to do so because drinking diet soda doesn't help them control their weight, and so they drink the beverage they prefer (regular soda). As a result, the \"effect\" of drinking diet soda may be bigger for them than the effect we'd see if we forced everyone to drink diet soda. "
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.6"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
