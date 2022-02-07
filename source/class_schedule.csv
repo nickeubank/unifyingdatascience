@@ -45,7 +45,7 @@ Optional:
 - `Power Calculations <https://cxl.com/blog/statistical-power/>`_
 - Kohavi, Tang, and Xu, Chpt 23
 - Angrist and Pischke (MM), Chapter 3 (pp 98-123)",Experiments recap
-"Tu, Feb 8",CI: AB testing Review,,
+"Tu, Feb 8",CI: AB testing Review,,- `Optional PO Redo <exercises/exercise_potential_outcomes2.html>`_
 "Th, Feb 10",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). 
 - `Causal Inference In Industry Beyond AB Testing <causal_inference_beyond_ab_testing.ipynb>`_
 
