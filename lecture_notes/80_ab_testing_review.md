@@ -1,2 +1,3 @@
 - Re-do assignment!
+- Specifics of stats?
 - 
