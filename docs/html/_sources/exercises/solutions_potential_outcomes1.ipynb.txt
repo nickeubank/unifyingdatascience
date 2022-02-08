@@ -50,7 +50,7 @@
    "source": [
     "**2**: $E(Y_{T=1})$\n",
     "\n",
-    "> The average BMI of all Duke students in a world where no one drinks diet soda. \n"
+    "> The average BMI of all Duke students in a world where everyone drinks diet soda. \n"
    ]
   },
   {
@@ -208,7 +208,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.9.6"
+   "version": "3.9.7"
   }
  },
  "nbformat": 4,
