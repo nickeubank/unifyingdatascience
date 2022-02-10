@@ -74,11 +74,8 @@ Optional but encouraged:
 but here's a real diff-in-diff)
 
 - `Enfranchisement and Incarceration <https://www.cambridge.org/core/journals/american-political-science-review/article/enfranchisement-and-incarceration-after-the-1965-voting-rights-act/C68FA7BB8CA313BDD8D9A39BA666A21D>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
-"Th, Feb 24","CI: Odds and ends
-
-- Regression Discontinuity
-- Two Stage Least Squares","- Angrist and Pischke (MM), Chapter 3, Sections 3.3 - End
-- Morgan and Winship, Chapter 11
+"Th, Feb 24","- CI: Regression Discontinuity
+- Teams","- Morgan and Winship, Chapter 11
 - `RDD at Coursera <https://medium.com/coursera-engineering/regression-discontinuity-understanding-the-benefit-of-subtitles-on-coursera-dd82bb25a0f1>`_",
 "Tu, Mar 1",**MIDTERM**,**MIDTERM**,
 "Th, Mar 3",Backwards Design,- `Backwards Design <backwards_design.ipynb>`_,
