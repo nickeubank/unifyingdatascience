@@ -79,15 +79,15 @@ but here's a real diff-in-diff)
 "Th, Feb 24","- CI: Regression Discontinuity
 - Teams","- Morgan and Winship, Chapter 11
 - `RDD at Coursera <https://medium.com/coursera-engineering/regression-discontinuity-understanding-the-benefit-of-subtitles-on-coursera-dd82bb25a0f1>`_",
-"Tu, Mar 1",**MIDTERM**,**MIDTERM**,
-"Th, Mar 3",Backwards Design,- `Backwards Design <backwards_design.ipynb>`_,
-"Tu, Mar 8",**NO CLASS**,Spring Break,
-"Th, Mar 10",**NO CLASS**,Spring Break,
-"Tu, Mar 15",Answering Questions,"- `Moving from Problems to Questions <moving_from_problems_to_questions>`_
+"Tu, Mar 1",Backwards Design,- `Backwards Design <backwards_design.ipynb>`_,
+"Th, Mar 3",Answering Questions,"- `Moving from Problems to Questions <moving_from_problems_to_questions>`_
 - `Why It's Important To Get Your Question Right <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_
 - `Most ML Doesn't Make Money <https://www.wired.com/story/companies-rushing-use-ai-few-see-payoff/>`_
 ",
-"Th, Mar 17",Taxonomy of Questions,- `Taxonomy of Questions <taxonomy_of_questions.ipynb>`_,`Types of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
+"Tu, Mar 8",**NO CLASS**,Spring Break,
+"Th, Mar 10",**NO CLASS**,Spring Break,
+"Tu, Mar 15",Taxonomy of Questions,- `Taxonomy of Questions <taxonomy_of_questions.ipynb>`_,`Types of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
+"Th, Mar 17",**MIDTERM**,**MIDTERM**,
 "Tu, Mar 22",Workflow Management,"- `DS Workflow <https://www.practicaldatascience.org/html/workflow.html>`_
 - `A Model Code Review <https://www.practicaldatascience.org/html/pr_review.html>`_
 - **Backwards Design Due**",
