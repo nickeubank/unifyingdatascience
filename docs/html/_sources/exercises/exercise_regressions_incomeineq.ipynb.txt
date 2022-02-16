@@ -26,7 +26,7 @@
    "source": [
     "## Exercise 2:\n",
     "\n",
-    "Because our interest is only in-the-workplace wage discrimination among full-time workers, we need to start by subsetting our data for people currently employed at the time of this survey using the `lfsr94` variable, who are employed full time (meaning that their usual hours per week -- `uhourse` -- is 35 or above). \n",
+    "Because our interest is only in-the-workplace wage discrimination among full-time workers, we need to start by subsetting our data for people currently employed at the time of this survey (using the `lfsr94` variable) **and** who are employed full time (meaning that their usual hours per week -- `uhourse` -- is 35 or above). \n",
     "\n",
     "As noted above, this analysis will miss many forms of gender discrimination. For example, in dropping anyone who isn't working, we immediately lose any women who couldn't get jobs, or who chose to lose the workforce because the wages they were offered (which were likely lower than those offered men) were lower than they were willing / could accept. And in focusing on full time employees, we miss the fact women may not be offered full time jobs at the same rate as men. "
    ]
@@ -53,7 +53,7 @@
    "source": [
     "## Exercise 4\n",
     "\n",
-    "The variable `uhourse` is the number of hours that the respondent usually works per week. What is the wage gap not per hour, but per year? Is the difference statistically significant?"
+    "The variable `uhourse` is the number of hours that the respondent usually works per week. What is the wage gap not per hour, but per year? Assume that there are 48 work weeks in a year in the United States. Is the difference statistically significant?"
    ]
   },
   {
