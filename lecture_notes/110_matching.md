@@ -1,0 +1,4 @@
+- model dependence
+- Erika: It seems like we lose a loooot of information with matching
+- Satvik: dimensionality
+- Tigran: threshold?
