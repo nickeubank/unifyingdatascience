@@ -9,7 +9,23 @@
     "\n",
     "In this exercise we'll work with a (somewhat canonical) dataset on the prices, mileages, weights, and other characteristics of 74 automobiles. These data originally came from the April 1979 issue of Consumer Reports and from the United States Government EPA statistics on fuel consumption; they were compiled and published by Chambers et al. (1983).\n",
     "\n",
-    "To get the data, follow [this link](https://github.com/nickeubank/MIDS_Data/blob/master/automobile_dataset.dta?raw=true) or go to [http://www.github.com/nickeubank/MIDS_Data](http://www.github.com/nickeubank/MIDS`Data) and download the `automobile_dataset.dta` file. \n",
+    "To get the data, follow [this link](https://github.com/nickeubank/MIDS_Data/blob/master/automobile_dataset.dta?raw=true) or go to [http://www.github.com/nickeubank/MIDS_Data](http://www.github.com/nickeubank/MIDS_Data) and download the `automobile_dataset.dta` file. This is a canonical example dataset used in coding examples all over the internet, and the codebook is roughly:\n",
+    "\n",
+    "```\n",
+    "make            Make and Model\n",
+    "price           Price\n",
+    "mpg             Mileage (mpg)\n",
+    "rep78           Repair Record 1978\n",
+    "headroom        Headroom (in.)\n",
+    "trunk           Trunk space (cu. ft.)\n",
+    "weight          Weight (lbs.)\n",
+    "length          Length (in.)\n",
+    "turn            Turn Circle (ft.)\n",
+    "displacement    Displacement (cu. in.)\n",
+    "gear_ratio      Gear Ratio\n",
+    "foreign         Car type\n",
+    "```\n",
+    "\n",
     "\n",
     "## Indicator Variables and Omitted Variable Bias\n",
     "\n",
@@ -44,76 +60,76 @@
        "  <thead>\n",
        "    <tr style=\"text-align: right;\">\n",
        "      <th></th>\n",
-       "      <th>47</th>\n",
+       "      <th>57</th>\n",
        "    </tr>\n",
        "  </thead>\n",
        "  <tbody>\n",
        "    <tr>\n",
        "      <th>make</th>\n",
-       "      <td>Pont. Firebird</td>\n",
+       "      <td>Datsun 510</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>price</th>\n",
-       "      <td>4934</td>\n",
+       "      <td>5079</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>mpg</th>\n",
-       "      <td>18</td>\n",
+       "      <td>24</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>rep78</th>\n",
-       "      <td>1.0</td>\n",
+       "      <td>4.0</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>headroom</th>\n",
-       "      <td>1.5</td>\n",
+       "      <td>2.5</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>trunk</th>\n",
-       "      <td>7</td>\n",
+       "      <td>8</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>weight</th>\n",
-       "      <td>3470</td>\n",
+       "      <td>2280</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>length</th>\n",
-       "      <td>198</td>\n",
+       "      <td>170</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>turn</th>\n",
-       "      <td>42</td>\n",
+       "      <td>34</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>displacement</th>\n",
-       "      <td>231</td>\n",
+       "      <td>119</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>gear_ratio</th>\n",
-       "      <td>3.08</td>\n",
+       "      <td>3.54</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>foreign</th>\n",
-       "      <td>Domestic</td>\n",
+       "      <td>Foreign</td>\n",
        "    </tr>\n",
        "  </tbody>\n",
        "</table>\n",
        "</div>"
       ],
       "text/plain": [
-       "                          47\n",
-       "make          Pont. Firebird\n",
-       "price                   4934\n",
-       "mpg                       18\n",
-       "rep78                    1.0\n",
-       "headroom                 1.5\n",
-       "trunk                      7\n",
-       "weight                  3470\n",
-       "length                   198\n",
-       "turn                      42\n",
-       "displacement             231\n",
-       "gear_ratio              3.08\n",
-       "foreign             Domestic"
+       "                      57\n",
+       "make          Datsun 510\n",
+       "price               5079\n",
+       "mpg                   24\n",
+       "rep78                4.0\n",
+       "headroom             2.5\n",
+       "trunk                  8\n",
+       "weight              2280\n",
+       "length               170\n",
+       "turn                  34\n",
+       "displacement         119\n",
+       "gear_ratio          3.54\n",
+       "foreign          Foreign"
       ]
      },
      "execution_count": 1,
@@ -122,14 +138,13 @@
     }
    ],
    "source": [
-    "%load_ext lab_black\n",
     "import pandas as pd\n",
     "\n",
     "cars = pd.read_stata(\n",
     "    \"https://github.com/nickeubank/MIDS_Data/\"\n",
     "    \"blob/master/automobile_dataset.dta?raw=true\"\n",
     ")\n",
-    "cars.sample().T"
+    "cars.sample().T\n"
    ]
   },
   {
@@ -152,10 +167,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   43.90</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>5.38e-09</td>\n",
+       "  <th>Date:</th>             <td>Tue, 01 Mar 2022</td> <th>  Prob (F-statistic):</th> <td>5.38e-09</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>18:57:48</td>     <th>  Log-Likelihood:    </th> <td> -678.10</td>\n",
+       "  <th>Time:</th>                 <td>10:18:54</td>     <th>  Log-Likelihood:    </th> <td> -678.10</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>    74</td>      <th>  AIC:               </th> <td>   1360.</td>\n",
@@ -204,8 +219,8 @@
        "Dep. Variable:                  price   R-squared:                       0.379\n",
        "Model:                            OLS   Adj. R-squared:                  0.370\n",
        "Method:                 Least Squares   F-statistic:                     43.90\n",
-       "Date:                Mon, 01 Mar 2021   Prob (F-statistic):           5.38e-09\n",
-       "Time:                        18:57:48   Log-Likelihood:                -678.10\n",
+       "Date:                Tue, 01 Mar 2022   Prob (F-statistic):           5.38e-09\n",
+       "Time:                        10:18:54   Log-Likelihood:                -678.10\n",
        "No. Observations:                  74   AIC:                             1360.\n",
        "Df Residuals:                      72   BIC:                             1365.\n",
        "Df Model:                           1                                         \n",
@@ -236,7 +251,16 @@
     "cars[\"guzzler\"] = (cars.mpg < 18).astype(\"int\")\n",
     "import statsmodels.formula.api as smf\n",
     "\n",
-    "smf.ols(\"price ~ guzzler\", cars).fit().summary()"
+    "smf.ols(\"price ~ guzzler\", cars).fit().summary()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 4,202 dollars more on average.\n"
    ]
   },
   {
@@ -252,34 +276,85 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 4,
    "metadata": {},
    "outputs": [
     {
      "data": {
-      "image/png": "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2lNseTweWrZsyaJF/l9JSERERCTYtYpxY1hU/rD99Cjr3CU+MV+/fj22bdOtWzfvtp49e/LLL7+U+z4GDx5MUlIS5557Lr/+eng+8V9++YXjjz/e+7x79+6YpsmGDRv8+F2sXLVDbFhYGK1bt8Y0zbqoR0RERCS4VXXcanXnia3O60rIzs4mLi7OZ1vTpk3Jysoq8y18+eWXbN68mT/++INevXoxdOhQ77jX7OxsmjRp4j3WMAzi4uLKPVddqdEUW7fccgtPPPEEZ511FhEREf6uSURERCRoGTa8c8rAcvdftuzLMrf7jAA4MoeWM/R1/qnlX2Pzb2tJ6NPH+zw2NrbUzVcHDhzA7XaX+frTTz8dKF4b4MEHH+T1119n+fLlDBs2rMxzZWZmlnuuulKjEJuamsrvv/9Ou3btGDhwIC1atPDptjYMg6eeespvRYqIiIgEjcpmxCpnv3HkfuOI4/wwvLZz584YhsHatWvp2rUrAKtWraJ79+5Ver3D4fCOs+3evTurV69m5MiRQPHwAqfTSadOnWpfaDXUKMR+/PHH3h7Y7777rtR+hVgRERGRcpQVYktus0t8XcsgGxMTw/Dhw5kyZQqvvPIKGzduZPbs2bz99tuljv31118pKCjguOOOo7CwkEcffZS8vDz69esHwLXXXsuoUaMYNWoUHTp0YMqUKVx++eX1elMX1DDEbtq0yd91iIiIiDQKhgUjlnxZ/v5qbPWySyffiq7x3U3jSm179tlnGT16NMnJycTFxXH//fczePBgoHi4wYIFC+jfvz+7d+9m3LhxbN26laioKPr27cunn35K06ZNgeIVW6dMmcKwYcPIzMzknHPO4Zlnnqm4/jpQ42Vn09PTefLJJ/n2229JS0sjOTmZk08+mdtvv53ExER/1igiIiISPCpYcKDman++pk2bMn/+/DL3ZWdne78eNGgQ69atq/Bc48ePZ/z48bWuqTaqPTsBwIoVK+jUqRNPP/00sbGxnHrqqcTGxvL000/TsWNHVqxY4e86RURERILCtowDVZtiq64eNhhl9Nw2NjXqib355ps59thj+eSTT3ymWDhw4ABnn302t9xyC99//73fihQREREJFq1iYvljX0bgCrDBDoGVVWsUYn/99Vfmz5/vE2ABmjRpwj333MPll1/ul+JEREREgo3L4cRo/B2hAVejEHv00Uez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Ja+U+uJwOrh77s2442PgYI5tkZLILS9cH9jCREREqsmwNQ9StaWnpwe6hDrldDqJj48nIyMD0zQrf0EJtm2Tn1NAZExEo7/j3e12k5WVFegyqi0vO5/UX7bicDrpcFzbOlvut7ZtKVQEazuqL2pHVaN2VLnExMRAlyB+pCm2xO8MwyAqNjLQZUgFomIj6XJyp0CXISIiUmMaTiAiIiIiQUchVkRERESCjkKsiIiIiAQdhVgRERERCToKsSIiIiISdBRiRURERCToKMSKiIiISNBRiBURERGRoKMQKyIiIiJBRyFWRERERIKOQqyIiIiIBB2FWBEREREJOoZt23agi5CGJS0tjZkzZzJ27FiSk5MDXY4EMbUl8Qe1IxEpi3pipZS0tDSmTp1KWlpaoEuRIKe2JP6gdiQiZVGIFREREZGgoxArIiIiIkFHIVZKSU5O5t5779XYM6k1tSXxB7UjESmLbuwSERERkaCjnlgRERERCToKsSIiIiISdFyBLkDqVlFRES+88AKrV68mKyuLxMRELrvsMgYOHAhAamoqzzzzDJs3b6Zly5aMGzeOY4891vv6ZcuWMXv2bPbv30/Xrl257bbbSEhI8O6fM2cOCxYswLIs+vfvz5gxY3C51KwaoxkzZvDDDz+Ql5eH2+1m6NChjBgxAlA7kurLzMxk3LhxJCcn89hjjwFqRyJSTbY0anl5efacOXPstLQ02zRN+9dff7Uvv/xye+3atXZRUZF944032u+8845dWFhoL1q0yL7yyivtrKws27Zte+vWrfaIESPslStX2vn5+fbzzz9v33PPPd5zf/rpp/bo0aPtnTt32vv377cnTJhgz507N1BvVepYamqqnZ+fb9u2be/evdv+61//an/11VdqR1IjTzzxhD1p0iR7woQJtm3bakciUm0aTtDIRUZGMmrUKFq2bInD4aBbt2507dqVtWvXsmbNGgoKCrj44osJCwtj0KBBJCUlsXz5cgAWL15M79696dmzJxEREYwaNYp169Z5JxxfuHAhF110EUlJSTRp0oQRI0awcOHCQL5dqUPt2rUjIiLC+9wwDHbs2KF2JNW2Zs0adu7cyaBBg3y2qR2JSHUoxIaY/Px8/vjjD1JSUtiyZQspKSk4HIebQYcOHdiyZQtQ/NFehw4dvPvcbjfNmzcnNTUVgC1bttC+fXuf16anp5OTk1M/b0bq3auvvspll13GDTfcQH5+PoMGDVI7kmopKipi5syZ3HTTTRiG4d2udiQi1aUQG0Js2+app56iU6dO9OrVi7y8PGJiYnyOiYmJIS8vDygOvNHR0RXuP/L1h74+tF8an2uuuYa3336bxx9/nIEDB3rbg9qRVNX8+fPp1auXT+AE1I5EpNoUYkOEbds899xz7N27l7vvvhvDMIiKiiI3N9fnuNzcXKKiooDioQgl9+fk5JS7/9DXh/ZL42QYBp06dcLlcvHmm2+qHUmV7dixgy+//JKRI0eW2qd2JCLVpRAbAmzb5oUXXmDjxo3cd999REZGAsVjHFNTU7Esy3vspk2baNeuHQApKSls3rzZuy87O5v09HRSUlK8r9+0aZPPaxMTE0v1pkjjZFkWaWlpakdSZWvXrmXv3r3ceOONjBo1ihdffJE///yTUaNGkZSUpHYkItWiEBsCZs6cye+//87UqVN9Po7r0aMHYWFhfPDBBxQVFbFkyRJ27txJv379ABg4cCA//vgjq1evpqCggLlz53LMMcd4l34844wz+PDDD9m9ezeZmZnMmzePIUOGBOQ9St3Kyclh8eLF5ObmYlkWv/32GwsWLKBnz55qR1Jlp512GjNnzuSpp57iqaeeYuTIkaSkpPDUU0/Rt29ftSMRqRYtO9vI7d69mxtvvJGwsDCcTqd3+/DhwxkxYgSbN29mxowZbN68maSkJMaNG0f37t29x3399de8+uqrZGRk0K1bN595GW3bZu7cuSxYsADTNBkwYIDmZWykcnNzeeihh/jzzz+xLItmzZoxZMgQLrnkEgzDUDuSGvniiy9YsGCBd55YtSMRqQ6FWBEREREJOhpOICIiIiJBRyFWRERERIKOQqyIiIiIBB2FWBEREREJOgqxIiIiIhJ0FGJFREREJOgoxIqIiIhI0FGIFREREZGgoxArIiIiIkFHIVZEGr377ruP2NjYOnvdk08+yX//+9+alCYiIjWkECsijd6NN97I4sWL6+z8CrEiIvXPFegCRETqWps2bWjTpk2gyxARET9ST6yINBhfffUVhmGwceNG77aLLroIwzD4+eefvduuuuoqhgwZAkBBQQGTJk0iJSWFiIgIunbtyhtvvOFz3rKGBfz6668MGDCAyMhIOnbsyGuvvcZ5553HwIEDS9X1888/c9pppxEdHU337t359NNPvfvat29Pamoqzz77LIZhYBgGs2fP9sN3Q0REKqIQKyINxoknnkhkZCRLliwBwLZtvv76a59tUBx2BwwYAMCIESOYOXMmEyZM4OOPP2bYsGFcddVVLFiwoNzr5OXlMXToUPbu3cucOXN45JFHeOSRR1i5cmWpY4uKirjqqqu49tpref/990lMTOTSSy9l7969ALz//vu0bNmS4cOH88033/DNN99w7rnn+vPbIiIiZdBwAhFpMCIiIjjxxBNZsmQJ1113Hb/++iv79+9n9OjRLFmyhPHjx7N582a2bNnCgAEDWLx4MR9++CGffvopQ4cOBeDMM89k+/bt3HvvvZx99tllXueVV15h586dfP3113To0AGAXr160blzZzp16uRzbGFhIQ8//DDnnHMOAB07dqRTp04sWLCAq666il69ehEREUFSUhInn3xyHX53RETkSOqJFZEGZcCAAd5e16VLl9K7d2/OO+88li5d6t0WHh7OySefzGeffUazZs0YPHgwHo/H+zjjjDNYuXIlpmmWeY3vv/+e4447zhtgoTicdu/evdSxDofDO3QB4OijjyY8PJxt27b5822LiEg1KcSKSINy+umns3nzZrZu3crSpUsZMGAAp512Gnv37mXt2rUsXbrUO+wgPT2dffv2ERYW5vO46aab8Hg8pKWllXmNtLQ0mjdvXmp7ixYtSm2LiooiPDzcZ1tYWBj5+fn+ecMiIlIjGk4gIg3KKaecQlhYGEuWLOGrr77i+eefp0mTJhx33HEsWbKEpUuXctlllwHQrFkzmjdvXu70VmWFUoDk5GRWrVpVavvu3buJj4/323sREZG6o55YEWlQoqOj6d27Ny+//DJpaWn0798fKO6hfeutt9iwYYP3pq4hQ4awZ88ewsPD6du3b6lHyR7UQ0444QR+/vlnNm3a5N32559/8ssvv9So5vDwcPXMiojUM4VYEWlwDo2L7dGjh7dn9NA2p9PJKaecAhTfxHX++eczbNgwnnzySRYtWsRHH33Eww8/zI033lju+a+77jpatmzJeeedx7vvvss777zDBRdcQMuWLXE4qv9jsWvXrixatIjPP/+cH374wTtzgYiI1B2FWBFpcE4//XQAb4/roa8Nw6BXr1643W7v9nfeeYebbrqJ5557jrPPPpsbbriBzz77zHuOskRFRXlvChs5ciR33303d911Fx07dqRJkybVrvehhx6iTZs2XHrppZxwwgl89NFH1T6HiIhUj2Hbth3oIkREAm3v3r0cddRR3Hnnndx7772BLkdERCqhG7tEJCQ98sgjJCUl0b59e9LS0njsscewLIvrr78+0KWJiEgVKMSKSEhyOp1MmzaNbdu24XK5OOmkk1i0aBFt27YNdGkiIlIFGk4gIiIiIkFHN3aJiIiISNBRiBURERGRoKMQKyIiIiJBRyFWRERERIKOQqyIiIiIBB2FWBEREREJOgqxIiIiIhJ0FGJFREREJOj8PxGOUny1+1QeAAAAAElFTkSuQmCC\n",
+      "text/html": [
+       "\n",
+       "<div id=\"altair-viz-bba123978b0c437c9133c44db3ef72bc\"></div>\n",
+       "<script type=\"text/javascript\">\n",
+       "  var VEGA_DEBUG = (typeof VEGA_DEBUG == \"undefined\") ? {} : VEGA_DEBUG;\n",
+       "  (function(spec, embedOpt){\n",
+       "    let outputDiv = document.currentScript.previousElementSibling;\n",
+       "    if (outputDiv.id !== \"altair-viz-bba123978b0c437c9133c44db3ef72bc\") {\n",
+       "      outputDiv = document.getElementById(\"altair-viz-bba123978b0c437c9133c44db3ef72bc\");\n",
+       "    }\n",
+       "    const paths = {\n",
+       "      \"vega\": \"https://cdn.jsdelivr.net/npm//vega@5?noext\",\n",
+       "      \"vega-lib\": \"https://cdn.jsdelivr.net/npm//vega-lib?noext\",\n",
+       "      \"vega-lite\": \"https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext\",\n",
+       "      \"vega-embed\": \"https://cdn.jsdelivr.net/npm//vega-embed@6?noext\",\n",
+       "    };\n",
+       "\n",
+       "    function maybeLoadScript(lib, version) {\n",
+       "      var key = `${lib.replace(\"-\", \"\")}_version`;\n",
+       "      return (VEGA_DEBUG[key] == version) ?\n",
+       "        Promise.resolve(paths[lib]) :\n",
+       "        new Promise(function(resolve, reject) {\n",
+       "          var s = document.createElement('script');\n",
+       "          document.getElementsByTagName(\"head\")[0].appendChild(s);\n",
+       "          s.async = true;\n",
+       "          s.onload = () => {\n",
+       "            VEGA_DEBUG[key] = version;\n",
+       "            return resolve(paths[lib]);\n",
+       "          };\n",
+       "          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);\n",
+       "          s.src = paths[lib];\n",
+       "        });\n",
+       "    }\n",
+       "\n",
+       "    function showError(err) {\n",
+       "      outputDiv.innerHTML = `<div class=\"error\" style=\"color:red;\">${err}</div>`;\n",
+       "      throw err;\n",
+       "    }\n",
+       "\n",
+       "    function displayChart(vegaEmbed) {\n",
+       "      vegaEmbed(outputDiv, spec, embedOpt)\n",
+       "        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));\n",
+       "    }\n",
+       "\n",
+       "    if(typeof define === \"function\" && define.amd) {\n",
+       "      requirejs.config({paths});\n",
+       "      require([\"vega-embed\"], displayChart, err => showError(`Error loading script: ${err.message}`));\n",
+       "    } else {\n",
+       "      maybeLoadScript(\"vega\", \"5\")\n",
+       "        .then(() => maybeLoadScript(\"vega-lite\", \"4.17.0\"))\n",
+       "        .then(() => maybeLoadScript(\"vega-embed\", \"6\"))\n",
+       "        .catch(showError)\n",
+       "        .then(() => displayChart(vegaEmbed));\n",
+       "    }\n",
+       "  })({\"config\": {\"view\": {\"continuousWidth\": 400, \"continuousHeight\": 300}}, \"data\": {\"name\": \"data-87f4eff7caa8e106f2a44e4147b83052\"}, \"mark\": \"point\", \"encoding\": {\"color\": {\"field\": \"guzzler\", \"type\": \"nominal\"}, \"x\": {\"field\": \"weight\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}, \"y\": {\"field\": \"price\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}, \"$schema\": \"https://vega.github.io/schema/vega-lite/v4.17.0.json\", \"datasets\": {\"data-87f4eff7caa8e106f2a44e4147b83052\": [{\"make\": \"AMC Concord\", \"price\": 4099, \"mpg\": 22, \"rep78\": 3.0, \"headroom\": 2.5, \"trunk\": 11, \"weight\": 2930, \"length\": 186, \"turn\": 40, \"displacement\": 121, \"gear_ratio\": 3.5799999237060547, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"AMC Pacer\", \"price\": 4749, \"mpg\": 17, \"rep78\": 3.0, \"headroom\": 3.0, \"trunk\": 11, \"weight\": 3350, \"length\": 173, \"turn\": 40, \"displacement\": 258, \"gear_ratio\": 2.5299999713897705, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"AMC Spirit\", \"price\": 3799, \"mpg\": 22, \"rep78\": null, \"headroom\": 3.0, \"trunk\": 12, \"weight\": 2640, \"length\": 168, \"turn\": 35, \"displacement\": 121, \"gear_ratio\": 3.0799999237060547, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Buick Century\", \"price\": 4816, \"mpg\": 20, \"rep78\": 3.0, \"headroom\": 4.5, \"trunk\": 16, \"weight\": 3250, \"length\": 196, \"turn\": 40, \"displacement\": 196, \"gear_ratio\": 2.930000066757202, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Buick Electra\", \"price\": 7827, \"mpg\": 15, \"rep78\": 4.0, \"headroom\": 4.0, \"trunk\": 20, \"weight\": 4080, \"length\": 222, \"turn\": 43, \"displacement\": 350, \"gear_ratio\": 2.4100000858306885, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Buick LeSabre\", \"price\": 5788, \"mpg\": 18, \"rep78\": 3.0, \"headroom\": 4.0, \"trunk\": 21, \"weight\": 3670, \"length\": 218, \"turn\": 43, \"displacement\": 231, \"gear_ratio\": 2.7300000190734863, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Buick Opel\", \"price\": 4453, \"mpg\": 26, \"rep78\": null, \"headroom\": 3.0, \"trunk\": 10, \"weight\": 2230, \"length\": 170, \"turn\": 34, \"displacement\": 304, \"gear_ratio\": 2.869999885559082, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Buick Regal\", \"price\": 5189, \"mpg\": 20, \"rep78\": 3.0, \"headroom\": 2.0, \"trunk\": 16, \"weight\": 3280, \"length\": 200, \"turn\": 42, \"displacement\": 196, \"gear_ratio\": 2.930000066757202, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Buick Riviera\", \"price\": 10372, \"mpg\": 16, \"rep78\": 3.0, \"headroom\": 3.5, \"trunk\": 17, \"weight\": 3880, \"length\": 207, \"turn\": 43, \"displacement\": 231, \"gear_ratio\": 2.930000066757202, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Buick Skylark\", \"price\": 4082, \"mpg\": 19, \"rep78\": 3.0, \"headroom\": 3.5, \"trunk\": 13, \"weight\": 3400, \"length\": 200, \"turn\": 42, \"displacement\": 231, \"gear_ratio\": 3.0799999237060547, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Cad. Deville\", \"price\": 11385, \"mpg\": 14, \"rep78\": 3.0, \"headroom\": 4.0, \"trunk\": 20, \"weight\": 4330, \"length\": 221, \"turn\": 44, \"displacement\": 425, \"gear_ratio\": 2.2799999713897705, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Cad. Eldorado\", \"price\": 14500, \"mpg\": 14, \"rep78\": 2.0, \"headroom\": 3.5, \"trunk\": 16, \"weight\": 3900, \"length\": 204, \"turn\": 43, \"displacement\": 350, \"gear_ratio\": 2.190000057220459, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Cad. Seville\", \"price\": 15906, \"mpg\": 21, \"rep78\": 3.0, \"headroom\": 3.0, \"trunk\": 13, \"weight\": 4290, \"length\": 204, \"turn\": 45, \"displacement\": 350, \"gear_ratio\": 2.240000009536743, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Chev. Chevette\", \"price\": 3299, \"mpg\": 29, \"rep78\": 3.0, \"headroom\": 2.5, \"trunk\": 9, \"weight\": 2110, \"length\": 163, \"turn\": 34, \"displacement\": 231, \"gear_ratio\": 2.930000066757202, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Chev. Impala\", \"price\": 5705, \"mpg\": 16, \"rep78\": 4.0, \"headroom\": 4.0, \"trunk\": 20, \"weight\": 3690, \"length\": 212, \"turn\": 43, \"displacement\": 250, \"gear_ratio\": 2.559999942779541, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Chev. Malibu\", \"price\": 4504, \"mpg\": 22, \"rep78\": 3.0, \"headroom\": 3.5, \"trunk\": 17, \"weight\": 3180, \"length\": 193, \"turn\": 31, \"displacement\": 200, \"gear_ratio\": 2.7300000190734863, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Chev. Monte Carlo\", \"price\": 5104, \"mpg\": 22, \"rep78\": 2.0, \"headroom\": 2.0, \"trunk\": 16, \"weight\": 3220, \"length\": 200, \"turn\": 41, \"displacement\": 200, \"gear_ratio\": 2.7300000190734863, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Chev. Monza\", \"price\": 3667, \"mpg\": 24, \"rep78\": 2.0, \"headroom\": 2.0, \"trunk\": 7, \"weight\": 2750, \"length\": 179, \"turn\": 40, \"displacement\": 151, \"gear_ratio\": 2.7300000190734863, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Chev. Nova\", \"price\": 3955, \"mpg\": 19, \"rep78\": 3.0, \"headroom\": 3.5, \"trunk\": 13, \"weight\": 3430, \"length\": 197, \"turn\": 43, \"displacement\": 250, \"gear_ratio\": 2.559999942779541, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Dodge Colt\", \"price\": 3984, \"mpg\": 30, \"rep78\": 5.0, \"headroom\": 2.0, \"trunk\": 8, \"weight\": 2120, \"length\": 163, \"turn\": 35, \"displacement\": 98, \"gear_ratio\": 3.5399999618530273, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Dodge Diplomat\", \"price\": 4010, \"mpg\": 18, \"rep78\": 2.0, \"headroom\": 4.0, \"trunk\": 17, \"weight\": 3600, \"length\": 206, \"turn\": 46, \"displacement\": 318, \"gear_ratio\": 2.4700000286102295, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Dodge Magnum\", \"price\": 5886, \"mpg\": 16, \"rep78\": 2.0, \"headroom\": 4.0, \"trunk\": 17, \"weight\": 3600, \"length\": 206, \"turn\": 46, \"displacement\": 318, \"gear_ratio\": 2.4700000286102295, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Dodge St. Regis\", \"price\": 6342, \"mpg\": 17, \"rep78\": 2.0, \"headroom\": 4.5, \"trunk\": 21, \"weight\": 3740, \"length\": 220, \"turn\": 46, \"displacement\": 225, \"gear_ratio\": 2.940000057220459, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Ford Fiesta\", \"price\": 4389, \"mpg\": 28, \"rep78\": 4.0, \"headroom\": 1.5, \"trunk\": 9, \"weight\": 1800, \"length\": 147, \"turn\": 33, \"displacement\": 98, \"gear_ratio\": 3.1500000953674316, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Ford Mustang\", \"price\": 4187, \"mpg\": 21, \"rep78\": 3.0, \"headroom\": 2.0, \"trunk\": 10, \"weight\": 2650, \"length\": 179, \"turn\": 43, \"displacement\": 140, \"gear_ratio\": 3.0799999237060547, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Linc. Continental\", \"price\": 11497, \"mpg\": 12, \"rep78\": 3.0, \"headroom\": 3.5, \"trunk\": 22, \"weight\": 4840, \"length\": 233, \"turn\": 51, \"displacement\": 400, \"gear_ratio\": 2.4700000286102295, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Linc. Mark V\", \"price\": 13594, \"mpg\": 12, \"rep78\": 3.0, \"headroom\": 2.5, \"trunk\": 18, \"weight\": 4720, \"length\": 230, \"turn\": 48, \"displacement\": 400, \"gear_ratio\": 2.4700000286102295, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Linc. Versailles\", \"price\": 13466, \"mpg\": 14, \"rep78\": 3.0, \"headroom\": 3.5, \"trunk\": 15, \"weight\": 3830, \"length\": 201, \"turn\": 41, \"displacement\": 302, \"gear_ratio\": 2.4700000286102295, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Merc. Bobcat\", \"price\": 3829, \"mpg\": 22, \"rep78\": 4.0, \"headroom\": 3.0, \"trunk\": 9, \"weight\": 2580, \"length\": 169, \"turn\": 39, \"displacement\": 140, \"gear_ratio\": 2.7300000190734863, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Merc. Cougar\", \"price\": 5379, \"mpg\": 14, \"rep78\": 4.0, \"headroom\": 3.5, \"trunk\": 16, \"weight\": 4060, \"length\": 221, \"turn\": 48, \"displacement\": 302, \"gear_ratio\": 2.75, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Merc. Marquis\", \"price\": 6165, \"mpg\": 15, \"rep78\": 3.0, \"headroom\": 3.5, \"trunk\": 23, \"weight\": 3720, \"length\": 212, \"turn\": 44, \"displacement\": 302, \"gear_ratio\": 2.259999990463257, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Merc. Monarch\", \"price\": 4516, \"mpg\": 18, \"rep78\": 3.0, \"headroom\": 3.0, \"trunk\": 15, \"weight\": 3370, \"length\": 198, \"turn\": 41, \"displacement\": 250, \"gear_ratio\": 2.430000066757202, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Merc. XR-7\", \"price\": 6303, \"mpg\": 14, \"rep78\": 4.0, \"headroom\": 3.0, \"trunk\": 16, \"weight\": 4130, \"length\": 217, \"turn\": 45, \"displacement\": 302, \"gear_ratio\": 2.75, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Merc. Zephyr\", \"price\": 3291, \"mpg\": 20, \"rep78\": 3.0, \"headroom\": 3.5, \"trunk\": 17, \"weight\": 2830, \"length\": 195, \"turn\": 43, \"displacement\": 140, \"gear_ratio\": 3.0799999237060547, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Olds 98\", \"price\": 8814, \"mpg\": 21, \"rep78\": 4.0, \"headroom\": 4.0, \"trunk\": 20, \"weight\": 4060, \"length\": 220, \"turn\": 43, \"displacement\": 350, \"gear_ratio\": 2.4100000858306885, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Olds Cutl Supr\", \"price\": 5172, \"mpg\": 19, \"rep78\": 3.0, \"headroom\": 2.0, \"trunk\": 16, \"weight\": 3310, \"length\": 198, \"turn\": 42, \"displacement\": 231, \"gear_ratio\": 2.930000066757202, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Olds Cutlass\", \"price\": 4733, \"mpg\": 19, \"rep78\": 3.0, \"headroom\": 4.5, \"trunk\": 16, \"weight\": 3300, \"length\": 198, \"turn\": 42, \"displacement\": 231, \"gear_ratio\": 2.930000066757202, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Olds Delta 88\", \"price\": 4890, \"mpg\": 18, \"rep78\": 4.0, \"headroom\": 4.0, \"trunk\": 20, \"weight\": 3690, \"length\": 218, \"turn\": 42, \"displacement\": 231, \"gear_ratio\": 2.7300000190734863, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Olds Omega\", \"price\": 4181, \"mpg\": 19, \"rep78\": 3.0, \"headroom\": 4.5, \"trunk\": 14, \"weight\": 3370, \"length\": 200, \"turn\": 43, \"displacement\": 231, \"gear_ratio\": 3.0799999237060547, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Olds Starfire\", \"price\": 4195, \"mpg\": 24, \"rep78\": 1.0, \"headroom\": 2.0, \"trunk\": 10, \"weight\": 2730, \"length\": 180, \"turn\": 40, \"displacement\": 151, \"gear_ratio\": 2.7300000190734863, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Olds Toronado\", \"price\": 10371, \"mpg\": 16, \"rep78\": 3.0, \"headroom\": 3.5, \"trunk\": 17, \"weight\": 4030, \"length\": 206, \"turn\": 43, \"displacement\": 350, \"gear_ratio\": 2.4100000858306885, \"foreign\": \"Domestic\", \"guzzler\": 1}, {\"make\": \"Plym. Arrow\", \"price\": 4647, \"mpg\": 28, \"rep78\": 3.0, \"headroom\": 2.0, \"trunk\": 11, \"weight\": 3260, \"length\": 170, \"turn\": 37, \"displacement\": 156, \"gear_ratio\": 3.049999952316284, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Plym. Champ\", \"price\": 4425, \"mpg\": 34, \"rep78\": 5.0, \"headroom\": 2.5, \"trunk\": 11, \"weight\": 1800, \"length\": 157, \"turn\": 37, \"displacement\": 86, \"gear_ratio\": 2.9700000286102295, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Plym. Horizon\", \"price\": 4482, \"mpg\": 25, \"rep78\": 3.0, \"headroom\": 4.0, \"trunk\": 17, \"weight\": 2200, \"length\": 165, \"turn\": 36, \"displacement\": 105, \"gear_ratio\": 3.369999885559082, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Plym. Sapporo\", \"price\": 6486, \"mpg\": 26, \"rep78\": null, \"headroom\": 1.5, \"trunk\": 8, \"weight\": 2520, \"length\": 182, \"turn\": 38, \"displacement\": 119, \"gear_ratio\": 3.5399999618530273, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Plym. Volare\", \"price\": 4060, \"mpg\": 18, \"rep78\": 2.0, \"headroom\": 5.0, \"trunk\": 16, \"weight\": 3330, \"length\": 201, \"turn\": 44, \"displacement\": 225, \"gear_ratio\": 3.2300000190734863, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Pont. Catalina\", \"price\": 5798, \"mpg\": 18, \"rep78\": 4.0, \"headroom\": 4.0, \"trunk\": 20, \"weight\": 3700, \"length\": 214, \"turn\": 42, \"displacement\": 231, \"gear_ratio\": 2.7300000190734863, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Pont. Firebird\", \"price\": 4934, \"mpg\": 18, \"rep78\": 1.0, \"headroom\": 1.5, \"trunk\": 7, \"weight\": 3470, \"length\": 198, \"turn\": 42, \"displacement\": 231, \"gear_ratio\": 3.0799999237060547, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Pont. Grand Prix\", \"price\": 5222, \"mpg\": 19, \"rep78\": 3.0, \"headroom\": 2.0, \"trunk\": 16, \"weight\": 3210, \"length\": 201, \"turn\": 45, \"displacement\": 231, \"gear_ratio\": 2.930000066757202, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Pont. Le Mans\", \"price\": 4723, \"mpg\": 19, \"rep78\": 3.0, \"headroom\": 3.5, \"trunk\": 17, \"weight\": 3200, \"length\": 199, \"turn\": 40, \"displacement\": 231, \"gear_ratio\": 2.930000066757202, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Pont. Phoenix\", \"price\": 4424, \"mpg\": 19, \"rep78\": null, \"headroom\": 3.5, \"trunk\": 13, \"weight\": 3420, \"length\": 203, \"turn\": 43, \"displacement\": 231, \"gear_ratio\": 3.0799999237060547, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Pont. Sunbird\", \"price\": 4172, \"mpg\": 24, \"rep78\": 2.0, \"headroom\": 2.0, \"trunk\": 7, \"weight\": 2690, \"length\": 179, \"turn\": 41, \"displacement\": 151, \"gear_ratio\": 2.7300000190734863, \"foreign\": \"Domestic\", \"guzzler\": 0}, {\"make\": \"Audi 5000\", \"price\": 9690, \"mpg\": 17, \"rep78\": 5.0, \"headroom\": 3.0, \"trunk\": 15, \"weight\": 2830, \"length\": 189, \"turn\": 37, \"displacement\": 131, \"gear_ratio\": 3.200000047683716, \"foreign\": \"Foreign\", \"guzzler\": 1}, {\"make\": \"Audi Fox\", \"price\": 6295, \"mpg\": 23, \"rep78\": 3.0, \"headroom\": 2.5, \"trunk\": 11, \"weight\": 2070, \"length\": 174, \"turn\": 36, \"displacement\": 97, \"gear_ratio\": 3.700000047683716, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"BMW 320i\", \"price\": 9735, \"mpg\": 25, \"rep78\": 4.0, \"headroom\": 2.5, \"trunk\": 12, \"weight\": 2650, \"length\": 177, \"turn\": 34, \"displacement\": 121, \"gear_ratio\": 3.640000104904175, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Datsun 200\", \"price\": 6229, \"mpg\": 23, \"rep78\": 4.0, \"headroom\": 1.5, \"trunk\": 6, \"weight\": 2370, \"length\": 170, \"turn\": 35, \"displacement\": 119, \"gear_ratio\": 3.890000104904175, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Datsun 210\", \"price\": 4589, \"mpg\": 35, \"rep78\": 5.0, \"headroom\": 2.0, \"trunk\": 8, \"weight\": 2020, \"length\": 165, \"turn\": 32, \"displacement\": 85, \"gear_ratio\": 3.700000047683716, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Datsun 510\", \"price\": 5079, \"mpg\": 24, \"rep78\": 4.0, \"headroom\": 2.5, \"trunk\": 8, \"weight\": 2280, \"length\": 170, \"turn\": 34, \"displacement\": 119, \"gear_ratio\": 3.5399999618530273, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Datsun 810\", \"price\": 8129, \"mpg\": 21, \"rep78\": 4.0, \"headroom\": 2.5, \"trunk\": 8, \"weight\": 2750, \"length\": 184, \"turn\": 38, \"displacement\": 146, \"gear_ratio\": 3.549999952316284, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Fiat Strada\", \"price\": 4296, \"mpg\": 21, \"rep78\": 3.0, \"headroom\": 2.5, \"trunk\": 16, \"weight\": 2130, \"length\": 161, \"turn\": 36, \"displacement\": 105, \"gear_ratio\": 3.369999885559082, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Honda Accord\", \"price\": 5799, \"mpg\": 25, \"rep78\": 5.0, \"headroom\": 3.0, \"trunk\": 10, \"weight\": 2240, \"length\": 172, \"turn\": 36, \"displacement\": 107, \"gear_ratio\": 3.049999952316284, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Honda Civic\", \"price\": 4499, \"mpg\": 28, \"rep78\": 4.0, \"headroom\": 2.5, \"trunk\": 5, \"weight\": 1760, \"length\": 149, \"turn\": 34, \"displacement\": 91, \"gear_ratio\": 3.299999952316284, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Mazda GLC\", \"price\": 3995, \"mpg\": 30, \"rep78\": 4.0, \"headroom\": 3.5, \"trunk\": 11, \"weight\": 1980, \"length\": 154, \"turn\": 33, \"displacement\": 86, \"gear_ratio\": 3.7300000190734863, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Peugeot 604\", \"price\": 12990, \"mpg\": 14, \"rep78\": null, \"headroom\": 3.5, \"trunk\": 14, \"weight\": 3420, \"length\": 192, \"turn\": 38, \"displacement\": 163, \"gear_ratio\": 3.5799999237060547, \"foreign\": \"Foreign\", \"guzzler\": 1}, {\"make\": \"Renault Le Car\", \"price\": 3895, \"mpg\": 26, \"rep78\": 3.0, \"headroom\": 3.0, \"trunk\": 10, \"weight\": 1830, \"length\": 142, \"turn\": 34, \"displacement\": 79, \"gear_ratio\": 3.7200000286102295, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Subaru\", \"price\": 3798, \"mpg\": 35, \"rep78\": 5.0, \"headroom\": 2.5, \"trunk\": 11, \"weight\": 2050, \"length\": 164, \"turn\": 36, \"displacement\": 97, \"gear_ratio\": 3.809999942779541, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Toyota Celica\", \"price\": 5899, \"mpg\": 18, \"rep78\": 5.0, \"headroom\": 2.5, \"trunk\": 14, \"weight\": 2410, \"length\": 174, \"turn\": 36, \"displacement\": 134, \"gear_ratio\": 3.059999942779541, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Toyota Corolla\", \"price\": 3748, \"mpg\": 31, \"rep78\": 5.0, \"headroom\": 3.0, \"trunk\": 9, \"weight\": 2200, \"length\": 165, \"turn\": 35, \"displacement\": 97, \"gear_ratio\": 3.2100000381469727, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Toyota Corona\", \"price\": 5719, \"mpg\": 18, \"rep78\": 5.0, \"headroom\": 2.0, \"trunk\": 11, \"weight\": 2670, \"length\": 175, \"turn\": 36, \"displacement\": 134, \"gear_ratio\": 3.049999952316284, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"VW Dasher\", \"price\": 7140, \"mpg\": 23, \"rep78\": 4.0, \"headroom\": 2.5, \"trunk\": 12, \"weight\": 2160, \"length\": 172, \"turn\": 36, \"displacement\": 97, \"gear_ratio\": 3.740000009536743, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"VW Diesel\", \"price\": 5397, \"mpg\": 41, \"rep78\": 5.0, \"headroom\": 3.0, \"trunk\": 15, \"weight\": 2040, \"length\": 155, \"turn\": 35, \"displacement\": 90, \"gear_ratio\": 3.7799999713897705, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"VW Rabbit\", \"price\": 4697, \"mpg\": 25, \"rep78\": 4.0, \"headroom\": 3.0, \"trunk\": 15, \"weight\": 1930, \"length\": 155, \"turn\": 35, \"displacement\": 89, \"gear_ratio\": 3.7799999713897705, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"VW Scirocco\", \"price\": 6850, \"mpg\": 25, \"rep78\": 4.0, \"headroom\": 2.0, \"trunk\": 16, \"weight\": 1990, \"length\": 156, \"turn\": 36, \"displacement\": 97, \"gear_ratio\": 3.7799999713897705, \"foreign\": \"Foreign\", \"guzzler\": 0}, {\"make\": \"Volvo 260\", \"price\": 11995, \"mpg\": 17, \"rep78\": 5.0, \"headroom\": 2.5, \"trunk\": 14, \"weight\": 3170, \"length\": 193, \"turn\": 37, \"displacement\": 163, \"gear_ratio\": 2.9800000190734863, \"foreign\": \"Foreign\", \"guzzler\": 1}]}}, {\"mode\": \"vega-lite\"});\n",
+       "</script>"
+      ],
       "text/plain": [
-       "<Figure size 640x480 with 1 Axes>"
+       "alt.Chart(...)"
       ]
      },
-     "metadata": {},
-     "output_type": "display_data"
-    },
-    {
-     "data": {
-      "text/plain": [
-       "<ggplot: (8789568076389)>"
-      ]
-     },
-     "execution_count": 3,
+     "execution_count": 4,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "from plotnine import *\n",
+    "import altair as alt\n",
     "\n",
-    "(ggplot(cars, aes(x=\"weight\", y=\"price\", color=\"guzzler\")) + geom_point())"
+    "alt.Chart(cars).encode(\n",
+    "    x=alt.X(\"weight\", scale=alt.Scale(zero=False)),\n",
+    "    y=alt.Y(\"price\", scale=alt.Scale(zero=False)),\n",
+    "    color=\"guzzler:N\",\n",
+    ").mark_point()\n"
    ]
   },
   {
@@ -293,7 +368,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 5,
    "metadata": {},
    "outputs": [
     {
@@ -311,10 +386,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   20.04</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>3.14e-12</td>\n",
+       "  <th>Date:</th>             <td>Tue, 01 Mar 2022</td> <th>  Prob (F-statistic):</th> <td>3.14e-12</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>18:57:49</td>     <th>  Log-Likelihood:    </th> <td> -662.20</td>\n",
+       "  <th>Time:</th>                 <td>10:18:54</td>     <th>  Log-Likelihood:    </th> <td> -662.20</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>    74</td>      <th>  AIC:               </th> <td>   1336.</td>\n",
@@ -375,8 +450,8 @@
        "Dep. Variable:                  price   R-squared:                       0.596\n",
        "Model:                            OLS   Adj. R-squared:                  0.566\n",
        "Method:                 Least Squares   F-statistic:                     20.04\n",
-       "Date:                Mon, 01 Mar 2021   Prob (F-statistic):           3.14e-12\n",
-       "Time:                        18:57:49   Log-Likelihood:                -662.20\n",
+       "Date:                Tue, 01 Mar 2022   Prob (F-statistic):           3.14e-12\n",
+       "Time:                        10:18:54   Log-Likelihood:                -662.20\n",
        "No. Observations:                  74   AIC:                             1336.\n",
        "Df Residuals:                      68   BIC:                             1350.\n",
        "Df Model:                           5                                         \n",
@@ -404,7 +479,7 @@
        "\"\"\""
       ]
      },
-     "execution_count": 4,
+     "execution_count": 5,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -412,7 +487,24 @@
    "source": [
     "smf.ols(\n",
     "    \"price ~ guzzler + weight + foreign + headroom + displacement\", cars\n",
-    ").fit().summary()"
+    ").fit().summary()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# After taking into account weight and other factors,\n",
+    "# guzzlers are no only about 2,000 more expensive because,\n",
+    "# as we see, as weight increases, so does prices (price increases by 2 dollars\n",
+    "# for ).\n",
+    "\n",
+    "# This does show that weight and being a guzzler were positively correlated,\n",
+    "# and the \"guzzler\" price difference in our first regression was capturing\n",
+    "# the actual \"guzzler\" difference, but also the fact that bigger cars\n",
+    "# are more expensive AND tend to be guzzlers.\n"
    ]
   },
   {
@@ -430,7 +522,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 7,
    "metadata": {},
    "outputs": [
     {
@@ -448,10 +540,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   9.557</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>8.11e-09</td>\n",
+       "  <th>Date:</th>             <td>Tue, 01 Mar 2022</td> <th>  Prob (F-statistic):</th> <td>8.11e-09</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>18:57:49</td>     <th>  Log-Likelihood:    </th> <td> -616.77</td>\n",
+       "  <th>Time:</th>                 <td>10:18:54</td>     <th>  Log-Likelihood:    </th> <td> -616.77</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>    69</td>      <th>  AIC:               </th> <td>   1254.</td>\n",
@@ -524,8 +616,8 @@
        "Dep. Variable:                  price   R-squared:                       0.593\n",
        "Model:                            OLS   Adj. R-squared:                  0.531\n",
        "Method:                 Least Squares   F-statistic:                     9.557\n",
-       "Date:                Mon, 01 Mar 2021   Prob (F-statistic):           8.11e-09\n",
-       "Time:                        18:57:49   Log-Likelihood:                -616.77\n",
+       "Date:                Tue, 01 Mar 2022   Prob (F-statistic):           8.11e-09\n",
+       "Time:                        10:18:54   Log-Likelihood:                -616.77\n",
        "No. Observations:                  69   AIC:                             1254.\n",
        "Df Residuals:                      59   BIC:                             1276.\n",
        "Df Model:                           9                                         \n",
@@ -557,7 +649,7 @@
        "\"\"\""
       ]
      },
-     "execution_count": 5,
+     "execution_count": 7,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -565,7 +657,19 @@
    "source": [
     "smf.ols(\n",
     "    \"price ~ C(rep78) + guzzler + weight + foreign + headroom + displacement\", cars\n",
-    ").fit().summary()"
+    ").fit().summary()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# The coefficient on rep78 == 3 (C(rep78)[T.3.0])\n",
+    "# says that an \"acceptable\" car is worth about 1,353 dollars\n",
+    "# more than a \"very poor\" quality car, after controlling for\n",
+    "# other attributes.\n"
    ]
   },
   {
@@ -581,7 +685,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 9,
    "metadata": {},
    "outputs": [
     {
@@ -599,10 +703,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   18.15</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>2.21e-12</td>\n",
+       "  <th>Date:</th>             <td>Tue, 01 Mar 2022</td> <th>  Prob (F-statistic):</th> <td>2.21e-12</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>18:57:49</td>     <th>  Log-Likelihood:    </th> <td> -660.00</td>\n",
+       "  <th>Time:</th>                 <td>10:18:55</td>     <th>  Log-Likelihood:    </th> <td> -660.00</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>    74</td>      <th>  AIC:               </th> <td>   1334.</td>\n",
@@ -666,8 +770,8 @@
        "Dep. Variable:                  price   R-squared:                       0.619\n",
        "Model:                            OLS   Adj. R-squared:                  0.585\n",
        "Method:                 Least Squares   F-statistic:                     18.15\n",
-       "Date:                Mon, 01 Mar 2021   Prob (F-statistic):           2.21e-12\n",
-       "Time:                        18:57:49   Log-Likelihood:                -660.00\n",
+       "Date:                Tue, 01 Mar 2022   Prob (F-statistic):           2.21e-12\n",
+       "Time:                        10:18:55   Log-Likelihood:                -660.00\n",
        "No. Observations:                  74   AIC:                             1334.\n",
        "Df Residuals:                      67   BIC:                             1350.\n",
        "Df Model:                           6                                         \n",
@@ -696,15 +800,34 @@
        "\"\"\""
       ]
      },
-     "execution_count": 6,
+     "execution_count": 9,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "smf.ols(\n",
+    "model = smf.ols(\n",
     "    \"price ~ guzzler * foreign + weight + headroom + displacement\", cars\n",
-    ").fit().summary()"
+    ").fit()\n",
+    "model.summary()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# (My grandmother passed away a long time ago, so I'll have to tell my mom...)\n",
+    "# Hi Mom! How are you doing?\n",
+    "# I know this is gonna sound silly, but I wanted to let you know that according\n",
+    "# to an admittedly dated database on car prices,\n",
+    "# gas guzzlers cost quite a bit more when the car is foreign than when\n",
+    "# they're domestic.\n",
+    "#\n",
+    "# Or, to be more precise: guzzlers cost more than non-gas guzzlers around the world,\n",
+    "# but this difference between guzzlers and non-guzzlers is about 2,797 dollars\n",
+    "# greater for foreign cars than domestic cars.\n"
    ]
   },
   {
@@ -717,12 +840,46 @@
    ]
   },
   {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "$4152.58\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"${model.params['guzzler:foreign[T.Foreign]'] + model.params['guzzler']:.2f}\")\n"
+   ]
+  },
+  {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
     "### Exercise 7\n",
     "\n",
     "What is the price difference between a domestic non-guzzler and a foreign non-guzzler?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "$2929.34\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"${model.params['foreign[T.Foreign]']:.2f}\")\n"
    ]
   },
   {
@@ -736,7 +893,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 13,
    "metadata": {},
    "outputs": [
     {
@@ -754,10 +911,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   16.71</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Mon, 01 Mar 2021</td> <th>  Prob (F-statistic):</th> <td>1.12e-11</td>\n",
+       "  <th>Date:</th>             <td>Tue, 01 Mar 2022</td> <th>  Prob (F-statistic):</th> <td>1.12e-11</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>18:57:49</td>     <th>  Log-Likelihood:    </th> <td> -661.86</td>\n",
+       "  <th>Time:</th>                 <td>10:18:55</td>     <th>  Log-Likelihood:    </th> <td> -661.86</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>    74</td>      <th>  AIC:               </th> <td>   1338.</td>\n",
@@ -821,8 +978,8 @@
        "Dep. Variable:                  price   R-squared:                       0.599\n",
        "Model:                            OLS   Adj. R-squared:                  0.564\n",
        "Method:                 Least Squares   F-statistic:                     16.71\n",
-       "Date:                Mon, 01 Mar 2021   Prob (F-statistic):           1.12e-11\n",
-       "Time:                        18:57:49   Log-Likelihood:                -661.86\n",
+       "Date:                Tue, 01 Mar 2022   Prob (F-statistic):           1.12e-11\n",
+       "Time:                        10:18:55   Log-Likelihood:                -661.86\n",
        "No. Observations:                  74   AIC:                             1338.\n",
        "Df Residuals:                      67   BIC:                             1354.\n",
        "Df Model:                           6                                         \n",
@@ -851,15 +1008,74 @@
        "\"\"\""
       ]
      },
-     "execution_count": 7,
+     "execution_count": 13,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "smf.ols(\n",
-    "    \"price ~ foreign * mpg + weight + headroom + displacement\", cars\n",
-    ").fit().summary()"
+    "m2 = smf.ols(\"price ~ foreign * mpg + weight + headroom + displacement\", cars).fit()\n",
+    "m2.summary()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "$259.81 per mpg\n"
+     ]
+    }
+   ],
+   "source": [
+    "# For domestic cars, prices go up with the car's miles per gallon\n",
+    "# by:\n",
+    "\n",
+    "print(f\"${m2.params['mpg']:.2f} per mpg\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "$-314.48 per mpg\n"
+     ]
+    }
+   ],
+   "source": [
+    "# But the \"price premium\" for milage is\n",
+    "\n",
+    "print(f\"${m2.params['foreign[T.Foreign]:mpg']:.2f} per mpg\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "$-54.67 per mpg\n"
+     ]
+    }
+   ],
+   "source": [
+    "# lower for foreign cars than domestic cars.\n",
+    "# That means that for every additional mpg, the price of a\n",
+    "# foreign car changes by:\n",
+    "\n",
+    "print(f\"${m2.params['foreign[T.Foreign]:mpg'] + m2.params['mpg']:.2f} per mpg\")\n"
    ]
   }
  ],
@@ -879,7 +1095,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.7.8"
+   "version": "3.9.7"
   }
  },
  "nbformat": 4,

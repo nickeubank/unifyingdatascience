@@ -356,7 +356,7 @@
    "source": [
     "### Exercise 14\n",
     "\n",
-    "Now include our other matching variables as controls. Does the coefficient change?"
+    "Now include our other matching variables as controls (e.g. all the coefficients you gave to DAME to use). Does the coefficient change?"
    ]
   },
   {

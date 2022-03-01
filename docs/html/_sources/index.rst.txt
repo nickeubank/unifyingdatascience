@@ -5,11 +5,11 @@ Welcome to Unifying Data Science!
 
 Hello, and welcome to the course site for Duke IDS 701!
 
-The first portion of the course will provide an application-focused introduction to *causal inference*, the art and science of using statistical data to make causal statements about the world. Our approach will be rooted in the potential outcomes framework, and will cover a range of methods of statistical inference including randomized experiments, pre-post analysis, differences-in-differences, and instrumental variables. In addition, we will also discuss concepts like the distinction between internal and external validity, and the limitations of estimating Average Treatment Effects. 
+A two part course. The first portion of the course provides an application-focused introduction to causal inference. This portion of the course introduces the potential outcomes framework and methods of causal statistical inference including randomized experiments, pre-post analysis, and differences-in-differences through both readings and hands-on exercises. We pay particular attention to concepts like internal and external validity, and the limitations of estimating Average Treatment Effects.
 
-In the second portion of the course, we will turn to the fundamental task of the data scientist: executing a full data science project from conceptualization through planning and execution. In particular, we will introduce a question-first, backwards design framework for systematically designing a data science project. Through exercises, students will practice each step of this approach, from working with stakeholders to properly articulate the problem they are seeking to address, to picking a question (which, if answered, will help the stakeholder solve their problem), selecting the appropriate methodological approach to answering that question, and developing a concrete strategy for generating an answer.
+The second portion of the course is focused on learning to execute a full data science project from conceptualization through execution and presentation. I introduce a question-first, backwards design framework for systematically designing a data science project. Through exercises, students practice each step of this approach, from working with stakeholders to properly articulate the problem they are seeking to address, to picking a question (which, if answered, will help the stakeholder solve their problem), selecting the appropriate methodological approach to answering that question, and developing a concrete strategy for generating an answer.
 
-In addition to completing a number of exercises related to project design, over the semester students will conduct a complete data science project themselves. Data science is a fundamentally applied field, and there is no substitute for learning to put these project design principles into action through practice. These projects will be developed incrementally over the course of the semester with instructor guidance. By the end of the semester, students will have picked a topic area, developed a (tractable) question, decided what an answer to that question would actually look like, developed a work plan for generating that answer, and executed and presented their project, and then iterated the project based on feedback from their initial presentation. For MIDS students, this will serve as a "capstone-project with training wheels" to prepare students for their second-year Capstone projects with external partners. And this project should provide all students with a portfolio piece they can present to potential future employers. 
+In addition to completing a number of exercises related to project design, over the semester students conduct a complete data science project themselves. Data science is a fundamentally applied field, and there is no substitute for learning to put project design principles into action through practice. These projects are developed incrementally over the course of the semester with instructor guidance. By the end of the semester, students will have picked a topic area, developed a (tractable) question, decided what an answer to that question would actually look like, developed a work plan for generating that answer, executed and presented their project, and then iterated the project based on feedback from their initial presentation. For MIDS students, this will serve as a "capstone-project with training wheels" to prepare students for their second-year Capstone projects with external partners. This project also provides all students with a portfolio piece they can present to potential future employers.
 
 Throughout the course, we will also be consistently returning to a few themes, chief among them the importance of developing a skeptical mindset. This is a core data science skill, but one that students do not always have the opportunity to practice. In this course, we will discuss *and practice* approaching our data, our code, our statistical models, our problem statements, and the work of others from a constructive but skeptical perspective.
 
@@ -39,26 +39,29 @@ To learn more about the course, please `read the course syllabus available here.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Data Science Concepts
-   :hidden:
-
-   Taxonomy of Questions <taxonomy_of_questions>
-   From Problems to Questions <moving_from_problems_to_questions>
-   Discretion and Description <descriptive_questions.ipynb>
-   Ethical Machine Learning <ethical_ml_recommendations.ipynb>
-   Writing for Lay Audiences <writing_to_stakeholders>
-
-.. toctree::
-   :maxdepth: 2
    :caption: Causal Inference
    :hidden:
 
    Limitations of ATE <limitations_of_ATE>
    Internal v. External Validity <internal_v_external_validity>
    Evaluating A Real Study <evaluating_real_studies>
+   Beyond AB Testing <causal_inference_beyond_ab_testing>
    Matching (Why) <matching_why>
    Matching (How) <matching_how>
    Indicator Variables <interpreting_indicator_vars>
    Fixed Effects (FEs) <fixed_effects>
    FEs & Causality <fixed_effects_and_causal_inference>
    FEs & Hierarchical Models <fixed_effects_v_hierarchical>
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Data Science Project Design
+   :hidden:
+
+   Backwards Design <backwards_design>
+   Taxonomy of Questions <taxonomy_of_questions>
+   From Problems to Questions <moving_from_problems_to_questions>
+   Discretion and Description <descriptive_questions.ipynb>
+   Ethical Machine Learning <ethical_ml_recommendations.ipynb>
+   Writing for Lay Audiences <writing_to_stakeholders>

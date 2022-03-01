@@ -27,11 +27,11 @@
    "outputs": [],
    "source": [
     "import pandas as pd\n",
-    "\n",
+    "import numpy as np\n",
     "cps = pd.read_stata(\n",
     "    \"https://github.com/nickeubank/MIDS_Data/\"\n",
     "    \"blob/master/Current_Population_Survey/morg18.dta?raw=true\"\n",
-    ")"
+    ")\n"
    ]
   },
   {
@@ -260,7 +260,7 @@
    "source": [
     "cps = cps[cps.lfsr94 == \"Employed-At Work\"]\n",
     "cps = cps[cps.uhourse >= 35]\n",
-    "cps.head()"
+    "cps.head()\n"
    ]
   },
   {
@@ -289,7 +289,7 @@
     "cps[\"earnhre_dollars\"] = cps[\"earnhre\"] / 100\n",
     "mean_female = cps[cps.female == 1].earnhre_dollars.mean()\n",
     "mean_male = cps[cps.female == 0].earnhre_dollars.mean()\n",
-    "avg = cps.earnhre_dollars.mean()"
+    "avg = cps.earnhre_dollars.mean()\n"
    ]
   },
   {
@@ -304,7 +304,7 @@
       "avg hourly wage for women is 18.08\n",
       "avg hourly wage for men is 20.55\n",
       "hourly gender wage gap is 2.48 dollars,\n",
-      "a difference of 0.13%\n"
+      "a difference of 12.8%\n"
      ]
     }
    ],
@@ -312,7 +312,7 @@
     "print(f\"avg hourly wage for women is {mean_female:.2f}\")\n",
     "print(f\"avg hourly wage for men is {mean_male:.2f}\")\n",
     "print(f\"hourly gender wage gap is {mean_male - mean_female:.2f} dollars,\")\n",
-    "print(f\"a difference of {(mean_male - mean_female)/avg:.2f}%\")"
+    "print(f\"a difference of {(mean_male - mean_female)/avg:.1%}\")\n"
    ]
   },
   {
@@ -333,7 +333,7 @@
     "cps[\"annual_earnings\"] = cps[\"earnhre_dollars\"] * cps[\"uhourse\"] * 48\n",
     "mean_female = cps[cps.female == 1].annual_earnings.mean()\n",
     "mean_male = cps[cps.female == 0].annual_earnings.mean()\n",
-    "avg = cps.annual_earnings.mean()"
+    "avg = cps.annual_earnings.mean()\n"
    ]
   },
   {
@@ -346,13 +346,13 @@
      "output_type": "stream",
      "text": [
       "annual gender wage gap is 6,683.69 dollars,\n",
-      "a difference of 0.17%\n"
+      "a difference of 17.34%\n"
      ]
     }
    ],
    "source": [
     "print(f\"annual gender wage gap is {mean_male - mean_female:,.2f} dollars,\")\n",
-    "print(f\"a difference of {(mean_male - mean_female) / avg:.2f}%\")"
+    "print(f\"a difference of {(mean_male - mean_female) / avg:.2%}\")\n"
    ]
   },
   {
@@ -376,7 +376,7 @@
     "\n",
     "# This doesn't work if, for example, men have higher educations,\n",
     "# or if the men in the sample are older (and thus have more work)\n",
-    "# experience."
+    "# experience.\n"
    ]
   },
   {
@@ -410,10 +410,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   1974.</td>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 10 Feb 2022</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   \n",
+       "  <th>Date:</th>             <td>Tue, 01 Mar 2022</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>15:01:49</td>     <th>  Log-Likelihood:    </th> <td>-7.4698e+05</td>\n",
+       "  <th>Time:</th>                 <td>10:32:44</td>     <th>  Log-Likelihood:    </th> <td>-7.4698e+05</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td> 65755</td>      <th>  AIC:               </th>  <td>1.494e+06</td> \n",
@@ -465,8 +465,8 @@
        "Dep. Variable:        annual_earnings   R-squared:                       0.057\n",
        "Model:                            OLS   Adj. R-squared:                  0.057\n",
        "Method:                 Least Squares   F-statistic:                     1974.\n",
-       "Date:                Thu, 10 Feb 2022   Prob (F-statistic):               0.00\n",
-       "Time:                        15:01:49   Log-Likelihood:            -7.4698e+05\n",
+       "Date:                Tue, 01 Mar 2022   Prob (F-statistic):               0.00\n",
+       "Time:                        10:32:44   Log-Likelihood:            -7.4698e+05\n",
        "No. Observations:               65755   AIC:                         1.494e+06\n",
        "Df Residuals:                   65752   BIC:                         1.494e+06\n",
        "Df Model:                           2                                         \n",
@@ -497,7 +497,7 @@
    "source": [
     "import statsmodels.formula.api as smf\n",
     "\n",
-    "smf.ols(\"annual_earnings ~ female + age\", cps).fit().summary()"
+    "smf.ols(\"annual_earnings ~ female + age\", cps).fit().summary()\n"
    ]
   },
   {
@@ -515,7 +515,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "# We are implicitly comparing men and women OF THE SAME AGE."
+    "# We are implicitly comparing men and women OF THE SAME AGE.\n"
    ]
   },
   {
@@ -553,10 +553,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   2946.</td>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 10 Feb 2022</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   \n",
+       "  <th>Date:</th>             <td>Tue, 01 Mar 2022</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>15:01:49</td>     <th>  Log-Likelihood:    </th> <td>-7.4348e+05</td>\n",
+       "  <th>Time:</th>                 <td>10:32:44</td>     <th>  Log-Likelihood:    </th> <td>-7.4348e+05</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td> 65755</td>      <th>  AIC:               </th>  <td>1.487e+06</td> \n",
@@ -614,8 +614,8 @@
        "Dep. Variable:        annual_earnings   R-squared:                       0.152\n",
        "Model:                            OLS   Adj. R-squared:                  0.152\n",
        "Method:                 Least Squares   F-statistic:                     2946.\n",
-       "Date:                Thu, 10 Feb 2022   Prob (F-statistic):               0.00\n",
-       "Time:                        15:01:49   Log-Likelihood:            -7.4348e+05\n",
+       "Date:                Tue, 01 Mar 2022   Prob (F-statistic):               0.00\n",
+       "Time:                        10:32:44   Log-Likelihood:            -7.4348e+05\n",
        "No. Observations:               65755   AIC:                         1.487e+06\n",
        "Df Residuals:                   65750   BIC:                         1.487e+06\n",
        "Df Model:                           4                                         \n",
@@ -648,7 +648,8 @@
    "source": [
     "cps[\"has_highschool\"] = cps.grade92 >= 39\n",
     "cps[\"has_ba\"] = cps.grade92 >= 43\n",
-    "smf.ols(\"annual_earnings ~ female + age + has_highschool + has_ba\", cps).fit().summary()"
+    "m_educ = smf.ols(\"annual_earnings ~ female + age + has_highschool + has_ba\", cps).fit()\n",
+    "m_educ.summary()\n"
    ]
   },
   {
@@ -666,7 +667,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Men and women of the same age and educational attainment"
+    "# Men and women of the same age and educational attainment\n"
    ]
   },
   {
@@ -688,7 +689,7 @@
     "# if controlling for education results in the female penalty increasing,\n",
     "# that implies that women have higher educations.\n",
     "# As a result, if we *don't* control for education,\n",
-    "# their wages look more fair than they should be."
+    "# their wages look more fair than they should be.\n"
    ]
   },
   {
@@ -698,6 +699,17 @@
     "## Exercise 11\n",
     "\n",
     "What does that tell you about the *potential outcomes* of men and women before you added education as a control?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# They were substantially different! \n",
+    "# In particular, looks like women in the work force had greater educational\n",
+    "# levels, and so had higher wages in all states of the world. "
    ]
   },
   {
@@ -719,7 +731,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 14,
    "metadata": {},
    "outputs": [
     {
@@ -737,10 +749,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   80.26</td>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 10 Feb 2022</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   \n",
+       "  <th>Date:</th>             <td>Tue, 01 Mar 2022</td> <th>  Prob (F-statistic):</th>   <td>  0.00</td>   \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>15:01:54</td>     <th>  Log-Likelihood:    </th> <td>-7.3999e+05</td>\n",
+       "  <th>Time:</th>                 <td>10:32:47</td>     <th>  Log-Likelihood:    </th> <td>-7.3999e+05</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td> 65755</td>      <th>  AIC:               </th>  <td>1.480e+06</td> \n",
@@ -1548,8 +1560,8 @@
        "Dep. Variable:        annual_earnings   R-squared:                       0.237\n",
        "Model:                            OLS   Adj. R-squared:                  0.234\n",
        "Method:                 Least Squares   F-statistic:                     80.26\n",
-       "Date:                Thu, 10 Feb 2022   Prob (F-statistic):               0.00\n",
-       "Time:                        15:01:54   Log-Likelihood:            -7.3999e+05\n",
+       "Date:                Tue, 01 Mar 2022   Prob (F-statistic):               0.00\n",
+       "Time:                        10:32:47   Log-Likelihood:            -7.3999e+05\n",
        "No. Observations:               65755   AIC:                         1.480e+06\n",
        "Df Residuals:                   65500   BIC:                         1.483e+06\n",
        "Df Model:                         254                                         \n",
@@ -1826,15 +1838,16 @@
        "\"\"\""
       ]
      },
-     "execution_count": 13,
+     "execution_count": 14,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "smf.ols(\n",
+    "m_industry = smf.ols(\n",
     "    \"annual_earnings ~ female + age + has_highschool + has_ba + C(ind02)\", cps\n",
-    ").fit().summary()"
+    ").fit()\n",
+    "m_industry.summary()\n"
    ]
   },
   {
@@ -1848,12 +1861,12 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 15,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Men and women of hte same age and education\n",
-    "# WITHIN THE SAME INDUSTRY"
+    "# Men and women of the same age and education\n",
+    "# WITHIN THE SAME INDUSTRY\n"
    ]
   },
   {
@@ -1867,11 +1880,55 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "If fell from -8478.56 dollars to \n",
+      "          -6595.22 dollars, a change of \n",
+      "          1883.34 dollars. \n",
+      "          So about 22.2%\n",
+      "          of gender wage inequality is due to industry sorting.\n"
+     ]
+    }
+   ],
+   "source": [
+    "# The coefficient went down, suggesting that women tend to be more\n",
+    "# likely to work in lower paying industries (e.g. childcare)\n",
+    "# than men (engineering).\n",
+    "\n",
+    "print(\n",
+    "    f\"\"\"If fell from {m_educ.params['female']:.2f} dollars to \n",
+    "          {m_industry.params['female']:.2f} dollars, a change of \n",
+    "          {m_industry.params['female'] - m_educ.params['female']:.2f} dollars. \n",
+    "          So about {np.abs((m_industry.params['female'] - m_educ.params['female'])/m_educ.params['female']):.1%}\n",
+    "          of gender wage inequality is due to industry sorting.\"\"\"\n",
+    ")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# The coefficient went down, suggesting that women are going into lower paying jobs."
+    "\n",
+    "# Note this does NOT imply that women are getting lower wages \n",
+    "# because they have JUST CHOSEN to go into lower paying fields\n",
+    "# and that only the remaining wage gap we estimate here is the real\n",
+    "# result of discrimination.\n",
+    "#\n",
+    "# Women may be choosing these fields because they face discrimination\n",
+    "# in the higher paying fields, or because they were discouraged \n",
+    "# from taking math classes in high school (both things \n",
+    "# we know from research is happen a lot).\n",
+    "#\n",
+    "# This just helps us DECOMPOSE wage inequalities into \n",
+    "# inequities due to within industry wage differences and \n",
+    "# wage differences due to sorting across industries.\n"
    ]
   }
  ],
