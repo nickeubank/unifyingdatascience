@@ -81,7 +81,9 @@ but here's a real diff-in-diff)
 - `RDD at Coursera <https://medium.com/coursera-engineering/regression-discontinuity-understanding-the-benefit-of-subtitles-on-coursera-dd82bb25a0f1>`_
 - `What makes good teams? <https://www.youtube.com/watch?v=LhoLuui9gX8>`_
 - Do teamwork prep sent on Sakai.",
-"Tu, Mar 1",Backwards Design,- `Backwards Design <backwards_design.ipynb>`_,
+"Tu, Mar 1",Backwards Design,- `Backwards Design <backwards_design.ipynb>`_,"- `Backwards In Class <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_InClass.pdf>`_
+- `Backwards Assignment <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_Assignment.pdf>`_
+- `Data Sources <final_project_resources.ipynb>`_"
 "Th, Mar 3",Answering Questions,"- `Moving from Problems to Questions <moving_from_problems_to_questions>`_
 - `Why It's Important To Get Your Question Right <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_
 - `Most ML Doesn't Make Money <https://www.wired.com/story/companies-rushing-use-ai-few-see-payoff/>`_
