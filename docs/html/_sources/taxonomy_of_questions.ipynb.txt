@@ -13,8 +13,8 @@
     "In this course, we will use a three-fold taxonomy of questions:\n",
     "\n",
     "- **Descriptive Questions**: Questions about the current (or past) state of the world. Descriptive questions are often about measuring things that haven't previously been measured, or identifying previously unseen patterns.\n",
-    "- **Causal Questions**: Questions about causes and effects -- *why* does the world look the way it does? What *caused* the current state of the world? What is the *effect* of, say, a drug?\n",
-    "- **Predictive Questions**: Questions about the future, or questions that require extrapolation beyond current data."
+    "- **Causal Questions / Predictions with Manipulation**: Causality is fundamentally about understanding causes and effects -- *why* does the world look the way it does? What *caused* the current state of the world? And crucially, if we were to try and manipulate the world in some way, what would the effect of that manipulation be?\n",
+    "- **Classification Questions / Prediction Without Manipulation**: Questions about trying to guess and observations unobserved \"type\", or to predict behavior that will occur in the future (but in a world where we are passive observers—in other words, situations where we want to predict future events we don't play an active role in shaping)."
    ]
   },
   {
@@ -71,6 +71,17 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
+    "### Descriptive Questions and EDA\n",
+    "\n",
+    "I have found that many students equate efforts to answer descriptive questions with doing Exploratory Data Analysis (EDA). While there is a sense in which EDA is a form of descriptive analysis, it is unfair to descriptive analysis to equate the two activities. When most people talk about EDA, they're talking about noodling around with a data set that they had been given before they start to analyze it in detail. In other words, it is a relatively casual exploration of a provided data set meant primarily to help the user get familiar with the specific variables they plan to put in a fancier model.\n",
+    "\n",
+    "Real descriptive analysis, by contrast, often necessitates collecting / compiling novel data that is designed to shed light on a phenomenon of interest. It is not *just* a step towards modelling, but rather a research endeavor and its own right, particularly when one starts doing more complicated forms of descriptive analyses (e.g., fitting unsupervised machine learning to learn about the latent structure of the data; fitting descriptive statistical models; etc.)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "### Last Thoughts\n",
     "\n",
     "By now you can hopefully recognize the importance of descriptive analyses. Description is rarely the *end* of the scientific inquiry, but it is often the *start*, and without it, it is hard to imagine where we would be today. \n",
@@ -82,7 +93,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Causal Questions\n",
+    "## Causal Questions and Prediction-with-Manipulation\n",
     "\n",
     "Causal questions are questions about causes and effects, and *why* we see certain patterns in the world. They often take the form of \"What is the effect of X on Y\", where X could be a drug and Y is a disease, or where X is a goverment policy and Y is a public health or economic outcome.\n",
     "\n",
@@ -96,7 +107,7 @@
     "\n",
     "- What is the effect of minimum wage laws on unemployment?\n",
     "- What is the effect of DRUG X on DISEASE Y?\n",
-    "- What is the effect of Iowa voting first in US Presidential Primaries on the types of politicians who become president?\n",
+    "- What is the effect of Iowa voting first in US Presidential Primaries/Caususes on the types of politicians who become president?\n",
     "\n",
     "At the same time, though, they can also be awfully hard to answer..."
    ]
@@ -112,7 +123,9 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "As we will explore in *lots* of detail, causal questions can be very hard to answer. To understand why, suppose we were interested in the effect of an increase in cigarette taxes that took place in Durham in 2019 on smoking rates. \n",
+    "As we have explored in *lots* of detail, causal questions can be very hard to answer. \n",
+    "\n",
+    "What follows *should* be review, but since people occasionally stumble on these pages out of sequence, I'll reiterate some of what we've discussed before: To understand why, suppose we were interested in the effect of an increase in cigarette taxes that took place in Durham in 2019 on smoking rates. \n",
     "\n",
     "In a magical, idealized world, the way we would answer this causal question is by creating two worlds: one in which our causal treatment (e.g. the tax increase) was enacted, and one where it was not. Then we could ask \"were smoking rates different in the 2019 Durham with a policy change *as compared to the world where no policy change took place in Durham in 2019*?\"\n",
     "\n",
@@ -127,70 +140,56 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Prediction / Extrapolation Questions"
+    "### Causal Inference, Manipulations, and Prediction\n",
+    "\n",
+    "The father of the counter-factual model of causality we have worked with in this class once famously said \"there is no causation without manipulation.\" This is probably a *bit* of a simplification, but not much of one; especially in the context of business or public policy, we are generally interested in causal inference because we are considering *enacting a manipulation* (say, a new tax policy, or building a new store that could be in a neighborhood with wealthy residents or a neighborhood with middle-income residents), and we want to be able to *predict* the result of that manipulation.\n",
+    "\n",
+    "In the three examples listed above, for example, we're likely interested in the effect of minimum wage laws on unemployment because we're thinking about changing (\"manipulating\") a city's minimum wage laws; in the effect of Drug X on Disease Y because we probably want to use Drug X to treat Disease Y / take Drug X off the market to prevent more of Disease Y; and the effect of Iowa's first-in-the-nation caucuses because we might want to change the rules around the Presidential primary process.\n",
+    "\n",
+    "As we'll discuss below, however, not all \"prediction\" questions are about understanding the effect of manipulations, and recognizing whether the question you are asking is one that entails understanding the effect of a manipulation or just predicting future outcomes is really important. "
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Finally, we come to what is likely the most trendy topic in data science: prediction!\n",
+    "## Classification Questions / Prediction-Without-Manipulation"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Finally, we come to what is likely the most trendy topic in data science: prediction and classification! In other words, the domain of supervised machine learning.\n",
     "\n",
-    "In this course, we will use the terms \"prediction\" and \"extrapolation\" pretty interchangably. Thus when we say \"prediction\", we won't just mean \"offering guesses about what will happen *in the future*,\" but also \"what might happen if we consider cases that are outside the domain for which we currently have data.\" That means that not only does building a model future stock market returns count as prediction, but so too does using data from a set of mammogram scans that have already been analyzed by human radiologists to build a model for analyze mammograms that haven't been reviewed by human radiologists.\n",
+    "In this course, we will group \"classification\" and \"prediction-without-manipulation\" into one bin. Thus this section isn't just about figuring out \"what group does this observation likely belong to?\", but also \"what do we think this observation may do *in the future*.\"  That means that not only does building a model future stock market returns count as prediction, but so too does using data from a set of mammogram scans that have already been analyzed by human radiologists to build a model for identifying tumors in mammograms that haven't been reviewed by human radiologists.\n",
     "\n",
-    "Examples of predictive questions include things like:\n",
+    "Examples of classification / prediction without manipulation questions include things like:\n",
     "\n",
     "- In what parts of the city are we most likely to see opioid overdoses tomorrow?\n",
     "- What features of customers predict the likelihood they will actually buy something when they come to my website?\n",
-    "- What features of MRI scans predict alzheimers?\n",
-    "\n",
-    "In this course, we will discuss two general forms of predictive analyses: predictive analyses based on causal inference, and predictive analyses based on supervised machine learning. "
+    "- What features of MRI scans predict alzheimers?\n"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Prediction Based on Causal Methods\n",
+    "### \"Without Manipulation\"?\n",
     "\n",
-    "When one answers a causal question, one is generating an answer that, by its very nature, should be useful for prediction. If we run an experiment to test the effects of, say, statins on cholesterol, and we find that statins *cause* a reduction in cholesterol, then presumably we know what will happen if we give statins to more people. \n",
+    "*Most* classification / prediction-without-manipulation is the domain of supervised machine learning (SML). SML is the label applied to an incredibly powerful set of tools, but it is a set of tools that tends to have one fundamental flaw: it is *really* bad at out-of-sample extrapolation. Basically, SML tools tend to give garbage predictions if you give them input data that looks really different from your training data. \n",
     "\n",
-    "There are limits to this, of course -- that's why we've spent lots of time discussing the concept of *external validity*. A drug study that only examined the effects of statins on white men between 45 and 75 with dangerously high cholesterol, for example, is probably a good basis for predicting the effect of statins on a 65 year-old white man with sky-high cholesterol; but how likely is it to predict outcomes for a 65 year-old black man with sky-high cholesterol, or a 45 year-old woman with sky-high cholesterol, or a 65 year-old white man with only moderately high cholesterol? But with causal research designs, we generally have a well developed understanding of exactly what we're measuring and how we're measuring it, which makes it possible to think critically about the external validity of our conclusions. "
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "### Prediction Based on Supervised Machine Learning\n",
+    "(Why? I would argue that it is mostly because SML isn't trying to model actual physical or social processes that have analogues in the real world; they are *just* looking for consistent structures in the data. This works well if the data to which you want to apply your model has the same internal structure as your training data, but since if you give it data that doesn't look like your training data, there's no guarantee the same patterns will exist.)\n",
     "\n",
-    "In this class, we'll treat all supervised machine learning (SML) models as tools for \"prediction\", since in essence all a supervised machine learning tool is designed to do is to *predict* what the agent that labeled the SML's training data would do when given unlabeled data. For example, what a SML model that is trained using mammogram scans and diagnoses provided by human radiologists if fundamentally trying to do is guess, when given a new mammogram scan, what a human radiologist would label that data. (Note: there are some machine learning approaches -- like reinforcement learning -- that don't fit this model, but those are currently pretty rare in data science applications.)\n",
+    "What does this have to do with manipulation? Well, a \"manipulation\", almost by definition, is an intervention that results in changes in the world. So whenever we introduce a significant manipulation, we are moving to a world that is \"out-of-sample.\"\n",
     "\n",
-    "When using SML for predictive analysis, however, there are four very important concepts we'll need to discuss at length: bias, external validity, resiliance to adversarial users, and ambiguous uncertainty. \n",
+    "To be clear, out-of-sample extrapolations are always hard for statistical models (see: [our discussion of external validity](internal_v_external_validity.ipynb) considerations for causal models!). But in trying to estimate a causal relationship, causal inference is often doing its best to understand real-world relationships between factors (say, that smoking causes and lung cancer deaths), not just correlations. SML, by contrast, is an explicitly \"we just want good correlations\" endeavor. So if you asked an SML model what would happen if you improved lung cancer treatments, it would say \"well, lung cancer deaths and smoking are positive correlated, so fewer lung cancer deaths would reduce smoking!\" (this is a transparently ridiculous example, but similarly ridiculous things happen in more subtle ways with complicated black box algorithms).\n",
     "\n",
-    "**Bias**\n",
+    "So when using Supervised Machine Learning models, it's best to use them in contexts where you want to predict outcomes *in a world you aren't manipulating*. That way you are more likely to get valid predictions. \n",
     "\n",
-    "As we'll discuss, bias comes from the fact that SML models are generally just trying to predict the behavior of whomever labeled the training data used to train the model. As a result, if the people/process that generated those labels is shaped by human baises, this can be *deeply* problematic. For example, suppose a SML algorithm is trained on real world drug arrest data that reflects the fact that a Black citizen is more likely to be arrested for drugs than a White citizen despite similar rates of drug use. If that algorithm is then used in court to evaluate whether its safe to release someone on bond pending tiral, then that algorithm will say that a Black defendant is more likely to be arrested in the future (reflecting the racial bias in its training data) despite the fact that the Black defendant may be no more likely to use drugs than a White defendent, making it less likely that Black defendent will be released on bail.\n",
+    "To be clear, you may want to make predictions of what would happen if you did nothing so that you can then try to do something (e.g., predict bad health outcomes so you can target those patients for extra care!), but in those situations, just remember all your model can tell you is what would happen in a world without your manipulation; don't use it to predict outcomes post-intervention. \n",
     "\n",
-    "And to be clear, this type of bias doesn't find its way into SML models because the people training them were careless in writing their SML; the tendency of SML to reflect biases is intrinsic to SML itself.  What makes SML exciting as a prediction tool is that it's designed to find patterns in the data *that programmers don't have to identify explicitly* that explain variations in outcomes. But that means that so long as we live in a society where race, gender, nationality, etc., shape outcomes, SML algorithms will do their best to use these sources of variation because they explain variation. And the only goal of a SML is to explain variation.\n",
-    "\n",
-    "**External Validity**\n",
-    "\n",
-    "The second consideration when using SML for prediction is the issue of *external validity* and model fragility. As we've discussed at length in this course, *all* studies have potential limits to their external validity. But while its possible to reason about the external validity of the types of causal approaches to data science we've discussed in class up until this point, it can be *really* hard to figure out the external validity of an SML model. That's because most SML models are black boxes, meaning we don't really know how they're making their predictions:\n",
-    "\n",
-    "![xkcd_ml_pile](images/xkcd_ml_pile.png)\n",
-    "\n",
-    "While this is a strength of SML models in some ways -- the model is doing the work of figuring out what is important and what is not without us having to specify it in a model -- it makes it *very* hard to evaluate how well a SML model is likely to perform if we use it in a context that isn't the exact context from which its test and training data was drawn. This isn't always a problem -- if you're google, you can test on your users then deploy to your users -- but if you want to use your model in a new place, it can be hard to predict model performance. \n",
-    "\n",
-    "**Adversarial Users**\n",
-    "\n",
-    "The fact that SML models are black boxes also means it can be hard to know how people may manipulate them when we put them in the world. As we discussed early in the semester, any time we want to use a study to motivate a change in our own behavior, people in the world may also change *their* behavior in response. For example, we talked about the program that only paid nurses in India if they showed up to work, and how (when the program became established) the nurse's union created reasons for \"excused absenses\" nurses could use so they wouldn't lose their salaries. \n",
-    "\n",
-    "But again, because we don't know how most SML models work, it can be hard to predict how they may be manipulated. \n",
-    "\n",
-    "**Uncertainty**\n",
-    "\n",
-    "Finally, most SML approaches do a poor job of measuring the undercertainty of their predictions. You split your data, train your model, and evaluate how it performs on your test data. But how sensitive is that performance to the split of the data you used? If you split your data again, would your predictions change dramatically? "
+    "Oh, but be careful about situations where you have a manipulation that *seems* like it occurs after you've used your model to make a prediction, but where *awareness* that a model is being employed itself constitutes a manipulation that changes the world enough to ruin your model. For example, in your other reading you'll read about a school that employed an SML model to grade student essays. This may seem benign—the model is grading essays after they've been written, so the manipulation is after the model has been used—but when students *realized* an SML model was being used, it changed their behavior. This change in behavior resulted in the world changing enough that the model was now effectively doing \"out-of-sample\" extrapolations that turned out to be meaningless!"
    ]
   },
   {
@@ -200,15 +199,6 @@
     "## Conclusion\n",
     "\n",
     "This has been a quick tour of the taxonomy of questions we'll be examining in this class, and some of the issues associated with each. I know that it introduces a *lot* of material. Please do your best to wrestle with what is provided here, and read this over a few times. It will help contextualize everything we do moving forward. At the same time, however, know that we'll return to all of the topics introduced here in much more detail later, so don't worry if you don't feel like you've fully internalized everything this covers. "
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## What to Read Next\n",
-    "\n",
-    "If you're in my class we'll get to this next, but if you're reading on your own, the next reading in this sequence is [Moving from Problems to Questions](moving_from_problems_to_questions.ipynb)! "
    ]
   }
  ],
@@ -228,7 +218,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.7.8"
+   "version": "3.9.7"
   }
  },
  "nbformat": 4,

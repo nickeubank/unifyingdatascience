@@ -1,0 +1,164 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Unifying Data Science Mid-Term 2022\n",
+    "\n",
+    "Hello, and welcome to the multiple choice portion of the UDS 2022 midterm! I know this doesn't *feel* exciting, but I hope you find this a useful opportunity to practice applying all the knowledge you've gained about causal inference over the course of the semester. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Causal Inference Fundamentals"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 1\n",
+    "\n",
+    "You are sitting in a meeting listening to a presentation to management by a colleague from the advertising department. In the presentation, your colleague is arguing that their model shows that if your non-profit—Let's Bring Back the Dinosaurs—were to advertise on bus stop benches, it would increase donations to your project by 30%, radically increasing funding for your project to genetically modify reptile embryos by splicing them with remnant DNA found in mosquitos encased in amber, because that could never end badly.\n",
+    "\n",
+    "As you watch the presentation, another colleague asks the presenter how they know that their model is giving a valid causal estimate of the likely effect of bus bench advertising. The presenter explains that:\n",
+    "\n",
+    "\"We got data on donations to other non-profts and their advertising strategies, then used the `estimate_effect` method from the `DoWhy: An end-to-end library for causal inference` package's `dowhy.causal_estimators` module [yes, this is a real thing]. Then we read off the \"average treatment effect\". The package is from Microsoft, so we think it's trustworthy! Plus it passed the robustness tests in the package, so we know it's a valid estimate.\"\n",
+    "\n",
+    "What response seems most appropriate in this context?\n",
+    "\n",
+    "- [ ] Excitement! It's great to hear that someone has finally developed a package to automate the process of causal inference so that it can become systematized in the same way scikit-learn has systematized machine learning.\n",
+    "- [ ] Mild skepticism. While it sounds like the team did some good work and knows what they're doing, the only real way to get a good causal estimate is with randomization, so we should probably do more research.\n",
+    "- [ ] Deep skepticism. You know that there are *no* statistical tests that can tell us with certainty whether *any* causal estimate is valid. That's because the fundamental problem of causal inference is that we can never directly observe both an outcome under treatment and its counter-factual (outcome without treatment) for the same unit of observation at the same moment in time. Since we would have to observe both an outcome and its counterfactual to be certain of the causal effect of any treatment, this means we can never be absolutely certain of our causal inferences. The best we can do is look for stand-ins we think *approximate* the counter-factual condition (the outcome we don't see) and use those to make inferences. But because we can never see this counter-factual, we can't ever directly measure whether we have approximated it correctly, and thus must always rely on case knowledge to argue for whether our causal estimate if valid.\n",
+    "- [ ] Optimism! It really sounds like this team did their homework, and now we'll be able to raise more money so I can *finally* get a pet Chaoyangsaurus!\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 2\n",
+    "\n",
+    "A random sample of American landlords were shown applications from potential renters and asked if they would rent to the applicant. Those responses—1 if the landlord said they would rent to a candidate, 0 if not—were then regressed on attributes of the applicant. The result of that regression is this table:\n",
+    "\n",
+    "![regression of landlord decision on applicant features](race_regression.png)\n",
+    "\n",
+    "Does this show that there is a causal effect of having a college degree on whether landlords are willing to rent to an applicant?\n",
+    "\n",
+    "- [ ] Yes: the coefficient on `has_college_degree` is large (it looks like the average acceptance rate was around 3%, so the +3% effect is quite big); the coefficient is very statistically significant (t-stat is over 4!); and landlords were randomly selected. So we can conclude that having a college degree has a very large causal effect on landlord behavior in the US.\n",
+    "- [ ] No, while there are some controls in the regression, there were probably lots of other things in the applications that were different for applicants with and without college degrees.\n",
+    "- [ ] No, the R-squared on this model is so low, we really can't infer anything. \n",
+    "- [ ] I really can't say based on the information I have been provided. I would need to know more about the applications and how landlords were approached to answer that question."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 3\n",
+    "\n",
+    "Now suppose I told you that the applications that the landlords saw were created by a researcher who picked whether applicants would have a college degree on each application at random. Now would you say that the table shows that there is a causal effect of having a college degree on whether landlords are willing to rent to an applicant?\n",
+    "\n",
+    "- [ ] Yes: having a college degree was randomly assigned on the applications; the coefficient on `has_college_degree` is large (it looks like the average acceptance rate was around 3%, so the +3% effect is quite big); the coefficient is very statistically significant (t-stat is over 4!); and landlords were randomly selected. So we can conclude that having a college degree applicant has a very large causal effect on landlord behavior in the US.\n",
+    "- [ ] Probably yes: If Black was randomly assigned, then given the magnitude and statistical significance of the coefficient, and the fact landlords were randomly selected, then it is probably the case that that being a Black applicant has a very large causal effect on landlord behavior in the US. But to be sure I would need to know more about exactly how the experiment was conducted to be sure that the randomization actually resulted in similar Black and non-Black applications, and that there were no unintended spillover or context effects. \n",
+    "- [ ] No: there were probably still differences between the Black and non-Black applications.\n",
+    "- [ ] I really can't say based on the information I've been provided. I would need to know more"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 4\n",
+    "\n",
+    "Now suppose I told you that the applications that the landlords saw were a random sample of real renter applications, and that the only features on the application were the applicant's age, gender, and educational attainment.\n",
+    "\n",
+    "Now would you say that the table shows that there is a causal effect of being having a college degree on whether landlords are willing to rent to an applicant?\n",
+    "\n",
+    "- [ ] No: since the having a college degree was not randomly assigned, the coefficient on `has_college_degree` is not a valid causal estimate; it's just a correlation.\n",
+    "- [ ] Yes: the coefficient on `has_college_degree` is large (it looks like the average acceptance rate was around 3%, so the +3% effect is quite big); the coefficient is very statistically significant (t-stat is over 4!); and landlords were randomly selected. So we can conclude that having a college degree applicant has a very large causal effect on landlord behavior in the US.\n",
+    "- [ ] Probably yes: even though having a college degree was not randomly assigned, we have been able to measure all features on the application, meaning that even if applicants with and without college degrees are not the same on average, our model can adjust for those average differences. Thus given the magnitude and statistical significance of the coefficient, and the fact landlords were randomly selected, it is probably the case that that having a college degree has a very large causal effect on landlord behavior in the US. But to be sure, I would want to run some additional diagnostic tests on the model to ensure that I have specified the model correctly.\n",
+    "- [ ] I really can't say based on the information I've been provided. I would need to know more."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 5\n",
+    "\n",
+    "Now suppose I told you that the applications that the landlords saw were a random sample of real renter applications that also included personal statements, employment history, criminal record, and race. \n",
+    "\n",
+    "Now would you say that the table shows that there is a causal effect of having a college degree on whether landlords are willing to rent to an application?\n",
+    "\n",
+    "- [ ] No: since having a college degree of the applicant was not randomly assigned, and the applications for applicants with and without college degrees probably differed in ways that aren't accounted for in our regression but which were correlated with race and matter to landlords (e.g. the college graduates may not have had employment histories that were stronger, or the non-college graduates may have been more likely to have criminal histories), the coefficient on `has_college_degree` is likely subject to omitted variable bias and does not reflect the causal effect of having a college degree. \n",
+    "- [ ] Yes: the coefficient on `has_college_degree` is large (it looks like the average acceptance rate was around 3%, so the +3% effect is quite big); the coefficient is very statistically significant (t-stat is over 4!); and landlords were randomly selected. Moreover, we are able to control for age and gender, so we can conclude that having a college degree applicant has a very large causal effect on landlord behavior in the US.\n",
+    "- [ ] I really can't say based on the information I've been provided. I would need to know more."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 6\n",
+    "\n",
+    "You just looked at a single regression table and, in different questions, came to different conclusions about the causal meaning of the coefficient on Black. What does this illustrate about the discipline of causal inference?\n",
+    "\n",
+    "[short answer]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## A/B Testing\n",
+    "\n",
+    "### Question 7\n",
+    "\n",
+    "When selecting the Overall Evaluation Criterion (OEC) to use in an A/B test, it is important to ensure that the OEC you pick has what two properties:\n",
+    "\n",
+    "- [ ] Changes in the OEC are uncorrelated with your guardrail metrics.\n",
+    "- [ ] Changes in the OEC are a good indicator of whether you are achieving your organization's long-term goals.\n",
+    "- [ ] It is possible to randomly assign the OEC. \n",
+    "- [ ] There is enough short-run variation in the OEC that you can measure changes in the OEC in an experiment of reasonable length. \n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 8\n",
+    "\n",
+    "When deciding on how long to run your experiment, which of the following is NOT a valid consideration / thing to do:\n",
+    "\n",
+    "- [ ] I want to ensure it runs long enough I think I'll have enough observations to detect the minimal effect that might impact my decision-making process (estimated using power calculations)\n",
+    "- [ ] It should run long enough to account for any \"seasonality effects\", to the extent feasible (e.g. run for a full day, full week, full month, etc.).\n",
+    "- [ ] I want to schedule enough time to get a large sample size, but I can also watch for statistically significant p-values on my treatment as the experiment runs to try and shorten the run time.\n",
+    "- [ ] If I want to measure primacy effects, I need the experiment to run long enough I can measure the first portion of the experiment and the last portion of the experiment separately.\n",
+    "- [ ] These are all valid considerations / things to do.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 9\n",
+    "\n",
+    "List **two** actions you can take to evaluate/ensure the **internal validity** of an A/B test?\n",
+    "\n",
+    "[short answer]\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "language_info": {
+   "name": "python"
+  },
+  "orig_nbformat": 4
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
