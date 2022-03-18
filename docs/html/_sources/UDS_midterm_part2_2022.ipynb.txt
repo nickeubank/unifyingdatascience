@@ -73,7 +73,9 @@
    "id": "neural-conservative",
    "metadata": {},
    "source": [
-    "**5)** Also restrict attention to people who are at least 25. Note this may require some cleaning of the \"age\" variable. "
+    "**5)** Also restrict attention to people who are at least 25. Note this may require some cleaning of the \"age\" variable. \n",
+    "\n",
+    "NOTE: you will likely come across some observations whose age is recorded as `90 (90+ in 1980 and 1990)`. This value means that the person's age was recorded as `90`, but that this might indicate that either the person is actually 90 years old, or, if you are working with data from the 1980 or 1990 censuses, that they are 90 or older (i.e. in those years any age above 90 was just recorded as 90). However, because you are not dealing with data from either of those censuses, you don't have to worry about the information in the parentheses except insofar as it makes working with the data a little more complicated."
    ]
   },
   {
@@ -89,13 +91,17 @@
    "id": "plain-fusion",
    "metadata": {},
    "source": [
-    "**6)** Create a categorical variable using the information in `educd` that identifies whether a person's **highest** education qualification is:\n",
+    "**6)** Create a categorical variable using the information in `educd` that identifies whether a person's **highest** education degree is:\n",
     "\n",
-    "- (a) a high school *diploma* or equivalent (a ged or alternative credential counts), \n",
+    "- (a) a high school diploma or equivalent (a ged or alternative credential counts), \n",
     "- (b) an undergraduate degree *or better*, or \n",
     "- (c) the person has neither a high school diploma, nor a high school diploma equivalent, nor an undergraduate degree. \n",
     " \n",
-    "Note that a college degree in the US may be called either a Bachelors Degree or an Associates Degree. You may assume anyone in college has a high school diploma, and anyone with an advanced degree (masters degree or doctoral degree) has a college degree.\n",
+    "NOTE: a college degree in the US may be called either a Bachelors Degree or an Associates Degree. You may assume anyone in college has a high school diploma, and anyone with an advanced degree (masters degree or doctoral degree) has a college degree.\n",
+    "\n",
+    "NOTE: While there are a number of different ways one can encode this information into variables, and any implementation that is properly interpreted below is fine, **I suggest that you create a single categorical variable with three values, one for each group.**\n",
+    "\n",
+    "NOTE: we often refer to the degree that you get when you graduate from high school as a \"high school diploma,\" but the terms \"diploma\" and \"degree\" are interchangeable in this exercise.\n",
     "\n",
     "(Note: we include people who have advanced degrees as having \"college degrees\" because getting an advanced degree is a \"post-treatment outcome\" -- it is determined after treatment assignment (going to college) is decided. If someone can't go to college because they don't have the money, they mechanically can't go on to get a PhD. Just focusing on people who got a college degree but not an advanced degree may be under-estimating the value of a college degree since if people in our control group (people without college degrees) were assigned to treatment (given college degrees), some likely would have gone on to get advanced degrees!)"
    ]
@@ -115,7 +121,9 @@
    "source": [
     "**7)** Now look at the simple relationship between these three educational attainment levels and the likelihood of being employed in a linear probability model (i.e. use a linear regression). Also include age and age-squared as controls. \n",
     "\n",
-    "How much more likely is someone to be employed if they have a high school degree (as opposed to no degrees or diplomas)? Is that difference statistically significant? What is the t-value associated with that difference?"
+    "UPDATED LANGUAGE: How much more likely is someone to be employed if their highest degree is a high school diploma (as opposed to someone with no degrees or diplomas)? Is that difference statistically significant? What is the t-value associated with that difference?\n",
+    "\n",
+    "*Old language that could be interpreted a little differently:* How much more likely is someone to be employed if they have a high school degree (as opposed to no degrees or diplomas)? Is that difference statistically significant? What is the t-value associated with that difference?"
    ]
   },
   {
@@ -125,8 +133,7 @@
    "source": [
     "**8)** UPDATED LANGUAGE: Now add an indicator for whether the respondent is a person of color. What effect does that have on the apparent treatment effect of having a high school diploma as your highest degree (as compared to not having any degree or diploma).\n",
     "\n",
-    "*Old language that could be interpreted a little differently:* Now add an indicator for whether the respondent is a person of color. What effect does that have on the apparent treatment effect of getting a high school diploma (as compared to not having any degree).\n",
-    "\n"
+    "*Old language that could be interpreted a little differently:* Now add an indicator for whether the respondent is a person of color. What effect does that have on the apparent treatment effect of getting a high school diploma (as compared to not having any degree)."
    ]
   },
   {
