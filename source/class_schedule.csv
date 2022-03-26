@@ -101,6 +101,7 @@ but here's a real diff-in-diff)
 "Th, Mar 24",Descriptive Questions,"- `Discretion in Descriptive Analyses <descriptive_questions.ipynb>`_
 - `Positive versus Normative Questions <https://www.youtube.com/watch?v=YtX6SGw7E3c>`_",`Link <exercises/exercise_descriptive.ipynb>`_
 "Tu, Mar 29",Prediction: ML Bias," **Examples of AI Bias:**
+
 - `Making Biased Algorithms <https://youtube.com/watch?v=Ok5sKLXqynQ>`_
 - `ProPublica: Machine Bias <https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing>`_
 - `The Problem with Controlling for Race <https://www.nejm.org/doi/10.1056/NEJMms2004740>`_
@@ -113,9 +114,10 @@ but here's a real diff-in-diff)
 - `Again, not all unintentional... <https://www.vice.com/en_us/article/epgmbw/this-company-is-using-racially-biased-algorithms-to-select-jurors>`_
 
 **Optional:**
+
 - `ProPublica Analysis of COMPAS <https://www.propublica.org/article/how-we-analyzed-the-compas-recidivism-algorithm>`_
 - `Diversity in AI is not your problem, it's hers <https://medium.com/@robert.munro/bias-in-ai-3ea569f79d6a>`_
-**GITHUB REPO FIRST REVIEW**",
+",
 "Th, Mar 31",Prediction: Are interpretable models enough?,"- `Recommendations for Ethical ML <ethical_ml_recommendations.ipynb>`_
 - `In Defence of Simplicity (Up to 30min) <https://www.youtube.com/watch?v=68ABAU_V8qI>`_
 - `Stop Using Black Boxes <https://arxiv.org/abs/1811.10154>`_
