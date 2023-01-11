@@ -1,58 +1,33 @@
-﻿Date,Topic,Do Before Class,In-Class Exercise
-"Th, Jan 6",Course Overview,,"- `Welcome! Slides Part 1 <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/10_FirstClass/Eubank_UDS_FirstClass_Part1_handout.pdf>`_
+﻿Date,Topic,Do Before Class,In Class Part 1
+"Thrs, Jan 12",Course Overview,,"- `Welcome! Slides Part 1 <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/10_FirstClass/Eubank_UDS_FirstClass_Part1_handout.pdf>`_
 - `Welcome! Slides Part 2 <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/10_FirstClass/Eubank_UDS_FirstClass_Part2_handout.pdf>`_"
-"Tu, Jan 11",CI: Potential Outcomes Framework,"- Read, sign, submit syllabus on gradescope.
+"Tues, Jan 17",Solving Problems by Answering Questions,"- Read, sign, submit syllabus on gradescope.
 - `Reading Reflections Directions <reading_reflections.ipynb>`_
-- Read Angrist and Piscke (MM), Pages xi - 30
-- `Potential Outcomes <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Fresh_Potential_Outcomes.pdf>`_
-- Submit Reading Reflections on Gradescope.","- `Potential Outcome Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Eubank_UDS_PotentialOutcomes_handout.pdf>`_
-- `Potential Outcomes Exercise <exercises/exercise_potential_outcomes1.ipynb>`_"
-"Th, Jan 13",CI: Potential Outcomes Framework,"- `Submit substantive interest survey <https://forms.gle/cpr9SB4d7unXRx3j6>`_
-- No reading reflections due.","- `Exercise <exercises/exercise_counterfactuals.ipynb>`_
-- Thinking about AB Testing Discussion"
-"Tu, Jan 18",CI: AB Testing / Experiments,"- Angrist and Piscke (MHE) Part 1 (pages 3-24)
-- Kennedy (GtE), pp. 18-21, Notes for 2.8
-- Kennedy (GtE), pp. 241-244, Notes Optional
-- Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3) 
-Optional:
-
-- Wooldridge, Section 15.2",- `Exercise <exercises/exercise_abtesting.ipynb>`_
-"Th, Jan 20","CI: AB Testing / Experiments
-
-- Limitations of Experiments and ATE
-- Internal v. External Validity
-- Stopping Early","- `Internal versus External Validity <internal_v_external_validity.ipynb>`_
-- `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
-- `A/B Testing and Stopping Early <https://medium.com/airbnb-engineering/experiments-at-airbnb-e2db3abf39e7>`_
-- `On Correctly Stopping A/B Tests Early <https://netflixtechblog.com/improving-experimentation-efficiency-at-netflix-with-meta-analysis-and-optimal-stopping-d8ec290ae5be>`_
-- Optional: `More on bad endogenous stopping <http://sl8r000.github.io/ab_testing_statistics/avoid_biased_stopping_times/>`_
-- Optional: `Discussion in part About Experiments in Advertising <https://overcast.fm/+QLduPjO1I>`_",- `Exercise <exercises/exercise_resume.ipynb>`_
-"Tu, Jan 25","CI: AB Testing / Experiments
-
-- Evaluating studies
-- Testing in industry
-- SUTVA","- `Evaluating Studies <evaluating_real_studies.ipynb>`_
-- Imbens and Rubin (CI), Section 1.6 (SUTVA, p. 10-13)
-- Kohavi, Tang and Xu, Chpt 1, 2, 3, 4, 22
-
-(Note that Imben & Rubin potential outcomes notation is a little different -- just skip notational parts if needed)",- `Evaluating Studies <exercises/exercise_evaluating_studies.ipynb>`_
-"Th, Jan 27",CI: AB Testing / Experiments,"- Kohavi, Tang and Xu, Chpts 1, 2, 3, 5, 19, 22",
-"Tu, Feb 1",CI: AB Testing / Experiments,"- Kohavi, Tang and Xu, Chpts 1, 2, 3, 5, 19, 22",
-"Th, Feb 3","CI: AB Testing / Experiments
-
-- Compliance","- `Bias in A/B Testing <https://medium.com/airbnb-engineering/selection-bias-in-online-experimentation-c3d67795cceb>`_
-- `Bias in Research <https://www.youtube.com/watch?v=42QuXLucH3Q>`_
-- `Power Calculations <https://cxl.com/blog/statistical-power/>`_
-- Kohavi, Tang, and Xu, Chpt 23
-- Angrist and Pischke (MM), Chapter 3 (pp 98-123)",Experiments recap
-"Tu, Feb 8",CI: AB testing Review,,- `Optional PO Redo <exercises/exercise_potential_outcomes2.html>`_
-"Th, Feb 10",CI: Regression,"- Angrist and Piscke (MM), Chapter 2 (pp. 47-82). 
-- `Causal Inference In Industry Beyond AB Testing <causal_inference_beyond_ab_testing.ipynb>`_
-
-Optional but encouraged:
-
-- `Moving to a World Beyond p less than 0.05 <https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913>`_",- `Link <exercises/exercise_regressions_incomeineq.ipynb>`_
-"Tu, Feb 15",CI: Fixed Effects and Clustering,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
+- `Solving Problems <https://ds4humans.com/10_introduction/10_our_approach.html>`_",- `Taxonomy of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
+"Thrs, Jan 19",Stakeholder Management,- `From Problems to Questions <https://ds4humans.com/20_questions/00_from_problems_to_questions.html>`_,- `Stakeholder Management <exercises/exercise_generating_questions.ipynb>`_
+"Tues, Jan 24",Exploratory Questions,- `Exploratory Questions <https://ds4humans.com/20_questions/10_exploratory_questions.html>`_,`Link <exercises/exercise_descriptive.ipynb>`_
+"Thrs, Jan 26",Passive Prediction,- `Passive Prediction <https://ds4humans.com/20_questions/20_passive_prediction_questions.html>_,
+"Tues, Jan 31",Experiments,"- Experiments and Potential Outcomes
+- Linear Probability Models: Kennedy, pp. 18-21, Notes for 2.8, and pp. 241-244, Notes Optional
+- Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3)
+- `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_",- `Link <exercises/exercise_resume.ipynb>`_
+"Thrs, Feb 2",AB: Overview,"What is AB Testing? KTX Chpts 1, 2, 5
+[DO I WANT DISCUSSION OF PRACTICAL V STATISTICAL HERE?]",- `Exercise <exercises/exercise_abtesting.ipynb>`_
+"Tues, Feb 7",AB: Overview,"- `Internal versus External Validity <internal_v_external_validity.ipynb>`_
+- `Evaluating Studies <evaluating_real_studies.ipynb>`_",- `Evaluating Studies <exercises/exercise_evaluating_studies.ipynb>`_
+"Thrs, Feb 9",AB: Internal Validity,"SUTVA: KTX Chpt 3, from ""Threats to Internal Validity"" to end.
+Different Randomizations: KTX Chpt 14",
+"Tues, Feb 14",AB: Internal Validity,"- Don’t stop early
+- Power Calculations
+-`Endogenous Stopping Tools <https://netflixtechblog.com/improving-experimentation-efficiency-at-netflix-with-meta-analysis-and-optimal-stopping-d8ec290ae5be>`_",
+"Thrs, Feb 16",AB: External Validity,"- Seasonality Effects
+- Primacy Effects / Long Term Decay
+- Representativeness",
+"Tues, Feb 21",AB: Interpretation,"- P-Values and Decision Theory
+- Laundering Confidence Paper",
+"Thrs, Feb 23",AB: Review,Review Exercise,Experiments recap
+"Tues, Feb 28",Regressions,- `Causal Inference In Industry Beyond AB Testing <causal_inference_beyond_ab_testing.ipynb>`_,- `Link <exercises/exercise_regressions_incomeineq.ipynb>`_
+"Thrs, Mar 2",Regressions,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
 - `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
 - `Fixed Effects and Causal Inference <fixed_effects_and_causal_inference.ipynb>`_
 - `Implementing Fixed Effects <fixed_effects.ipynb>`_
@@ -63,47 +38,35 @@ Optional:
 
 - Kennedy (GtE), Chpt 18.","- `Indicators <exercises/exercise_indicators.ipynb>`_
 - `Fixed Effects <exercises/exercise_panel.ipynb>`_"
-"Th, Feb 17",CI: Matching,"- `The Why of Matching <matching_why.ipynb>`_
+"Tues, Mar 7",Matching,"- `The Why of Matching <matching_why.ipynb>`_
 - `The How of Matching Summary <matching_how.ipynb>`_
 - `Methods for Matching <https://youtu.be/tvMyjDi4dyg?t=910>`_
 
 *Watch the video above from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercise <exercises/exercise_matching.ipynb>`_
-"Tu, Feb 22",CI: Difference-in-Differences,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
+"Thrs, Mar 9",Diff-in-Diff,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
 - `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_
 
 Optional but encouraged:
 (dont need to follow everything, 
 but here's a real diff-in-diff)
 
-- `Enfranchisement and Incarceration <https://www.cambridge.org/core/journals/american-political-science-review/article/enfranchisement-and-incarceration-after-the-1965-voting-rights-act/C68FA7BB8CA313BDD8D9A39BA666A21D>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
-"Th, Feb 24","- CI: Regression Discontinuity
-- Teams","- Morgan and Winship, Chapter 11
-- `RDD at Coursera <https://medium.com/coursera-engineering/regression-discontinuity-understanding-the-benefit-of-subtitles-on-coursera-dd82bb25a0f1>`_
-- `What makes good teams? <https://www.youtube.com/watch?v=LhoLuui9gX8>`_
+- `Enfranchisement and Incarceration <https://www.cambridge.org/core/journals/american-political-science-review/article/enfranchisement-and-incarceration-after-the-1965-voting-rights-act/C68FA7BB8CA313BDD8D9A39BA666A21D>`_",
+"Tues, Mar 14",**NO CLASS**,,
+"Thrs, Mar 16",**NO CLASS**,,
+"Tues, Mar 21",**MIDTERM**,,- `Link <exercises/exercise_diffindiff.ipynb>`_
+"Thrs, Mar 23",Teams,"- `What makes good teams? <https://www.youtube.com/watch?v=LhoLuui9gX8>`_
+- Project Aristotle Reading
 - Do teamwork prep sent on Sakai.",
-"Tu, Mar 1",Backwards Design,- `Backwards Design <backwards_design.ipynb>`_,"- `Backwards In Class <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_InClass.pdf>`_
+"Tues, Mar 28",Backwards Design,- `Backwards Design <backwards_design.ipynb>`_,"- `Backwards In Class <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_InClass.pdf>`_
 - `Backwards Assignment <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_Assignment.pdf>`_
 - `Data Sources <final_project_resources.ipynb>`_"
-"Th, Mar 3",Answering Questions,"- `Moving from Problems to Questions <moving_from_problems_to_questions>`_
-- `Why It's Important To Get Your Question Right <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_
-- `Most ML Doesn't Make Money <https://www.wired.com/story/companies-rushing-use-ai-few-see-payoff/>`_
-",- `Stakeholder Management <exercises/exercise_generating_questions.ipynb>`_
-"Tu, Mar 8",**NO CLASS**,Spring Break,
-"Th, Mar 10",**NO CLASS**,Spring Break,
-"Tu, Mar 15",Taxonomy of Questions,"- `Taxonomy of Questions <taxonomy_of_questions.ipynb>`_
-- `Adversarial Users <https://www.theverge.com/2020/9/2/21419012/edgenuity-online-class-ai-grading-keyword-mashing-students-school-cheating-algorithm-glitch>`_
-- `More Essay Issues <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_
-",`Types of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
-"Th, Mar 17",**MIDTERM**,**MIDTERM**,
-"Tu, Mar 22",Workflow Management,"- `DS Workflow <https://www.practicaldatascience.org/html/workflow.html>`_
-- `A Model Code Review <https://www.practicaldatascience.org/html/pr_review.html>`_
-- **Backwards Design Due**",
-"Th, Mar 24",Descriptive Questions,"- `Discretion in Descriptive Analyses <descriptive_questions.ipynb>`_
-- `Positive versus Normative Questions <https://www.youtube.com/watch?v=YtX6SGw7E3c>`_",`Link <exercises/exercise_descriptive.ipynb>`_
-"Tu, Mar 29",Prediction: ML Bias," **Examples of AI Bias:**
+"Thrs, Mar 30",Prediction: ML Bias,"- `Computers v. Crime <https://www.pbs.org/video/computers-v-crime-um7cco/>`_
+(Hang in there past the obligatory ""what is an algorithm""—it's sophisticated later)  
 
+**Examples of AI Bias:**
 - `Making Biased Algorithms <https://youtube.com/watch?v=Ok5sKLXqynQ>`_
 - `ProPublica: Machine Bias <https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing>`_
+- `The Problem with the Wrong Optimization Function <https://www.wsj.com/articles/facebook-knows-it-encourages-division-top-executives-nixed-solutions-11590507499>`_
 - `The Problem with Controlling for Race <https://www.nejm.org/doi/10.1056/NEJMms2004740>`_
 - `Racial Bias in Medical Algorithm <https://www.washingtonpost.com/health/2019/10/24/racial-bias-medical-algorithm-favors-white-patients-over-sicker-black-patients/>`_
 - `Amazon scraps secret AI recruiting tool due to bias <https://www.reuters.com/article/us-amazon-com-jobs-automation-insight/amazon-scraps-secret-ai-recruiting-tool-that-showed-bias-against-women-idUSKCN1MK08G>`_
@@ -114,11 +77,12 @@ but here's a real diff-in-diff)
 - `Again, not all unintentional... <https://www.vice.com/en_us/article/epgmbw/this-company-is-using-racially-biased-algorithms-to-select-jurors>`_
 
 **Optional:**
-
 - `ProPublica Analysis of COMPAS <https://www.propublica.org/article/how-we-analyzed-the-compas-recidivism-algorithm>`_
 - `Diversity in AI is not your problem, it's hers <https://medium.com/@robert.munro/bias-in-ai-3ea569f79d6a>`_
-",
-"Th, Mar 31",Prediction: Are interpretable models enough?,"- `Recommendations for Ethical ML <ethical_ml_recommendations.ipynb>`_
+**GITHUB REPO FIRST REVIEW**",
+"Tues, Apr 4",Prediction: Are interpretable models enough?,"- `Recommendations for Ethical ML <ethical_ml_recommendations.ipynb>`_
+- `What IS fair? <https://www.vox.com/future-perfect/22916602/ai-bias-fairness-tradeoffs-artificial-intelligence>`_
+- `Black box models require trusting data too <https://www.nytimes.com/2017/06/13/opinion/how-computers-are-harming-criminal-justice.html>`_
 - `In Defence of Simplicity (Up to 30min) <https://www.youtube.com/watch?v=68ABAU_V8qI>`_
 - `Stop Using Black Boxes <https://arxiv.org/abs/1811.10154>`_
 - `Flavors of Training Data Bias <https://arxiv.org/pdf/1901.10002.pdf>`_
@@ -130,12 +94,11 @@ but here's a real diff-in-diff)
 - `Combining explicit models and black boxes in Scientific ML <https://notamonadtutorial.com/scientific-machine-learning-with-julia-the-sciml-ecosystem-b22802951c8a>`_
 
 (Don't expect to follow everything in that... just a heads up it exists!) ",
-"Tu, Apr 5",Prediction: ML versus Casual Inference,"- `Contraining Artificial Stupidity <https://www.youtube.com/watch?v=Z8MEFI7ZJlA>`_
+"Thrs, Apr 6",Prediction: ML versus Casual Inference,"- `Contraining Artificial Stupidity <https://www.youtube.com/watch?v=Z8MEFI7ZJlA>`_
 - Adversarial Users:
     - `Fooling OpenAI <https://www.theverge.com/2021/3/8/22319173/openai-machine-vision-adversarial-typographic-attacka-clip-multimodal-neuron>`_
-    - `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_","- `Slides <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/50_prediction/Eubank_UDS_prediction_handout.pdf>`_
-- `Writing to Stakeholders <writing_to_stakeholders.ipynb>`_"
-"Th, Apr 7",Practice Presentations,"- Modelling of Presentations and Feedback
-- **PROJECT ROUGH DRAFTS DUE**",
-"Tu, Apr 12",Course Summary Class,,- `Summary Cheatsheet <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/80_final_cheatsheet/UDS_Final_Cheatsheet.pdf>`_
-,**LAST CLASS*,,
+    - `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_",
+"Tues, Apr 11",,"- Modelling of Presentations and Feedback
+- **PROJECT ROUGH DRAFTS DUE**",- `Writing to Stakeholders <writing_to_stakeholders.ipynb>`_
+"Thrs, Apr 13",Practice Presentations,,
+"Tues, Apr 18",Practice Presentations,,

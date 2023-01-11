@@ -1,0 +1,162 @@
+% So we make this "beamer" rather than document!
+
+\documentclass[11pt]{beamer}
+% For handout add ,handout after 11pt
+
+\usetheme[sectionpage=none,numbering=none]{metropolis}           % Use metropolis theme
+	% To do printouts, add ", handout"  after aspectratio.
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{ulem}
+\title{What You Can Do}
+\author{\small Nick Eubank}
+\date{\vspace*{.3in} \date}
+
+
+% This is the beginning of a real document!
+\begin{document}
+
+
+\begin{frame}[c]
+\maketitle
+\end{frame}
+
+
+\begin{frame}[c]
+    \centering
+    \textbf{Modeling} \\
+    Developing Model to Faithfully Represent Data \\
+    \vspace*{0.2cm}
+    \pause $\Downarrow$ \\
+    \vspace*{0.2cm}
+     \textbf{Inference} \\
+    Interpreting Model Parameters \\
+    for Application \\
+    \vspace{1cm}
+    \begin{enumerate}
+        \pause \item Are my estimates causal?
+        \pause \item Will they generalize?
+        \pause \item Do they reflect biases in an unethical way?
+    \end{enumerate}
+\end{frame}
+
+
+
+\begin{frame}[c]{Day 1}
+    \pause By the end of this course, you will:
+        \begin{itemize}
+            \item Understand why causal inference is hard, \\
+            \uncover<3->{{\color{gray} \small Potential Outcomes framework, learned to apply it in a wide range of contexts.}}
+            \item Be able to critically evaluate causal evidence collected by others, \\
+            \uncover<4->{{\color{gray} \small Evaluated and learned to respond to claims about insurance, advertising, health, and the effects of products}}
+            \item Articulate causal questions, \\
+            \uncover<5->{{\color{gray} \small  Convert vague stakeholder prompts into actionable questions}}
+            \item And develop research designs to answer those questions. \\
+            \uncover<6->{{\color{gray} \small Developing, along the way, great portfolio pieces!}}
+        \end{itemize}
+\end{frame}
+    
+
+% \begin{frame}[c]{Causal Inference}
+%     \only<1>{``Correlation does not  imply causation''}
+%     \only<2->{\sout{``Correlation does not imply causation''}} \\
+%     \vspace*{0.2cm}
+%     \pause Correlation does not \emph{necessarily} imply causation, \alert{but...}
+%     \begin{itemize}
+%       \pause \item when certain assumptions are met, correlation does imply causation. 
+%     \end{itemize} 
+%     \pause And now \alert{you} know those assumptions and how to evaluate them!
+% \end{frame}
+  
+
+% \begin{frame}[c]{Causal Inference}
+%     \pause Causal inference is \alert{hard}.
+% \end{frame}
+  
+% \begin{frame}[c]{Causal Inference}
+% Causal inference is hard because of the \alert{Fundamental Problem of Causal Inference:} \\
+
+% \pause To \alert{know} if X causes Y, we would have to see \alert{both} a world with X, and a world without X, and that's impossible. 
+% \end{frame}
+
+
+% \begin{frame}[c]{Causal Inference}
+%     Because we can never see \alert{both} a world with X, and a world without X, \pause we need to find settings that \alert{approximate} one of these states of the world. \\
+%     \begin{itemize}
+%       \pause \item Counter-factuals: settings with same \alert{potential outcomes}, but different realizations of treatment.
+%     \end{itemize}
+% \end{frame}
+
+\begin{frame}[c]{Ways of Finding Good Counter-Factuals}
+    \begin{enumerate}
+      \pause \item Randomized Control Trials \\
+      {\color{gray} Law of large numbers $\rightarrow$ same potential outcomes for C \& T}
+      \pause \item Regression \\
+      {\color{gray} Statistically adjust for baseline differences $\rightarrow$ same potential outcomes after adjustments}
+      \pause \item Matching \\
+      {\color{gray} Statistically adjust for baseline differences $\rightarrow$ same potential outcomes after adjustments}
+      \pause \item Differences-in-Differences \\
+      {\color{gray} Adjust for pre-existing baseline differences $\rightarrow$ same potential outcomes in trends}
+    \end{enumerate}
+\end{frame}
+
+
+\begin{frame}[c]{Cultivate a Skeptical Mindset}
+\pause There are \alert{no statistical tests} that can tell you if a causal estimate is valid. 
+\begin{itemize}
+    \pause \item Depending on \alert{how} data was collected, the exact same dataset may or may not provide valid causal estimates.
+\end{itemize}
+\pause There are \alert{no statistical tests} that can tell you if a model is behaving in an ethical manner.
+\begin{itemize}
+    \pause \item The same model may be ethical when used for one purpose, but not in another.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{You haven't just \emph{learned} about these...}
+    \pause You've done them!
+    \begin{itemize}
+        \pause \item  Used randomization and A/B test data to measure effect of website design changes and racial discrimination in hiring.
+        \pause \item  Used regression to estimate gender wage discrimination in the US
+        \pause \item  Used fixed effects to understand tax policy's impact on car accidents
+        \pause \item  Used matching to estimate labor market returns to education
+        \pause \item  Used diff-in-diffs to understand impact of drug legalization on crime
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{You haven't just \emph{learned} about these...}
+You've done them! \\
+\pause 
+In your projects you've studied the effects of:
+\begin{itemize}
+    \item militant activity on women's education,
+    \item changes in labor laws on wages,
+    \item election results on hate crimes,
+    \item changes in policing practices on police violence and arrests,
+    \item sex education on teenage pregnancy,
+    \item school policy on covid rates, 
+    \item tournament tennis game duration on future success,
+    \item renewable targets on CO2 emissions,
+    \item pandemics on stress and dreaming, and
+    \item AirBnB designations on earnings.
+\end{itemize}
+\pause And you did it all while getting used to dealing with \alert{people} again.
+\pause And while doing \alert{Kyle's class}.
+\end{frame}
+    
+
+\begin{frame}[c]
+\pause 
+\centering
+      \includegraphics[width=0.8\textwidth]{maybe_the_real_treasure.png}
+\end{frame}
+
+\begin{frame}[c]
+    \centering 
+    \alert{I hope you feel really proud of everything you've accomplished.}
+\end{frame}
+    
+
+
+\end{document}

@@ -1,0 +1,6 @@
+Shufan Xia: we are likely to agree on transparency in data and algorithms, what considerations do we need to put on transparency? 
+Mohammad Anas: modern state of the art techniques might reduce bias but they again are designed by humans, who also have a chance of creating bias subconsciously.
+Erika Fox: how do you remove this seemingly non removable bias?
+Dorothy Hou: Also the readings talk about how those companies are trying to evaluate and self-regulate the use of AI tools, but how the benchmark of 'unbiasedness' should be set up?
+Surabhi Trivedi: Expecting a machine to address these biases when we ourselves don't know how to seems very ambitious and unrealistically positive. One way out of this seems causal inference but again how robust is robust enough for a causal estimate to be to make decisions such as hiring, sentencing, medical care based on it.
+Tigran Harutyunyan: I was wondering if running a software solution in parallel with an existing process and monitoring its performance longer before switching to AI would help identify problems. So, if we can correct the inaccuracies and problems identified in existing algorithms with the help of penalties (unfortunately with serious consequences) and rewards, does this mean that at the macro level what we are doing is just reinforcement learning?
