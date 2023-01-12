@@ -1,9 +1,9 @@
 ﻿Date,Topic,Do Before Class,In Class Part 1
 "Thrs, Jan 12",Course Overview,,"- `Welcome! Slides Part 1 <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/10_FirstClass/Eubank_UDS_FirstClass_Part1_handout.pdf>`_
 - `Welcome! Slides Part 2 <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/10_FirstClass/Eubank_UDS_FirstClass_Part2_handout.pdf>`_"
-"Tues, Jan 17",Solving Problems by Answering Questions,"- Read, sign, submit syllabus on gradescope.
+"Tues, Jan 17",Solving Problems by Answering Questions,"- `Read, sign, submit syllabus on gradescope. <https://github.com/nickeubank/unifyingdatascience/raw/master/syllabus/Syllabus_UnifyingDataScience.pdf>`_
 - `Reading Reflections Directions <reading_reflections.ipynb>`_
-- `Solving Problems <https://ds4humans.com/10_introduction/10_our_approach.html>`_",- `Taxonomy of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
+- `Solving Problems <https://ds4humans.com/10_introduction/10_our_approach.html>`_",- `Classes of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
 "Thrs, Jan 19",Stakeholder Management,- `From Problems to Questions <https://ds4humans.com/20_questions/00_from_problems_to_questions.html>`_,- `Stakeholder Management <exercises/exercise_generating_questions.ipynb>`_
 "Tues, Jan 24",Exploratory Questions,- `Exploratory Questions <https://ds4humans.com/20_questions/10_exploratory_questions.html>`_,`Link <exercises/exercise_descriptive.ipynb>`_
 "Thrs, Jan 26",Passive Prediction,- `Passive Prediction <https://ds4humans.com/20_questions/20_passive_prediction_questions.html>_,

@@ -6,14 +6,13 @@ Class: Tuesday / Thursday, 1:45-3pm
 Office Hours: 
 
 - Nick: Monday, 12:30-1:30pm, `https://duke.zoom.us/my/nickeubank <https://duke.zoom.us/my/nickeubank>`_
-- Xinyi: Wednesday 8-9 am, Friday 4-5 pm `https://duke.zoom.us/j/94030538509 <https://duke.zoom.us/j/94030538509>`_
-- Yi: Monday & Tuesday 4-5 pm `https://duke.zoom.us/j/6948114114 <https://duke.zoom.us/j/6948114114>`_
-
+- Erika: TBD
+- Clarissa: TBD
 
 
 .. csv-table::
    :file: class_schedule.csv
-   :widths: 2, 15, 25, 9
+   :widths: 4, 15, 25, 7
    :header-rows: 1
 
 
