@@ -4,9 +4,10 @@
 "Tues, Jan 17",Solving Problems by Answering Questions,"- `Read, sign, submit syllabus on gradescope. <https://github.com/nickeubank/unifyingdatascience/raw/master/syllabus/Syllabus_UnifyingDataScience.pdf>`_
 - `Reading Reflections Directions <reading_reflections.ipynb>`_
 - `Solving Problems <https://ds4humans.com/10_introduction/10_our_approach.html>`_",- `Classes of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
-"Thrs, Jan 19",Stakeholder Management,"- From Problems to Questions
+"Thrs, Jan 19",Stakeholder Management,"- `Solving the Right Problem <https://ds4humans.com/30_questions/00_solving_the_right_problem.html>`_
 - `Why It's Important To Get Your Question Right (30 min video) <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_",- `Stakeholder Management <exercises/exercise_generating_questions.ipynb>`_
-"Tues, Jan 24",Exploratory Questions,- `Exploratory Questions <https://ds4humans.com/20_questions/10_exploratory_questions.html>`_,`Link <exercises/exercise_descriptive.ipynb>`_
+"Tues, Jan 24",Exploratory Questions,"- `Descriptive versus Proscriptive Questions <https://ds4humans.com/30_questions/05_descriptive_v_proscriptive.html>`_
+- `Exploratory Questions <https://ds4humans.com/20_questions/10_exploratory_questions.html>`_",`Link <exercises/exercise_descriptive.ipynb>`_
 "Thrs, Jan 26",Passive Prediction,- `Passive Prediction <https://ds4humans.com/20_questions/20_passive_prediction_questions.html>_,
 "Tues, Jan 31",Experiments,"- Experiments and Potential Outcomes
 - Linear Probability Models: Kennedy, pp. 18-21, Notes for 2.8, and pp. 241-244, Notes Optional
