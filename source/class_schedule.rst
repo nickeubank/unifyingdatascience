@@ -6,8 +6,8 @@ Class: Tuesday / Thursday, 1:45-3pm
 Office Hours: 
 
 - Nick: Monday, 12:30-1:30pm, `https://duke.zoom.us/my/nickeubank <https://duke.zoom.us/my/nickeubank>`_
-- Erika: TBD
-- Clarissa: TBD
+- Erika: Wednesday, 1-2pm `https://duke.zoom.us/j/93362461192 <https://duke.zoom.us/j/93362461192>`_
+- Clarissa: Thursday, 12-1pm, `https://duke.zoom.us/j/99455544906 <https://duke.zoom.us/j/99455544906>`_
 
 
 .. csv-table::
