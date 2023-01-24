@@ -7,8 +7,9 @@
 "Thrs, Jan 19",Stakeholder Management,"- `Solving the Right Problem <https://ds4humans.com/30_questions/00_solving_the_right_problem.html>`_
 - `Why It's Important To Get Your Question Right (30 min video) <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_",- `Stakeholder Management <exercises/exercise_generating_questions.ipynb>`_
 "Tues, Jan 24",Exploratory Questions,"- `Descriptive versus Proscriptive Questions <https://ds4humans.com/30_questions/05_descriptive_v_proscriptive.html>`_
-- `Exploratory Questions <https://ds4humans.com/20_questions/10_exploratory_questions.html>`_",`Link <exercises/exercise_descriptive.ipynb>`_
-"Thrs, Jan 26",Passive Prediction,- Passive Prediction,
+- `Exploratory Questions <https://ds4humans.com/30_questions/10_exploratory_questions.html>`_",`Link <exercises/exercise_descriptive.ipynb>`_
+"Thrs, Jan 26",Passive Prediction,"- `Exploratory Questions (Corrected) <https://ds4humans.com/30_questions/10_exploratory_questions.html>`_
+- `Passive Prediction <https://ds4humans.com/30_questions/20_passive_prediction_questions.html>`_",
 "Tues, Jan 31",Experiments,"- Experiments and Potential Outcomes
 - Linear Probability Models: Kennedy, pp. 18-21, Notes for 2.8, and pp. 241-244, Notes Optional
 - Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3)
