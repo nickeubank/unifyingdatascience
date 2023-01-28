@@ -12,29 +12,39 @@
 - `Passive Prediction <https://ds4humans.com/30_questions/20_passive_prediction_questions.html>`_",`Link <exercises/exercise_descriptive.ipynb>`_
 "Tues, Jan 31",Experiments,"- `Writing Good Notebooks <https://www.practicaldatascience.org/html/writing_good_jupyter_notebooks.html>`_
 - Read Angrist and Piscke (MM), Pages xi - 30
-- `Potential Outcomes <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Fresh_Potential_Outcomes.pdf>`_",
-"Thrs, Feb 2",Team Debriefs,,
-"Tues, Feb 7",AB: Overview,"- Experiments and Potential Outcomes
+- `Potential Outcomes <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Fresh_Potential_Outcomes.pdf>`_",- Exercise <exercises/exercise_counterfactuals.ipynb>`_
+"Thrs, Feb 2",AB: Regression Implementations,"- Angrist and Piscke (MHE) Part 1 (pages 3-24)
+- Kennedy (GtE), pp. 18-21, Notes for 2.8
+- Kennedy (GtE), pp. 241-244, Notes Optional
+- Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3) 
+Optional:
+
+- Wooldridge, Section 15.2",- `Exercise <exercises/exercise_abtesting.ipynb>`_
+"Tues, Feb 7",Teams 1,"- `What makes good teams? <https://www.youtube.com/watch?v=LhoLuui9gX8>`_
+- `Project Aristotle Reading <https://github.com/nickeubank/unifyingdatascience/raw/master/team_readings/project_aristotle_nytimes.pdf>`_",
+"Thrs, Feb 9",Teams 2,- Do teamwork prep sent on Sakai.,
+"Tues, Feb 14",AB: Internal Validity,"- Experiments and Potential Outcomes
 - Linear Probability Models: Kennedy, pp. 18-21, Notes for 2.8, and pp. 241-244, Notes Optional
 - Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3)
 - `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_",- `Link <exercises/exercise_resume.ipynb>`_
-"Thrs, Feb 9",AB: Internal Validity,"What is AB Testing? KTX Chpts 1, 2, 5
-[DO I WANT DISCUSSION OF PRACTICAL V STATISTICAL HERE?]",- `Exercise <exercises/exercise_abtesting.ipynb>`_
-"Tues, Feb 14",AB: Internal Validity,"- `Internal versus External Validity <internal_v_external_validity.ipynb>`_
+"Thrs, Feb 16",AB: External Validity,"- `Internal versus External Validity <internal_v_external_validity.ipynb>`_
 - `Evaluating Studies <evaluating_real_studies.ipynb>`_",- `Evaluating Studies <exercises/exercise_evaluating_studies.ipynb>`_
-"Thrs, Feb 16",AB: External Validity,"SUTVA: KTX Chpt 3, from ""Threats to Internal Validity"" to end.
+"Tues, Feb 21",AB: Interpretation,"SUTVA: KTX Chpt 3, from ""Threats to Internal Validity"" to end.
 Different Randomizations: KTX Chpt 14",
-"Tues, Feb 21",AB: Interpretation,"- Don’t stop early
+"Thrs, Feb 23",AB: Review,"- Don’t stop early
 - Power Calculations
 -`Endogenous Stopping Tools <https://netflixtechblog.com/improving-experimentation-efficiency-at-netflix-with-meta-analysis-and-optimal-stopping-d8ec290ae5be>`_",
-"Thrs, Feb 23",AB: Review,"- Seasonality Effects
+"Tues, Feb 28",Regressions,"- Seasonality Effects
 - Primacy Effects / Long Term Decay
 - Representativeness",
-"Tues, Feb 28",Regressions,"- P-Values and Decision Theory
+"Thrs, Mar 2",Regressions,"- P-Values and Decision Theory
 - Laundering Confidence Paper",
-"Thrs, Mar 2",Regressions,Review Exercise,Experiments recap
-"Tues, Mar 7",Matching,- `Causal Inference In Industry Beyond AB Testing <causal_inference_beyond_ab_testing.ipynb>`_,- `Link <exercises/exercise_regressions_incomeineq.ipynb>`_
-"Thrs, Mar 9",Diff-in-Diff,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
+"Tues, Mar 7",Matching,Review Exercise,Experiments recap
+"Thrs, Mar 9",Diff-in-Diff,- `Causal Inference In Industry Beyond AB Testing <causal_inference_beyond_ab_testing.ipynb>`_,- `Link <exercises/exercise_regressions_incomeineq.ipynb>`_
+"Tues, Mar 14",**NO CLASS**,,
+"Thrs, Mar 16",**NO CLASS**,,
+"Tues, Mar 21",**MIDTERM**,,
+"Thrs, Mar 23",,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
 - `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
 - `Fixed Effects and Causal Inference <fixed_effects_and_causal_inference.ipynb>`_
 - `Implementing Fixed Effects <fixed_effects.ipynb>`_
@@ -45,15 +55,12 @@ Optional:
 
 - Kennedy (GtE), Chpt 18.","- `Indicators <exercises/exercise_indicators.ipynb>`_
 - `Fixed Effects <exercises/exercise_panel.ipynb>`_"
-"Tues, Mar 14",**NO CLASS**,,
-"Thrs, Mar 16",**NO CLASS**,,
-"Tues, Mar 21",**MIDTERM**,,
-"Thrs, Mar 23",Teams,"- `The Why of Matching <matching_why.ipynb>`_
+"Tues, Mar 28",Backwards Design,"- `The Why of Matching <matching_why.ipynb>`_
 - `The How of Matching Summary <matching_how.ipynb>`_
 - `Methods for Matching <https://youtu.be/tvMyjDi4dyg?t=910>`_
 
 *Watch the video above from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercise <exercises/exercise_matching.ipynb>`_
-"Tues, Mar 28",Backwards Design,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
+"Thrs, Mar 30",Prediction: ML Bias,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
 - `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_
 
 Optional but encouraged:
@@ -61,9 +68,6 @@ Optional but encouraged:
 but here's a real diff-in-diff)
 
 - `Enfranchisement and Incarceration <https://www.cambridge.org/core/journals/american-political-science-review/article/enfranchisement-and-incarceration-after-the-1965-voting-rights-act/C68FA7BB8CA313BDD8D9A39BA666A21D>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
-"Thrs, Mar 30",Prediction: ML Bias,"- `What makes good teams? <https://www.youtube.com/watch?v=LhoLuui9gX8>`_
-- Project Aristotle Reading
-- Do teamwork prep sent on Sakai.",
 "Tues, Apr 4",Prediction: Are interpretable models enough?,- `Backwards Design <backwards_design.ipynb>`_,"- `Backwards In Class <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_InClass.pdf>`_
 - `Backwards Assignment <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_Assignment.pdf>`_
 - `Data Sources <final_project_resources.ipynb>`_"
