@@ -12,7 +12,7 @@
 - `Passive Prediction <https://ds4humans.com/30_questions/20_passive_prediction_questions.html>`_",`Link <exercises/exercise_descriptive.ipynb>`_
 "Tues, Jan 31",Experiments,"- `Writing Good Notebooks <https://www.practicaldatascience.org/html/writing_good_jupyter_notebooks.html>`_
 - Read Angrist and Piscke (MM), Pages xi - 30
-- `Potential Outcomes <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Fresh_Potential_Outcomes.pdf>`_",- `Exercise <exercises/exercise_counterfactuals.ipynb>`_
+- `Potential Outcomes <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Fresh_Potential_Outcomes.pdf>`_",- `Exercise <exercises/exercise_potential_outcomes1.ipynb>`_
 "Thrs, Feb 2",AB: Regression Implementations,"- Angrist and Piscke (MHE) Part 1 (pages 3-24)
 - Kennedy (GtE), pp. 18-21, Notes for 2.8
 - Kennedy (GtE), pp. 241-244, Notes Optional
