@@ -21,26 +21,32 @@ Optional: `Fostering Psychological Safety Tips <https://docs.google.com/document
 "Thrs, Feb 9",Teams 2,"- `Review Team Charter Assignment <https://github.com/nickeubank/unifyingdatascience/raw/master/team_readings/MIDS%20Team%20Charter%20Assignment.docx>`_
 - Edmondson, Teaming, Chpt 2 (on Sakai)",New Team Planning
 "Tues, Feb 14",Analyzing Experiments,"Causal Theory:
+
 - `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
 - `Internal versus External Validity <internal_v_external_validity.ipynb>`_
 
 Statistical Analysis of Experiments
+
 - Angrist and Piscke (MHE), Sec. 2.3 (p. 21 - 24)
 - Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3)",- `Link <exercises/exercise_resume.ipynb>`_
 "Thrs, Feb 16",Online AB Testing,"- Kohavi, Tang and Xu, Chpt 1, 2, 5 (Online AB Testing Intro)",- `Link <exercises/exercise_abtesting>`_
 "Tues, Feb 21",AB: Analyzing A/B Tests,"Dangers of Early Stopping:
+
 - `Don’t stop experiments early! <endogenous_stopping.ipynb>`_
 -`...unless you use these methods <https://netflixtechblog.com/improving-experimentation-efficiency-at-netflix-with-meta-analysis-and-optimal-stopping-d8ec290ae5be>`_
 
 Power and Decisions:
+
 - Kohavi, Tang and Xu, Chpt 3 up to ""Threats to Internal Validity"" (p. 39-42)",
 "Thrs, Feb 23",AB: Making Decisions,"- P-Values and Decision Making
 - `Moving to a World Beyond p less than 0.05 <https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913>`_",
 "Tues, Feb 28",AB: Threats to Internal Validity,"SUTVA in AB Testing:
+
 - Kohavi, Tang and Xu: Chpt 3, ""Threats to Internal Validity"" (p. 42-47)
 - Different Randomizations: KTX Chpt 22
 
 Validating Internal Validity:
+
 - Kohvani, Tang and Xu: Chpt 19 (A/A Testing)
 - Kohvani, Tang and Xu: Chpt 21 (Guardrail Metrics)
 ",
