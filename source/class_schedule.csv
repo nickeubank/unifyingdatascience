@@ -27,14 +27,15 @@ Optional: `Fostering Psychological Safety Tips <https://docs.google.com/document
 Statistical Analysis of Experiments
 - Angrist and Piscke (MHE), Sec. 2.3 (p. 21 - 24)
 - Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3)",- `Link <exercises/exercise_resume.ipynb>`_
-"Thrs, Feb 16",Online AB Testing,"- Kohavi, Tang and Xu, Chpt 1, 2, 5",- `Link <exercises/exercise_abtesting>`_
+"Thrs, Feb 16",Online AB Testing,"- Kohavi, Tang and Xu, Chpt 1, 2, 5 (Online AB Testing Intro)",- `Link <exercises/exercise_abtesting>`_
 "Tues, Feb 21",AB: Analyzing A/B Tests,"Dangers of Early Stopping:
 - `Don’t stop experiments early! <endogenous_stopping.ipynb>`_
 -`...unless you use these methods <https://netflixtechblog.com/improving-experimentation-efficiency-at-netflix-with-meta-analysis-and-optimal-stopping-d8ec290ae5be>`_
 
 Power and Decisions:
 - Kohavi, Tang and Xu, Chpt 3 up to ""Threats to Internal Validity"" (p. 39-42)",
-"Thrs, Feb 23",AB: Making Decisions,#NAME?,
+"Thrs, Feb 23",AB: Making Decisions,"- P-Values and Decision Making
+- `Moving to a World Beyond p less than 0.05 <https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913>`_",
 "Tues, Feb 28",AB: Threats to Internal Validity,"SUTVA in AB Testing:
 - Kohavi, Tang and Xu: Chpt 3, ""Threats to Internal Validity"" (p. 42-47)
 - Different Randomizations: KTX Chpt 22
@@ -47,29 +48,30 @@ Validating Internal Validity:
 - Kohvani, Tang and Xu, Chpt 23 (Primacy Effects / Long Term Decay)
 - Representativeness",
 "Tues, Mar 7",AB: Designing Experiments,"- Kohvani, Tang and Xu Chpt 7
-- `Power Calculations <https://www.povertyactionlab.org/resource/power-calculations>`_",
+- `Power Calculations <https://www.povertyactionlab.org/resource/power-calculations>`_
+",
 "Thrs, Mar 9",AB: Review,Review Exercise,Experiments recap
 "Tues, Mar 14",**NO CLASS**,,
 "Thrs, Mar 16",**NO CLASS**,,
-"Tues, Mar 21",Causality and Regression,"- `Causal Inference In Industry Beyond AB Testing <causal_inference_beyond_ab_testing.ipynb>`_
+"Tues, Mar 21",**MIDTERM**,,
+"Thrs, Mar 23",Causality and Regression,"- `Causal Inference In Industry Beyond AB Testing <causal_inference_beyond_ab_testing.ipynb>`_
 - Angrist and Piscke (MM), Chpt 2",- `Link <exercises/exercise_regressions_incomeineq.ipynb>`_
-"Thrs, Mar 23",Causality and Regression,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
+"Tues, Mar 28",Causality and Regression,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
 - `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
 - `Fixed Effects and Causal Inference <fixed_effects_and_causal_inference.ipynb>`_
 - `Implementing Fixed Effects <fixed_effects.ipynb>`_
-- `Moving to a World Beyond p less than 0.05 <https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913>`_
 
 
 Optional: 
 
 - Kennedy (GtE), Chpt 18.","- `Indicators <exercises/exercise_indicators.ipynb>`_
 - `Fixed Effects <exercises/exercise_panel.ipynb>`_"
-"Tues, Mar 28",Matching,"- `The Why of Matching <matching_why.ipynb>`_
+"Thrs, Mar 30",Matching,"- `The Why of Matching <matching_why.ipynb>`_
 - `The How of Matching Summary <matching_how.ipynb>`_
 - `Methods for Matching <https://youtu.be/tvMyjDi4dyg?t=910>`_
 
 *Watch the video above from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercise <exercises/exercise_matching.ipynb>`_
-"Thrs, Mar 30",Diff-in-Diff,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
+"Tues, Apr 4",Diff-in-Diff,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
 - `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_
 
 Optional but encouraged:
@@ -77,7 +79,6 @@ Optional but encouraged:
 but here's a real diff-in-diff)
 
 - `Enfranchisement and Incarceration <https://www.cambridge.org/core/journals/american-political-science-review/article/enfranchisement-and-incarceration-after-the-1965-voting-rights-act/C68FA7BB8CA313BDD8D9A39BA666A21D>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
-"Tues, Apr 4",**MIDTERM**,,
 "Thrs, Apr 6",,- `Backwards Design <backwards_design.ipynb>`_,"- `Backwards In Class <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_InClass.pdf>`_
 - `Backwards Assignment <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_Assignment.pdf>`_
 - `Data Sources <final_project_resources.ipynb>`_"
