@@ -53,7 +53,8 @@ Optional but encouraged:
 
 - `Enfranchisement and Incarceration <https://www.cambridge.org/core/journals/american-political-science-review/article/enfranchisement-and-incarceration-after-the-1965-voting-rights-act/C68FA7BB8CA313BDD8D9A39BA666A21D>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
 "Thrs, Mar 2",Online AB: Overview,"- Kohavi, Tang and Xu, Chpt 1, 2, 5 (Online AB Testing Intro)",- `Link <exercises/exercise_abtesting>`_
-"Tues, Mar 7",Online AB: Analyzing,"Dangers of Early Stopping:
+"Tues, Mar 7",**MIDTERM**,,
+"Thrs, Mar 9",Online AB: Analyzing,"Dangers of Early Stopping:
 
 - `Don’t stop experiments early! <endogenous_stopping.ipynb>`_
 - `...unless you use these methods <https://netflixtechblog.com/improving-experimentation-efficiency-at-netflix-with-meta-analysis-and-optimal-stopping-d8ec290ae5be>`_
@@ -61,7 +62,6 @@ Optional but encouraged:
 Power and Decisions:
 
 - Kohavi, Tang and Xu, Chpt 3 up to ""Threats to Internal Validity"" (p. 39-42)",
-"Thrs, Mar 9",Online AB: Making Decisions,"- Georgiev, Chpt 11",
 "Tues, Mar 14",**NO CLASS**,,
 "Thrs, Mar 16",**NO CLASS**,,
 "Tues, Mar 21",Online AB: Internal Validity,"SUTVA in AB Testing:
@@ -74,10 +74,10 @@ Validating Internal Validity:
 - Kohvani, Tang and Xu: Chpt 19 (A/A Testing)
 - Kohvani, Tang and Xu: Chpt 21 (Guardrail Metrics)
 ",
-"Thrs, Mar 23",**MIDTERM**,,
-"Tues, Mar 28",Online AB: External Validity,"- Seasonality Effects
+"Thrs, Mar 23",Online AB: External Validity,"- Seasonality Effects
 - Kohvani, Tang and Xu, Chpt 23 (Primacy Effects / Long Term Decay)
 - Representativeness",
+"Tues, Mar 28",Online AB: Making Decisions,"- Georgiev, Chpt 11",
 "Thrs, Mar 30",,- `Backwards Design <backwards_design.ipynb>`_,"- `Backwards In Class <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_InClass.pdf>`_
 - `Backwards Assignment <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_Assignment.pdf>`_
 - `Data Sources <final_project_resources.ipynb>`_"
