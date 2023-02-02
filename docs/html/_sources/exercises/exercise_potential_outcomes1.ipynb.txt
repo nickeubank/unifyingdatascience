@@ -1,6 +1,7 @@
 {
  "cells": [
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
@@ -14,7 +15,9 @@
     "\n",
     "One policy they're considering implementing to address this issue is to replace all sodas in the dining halls with diet (sugar-free) sodas. But they aren't sure if this will actually make a difference. \n",
     "\n",
-    "To help them decide, they wanted to measure the effect of diet soda on BMI, so they collected data on all Duke students, and compared student BMI scores for students who drink diet soda with those who drink regular soda (they're students -- they *all* drink some soda :)). \n",
+    "To help them decide, they wanted to measure the effect of diet soda on BMI, so they collected data on all Duke students, and compared student BMI scores for students who drink diet soda with those who drink regular soda.\n",
+    "\n",
+    "**For simplicity (and because these are students) assume all students drink Coke, the only question here is whether they drink Diet Coke or Regular Coke.**\n",
     "\n",
     "They found that students who drink diet soda actually have higher BMIs (suggesting they may actually be *less* healthy). They interpreted this as evidence that diet soda is making students *less* healthy, so they changed their plans, and instead of removing sugary soda, they've decided to remove all *diet* soda from the campus. "
    ]
