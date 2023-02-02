@@ -27,10 +27,13 @@
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "In words, describe exactly what quantities in this study context would correspond to the different components of the Potential Outcomes Framework we've been studying. When defining these, remember to define both the *thing* being measured *and the population* being measured.\n",
+    "In words, describe exactly what quantities in this study context would correspond to the different components of the Potential Outcomes Framework we've been studying. \n",
+    "\n",
+    "**When defining these, remember to define the *outcome* being measured *and the population* for whom the outcome is being measured.** Every answer should include both these things.\n",
     "\n",
     "As you do so, avoid using terms like \"treatment\", \"control group\", or \"potential outcome\". The goal of this exercise is to move from the abstract conceptual derivations we've read to the specifics of this study. For example, I've put in an answer to Question 1 below:"
    ]
@@ -186,10 +189,11 @@
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "In order for the difference in BMIs found in the report -- that those who drink diet soda have higher BMIs -- to be a true estimate of the average effect of drinking diet soda, we know that it must be the case that:\n",
+    "In order for the difference in BMIs found in the report—that those who drink diet soda have higher BMIs—to be a true estimate of the average effect of drinking diet soda, we know that it must be the case that:\n",
     "\n",
     "$E(Y_{T=0}| D=1) - E(Y_{T=0}| D=0) = 0$\n",
     "\n",
@@ -197,7 +201,9 @@
     "\n",
     "$E(Y_{T=1}| D=0) - E(Y_{T=0}| D=0) = E(Y_{T=1}| D=1) - E(Y_{T=0} | D=1)$. \n",
     "\n",
-    "In the context of this study, what do those two conditions mean *in plain english*? As above, avoid using abstract terms (\"treatment\", \"baseline\", etc.) and try and be as concrete as possible. \n",
+    "In the context of this study, what do those two conditions mean *in plain English*? \n",
+    "\n",
+    "As above, avoid using abstract terms (\"treatment\", \"baseline\", etc.) and try and be as concrete as possible. \n",
     "\n",
     "**11** $E(Y_{T=0}| D=1) - E(Y_{T=0}| D=0) = 0$:\n",
     "\n",
@@ -224,12 +230,13 @@
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Now, for each of the conditions above, please give one reason -- *in plain english* -- why those conditions may **not** be met in the context of this study? \n",
+    "Now, for each of the conditions above, please give one reason—*in plain English*—why those conditions may **not** be met in the context of this study? \n",
     "\n",
-    "As you do so, be specific! Tell me a story about why *in the case of this study* you think one of these conditions may hold. One can always say things like \"people in the two groups may have been different\", but I want a specific reason you think they might have been different in a way that meets the conditions.\n",
+    "As you do so, be specific! Tell me a story about why *in the case of this study* you think one of these conditions may hold. One can always say things like \"people in the two groups may have been different\", but I want a specific, *affirmative* reason you think they might have been different in a way that meets the conditions.\n",
     "\n",
     "**13** It may be the case that $E(Y_{T=0}| D=1) - E(Y_{T=0}| D=0) \\neq 0$ because...:\n",
     "\n",
