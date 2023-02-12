@@ -1,0 +1,5115 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Crime and Poverty Descriptive Analysis\n",
+    "\n",
+    "In this exercise we'll be examining the relationship between crime and policing expenditures using county-level data from Massachusetts. "
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exercise 1\n",
+    "\n",
+    "Begin by downloading the data for this exercise from https://github.com/nickeubank/MIDS_Data/blob/master/descriptive_exercise/crime_expend_MA.csv (just go to github.com/nickeubank.MIDS_Data, then go to descriptive_exercise and get crime_expend_MA.csv if you don't want to type all that).\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>months</th>\n",
+       "      <th>county_code</th>\n",
+       "      <th>crimeindex</th>\n",
+       "      <th>policeexpenditures</th>\n",
+       "      <th>month</th>\n",
+       "      <th>year</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>61.411101</td>\n",
+       "      <td>32.331110</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1990</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>0</td>\n",
+       "      <td>10</td>\n",
+       "      <td>92.779361</td>\n",
+       "      <td>59.342067</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1990</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>0</td>\n",
+       "      <td>11</td>\n",
+       "      <td>93.222701</td>\n",
+       "      <td>50.481508</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1990</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>0</td>\n",
+       "      <td>12</td>\n",
+       "      <td>95.588374</td>\n",
+       "      <td>65.815540</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1990</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>0</td>\n",
+       "      <td>13</td>\n",
+       "      <td>92.472719</td>\n",
+       "      <td>38.337757</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1990</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   months  county_code  crimeindex  policeexpenditures  month  year\n",
+       "0       0            1   61.411101           32.331110      1  1990\n",
+       "1       0           10   92.779361           59.342067      1  1990\n",
+       "2       0           11   93.222701           50.481508      1  1990\n",
+       "3       0           12   95.588374           65.815540      1  1990\n",
+       "4       0           13   92.472719           38.337757      1  1990"
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "\n",
+    "df = pd.read_csv(\n",
+    "    \"https://media.githubusercontent.com/media/nickeubank/\"\n",
+    "    \"MIDS_Data/master/descriptive_exercise/crime_expend_MA.csv\"\n",
+    ")\n",
+    "df.head()\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exercise 2\n",
+    "\n",
+    "This data includes monthly data on both each county's policing expenditures (`policeexpenditures` as share of county budget) and an index of crime (`crimeindex`, scaled 0-100) from 1990 to late 2001. \n",
+    "\n",
+    "In these exercises, we'll be focusing on just two counties -- `county_code` 4 and 10. \n",
+    "\n",
+    "First, for each of these two counties, calculate the mean expenditure level and mean crimeindex score (i.e. calculate both means separately for each county). \n",
+    "\n",
+    "Just to make sure we're practicing applied skills -- do it with a loop and print your results nicely! So you should get output like this (though obviously with different numbers -- I'm not gonna give you the answer!):\n",
+    "\n",
+    "```\n",
+    "for county 4, average policing expenditure is 23.7 and average crime index is 75.83\n",
+    "for county 10, average policing expenditure is 62.15 and average crime index is 55.88\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "for county 4, average policing expenditure is 54.26 and average crime index is 47.83\n",
+      "for county 10, average policing expenditure is 54.24 and average crime index is 47.77\n"
+     ]
+    }
+   ],
+   "source": [
+    "for c in [4, 10]:\n",
+    "    police = df.loc[df.county_code == c, \"policeexpenditures\"].mean()\n",
+    "    crime = df.loc[df.county_code == c, \"crimeindex\"].mean()\n",
+    "\n",
+    "    print(\n",
+    "        f\"for county {c}, average policing expenditure \"\n",
+    "        f\"is {police:.2f} and average crime index is {crime:.2f}\"\n",
+    "    )\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exercise 2\n",
+    "\n",
+    "Now calculate the standard deviation of both poverty and crime for these two counties."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "for county 4, the std of policing expend is 16.77 and the std of crime index is 26.94\n",
+      "for county 10, the std of policing expend is 16.68 and the std of crime index is 27.00\n"
+     ]
+    }
+   ],
+   "source": [
+    "for c in [4, 10]:\n",
+    "    police = df.loc[df.county_code == c, \"policeexpenditures\"].std()\n",
+    "    crime = df.loc[df.county_code == c, \"crimeindex\"].std()\n",
+    "\n",
+    "    print(\n",
+    "        f\"for county {c}, the std of policing expend \"\n",
+    "        f\"is {police:.2f} and the std of crime index is {crime:.2f}\"\n",
+    "    )\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exercise 3\n",
+    "\n",
+    "Now calculate the correlation between `poverty` and `crimeindex` for both of these counties (again with a loop and nice printed output!)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "for county 4, the correlation is -0.06\n",
+      "for county 10, the correlation is -0.06\n"
+     ]
+    }
+   ],
+   "source": [
+    "for c in [4, 10]:\n",
+    "    corr = df.loc[df.county_code == c, [\"policeexpenditures\", \"crimeindex\"]].corr()\n",
+    "    corr = corr.iloc[0, 1]\n",
+    "    print(f\"for county {c}, the correlation is {corr:.2f}\")\n"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exercise 4\n",
+    "\n",
+    "Based on your results up to this point, what would you guess about whether policing reduces crime? I know—these are just descriptive statistics, and correlation does not imply causality. But what would you infer if this was all you knew?\n",
+    "\n",
+    "> It seems like policing expenditures might have a very small ability to reduce crime, but it's certainly not a strong correlation."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exercise 5\n",
+    "\n",
+    "Given what you've seen up till now, would you infer that county 4 and county 10 have a similar relationship between crime and police expenditures?"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> It seems like County 4 and County 10 have experienced *very* similar levels of crime and police expenditures, and the relationship between these two measures is very similar as well."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exercise 6\n",
+    "\n",
+    "Now plot histograms of `policeexpenditures` for both county 4 and county 10. Do the results change you impression of the similarity of county 4 and county 10?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.vegalite.v4+json": {
+       "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json",
+       "config": {
+        "view": {
+         "continuousHeight": 300,
+         "continuousWidth": 400
+        }
+       },
+       "data": {
+        "name": "data-2408b2b253013ab97f48476f1ed2aa2b"
+       },
+       "datasets": {
+        "data-2408b2b253013ab97f48476f1ed2aa2b": [
+         {
+          "county_code": 4,
+          "crimeindex": 97.1795,
+          "month": 1,
+          "months": 0,
+          "policeexpenditures": 55.3846,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 96.0256,
+          "month": 2,
+          "months": 1,
+          "policeexpenditures": 51.5385,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 94.4872,
+          "month": 3,
+          "months": 2,
+          "policeexpenditures": 46.1538,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 91.4103,
+          "month": 4,
+          "months": 3,
+          "policeexpenditures": 42.8205,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 88.3333,
+          "month": 5,
+          "months": 4,
+          "policeexpenditures": 40.7692,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 84.8718,
+          "month": 6,
+          "months": 5,
+          "policeexpenditures": 38.7179,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 79.8718,
+          "month": 7,
+          "months": 6,
+          "policeexpenditures": 35.641,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 77.5641,
+          "month": 8,
+          "months": 7,
+          "policeexpenditures": 33.0769,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 74.4872,
+          "month": 9,
+          "months": 8,
+          "policeexpenditures": 28.9744,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 71.4103,
+          "month": 10,
+          "months": 9,
+          "policeexpenditures": 26.1538,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 66.4103,
+          "month": 11,
+          "months": 10,
+          "policeexpenditures": 23.0769,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 61.7949,
+          "month": 12,
+          "months": 11,
+          "policeexpenditures": 22.3077,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 57.1795,
+          "month": 1,
+          "months": 12,
+          "policeexpenditures": 22.3077,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 52.9487,
+          "month": 2,
+          "months": 13,
+          "policeexpenditures": 23.3333,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 51.0256,
+          "month": 3,
+          "months": 14,
+          "policeexpenditures": 25.8974,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 51.0256,
+          "month": 4,
+          "months": 15,
+          "policeexpenditures": 29.4872,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 51.0256,
+          "month": 5,
+          "months": 16,
+          "policeexpenditures": 32.8205,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 51.4103,
+          "month": 6,
+          "months": 17,
+          "policeexpenditures": 35.3846,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 51.4103,
+          "month": 7,
+          "months": 18,
+          "policeexpenditures": 40.2564,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 52.9487,
+          "month": 8,
+          "months": 19,
+          "policeexpenditures": 44.1026,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 54.1026,
+          "month": 9,
+          "months": 20,
+          "policeexpenditures": 46.6667,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 55.2564,
+          "month": 10,
+          "months": 21,
+          "policeexpenditures": 50,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 55.641000000000005,
+          "month": 11,
+          "months": 22,
+          "policeexpenditures": 53.0769,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 56.0256,
+          "month": 12,
+          "months": 23,
+          "policeexpenditures": 56.6667,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 57.9487,
+          "month": 1,
+          "months": 24,
+          "policeexpenditures": 59.2308,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 62.1795,
+          "month": 2,
+          "months": 25,
+          "policeexpenditures": 61.2821,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 66.4103,
+          "month": 3,
+          "months": 26,
+          "policeexpenditures": 61.5385,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 69.1026,
+          "month": 4,
+          "months": 27,
+          "policeexpenditures": 61.7949,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 55.2564,
+          "month": 5,
+          "months": 28,
+          "policeexpenditures": 57.4359,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 49.8718,
+          "month": 6,
+          "months": 29,
+          "policeexpenditures": 54.8718,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 46.0256,
+          "month": 7,
+          "months": 30,
+          "policeexpenditures": 52.5641,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 38.3333,
+          "month": 8,
+          "months": 31,
+          "policeexpenditures": 48.2051,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 42.1795,
+          "month": 9,
+          "months": 32,
+          "policeexpenditures": 49.4872,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 44.1026,
+          "month": 10,
+          "months": 33,
+          "policeexpenditures": 51.0256,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 36.4103,
+          "month": 11,
+          "months": 34,
+          "policeexpenditures": 45.3846,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 32.5641,
+          "month": 12,
+          "months": 35,
+          "policeexpenditures": 42.8205,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 31.4103,
+          "month": 1,
+          "months": 36,
+          "policeexpenditures": 38.7179,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 30.2564,
+          "month": 2,
+          "months": 37,
+          "policeexpenditures": 35.1282,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 32.1795,
+          "month": 3,
+          "months": 38,
+          "policeexpenditures": 32.5641,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 36.7949,
+          "month": 4,
+          "months": 39,
+          "policeexpenditures": 30,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 41.4103,
+          "month": 5,
+          "months": 40,
+          "policeexpenditures": 33.5897,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 45.641000000000005,
+          "month": 6,
+          "months": 41,
+          "policeexpenditures": 36.6667,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 49.1026,
+          "month": 7,
+          "months": 42,
+          "policeexpenditures": 38.2051,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 36.0256,
+          "month": 8,
+          "months": 43,
+          "policeexpenditures": 29.7436,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 32.1795,
+          "month": 9,
+          "months": 44,
+          "policeexpenditures": 29.7436,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 29.1026,
+          "month": 10,
+          "months": 45,
+          "policeexpenditures": 30,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 26.7949,
+          "month": 11,
+          "months": 46,
+          "policeexpenditures": 32.0513,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 25.2564,
+          "month": 12,
+          "months": 47,
+          "policeexpenditures": 35.8974,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 25.2564,
+          "month": 1,
+          "months": 48,
+          "policeexpenditures": 41.0256,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 25.641,
+          "month": 2,
+          "months": 49,
+          "policeexpenditures": 44.1026,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 28.718000000000004,
+          "month": 3,
+          "months": 50,
+          "policeexpenditures": 47.1795,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 31.4103,
+          "month": 4,
+          "months": 51,
+          "policeexpenditures": 49.4872,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 34.8718,
+          "month": 5,
+          "months": 52,
+          "policeexpenditures": 51.5385,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 37.5641,
+          "month": 6,
+          "months": 53,
+          "policeexpenditures": 53.5897,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 40.641,
+          "month": 7,
+          "months": 54,
+          "policeexpenditures": 55.1282,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 42.1795,
+          "month": 8,
+          "months": 55,
+          "policeexpenditures": 56.6667,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 44.4872,
+          "month": 9,
+          "months": 56,
+          "policeexpenditures": 59.2308,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 46.0256,
+          "month": 10,
+          "months": 57,
+          "policeexpenditures": 62.3077,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 46.7949,
+          "month": 11,
+          "months": 58,
+          "policeexpenditures": 64.8718,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 47.9487,
+          "month": 12,
+          "months": 59,
+          "policeexpenditures": 67.9487,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 53.718,
+          "month": 1,
+          "months": 60,
+          "policeexpenditures": 70.5128,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 60.641000000000005,
+          "month": 2,
+          "months": 61,
+          "policeexpenditures": 71.5385,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 64.4872,
+          "month": 3,
+          "months": 62,
+          "policeexpenditures": 71.5385,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 69.4872,
+          "month": 4,
+          "months": 63,
+          "policeexpenditures": 69.4872,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 79.8718,
+          "month": 5,
+          "months": 64,
+          "policeexpenditures": 46.9231,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 84.1026,
+          "month": 6,
+          "months": 65,
+          "policeexpenditures": 48.2051,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 85.2564,
+          "month": 7,
+          "months": 66,
+          "policeexpenditures": 50,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 85.2564,
+          "month": 8,
+          "months": 67,
+          "policeexpenditures": 53.0769,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 86.0256,
+          "month": 9,
+          "months": 68,
+          "policeexpenditures": 55.3846,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 86.0256,
+          "month": 10,
+          "months": 69,
+          "policeexpenditures": 56.6667,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 82.9487,
+          "month": 11,
+          "months": 70,
+          "policeexpenditures": 56.1538,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 80.641,
+          "month": 12,
+          "months": 71,
+          "policeexpenditures": 53.8462,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 78.718,
+          "month": 1,
+          "months": 72,
+          "policeexpenditures": 51.2821,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 78.718,
+          "month": 2,
+          "months": 73,
+          "policeexpenditures": 50,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 77.5641,
+          "month": 3,
+          "months": 74,
+          "policeexpenditures": 47.9487,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 59.8718,
+          "month": 4,
+          "months": 75,
+          "policeexpenditures": 29.7436,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 62.1795,
+          "month": 5,
+          "months": 76,
+          "policeexpenditures": 29.7436,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 62.5641,
+          "month": 6,
+          "months": 77,
+          "policeexpenditures": 31.2821,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 99.4872,
+          "month": 7,
+          "months": 78,
+          "policeexpenditures": 57.9487,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 99.1026,
+          "month": 8,
+          "months": 79,
+          "policeexpenditures": 61.7949,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 97.5641,
+          "month": 9,
+          "months": 80,
+          "policeexpenditures": 64.8718,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 94.1026,
+          "month": 10,
+          "months": 81,
+          "policeexpenditures": 68.4615,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 91.0256,
+          "month": 11,
+          "months": 82,
+          "policeexpenditures": 70.7692,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 86.4103,
+          "month": 12,
+          "months": 83,
+          "policeexpenditures": 72.0513,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 83.3333,
+          "month": 1,
+          "months": 84,
+          "policeexpenditures": 73.8462,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 79.1026,
+          "month": 2,
+          "months": 85,
+          "policeexpenditures": 75.1282,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 75.2564,
+          "month": 3,
+          "months": 86,
+          "policeexpenditures": 76.6667,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 71.4103,
+          "month": 4,
+          "months": 87,
+          "policeexpenditures": 77.6923,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 66.7949,
+          "month": 5,
+          "months": 88,
+          "policeexpenditures": 79.7436,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 60.2564,
+          "month": 6,
+          "months": 89,
+          "policeexpenditures": 81.7949,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 55.2564,
+          "month": 7,
+          "months": 90,
+          "policeexpenditures": 83.3333,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 51.4103,
+          "month": 8,
+          "months": 91,
+          "policeexpenditures": 85.1282,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 47.5641,
+          "month": 9,
+          "months": 92,
+          "policeexpenditures": 86.4103,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 46.0256,
+          "month": 10,
+          "months": 93,
+          "policeexpenditures": 87.9487,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 42.5641,
+          "month": 11,
+          "months": 94,
+          "policeexpenditures": 89.4872,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 39.8718,
+          "month": 12,
+          "months": 95,
+          "policeexpenditures": 93.3333,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 36.7949,
+          "month": 1,
+          "months": 96,
+          "policeexpenditures": 95.3846,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 33.718,
+          "month": 2,
+          "months": 97,
+          "policeexpenditures": 98.2051,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 40.641,
+          "month": 3,
+          "months": 98,
+          "policeexpenditures": 56.6667,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 38.3333,
+          "month": 4,
+          "months": 99,
+          "policeexpenditures": 59.2308,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 33.718,
+          "month": 5,
+          "months": 100,
+          "policeexpenditures": 60.7692,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 29.1026,
+          "month": 6,
+          "months": 101,
+          "policeexpenditures": 63.0769,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 25.2564,
+          "month": 7,
+          "months": 102,
+          "policeexpenditures": 64.1026,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 24.1026,
+          "month": 8,
+          "months": 103,
+          "policeexpenditures": 64.359,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 22.9487,
+          "month": 9,
+          "months": 104,
+          "policeexpenditures": 74.359,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 22.9487,
+          "month": 10,
+          "months": 105,
+          "policeexpenditures": 71.2821,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 22.1795,
+          "month": 11,
+          "months": 106,
+          "policeexpenditures": 67.9487,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 20.2564,
+          "month": 12,
+          "months": 107,
+          "policeexpenditures": 65.8974,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 19.1026,
+          "month": 1,
+          "months": 108,
+          "policeexpenditures": 63.0769,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 19.1026,
+          "month": 2,
+          "months": 109,
+          "policeexpenditures": 61.2821,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 18.3333,
+          "month": 3,
+          "months": 110,
+          "policeexpenditures": 58.7179,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 18.3333,
+          "month": 4,
+          "months": 111,
+          "policeexpenditures": 55.1282,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 18.3333,
+          "month": 5,
+          "months": 112,
+          "policeexpenditures": 52.3077,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 17.5641,
+          "month": 6,
+          "months": 113,
+          "policeexpenditures": 49.7436,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 16.0256,
+          "month": 7,
+          "months": 114,
+          "policeexpenditures": 47.4359,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 13.718,
+          "month": 8,
+          "months": 115,
+          "policeexpenditures": 44.8718,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 14.8718,
+          "month": 9,
+          "months": 116,
+          "policeexpenditures": 48.7179,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 14.8718,
+          "month": 10,
+          "months": 117,
+          "policeexpenditures": 51.2821,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 14.8718,
+          "month": 11,
+          "months": 118,
+          "policeexpenditures": 54.1026,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 14.1026,
+          "month": 12,
+          "months": 119,
+          "policeexpenditures": 56.1538,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 12.5641,
+          "month": 1,
+          "months": 120,
+          "policeexpenditures": 52.0513,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 11.0256,
+          "month": 2,
+          "months": 121,
+          "policeexpenditures": 48.7179,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 9.8718,
+          "month": 3,
+          "months": 122,
+          "policeexpenditures": 47.1795,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 6.0256,
+          "month": 4,
+          "months": 123,
+          "policeexpenditures": 46.1538,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 9.4872,
+          "month": 5,
+          "months": 124,
+          "policeexpenditures": 50.5128,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.2564,
+          "month": 6,
+          "months": 125,
+          "policeexpenditures": 53.8462,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.2564,
+          "month": 7,
+          "months": 126,
+          "policeexpenditures": 57.4359,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.640999999999998,
+          "month": 8,
+          "months": 127,
+          "policeexpenditures": 60,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.640999999999998,
+          "month": 9,
+          "months": 128,
+          "policeexpenditures": 64.1026,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.640999999999998,
+          "month": 10,
+          "months": 129,
+          "policeexpenditures": 66.9231,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.640999999999998,
+          "month": 11,
+          "months": 130,
+          "policeexpenditures": 71.2821,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.640999999999998,
+          "month": 12,
+          "months": 131,
+          "policeexpenditures": 74.359,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.640999999999998,
+          "month": 1,
+          "months": 132,
+          "policeexpenditures": 78.2051,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 8.718,
+          "month": 2,
+          "months": 133,
+          "policeexpenditures": 67.9487,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 5.2564,
+          "month": 3,
+          "months": 134,
+          "policeexpenditures": 68.4615,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 2.9487,
+          "month": 4,
+          "months": 135,
+          "policeexpenditures": 68.2051,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 25.7692,
+          "month": 5,
+          "months": 136,
+          "policeexpenditures": 37.6923,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 25.3846,
+          "month": 6,
+          "months": 137,
+          "policeexpenditures": 39.4872,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 41.5385,
+          "month": 7,
+          "months": 138,
+          "policeexpenditures": 91.2821,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 95.7692,
+          "month": 8,
+          "months": 139,
+          "policeexpenditures": 50,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 95,
+          "month": 9,
+          "months": 140,
+          "policeexpenditures": 47.9487,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 92.6923,
+          "month": 10,
+          "months": 141,
+          "policeexpenditures": 44.1026,
+          "year": 2001
+         }
+        ]
+       },
+       "encoding": {
+        "x": {
+         "bin": true,
+         "field": "policeexpenditures",
+         "type": "quantitative"
+        },
+        "y": {
+         "aggregate": "count",
+         "type": "quantitative"
+        }
+       },
+       "mark": "bar",
+       "title": "County 4"
+      },
+      "text/plain": [
+       "<VegaLite 4 object>\n",
+       "\n",
+       "If you see this message, it means the renderer has not been properly enabled\n",
+       "for the frontend that you are using. For more information, see\n",
+       "https://altair-viz.github.io/user_guide/troubleshooting.html\n"
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import altair as alt\n",
+    "alt.renderers.enable('mimetype')\n",
+    "\n",
+    "# Altair grumpy about \n",
+    "# displaying in a loop...\n",
+    "hists = dict()\n",
+    "for county in [4, 10]:\n",
+    "    hists[county] = (\n",
+    "        alt.Chart(df[df.county_code == county], title=f\"County {county}\")\n",
+    "        .mark_bar()\n",
+    "        .encode(\n",
+    "            alt.X(\"policeexpenditures:Q\", bin=True),\n",
+    "            y=\"count()\",\n",
+    "        )\n",
+    "    )\n",
+    "    \n",
+    "hists[4]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.vegalite.v4+json": {
+       "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json",
+       "config": {
+        "view": {
+         "continuousHeight": 300,
+         "continuousWidth": 400
+        }
+       },
+       "data": {
+        "name": "data-580c7b548ffed595b371c80af3dab11f"
+       },
+       "datasets": {
+        "data-580c7b548ffed595b371c80af3dab11f": [
+         {
+          "county_code": 10,
+          "crimeindex": 92.77936057030972,
+          "month": 1,
+          "months": 0,
+          "policeexpenditures": 59.342066701892726,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 93.6336448907998,
+          "month": 2,
+          "months": 1,
+          "policeexpenditures": 60.63866930616712,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 91.53151990532838,
+          "month": 3,
+          "months": 2,
+          "policeexpenditures": 58.727422396490304,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 89.90485905086489,
+          "month": 4,
+          "months": 3,
+          "policeexpenditures": 56.6411715464673,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 91.79714585560777,
+          "month": 5,
+          "months": 4,
+          "policeexpenditures": 57.86264509940875,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 85.67735860743993,
+          "month": 6,
+          "months": 5,
+          "policeexpenditures": 57.78741040976372,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.39143205734898,
+          "month": 7,
+          "months": 6,
+          "policeexpenditures": 28.792846338614883,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.423966897483375,
+          "month": 8,
+          "months": 7,
+          "policeexpenditures": 27.19597754386908,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.59718909333862,
+          "month": 9,
+          "months": 8,
+          "policeexpenditures": 28.52474680055172,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.34785488818984,
+          "month": 10,
+          "months": 9,
+          "policeexpenditures": 27.380777183217685,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.311687187083145,
+          "month": 11,
+          "months": 10,
+          "policeexpenditures": 28.47777700114472,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 61.99447800617672,
+          "month": 12,
+          "months": 11,
+          "policeexpenditures": 28.422075393406484,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.01128554783455,
+          "month": 1,
+          "months": 12,
+          "policeexpenditures": 28.287622065122893,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.72821395007126,
+          "month": 2,
+          "months": 13,
+          "policeexpenditures": 27.38009992479046,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 64.610399513495,
+          "month": 3,
+          "months": 14,
+          "policeexpenditures": 28.324571879962,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.72813839298177,
+          "month": 4,
+          "months": 15,
+          "policeexpenditures": 27.74262460042384,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 64.12982116609858,
+          "month": 5,
+          "months": 16,
+          "policeexpenditures": 30.93518887790746,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 54.03550530633291,
+          "month": 6,
+          "months": 17,
+          "policeexpenditures": 38.96939007543244,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 59.27358715390322,
+          "month": 7,
+          "months": 18,
+          "policeexpenditures": 25.84278405480889,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 55.87783578911621,
+          "month": 8,
+          "months": 19,
+          "policeexpenditures": 33.80455653795255,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 61.75488415662257,
+          "month": 9,
+          "months": 20,
+          "policeexpenditures": 28.325730359940707,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.50912242665472,
+          "month": 10,
+          "months": 21,
+          "policeexpenditures": 47.346894276347655,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 61.47695797657806,
+          "month": 11,
+          "months": 22,
+          "policeexpenditures": 41.068620617137,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.8152286960008,
+          "month": 12,
+          "months": 23,
+          "policeexpenditures": 42.7211973118263,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 65.5178079250931,
+          "month": 1,
+          "months": 24,
+          "policeexpenditures": 64.29883161765048,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 75.1036989418477,
+          "month": 2,
+          "months": 25,
+          "policeexpenditures": 61.53263215094842,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.51113803215455,
+          "month": 3,
+          "months": 26,
+          "policeexpenditures": 68.13237809122661,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 76.46605770747358,
+          "month": 4,
+          "months": 27,
+          "policeexpenditures": 62.51727639955267,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.32121131684657,
+          "month": 5,
+          "months": 28,
+          "policeexpenditures": 33.01583968860287,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 47.09086037793219,
+          "month": 6,
+          "months": 29,
+          "policeexpenditures": 39.59652893864192,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 46.43214740575959,
+          "month": 7,
+          "months": 30,
+          "policeexpenditures": 42.96311290991967,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 34.654269720428886,
+          "month": 8,
+          "months": 31,
+          "policeexpenditures": 45.00808191109717,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 35.0592964792924,
+          "month": 9,
+          "months": 32,
+          "policeexpenditures": 45.49118713564471,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 38.50588128722115,
+          "month": 10,
+          "months": 33,
+          "policeexpenditures": 46.42517066381432,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 32.64273111212233,
+          "month": 11,
+          "months": 34,
+          "policeexpenditures": 42.96062911336039,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 26.238496187917026,
+          "month": 12,
+          "months": 35,
+          "policeexpenditures": 42.442269735757485,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 35.09911108590329,
+          "month": 1,
+          "months": 36,
+          "policeexpenditures": 43.41245603548904,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 26.97250645074923,
+          "month": 2,
+          "months": 37,
+          "policeexpenditures": 41.96549864969274,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 26.082777553039712,
+          "month": 3,
+          "months": 38,
+          "policeexpenditures": 40.5306757288761,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 31.241222007282687,
+          "month": 4,
+          "months": 39,
+          "policeexpenditures": 45.95900930620349,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 51.19180664002289,
+          "month": 5,
+          "months": 40,
+          "policeexpenditures": 40.21514863432602,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.981313139594526,
+          "month": 6,
+          "months": 41,
+          "policeexpenditures": 28.12781040142163,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 57.67125472695758,
+          "month": 7,
+          "months": 42,
+          "policeexpenditures": 32.285083982635925,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 28.752093948543745,
+          "month": 8,
+          "months": 43,
+          "policeexpenditures": 42.99487155422635,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 30.60430039262531,
+          "month": 9,
+          "months": 44,
+          "policeexpenditures": 44.57294656890872,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 17.296919117544,
+          "month": 10,
+          "months": 45,
+          "policeexpenditures": 40.16549574454106,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 20.83181787002713,
+          "month": 11,
+          "months": 46,
+          "policeexpenditures": 40.07855277046707,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.83488050694028,
+          "month": 12,
+          "months": 47,
+          "policeexpenditures": 41.58199309552274,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 17.508190802384775,
+          "month": 1,
+          "months": 48,
+          "policeexpenditures": 39.97979008060481,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 20.793318474883847,
+          "month": 2,
+          "months": 49,
+          "policeexpenditures": 41.50420388125268,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 26.81861839683132,
+          "month": 3,
+          "months": 50,
+          "policeexpenditures": 41.609779885156,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 23.938853684759177,
+          "month": 4,
+          "months": 51,
+          "policeexpenditures": 39.5370044639939,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 32.07674315254407,
+          "month": 5,
+          "months": 52,
+          "policeexpenditures": 56.00148636945854,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 28.345562820047007,
+          "month": 6,
+          "months": 53,
+          "policeexpenditures": 53.52184443634322,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 29.84022662135247,
+          "month": 7,
+          "months": 54,
+          "policeexpenditures": 54.74017669287121,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 26.805062513771936,
+          "month": 8,
+          "months": 55,
+          "policeexpenditures": 64.21659517012442,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 29.388646563618035,
+          "month": 9,
+          "months": 56,
+          "policeexpenditures": 62.5096682931645,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 41.3561109383798,
+          "month": 10,
+          "months": 57,
+          "policeexpenditures": 71.60350961498372,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 44.62344641074895,
+          "month": 11,
+          "months": 58,
+          "policeexpenditures": 70.1001569039897,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 41.0487796141806,
+          "month": 12,
+          "months": 59,
+          "policeexpenditures": 70.5668659733624,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 43.820914827845804,
+          "month": 1,
+          "months": 60,
+          "policeexpenditures": 68.4294222643901,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.04281096644194,
+          "month": 2,
+          "months": 61,
+          "policeexpenditures": 77.21218994593377,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 67.39609420405517,
+          "month": 3,
+          "months": 62,
+          "policeexpenditures": 63.27674019463534,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 71.16776435163156,
+          "month": 4,
+          "months": 63,
+          "policeexpenditures": 63.88479002604402,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 88.25957768147049,
+          "month": 5,
+          "months": 64,
+          "policeexpenditures": 56.61438769374636,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 86.57686298748956,
+          "month": 6,
+          "months": 65,
+          "policeexpenditures": 57.83747780045732,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 88.43251185534646,
+          "month": 7,
+          "months": 66,
+          "policeexpenditures": 59.93427925769631,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 86.64714175696913,
+          "month": 8,
+          "months": 67,
+          "policeexpenditures": 56.2952705828168,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 90.2052751552342,
+          "month": 9,
+          "months": 68,
+          "policeexpenditures": 59.81297727472101,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 89.54519949021525,
+          "month": 10,
+          "months": 69,
+          "policeexpenditures": 58.40244128126534,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 90.02119745877602,
+          "month": 11,
+          "months": 70,
+          "policeexpenditures": 59.14980098060116,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 79.18602451456222,
+          "month": 12,
+          "months": 71,
+          "policeexpenditures": 55.47533479632015,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 78.9314915807043,
+          "month": 1,
+          "months": 72,
+          "policeexpenditures": 56.05824505055618,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 78.50601075406077,
+          "month": 2,
+          "months": 73,
+          "policeexpenditures": 55.363716084687766,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 80.19248989773226,
+          "month": 3,
+          "months": 74,
+          "policeexpenditures": 56.43524177787399,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 60.12871785233465,
+          "month": 4,
+          "months": 75,
+          "policeexpenditures": 30.003948429422348,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.63982561865333,
+          "month": 5,
+          "months": 76,
+          "policeexpenditures": 28.652689363637773,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.909144566070594,
+          "month": 6,
+          "months": 77,
+          "policeexpenditures": 28.08700332006669,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 89.33963889266532,
+          "month": 7,
+          "months": 78,
+          "policeexpenditures": 58.28859928369742,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 93.31155610941828,
+          "month": 8,
+          "months": 79,
+          "policeexpenditures": 58.78652783817376,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 89.37788173897265,
+          "month": 9,
+          "months": 80,
+          "policeexpenditures": 58.11901530268264,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 89.46723206911614,
+          "month": 10,
+          "months": 81,
+          "policeexpenditures": 60.74354404800385,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 92.52933098813445,
+          "month": 11,
+          "months": 82,
+          "policeexpenditures": 58.49757301373508,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 91.22080149687076,
+          "month": 12,
+          "months": 83,
+          "policeexpenditures": 56.41346207666473,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 91.74217248660088,
+          "month": 1,
+          "months": 84,
+          "policeexpenditures": 57.4370696859026,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 78.34221916677134,
+          "month": 2,
+          "months": 85,
+          "policeexpenditures": 62.2299139377369,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.49865101140901,
+          "month": 3,
+          "months": 86,
+          "policeexpenditures": 73.87401600748271,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.5088778157961,
+          "month": 4,
+          "months": 87,
+          "policeexpenditures": 76.45324007276216,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.06142766782769,
+          "month": 5,
+          "months": 88,
+          "policeexpenditures": 79.74826630607446,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 51.44877318791337,
+          "month": 6,
+          "months": 89,
+          "policeexpenditures": 77.53086481504725,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 55.37735998246896,
+          "month": 7,
+          "months": 90,
+          "policeexpenditures": 81.78527841867877,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 59.97560342433345,
+          "month": 8,
+          "months": 91,
+          "policeexpenditures": 84.81603325648224,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 53.84360491385092,
+          "month": 9,
+          "months": 92,
+          "policeexpenditures": 78.02012963004722,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 57.37863022450632,
+          "month": 10,
+          "months": 93,
+          "policeexpenditures": 84.18678653771701,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 53.81910258039392,
+          "month": 11,
+          "months": 94,
+          "policeexpenditures": 78.27830525117383,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 51.43801959554829,
+          "month": 12,
+          "months": 95,
+          "policeexpenditures": 77.43350085022914,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 22.955828477823804,
+          "month": 1,
+          "months": 96,
+          "policeexpenditures": 74.91022560440491,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.458683555073772,
+          "month": 2,
+          "months": 97,
+          "policeexpenditures": 76.41619524830458,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 35.11226326254107,
+          "month": 3,
+          "months": 98,
+          "policeexpenditures": 56.86756063446351,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 34.028534391077734,
+          "month": 4,
+          "months": 99,
+          "policeexpenditures": 57.362226871656354,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 23.834224446489323,
+          "month": 5,
+          "months": 100,
+          "policeexpenditures": 66.17762815275344,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 22.33026163378545,
+          "month": 6,
+          "months": 101,
+          "policeexpenditures": 68.9059901986446,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 26.506178161673564,
+          "month": 7,
+          "months": 102,
+          "policeexpenditures": 63.40875548743852,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.23679319631196,
+          "month": 8,
+          "months": 103,
+          "policeexpenditures": 78.31840831528528,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.425824279836858,
+          "month": 9,
+          "months": 104,
+          "policeexpenditures": 77.83963452237582,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 15.106888872336205,
+          "month": 10,
+          "months": 105,
+          "policeexpenditures": 76.707579926191,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.19742958940755,
+          "month": 11,
+          "months": 106,
+          "policeexpenditures": 77.4326985351243,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.114692404003822,
+          "month": 12,
+          "months": 107,
+          "policeexpenditures": 76.24560300613723,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.269725658513646,
+          "month": 1,
+          "months": 108,
+          "policeexpenditures": 76.62562352888449,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 15.62986546875201,
+          "month": 2,
+          "months": 109,
+          "policeexpenditures": 78.15160929046347,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 15.70599831833314,
+          "month": 3,
+          "months": 110,
+          "policeexpenditures": 76.1939188451326,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 25.70064882281051,
+          "month": 4,
+          "months": 111,
+          "policeexpenditures": 48.14771603879148,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 17.770792621629536,
+          "month": 5,
+          "months": 112,
+          "policeexpenditures": 42.75496958376546,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 20.73797117171403,
+          "month": 6,
+          "months": 113,
+          "policeexpenditures": 44.52283737993505,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 24.012059554011486,
+          "month": 7,
+          "months": 114,
+          "policeexpenditures": 50.05762854315685,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.33896901911661,
+          "month": 8,
+          "months": 115,
+          "policeexpenditures": 41.47239665957998,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.316814628793068,
+          "month": 9,
+          "months": 116,
+          "policeexpenditures": 38.58913995062629,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 13.915891120349825,
+          "month": 10,
+          "months": 117,
+          "policeexpenditures": 40.13795489401733,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.40356492943012,
+          "month": 11,
+          "months": 118,
+          "policeexpenditures": 38.13529115791621,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 19.417502695696445,
+          "month": 12,
+          "months": 119,
+          "policeexpenditures": 41.349024455260455,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 21.448309134658576,
+          "month": 1,
+          "months": 120,
+          "policeexpenditures": 48.57320256448232,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 17.077916218518983,
+          "month": 2,
+          "months": 121,
+          "policeexpenditures": 38.856101285699374,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 17.207615986621633,
+          "month": 3,
+          "months": 122,
+          "policeexpenditures": 40.38702103648546,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 15.665665773434444,
+          "month": 4,
+          "months": 123,
+          "policeexpenditures": 40.125594632343386,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 17.31707991221745,
+          "month": 5,
+          "months": 124,
+          "policeexpenditures": 41.06209847068158,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.777040217594651,
+          "month": 6,
+          "months": 125,
+          "policeexpenditures": 39.52400525442216,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 18.087041415255847,
+          "month": 7,
+          "months": 126,
+          "policeexpenditures": 41.703173046534005,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.829223181254536,
+          "month": 8,
+          "months": 127,
+          "policeexpenditures": 76.85604827363163,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.933766574373564,
+          "month": 9,
+          "months": 128,
+          "policeexpenditures": 74.72865922774218,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 15.457996647994122,
+          "month": 10,
+          "months": 129,
+          "policeexpenditures": 76.2320566752447,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.100627804878943,
+          "month": 11,
+          "months": 130,
+          "policeexpenditures": 75.94188205298195,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.803512554886977,
+          "month": 12,
+          "months": 131,
+          "policeexpenditures": 77.05828532241796,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.736012743359767,
+          "month": 1,
+          "months": 132,
+          "policeexpenditures": 76.73017092574086,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.439408695481704,
+          "month": 2,
+          "months": 133,
+          "policeexpenditures": 78.32166240441235,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.296141294454303,
+          "month": 3,
+          "months": 134,
+          "policeexpenditures": 75.40967401559628,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 15.98405427238498,
+          "month": 4,
+          "months": 135,
+          "policeexpenditures": 78.50323483861462,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 24.669758868393096,
+          "month": 5,
+          "months": 136,
+          "policeexpenditures": 41.14104015306764,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 19.23422367315867,
+          "month": 6,
+          "months": 137,
+          "policeexpenditures": 42.87040846704685,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 53.171503864988544,
+          "month": 7,
+          "months": 138,
+          "policeexpenditures": 79.31497312202758,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 87.68968928584643,
+          "month": 8,
+          "months": 139,
+          "policeexpenditures": 58.94666194468495,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 90.06496385886909,
+          "month": 9,
+          "months": 140,
+          "policeexpenditures": 58.56999434992698,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 92.101051054164,
+          "month": 10,
+          "months": 141,
+          "policeexpenditures": 58.214962410259325,
+          "year": 2001
+         }
+        ]
+       },
+       "encoding": {
+        "x": {
+         "bin": true,
+         "field": "policeexpenditures",
+         "type": "quantitative"
+        },
+        "y": {
+         "aggregate": "count",
+         "type": "quantitative"
+        }
+       },
+       "mark": "bar",
+       "title": "County 10"
+      },
+      "text/plain": [
+       "<VegaLite 4 object>\n",
+       "\n",
+       "If you see this message, it means the renderer has not been properly enabled\n",
+       "for the frontend that you are using. For more information, see\n",
+       "https://altair-viz.github.io/user_guide/troubleshooting.html\n"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "hists[10]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exercise 7\n",
+    "\n",
+    "Finally, create a scatter plot of the relationship between crime and police expenditures for each county (e.g. crime on one axis, police expenditures on the other). Does this change your sense of how similar these are?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.vegalite.v4+json": {
+       "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json",
+       "config": {
+        "view": {
+         "continuousHeight": 300,
+         "continuousWidth": 400
+        }
+       },
+       "data": {
+        "name": "data-2408b2b253013ab97f48476f1ed2aa2b"
+       },
+       "datasets": {
+        "data-2408b2b253013ab97f48476f1ed2aa2b": [
+         {
+          "county_code": 4,
+          "crimeindex": 97.1795,
+          "month": 1,
+          "months": 0,
+          "policeexpenditures": 55.3846,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 96.0256,
+          "month": 2,
+          "months": 1,
+          "policeexpenditures": 51.5385,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 94.4872,
+          "month": 3,
+          "months": 2,
+          "policeexpenditures": 46.1538,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 91.4103,
+          "month": 4,
+          "months": 3,
+          "policeexpenditures": 42.8205,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 88.3333,
+          "month": 5,
+          "months": 4,
+          "policeexpenditures": 40.7692,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 84.8718,
+          "month": 6,
+          "months": 5,
+          "policeexpenditures": 38.7179,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 79.8718,
+          "month": 7,
+          "months": 6,
+          "policeexpenditures": 35.641,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 77.5641,
+          "month": 8,
+          "months": 7,
+          "policeexpenditures": 33.0769,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 74.4872,
+          "month": 9,
+          "months": 8,
+          "policeexpenditures": 28.9744,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 71.4103,
+          "month": 10,
+          "months": 9,
+          "policeexpenditures": 26.1538,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 66.4103,
+          "month": 11,
+          "months": 10,
+          "policeexpenditures": 23.0769,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 61.7949,
+          "month": 12,
+          "months": 11,
+          "policeexpenditures": 22.3077,
+          "year": 1990
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 57.1795,
+          "month": 1,
+          "months": 12,
+          "policeexpenditures": 22.3077,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 52.9487,
+          "month": 2,
+          "months": 13,
+          "policeexpenditures": 23.3333,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 51.0256,
+          "month": 3,
+          "months": 14,
+          "policeexpenditures": 25.8974,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 51.0256,
+          "month": 4,
+          "months": 15,
+          "policeexpenditures": 29.4872,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 51.0256,
+          "month": 5,
+          "months": 16,
+          "policeexpenditures": 32.8205,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 51.4103,
+          "month": 6,
+          "months": 17,
+          "policeexpenditures": 35.3846,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 51.4103,
+          "month": 7,
+          "months": 18,
+          "policeexpenditures": 40.2564,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 52.9487,
+          "month": 8,
+          "months": 19,
+          "policeexpenditures": 44.1026,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 54.1026,
+          "month": 9,
+          "months": 20,
+          "policeexpenditures": 46.6667,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 55.2564,
+          "month": 10,
+          "months": 21,
+          "policeexpenditures": 50,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 55.641000000000005,
+          "month": 11,
+          "months": 22,
+          "policeexpenditures": 53.0769,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 56.0256,
+          "month": 12,
+          "months": 23,
+          "policeexpenditures": 56.6667,
+          "year": 1991
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 57.9487,
+          "month": 1,
+          "months": 24,
+          "policeexpenditures": 59.2308,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 62.1795,
+          "month": 2,
+          "months": 25,
+          "policeexpenditures": 61.2821,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 66.4103,
+          "month": 3,
+          "months": 26,
+          "policeexpenditures": 61.5385,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 69.1026,
+          "month": 4,
+          "months": 27,
+          "policeexpenditures": 61.7949,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 55.2564,
+          "month": 5,
+          "months": 28,
+          "policeexpenditures": 57.4359,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 49.8718,
+          "month": 6,
+          "months": 29,
+          "policeexpenditures": 54.8718,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 46.0256,
+          "month": 7,
+          "months": 30,
+          "policeexpenditures": 52.5641,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 38.3333,
+          "month": 8,
+          "months": 31,
+          "policeexpenditures": 48.2051,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 42.1795,
+          "month": 9,
+          "months": 32,
+          "policeexpenditures": 49.4872,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 44.1026,
+          "month": 10,
+          "months": 33,
+          "policeexpenditures": 51.0256,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 36.4103,
+          "month": 11,
+          "months": 34,
+          "policeexpenditures": 45.3846,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 32.5641,
+          "month": 12,
+          "months": 35,
+          "policeexpenditures": 42.8205,
+          "year": 1992
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 31.4103,
+          "month": 1,
+          "months": 36,
+          "policeexpenditures": 38.7179,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 30.2564,
+          "month": 2,
+          "months": 37,
+          "policeexpenditures": 35.1282,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 32.1795,
+          "month": 3,
+          "months": 38,
+          "policeexpenditures": 32.5641,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 36.7949,
+          "month": 4,
+          "months": 39,
+          "policeexpenditures": 30,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 41.4103,
+          "month": 5,
+          "months": 40,
+          "policeexpenditures": 33.5897,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 45.641000000000005,
+          "month": 6,
+          "months": 41,
+          "policeexpenditures": 36.6667,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 49.1026,
+          "month": 7,
+          "months": 42,
+          "policeexpenditures": 38.2051,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 36.0256,
+          "month": 8,
+          "months": 43,
+          "policeexpenditures": 29.7436,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 32.1795,
+          "month": 9,
+          "months": 44,
+          "policeexpenditures": 29.7436,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 29.1026,
+          "month": 10,
+          "months": 45,
+          "policeexpenditures": 30,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 26.7949,
+          "month": 11,
+          "months": 46,
+          "policeexpenditures": 32.0513,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 25.2564,
+          "month": 12,
+          "months": 47,
+          "policeexpenditures": 35.8974,
+          "year": 1993
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 25.2564,
+          "month": 1,
+          "months": 48,
+          "policeexpenditures": 41.0256,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 25.641,
+          "month": 2,
+          "months": 49,
+          "policeexpenditures": 44.1026,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 28.718000000000004,
+          "month": 3,
+          "months": 50,
+          "policeexpenditures": 47.1795,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 31.4103,
+          "month": 4,
+          "months": 51,
+          "policeexpenditures": 49.4872,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 34.8718,
+          "month": 5,
+          "months": 52,
+          "policeexpenditures": 51.5385,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 37.5641,
+          "month": 6,
+          "months": 53,
+          "policeexpenditures": 53.5897,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 40.641,
+          "month": 7,
+          "months": 54,
+          "policeexpenditures": 55.1282,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 42.1795,
+          "month": 8,
+          "months": 55,
+          "policeexpenditures": 56.6667,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 44.4872,
+          "month": 9,
+          "months": 56,
+          "policeexpenditures": 59.2308,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 46.0256,
+          "month": 10,
+          "months": 57,
+          "policeexpenditures": 62.3077,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 46.7949,
+          "month": 11,
+          "months": 58,
+          "policeexpenditures": 64.8718,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 47.9487,
+          "month": 12,
+          "months": 59,
+          "policeexpenditures": 67.9487,
+          "year": 1994
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 53.718,
+          "month": 1,
+          "months": 60,
+          "policeexpenditures": 70.5128,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 60.641000000000005,
+          "month": 2,
+          "months": 61,
+          "policeexpenditures": 71.5385,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 64.4872,
+          "month": 3,
+          "months": 62,
+          "policeexpenditures": 71.5385,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 69.4872,
+          "month": 4,
+          "months": 63,
+          "policeexpenditures": 69.4872,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 79.8718,
+          "month": 5,
+          "months": 64,
+          "policeexpenditures": 46.9231,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 84.1026,
+          "month": 6,
+          "months": 65,
+          "policeexpenditures": 48.2051,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 85.2564,
+          "month": 7,
+          "months": 66,
+          "policeexpenditures": 50,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 85.2564,
+          "month": 8,
+          "months": 67,
+          "policeexpenditures": 53.0769,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 86.0256,
+          "month": 9,
+          "months": 68,
+          "policeexpenditures": 55.3846,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 86.0256,
+          "month": 10,
+          "months": 69,
+          "policeexpenditures": 56.6667,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 82.9487,
+          "month": 11,
+          "months": 70,
+          "policeexpenditures": 56.1538,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 80.641,
+          "month": 12,
+          "months": 71,
+          "policeexpenditures": 53.8462,
+          "year": 1995
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 78.718,
+          "month": 1,
+          "months": 72,
+          "policeexpenditures": 51.2821,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 78.718,
+          "month": 2,
+          "months": 73,
+          "policeexpenditures": 50,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 77.5641,
+          "month": 3,
+          "months": 74,
+          "policeexpenditures": 47.9487,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 59.8718,
+          "month": 4,
+          "months": 75,
+          "policeexpenditures": 29.7436,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 62.1795,
+          "month": 5,
+          "months": 76,
+          "policeexpenditures": 29.7436,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 62.5641,
+          "month": 6,
+          "months": 77,
+          "policeexpenditures": 31.2821,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 99.4872,
+          "month": 7,
+          "months": 78,
+          "policeexpenditures": 57.9487,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 99.1026,
+          "month": 8,
+          "months": 79,
+          "policeexpenditures": 61.7949,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 97.5641,
+          "month": 9,
+          "months": 80,
+          "policeexpenditures": 64.8718,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 94.1026,
+          "month": 10,
+          "months": 81,
+          "policeexpenditures": 68.4615,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 91.0256,
+          "month": 11,
+          "months": 82,
+          "policeexpenditures": 70.7692,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 86.4103,
+          "month": 12,
+          "months": 83,
+          "policeexpenditures": 72.0513,
+          "year": 1996
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 83.3333,
+          "month": 1,
+          "months": 84,
+          "policeexpenditures": 73.8462,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 79.1026,
+          "month": 2,
+          "months": 85,
+          "policeexpenditures": 75.1282,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 75.2564,
+          "month": 3,
+          "months": 86,
+          "policeexpenditures": 76.6667,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 71.4103,
+          "month": 4,
+          "months": 87,
+          "policeexpenditures": 77.6923,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 66.7949,
+          "month": 5,
+          "months": 88,
+          "policeexpenditures": 79.7436,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 60.2564,
+          "month": 6,
+          "months": 89,
+          "policeexpenditures": 81.7949,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 55.2564,
+          "month": 7,
+          "months": 90,
+          "policeexpenditures": 83.3333,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 51.4103,
+          "month": 8,
+          "months": 91,
+          "policeexpenditures": 85.1282,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 47.5641,
+          "month": 9,
+          "months": 92,
+          "policeexpenditures": 86.4103,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 46.0256,
+          "month": 10,
+          "months": 93,
+          "policeexpenditures": 87.9487,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 42.5641,
+          "month": 11,
+          "months": 94,
+          "policeexpenditures": 89.4872,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 39.8718,
+          "month": 12,
+          "months": 95,
+          "policeexpenditures": 93.3333,
+          "year": 1997
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 36.7949,
+          "month": 1,
+          "months": 96,
+          "policeexpenditures": 95.3846,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 33.718,
+          "month": 2,
+          "months": 97,
+          "policeexpenditures": 98.2051,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 40.641,
+          "month": 3,
+          "months": 98,
+          "policeexpenditures": 56.6667,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 38.3333,
+          "month": 4,
+          "months": 99,
+          "policeexpenditures": 59.2308,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 33.718,
+          "month": 5,
+          "months": 100,
+          "policeexpenditures": 60.7692,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 29.1026,
+          "month": 6,
+          "months": 101,
+          "policeexpenditures": 63.0769,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 25.2564,
+          "month": 7,
+          "months": 102,
+          "policeexpenditures": 64.1026,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 24.1026,
+          "month": 8,
+          "months": 103,
+          "policeexpenditures": 64.359,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 22.9487,
+          "month": 9,
+          "months": 104,
+          "policeexpenditures": 74.359,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 22.9487,
+          "month": 10,
+          "months": 105,
+          "policeexpenditures": 71.2821,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 22.1795,
+          "month": 11,
+          "months": 106,
+          "policeexpenditures": 67.9487,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 20.2564,
+          "month": 12,
+          "months": 107,
+          "policeexpenditures": 65.8974,
+          "year": 1998
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 19.1026,
+          "month": 1,
+          "months": 108,
+          "policeexpenditures": 63.0769,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 19.1026,
+          "month": 2,
+          "months": 109,
+          "policeexpenditures": 61.2821,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 18.3333,
+          "month": 3,
+          "months": 110,
+          "policeexpenditures": 58.7179,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 18.3333,
+          "month": 4,
+          "months": 111,
+          "policeexpenditures": 55.1282,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 18.3333,
+          "month": 5,
+          "months": 112,
+          "policeexpenditures": 52.3077,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 17.5641,
+          "month": 6,
+          "months": 113,
+          "policeexpenditures": 49.7436,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 16.0256,
+          "month": 7,
+          "months": 114,
+          "policeexpenditures": 47.4359,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 13.718,
+          "month": 8,
+          "months": 115,
+          "policeexpenditures": 44.8718,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 14.8718,
+          "month": 9,
+          "months": 116,
+          "policeexpenditures": 48.7179,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 14.8718,
+          "month": 10,
+          "months": 117,
+          "policeexpenditures": 51.2821,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 14.8718,
+          "month": 11,
+          "months": 118,
+          "policeexpenditures": 54.1026,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 14.1026,
+          "month": 12,
+          "months": 119,
+          "policeexpenditures": 56.1538,
+          "year": 1999
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 12.5641,
+          "month": 1,
+          "months": 120,
+          "policeexpenditures": 52.0513,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 11.0256,
+          "month": 2,
+          "months": 121,
+          "policeexpenditures": 48.7179,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 9.8718,
+          "month": 3,
+          "months": 122,
+          "policeexpenditures": 47.1795,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 6.0256,
+          "month": 4,
+          "months": 123,
+          "policeexpenditures": 46.1538,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 9.4872,
+          "month": 5,
+          "months": 124,
+          "policeexpenditures": 50.5128,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.2564,
+          "month": 6,
+          "months": 125,
+          "policeexpenditures": 53.8462,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.2564,
+          "month": 7,
+          "months": 126,
+          "policeexpenditures": 57.4359,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.640999999999998,
+          "month": 8,
+          "months": 127,
+          "policeexpenditures": 60,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.640999999999998,
+          "month": 9,
+          "months": 128,
+          "policeexpenditures": 64.1026,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.640999999999998,
+          "month": 10,
+          "months": 129,
+          "policeexpenditures": 66.9231,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.640999999999998,
+          "month": 11,
+          "months": 130,
+          "policeexpenditures": 71.2821,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.640999999999998,
+          "month": 12,
+          "months": 131,
+          "policeexpenditures": 74.359,
+          "year": 2000
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 10.640999999999998,
+          "month": 1,
+          "months": 132,
+          "policeexpenditures": 78.2051,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 8.718,
+          "month": 2,
+          "months": 133,
+          "policeexpenditures": 67.9487,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 5.2564,
+          "month": 3,
+          "months": 134,
+          "policeexpenditures": 68.4615,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 2.9487,
+          "month": 4,
+          "months": 135,
+          "policeexpenditures": 68.2051,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 25.7692,
+          "month": 5,
+          "months": 136,
+          "policeexpenditures": 37.6923,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 25.3846,
+          "month": 6,
+          "months": 137,
+          "policeexpenditures": 39.4872,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 41.5385,
+          "month": 7,
+          "months": 138,
+          "policeexpenditures": 91.2821,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 95.7692,
+          "month": 8,
+          "months": 139,
+          "policeexpenditures": 50,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 95,
+          "month": 9,
+          "months": 140,
+          "policeexpenditures": 47.9487,
+          "year": 2001
+         },
+         {
+          "county_code": 4,
+          "crimeindex": 92.6923,
+          "month": 10,
+          "months": 141,
+          "policeexpenditures": 44.1026,
+          "year": 2001
+         }
+        ]
+       },
+       "encoding": {
+        "x": {
+         "field": "policeexpenditures",
+         "scale": {
+          "zero": false
+         },
+         "type": "quantitative"
+        },
+        "y": {
+         "field": "crimeindex",
+         "scale": {
+          "zero": false
+         },
+         "type": "quantitative"
+        }
+       },
+       "mark": "point",
+       "title": "County 4"
+      },
+      "text/plain": [
+       "<VegaLite 4 object>\n",
+       "\n",
+       "If you see this message, it means the renderer has not been properly enabled\n",
+       "for the frontend that you are using. For more information, see\n",
+       "https://altair-viz.github.io/user_guide/troubleshooting.html\n"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "scatter = dict()\n",
+    "for county in [4, 10]:\n",
+    "    scatter[county] = (\n",
+    "        alt.Chart(df[df.county_code == county], title=f\"County {county}\")\n",
+    "        .mark_point()\n",
+    "        .encode(\n",
+    "            alt.X(\"policeexpenditures\", scale=alt.Scale(zero=False)),\n",
+    "            alt.Y(\"crimeindex\", scale=alt.Scale(zero=False)),\n",
+    "        )\n",
+    "    )\n",
+    "\n",
+    "scatter[4]\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.vegalite.v4+json": {
+       "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json",
+       "config": {
+        "view": {
+         "continuousHeight": 300,
+         "continuousWidth": 400
+        }
+       },
+       "data": {
+        "name": "data-580c7b548ffed595b371c80af3dab11f"
+       },
+       "datasets": {
+        "data-580c7b548ffed595b371c80af3dab11f": [
+         {
+          "county_code": 10,
+          "crimeindex": 92.77936057030972,
+          "month": 1,
+          "months": 0,
+          "policeexpenditures": 59.342066701892726,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 93.6336448907998,
+          "month": 2,
+          "months": 1,
+          "policeexpenditures": 60.63866930616712,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 91.53151990532838,
+          "month": 3,
+          "months": 2,
+          "policeexpenditures": 58.727422396490304,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 89.90485905086489,
+          "month": 4,
+          "months": 3,
+          "policeexpenditures": 56.6411715464673,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 91.79714585560777,
+          "month": 5,
+          "months": 4,
+          "policeexpenditures": 57.86264509940875,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 85.67735860743993,
+          "month": 6,
+          "months": 5,
+          "policeexpenditures": 57.78741040976372,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.39143205734898,
+          "month": 7,
+          "months": 6,
+          "policeexpenditures": 28.792846338614883,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.423966897483375,
+          "month": 8,
+          "months": 7,
+          "policeexpenditures": 27.19597754386908,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.59718909333862,
+          "month": 9,
+          "months": 8,
+          "policeexpenditures": 28.52474680055172,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.34785488818984,
+          "month": 10,
+          "months": 9,
+          "policeexpenditures": 27.380777183217685,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.311687187083145,
+          "month": 11,
+          "months": 10,
+          "policeexpenditures": 28.47777700114472,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 61.99447800617672,
+          "month": 12,
+          "months": 11,
+          "policeexpenditures": 28.422075393406484,
+          "year": 1990
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.01128554783455,
+          "month": 1,
+          "months": 12,
+          "policeexpenditures": 28.287622065122893,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.72821395007126,
+          "month": 2,
+          "months": 13,
+          "policeexpenditures": 27.38009992479046,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 64.610399513495,
+          "month": 3,
+          "months": 14,
+          "policeexpenditures": 28.324571879962,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.72813839298177,
+          "month": 4,
+          "months": 15,
+          "policeexpenditures": 27.74262460042384,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 64.12982116609858,
+          "month": 5,
+          "months": 16,
+          "policeexpenditures": 30.93518887790746,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 54.03550530633291,
+          "month": 6,
+          "months": 17,
+          "policeexpenditures": 38.96939007543244,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 59.27358715390322,
+          "month": 7,
+          "months": 18,
+          "policeexpenditures": 25.84278405480889,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 55.87783578911621,
+          "month": 8,
+          "months": 19,
+          "policeexpenditures": 33.80455653795255,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 61.75488415662257,
+          "month": 9,
+          "months": 20,
+          "policeexpenditures": 28.325730359940707,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.50912242665472,
+          "month": 10,
+          "months": 21,
+          "policeexpenditures": 47.346894276347655,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 61.47695797657806,
+          "month": 11,
+          "months": 22,
+          "policeexpenditures": 41.068620617137,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.8152286960008,
+          "month": 12,
+          "months": 23,
+          "policeexpenditures": 42.7211973118263,
+          "year": 1991
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 65.5178079250931,
+          "month": 1,
+          "months": 24,
+          "policeexpenditures": 64.29883161765048,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 75.1036989418477,
+          "month": 2,
+          "months": 25,
+          "policeexpenditures": 61.53263215094842,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.51113803215455,
+          "month": 3,
+          "months": 26,
+          "policeexpenditures": 68.13237809122661,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 76.46605770747358,
+          "month": 4,
+          "months": 27,
+          "policeexpenditures": 62.51727639955267,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.32121131684657,
+          "month": 5,
+          "months": 28,
+          "policeexpenditures": 33.01583968860287,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 47.09086037793219,
+          "month": 6,
+          "months": 29,
+          "policeexpenditures": 39.59652893864192,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 46.43214740575959,
+          "month": 7,
+          "months": 30,
+          "policeexpenditures": 42.96311290991967,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 34.654269720428886,
+          "month": 8,
+          "months": 31,
+          "policeexpenditures": 45.00808191109717,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 35.0592964792924,
+          "month": 9,
+          "months": 32,
+          "policeexpenditures": 45.49118713564471,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 38.50588128722115,
+          "month": 10,
+          "months": 33,
+          "policeexpenditures": 46.42517066381432,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 32.64273111212233,
+          "month": 11,
+          "months": 34,
+          "policeexpenditures": 42.96062911336039,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 26.238496187917026,
+          "month": 12,
+          "months": 35,
+          "policeexpenditures": 42.442269735757485,
+          "year": 1992
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 35.09911108590329,
+          "month": 1,
+          "months": 36,
+          "policeexpenditures": 43.41245603548904,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 26.97250645074923,
+          "month": 2,
+          "months": 37,
+          "policeexpenditures": 41.96549864969274,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 26.082777553039712,
+          "month": 3,
+          "months": 38,
+          "policeexpenditures": 40.5306757288761,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 31.241222007282687,
+          "month": 4,
+          "months": 39,
+          "policeexpenditures": 45.95900930620349,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 51.19180664002289,
+          "month": 5,
+          "months": 40,
+          "policeexpenditures": 40.21514863432602,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.981313139594526,
+          "month": 6,
+          "months": 41,
+          "policeexpenditures": 28.12781040142163,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 57.67125472695758,
+          "month": 7,
+          "months": 42,
+          "policeexpenditures": 32.285083982635925,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 28.752093948543745,
+          "month": 8,
+          "months": 43,
+          "policeexpenditures": 42.99487155422635,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 30.60430039262531,
+          "month": 9,
+          "months": 44,
+          "policeexpenditures": 44.57294656890872,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 17.296919117544,
+          "month": 10,
+          "months": 45,
+          "policeexpenditures": 40.16549574454106,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 20.83181787002713,
+          "month": 11,
+          "months": 46,
+          "policeexpenditures": 40.07855277046707,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.83488050694028,
+          "month": 12,
+          "months": 47,
+          "policeexpenditures": 41.58199309552274,
+          "year": 1993
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 17.508190802384775,
+          "month": 1,
+          "months": 48,
+          "policeexpenditures": 39.97979008060481,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 20.793318474883847,
+          "month": 2,
+          "months": 49,
+          "policeexpenditures": 41.50420388125268,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 26.81861839683132,
+          "month": 3,
+          "months": 50,
+          "policeexpenditures": 41.609779885156,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 23.938853684759177,
+          "month": 4,
+          "months": 51,
+          "policeexpenditures": 39.5370044639939,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 32.07674315254407,
+          "month": 5,
+          "months": 52,
+          "policeexpenditures": 56.00148636945854,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 28.345562820047007,
+          "month": 6,
+          "months": 53,
+          "policeexpenditures": 53.52184443634322,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 29.84022662135247,
+          "month": 7,
+          "months": 54,
+          "policeexpenditures": 54.74017669287121,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 26.805062513771936,
+          "month": 8,
+          "months": 55,
+          "policeexpenditures": 64.21659517012442,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 29.388646563618035,
+          "month": 9,
+          "months": 56,
+          "policeexpenditures": 62.5096682931645,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 41.3561109383798,
+          "month": 10,
+          "months": 57,
+          "policeexpenditures": 71.60350961498372,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 44.62344641074895,
+          "month": 11,
+          "months": 58,
+          "policeexpenditures": 70.1001569039897,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 41.0487796141806,
+          "month": 12,
+          "months": 59,
+          "policeexpenditures": 70.5668659733624,
+          "year": 1994
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 43.820914827845804,
+          "month": 1,
+          "months": 60,
+          "policeexpenditures": 68.4294222643901,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.04281096644194,
+          "month": 2,
+          "months": 61,
+          "policeexpenditures": 77.21218994593377,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 67.39609420405517,
+          "month": 3,
+          "months": 62,
+          "policeexpenditures": 63.27674019463534,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 71.16776435163156,
+          "month": 4,
+          "months": 63,
+          "policeexpenditures": 63.88479002604402,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 88.25957768147049,
+          "month": 5,
+          "months": 64,
+          "policeexpenditures": 56.61438769374636,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 86.57686298748956,
+          "month": 6,
+          "months": 65,
+          "policeexpenditures": 57.83747780045732,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 88.43251185534646,
+          "month": 7,
+          "months": 66,
+          "policeexpenditures": 59.93427925769631,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 86.64714175696913,
+          "month": 8,
+          "months": 67,
+          "policeexpenditures": 56.2952705828168,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 90.2052751552342,
+          "month": 9,
+          "months": 68,
+          "policeexpenditures": 59.81297727472101,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 89.54519949021525,
+          "month": 10,
+          "months": 69,
+          "policeexpenditures": 58.40244128126534,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 90.02119745877602,
+          "month": 11,
+          "months": 70,
+          "policeexpenditures": 59.14980098060116,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 79.18602451456222,
+          "month": 12,
+          "months": 71,
+          "policeexpenditures": 55.47533479632015,
+          "year": 1995
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 78.9314915807043,
+          "month": 1,
+          "months": 72,
+          "policeexpenditures": 56.05824505055618,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 78.50601075406077,
+          "month": 2,
+          "months": 73,
+          "policeexpenditures": 55.363716084687766,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 80.19248989773226,
+          "month": 3,
+          "months": 74,
+          "policeexpenditures": 56.43524177787399,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 60.12871785233465,
+          "month": 4,
+          "months": 75,
+          "policeexpenditures": 30.003948429422348,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.63982561865333,
+          "month": 5,
+          "months": 76,
+          "policeexpenditures": 28.652689363637773,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.909144566070594,
+          "month": 6,
+          "months": 77,
+          "policeexpenditures": 28.08700332006669,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 89.33963889266532,
+          "month": 7,
+          "months": 78,
+          "policeexpenditures": 58.28859928369742,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 93.31155610941828,
+          "month": 8,
+          "months": 79,
+          "policeexpenditures": 58.78652783817376,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 89.37788173897265,
+          "month": 9,
+          "months": 80,
+          "policeexpenditures": 58.11901530268264,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 89.46723206911614,
+          "month": 10,
+          "months": 81,
+          "policeexpenditures": 60.74354404800385,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 92.52933098813445,
+          "month": 11,
+          "months": 82,
+          "policeexpenditures": 58.49757301373508,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 91.22080149687076,
+          "month": 12,
+          "months": 83,
+          "policeexpenditures": 56.41346207666473,
+          "year": 1996
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 91.74217248660088,
+          "month": 1,
+          "months": 84,
+          "policeexpenditures": 57.4370696859026,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 78.34221916677134,
+          "month": 2,
+          "months": 85,
+          "policeexpenditures": 62.2299139377369,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.49865101140901,
+          "month": 3,
+          "months": 86,
+          "policeexpenditures": 73.87401600748271,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 63.5088778157961,
+          "month": 4,
+          "months": 87,
+          "policeexpenditures": 76.45324007276216,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 62.06142766782769,
+          "month": 5,
+          "months": 88,
+          "policeexpenditures": 79.74826630607446,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 51.44877318791337,
+          "month": 6,
+          "months": 89,
+          "policeexpenditures": 77.53086481504725,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 55.37735998246896,
+          "month": 7,
+          "months": 90,
+          "policeexpenditures": 81.78527841867877,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 59.97560342433345,
+          "month": 8,
+          "months": 91,
+          "policeexpenditures": 84.81603325648224,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 53.84360491385092,
+          "month": 9,
+          "months": 92,
+          "policeexpenditures": 78.02012963004722,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 57.37863022450632,
+          "month": 10,
+          "months": 93,
+          "policeexpenditures": 84.18678653771701,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 53.81910258039392,
+          "month": 11,
+          "months": 94,
+          "policeexpenditures": 78.27830525117383,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 51.43801959554829,
+          "month": 12,
+          "months": 95,
+          "policeexpenditures": 77.43350085022914,
+          "year": 1997
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 22.955828477823804,
+          "month": 1,
+          "months": 96,
+          "policeexpenditures": 74.91022560440491,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.458683555073772,
+          "month": 2,
+          "months": 97,
+          "policeexpenditures": 76.41619524830458,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 35.11226326254107,
+          "month": 3,
+          "months": 98,
+          "policeexpenditures": 56.86756063446351,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 34.028534391077734,
+          "month": 4,
+          "months": 99,
+          "policeexpenditures": 57.362226871656354,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 23.834224446489323,
+          "month": 5,
+          "months": 100,
+          "policeexpenditures": 66.17762815275344,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 22.33026163378545,
+          "month": 6,
+          "months": 101,
+          "policeexpenditures": 68.9059901986446,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 26.506178161673564,
+          "month": 7,
+          "months": 102,
+          "policeexpenditures": 63.40875548743852,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.23679319631196,
+          "month": 8,
+          "months": 103,
+          "policeexpenditures": 78.31840831528528,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.425824279836858,
+          "month": 9,
+          "months": 104,
+          "policeexpenditures": 77.83963452237582,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 15.106888872336205,
+          "month": 10,
+          "months": 105,
+          "policeexpenditures": 76.707579926191,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.19742958940755,
+          "month": 11,
+          "months": 106,
+          "policeexpenditures": 77.4326985351243,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.114692404003822,
+          "month": 12,
+          "months": 107,
+          "policeexpenditures": 76.24560300613723,
+          "year": 1998
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.269725658513646,
+          "month": 1,
+          "months": 108,
+          "policeexpenditures": 76.62562352888449,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 15.62986546875201,
+          "month": 2,
+          "months": 109,
+          "policeexpenditures": 78.15160929046347,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 15.70599831833314,
+          "month": 3,
+          "months": 110,
+          "policeexpenditures": 76.1939188451326,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 25.70064882281051,
+          "month": 4,
+          "months": 111,
+          "policeexpenditures": 48.14771603879148,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 17.770792621629536,
+          "month": 5,
+          "months": 112,
+          "policeexpenditures": 42.75496958376546,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 20.73797117171403,
+          "month": 6,
+          "months": 113,
+          "policeexpenditures": 44.52283737993505,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 24.012059554011486,
+          "month": 7,
+          "months": 114,
+          "policeexpenditures": 50.05762854315685,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.33896901911661,
+          "month": 8,
+          "months": 115,
+          "policeexpenditures": 41.47239665957998,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.316814628793068,
+          "month": 9,
+          "months": 116,
+          "policeexpenditures": 38.58913995062629,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 13.915891120349825,
+          "month": 10,
+          "months": 117,
+          "policeexpenditures": 40.13795489401733,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.40356492943012,
+          "month": 11,
+          "months": 118,
+          "policeexpenditures": 38.13529115791621,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 19.417502695696445,
+          "month": 12,
+          "months": 119,
+          "policeexpenditures": 41.349024455260455,
+          "year": 1999
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 21.448309134658576,
+          "month": 1,
+          "months": 120,
+          "policeexpenditures": 48.57320256448232,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 17.077916218518983,
+          "month": 2,
+          "months": 121,
+          "policeexpenditures": 38.856101285699374,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 17.207615986621633,
+          "month": 3,
+          "months": 122,
+          "policeexpenditures": 40.38702103648546,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 15.665665773434444,
+          "month": 4,
+          "months": 123,
+          "policeexpenditures": 40.125594632343386,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 17.31707991221745,
+          "month": 5,
+          "months": 124,
+          "policeexpenditures": 41.06209847068158,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.777040217594651,
+          "month": 6,
+          "months": 125,
+          "policeexpenditures": 39.52400525442216,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 18.087041415255847,
+          "month": 7,
+          "months": 126,
+          "policeexpenditures": 41.703173046534005,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.829223181254536,
+          "month": 8,
+          "months": 127,
+          "policeexpenditures": 76.85604827363163,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.933766574373564,
+          "month": 9,
+          "months": 128,
+          "policeexpenditures": 74.72865922774218,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 15.457996647994122,
+          "month": 10,
+          "months": 129,
+          "policeexpenditures": 76.2320566752447,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 16.100627804878943,
+          "month": 11,
+          "months": 130,
+          "policeexpenditures": 75.94188205298195,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.803512554886977,
+          "month": 12,
+          "months": 131,
+          "policeexpenditures": 77.05828532241796,
+          "year": 2000
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.736012743359767,
+          "month": 1,
+          "months": 132,
+          "policeexpenditures": 76.73017092574086,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.439408695481704,
+          "month": 2,
+          "months": 133,
+          "policeexpenditures": 78.32166240441235,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 14.296141294454303,
+          "month": 3,
+          "months": 134,
+          "policeexpenditures": 75.40967401559628,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 15.98405427238498,
+          "month": 4,
+          "months": 135,
+          "policeexpenditures": 78.50323483861462,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 24.669758868393096,
+          "month": 5,
+          "months": 136,
+          "policeexpenditures": 41.14104015306764,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 19.23422367315867,
+          "month": 6,
+          "months": 137,
+          "policeexpenditures": 42.87040846704685,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 53.171503864988544,
+          "month": 7,
+          "months": 138,
+          "policeexpenditures": 79.31497312202758,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 87.68968928584643,
+          "month": 8,
+          "months": 139,
+          "policeexpenditures": 58.94666194468495,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 90.06496385886909,
+          "month": 9,
+          "months": 140,
+          "policeexpenditures": 58.56999434992698,
+          "year": 2001
+         },
+         {
+          "county_code": 10,
+          "crimeindex": 92.101051054164,
+          "month": 10,
+          "months": 141,
+          "policeexpenditures": 58.214962410259325,
+          "year": 2001
+         }
+        ]
+       },
+       "encoding": {
+        "x": {
+         "field": "policeexpenditures",
+         "scale": {
+          "zero": false
+         },
+         "type": "quantitative"
+        },
+        "y": {
+         "field": "crimeindex",
+         "scale": {
+          "zero": false
+         },
+         "type": "quantitative"
+        }
+       },
+       "mark": "point",
+       "title": "County 10"
+      },
+      "text/plain": [
+       "<VegaLite 4 object>\n",
+       "\n",
+       "If you see this message, it means the renderer has not been properly enabled\n",
+       "for the frontend that you are using. For more information, see\n",
+       "https://altair-viz.github.io/user_guide/troubleshooting.html\n"
+      ]
+     },
+     "execution_count": 21,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "scatter[10]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## After you have answered...\n",
+    "\n",
+    "Read this [discussion page](discussion_descriptive.ipynb).\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "base",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.8"
+  },
+  "vscode": {
+   "interpreter": {
+    "hash": "718fed28bf9f8c7851519acf2fb923cd655120b36de3b67253eeb0428bd33d2d"
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
