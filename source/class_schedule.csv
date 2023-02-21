@@ -43,8 +43,9 @@ Optional:
 "Thrs, Feb 23",Matching,"- `The Why of Matching <matching_why.ipynb>`_
 - `The How of Matching Summary <matching_how.ipynb>`_
 - `Methods for Matching <https://youtu.be/tvMyjDi4dyg?t=910>`_
+- `DAME-FLAME (6 min) <https://youtu.be/it2jRF85HG8>`_
 
-*Watch the video above from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercise <exercises/exercise_matching.ipynb>`_
+*Watch the video on Methods for Matching from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercise <exercises/exercise_matching.ipynb>`_
 "Tues, Feb 28",Diff-in-Diff,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
 - `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_
 
