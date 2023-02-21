@@ -1188,12 +1188,13 @@
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
     "The coefficient on our interaction is -0.0015. Does that mean that as women get older, their turnout rate declines by -0.15 percentage points per year? **NO!**\n",
     "\n",
-    "It says that women's turnout rate declines by -0.15 percentage points per year LESS THAN MEN'S TURNOUT DECLINES. It is the **DIFFERENCE** in slopes between the two groups.\n",
+    "It says that however turnout varies with age for men, turnout will vary with age by 0.0015 *less* for women. It is the **DIFFERENCE** in slopes between the two groups.\n",
     "\n",
     "The coefficient on `age` tells us how turnout varies with age **for the reference group**. So it says that for men, turnout increases by 0.09 percentage points per year. \n",
     "\n",
@@ -1202,10 +1203,10 @@
     "So going through all these coefficients, we have: \n",
     "\n",
     "- `female` (0.09): Controlling for age, women are 9 percentage points more likely to vote than men. \n",
-    "- `age` (0.0009): As men get one year older, they become 0.1 percentage point more likely to vote. \n",
+    "- `age` (0.0009): As men get one year older, they become 0.09 percentage points more likely to vote. \n",
     "- `age_x_female` (-0.0015): As women get one year older, the likelihood they vote increases by -0.1 percentage point *less* than men. \n",
     "\n",
-    "So how much does women's turnout increase if they age one year? 0.0009 + -0.0015 = -0.0006. So female turnout actually declines by 0.06 percentage points a year. \n",
+    "So how much does women's turnout increase if they age one year? 0.0009 + -0.0015 = -0.0006. So female turnout actually *declines* by 0.06 percentage points a year.\n",
     "\n",
     "Now let's talk statistical significance. The p-value on age shows us that there's a statistically significant relationship between age and turnout **for men**. The p-value for `age_x_female` tells us that there's a statistically significant **difference** between men and women in how turnout varies with age. But is there a statistically significant relationship between age and turnout for women?\n",
     "\n",
