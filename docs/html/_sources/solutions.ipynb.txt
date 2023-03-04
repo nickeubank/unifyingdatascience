@@ -14,6 +14,8 @@
    "source": [
     "- [Crime and Police Expenditures](exercises/solutions_descriptive.ipynb)\n",
     "- [Potential Outcomes (Diet Soda)](exercises/solutions_potential_outcomes1.ipynb)\n",
+    "- [Resume Experiment](exercises/solutions_resume.ipynb)\n",
+    "- [Regressions / Income Inequality](exercises/solutions_regressions_incomeineq.ipynb)\n",
     "- [Indicator Vars](exercises/solutions_indicators.ipynb)\n",
     "- [Fixed Effects](exercises/solutions_panel.ipynb)\n",
     "- [Matching](exercises/solutions_matching.ipynb)\n"
