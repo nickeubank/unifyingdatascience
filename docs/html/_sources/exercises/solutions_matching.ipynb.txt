@@ -56,7 +56,7 @@
     "# Load critical packages\n",
     "import pandas as pd\n",
     "import numpy as np\n",
-    "import dame_flame\n"
+    "import dame_flame"
    ]
   },
   {
@@ -71,7 +71,7 @@
     "cps = pd.read_stata(\n",
     "    \"https://github.com/nickeubank/MIDS_Data/blob/master\"\n",
     "    \"/Current_Population_Survey/cps_for_matching.dta?raw=true\"\n",
-    ")\n"
+    ")"
    ]
   },
   {
@@ -193,7 +193,7 @@
    ],
    "source": [
     "# Take a look at the data\n",
-    "cps.head()\n"
+    "cps.head()"
    ]
   },
   {
@@ -234,10 +234,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   370.2</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 10 Mar 2022</td> <th>  Prob (F-statistic):</th> <td>6.56e-80</td> \n",
+       "  <th>Date:</th>             <td>Sat, 04 Mar 2023</td> <th>  Prob (F-statistic):</th> <td>6.56e-80</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>12:02:26</td>     <th>  Log-Likelihood:    </th> <td> -63018.</td> \n",
+       "  <th>Time:</th>                 <td>13:59:39</td>     <th>  Log-Likelihood:    </th> <td> -63018.</td> \n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  5515</td>      <th>  AIC:               </th> <td>1.260e+05</td>\n",
@@ -286,8 +286,8 @@
        "Dep. Variable:        annual_earnings   R-squared:                       0.063\n",
        "Model:                            OLS   Adj. R-squared:                  0.063\n",
        "Method:                 Least Squares   F-statistic:                     370.2\n",
-       "Date:                Thu, 10 Mar 2022   Prob (F-statistic):           6.56e-80\n",
-       "Time:                        12:02:26   Log-Likelihood:                -63018.\n",
+       "Date:                Sat, 04 Mar 2023   Prob (F-statistic):           6.56e-80\n",
+       "Time:                        13:59:39   Log-Likelihood:                -63018.\n",
        "No. Observations:                5515   AIC:                         1.260e+05\n",
        "Df Residuals:                    5513   BIC:                         1.261e+05\n",
        "Df Model:                           1                                         \n",
@@ -317,7 +317,7 @@
    "source": [
     "import statsmodels.formula.api as smf\n",
     "\n",
-    "smf.ols(\"annual_earnings ~ has_college\", cps).fit().summary()\n"
+    "smf.ols(\"annual_earnings ~ has_college\", cps).fit().summary()"
    ]
   },
   {
@@ -326,16 +326,19 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "# About 14,000 a year, and it's very significant.\n"
+    "# About 14,000 a year, and it's very significant."
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
     "### Exercise 2\n",
     "\n",
     "Next we can check for balance. Check the share of people in different racial groups who have college degrees. Are those differences statistically significant? \n",
+    "\n",
+    "Race is coded as White Non-Hispanic (0), Black Non-Hispanic (1), Hispanic (2), Other (3).\n",
     "\n",
     "Does the distribution also look different across counties (I don't need statistical significance for this)?\n",
     "\n",
@@ -346,6 +349,19 @@
   {
    "cell_type": "code",
    "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# This question wording is, admittedly, a little iffy.\n",
+    "# Basically, while we want frequency tables to do our chi2\n",
+    "# test, I know _I_ can't look at a frequency table and have\n",
+    "# any sense of whether the groups are actually balanced.\n",
+    "# So I like to see shares with my eyes, then use freq table to test."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
    "metadata": {},
    "outputs": [
     {
@@ -363,10 +379,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   122.1</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 10 Mar 2022</td> <th>  Prob (F-statistic):</th> <td>7.74e-78</td> \n",
+       "  <th>Date:</th>             <td>Sat, 04 Mar 2023</td> <th>  Prob (F-statistic):</th> <td>7.74e-78</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>12:02:26</td>     <th>  Log-Likelihood:    </th> <td> -7675.0</td> \n",
+       "  <th>Time:</th>                 <td>13:59:39</td>     <th>  Log-Likelihood:    </th> <td> -7675.0</td> \n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td> 11150</td>      <th>  AIC:               </th> <td>1.536e+04</td>\n",
@@ -421,8 +437,8 @@
        "Dep. Variable:            has_college   R-squared:                       0.032\n",
        "Model:                            OLS   Adj. R-squared:                  0.032\n",
        "Method:                 Least Squares   F-statistic:                     122.1\n",
-       "Date:                Thu, 10 Mar 2022   Prob (F-statistic):           7.74e-78\n",
-       "Time:                        12:02:26   Log-Likelihood:                -7675.0\n",
+       "Date:                Sat, 04 Mar 2023   Prob (F-statistic):           7.74e-78\n",
+       "Time:                        13:59:39   Log-Likelihood:                -7675.0\n",
        "No. Observations:               11150   AIC:                         1.536e+04\n",
        "Df Residuals:                   11146   BIC:                         1.539e+04\n",
        "Df Model:                           3                                         \n",
@@ -446,18 +462,46 @@
        "\"\"\""
       ]
      },
-     "execution_count": 6,
+     "execution_count": 7,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "smf.ols(\"has_college ~ C(simplified_race)\", cps).fit().summary()\n"
+    "# One easy way to get differences in shares (and bi-variate significance)\n",
+    "smf.ols(\"has_college ~ C(simplified_race)\", cps).fit().summary()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "simplified_race\n",
+       "0.0    0.438205\n",
+       "1.0    0.317647\n",
+       "2.0    0.198413\n",
+       "3.0    0.474900\n",
+       "Name: has_college, dtype: float64"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Or just groupby:\n",
+    "\n",
+    "cps.groupby(\"simplified_race\")[\"has_college\"].mean()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
    "metadata": {},
    "outputs": [
     {
@@ -524,28 +568,29 @@
        "3.0               523   473"
       ]
      },
-     "execution_count": 7,
+     "execution_count": 9,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
+    "# Then for statistical significance:\n",
     "ctab = pd.crosstab(cps[\"simplified_race\"], cps[\"has_college\"])\n",
-    "ctab\n"
+    "ctab"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 10,
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "1.299387594356901e-76"
+       "1.2993875943569016e-76"
       ]
      },
-     "execution_count": 8,
+     "execution_count": 10,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -554,21 +599,21 @@
     "import scipy.stats\n",
     "\n",
     "chi2, p, dof, expected = scipy.stats.chi2_contingency(ctab.values)\n",
-    "p\n"
+    "p"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 11,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Insanely significant. :)\n"
+    "# Insanely significant. :)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 12,
    "metadata": {},
    "outputs": [
     {
@@ -767,18 +812,19 @@
        "[326 rows x 8 columns]"
       ]
      },
-     "execution_count": 10,
+     "execution_count": 12,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
+    "# And look at counties.\n",
     "cps.groupby(\"county\")[[\"has_college\"]].describe().sort_values((\"has_college\", \"mean\"))\n"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 13,
    "metadata": {},
    "outputs": [
     {
@@ -854,22 +900,22 @@
        "max       1.000000"
       ]
      },
-     "execution_count": 11,
+     "execution_count": 13,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "cps.groupby(\"county\")[[\"has_college\"]].mean().describe()\n"
+    "cps.groupby(\"county\")[[\"has_college\"]].mean().describe()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 14,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Good in the middle, but many counties have no college grads, and a few only have college grads.\n"
+    "# Good in the middle, but many counties have no college grads, and a few only have college grads."
    ]
   },
   {
@@ -894,20 +940,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 15,
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/html": [
        "\n",
-       "<div id=\"altair-viz-9d1e40aa4f6f472684302d18fc3f59c7\"></div>\n",
+       "<div id=\"altair-viz-208ef48025cc4c23a1b6423721876d64\"></div>\n",
        "<script type=\"text/javascript\">\n",
        "  var VEGA_DEBUG = (typeof VEGA_DEBUG == \"undefined\") ? {} : VEGA_DEBUG;\n",
        "  (function(spec, embedOpt){\n",
        "    let outputDiv = document.currentScript.previousElementSibling;\n",
-       "    if (outputDiv.id !== \"altair-viz-9d1e40aa4f6f472684302d18fc3f59c7\") {\n",
-       "      outputDiv = document.getElementById(\"altair-viz-9d1e40aa4f6f472684302d18fc3f59c7\");\n",
+       "    if (outputDiv.id !== \"altair-viz-208ef48025cc4c23a1b6423721876d64\") {\n",
+       "      outputDiv = document.getElementById(\"altair-viz-208ef48025cc4c23a1b6423721876d64\");\n",
        "    }\n",
        "    const paths = {\n",
        "      \"vega\": \"https://cdn.jsdelivr.net/npm//vega@5?noext\",\n",
@@ -953,14 +999,14 @@
        "        .catch(showError)\n",
        "        .then(() => displayChart(vegaEmbed));\n",
        "    }\n",
-       "  })({\"config\": {\"view\": {\"continuousWidth\": 400, \"continuousHeight\": 300}}, \"data\": {\"url\": \"http://localhost:16811/0ee7eece2d8f1f8781a1f2ffcc967b60.json\"}, \"mark\": \"line\", \"encoding\": {\"x\": {\"field\": \"age\", \"type\": \"quantitative\"}, \"y\": {\"field\": \"annual_earnings\", \"type\": \"quantitative\"}}, \"transform\": [{\"loess\": \"annual_earnings\", \"on\": \"age\"}], \"$schema\": \"https://vega.github.io/schema/vega-lite/v4.17.0.json\"}, {\"mode\": \"vega-lite\"});\n",
+       "  })({\"config\": {\"view\": {\"continuousWidth\": 400, \"continuousHeight\": 300}}, \"data\": {\"url\": \"http://localhost:52950/0ee7eece2d8f1f8781a1f2ffcc967b60.json\"}, \"mark\": \"line\", \"encoding\": {\"x\": {\"field\": \"age\", \"type\": \"quantitative\"}, \"y\": {\"field\": \"annual_earnings\", \"type\": \"quantitative\"}}, \"transform\": [{\"loess\": \"annual_earnings\", \"on\": \"age\"}], \"$schema\": \"https://vega.github.io/schema/vega-lite/v4.17.0.json\"}, {\"mode\": \"vega-lite\"});\n",
        "</script>"
       ],
       "text/plain": [
        "alt.Chart(...)"
       ]
      },
-     "execution_count": 13,
+     "execution_count": 15,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -971,17 +1017,17 @@
     "alt.data_transformers.enable(\"data_server\")\n",
     "alt.Chart(cps).encode(x=\"age\", y=\"annual_earnings\").transform_loess(\n",
     "    on=\"age\", loess=\"annual_earnings\"\n",
-    ").mark_line()\n"
+    ").mark_line()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 16,
    "metadata": {},
    "outputs": [],
    "source": [
     "# Not even remotely linear. Thank goodness we don't have to worry about that with matching!\n",
-    "# Though it wouldn't be *that* hard to fit a quadratic.\n"
+    "# Though it wouldn't be *that* hard to fit a quadratic."
    ]
   },
   {
@@ -1001,7 +1047,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 17,
    "metadata": {},
    "outputs": [
     {
@@ -1017,7 +1063,7 @@
        "Name: discretized_age, dtype: int64"
       ]
      },
-     "execution_count": 15,
+     "execution_count": 17,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -1025,17 +1071,17 @@
    "source": [
     "cps[\"discretized_age\"] = cps.age // 10\n",
     "cps.loc[cps[\"discretized_age\"] == 1, \"discretized_age\"] = 2\n",
-    "cps[\"discretized_age\"].value_counts()\n"
+    "cps[\"discretized_age\"].value_counts()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 16,
+   "execution_count": 18,
    "metadata": {},
    "outputs": [],
    "source": [
     "# 70 and 80 year olds are tiny groups.\n",
-    "cps.loc[cps[\"discretized_age\"] == 8, \"discretized_age\"] = 7\n"
+    "cps.loc[cps[\"discretized_age\"] == 8, \"discretized_age\"] = 7"
    ]
   },
   {
@@ -1053,7 +1099,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 17,
+   "execution_count": 19,
    "metadata": {},
    "outputs": [
     {
@@ -1073,19 +1119,19 @@
        "Name: county, Length: 326, dtype: int64"
       ]
      },
-     "execution_count": 17,
+     "execution_count": 19,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "cps[\"county\"] = pd.Categorical(cps[\"county\"]).codes\n",
-    "cps[\"county\"].value_counts()\n"
+    "cps[\"county\"].value_counts()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 18,
+   "execution_count": 20,
    "metadata": {},
    "outputs": [
     {
@@ -1102,17 +1148,18 @@
        "Name: class94, dtype: int64"
       ]
      },
-     "execution_count": 18,
+     "execution_count": 20,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "cps[\"class94\"] = pd.Categorical(cps[\"class94\"]).codes\n",
-    "cps[\"class94\"].value_counts()\n"
+    "cps[\"class94\"].value_counts()"
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
@@ -1124,12 +1171,12 @@
     "\n",
     "You will probably also have to drop a column named `index`: DAME will try and match on ANY included variables, and so because there was a column called `index` in the data we imported, if we leave it in DAME will try (and obviously fail) to match on index. \n",
     "\n",
-    "Also, it's best to reset your index, as `dame_flame` using index labels to identify matches. "
+    "Also, it's best to reset your index, as `dame_flame` using index labels (e.g., the values in `df.index`) to identify matches. So you want to be sure those are unique."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 19,
+   "execution_count": 21,
    "metadata": {},
    "outputs": [
     {
@@ -1308,7 +1355,7 @@
        "[5515 rows x 7 columns]"
       ]
      },
-     "execution_count": 19,
+     "execution_count": 21,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -1317,7 +1364,7 @@
     "for_matching = cps.drop([\"age\", \"index\"], axis=\"columns\")\n",
     "for_matching = for_matching[for_matching.annual_earnings.notnull()]\n",
     "for_matching = for_matching.reset_index(drop=True)\n",
-    "for_matching\n"
+    "for_matching"
    ]
   },
   {
@@ -1350,77 +1397,77 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 20,
+   "execution_count": 22,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Iteration number:  1\n",
+      "Completed iteration 0 of matching\n",
       "\tNumber of matched groups formed in total:  370\n",
       "\tUnmatched treated units:  644 out of a total of  1150 treated units\n",
       "\tUnmatched control units:  3187 out of a total of  4365 control units\n",
-      "\tPredictive error of covariates chosen this iteration:  0\n",
-      "\tNumber of matches made in this iteration:  1684\n",
+      "\tNumber of matches made this iteration:  1684\n",
       "\tNumber of matches made so far:  1684\n",
-      "\tIn this iteration, the covariates dropped are:  set()\n",
-      "Iteration number:  2\n",
+      "\tCovariates dropped so far:  set()\n",
+      "\tPredictive error of covariate set used to match:  1199312680.0957854\n",
+      "Completed iteration 1 of matching\n",
       "\tNumber of matched groups formed in total:  494\n",
       "\tUnmatched treated units:  25 out of a total of  1150 treated units\n",
       "\tUnmatched control units:  180 out of a total of  4365 control units\n",
-      "\tPredictive error of covariates chosen this iteration:  1199421883.1095908\n",
-      "\tNumber of matches made in this iteration:  3626\n",
+      "\tNumber of matches made this iteration:  3626\n",
       "\tNumber of matches made so far:  5310\n",
-      "\tIn this iteration, the covariates dropped are:  frozenset({'county'})\n",
-      "Iteration number:  3\n",
+      "\tCovariates dropped so far:  frozenset({'county'})\n",
+      "\tPredictive error of covariate set used to match:  1199421883.1095908\n",
+      "Completed iteration 2 of matching\n",
       "\tNumber of matched groups formed in total:  494\n",
       "\tUnmatched treated units:  25 out of a total of  1150 treated units\n",
       "\tUnmatched control units:  180 out of a total of  4365 control units\n",
-      "\tPredictive error of covariates chosen this iteration:  1204727749.8949614\n",
-      "\tNumber of matches made in this iteration:  0\n",
+      "\tNumber of matches made this iteration:  0\n",
       "\tNumber of matches made so far:  5310\n",
-      "\tIn this iteration, the covariates dropped are:  frozenset({'simplified_race'})\n",
-      "Iteration number:  4\n",
+      "\tCovariates dropped so far:  frozenset({'simplified_race'})\n",
+      "\tPredictive error of covariate set used to match:  1204727749.8949614\n",
+      "Completed iteration 3 of matching\n",
       "\tNumber of matched groups formed in total:  505\n",
       "\tUnmatched treated units:  8 out of a total of  1150 treated units\n",
       "\tUnmatched control units:  129 out of a total of  4365 control units\n",
-      "\tPredictive error of covariates chosen this iteration:  1204742613.4791539\n",
-      "\tNumber of matches made in this iteration:  68\n",
+      "\tNumber of matches made this iteration:  68\n",
       "\tNumber of matches made so far:  5378\n",
-      "\tIn this iteration, the covariates dropped are:  frozenset({'county', 'simplified_race'})\n",
-      "Iteration number:  5\n",
+      "\tCovariates dropped so far:  frozenset({'county', 'simplified_race'})\n",
+      "\tPredictive error of covariate set used to match:  1204742613.479154\n",
+      "Completed iteration 4 of matching\n",
       "\tNumber of matched groups formed in total:  505\n",
       "\tUnmatched treated units:  8 out of a total of  1150 treated units\n",
       "\tUnmatched control units:  129 out of a total of  4365 control units\n",
-      "\tPredictive error of covariates chosen this iteration:  1205072671.32629\n",
-      "\tNumber of matches made in this iteration:  0\n",
+      "\tNumber of matches made this iteration:  0\n",
       "\tNumber of matches made so far:  5378\n",
-      "\tIn this iteration, the covariates dropped are:  frozenset({'class94'})\n",
-      "Iteration number:  6\n",
+      "\tCovariates dropped so far:  frozenset({'class94'})\n",
+      "\tPredictive error of covariate set used to match:  1205072671.3262901\n",
+      "Completed iteration 5 of matching\n",
       "\tNumber of matched groups formed in total:  508\n",
       "\tUnmatched treated units:  5 out of a total of  1150 treated units\n",
       "\tUnmatched control units:  120 out of a total of  4365 control units\n",
-      "\tPredictive error of covariates chosen this iteration:  1205171280.4727237\n",
-      "\tNumber of matches made in this iteration:  12\n",
+      "\tNumber of matches made this iteration:  12\n",
       "\tNumber of matches made so far:  5390\n",
-      "\tIn this iteration, the covariates dropped are:  frozenset({'county', 'class94'})\n",
-      "Iteration number:  7\n",
+      "\tCovariates dropped so far:  frozenset({'class94', 'county'})\n",
+      "\tPredictive error of covariate set used to match:  1205171280.4727237\n",
+      "Completed iteration 6 of matching\n",
       "\tNumber of matched groups formed in total:  509\n",
       "\tUnmatched treated units:  4 out of a total of  1150 treated units\n",
       "\tUnmatched control units:  119 out of a total of  4365 control units\n",
-      "\tPredictive error of covariates chosen this iteration:  1210524158.7436352\n",
-      "\tNumber of matches made in this iteration:  2\n",
+      "\tNumber of matches made this iteration:  2\n",
       "\tNumber of matches made so far:  5392\n",
-      "\tIn this iteration, the covariates dropped are:  frozenset({'simplified_race', 'class94'})\n",
-      "Iteration number:  8\n",
+      "\tCovariates dropped so far:  frozenset({'class94', 'simplified_race'})\n",
+      "\tPredictive error of covariate set used to match:  1210524158.7436352\n",
+      "Completed iteration 7 of matching\n",
       "\tNumber of matched groups formed in total:  511\n",
       "\tUnmatched treated units:  0 out of a total of  1150 treated units\n",
       "\tUnmatched control units:  110 out of a total of  4365 control units\n",
-      "\tPredictive error of covariates chosen this iteration:  1210539313.933855\n",
-      "\tNumber of matches made in this iteration:  13\n",
+      "\tNumber of matches made this iteration:  13\n",
       "\tNumber of matches made so far:  5405\n",
-      "\tIn this iteration, the covariates dropped are:  frozenset({'county', 'simplified_race', 'class94'})\n",
+      "\tCovariates dropped so far:  frozenset({'class94', 'county', 'simplified_race'})\n",
+      "\tPredictive error of covariate set used to match:  1210539313.933855\n",
       "5405 units matched. We finished with no more treated units to match\n"
      ]
     }
@@ -1432,74 +1479,108 @@
     "    treatment_column_name=\"has_college\",\n",
     "    outcome_column_name=\"annual_earnings\",\n",
     ")\n",
-    "result = model.predict(for_matching)\n"
+    "result = model.predict(for_matching)"
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
     "## Interpreting DAME output\n",
     "\n",
-    "The output you get from doing this *should* be reports from about 8 iterations of matching. In each iteration, you'll see a description of the number of matches made in the interation, the number of treatment units still unmatched, and the number of control units unmatched. \n",
+    "The output you get from doing this *should* be reports from about 8 iterations of matching. In each iteration, you'll see a description of the number of matches made in the iteration, the number of treatment units still unmatched, and the number of control units unmatched. \n",
     "\n",
-    "In the first iteration, the algorithm tries to match observations that match on *all* the variables in your data. That's why in the first iteration, you see the set of variables being drop is an empty set -- it *hasn't* dropped any variables:\n",
+    "In the first iteration, the algorithm tries to match observations that match on *all* the variables in your data. That's why in the first iteration, you see the set of variables being dropped is an empty set -- it *hasn't* dropped any variables:\n",
     "\n",
     "```\n",
-    "Iteration number:  1\n",
+    "Completed iteration 0 of matching\n",
     "\tNumber of matched groups formed in total:  370\n",
     "\tUnmatched treated units:  644 out of a total of  1150 treated units\n",
     "\tUnmatched control units:  3187 out of a total of  4365 control units\n",
-    "\tPredictive error of covariates chosen this iteration:  0\n",
-    "\tNumber of matches made in this iteration:  1684\n",
+    "\tNumber of matches made this iteration:  1684\n",
     "\tNumber of matches made so far:  1684\n",
-    "\tIn this iteration, the covariates dropped are:  set()\n",
+    "\tCovariates dropped so far:  set()\n",
+    "\tPredictive error of covariate set used to match:  1199312680.0957854\n",
     "```\n",
     "\n",
-    "But as we can see from this output, the algorithm found 1,684 perfect matches -- pairs of observations (one treated, one untreated) that had *exactly* the same value of all the variables we included. But we also see we still have 644 unmatched treated units, so what do we do? The answer is that we have to drop some of our matching variables and try again. But what variable should we drop?\n",
+    "(Note depending on how you binned ages, you may get slightly different results than this)\n",
     "\n",
-    "This is the secret sauce of DAME. DAME picks the variables to drop by trying to predict our outcome $Y$ using all our variables (by default using a ridge regression), then it drops the matching variable that is contributing the least to that prediction. Since our goal in matching is to eliminate baseline differences ($E(Y_0|D=1) - E(Y_1|D=0)$), dropping the covariates least related to $Y$ makes sense.\n",
+    "But as we can see from this output, the algorithm found 1,684 perfect matches—pairs of observations (one treated, one untreated) that had *exactly* the same value of all the variables we included. But we also see we still have 644 *unmatched* treated units, so what do we do?\n",
     "\n",
-    "As a result, in the second iteration, we see that the variable it drops first is `county`, and it's subsequently able to make another 3,626 new matches on the remaining variables! \n",
+    "The answer is that if we want to match more of our treatment variables, we have to try and match on a subset of our variables.\n",
+    "\n",
+    "But what variable should we drop? This is the secret sauce of DAME. DAME picks the variables to drop by trying to predict our outcome $Y$ using all our variables (by default using a ridge regression), then it drops the matching variable that is contributing the least to that prediction. Since our goal in matching is to eliminate baseline differences ($E(Y_0|D=1) - E(Y_1|D=0)$), dropping the covariates least related to $Y$ makes sense.\n",
+    "\n",
+    "As a result, in the second iteration (called iteration 1, since it uses 0-based indexing), we see that the variable it drops first is `county`, and it's subsequently able to make another 3,626 new matches on the remaining variables!\n",
     "\n",
     "```\n",
-    "Iteration number:  2\n",
+    "Completed iteration 1 of matching\n",
     "\tNumber of matched groups formed in total:  494\n",
     "\tUnmatched treated units:  25 out of a total of  1150 treated units\n",
     "\tUnmatched control units:  180 out of a total of  4365 control units\n",
-    "\tPredictive error of covariates chosen this iteration:  1199421883.1095908\n",
-    "\tNumber of matches made in this iteration:  3626\n",
+    "\tNumber of matches made this iteration:  3626\n",
     "\tNumber of matches made so far:  5310\n",
-    "\tIn this iteration, the covariates dropped are:  frozenset({'county'})\n",
+    "\tCovariates dropped so far:  frozenset({'county'})\n",
+    "\tPredictive error of covariate set used to match:  1199421883.1095908\n",
+    "\n",
     "```\n",
     "\n",
     "And so DAME continues until after 8 iterations, it's matched all treated observations.  "
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
     "## Exercise 8\n",
     "\n",
-    "Congratulations! You just on your first one-to-one matching! \n",
+    "Congratulations! You just on your first one-to-many matching! \n",
     "\n",
-    "The next step is to think about which of the matches that DAME generated are good enough for inclusion in our analysis. As you may recall, one of the choices you have to make as a researcher when doing matching is how \"good\" a match has to be in order to be included in your final data set. By default, DAME will keep dropping matching variables until it has been able to match all of the treated observations or runs out of variables. It will do this no matter how bad the matches start to become -- if it ends up with the treated observation and a control observation that can only be matched on gender, it will match them just on gender, even though we probably don't think that that's a \"good\" match.\n",
+    "The next step is to think about which of the matches that DAME generated are good enough for inclusion in our analysis. As you may recall, one of the choices you have to make as a researcher when doing matching is how \"good\" a match has to be in order to be included in your final data set. By default, DAME will keep dropping matching variables until it has been able to match all the treated observations or runs out of variables. It will do this no matter how bad the matches start to become -- if it ends up with the treated observation and a control observation that can only be matched on gender, it will match them just on gender, even though we probably don't think that that's a \"good\" match.\n",
     "\n",
     "The way to control this behavior is to tell DAME when to stop manually using the `early_stop_iterations` argument to tell the matching algorithm when to stop.\n",
     "\n",
     "So when is a good time to stop? There's no objective or \"right\" answer to that question. It fundamentally comes down to a trade-off between bias (which gets higher is you allow more low quality matches into your data) and variance (which will go down as you increase the number of matches you keep).\n",
     "\n",
-    "But one way to start the process of picking a cutpoint is to examine how the quality of matches evolves over iterations. DAME keep this information in `model.pe_each_iter`. This shows, for each iteration, the \"prediction error\" resulting from  dropping the variables excluded in each step. This \"prediction error\" is the difference in the mean-squared error of regressing $Y$ on our matching variables (by default in a ridge regression) with all variables versus with the subset being used for matching in a given iteration. By design, of course, this is always increasing. \n",
+    "But one way to start the process of picking a cut point is to examine how the quality of matches evolves over iterations. DAME keeps this information in `model.pe_each_iter`. This shows, for each iteration, the \"prediction error\" resulting from dropping the variables excluded in each step. This \"prediction error\" is the difference in the mean-squared error of regressing $Y$ on our matching variables (by default in a ridge regression) with all variables versus with the subset being used for matching in a given iteration. By design, of course, this is always increasing. \n",
     "\n",
-    "To see how this evolves, plot your `pe` against iteration numbers. Note that our first iteration doesn't count, since by definition the first iteration has an error of 0, and also note that the iterations count from 1, not 0 (weird for Python... but whatever). You can also see the `pe` values for each iteration reported in the output from when DAME ran above if you want to make your you're lining up the errors with iterations right. \n",
+    "To see how this evolves, plot your `pe` against iteration numbers. You can also see the `pe` values for each iteration reported in the output from when DAME ran above if you want to make your you're lining up the errors with iterations right. \n",
     "\n",
     "Are there any points where the match quality seems to fall off dramatically? "
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 21,
+   "execution_count": 23,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[1199312680.0957854,\n",
+       " 1199421883.1095908,\n",
+       " 1204727749.8949614,\n",
+       " 1204742613.479154,\n",
+       " 1205072671.3262901,\n",
+       " 1205171280.4727237,\n",
+       " 1210524158.7436352,\n",
+       " 1210539313.933855]"
+      ]
+     },
+     "execution_count": 23,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "model.pe_each_iter\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
    "metadata": {},
    "outputs": [
     {
@@ -1530,38 +1611,43 @@
        "  <tbody>\n",
        "    <tr>\n",
        "      <th>0</th>\n",
-       "      <td>1.199422e+09</td>\n",
-       "      <td>2</td>\n",
+       "      <td>1.199313e+09</td>\n",
+       "      <td>0</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>1</th>\n",
-       "      <td>1.204728e+09</td>\n",
-       "      <td>3</td>\n",
+       "      <td>1.199422e+09</td>\n",
+       "      <td>1</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>2</th>\n",
-       "      <td>1.204743e+09</td>\n",
-       "      <td>4</td>\n",
+       "      <td>1.204728e+09</td>\n",
+       "      <td>2</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>3</th>\n",
-       "      <td>1.205073e+09</td>\n",
-       "      <td>5</td>\n",
+       "      <td>1.204743e+09</td>\n",
+       "      <td>3</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>4</th>\n",
-       "      <td>1.205171e+09</td>\n",
-       "      <td>6</td>\n",
+       "      <td>1.205073e+09</td>\n",
+       "      <td>4</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>5</th>\n",
-       "      <td>1.210524e+09</td>\n",
-       "      <td>7</td>\n",
+       "      <td>1.205171e+09</td>\n",
+       "      <td>5</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>6</th>\n",
+       "      <td>1.210524e+09</td>\n",
+       "      <td>6</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>7</th>\n",
        "      <td>1.210539e+09</td>\n",
-       "      <td>8</td>\n",
+       "      <td>7</td>\n",
        "    </tr>\n",
        "  </tbody>\n",
        "</table>\n",
@@ -1569,43 +1655,44 @@
       ],
       "text/plain": [
        "             pe  i\n",
-       "0  1.199422e+09  2\n",
-       "1  1.204728e+09  3\n",
-       "2  1.204743e+09  4\n",
-       "3  1.205073e+09  5\n",
-       "4  1.205171e+09  6\n",
-       "5  1.210524e+09  7\n",
-       "6  1.210539e+09  8"
+       "0  1.199313e+09  0\n",
+       "1  1.199422e+09  1\n",
+       "2  1.204728e+09  2\n",
+       "3  1.204743e+09  3\n",
+       "4  1.205073e+09  4\n",
+       "5  1.205171e+09  5\n",
+       "6  1.210524e+09  6\n",
+       "7  1.210539e+09  7"
       ]
      },
-     "execution_count": 21,
+     "execution_count": 24,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "for_pe = pd.DataFrame(\n",
-    "    {\"pe\": model.pe_each_iter, \"i\": range(2, len(model.pe_each_iter) + 2)}\n",
+    "    {\"pe\": model.pe_each_iter, \"i\": range(0, len(model.pe_each_iter))}\n",
     ")\n",
-    "for_pe\n"
+    "for_pe"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 22,
+   "execution_count": 25,
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/html": [
        "\n",
-       "<div id=\"altair-viz-20d0f9f54d06433f9081ef8f66b94257\"></div>\n",
+       "<div id=\"altair-viz-ee1df7d789d3496f9065ef8dbedd76ef\"></div>\n",
        "<script type=\"text/javascript\">\n",
        "  var VEGA_DEBUG = (typeof VEGA_DEBUG == \"undefined\") ? {} : VEGA_DEBUG;\n",
        "  (function(spec, embedOpt){\n",
        "    let outputDiv = document.currentScript.previousElementSibling;\n",
-       "    if (outputDiv.id !== \"altair-viz-20d0f9f54d06433f9081ef8f66b94257\") {\n",
-       "      outputDiv = document.getElementById(\"altair-viz-20d0f9f54d06433f9081ef8f66b94257\");\n",
+       "    if (outputDiv.id !== \"altair-viz-ee1df7d789d3496f9065ef8dbedd76ef\") {\n",
+       "      outputDiv = document.getElementById(\"altair-viz-ee1df7d789d3496f9065ef8dbedd76ef\");\n",
        "    }\n",
        "    const paths = {\n",
        "      \"vega\": \"https://cdn.jsdelivr.net/npm//vega@5?noext\",\n",
@@ -1651,47 +1738,49 @@
        "        .catch(showError)\n",
        "        .then(() => displayChart(vegaEmbed));\n",
        "    }\n",
-       "  })({\"config\": {\"view\": {\"continuousWidth\": 400, \"continuousHeight\": 300}}, \"data\": {\"url\": \"http://localhost:16811/5a8831c14f3fa54ca79f37d846916588.json\"}, \"mark\": \"line\", \"encoding\": {\"x\": {\"field\": \"i\", \"type\": \"quantitative\"}, \"y\": {\"field\": \"pe\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}, \"$schema\": \"https://vega.github.io/schema/vega-lite/v4.17.0.json\"}, {\"mode\": \"vega-lite\"});\n",
+       "  })({\"config\": {\"view\": {\"continuousWidth\": 400, \"continuousHeight\": 300}}, \"data\": {\"url\": \"http://localhost:52950/5daefbdc55be31bb427f0923f82460d3.json\"}, \"mark\": \"line\", \"encoding\": {\"x\": {\"field\": \"i\", \"type\": \"quantitative\"}, \"y\": {\"field\": \"pe\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}, \"$schema\": \"https://vega.github.io/schema/vega-lite/v4.17.0.json\"}, {\"mode\": \"vega-lite\"});\n",
        "</script>"
       ],
       "text/plain": [
        "alt.Chart(...)"
       ]
      },
-     "execution_count": 22,
+     "execution_count": 25,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "alt.Chart(for_pe).encode(x=\"i\", y=alt.Y(\"pe\", scale=alt.Scale(zero=False))).mark_line()\n"
+    "alt.Chart(for_pe).encode(x=\"i\", y=alt.Y(\"pe\", scale=alt.Scale(zero=False))).mark_line()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 23,
+   "execution_count": 26,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Yup! Iteration 3 and 7 are the really the big ones...\n"
+    "# Yup! Iteration 2 and 6 are the really the big ones..."
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
     "### Exercise 9\n",
     "\n",
-    "Suppose we want to ensure we have at least 5,000 observations in our data -- where might you cut off the data to get a sample size of at least that but before a big quality falloff?"
+    "Suppose we want to ensure we have at least 5,000 observations in our matched data—where might you cut off the data to get a sample size of at least that but before a big quality falloff?"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 24,
+   "execution_count": 27,
    "metadata": {},
    "outputs": [],
    "source": [
-    "# I'd stop after iteration 2 -- things fall off fast then, but with very few added matches.\n"
+    "# I'd stop after iteration 1 (the second iteration)—things fall off fast\n",
+    "# starting after that, but with very few added matches."
    ]
   },
   {
@@ -1705,43 +1794,43 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 36,
+   "execution_count": 28,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Iteration number:  1\n",
+      "Completed iteration 0 of matching\n",
       "\tNumber of matched groups formed in total:  370\n",
       "\tUnmatched treated units:  644 out of a total of  1150 treated units\n",
       "\tUnmatched control units:  3187 out of a total of  4365 control units\n",
-      "\tPredictive error of covariates chosen this iteration:  0\n",
-      "\tNumber of matches made in this iteration:  1684\n",
+      "\tNumber of matches made this iteration:  1684\n",
       "\tNumber of matches made so far:  1684\n",
-      "\tIn this iteration, the covariates dropped are:  set()\n",
-      "Iteration number:  2\n",
+      "\tCovariates dropped so far:  set()\n",
+      "\tPredictive error of covariate set used to match:  1199312680.0957854\n",
+      "Completed iteration 1 of matching\n",
       "\tNumber of matched groups formed in total:  494\n",
       "\tUnmatched treated units:  25 out of a total of  1150 treated units\n",
       "\tUnmatched control units:  180 out of a total of  4365 control units\n",
-      "\tPredictive error of covariates chosen this iteration:  1199421883.1095908\n",
-      "\tNumber of matches made in this iteration:  3626\n",
+      "\tNumber of matches made this iteration:  3626\n",
       "\tNumber of matches made so far:  5310\n",
-      "\tIn this iteration, the covariates dropped are:  frozenset({'county'})\n",
-      "5310 units matched. We stopped before doing iteration number:  2\n"
+      "\tCovariates dropped so far:  frozenset({'county'})\n",
+      "\tPredictive error of covariate set used to match:  1199421883.1095908\n",
+      "5310 units matched. We stopped after iteration 1\n"
      ]
     }
    ],
    "source": [
     "model = dame_flame.matching.DAME(\n",
-    "    repeats=False, verbose=3, want_pe=True, early_stop_iterations=2\n",
+    "    repeats=False, verbose=3, want_pe=True, early_stop_iterations=1\n",
     ")\n",
     "model.fit(\n",
     "    for_matching,\n",
     "    treatment_column_name=\"has_college\",\n",
     "    outcome_column_name=\"annual_earnings\",\n",
     ")\n",
-    "result = model.predict(for_matching)\n"
+    "result = model.predict(for_matching)"
    ]
   },
   {
@@ -1820,7 +1909,160 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 37,
+   "execution_count": 29,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>female</th>\n",
+       "      <th>simplified_race</th>\n",
+       "      <th>county</th>\n",
+       "      <th>class94</th>\n",
+       "      <th>discretized_age</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>10.0</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>5.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>0.0</td>\n",
+       "      <td>2.0</td>\n",
+       "      <td>*</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>3.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>8.0</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>6.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>*</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>4.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>24.0</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>3.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5509</th>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>*</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>6.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5510</th>\n",
+       "      <td>1.0</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>247.0</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>3.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5511</th>\n",
+       "      <td>0.0</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>*</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>5.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5512</th>\n",
+       "      <td>0.0</td>\n",
+       "      <td>2.0</td>\n",
+       "      <td>246.0</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>2.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5513</th>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>99.0</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>2.0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>5310 rows × 5 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "     female simplified_race county class94 discretized_age\n",
+       "0       1.0             0.0   10.0     3.0             5.0\n",
+       "1       0.0             2.0      *     3.0             3.0\n",
+       "2       0.0             0.0    8.0     3.0             6.0\n",
+       "3       0.0             0.0      *     1.0             4.0\n",
+       "4       0.0             0.0   24.0     3.0             3.0\n",
+       "...     ...             ...    ...     ...             ...\n",
+       "5509    0.0             0.0      *     3.0             6.0\n",
+       "5510    1.0             3.0  247.0     3.0             3.0\n",
+       "5511    0.0             3.0      *     3.0             5.0\n",
+       "5512    0.0             2.0  246.0     3.0             2.0\n",
+       "5513    0.0             0.0   99.0     3.0             2.0\n",
+       "\n",
+       "[5310 rows x 5 columns]"
+      ]
+     },
+     "execution_count": 29,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "result\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -1873,16 +2115,16 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 38,
+   "execution_count": 31,
    "metadata": {},
    "outputs": [],
    "source": [
-    "matched_data = get_dataframe(model, result)\n"
+    "matched_data = get_dataframe(model, result)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 39,
+   "execution_count": 32,
    "metadata": {},
    "outputs": [
     {
@@ -2004,13 +2246,13 @@
        "4                3        106.0               7.0  1.000000  "
       ]
      },
-     "execution_count": 39,
+     "execution_count": 32,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "matched_data.head()\n"
+    "matched_data.head()"
    ]
   },
   {
@@ -2036,7 +2278,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 40,
+   "execution_count": 33,
    "metadata": {},
    "outputs": [
     {
@@ -2051,13 +2293,13 @@
        "  <th>Model:</th>                   <td>WLS</td>       <th>  Adj. R-squared:    </th> <td>  -0.001</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>2.495e-12</td>\n",
+       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>1.134e-12</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 10 Mar 2022</td> <th>  Prob (F-statistic):</th>  <td>  1.00</td>  \n",
+       "  <th>Date:</th>             <td>Sat, 04 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  1.00</td>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>12:05:02</td>     <th>  Log-Likelihood:    </th> <td> -3736.0</td> \n",
+       "  <th>Time:</th>                 <td>13:59:41</td>     <th>  Log-Likelihood:    </th> <td> -3736.0</td> \n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  5310</td>      <th>  AIC:               </th> <td>   7480.</td> \n",
@@ -2080,13 +2322,13 @@
        "  <th>Intercept</th>                 <td>    0.2119</td> <td>    0.007</td> <td>   31.608</td> <td> 0.000</td> <td>    0.199</td> <td>    0.225</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>C(simplified_race)[T.1.0]</th> <td> 1.648e-16</td> <td>    0.018</td> <td>  9.1e-15</td> <td> 1.000</td> <td>   -0.036</td> <td>    0.036</td>\n",
+       "  <th>C(simplified_race)[T.1.0]</th> <td> 3.469e-17</td> <td>    0.018</td> <td> 1.92e-15</td> <td> 1.000</td> <td>   -0.036</td> <td>    0.036</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>C(simplified_race)[T.2.0]</th> <td>-4.337e-17</td> <td>    0.019</td> <td>-2.31e-15</td> <td> 1.000</td> <td>   -0.037</td> <td>    0.037</td>\n",
+       "  <th>C(simplified_race)[T.2.0]</th> <td>-5.378e-17</td> <td>    0.019</td> <td>-2.86e-15</td> <td> 1.000</td> <td>   -0.037</td> <td>    0.037</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>C(simplified_race)[T.3.0]</th> <td>  8.76e-17</td> <td>    0.020</td> <td> 4.33e-15</td> <td> 1.000</td> <td>   -0.040</td> <td>    0.040</td>\n",
+       "  <th>C(simplified_race)[T.3.0]</th> <td>  1.18e-16</td> <td>    0.020</td> <td> 5.83e-15</td> <td> 1.000</td> <td>   -0.040</td> <td>    0.040</td>\n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
@@ -2111,9 +2353,9 @@
        "==============================================================================\n",
        "Dep. Variable:            has_college   R-squared:                       0.000\n",
        "Model:                            WLS   Adj. R-squared:                 -0.001\n",
-       "Method:                 Least Squares   F-statistic:                 2.495e-12\n",
-       "Date:                Thu, 10 Mar 2022   Prob (F-statistic):               1.00\n",
-       "Time:                        12:05:02   Log-Likelihood:                -3736.0\n",
+       "Method:                 Least Squares   F-statistic:                 1.134e-12\n",
+       "Date:                Sat, 04 Mar 2023   Prob (F-statistic):               1.00\n",
+       "Time:                        13:59:41   Log-Likelihood:                -3736.0\n",
        "No. Observations:                5310   AIC:                             7480.\n",
        "Df Residuals:                    5306   BIC:                             7506.\n",
        "Df Model:                           3                                         \n",
@@ -2122,9 +2364,9 @@
        "                                coef    std err          t      P>|t|      [0.025      0.975]\n",
        "---------------------------------------------------------------------------------------------\n",
        "Intercept                     0.2119      0.007     31.608      0.000       0.199       0.225\n",
-       "C(simplified_race)[T.1.0]  1.648e-16      0.018    9.1e-15      1.000      -0.036       0.036\n",
-       "C(simplified_race)[T.2.0] -4.337e-17      0.019  -2.31e-15      1.000      -0.037       0.037\n",
-       "C(simplified_race)[T.3.0]   8.76e-17      0.020   4.33e-15      1.000      -0.040       0.040\n",
+       "C(simplified_race)[T.1.0]  3.469e-17      0.018   1.92e-15      1.000      -0.036       0.036\n",
+       "C(simplified_race)[T.2.0] -5.378e-17      0.019  -2.86e-15      1.000      -0.037       0.037\n",
+       "C(simplified_race)[T.3.0]   1.18e-16      0.020   5.83e-15      1.000      -0.040       0.040\n",
        "==============================================================================\n",
        "Omnibus:                      860.389   Durbin-Watson:                   2.000\n",
        "Prob(Omnibus):                  0.000   Jarque-Bera (JB):             1353.227\n",
@@ -2137,7 +2379,7 @@
        "\"\"\""
       ]
      },
-     "execution_count": 40,
+     "execution_count": 33,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -2147,7 +2389,7 @@
     "\n",
     "smf.wls(\n",
     "    \"has_college ~ C(simplified_race)\", matched_data, weights=matched_data[\"weights\"]\n",
-    ").fit().summary()\n"
+    ").fit().summary()"
    ]
   },
   {
@@ -2162,7 +2404,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 41,
+   "execution_count": 34,
    "metadata": {},
    "outputs": [
     {
@@ -2180,10 +2422,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   324.1</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 10 Mar 2022</td> <th>  Prob (F-statistic):</th> <td>2.19e-70</td> \n",
+       "  <th>Date:</th>             <td>Sat, 04 Mar 2023</td> <th>  Prob (F-statistic):</th> <td>2.19e-70</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>12:05:03</td>     <th>  Log-Likelihood:    </th> <td> -61753.</td> \n",
+       "  <th>Time:</th>                 <td>13:59:41</td>     <th>  Log-Likelihood:    </th> <td> -61753.</td> \n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  5310</td>      <th>  AIC:               </th> <td>1.235e+05</td>\n",
@@ -2232,8 +2474,8 @@
        "Dep. Variable:        annual_earnings   R-squared:                       0.058\n",
        "Model:                            WLS   Adj. R-squared:                  0.057\n",
        "Method:                 Least Squares   F-statistic:                     324.1\n",
-       "Date:                Thu, 10 Mar 2022   Prob (F-statistic):           2.19e-70\n",
-       "Time:                        12:05:03   Log-Likelihood:                -61753.\n",
+       "Date:                Sat, 04 Mar 2023   Prob (F-statistic):           2.19e-70\n",
+       "Time:                        13:59:41   Log-Likelihood:                -61753.\n",
        "No. Observations:                5310   AIC:                         1.235e+05\n",
        "Df Residuals:                    5308   BIC:                         1.235e+05\n",
        "Df Model:                           1                                         \n",
@@ -2255,7 +2497,7 @@
        "\"\"\""
       ]
      },
-     "execution_count": 41,
+     "execution_count": 34,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -2263,27 +2505,16 @@
    "source": [
     "smf.wls(\n",
     "    \"annual_earnings ~ has_college\", matched_data, weights=matched_data[\"weights\"]\n",
-    ").fit().summary()\n"
+    ").fit().summary()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 42,
+   "execution_count": 35,
    "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/plain": [
-       "13564.430689800056"
-      ]
-     },
-     "execution_count": 42,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
+   "outputs": [],
    "source": [
-    "dame_flame.utils.post_processing.ATE(matching_object=model)\n"
+    "# dame_flame.utils.post_processing.ATE(matching_object=model)"
    ]
   },
   {
@@ -2297,7 +2528,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 43,
+   "execution_count": 36,
    "metadata": {},
    "outputs": [
     {
@@ -2315,10 +2546,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   4.786</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 10 Mar 2022</td> <th>  Prob (F-statistic):</th> <td>1.62e-132</td>\n",
+       "  <th>Date:</th>             <td>Sat, 04 Mar 2023</td> <th>  Prob (F-statistic):</th> <td>1.62e-132</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>12:05:05</td>     <th>  Log-Likelihood:    </th> <td> -61189.</td> \n",
+       "  <th>Time:</th>                 <td>13:59:42</td>     <th>  Log-Likelihood:    </th> <td> -61189.</td> \n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  5310</td>      <th>  AIC:               </th> <td>1.230e+05</td>\n",
@@ -3339,8 +3570,8 @@
        "Dep. Variable:        annual_earnings   R-squared:                       0.238\n",
        "Model:                            WLS   Adj. R-squared:                  0.188\n",
        "Method:                 Least Squares   F-statistic:                     4.786\n",
-       "Date:                Thu, 10 Mar 2022   Prob (F-statistic):          1.62e-132\n",
-       "Time:                        12:05:05   Log-Likelihood:                -61189.\n",
+       "Date:                Sat, 04 Mar 2023   Prob (F-statistic):          1.62e-132\n",
+       "Time:                        13:59:42   Log-Likelihood:                -61189.\n",
        "No. Observations:                5310   AIC:                         1.230e+05\n",
        "Df Residuals:                    4984   BIC:                         1.252e+05\n",
        "Df Model:                         325                                         \n",
@@ -3686,7 +3917,7 @@
        "\"\"\""
       ]
      },
-     "execution_count": 43,
+     "execution_count": 36,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -3697,58 +3928,59 @@
     "    \" + C(discretized_age) + female + C(county)\",\n",
     "    matched_data,\n",
     "    weights=matched_data[\"weights\"],\n",
-    ").fit().summary()\n"
+    ").fit().summary()"
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
     "### Exercise 15\n",
     "\n",
-    "If you stopped matching after Iteration 2 back in Exercise 10, you may be wondering if that was a good choice! Let's check by restricting our attention to ONLY exact matches (`iteration = 1`). Run that match."
+    "If you stopped matching after the second iteration (Iteration 1) back in Exercise 10, you may be wondering if that was a good choice! Let's check by restricting our attention to ONLY exact matches (`iteration = 0`). Run that match."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 44,
+   "execution_count": 37,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Iteration number:  1\n",
+      "Completed iteration 0 of matching\n",
       "\tNumber of matched groups formed in total:  370\n",
       "\tUnmatched treated units:  644 out of a total of  1150 treated units\n",
       "\tUnmatched control units:  3187 out of a total of  4365 control units\n",
-      "\tPredictive error of covariates chosen this iteration:  0\n",
-      "\tNumber of matches made in this iteration:  1684\n",
+      "\tNumber of matches made this iteration:  1684\n",
       "\tNumber of matches made so far:  1684\n",
-      "\tIn this iteration, the covariates dropped are:  set()\n",
-      "1684 units matched. We stopped before doing iteration number:  1\n"
+      "\tCovariates dropped so far:  set()\n",
+      "\tPredictive error of covariate set used to match:  1199312680.0957854\n",
+      "1684 units matched. We stopped after iteration 0\n"
      ]
     }
    ],
    "source": [
     "model2 = dame_flame.matching.DAME(\n",
-    "    repeats=False, verbose=3, want_pe=True, early_stop_iterations=1\n",
+    "    repeats=False, verbose=3, want_pe=True, early_stop_iterations=0\n",
     ")\n",
     "model2.fit(\n",
     "    for_matching,\n",
     "    treatment_column_name=\"has_college\",\n",
     "    outcome_column_name=\"annual_earnings\",\n",
     ")\n",
-    "result2 = model2.predict(for_matching)\n"
+    "result2 = model2.predict(for_matching)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 45,
+   "execution_count": 38,
    "metadata": {},
    "outputs": [],
    "source": [
-    "matched_data2 = get_dataframe(model2, result2)\n"
+    "matched_data2 = get_dataframe(model2, result2)"
    ]
   },
   {
@@ -3763,7 +3995,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 46,
+   "execution_count": 39,
    "metadata": {},
    "outputs": [
     {
@@ -3781,10 +4013,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   86.65</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Thu, 10 Mar 2022</td> <th>  Prob (F-statistic):</th> <td>3.92e-20</td> \n",
+       "  <th>Date:</th>             <td>Sat, 04 Mar 2023</td> <th>  Prob (F-statistic):</th> <td>3.92e-20</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>12:05:12</td>     <th>  Log-Likelihood:    </th> <td> -19512.</td> \n",
+       "  <th>Time:</th>                 <td>13:59:42</td>     <th>  Log-Likelihood:    </th> <td> -19512.</td> \n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>  1684</td>      <th>  AIC:               </th> <td>3.903e+04</td>\n",
@@ -3833,8 +4065,8 @@
        "Dep. Variable:        annual_earnings   R-squared:                       0.049\n",
        "Model:                            WLS   Adj. R-squared:                  0.048\n",
        "Method:                 Least Squares   F-statistic:                     86.65\n",
-       "Date:                Thu, 10 Mar 2022   Prob (F-statistic):           3.92e-20\n",
-       "Time:                        12:05:12   Log-Likelihood:                -19512.\n",
+       "Date:                Sat, 04 Mar 2023   Prob (F-statistic):           3.92e-20\n",
+       "Time:                        13:59:42   Log-Likelihood:                -19512.\n",
        "No. Observations:                1684   AIC:                         3.903e+04\n",
        "Df Residuals:                    1682   BIC:                         3.904e+04\n",
        "Df Model:                           1                                         \n",
@@ -3856,7 +4088,7 @@
        "\"\"\""
       ]
      },
-     "execution_count": 46,
+     "execution_count": 39,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -3864,7 +4096,7 @@
    "source": [
     "smf.wls(\n",
     "    \"annual_earnings ~ has_college\", matched_data2, weights=matched_data2[\"weights\"]\n",
-    ").fit().summary()\n"
+    ").fit().summary()"
    ]
   },
   {
@@ -3894,7 +4126,7 @@
  ],
  "metadata": {
   "kernelspec": {
-   "display_name": "Python 3",
+   "display_name": "base",
    "language": "python",
    "name": "python3"
   },
@@ -3908,7 +4140,12 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.9.7"
+   "version": "3.10.8"
+  },
+  "vscode": {
+   "interpreter": {
+    "hash": "718fed28bf9f8c7851519acf2fb923cd655120b36de3b67253eeb0428bd33d2d"
+   }
   }
  },
  "nbformat": 4,
