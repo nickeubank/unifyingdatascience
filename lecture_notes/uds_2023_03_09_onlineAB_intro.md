@@ -22,8 +22,6 @@ A simple hierarchy of evidence for assessing the quality of trial design: Meh. O
 -> Big emphasis on *marginal improvements*
 -> Can't AB test a new social network
 
-## Duration
+## SIGNIFICANCE
 
-- Day-of-week effect
-- Seasonality
-- Primacy/Novelty Effects
+Local linearity

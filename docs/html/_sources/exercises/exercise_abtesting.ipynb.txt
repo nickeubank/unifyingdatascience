@@ -92,9 +92,11 @@
     "\n",
     "Given Udacity's goals, what outcome are they hoping will be impacted by their manipulation?\n",
     "\n",
-    "Expressed in the language of the Potential Outcomes Framework, what are your $Y$ variables?\n",
+    "Or, to ask the same question in the language of the Potential Outcomes Framework, what is the $Y$?\n",
     "\n",
-    "And in the language of Kohavi, Tang and Xu, what is your *Overall Evaluation Criterion (OEC)*?"
+    "Or to ask the same question in the language of Kohavi, Tang and Xu, what is the *Overall Evaluation Criterion (OEC)*?\n",
+    "\n",
+    "(I'm only asking one question, I'm just trying to phrase it using different terminologies we've encountered to help you see how they all fit together)"
    ]
   },
   {
