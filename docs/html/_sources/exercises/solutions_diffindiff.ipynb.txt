@@ -1100,9 +1100,59 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 20,
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "                          PanelOLS Estimation Summary                           \n",
+      "================================================================================\n",
+      "Dep. Variable:           violent_rate   R-squared:                        0.0097\n",
+      "Estimator:                   PanelOLS   R-squared (Between):             -0.0168\n",
+      "No. Observations:                 754   R-squared (Within):               0.0588\n",
+      "Date:                Sun, Mar 12 2023   R-squared (Overall):             -0.0150\n",
+      "Time:                        14:57:48   Log-likelihood                   -4108.4\n",
+      "Cov. Estimator:             Clustered                                           \n",
+      "                                        F-statistic:                      6.6568\n",
+      "Entities:                          58   P-value                           0.0101\n",
+      "Avg Obs:                       13.000   Distribution:                   F(1,683)\n",
+      "Min Obs:                       13.000                                           \n",
+      "Max Obs:                       13.000   F-statistic (robust):             2.6634\n",
+      "                                        P-value                           0.1031\n",
+      "Time periods:                      13   Distribution:                   F(1,683)\n",
+      "Avg Obs:                       58.000                                           \n",
+      "Min Obs:                       58.000                                           \n",
+      "Max Obs:                       58.000                                           \n",
+      "                                                                                \n",
+      "                                 Parameter Estimates                                 \n",
+      "=====================================================================================\n",
+      "                   Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI\n",
+      "-------------------------------------------------------------------------------------\n",
+      "post_2010:treated    -26.362     16.153    -1.6320     0.1031     -58.078      5.3540\n",
+      "=====================================================================================\n",
+      "\n",
+      "F-test for Poolability: 41.619\n",
+      "P-value: 0.0000\n",
+      "Distribution: F(69,683)\n",
+      "\n",
+      "Included effects: Entity, Time\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/var/folders/fs/h_8_rwsn5hvg9mhp0txgc_s9v6191b/T/ipykernel_84356/3654453326.py:7: AbsorbingEffectWarning: \n",
+      "Variables have been fully absorbed and have removed from the regression:\n",
+      "\n",
+      "post_2010, treated\n",
+      "\n",
+      "  print(mod.fit(cov_type=\"clustered\", cluster_entity=True, cluster_time=True))\n"
+     ]
+    }
+   ],
    "source": [
     "# model with fixed effect\n",
     "mod = PanelOLS.from_formula(\n",

@@ -240,7 +240,7 @@ post_2010, treated
 2017    58
 2018    58
 Name: YEAR, dtype: int64
-</pre></div></div> </div> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[ ]:
+</pre></div></div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[20]:
 </pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=c1 ># model with fixed effect</span>
 <span class=n >mod</span> <span class=o >=</span> <span class=n >PanelOLS</span><span class=o >.</span><span class=n >from_formula</span><span class=p >(</span>
     <span class=s2 >"violent_rate ~ treated * post_2010 + TimeEffects + EntityEffects"</span><span class=p >,</span>
@@ -248,4 +248,43 @@ Name: YEAR, dtype: int64
     <span class=n >drop_absorbed</span><span class=o >=</span><span class=kc >True</span><span class=p >,</span>
 <span class=p >)</span>
 <span class=nb >print</span><span class=p >(</span><span class=n >mod</span><span class=o >.</span><span class=n >fit</span><span class=p >(</span><span class=n >cov_type</span><span class=o >=</span><span class=s2 >"clustered"</span><span class=p >,</span> <span class=n >cluster_entity</span><span class=o >=</span><span class=kc >True</span><span class=p >,</span> <span class=n >cluster_time</span><span class=o >=</span><span class=kc >True</span><span class=p >))</span>
-<br/></pre></div> </div> </div> </section> </section> </article> </div> </div> </main> </div> <footer class=md-footer > <div class=md-footer-nav > <nav class="md-footer-nav__inner md-grid"> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright > <div class=md-footer-copyright__highlight > &#169; Copyright 2022, Nick Eubank. </div> Created using <a href="http://www.sphinx-doc.org/">Sphinx</a> 4.5.0. and <a href="https://github.com/bashtage/sphinx-material/">Material for Sphinx</a> </div> </div> </div> </footer> <script src="../_static/javascripts/application.js"></script> <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
+<br/></pre></div> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+                          PanelOLS Estimation Summary
+================================================================================
+Dep. Variable:           violent_rate   R-squared:                        0.0097
+Estimator:                   PanelOLS   R-squared (Between):             -0.0168
+No. Observations:                 754   R-squared (Within):               0.0588
+Date:                Sun, Mar 12 2023   R-squared (Overall):             -0.0150
+Time:                        14:57:48   Log-likelihood                   -4108.4
+Cov. Estimator:             Clustered
+                                        F-statistic:                      6.6568
+Entities:                          58   P-value                           0.0101
+Avg Obs:                       13.000   Distribution:                   F(1,683)
+Min Obs:                       13.000
+Max Obs:                       13.000   F-statistic (robust):             2.6634
+                                        P-value                           0.1031
+Time periods:                      13   Distribution:                   F(1,683)
+Avg Obs:                       58.000
+Min Obs:                       58.000
+Max Obs:                       58.000
+
+                                 Parameter Estimates
+=====================================================================================
+                   Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+-------------------------------------------------------------------------------------
+post_2010:treated    -26.362     16.153    -1.6320     0.1031     -58.078      5.3540
+=====================================================================================
+
+F-test for Poolability: 41.619
+P-value: 0.0000
+Distribution: F(69,683)
+
+Included effects: Entity, Time
+</pre></div></div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area stderr docutils container"> <div class=highlight ><pre>
+/var/folders/fs/h_8_rwsn5hvg9mhp0txgc_s9v6191b/T/ipykernel_84356/3654453326.py:7: AbsorbingEffectWarning:
+Variables have been fully absorbed and have removed from the regression:
+
+post_2010, treated
+
+  print(mod.fit(cov_type="clustered", cluster_entity=True, cluster_time=True))
+</pre></div></div> </div> </section> </section> </article> </div> </div> </main> </div> <footer class=md-footer > <div class=md-footer-nav > <nav class="md-footer-nav__inner md-grid"> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright > <div class=md-footer-copyright__highlight > &#169; Copyright 2022, Nick Eubank. </div> Created using <a href="http://www.sphinx-doc.org/">Sphinx</a> 4.5.0. and <a href="https://github.com/bashtage/sphinx-material/">Material for Sphinx</a> </div> </div> </div> </footer> <script src="../_static/javascripts/application.js"></script> <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
