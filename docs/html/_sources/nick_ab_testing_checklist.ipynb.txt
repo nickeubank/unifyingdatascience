@@ -33,6 +33,7 @@
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
@@ -58,6 +59,7 @@
     "  - *Are covariates balanced across treatment and control?*\n",
     "  - *Do your A/A tests look correct?*\n",
     "  - *Do you see any major unexpected changes to your guardrail metrics?*\n",
+    "  - *Do you have a sample ratio mismatch (SRM)?*\n",
     "- Did you have good compliance?\n",
     "  - *e.g. did subjects assigned to treatment \"take\" the treatment?*\n",
     "  - *if not, is that a problem given application context?*\n",
