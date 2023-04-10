@@ -86,25 +86,24 @@ Validating Internal Validity:
 "Tues, Apr 4",Online AB: External Validity,"- Kohavi, Tang and Xu, Chpt 3, ""Threats to External Validity"" to end (p. 47-54)
 - Kohvai, Tang and Xu, Chpt 23 (Primacy Effects / Long Term Decay)",
 "Thrs, Apr 6",Online AB: Making Decisions,"- Georgiev, Chpt 11",
-"Tues, Apr 11",Bias,"- Mayson: `Bias In, Bias Out <https://www.yalelawjournal.org/article/bias-in-bias-out>`_",- `Writing to Stakeholders <writing_to_stakeholders.ipynb>`_
-"Thrs, Apr 13",Interpretability,"- `Why are we using Black Boxes? <https://hdsr.mitpress.mit.edu/pub/f9kuryi8/release/8>`_
-- `Stop Using Black Boxes <https://arxiv.org/abs/1811.10154>`_
-- `Recommendations for Ethical ML <ethical_ml_recommendations.ipynb>`_
+"Tues, Apr 11",Mental Health Day,,
+"Thrs, Apr 13",Bias,"- Mayson: `Bias In, Bias Out <https://www.yalelawjournal.org/article/bias-in-bias-out>`_",
+"Tues, Apr 18",Interpretability,"- `Stop Using Black Boxes <https://arxiv.org/abs/1811.10154>`_
+- `Writing to Stakeholders <writing_to_stakeholders.ipynb>`_
 
 **Optional:**
 
 - `Black box models require trusting data too <https://www.nytimes.com/2017/06/13/opinion/how-computers-are-harming-criminal-justice.html>`_
-- `Openning the Black Box <https://pratt.duke.edu/about/news/podcast/opening-black-box>`_
+- `Why are we using Black Boxes? <https://hdsr.mitpress.mit.edu/pub/f9kuryi8/release/8>`_
 - `Accuracy of Interpretable Models <https://hdsr.mitpress.mit.edu/pub/f9kuryi8/release/6>`_
 - `Combining explicit models and black boxes in Scientific ML <https://notamonadtutorial.com/scientific-machine-learning-with-julia-the-sciml-ecosystem-b22802951c8a>`_
 
-(Don't expect to follow everything in that... just a heads up it exists!) ",
-"Tues, Apr 18",Alignment,"- `AI Safety / Misalignment <https://www.youtube.com/watch?v=pYXy-A4siMw&t=539s>`_
-- `Alignment in ChatGPT <https://youtu.be/viJt_DXTfwA>`_
+**FINAL PROJECT ROUGH DRAFTS DUE**",
+"Tues, May 2",,**FINAL PROJECT DUE BY 9am**,
+EXTRAS,Stuff that didn't make it to class,"- `AI Safety / Misalignment <https://www.youtube.com/watch?v=pYXy-A4siMw&t=539s>`_
 - `Contraining Artificial Stupidity <https://www.youtube.com/watch?v=Z8MEFI7ZJlA>`_
 - Adversarial Users:
     - `Fooling OpenAI <https://www.theverge.com/2021/3/8/22319173/openai-machine-vision-adversarial-typographic-attacka-clip-multimodal-neuron>`_
     - `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_
 
-**FINAL PROJECT ROUGH DRAFTS DUE**",
-"Tues, May 2",,**FINAL PROJECT DUE BY 9am**,
+",
