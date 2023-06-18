@@ -1,0 +1,169 @@
+% So we make this "beamer" rather than document!
+
+\documentclass[11pt]{beamer}
+% For handout add ,handout after 11pt
+
+\usetheme[sectionpage=none,numbering=none]{metropolis}           % Use metropolis theme
+	% To do printouts, add ", handout"  after aspectratio.
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{ulem}
+\title{What You Can Do}
+\author{\small Nick Eubank}
+\date{\vspace*{.3in} \date}
+
+
+% This is the beginning of a real document!
+\begin{document}
+
+
+\begin{frame}[c]
+\maketitle
+\end{frame}
+
+\begin{frame}[c]
+    \centering
+    \textbf{Modeling and Representation of Data} \\
+    Develop Models to Faithfully Represent Data \\
+    \vspace*{0.2cm}
+    \pause \textbf{Practical Data Science} \\
+    Wrestle Data into Workable Forms \\
+    \vspace*{0.2cm}
+    \pause \textbf{Natural Language Processing} \\
+    Convert Text into Machine Interpretable Data \\
+    \vspace*{0.2cm}
+    \pause \textbf{Data Engineering} \\
+    Learned Docker  \\
+    \vspace*{0.2cm}
+    \pause \textbf{Machine Learning} \\
+    Learned the Fit and Evaluate Machine Learning Models \\
+    \vspace*{0.2cm}
+    \pause $\Rightarrow$ Your toolboxes are now \alert{phenomenally powerful.}
+\end{frame}
+
+
+\begin{frame}[c]
+But we don't do data science to accumulate tools (as much fun as they are). \\
+\pause We do data science to \alert{solve problems.} \\
+\end{frame}
+
+
+\begin{frame}[c]
+\pause This semester, we've learned to:
+\begin{itemize}
+    \pause \item Identify \alert{core problems},
+    \begin{itemize}
+        \pause \item (managing and working with stakeholders)
+    \end{itemize}
+    \pause \item Articulate and refine a question to answer,
+    \pause \item Recognize the purpose of different \alert{types of questions},
+    \pause \item And then use the \alert{appropriate} amazing tool to generate an answer.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[c]
+I recognize that at the moment, parts of this process may feel... unnecessary or superfluous. \\
+\vspace{0.2cm}
+
+\pause $\Rightarrow$ As you move into your capstones, and eventually into the real world, you'll find that proficiency in these skills is what determines the success (or failure) of your projects. \\ 
+\vspace{0.2cm}
+\pause $\Rightarrow$ These are also the critical reasoning skills that won't be supplanted by chatGPT any time soon.
+\end{frame}
+
+\begin{frame}[c]{Causal Inference}
+\end{frame}
+
+\begin{frame}[c]{Causal Inference}
+    \only<1>{``Correlation does not imply causation''}
+    \only<2->{\sout{``Correlation does not imply causation''}} \\
+    \vspace*{0.2cm}
+    \pause Correlation does not \emph{necessarily} imply causation, \alert{but...}
+    \begin{itemize}
+      \pause \item when certain assumptions are met, correlation does imply causation. 
+    \end{itemize} 
+    \pause And now \alert{you} know those assumptions and how to evaluate them!
+\end{frame}
+  
+% \begin{frame}[c]{Causal Inference}
+% Causal inference is hard because of the \alert{Fundamental Problem of Causal Inference:} \\
+
+% \pause To \alert{know} if X causes Y, we would have to see \alert{both} a world with X, and a world without X, and that's impossible. 
+% \end{frame}
+
+
+% \begin{frame}[c]{Causal Inference}
+%     Because we can never see \alert{both} a world with X, and a world without X, \pause we need to find settings that \alert{approximate} one of these states of the world. \\
+%     \begin{itemize}
+%       \pause \item Counter-factuals: settings with same \alert{potential outcomes}, but different realizations of treatment.
+%     \end{itemize}
+% \end{frame}
+
+
+\begin{frame}[c]{Cultivate a Skeptical Mindset}
+    \pause There are \alert{no statistical tests} that can tell you if a causal estimate is valid. 
+    \begin{itemize}
+        \pause \item Depending on \alert{how} data was collected, the exact same dataset may or may not provide valid causal estimates.
+    \end{itemize}
+    \end{frame}
+    
+\begin{frame}[c]{Ways of Estimating Causal Effects}
+    \begin{enumerate}
+      \pause \item Randomized Control Trials \\
+      {\color{gray} Law of large numbers $\rightarrow$ same potential outcomes for C \& T}
+      \pause \item Regression \\
+      {\color{gray} Statistically adjust for baseline differences $\rightarrow$ same potential outcomes after adjustments}
+      \pause \item Matching \\
+      {\color{gray} Statistically adjust for baseline differences $\rightarrow$ same potential outcomes after adjustments}
+      \pause \item Differences-in-Differences \\
+      {\color{gray} Adjust for pre-existing baseline differences $\rightarrow$ same potential outcomes in trends}
+    \end{enumerate}
+\end{frame}
+
+
+\begin{frame}[t]{You haven't just \emph{learned} about these...}
+    \pause You've done them!
+    \begin{itemize}
+        \pause \item  Used randomization and A/B test data to measure effect of website design changes and racial discrimination in hiring.
+        \pause \item  Used regression to estimate gender wage discrimination in the US
+        \pause \item  Used fixed effects to understand tax policy's impact on car accidents
+        \pause \item  Used matching to estimate labor market returns to education
+        \pause \item  Used diff-in-diffs to understand impact of drug legalization on crime
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{You haven't just \emph{learned} about these...}
+You've done them! \\
+\pause 
+In your projects you're studying the effects of:
+\begin{itemize}
+    \item stay at home orders on the spread of covid,
+    \item fiscal incentives on policing,
+    \item open carry laws on violent crime,
+    \item investment in housing infrastructure on homelessness,
+    \item childhood trauma on depression,
+    \item remote learning on student mental health,
+    \item the death penalty on violent crime, 
+    \item the pandemic on student learning,
+    \item patent protections on drug price growth, and
+    \item same sex marriage laws on hate crimes.
+\end{itemize}
+\pause And you did it all while learning to be more effective colleagues.
+\pause And while doing \alert{Kyle's class}.
+\end{frame}
+    
+
+\begin{frame}[c]
+\pause 
+\centering
+      \includegraphics[width=0.8\textwidth]{maybe_the_real_treasure.png}
+\end{frame}
+
+\begin{frame}[c]
+    \centering 
+    \alert{I hope you feel really proud of everything you've accomplished.}
+\end{frame}
+
+
+\end{document}
