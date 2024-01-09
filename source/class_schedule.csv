@@ -1,111 +1,78 @@
-﻿Date,Topic,Do Before Class,In Class Part 1
-"Thrs, Jan 12",Course Overview,,"- `Welcome! Slides Part 1 <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/10_FirstClass/Eubank_UDS_FirstClass_Part1_handout.pdf>`_
-- `Welcome! Slides Part 2 <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/10_FirstClass/Eubank_UDS_FirstClass_Part2_handout.pdf>`_"
-"Tues, Jan 17",Solving Problems by Answering Questions,"- `Read, sign, submit syllabus on gradescope. <https://github.com/nickeubank/unifyingdatascience/raw/master/syllabus/Syllabus_UnifyingDataScience.pdf>`_
-- `Reading Reflections Directions <reading_reflections.ipynb>`_
-- `Solving Problems <https://ds4humans.com/10_introduction/10_our_approach.html>`_",- `Classes of Questions <exercises/exercise_taxonomy_of_questions.ipynb>`_
-"Thrs, Jan 19",Stakeholder Management,"- `Solving the Right Problem <https://ds4humans.com/30_questions/00_solving_the_right_problem.html>`_
-- `Why It's Important To Get Your Question Right (30 min video) <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_",- `Stakeholder Management <exercises/exercise_generating_questions.ipynb>`_
-"Tues, Jan 24",Exploratory Questions,"- `Descriptive versus Proscriptive Questions <https://ds4humans.com/30_questions/05_descriptive_v_proscriptive.html>`_
-- `Exploratory Questions <https://ds4humans.com/30_questions/10_exploratory_questions.html>`_",
-"Thrs, Jan 26",Passive Prediction,"- `Exploratory Questions (Corrected) <https://ds4humans.com/30_questions/10_exploratory_questions.html>`_
-- `Passive Prediction <https://ds4humans.com/30_questions/20_passive_prediction_questions.html>`_",`Link <exercises/exercise_descriptive.ipynb>`_
-"Tues, Jan 31",Potential Outcomes,"- `Writing Good Notebooks <https://www.practicaldatascience.org/html/writing_good_jupyter_notebooks.html>`_
-- Read Angrist and Piscke (MM), Pages xi - 30
-- `Potential Outcomes <https://github.com/nickeubank/unifyingdatascience/blob/master/lecture_slides/20_PotentialOutcomes/Fresh_Potential_Outcomes.pdf>`_",
-"Thrs, Feb 2",Potential Outcomes,,- `Exercise <exercises/exercise_potential_outcomes1.ipynb>`_
-"Tues, Feb 7",Teams 1,"- `What Project Aristotle Learned <https://github.com/nickeubank/unifyingdatascience/raw/master/team_readings/project_aristotle_nytimes.pdf>`_
-- Edmondson, The Fearless Organization, Chpt 1 (on Sakai)",Fall Team Debrief
-"Thrs, Feb 9",Teams 2,"- `Review Team Charter Assignment <https://github.com/nickeubank/unifyingdatascience/raw/master/team_readings/MIDS%20Team%20Charter%20Assignment.docx>`_
-- Edmondson, Teaming, Chpt 2 from ""Cognitive Barriers to Teaming"" (p. 82) to end of Chapter (on Sakai)
-
-Optional: `Fostering Psychological Safety Tips <https://docs.google.com/document/d/1PsnDMS2emcPLgMLFAQCXZjO7C4j2hJ7znOq_g2Zkjgk/export?format=pdf>`_",New Team Planning
-"Tues, Feb 14",Analyzing Experiments,"Causal Theory:
-
-- `Limitations of Average Treatment Effects <limitations_of_ATE.ipynb>`_
-- `Internal versus External Validity <internal_v_external_validity.ipynb>`_
-
-Statistical Analysis of Experiments
-
-- Angrist and Piscke (MHE), Sec. 2.3 (p. 21 - 24)
-- Review linear regression in Python (`WM Chapter <https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython-ebook/dp/B075X4LT6K>`_ 13, 13.1, 13.2, 13.3)",- `Link <exercises/exercise_resume.ipynb>`_
-"Thrs, Feb 16",Causality and Regression,"- `Causal Inference In Industry Beyond AB Testing <causal_inference_beyond_ab_testing.ipynb>`_
-- Angrist and Piscke (MM), Chpt 2",- `Link <exercises/exercise_regressions_incomeineq.ipynb>`_
-"Tues, Feb 21",Causality and Regression,"- `Interpreting Indicator Vars <interpreting_indicator_vars.ipynb>`_
-- `Fixed Effects v. Hierarchical Models <fixed_effects_v_hierarchical.ipynb>`_
-- `Fixed Effects and Causal Inference <fixed_effects_and_causal_inference.ipynb>`_
-- `Implementing Fixed Effects <fixed_effects.ipynb>`_
-
-Optional: 
-
-- Kennedy (GtE), Chpt 18.","- `Indicators <exercises/exercise_indicators.ipynb>`_
-- `Fixed Effects <exercises/exercise_panel.ipynb>`_"
-"Thrs, Feb 23",Matching,"- `The Why of Matching <matching_why.ipynb>`_
-- `The How of Matching Summary <matching_how.ipynb>`_
-- `Methods for Matching <https://youtu.be/tvMyjDi4dyg?t=910>`_
-- `DAME-FLAME (6 min) <https://youtu.be/it2jRF85HG8>`_
-
-*Watch the video on Methods for Matching from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercise <exercises/exercise_matching.ipynb>`_
-"Tues, Feb 28",Diff-in-Diff,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
-- `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_
-
-Optional but encouraged:
-(dont need to follow everything, but here's a real diff-in-diff)
-
-- `Enfranchisement and Incarceration <https://www.cambridge.org/core/journals/american-political-science-review/article/enfranchisement-and-incarceration-after-the-1965-voting-rights-act/C68FA7BB8CA313BDD8D9A39BA666A21D>`_",- `Link <exercises/exercise_diffindiff.ipynb>`_
-"Thrs, Mar 2",Review,Review Day,
-"Tues, Mar 7",Review,Review Day Part 2,
-"Thrs, Mar 9",Online AB: Overview,"- Kohavi, Tang and Xu, Chpt 1, 2, 5 (Online AB Testing Intro)",- `Link <exercises/exercise_abtesting>`_
-"Tues, Mar 14",**NO CLASS**,,
-"Thrs, Mar 16",**NO CLASS**,,
-"Tues, Mar 21",Backwards Design,- `Backwards Design <backwards_design.ipynb>`_,"- `Backwards In Class <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_InClass.pdf>`_
-- `Backwards Assignment <https://github.com/nickeubank/unifyingdatascience/blob/master/project/20_BackwardsDesign/UDS_BackwardsDesign_Assignment.pdf>`_
-- `Data Sources <final_project_resources.ipynb>`_"
-"Thrs, Mar 23",**MIDTERM**,,
-"Tues, Mar 28",Online AB: Analyzing,"Dangers of Early Stopping:
-
-- `Don’t stop experiments early! <endogenous_stopping.ipynb>`_
-- `...unless you use these methods <https://netflixtechblog.com/improving-experimentation-efficiency-at-netflix-with-meta-analysis-and-optimal-stopping-d8ec290ae5be>`_
-
-Power and Decisions:
-
-- Kohavi, Tang and Xu, Chpt 3 up to ""Threats to Internal Validity"" (p. 39-42)
-
-**PROJECT PROPOSALS DUE**
+﻿Date,Topic,Do Before Class,In Class
+"Thrs, Jan 11",Course Overview,,
+"Tues, Jan 16",Solving Problems by Answering Questions,"- `Read, sign, submit syllabus on gradescope. <https://github.com/nickeubank/unifyingdatascience/raw/master/syllabus/Syllabus_UnifyingDataScience.pdf>`_
+- `Solving Problems <https://ds4humans.com/10_introduction/10_our_approach.html>`_",
+"Thrs, Jan 18",Stakeholder Management,"- `History of Data Science <https://ds4humans.com/10_introduction/40_data_science_in_historical_context.html>`_
+- `Solving the Right Problem <https://ds4humans.com/10_introduction/30_solving_the_right_problem.html>`_
+ - `Why It's Important To Get Your Question Right (30 min video) <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_",
+"Tues, Jan 23",Proscriptive v. Descriptive Questions,- `Descriptive versus Proscriptive Questions <https://ds4humans.com/30_questions/05_descriptive_v_proscriptive.html>`_,
+"Thrs, Jan 25",Exploratory Questions,"- `EDA <https://ds4humans.com/30_questions/07_eda.html>`_
+- `Using Exploratory Questions <https://ds4humans.com/30_questions/10_using_exploratory_questions.html>`_
+- `Answering Exploratory Questions <https://ds4humans.com/30_questions/15_answering_exploratory_questions.html>`_
 ",
-"Thrs, Mar 30",Online AB: Internal Validity,"SUTVA in AB Testing:
-
-- Kohavi, Tang and Xu: Chpt 3, ""Threats to Internal Validity"" (p. 42-47)
-- Different Randomizations: KTX Chpt 22
-
-Validating Internal Validity:
-
+"Tues, Jan 30",Exploratory Questions,"- `Interval v. External Validity for Exploratory Questions <https://ds4humans.com/30_questions/17_exploratory_questions_internal_external.html>`_
+ - `Writing to Stakeholders <writing_to_stakeholders.ipynb>`_
+- Start Team Assignments",
+"Thrs, Feb 1",Teams 1,"- `What Project Aristotle Learned <https://github.com/nickeubank/unifyingdatascience/raw/master/team_readings/project_aristotle_nytimes.pdf>`_
+- Edmondson, The Fearless Organization, Chpt 1 (on Sakai)",
+"Tues, Feb 6",Teams 2,"- `Review Team Charter Assignment <https://github.com/nickeubank/unifyingdatascience/raw/master/team_readings/MIDS%20Team%20Charter%20Assignment.docx>`_
+ - Edmondson, Teaming, Chpt 2 from ""Cognitive Barriers to Teaming"" (p. 82) to end of Chapter (on Sakai)
+ 
+ Optional: `Fostering Psychological Safety Tips <https://docs.google.com/document/d/1PsnDMS2emcPLgMLFAQCXZjO7C4j2hJ7znOq_g2Zkjgk/export?format=pdf>`_",
+"Thrs, Feb 8",Passive Prediction Questions,"- Using Passive Prediction
+- Answering Passive Prediction",
+"Tues, Feb 13",Passive Prediction Questions,"- `Stop Using Black Boxes <https://arxiv.org/abs/1811.10154>`_
+ - `Writing to Stakeholders <writing_to_stakeholders.ipynb>`_
+ 
+ **Optional:**
+ 
+ - `Contraining Artificial Stupidity <https://www.youtube.com/watch?v=Z8MEFI7ZJlA>`_
+ - `Black box models require trusting data too <https://www.nytimes.com/2017/06/13/opinion/how-computers-are-harming-criminal-justice.html>`_
+ - `Why are we using Black Boxes? <https://hdsr.mitpress.mit.edu/pub/f9kuryi8/release/8>`_
+ - `Combining explicit models and black boxes in Scientific ML <https://notamonadtutorial.com/scientific-machine-learning-with-julia-the-sciml-ecosystem-b22802951c8a>`_
+",
+"Thrs, Feb 15",Causal Questions,"- Using Causal questions
+- Answering Causal questions",
+"Tues, Feb 20",Causal Questions,- Potential Outcomes Framework,
+"Thrs, Feb 22",Causal Questions,- Analyzing Experiments,
+"Tues, Feb 27",Causal Questions: Experiments,"- Experiments: Internal Validity (Assumptions)
+Experiments: Internal Validity (In Practice):
 - Kohvani, Tang and Xu: Chpt 19 (A/A Testing)
 - Kohvani, Tang and Xu: Chpt 21 (Guardrail Metrics)
-",
-"Tues, Apr 4",Online AB: External Validity,"- Kohavi, Tang and Xu, Chpt 3, ""Threats to External Validity"" to end (p. 47-54)
+ - Kohavi, Tang and Xu: Chpt 3, ""Threats to Internal Validity"" (p. 42-47)
+ - Different Randomizations: KTX Chpt 22",
+"Thrs, Feb 29",Causal Questions: Experiments,"- Experiments: External Validity (Assumptions)
+Experiments: External Validity (In Practice):
+- Kohavi, Tang and Xu, Chpt 3, ""Threats to External Validity"" to end (p. 47-54)
 - Kohvai, Tang and Xu, Chpt 23 (Primacy Effects / Long Term Decay)",
-"Thrs, Apr 6",Online AB: Making Decisions,"- Georgiev, Chpt 11",
-"Tues, Apr 11",Mental Health Day,,
-"Thrs, Apr 13",Bias,"- Mayson: `Bias In, Bias Out <https://www.yalelawjournal.org/article/bias-in-bias-out>`_ up to 2281",
-"Tues, Apr 18",Interpretability,"- `Stop Using Black Boxes <https://arxiv.org/abs/1811.10154>`_
-- `Writing to Stakeholders <writing_to_stakeholders.ipynb>`_
-
-**Optiona But Really Funl:**
-
-- `Contraining Artificial Stupidity <https://www.youtube.com/watch?v=Z8MEFI7ZJlA>`_
-
-**Optional But Interesting:**
-
-- `Black box models require trusting data too <https://www.nytimes.com/2017/06/13/opinion/how-computers-are-harming-criminal-justice.html>`_
-
-**FINAL PROJECT ROUGH DRAFTS DUE**",
-"Wed, Apr 19",,**FINAL PROJECT ROUGH DRAFTS DUE 9am** if you want feedback by Friday,
-"Mon, Apr 24",,**FINAL PROJECT ROUGH DRAFTS DUE 9am**. Feedback guaranteed by 27th.,
-"Tues, May 2",,**FINAL PROJECT DUE BY 9am**,
-EXTRAS,Stuff that didn't make it to class,"- `AI Safety / Misalignment <https://www.youtube.com/watch?v=pYXy-A4siMw&t=539s>`_
-- Adversarial Users:
-    - `Fooling OpenAI <https://www.theverge.com/2021/3/8/22319173/openai-machine-vision-adversarial-typographic-attacka-clip-multimodal-neuron>`_
-    - `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_
-
+"Tues, Mar 5",Causal Questions: Experiments,"Experiments: Interpretation
+- P-Values
+- Kohavi, Tang and Xu, Chpt 3 up to ""Threats to Internal Validity"" (p. 39-42)
+ - `Don't stop experiments early! <endogenous_stopping.ipynb>`_
+ - `...unless you use these methods <https://netflixtechblog.com/improving-experimentation-efficiency-at-netflix-with-meta-analysis-and-optimal-stopping-d8ec290ae5be>`_
+Experiments: Power Calculations
+ 
 ",
+"Thrs, Mar 7",Causal Questions: Experiments,Experiments: Power Calculatiions,
+"Tues, Mar 12",**NO CLASS**,,
+"Thrs, Mar 14",**NO CLASS**,,
+"Tues, Mar 19",Causal Questions: Experiments,Decision Theory (maybe Bayesian AB Testing)?,
+"Thrs, Mar 21",**MIDTERM**,**MIDTERM**,
+"Tues, Mar 26",Causal Questions: Regressions,,
+"Thrs, Mar 28",Causal Questions: Indicators and Fixed Effects,,
+"Tues, Apr 2",Causal Questions: Matching,,
+"Thrs, Apr 4",Causal Questions: Differences and Differences / Panels,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
+ - `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_
+ 
+ Optional but encouraged:
+ (dont need to follow everything, but here's a real diff-in-diff)
+ 
+ - `Enfranchisement and Incarceration <https://www.cambridge.org/core/journals/american-political-science-review/article/enfranchisement-and-incarceration-after-the-1965-voting-rights-act/C68FA7BB8CA313BDD8D9A39BA666A21D>`_",
+"Tues, Apr 9",Ethics,"- Mayson: `Bias In, Bias Out <https://www.yalelawjournal.org/article/bias-in-bias-out>`_ up to 2281",
+"Thrs, Apr 11",,,
+"Tues, Apr 16",,,
+"Tues, Apr 18",,,
+EXTRAS,Stuff that didn't make it to class,"- `AI Safety / Misalignment <https://www.youtube.com/watch?v=pYXy-A4siMw&t=539s>`_
+ - Adversarial Users:
+  - `Fooling OpenAI <https://www.theverge.com/2021/3/8/22319173/openai-machine-vision-adversarial-typographic-attacka-clip-multimodal-neuron>`_
+  - `Robograders <https://www.vice.com/en_us/article/pa7dj9/flawed-algorithms-are-grading-millions-of-students-essays>`_",

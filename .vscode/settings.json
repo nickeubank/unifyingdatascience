@@ -1,4 +1,11 @@
 {
     "restructuredtext.languageServer.disabled": true,
-    "esbonio.sphinx.confDir": ""
+    "esbonio.sphinx.confDir": "",
+    "grammarly.selectors": [
+        {
+            "language": "markdown",
+            "scheme": "vscode-notebook-cell",
+            "pattern": "/Users/nce8/github/unifyingdatascience/source/how_to_read.ipynb"
+        }
+    ]
 }
