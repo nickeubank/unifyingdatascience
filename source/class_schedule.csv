@@ -1,22 +1,23 @@
 ﻿Date,Topic,Do Before Class,In Class
-"Thrs, Jan 11",Course Overview,,
+"Thrs, Jan 11",Course Overview, ,- `Acme Proposal <exercise_first_class_capstone_proposal.ipynb>`_
 "Tues, Jan 16",Solving Problems by Answering Questions,"- `Read, sign, submit syllabus on gradescope. <https://github.com/nickeubank/unifyingdatascience/raw/master/syllabus/Syllabus_UnifyingDataScience.pdf>`_
-- `Solving Problems <https://ds4humans.com/10_introduction/10_our_approach.html>`_",
-"Thrs, Jan 18",Stakeholder Management,"- `History of Data Science <https://ds4humans.com/10_introduction/40_data_science_in_historical_context.html>`_
-- `Solving the Right Problem <https://ds4humans.com/10_introduction/30_solving_the_right_problem.html>`_
- - `Why It's Important To Get Your Question Right (30 min video) <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_",
+- `How to Read <how_to_read.ipynb>`_
+- `Solving Problems <https://ds4humans.com/10_introduction/10_our_approach.html>`_",- `Generating Questions <exercise_generating_questions.ipynb>`_
+"Thrs, Jan 18",Stakeholder Management,"- `Solving the Right Problem <https://ds4humans.com/10_introduction/30_solving_the_right_problem.html>`_
+- `History of Data Science <https://ds4humans.com/10_introduction/40_data_science_in_historical_context.html>`_ 
+- `Why It's Important To Get Your Question Right (30 min video) <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_",
 "Tues, Jan 23",Proscriptive v. Descriptive Questions,- `Descriptive versus Proscriptive Questions <https://ds4humans.com/30_questions/05_descriptive_v_proscriptive.html>`_,
 "Thrs, Jan 25",Exploratory Questions,"- `EDA <https://ds4humans.com/30_questions/07_eda.html>`_
 - `Using Exploratory Questions <https://ds4humans.com/30_questions/10_using_exploratory_questions.html>`_
 - `Answering Exploratory Questions <https://ds4humans.com/30_questions/15_answering_exploratory_questions.html>`_
-",
+",- `Exploratory Ex <exercises/exercise_exploratory.ipynb>`_
 "Tues, Jan 30",Exploratory Questions,"- `Interval v. External Validity for Exploratory Questions <https://ds4humans.com/30_questions/17_exploratory_questions_internal_external.html>`_
  - `Writing to Stakeholders <writing_to_stakeholders.ipynb>`_
 - Start Team Assignments",
 "Thrs, Feb 1",Teams 1,"- `What Project Aristotle Learned <https://github.com/nickeubank/unifyingdatascience/raw/master/team_readings/project_aristotle_nytimes.pdf>`_
-- Edmondson, The Fearless Organization, Chpt 1 (on Sakai)",
+- Edmondson, The Fearless Organization, Chpt 1 (on Canvas)",
 "Tues, Feb 6",Teams 2,"- `Review Team Charter Assignment <https://github.com/nickeubank/unifyingdatascience/raw/master/team_readings/MIDS%20Team%20Charter%20Assignment.docx>`_
- - Edmondson, Teaming, Chpt 2 from ""Cognitive Barriers to Teaming"" (p. 82) to end of Chapter (on Sakai)
+ - Edmondson, Teaming, Chpt 2 from ""Cognitive Barriers to Teaming"" (p. 82) to end of Chapter (on Canvas)
  
  Optional: `Fostering Psychological Safety Tips <https://docs.google.com/document/d/1PsnDMS2emcPLgMLFAQCXZjO7C4j2hJ7znOq_g2Zkjgk/export?format=pdf>`_",
 "Thrs, Feb 8",Passive Prediction Questions,"- Using Passive Prediction
