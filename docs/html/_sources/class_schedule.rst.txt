@@ -19,4 +19,5 @@ Office Hours:
 
 Texts Referenced in Schedule:
 
+
 - **Kohvani, Tang and Xu**: `Trustworthy Online Controlled Experiments: A Practical Guide to A/B Testing <https://www.amazon.com/gp/product/1108724264/>`_
