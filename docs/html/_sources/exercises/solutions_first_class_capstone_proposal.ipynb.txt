@@ -1,0 +1,29 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Acme Corportation Solution\n",
+    "\n",
+    "- Did you impose constraints like monotonicity BEFORE comparing EBM and GBM?\n",
+    "- Why not?\n",
+    "\n",
+    " I don’t mean to say that, given this proposal, there was no way to meet their needs. In the description of what they care about the reference the importance of applying restrictions to the model (as with the effect of being in default on other loans), and they talk about monotonicity. The problem was that in the “the project would include” list, if you do it in order, you end up doing research on the relative performance of GBM and an unconstrained EBM on the financial data from KUPP (i.e. without imposed constraints, like the monotonicity constrain). And that may feel reasonable given they only bring in monotonicity as the last part of their “project would include” list.\n",
+    "But reporting on the relative performance of an unconstrained EBM versus GBM is like reporting on how well your new umbrella keeps you dry on sunny days — it’s… something, but not something of interest. And that’s what the actual capstone team spent a long time doing.\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "language_info": {
+   "name": "python"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
