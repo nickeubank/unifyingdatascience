@@ -2,7 +2,7 @@
 "Thrs, Jan 11",Course Overview, ,- `Acme Proposal <exercises/exercise_first_class_capstone_proposal.ipynb>`_
 "Tues, Jan 16",Solving Problems by Answering Questions,"- `Read, sign, submit syllabus on gradescope. <https://github.com/nickeubank/unifyingdatascience/raw/master/syllabus/Syllabus_UnifyingDataScience.pdf>`_
 - `How to Read <how_to_read.ipynb>`_
-- `Solving Problems <https://ds4humans.com/10_introduction/10_our_approach.html>`_",- `Generating Questions <exercise_generating_questions.ipynb>`_
+- `Solving Problems <https://ds4humans.com/10_introduction/10_our_approach.html>`_",- `Generating Questions <exercises/exercise_generating_questions.ipynb>`_
 "Thrs, Jan 18",Stakeholder Management,"- `Solving the Right Problem <https://ds4humans.com/10_introduction/30_solving_the_right_problem.html>`_
 - `History of Data Science <https://ds4humans.com/10_introduction/40_data_science_in_historical_context.html>`_ 
 - `Why It's Important To Get Your Question Right (30 min video) <https://www.youtube.com/watch?v=kYMfE9u-lMo>`_",
