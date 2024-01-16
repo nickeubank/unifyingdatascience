@@ -6,9 +6,9 @@ Class: Tuesday / Thursday, 1:25-2:40pm
 Office Hours: 
 
 - Nick: Thursday, 9:30-10:30pm, `https://duke.zoom.us/my/nickeubank <https://duke.zoom.us/my/nickeubank>`_ or Gross Hall 231
-- Echo: 
-- Kashaf:
-- Pragya:
+- Echo: `Friday 2-3pm <https://duke.zoom.us/j/3988148280?pwd=eStIQkRndjQ4b0RnQS91M2VQU1cydz09>`_
+- Kashaf: `Tuesday, 3-4pm <https://duke.zoom.us/j/99715773333>`_
+- Pragya: `Wednesday 3-4pm <https://duke.zoom.us/j/95553366708?pwd=Rk8wQVhVOGhkeGJ5ang3VmUxMWI0dz09>`_
 
 
 .. csv-table::
