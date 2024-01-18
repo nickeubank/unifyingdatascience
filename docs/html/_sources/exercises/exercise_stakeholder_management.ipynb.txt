@@ -21,6 +21,8 @@
     "\n",
     "## Stakeholder Project Proposal\n",
     "\n",
+    "In the proposal that follows, College Voting Access is a fake name given to a coalition of non-profit voting rights groups and a for-profit company's long-standing non-profit, Corporate Social Responsibility (CSR) initiative. The direct stakeholder — the party who submitted this proposal — is the non-profit CSR group supported by a larger for-profit company.\n",
+    "\n",
     "[Real Stakeholder Proposal Begins Here]\n",
     "\n",
     "### A Data Analysis of Voting Access on College Campuses\n",
@@ -73,12 +75,17 @@
     "\n",
     "### Exercise 1\n",
     "\n",
-    "What do you think is the core problem your stakeholder is seeking to solve?\n",
+    "What do you think is the core problem your stakeholder is seeking to solve? Think of at least **two** possible problems you think constitute core problems for your stakeholder. Write out questions you would ask them to help you understand which (if either) of these problems constitutes their core problem.\n",
     "\n",
     "### Exercise 2\n",
     "\n",
-    "If you have uncertainty about Exercise 1, what questions might you ask your stakeholder to improve your understanding?\n",
-    "\n"
+    "For each of these potential problems, write out at least one followup question you would ask (depending on how they answered Exercise 1) to help you further understand their priorities.\n",
+    "\n",
+    "### Exercise 3\n",
+    "\n",
+    "Often times the best way to ensure you're on the same page as a stakeholder is to describe in very concrete terms what you're thinking of giving them as a deliverable. Non-data scientists often struggle to really understand what a \"data science deliverable\" looks like, making it hard for them to evaluate whether what *you're* thinking of doing would actually be helpful for them.\n",
+    "\n",
+    "Propose a deliverable you would give the stakeholder to address one of these problems, describe it *in very concrete terms*, and make clear how it would help them.\n"
    ]
   }
  ],
