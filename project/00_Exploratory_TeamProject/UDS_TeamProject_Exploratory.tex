@@ -1,0 +1,129 @@
+\documentclass[12pt]{article}
+
+
+
+\usepackage[T1]{fontenc}
+\usepackage{amsfonts, amsmath, amssymb}
+\usepackage{multirow}
+\usepackage{epsfig}
+\usepackage{subfigure}
+\usepackage{subfloat}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+% \usepackage[document]{ragged2e}
+\usepackage{verbatim, rotating, paralist}
+\usepackage{enumerate}
+
+\usepackage{natbib}
+
+
+\usepackage{pdfsync}
+\usepackage{latexsym}
+\usepackage{amsthm}
+\usepackage{mathabx}
+
+\usepackage{stmaryrd}
+\usepackage{mathrsfs}
+\usepackage{dsfont}
+\usepackage{fancyhdr}
+\usepackage{color}
+
+\usepackage{parskip}
+\usepackage{anysize, indentfirst, setspace}
+\usepackage[right=2cm, left=2cm, top=3cm, bottom=3cm]{geometry}
+\usepackage{appendix}
+
+\usepackage{enumitem}
+\setlist{nosep}
+
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\renewcommand{\dbltopfraction}{.66}
+\renewcommand{\dblfloatpagefraction}{.66}
+
+
+
+
+% \pagestyle{fancyplain}
+% \rhead{\hfill \small \emph{MIDS NUMBER -- Fall 2019}}
+\cfoot{}
+
+% \renewcommand{\headrulewidth}{0pt}
+
+
+\title{Using Exploratory Questions \\ to Better Understanding Your Problem \\ Unifying Data Science 2024}
+\author{Nick Eubank}
+
+%-------------------------- BEGIN DOCUMENT ----------------------------------%
+\begin{document}
+\maketitle
+
+\begin{center}
+     \textbf{Due February 13th, 12pm}
+\end{center}
+
+Over the course of the semester, you and your team will be asked to choose a problem you care about. You will then work to help solve that problem (you get to be your own stakeholders!) by specifying and answering a set of Exploratory Questions, a set of Passive-Prediction Questions, and a set of Causal Questions. 
+
+\subsection*{Your Assignment}
+
+Your team's first assignment has several components:
+
+\begin{enumerate}
+    \item You must identify an \emph{issue area} you care about. 
+    \item Your team will be paired with a second team with similar issue interests (your Partner Team). You and your Partner Team will then be required to specify a problem that matters to you.
+    \item You must then write a report in which you:
+    \begin{itemize}
+        \item Specify and answer (by analysis of real-world data) at least three Exploratory Questions.
+        \item Specify and answer at least one Exploratory Question using existing reports and analyses (i.e., you do \emph{not} have to find and analyse raw data to answer this question — if someone's already answered a question, why reinvent the wheel?)
+    \end{itemize}
+    \item Your team will then trade reports with your Partner Team and provide feedback to one another.
+\end{enumerate} 
+
+\subsubsection*{Part 2: Choosing a Problem}
+
+The Problem you choose to address can come from any domain and can be an issue of global importance or personal interest (provided you can get the rest of your team and Partner Team to also agree to work on it). Examples of the types of problems and Exploratory Questions that you might wish to answer to help improve your understanding of the problem include:
+
+\begin{itemize}
+    \item \emph{Problem:} Too many people are killed in car accidents. \\
+    \emph{Exploratory Questions:}
+    \begin{itemize}
+        \item What share of car-related fatalities is due to car-pedestrian, single-car, or multiple-car accidents?
+        \item What share of car-related fatalities occurs on freeways as opposed to in cities?
+        \item What share of car-related fatalities involves a driver under the influence of drugs or alcohol?
+    \end{itemize}
+    \item \emph{Problem:} Many states are adding bureaucratic hurdles to getting social services, but the effect of these hurdles is unclear, both in terms of their effect on reducing fraud and on deterring entitled recipients from getting aid.  \\
+    \emph{Exploratory Questions:}
+    \begin{itemize}
+        \item What states have changed their rules around social service provision (helpful if we want to do a pre-post analysis or a difference-in-difference analysis)?
+        \item Are there a lot of people who are entitled to social services who don't receive them? (Do we know?)
+        \item What social service programs that have had bureaucratic hurdles imposed serve the largest populations?
+    \end{itemize}
+    \item \emph{Problem:} Police shootings involving people with mental health issues are much too common, and it's not clear the police are appropriately trained to deal with people dealing with mental health crises. \\
+    \emph{Exploratory Questions:}
+    \begin{itemize}
+        \item What states have changed their rules around social service provision (helpful if we want to do a pre-post analysis or a difference-in-difference analysis)?
+        \item Are there a lot of people who are entitled to social services who don't receive them? (Do we know?)
+        \item What social service programs that have had bureaucratic hurdles imposed serve the largest populations?
+    \end{itemize}
+\end{itemize}
+
+Note that while the problems in these examples are all ``big'' problems—in the sense of being societally important questions—your problem need not be of this nature. Past teams have done projects trying to figure out how to optimally train in tennis (by looking at whether playing more tennis improves or hinders subsequent tournament performance), how to improve AirBnB host profits (by looking at whether ``super host'' status improves AirBnB host revenues above and beyond the effect of just having the features that make one eligible to be a super-host), and how to minimize cell-phone user churn.
+
+With that said, be aware that \textbf{you will need to find data about your problem}, and that \emph{is} often easier to do when wrestling with public problems; companies tend to be quite protective of their commercially sensitive data. 
+
+\subsubsection*{Part 3: Specifying and Answering Questions}
+
+To help, you can find 
+
+\textbf{Data That ISN'T Allowed:}
+
+One major rule about data: data from Kaggle or other competition sites is not allowed. Part of the goal of this class is to give you experience picking your own questions, and then having to find, sort through, and clean real-world data to answer those questions. Kaggle data and the like are pre-cleaned, and come with JUST the variables needed to answer specific pre-determined questions. So absolutely no pre-curated data from competitions. 
+
+\end{document}
