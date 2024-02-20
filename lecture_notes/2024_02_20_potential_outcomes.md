@@ -1,0 +1,5 @@
+- Before yesterday? 2. Tina and Mai
+- Issues resolved within 6 hours
+- No one in office hours
+- longer than pds sure, but not every day and more than a week
+- know all you need to know
