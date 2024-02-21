@@ -35,6 +35,7 @@
 - `Answering Causal Questions <https://ds4humans.com/30_questions/40_answering_causal_questions.html>`_",
 "Thrs, Feb 22",Causal Questions,- `Potential Outcomes Framework <https://ds4humans.com/35_causal/10_potential_outcomes.html>`_,
 "Tues, Feb 27",Causal Questions,"- Cunningham, Chpt 4, pp 135 (""Independence Assumption"") - 148 (Stop at ""Randomization Inference"")
+- `Indicator Variables <https://ds4humans.com/35_causal/30_interpreting_indicator_vars.html>`_
 
 (Note `SDO` (Simple Difference in Outcomes) in Cunningham same as ""`\widehat{ATE}` from class)
 
