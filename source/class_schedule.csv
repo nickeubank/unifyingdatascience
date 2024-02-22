@@ -33,7 +33,7 @@
 - `A Tour of pyGAM <https://pygam.readthedocs.io/en/latest/notebooks/tour_of_pygam.html>`_",- `Ex <exercises/exercise_interpretable.ipynb>`_
 "Tues, Feb 20",Causal Questions,"- `Using Causal Questions <https://ds4humans.com/30_questions/30_using_causal_questions.html>`_
 - `Answering Causal Questions <https://ds4humans.com/30_questions/40_answering_causal_questions.html>`_",
-"Thrs, Feb 22",Causal Questions,- `Potential Outcomes Framework <https://ds4humans.com/35_causal/10_potential_outcomes.html>`_,
+"Thrs, Feb 22",Causal Questions,- `Potential Outcomes Framework <https://ds4humans.com/35_causal/10_potential_outcomes.html>`_,`Exercise <exercises/exercise_potential_outcomes1.ipynb>`_
 "Tues, Feb 27",Causal Questions,"- Cunningham, Chpt 4, pp 135 (""Independence Assumption"") - 148 (Stop at ""Randomization Inference"")
 - `Indicator Variables <https://ds4humans.com/35_causal/30_interpreting_indicator_vars.html>`_
 
