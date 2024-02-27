@@ -40,7 +40,7 @@
 (Note `SDO` (Simple Difference in Outcomes) in Cunningham same as ""`\widehat{ATE}` from class)
 
  Optional:
-  - Read Chpt 4 in Cunningham from start (different presentation of potential outcomes)",
+  - Read Chpt 4 in Cunningham from start (different presentation of potential outcomes)",`Exercise <exercises/exercise_resume_experiment.ipynb>`_
 "Thrs, Feb 29",Causal Questions: Experiments,"Experiments: Internal Validity (In Practice):
 - Kohvani, Tang and Xu: Chpt 19 (A/A Testing)
 - Kohvani, Tang and Xu: Chpt 21 (Guardrail Metrics)

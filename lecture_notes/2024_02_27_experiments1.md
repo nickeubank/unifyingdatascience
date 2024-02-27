@@ -4,3 +4,4 @@ First exercise:
     - External validity / stt
 
 - linear probability model
+- SUTVA
