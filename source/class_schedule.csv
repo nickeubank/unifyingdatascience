@@ -46,9 +46,11 @@
 - Kohvani, Tang and Xu: Chpt 2 (End to End Example)
 - Kohavi, Tang and Xu: Chpt 3, ""Threats to Internal Validity"" (p. 42-47) 
 - Kohvani, Tang and Xu: Chpt 19 (A/A Testing)",
-"Tues, Mar 5",Causal Questions: Experiments,"Finishing Internal Validity: 
+"Tues, Mar 5",Causal Questions: Experiments,"Overall Evaluation Criteria: Kohavi, Tang, and Xu Chpt 7.
 
-- Different Randomizations: KTX Chpt 22
+Finishing Internal Validity: 
+
+- Different Randomizations: Kohavi, Tang and Xu Chpt 22
 
 Experiments: External Validity (In Practice):
 
@@ -57,7 +59,6 @@ Experiments: External Validity (In Practice):
 "Thrs, Mar 7",Causal Questions: Experiments,"Experiments: Interpretation
 
 - P-Values 
-- Kohavi, Tang and Xu, Chpt 3 up to ""Threats to Internal Validity"" (p. 39-42)
  - `Don't stop experiments early! <endogenous_stopping.ipynb>`_
  - `...unless you use these methods <https://netflixtechblog.com/improving-experimentation-efficiency-at-netflix-with-meta-analysis-and-optimal-stopping-d8ec290ae5be>`_
 Experiments: Power Calculations
@@ -66,8 +67,8 @@ Experiments: Power Calculations
 "Tues, Mar 12",**NO CLASS**,,
 "Thrs, Mar 14",**NO CLASS**,,
 "Tues, Mar 19",Causal Questions: Experiments,Decision Theory (maybe Bayesian AB Testing)?,
-"Thrs, Mar 21",**MIDTERM**,**MIDTERM**,
-"Tues, Mar 26",Causal Questions: Regressions,,
+"Thrs, Mar 21",Review Day,REVIEW DAY,
+"Tues, Mar 26",**MIDTERM**,**MIDTERM**,
 "Thrs, Mar 28",Causal Questions: Indicators and Fixed Effects,,
 "Tues, Apr 2",Causal Questions: Matching,,
 "Thrs, Apr 4",Causal Questions: Differences and Differences / Panels,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
