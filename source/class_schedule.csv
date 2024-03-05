@@ -57,9 +57,9 @@ Experiments: External Validity (In Practice):
 - Kohavi, Tang and Xu, Chpt 3, ""Threats to External Validity"" to end (p. 47-54)
 - Kohvai, Tang and Xu, Chpt 23 (Primacy Effects / Long Term Decay)",`Exercise <exercises/exercise_abtesting.ipynb>`_
 "Thrs, Mar 7",Causal Questions: Experiments,"Designing Experiments
+
 - Power Calculations: Georgiev, Chpt 4 (Canvas)
- - `Don't stop experiments early! <endogenous_stopping.ipynb>`_
- - `...unless you use these methods <https://netflixtechblog.com/improving-experimentation-efficiency-at-netflix-with-meta-analysis-and-optimal-stopping-d8ec290ae5be>`_
+- `Don't stop experiments early! <endogenous_stopping.ipynb>`_
 
  
 ",
