@@ -1,0 +1,722 @@
+<!DOCTYPE html> <html lang=en  data-content_root="../"> <meta charset=utf-8  /> <meta name=viewport  content="width=device-width, initial-scale=1.0" /><meta name=viewport  content="width=device-width, initial-scale=1" /> <meta name=viewport  content="width=device-width,initial-scale=1"> <meta http-equiv=x-ua-compatible  content="ie=edge"> <meta name="lang:clipboard.copy" content="Copy to clipboard"> <meta name="lang:clipboard.copied" content="Copied to clipboard"> <meta name="lang:search.language" content=en > <meta name="lang:search.pipeline.stopwords" content=True > <meta name="lang:search.pipeline.trimmer" content=True > <meta name="lang:search.result.none" content="No matching documents"> <meta name="lang:search.result.one" content="1 matching document"> <meta name="lang:search.result.other" content="# matching documents"> <meta name="lang:search.tokenizer" content="[\s\-]+"> <link href="https://fonts.gstatic.com/" rel=preconnect  crossorigin> <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:300,400,400i,700&display=fallback" rel=stylesheet > <style> body, input { font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif } code, kbd, pre { font-family: "Roboto Mono", "Courier New", Courier, monospace } </style> <link rel=stylesheet  href="../_static/stylesheets/application.css"/> <link rel=stylesheet  href="../_static/stylesheets/application-palette.css"/> <link rel=stylesheet  href="../_static/stylesheets/application-fixes.css"/> <link rel=stylesheet  href="../_static/fonts/material-icons.css"/> <meta name=theme-color  content="#2196f3"> <script src="../_static/javascripts/modernizr.js"></script> <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151397036-1"></script> <script> window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'UA-151397036-1'); </script> <title>Interpretable Modelling of Credit Risk &#8212; Unifying Data Science</title> <link rel=stylesheet  type="text/css" href="../_static/pygments.css?v=649a27d8" /> <link rel=stylesheet  type="text/css" href="../_static/material.css?v=79c92029" /> <link rel=stylesheet  type="text/css" href="../_static/nbsphinx-code-cells.css?v=b9dd2d90" /> <script src="../_static/documentation_options.js?v=5929fcd5"></script> <script src="../_static/doctools.js?v=888ff710"></script> <script src="../_static/sphinx_highlight.js?v=dc90522c"></script> <script crossorigin=anonymous  integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script> <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script> <script defer=defer  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> <link rel=icon  href="../_static/mids_logo.svg"/> <link rel=index  title=Index  href="../genindex.html" /> <link rel=search  title=Search  href="../search.html" /> <body dir=ltr data-md-color-primary=blue-grey data-md-color-accent=blue> <svg class=md-svg > <defs data-children-count=0 > <svg xmlns="http://www.w3.org/2000/svg" width=416  height=448  viewBox="0 0 416 448" id=__github ><path fill=currentColor  d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg> </defs> </svg> <input class=md-toggle  data-md-toggle=drawer  type=checkbox  id=__drawer > <input class=md-toggle  data-md-toggle=search  type=checkbox  id=__search > <label class=md-overlay  data-md-component=overlay  for=__drawer ></label> <a href="#exercises/solutions_interpretable" tabindex=1  class=md-skip > Skip to content </a> <header class=md-header  data-md-component=header > <nav class="md-header-nav md-grid"> <div class="md-flex navheader"> <div class="md-flex__cell md-flex__cell--shrink"> <a href="../index.html" title="Unifying Data Science" class="md-header-nav__button md-logo"> &nbsp; </a> </div> <div class="md-flex__cell md-flex__cell--shrink"> <label class="md-icon md-icon--menu md-header-nav__button" for=__drawer ></label> </div> <div class="md-flex__cell md-flex__cell--stretch"> <div class="md-flex__ellipsis md-header-nav__title" data-md-component=title > <span class=md-header-nav__topic >Unifying Data Science</span> <span class=md-header-nav__topic > Interpretable Modelling of Credit Risk </span> </div> </div> <div class="md-flex__cell md-flex__cell--shrink"> <label class="md-icon md-icon--search md-header-nav__button" for=__search ></label> <div class=md-search  data-md-component=search  role=dialog > <label class=md-search__overlay  for=__search ></label> <div class=md-search__inner  role=search > <form class=md-search__form  action="../search.html" method=get  name=search > <input type=text  class=md-search__input  name=q  placeholder=""Search"" autocapitalize=off  autocomplete=off  spellcheck=false  data-md-component=query  data-md-state=active > <label class="md-icon md-search__icon" for=__search ></label> <button type=reset  class="md-icon md-search__icon" data-md-component=reset  tabindex=-1 > &#xE5CD; </button> </form> <div class=md-search__output > <div class=md-search__scrollwrap  data-md-scrollfix> <div class=md-search-result  data-md-component=result > <div class=md-search-result__meta > Type to start searching </div> <ol class=md-search-result__list ></ol> </div> </div> </div> </div> </div> </div> <script src="../_static/javascripts/version_dropdown.js"></script> <script> var json_loc = "../"versions.json"", target_loc = "../../", text = "Versions"; $( document ).ready( add_version_dropdown(json_loc, target_loc, text)); </script> </div> </nav> </header> <div class=md-container > <nav class=md-tabs  data-md-component=tabs > <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list > <li class=md-tabs__item ><a href="../index.html" class=md-tabs__link >Home</a> <li class=md-tabs__item ><a href="../class_schedule.html" class=md-tabs__link >Class Schedule</a> <li class=md-tabs__item ><a href="../topic_list.html" class=md-tabs__link >Topic List</a> <li class=md-tabs__item ><a href="https://www.nickeubank.com" class=md-tabs__link >About The Author</a> </ul> </div> </nav> <main class=md-main > <div class="md-main__inner md-grid" data-md-component=container > <div class="md-sidebar md-sidebar--primary" data-md-component=navigation > <div class=md-sidebar__scrollwrap > <div class=md-sidebar__inner > <nav class="md-nav md-nav--primary" data-md-level=0 > <label class="md-nav__title md-nav__title--site" for=__drawer > <a href="../index.html" title="Unifying Data Science" class="md-nav__button md-logo"> <img src="../_static/" alt=" logo" width=48  height=48 > </a> <a href="../index.html" title="Unifying Data Science">Unifying Data Science</a> </label> <ul class=md-nav__list > <li class=md-nav__item > <a href="../class_schedule.html" class=md-nav__link >CLASS SCHEDULE</a> <li class=md-nav__item > <span class="md-nav__link caption"><span class=caption-text >Causal Inference</span></span> <li class=md-nav__item > <a href="../limitations_of_ATE.html" class=md-nav__link >Limitations of ATE</a> <li class=md-nav__item > <a href="../internal_v_external_validity.html" class=md-nav__link >Internal v. External Validity</a> <li class=md-nav__item > <a href="../evaluating_real_studies.html" class=md-nav__link >Evaluating A Real Study</a> <li class=md-nav__item > <a href="../causal_inference_beyond_ab_testing.html" class=md-nav__link >Beyond AB Testing</a> <li class=md-nav__item > <a href="../matching_why.html" class=md-nav__link >Matching (Why)</a> <li class=md-nav__item > <a href="../matching_how.html" class=md-nav__link >Matching (How)</a> <li class=md-nav__item > <a href="../interpreting_indicator_vars.html" class=md-nav__link >Indicator Variables</a> <li class=md-nav__item > <a href="../fixed_effects.html" class=md-nav__link >Fixed Effects (FEs)</a> <li class=md-nav__item > <a href="../fixed_effects_and_causal_inference.html" class=md-nav__link >FEs & Causality</a> <li class=md-nav__item > <a href="../fixed_effects_v_hierarchical.html" class=md-nav__link >FEs & Hierarchical Models</a> <li class=md-nav__item > <span class="md-nav__link caption"><span class=caption-text >Data Science Project Design</span></span> <li class=md-nav__item > <a href="../backwards_design.html" class=md-nav__link >Backwards Design</a> <li class=md-nav__item > <a href="../taxonomy_of_questions.html" class=md-nav__link >Taxonomy of Questions</a> <li class=md-nav__item > <a href="../moving_from_problems_to_questions.html" class=md-nav__link >From Problems to Questions</a> <li class=md-nav__item > <a href="../descriptive_questions.html" class=md-nav__link >Discretion and Description</a> <li class=md-nav__item > <a href="../ethical_ml_recommendations.html" class=md-nav__link >Ethical Machine Learning</a> <li class=md-nav__item > <a href="../writing_to_stakeholders.html" class=md-nav__link >Writing for Lay Audiences</a> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=toc > <div class=md-sidebar__scrollwrap > <div class=md-sidebar__inner > <nav class="md-nav md-nav--secondary"> <label class=md-nav__title  for=__toc >"Contents"</label> <ul class=md-nav__list  data-md-scrollfix=""> <li class=md-nav__item ><a href="#exercises-solutions-interpretable--page-root" class=md-nav__link >Interpretable Modelling of Credit Risk</a><nav class=md-nav > <ul class=md-nav__list > <li class=md-nav__item ><a href="#Data-Prep" class=md-nav__link >Data Prep</a><nav class=md-nav > <ul class=md-nav__list > <li class=md-nav__item ><a href="#Exercise-1" class=md-nav__link >Exercise 1</a> <li class=md-nav__item ><a href="#Exercise-2" class=md-nav__link >Exercise 2</a> <li class=md-nav__item ><a href="#Exercise-3" class=md-nav__link >Exercise 3</a> <li class=md-nav__item ><a href="#Exercise-4" class=md-nav__link >Exercise 4</a> </ul> </nav> <li class=md-nav__item ><a href="#Model-Fitting" class=md-nav__link >Model Fitting</a><nav class=md-nav > <ul class=md-nav__list > <li class=md-nav__item ><a href="#Exercise-5" class=md-nav__link >Exercise 5</a> <li class=md-nav__item ><a href="#Exercise-6" class=md-nav__link >Exercise 6</a> <li class=md-nav__item ><a href="#Exercise-7" class=md-nav__link >Exercise 7</a> <li class=md-nav__item ><a href="#Exercise-8" class=md-nav__link >Exercise 8</a> </ul> </nav> <li class=md-nav__item ><a href="#Let&#39;s-See-This-Interpretability!" class=md-nav__link >Let’s See This Interpretability!</a><nav class=md-nav > <ul class=md-nav__list > <li class=md-nav__item ><a href="#Exercise-9" class=md-nav__link >Exercise 9</a> <li class=md-nav__item ><a href="#Exercise-10" class=md-nav__link >Exercise 10</a> <li class=md-nav__item ><a href="#Exercise-11" class=md-nav__link >Exercise 11</a> <li class=md-nav__item ><a href="#Exercise-12" class=md-nav__link >Exercise 12</a> <li class=md-nav__item ><a href="#Exercise-13" class=md-nav__link >Exercise 13</a> <li class=md-nav__item ><a href="#Exercise-14" class=md-nav__link >Exercise 14</a> <li class=md-nav__item ><a href="#Exercise-15" class=md-nav__link >Exercise 15</a> <li class=md-nav__item ><a href="#Exercise-16" class=md-nav__link >Exercise 16</a> <li class=md-nav__item ><a href="#Exercise-17" class=md-nav__link >Exercise 17</a> </ul> </nav> </ul> </nav> </ul> </nav> </div> </div> </div> <div class=md-content > <article class="md-content__inner md-typeset" role=main > <section id=Interpretable-Modelling-of-Credit-Risk > <h1 id=exercises-solutions-interpretable--page-root >Interpretable Modelling of Credit Risk<a class=headerlink  href="#exercises-solutions-interpretable--page-root" title="Link to this heading">¶</a></h1> <p>As detailed in Cynthia Rudin’s excellent commentary on interpretability <a class="reference external" href="https://arxiv.org/abs/1811.10154">(ArXiV version here)</a>, there are a plethora of reasons to avoid the use of black box models when models are being used to make high stakes decisions to may have life-altering effects on real people. Efforts to develop “explainable black box models,” while appealing for their potential to let us continuing using the same tools we always have and to creation explanations after the fact, are inherently flawed. As Rudin notes in my single favorite passage from her paper:</p> <blockquote> <div><p>Explainable ML methods provide explanations that are not faithful to what the original model computes. Explanations must be wrong. They cannot have perfect fidelity with respect to the original model. If the explanation was completely faithful to what the original model computes, the explanation would equal the original model, and one would not need the original model in the first place, only the explanation. (In other words, this is a case where the original model would be interpretable.) This leads to the danger that any explanation method for a black box model can be an inaccurate representation of the original model in parts of the feature space.</p> <p>An inaccurate (low-fidelity) explanation model limits trust in the explanation, and by extension, trust in the black box that it is trying to explain. An explainable model that has a 90% agreement with the original model indeed explains the original model most of the time. However, an explanation model that is correct 90% of the time is wrong 10% of the time. If a tenth of the explanations are incorrect, one cannot trust the explanations, and thus one cannot trust the original black box. If we cannot know for certain whether our explanation is correct, we cannot know whether to trust either the explanation or the original model.</p> </div></blockquote> <p>With this motivation in mind, in this exercise, we will use a cutting edge interpretable modeling framework to model credit risk using data from the <a class="reference external" href="https://pakdd.org/archive/pakdd2010/">14th Pacific-Asia Knowledge Discovery and Data Mining conference (PAKDD 2010)</a>. This data covers the period of 2006 to 2009, and “comes from a private label credit card operation of a Brazilian credit company and its partner shops.” (The competition was won by <a class="reference external" href="https://timi.eu/blog/news/timi-top-winner-at-the-pakdd-2010-cup/">TIMi</a>, who purely by coincidence helped me complete my PhD dissertation research!).</p> <p>We will be working with Generalized Additive Models (GAMs) (not to be confused with Generalized <em>Linear</em> Models (GLMs) — GLMs are a special case of GAMs). In particular, we will be using the <a class="reference external" href="https://pygam.readthedocs.io/en/latest/notebooks/tour_of_pygam.html">pyGAM</a>, though this is far from the only GAM implementation out there. <a class="reference external" href="https://nicholasjclark.github.io/mvgam/">mvgam</a> in R is probably considered the gold standard, as it was developed by a pioneering researcher of GAMs. <code class="docutils literal notranslate"><span class=pre >statsmodels</span></code> also has <a class="reference external" href="https://www.statsmodels.org/stable/gam.html">an implementation</a>, and GAM is also hiding in plain sight behind many other tools, like Meta’s <a class="reference external" href="https://facebook.github.io/prophet/">Prophet</a> time series forecasting library (which is GAM-based).</p> <blockquote> <div><p><strong>WARNING:</strong> Mis-specified or poorly specified pyGAM models can take <em>forever</em> (hours, days, etc.) to estimate. Nothing in this exercise should take more than, <em>at most</em> a few minutes to estimate even on a commodity laptop. If you find your model is taking longer than that to run, stop and check your specification. Categorical variables with tons of unique values, in particular, can make numerical optimization very difficult.</p> </div></blockquote> <section id=Data-Prep > <h2 id=Data-Prep >Data Prep<a class=headerlink  href="#Data-Prep" title="Link to this heading">¶</a></h2> <section id=Exercise-1 > <h3 id=Exercise-1 >Exercise 1<a class=headerlink  href="#Exercise-1" title="Link to this heading">¶</a></h3> <p>The PADD 2010 data is in <a class="reference external" href="https://github.com/nickeubank/MIDS_Data/tree/master/PAKDD%202010">this repository</a>. You can find column names in <code class="docutils literal notranslate"><span class=pre >PAKDD2010_VariablesList.XLS</span></code> and the actual data in <code class="docutils literal notranslate"><span class=pre >PAKDD2010_Modeling_Data.txt</span></code>.</p> <p>Note: you may run into a string-encoding issue loading the <code class="docutils literal notranslate"><span class=pre >PAKDD2010_Modeling_Data.txt</span></code> data. All I’ll say is that most latin-based languages used <code class="docutils literal notranslate"><span class=pre >latin8</span></code> as a text encoding prior to broad adoption of UTF-8. (Don’t know about UTF? <a class="reference external" href="https://www.youtube.com/watch?v=MijmeoH9LT4">Check out this video</a>!)</p> <p>Load the data (including column names).</p> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[1]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=kn >import</span> <span class=nn >pandas</span> <span class=k >as</span> <span class=nn >pd</span>
+<span class=kn >import</span> <span class=nn >numpy</span> <span class=k >as</span> <span class=nn >np</span>
+
+<span class=n >pd</span><span class=o >.</span><span class=n >set_option</span><span class=p >(</span><span class=s2 >"mode.copy_on_write"</span><span class=p >,</span> <span class=kc >True</span><span class=p >)</span>
+<span class=n >pd</span><span class=o >.</span><span class=n >set_option</span><span class=p >(</span>
+    <span class=s2 >"display.max_columns"</span><span class=p >,</span> <span class=mi >999</span>
+<span class=p >)</span>  <span class=c1 ># Not the cleanest trick, but ok from time to time.</span>
+</pre></div> </div> </div> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[2]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=c1 ># read in column variables</span>
+<span class=n >column_names</span> <span class=o >=</span> <span class=n >pd</span><span class=o >.</span><span class=n >read_excel</span><span class=p >(</span>
+    <span class=s2 >"https://github.com/nickeubank/MIDS_Data/raw/"</span>
+    <span class=s2 >"master/PAKDD%202010/PAKDD2010_VariablesList.XLS"</span>
+<span class=p >)</span>
+<span class=n >column_names</span><span class=o >.</span><span class=n >loc</span><span class=p >[</span><span class=n >column_names</span><span class=p >[</span><span class=s2 >"Var_Title"</span><span class=p >]</span><span class=o >.</span><span class=n >duplicated</span><span class=p >(),</span> <span class=s2 >"Var_Title"</span><span class=p >]</span> <span class=o >+=</span> <span class=s2 >"_02"</span>
+
+<span class=k >assert</span> <span class=ow >not</span> <span class=n >column_names</span><span class=p >[</span><span class=s2 >"Var_Title"</span><span class=p >]</span><span class=o >.</span><span class=n >duplicated</span><span class=p >()</span><span class=o >.</span><span class=n >any</span><span class=p >()</span>
+<span class=n >columnlist</span> <span class=o >=</span> <span class=n >column_names</span><span class=p >[</span><span class=s2 >"Var_Title"</span><span class=p >]</span><span class=o >.</span><span class=n >tolist</span><span class=p >()</span>
+</pre></div> </div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[3]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >apps</span> <span class=o >=</span> <span class=n >pd</span><span class=o >.</span><span class=n >read_csv</span><span class=p >(</span>
+    <span class=s2 >"https://github.com/nickeubank/MIDS_Data/raw/"</span>
+    <span class=s2 >"master/PAKDD%202010/PAKDD2010_Modeling_Data.txt"</span><span class=p >,</span>
+    <span class=n >sep</span><span class=o >=</span><span class=s2 >"</span><span class=se >\t</span><span class=s2 >"</span><span class=p >,</span>
+    <span class=n >names</span><span class=o >=</span><span class=n >columnlist</span><span class=p >,</span>
+    <span class=n >na_values</span><span class=o >=</span><span class=p >[</span><span class=s2 >"NULL"</span><span class=p >,</span> <span class=s2 >""</span><span class=p >,</span> <span class=s2 >" "</span><span class=p >],</span>
+    <span class=n >encoding</span><span class=o >=</span><span class=s2 >"latin8"</span><span class=p >,</span>
+<span class=p >)</span>
+<span class=n >apps</span><span class=o >.</span><span class=n >head</span><span class=p >()</span>
+</pre></div> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area stderr docutils container"> <div class=highlight ><pre>
+/var/folders/fs/h_8_rwsn5hvg9mhp0txgc_s9v6191b/T/ipykernel_42350/3209276034.py:1: DtypeWarning: Columns (51,52) have mixed types. Specify dtype option on import or set low_memory=False.
+  apps = pd.read_csv(
+</pre></div></div> </div> <div class="nboutput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[3]:
+</pre></div> </div> <div class="output_area rendered_html docutils container"> <div> <style scoped=""> .dataframe tbody tr th:only-of-type { vertical-align: middle; } .dataframe tbody tr th { vertical-align: top; } .dataframe thead th { text-align: right; } </style> <table border=1  class=dataframe > <thead> <tr style="text-align: right;"> <th> <th>ID_CLIENT <th>CLERK_TYPE <th>PAYMENT_DAY <th>APPLICATION_SUBMISSION_TYPE <th>QUANT_ADDITIONAL_CARDS <th>POSTAL_ADDRESS_TYPE <th>SEX <th>MARITAL_STATUS <th>QUANT_DEPENDANTS <th>EDUCATION_LEVEL <th>STATE_OF_BIRTH <th>CITY_OF_BIRTH <th>NACIONALITY <th>RESIDENCIAL_STATE <th>RESIDENCIAL_CITY <th>RESIDENCIAL_BOROUGH <th>FLAG_RESIDENCIAL_PHONE <th>RESIDENCIAL_PHONE_AREA_CODE <th>RESIDENCE_TYPE <th>MONTHS_IN_RESIDENCE <th>FLAG_MOBILE_PHONE <th>FLAG_EMAIL <th>PERSONAL_MONTHLY_INCOME <th>OTHER_INCOMES <th>FLAG_VISA <th>FLAG_MASTERCARD <th>FLAG_DINERS <th>FLAG_AMERICAN_EXPRESS <th>FLAG_OTHER_CARDS <th>QUANT_BANKING_ACCOUNTS <th>QUANT_SPECIAL_BANKING_ACCOUNTS <th>PERSONAL_ASSETS_VALUE <th>QUANT_CARS <th>COMPANY <th>PROFESSIONAL_STATE <th>PROFESSIONAL_CITY <th>PROFESSIONAL_BOROUGH <th>FLAG_PROFESSIONAL_PHONE <th>PROFESSIONAL_PHONE_AREA_CODE <th>MONTHS_IN_THE_JOB <th>PROFESSION_CODE <th>OCCUPATION_TYPE <th>MATE_PROFESSION_CODE <th>EDUCATION_LEVEL_02 <th>FLAG_HOME_ADDRESS_DOCUMENT <th>FLAG_RG <th>FLAG_CPF <th>FLAG_INCOME_PROOF <th>PRODUCT <th>FLAG_ACSP_RECORD <th>AGE <th>RESIDENCIAL_ZIP_3 <th>PROFESSIONAL_ZIP_3 <th>TARGET_LABEL_BAD=1 <tr> <th>0 <td>1 <td>C <td>5 <td>Web <td>0 <td>1 <td>F <td>6 <td>1 <td>0 <td>RN <td>Assu <td>1 <td>RN <td>Santana do Matos <td>Centro <td>Y <td>105.0 <td>1.0 <td>15.0 <td>N <td>1 <td>900.0 <td>0.0 <td>1 <td>1 <td>0 <td>0 <td>0 <td>0 <td>0 <td>0.0 <td>0 <td>N <td>NaN <td>NaN <td>NaN <td>N <td>NaN <td>0 <td>9.0 <td>4.0 <td>NaN <td>NaN <td>0 <td>0 <td>0 <td>0 <td>1 <td>N <td>32 <td>595 <td>595 <td>1 <tr> <th>1 <td>2 <td>C <td>15 <td>Carga <td>0 <td>1 <td>F <td>2 <td>0 <td>0 <td>RJ <td>rio de janeiro <td>1 <td>RJ <td>RIO DE JANEIRO <td>CAMPO GRANDE <td>Y <td>20.0 <td>1.0 <td>1.0 <td>N <td>1 <td>750.0 <td>0.0 <td>0 <td>0 <td>0 <td>0 <td>0 <td>0 <td>0 <td>0.0 <td>0 <td>Y <td>NaN <td>NaN <td>NaN <td>N <td>NaN <td>0 <td>11.0 <td>4.0 <td>11.0 <td>NaN <td>0 <td>0 <td>0 <td>0 <td>1 <td>N <td>34 <td>230 <td>230 <td>1 <tr> <th>2 <td>3 <td>C <td>5 <td>Web <td>0 <td>1 <td>F <td>2 <td>0 <td>0 <td>RN <td>GARANHUNS <td>1 <td>RN <td>Parnamirim <td>Boa Esperanca <td>Y <td>105.0 <td>1.0 <td>NaN <td>N <td>1 <td>500.0 <td>0.0 <td>0 <td>0 <td>0 <td>0 <td>0 <td>0 <td>0 <td>0.0 <td>0 <td>N <td>NaN <td>NaN <td>NaN <td>N <td>NaN <td>0 <td>11.0 <td>NaN <td>NaN <td>NaN <td>0 <td>0 <td>0 <td>0 <td>1 <td>N <td>27 <td>591 <td>591 <td>0 <tr> <th>3 <td>4 <td>C <td>20 <td>Web <td>0 <td>1 <td>F <td>2 <td>0 <td>0 <td>PE <td>CABO <td>1 <td>PE <td>CABO <td>PONTE DOS CARVALHOS <td>N <td>NaN <td>NaN <td>NaN <td>N <td>1 <td>500.0 <td>0.0 <td>0 <td>0 <td>0 <td>0 <td>0 <td>0 <td>0 <td>0.0 <td>0 <td>N <td>NaN <td>NaN <td>NaN <td>N <td>NaN <td>0 <td>NaN <td>NaN <td>NaN <td>NaN <td>0 <td>0 <td>0 <td>0 <td>1 <td>N <td>61 <td>545 <td>545 <td>0 <tr> <th>4 <td>5 <td>C <td>10 <td>Web <td>0 <td>1 <td>M <td>2 <td>0 <td>0 <td>RJ <td>RIO DE JANEIRO <td>1 <td>RJ <td>Rio de Janeiro <td>Santa Cruz <td>Y <td>20.0 <td>1.0 <td>12.0 <td>N <td>1 <td>1200.0 <td>0.0 <td>0 <td>0 <td>0 <td>0 <td>0 <td>0 <td>0 <td>0.0 <td>0 <td>N <td>NaN <td>NaN <td>NaN <td>N <td>NaN <td>0 <td>9.0 <td>5.0 <td>NaN <td>NaN <td>0 <td>0 <td>0 <td>0 <td>1 <td>N <td>48 <td>235 <td>235 <td>1 </table> </div></div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[4]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >apps</span><span class=o >.</span><span class=n >describe</span><span class=p >()</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[4]:
+</pre></div> </div> <div class="output_area rendered_html docutils container"> <div> <style scoped=""> .dataframe tbody tr th:only-of-type { vertical-align: middle; } .dataframe tbody tr th { vertical-align: top; } .dataframe thead th { text-align: right; } </style> <table border=1  class=dataframe > <thead> <tr style="text-align: right;"> <th> <th>ID_CLIENT <th>PAYMENT_DAY <th>QUANT_ADDITIONAL_CARDS <th>POSTAL_ADDRESS_TYPE <th>MARITAL_STATUS <th>QUANT_DEPENDANTS <th>EDUCATION_LEVEL <th>NACIONALITY <th>RESIDENCIAL_PHONE_AREA_CODE <th>RESIDENCE_TYPE <th>MONTHS_IN_RESIDENCE <th>FLAG_EMAIL <th>PERSONAL_MONTHLY_INCOME <th>OTHER_INCOMES <th>FLAG_VISA <th>FLAG_MASTERCARD <th>FLAG_DINERS <th>FLAG_AMERICAN_EXPRESS <th>FLAG_OTHER_CARDS <th>QUANT_BANKING_ACCOUNTS <th>QUANT_SPECIAL_BANKING_ACCOUNTS <th>PERSONAL_ASSETS_VALUE <th>QUANT_CARS <th>PROFESSIONAL_PHONE_AREA_CODE <th>MONTHS_IN_THE_JOB <th>PROFESSION_CODE <th>OCCUPATION_TYPE <th>MATE_PROFESSION_CODE <th>EDUCATION_LEVEL_02 <th>FLAG_HOME_ADDRESS_DOCUMENT <th>FLAG_RG <th>FLAG_CPF <th>FLAG_INCOME_PROOF <th>PRODUCT <th>AGE <th>TARGET_LABEL_BAD=1 <tr> <th>count <td>50000.000000 <td>50000.000000 <td>50000.0 <td>50000.000000 <td>50000.00000 <td>50000.000000 <td>50000.0 <td>50000.000000 <td>41788.000000 <td>48651.000000 <td>46223.000000 <td>50000.000000 <td>50000.000000 <td>50000.000000 <td>50000.000000 <td>50000.000000 <td>50000.000000 <td>50000.000000 <td>50000.000000 <td>50000.000000 <td>50000.000000 <td>5.000000e+04 <td>50000.000000 <td>13468.000000 <td>50000.000000 <td>42244.000000 <td>42687.000000 <td>21116.000000 <td>17662.000000 <td>50000.0 <td>50000.0 <td>50000.0 <td>50000.0 <td>50000.000000 <td>50000.00000 <td>50000.000000 <tr> <th>mean <td>25000.500000 <td>12.869920 <td>0.0 <td>1.006540 <td>2.14840 <td>0.650520 <td>0.0 <td>0.961600 <td>64.544223 <td>1.252225 <td>9.727149 <td>0.802280 <td>886.678437 <td>35.434760 <td>0.111440 <td>0.097460 <td>0.001320 <td>0.001740 <td>0.002040 <td>0.357840 <td>0.357840 <td>2.322372e+03 <td>0.336140 <td>62.397015 <td>0.009320 <td>8.061784 <td>2.484316 <td>3.797926 <td>0.296003 <td>0.0 <td>0.0 <td>0.0 <td>0.0 <td>1.275700 <td>43.24852 <td>0.260820 <tr> <th>std <td>14433.901067 <td>6.608385 <td>0.0 <td>0.080606 <td>1.32285 <td>1.193655 <td>0.0 <td>0.202105 <td>38.511833 <td>0.867833 <td>10.668841 <td>0.398284 <td>7846.959327 <td>891.515142 <td>0.314679 <td>0.296586 <td>0.036308 <td>0.041677 <td>0.045121 <td>0.479953 <td>0.479953 <td>4.235798e+04 <td>0.472392 <td>36.622626 <td>0.383453 <td>3.220104 <td>1.532261 <td>5.212168 <td>0.955688 <td>0.0 <td>0.0 <td>0.0 <td>0.0 <td>0.988286 <td>14.98905 <td>0.439086 <tr> <th>min <td>1.000000 <td>1.000000 <td>0.0 <td>1.000000 <td>0.00000 <td>0.000000 <td>0.0 <td>0.000000 <td>1.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>60.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000e+00 <td>0.000000 <td>1.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.0 <td>0.0 <td>0.0 <td>0.0 <td>1.000000 <td>6.00000 <td>0.000000 <tr> <th>25% <td>12500.750000 <td>10.000000 <td>0.0 <td>1.000000 <td>1.00000 <td>0.000000 <td>0.0 <td>1.000000 <td>29.000000 <td>1.000000 <td>1.000000 <td>1.000000 <td>360.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000e+00 <td>0.000000 <td>29.000000 <td>0.000000 <td>9.000000 <td>1.000000 <td>0.000000 <td>0.000000 <td>0.0 <td>0.0 <td>0.0 <td>0.0 <td>1.000000 <td>31.00000 <td>0.000000 <tr> <th>50% <td>25000.500000 <td>10.000000 <td>0.0 <td>1.000000 <td>2.00000 <td>0.000000 <td>0.0 <td>1.000000 <td>68.000000 <td>1.000000 <td>6.000000 <td>1.000000 <td>500.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000e+00 <td>0.000000 <td>66.000000 <td>0.000000 <td>9.000000 <td>2.000000 <td>0.000000 <td>0.000000 <td>0.0 <td>0.0 <td>0.0 <td>0.0 <td>1.000000 <td>41.00000 <td>0.000000 <tr> <th>75% <td>37500.250000 <td>15.000000 <td>0.0 <td>1.000000 <td>2.00000 <td>1.000000 <td>0.0 <td>1.000000 <td>100.000000 <td>1.000000 <td>15.000000 <td>1.000000 <td>800.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>0.000000 <td>1.000000 <td>1.000000 <td>0.000000e+00 <td>1.000000 <td>97.000000 <td>0.000000 <td>9.000000 <td>4.000000 <td>11.000000 <td>0.000000 <td>0.0 <td>0.0 <td>0.0 <td>0.0 <td>1.000000 <td>53.00000 <td>1.000000 <tr> <th>max <td>50000.000000 <td>25.000000 <td>0.0 <td>2.000000 <td>7.00000 <td>53.000000 <td>0.0 <td>2.000000 <td>126.000000 <td>5.000000 <td>228.000000 <td>1.000000 <td>959000.000000 <td>194344.000000 <td>1.000000 <td>1.000000 <td>1.000000 <td>1.000000 <td>1.000000 <td>2.000000 <td>2.000000 <td>6.000000e+06 <td>1.000000 <td>126.000000 <td>35.000000 <td>18.000000 <td>5.000000 <td>17.000000 <td>5.000000 <td>0.0 <td>0.0 <td>0.0 <td>0.0 <td>7.000000 <td>106.00000 <td>1.000000 </table> </div></div> </div> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[5]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=c1 ># The equal sign causes headaches</span>
+<span class=n >apps</span> <span class=o >=</span> <span class=n >apps</span><span class=o >.</span><span class=n >rename</span><span class=p >(</span><span class=n >columns</span><span class=o >=</span><span class=p >{</span><span class=s2 >"TARGET_LABEL_BAD=1"</span><span class=p >:</span> <span class=s2 >"TARGET_LABEL_BAD_1"</span><span class=p >})</span>
+</pre></div> </div> </div> </section> <section id=Exercise-2 > <h3 id=Exercise-2 >Exercise 2<a class=headerlink  href="#Exercise-2" title="Link to this heading">¶</a></h3> <p>There are a few variables with a lot of missing values (more than half missing). Given the limited documentation for this data it’s a little hard to be sure why, but given the effect on sample size and what variables are missing, let’s go ahead and drop them. You you end up dropping 6 variables.</p> <p>Hint: Some variables have missing values that aren’t immediately obviously.</p> <p>(This is not strictly necessary at this stage, given we’ll be doing more feature selection down the line, but keeps things easier knowing we don’t have to worry about missingness later.)</p> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[6]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=c1 ># Note that this code only works because I modified the</span>
+<span class=c1 ># read_csv code above by adding `na_values=["NULL", "", " "]`.</span>
+<span class=c1 ># If you don't have that, this code will not drop the columns in question.</span>
+<span class=n >to_drop</span> <span class=o >=</span> <span class=p >[</span><span class=n >c</span> <span class=k >for</span> <span class=n >c</span> <span class=ow >in</span> <span class=n >apps</span><span class=o >.</span><span class=n >columns</span> <span class=k >if</span> <span class=n >apps</span><span class=p >[</span><span class=n >c</span><span class=p >]</span><span class=o >.</span><span class=n >isnull</span><span class=p >()</span><span class=o >.</span><span class=n >mean</span><span class=p >()</span> <span class=o >&gt;</span> <span class=mf >0.5</span><span class=p >]</span>
+<span class=n >to_drop</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[6]:
+</pre></div> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+['PROFESSIONAL_STATE',
+ 'PROFESSIONAL_CITY',
+ 'PROFESSIONAL_BOROUGH',
+ 'PROFESSIONAL_PHONE_AREA_CODE',
+ 'MATE_PROFESSION_CODE',
+ 'EDUCATION_LEVEL_02']
+</pre></div></div> </div> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[7]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >apps</span> <span class=o >=</span> <span class=n >apps</span><span class=o >.</span><span class=n >drop</span><span class=p >(</span><span class=n >columns</span><span class=o >=</span><span class=n >to_drop</span><span class=p >)</span>
+</pre></div> </div> </div> </section> <section id=Exercise-3 > <h3 id=Exercise-3 >Exercise 3<a class=headerlink  href="#Exercise-3" title="Link to this heading">¶</a></h3> <p>Next up, we’re going to fit a GAM model on this data. Before we do so below, however, we need to make sure we’re comfortable with the features we’re using.</p> <div class="highlight-none notranslate"><div class=highlight ><pre><span></span>"QUANT_DEPENDANTS",
+"QUANT_CARS",
+"MONTHS_IN_RESIDENCE",
+"PERSONAL_MONTHLY_INCOME",
+"QUANT_BANKING_ACCOUNTS",
+"AGE",
+"SEX",
+"MARITAL_STATUS",
+"OCCUPATION_TYPE",
+"RESIDENCE_TYPE",
+"RESIDENCIAL_STATE",
+"RESIDENCIAL_CITY",
+"RESIDENCIAL_BOROUGH",
+"RESIDENCIAL_ZIP_3"
+</pre></div> </div> <p>(GAMs don’t have any automatic feature selection methods, so these are based on my own sense of features that are likely to matter. A fully analysis would entail a few passes at feature refinement)</p> <p>Plot and otherwise characterize the distributions of all the variables we may use. If you see anything bananas, adjust how terms enter your model. Yes, pyGAM has flexible functional forms, but giving the model features that are engineered to be more substantively meaningful (e.g., taking log of income) will aid model estimation.</p> <p>You should probably do something about the functional form of <em>at least</em> <code class="docutils literal notranslate"><span class=pre >PERSONAL_MONTHLY_INCOME</span></code>, and <code class="docutils literal notranslate"><span class=pre >QUANT_DEPENDANTS</span></code>.</p> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[8]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >numeric_columns</span> <span class=o >=</span> <span class=p >[</span>
+    <span class=s2 >"QUANT_DEPENDANTS"</span><span class=p >,</span>
+    <span class=s2 >"QUANT_CARS"</span><span class=p >,</span>
+    <span class=s2 >"MONTHS_IN_RESIDENCE"</span><span class=p >,</span>
+    <span class=s2 >"PERSONAL_MONTHLY_INCOME"</span><span class=p >,</span>
+    <span class=s2 >"QUANT_BANKING_ACCOUNTS"</span><span class=p >,</span>
+    <span class=s2 >"AGE"</span><span class=p >,</span>
+<span class=p >]</span>
+<span class=n >cat_columns</span> <span class=o >=</span> <span class=p >[</span>
+    <span class=s2 >"SEX"</span><span class=p >,</span>
+    <span class=s2 >"MARITAL_STATUS"</span><span class=p >,</span>
+    <span class=s2 >"OCCUPATION_TYPE"</span><span class=p >,</span>
+    <span class=s2 >"RESIDENCE_TYPE"</span><span class=p >,</span>
+    <span class=s2 >"RESIDENCIAL_PHONE_AREA_CODE"</span><span class=p >,</span>
+    <span class=s2 >"RESIDENCIAL_ZIP_3"</span><span class=p >,</span>
+    <span class=s2 >"RESIDENCIAL_STATE"</span><span class=p >,</span>
+    <span class=s2 >"RESIDENCIAL_CITY"</span><span class=p >,</span>
+    <span class=s2 >"RESIDENCIAL_BOROUGH"</span><span class=p >,</span>
+<span class=p >]</span>
+</pre></div> </div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[9]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=nb >print</span><span class=p >(</span>
+    <span class=sa >f</span><span class=s2 >"</span><span class=si >{</span><span class=nb >len</span><span class=p >(</span><span class=n >numeric_columns</span><span class=p >)</span><span class=si >}</span><span class=s2 > initially numeric, </span><span class=si >{</span><span class=nb >len</span><span class=p >(</span><span class=n >cat_columns</span><span class=p >)</span><span class=si >}</span><span class=s2 > initially categorical"</span>
+<span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+6 initially numeric, 9 initially categorical
+</pre></div></div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[10]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=c1 ># prompt: map M=1, F=2, to 'sex' value</span>
+<span class=n >apps</span><span class=p >[</span><span class=s2 >"SEX"</span><span class=p >]</span><span class=o >.</span><span class=n >value_counts</span><span class=p >()</span>
+<span class=n >apps</span><span class=p >[</span><span class=s2 >"SEX"</span><span class=p >]</span> <span class=o >=</span> <span class=n >apps</span><span class=p >[</span><span class=s2 >"SEX"</span><span class=p >]</span><span class=o >.</span><span class=n >replace</span><span class=p >({</span><span class=s2 >"M"</span><span class=p >:</span> <span class=mi >0</span><span class=p >,</span> <span class=s2 >"F"</span><span class=p >:</span> <span class=mi >1</span><span class=p >,</span> <span class=s2 >"N"</span><span class=p >:</span> <span class=n >np</span><span class=o >.</span><span class=n >nan</span><span class=p >})</span>
+<span class=n >apps</span><span class=p >[</span><span class=s2 >"SEX"</span><span class=p >]</span><span class=o >.</span><span class=n >value_counts</span><span class=p >()</span>
+</pre></div> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area stderr docutils container"> <div class=highlight ><pre>
+/var/folders/fs/h_8_rwsn5hvg9mhp0txgc_s9v6191b/T/ipykernel_42350/1606787409.py:3: FutureWarning: Downcasting behavior in `replace` is deprecated and will be removed in a future version. To retain the old behavior, explicitly call `result.infer_objects(copy=False)`. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  apps["SEX"] = apps["SEX"].replace({"M": 0, "F": 1, "N": np.nan})
+</pre></div></div> </div> <div class="nboutput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[10]:
+</pre></div> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+SEX
+1.0    30805
+0.0    19130
+Name: count, dtype: int64
+</pre></div></div> </div> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[11]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=k >for</span> <span class=n >col</span> <span class=ow >in</span> <span class=n >numeric_columns</span><span class=p >:</span>
+    <span class=n >apps</span><span class=p >[</span><span class=n >col</span><span class=p >]</span> <span class=o >=</span> <span class=n >pd</span><span class=o >.</span><span class=n >to_numeric</span><span class=p >(</span><span class=n >apps</span><span class=p >[</span><span class=n >col</span><span class=p >],</span> <span class=n >errors</span><span class=o >=</span><span class=s2 >"coerce"</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[12]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=kn >import</span> <span class=nn >seaborn</span> <span class=k >as</span> <span class=nn >sns</span>
+<span class=kn >import</span> <span class=nn >matplotlib.pyplot</span> <span class=k >as</span> <span class=nn >plt</span>
+
+<span class=n >sns</span><span class=o >.</span><span class=n >set_theme</span><span class=p >(</span><span class=n >style</span><span class=o >=</span><span class=s2 >"whitegrid"</span><span class=p >)</span>
+
+<span class=n >apps_sampled</span> <span class=o >=</span> <span class=n >apps</span><span class=o >.</span><span class=n >sample</span><span class=p >(</span><span class=n >frac</span><span class=o >=</span><span class=mf >0.1</span><span class=p >,</span> <span class=n >random_state</span><span class=o >=</span><span class=mi >42</span><span class=p >)</span>
+
+
+<span class=c1 ># Plotting Numeric Columns</span>
+<span class=k >for</span> <span class=n >i</span><span class=p >,</span> <span class=n >column</span> <span class=ow >in</span> <span class=nb >enumerate</span><span class=p >(</span><span class=n >numeric_columns</span><span class=p >):</span>
+    <span class=k >if</span> <span class=n >i</span> <span class=o >%</span> <span class=mi >3</span> <span class=o >==</span> <span class=mi >0</span><span class=p >:</span>  <span class=c1 ># Start a new row for every 3 plots</span>
+        <span class=n >plt</span><span class=o >.</span><span class=n >figure</span><span class=p >(</span><span class=n >figsize</span><span class=o >=</span><span class=p >(</span><span class=mi >20</span><span class=p >,</span> <span class=mi >5</span><span class=p >))</span>
+    <span class=n >plt</span><span class=o >.</span><span class=n >subplot</span><span class=p >(</span><span class=mi >1</span><span class=p >,</span> <span class=mi >3</span><span class=p >,</span> <span class=p >(</span><span class=n >i</span> <span class=o >%</span> <span class=mi >3</span><span class=p >)</span> <span class=o >+</span> <span class=mi >1</span><span class=p >)</span>
+    <span class=n >sns</span><span class=o >.</span><span class=n >histplot</span><span class=p >(</span><span class=n >apps_sampled</span><span class=p >[</span><span class=n >column</span><span class=p >],</span> <span class=n >kde</span><span class=o >=</span><span class=kc >True</span><span class=p >)</span>
+    <span class=n >plt</span><span class=o >.</span><span class=n >title</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Distribution of </span><span class=si >{</span><span class=n >column</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span>
+    <span class=k >if</span> <span class=p >(</span><span class=n >i</span> <span class=o >%</span> <span class=mi >3</span> <span class=o >==</span> <span class=mi >2</span><span class=p >)</span> <span class=ow >or</span> <span class=p >(</span><span class=n >i</span> <span class=o >==</span> <span class=nb >len</span><span class=p >(</span><span class=n >numeric_columns</span><span class=p >)</span> <span class=o >-</span> <span class=mi >1</span><span class=p >):</span>
+        <span class=n >plt</span><span class=o >.</span><span class=n >tight_layout</span><span class=p >()</span>
+        <span class=n >plt</span><span class=o >.</span><span class=n >show</span><span class=p >()</span>
+
+<span class=c1 ># Plotting Categorical Columns</span>
+<span class=k >for</span> <span class=n >i</span><span class=p >,</span> <span class=n >column</span> <span class=ow >in</span> <span class=nb >enumerate</span><span class=p >(</span><span class=n >cat_columns</span><span class=p >):</span>
+    <span class=k >if</span> <span class=n >apps</span><span class=p >[</span><span class=n >column</span><span class=p >]</span><span class=o >.</span><span class=n >nunique</span><span class=p >()</span> <span class=o >&lt;</span> <span class=mi >15</span><span class=p >:</span>
+        <span class=k >if</span> <span class=n >i</span> <span class=o >%</span> <span class=mi >3</span> <span class=o >==</span> <span class=mi >0</span><span class=p >:</span>  <span class=c1 ># Start a new row for every 3 plots</span>
+            <span class=n >plt</span><span class=o >.</span><span class=n >figure</span><span class=p >(</span><span class=n >figsize</span><span class=o >=</span><span class=p >(</span><span class=mi >20</span><span class=p >,</span> <span class=mi >5</span><span class=p >))</span>
+        <span class=n >plt</span><span class=o >.</span><span class=n >subplot</span><span class=p >(</span><span class=mi >1</span><span class=p >,</span> <span class=mi >3</span><span class=p >,</span> <span class=p >(</span><span class=n >i</span> <span class=o >%</span> <span class=mi >3</span><span class=p >)</span> <span class=o >+</span> <span class=mi >1</span><span class=p >)</span>
+        <span class=n >sns</span><span class=o >.</span><span class=n >countplot</span><span class=p >(</span><span class=n >x</span><span class=o >=</span><span class=n >column</span><span class=p >,</span> <span class=n >data</span><span class=o >=</span><span class=n >apps_sampled</span><span class=p >)</span>
+        <span class=n >plt</span><span class=o >.</span><span class=n >title</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Count of </span><span class=si >{</span><span class=n >column</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span>
+        <span class=n >plt</span><span class=o >.</span><span class=n >xticks</span><span class=p >(</span><span class=n >rotation</span><span class=o >=</span><span class=mi >45</span><span class=p >)</span>
+        <span class=k >if</span> <span class=p >(</span><span class=n >i</span> <span class=o >%</span> <span class=mi >3</span> <span class=o >==</span> <span class=mi >2</span><span class=p >)</span> <span class=ow >or</span> <span class=p >(</span><span class=n >i</span> <span class=o >==</span> <span class=nb >len</span><span class=p >(</span><span class=n >cat_columns</span><span class=p >)</span> <span class=o >-</span> <span class=mi >1</span><span class=p >):</span>
+            <span class=n >plt</span><span class=o >.</span><span class=n >tight_layout</span><span class=p >()</span>
+            <span class=n >plt</span><span class=o >.</span><span class=n >show</span><span class=p >()</span>
+</pre></div> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <img alt="../_images/exercises_solutions_interpretable_15_0.png" src="../_images/exercises_solutions_interpretable_15_0.png"/> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <img alt="../_images/exercises_solutions_interpretable_15_1.png" src="../_images/exercises_solutions_interpretable_15_1.png"/> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <img alt="../_images/exercises_solutions_interpretable_15_2.png" src="../_images/exercises_solutions_interpretable_15_2.png"/> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <img alt="../_images/exercises_solutions_interpretable_15_3.png" src="../_images/exercises_solutions_interpretable_15_3.png"/> </div> </div> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[13]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=c1 ># Functional form tweaks for income and months in residence.</span>
+<span class=n >apps</span><span class=p >[</span><span class=s2 >"PERSONAL_MONTHLY_INCOME"</span><span class=p >]</span> <span class=o >=</span> <span class=n >np</span><span class=o >.</span><span class=n >log</span><span class=p >(</span><span class=n >apps</span><span class=p >[</span><span class=s2 >"PERSONAL_MONTHLY_INCOME"</span><span class=p >])</span>
+
+<span class=n >apps</span><span class=p >[</span><span class=s2 >"MONTHS_IN_RESIDENCE"</span><span class=p >]</span> <span class=o >=</span> <span class=n >np</span><span class=o >.</span><span class=n >log</span><span class=p >(</span><span class=n >apps</span><span class=p >[</span><span class=s2 >"MONTHS_IN_RESIDENCE"</span><span class=p >]</span> <span class=o >+</span> <span class=mi >1</span><span class=p >)</span>
+
+<span class=c1 ># For Dependents I'll pool some of the values into categories (three or more kids seems reasonable).</span>
+<span class=n >apps</span><span class=o >.</span><span class=n >loc</span><span class=p >[</span><span class=n >apps</span><span class=p >[</span><span class=s2 >"QUANT_DEPENDANTS"</span><span class=p >]</span> <span class=o >&gt;</span> <span class=mi >3</span><span class=p >,</span> <span class=s2 >"QUANT_DEPENDANTS"</span><span class=p >]</span> <span class=o >=</span> <span class=mi >3</span>
+<span class=n >apps</span><span class=p >[</span><span class=s2 >"QUANT_DEPENDANTS"</span><span class=p >]</span> <span class=o >=</span> <span class=n >apps</span><span class=p >[</span><span class=s2 >"QUANT_DEPENDANTS"</span><span class=p >]</span><span class=o >.</span><span class=n >astype</span><span class=p >(</span><span class=s2 >"category"</span><span class=p >)</span>
+<span class=n >apps</span><span class=p >[</span><span class=s2 >"QUANT_DEPENDANTS"</span><span class=p >]</span><span class=o >.</span><span class=n >value_counts</span><span class=p >()</span>
+
+<span class=c1 ># Collapse other marital categories</span>
+<span class=n >apps</span><span class=p >[</span><span class=s2 >"MARITAL_STATUS"</span><span class=p >]</span> <span class=o >=</span> <span class=n >apps</span><span class=p >[</span><span class=s2 >"MARITAL_STATUS"</span><span class=p >]</span><span class=o >.</span><span class=n >astype</span><span class=p >(</span><span class=s2 >"int"</span><span class=p >)</span>
+<span class=n >apps</span><span class=o >.</span><span class=n >loc</span><span class=p >[</span><span class=n >apps</span><span class=p >[</span><span class=s2 >"MARITAL_STATUS"</span><span class=p >]</span> <span class=o >&gt;</span> <span class=mi >3</span><span class=p >,</span> <span class=s2 >"MARITAL_STATUS"</span><span class=p >]</span> <span class=o >=</span> <span class=mi >3</span>
+</pre></div> </div> </div> </section> <section id=Exercise-4 > <h3 id=Exercise-4 >Exercise 4<a class=headerlink  href="#Exercise-4" title="Link to this heading">¶</a></h3> <p>Geographic segregation means residency data often contains LOTS of information. But there’s a problem with <code class="docutils literal notranslate"><span class=pre >RESIDENCIAL_CITY</span></code> and <code class="docutils literal notranslate"><span class=pre >RESIDENCIAL_BOROUGH</span></code>. What is the problem?</p> <p>In any real project, this would be something absolutely worth resolving, but for this exercise, we’ll just drop all three string <code class="docutils literal notranslate"><span class=pre >RESIDENCIAL_</span></code> variables.</p> <blockquote> <div><p>The strings are SUPER DIRTY, with lots of slightly different spellings of the same places. It can be fixed, but would take significant time.</p> </div></blockquote> </section> </section> <section id=Model-Fitting > <h2 id=Model-Fitting >Model Fitting<a class=headerlink  href="#Model-Fitting" title="Link to this heading">¶</a></h2> <section id=Exercise-5 > <h3 id=Exercise-5 >Exercise 5<a class=headerlink  href="#Exercise-5" title="Link to this heading">¶</a></h3> <p>First, use <code class="docutils literal notranslate"><span class=pre >train_test_split</span></code> to do an 80/20 split of your data. Then, using the <code class="docutils literal notranslate"><span class=pre >TARGET_LABEL_BAD</span></code> variable, fit a classification model on this data. Optimize with <code class="docutils literal notranslate"><span class=pre >gridsearch</span></code>. Use splines for continuous variables and factors for categoricals.</p> <p>At this point we’d <em>ideally</em> be working with 11 variables. However pyGAM can get a little slow with factor features with lots of values + lots of unique values (e.g., 50,000 observations and the <em>many</em> values of <code class="docutils literal notranslate"><span class=pre >RESIDENCIAL_ZIP</span></code> takes about 15 minutes on my computer). In that configuration, you should get a model fit in 10-15 seconds.</p> <p>So let’s start by fitting a model that also excludes <code class="docutils literal notranslate"><span class=pre >RESIDENCIAL_ZIP</span></code>.</p> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[14]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >numeric_columns</span> <span class=o >=</span> <span class=p >[</span>
+    <span class=s2 >"PERSONAL_MONTHLY_INCOME"</span><span class=p >,</span>
+    <span class=s2 >"AGE"</span><span class=p >,</span>
+    <span class=s2 >"MONTHS_IN_RESIDENCE"</span><span class=p >,</span>
+<span class=p >]</span>
+
+<span class=n >cat_columns</span> <span class=o >=</span> <span class=p >[</span>
+    <span class=s2 >"QUANT_DEPENDANTS"</span><span class=p >,</span>
+    <span class=s2 >"SEX"</span><span class=p >,</span>
+    <span class=s2 >"QUANT_CARS"</span><span class=p >,</span>
+    <span class=s2 >"MARITAL_STATUS"</span><span class=p >,</span>
+    <span class=s2 >"OCCUPATION_TYPE"</span><span class=p >,</span>
+    <span class=s2 >"RESIDENCE_TYPE"</span><span class=p >,</span>
+    <span class=s2 >"QUANT_BANKING_ACCOUNTS"</span><span class=p >,</span>
+<span class=p >]</span>
+</pre></div> </div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[15]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=nb >print</span><span class=p >(</span>
+    <span class=sa >f</span><span class=s2 >"</span><span class=si >{</span><span class=nb >len</span><span class=p >(</span><span class=n >numeric_columns</span><span class=p >)</span><span class=si >}</span><span class=s2 > initially numeric, </span><span class=si >{</span><span class=nb >len</span><span class=p >(</span><span class=n >cat_columns</span><span class=p >)</span><span class=si >}</span><span class=s2 > initially categorical"</span>
+<span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+3 initially numeric, 7 initially categorical
+</pre></div></div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[16]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >X</span> <span class=o >=</span> <span class=n >apps</span><span class=p >[</span><span class=n >numeric_columns</span> <span class=o >+</span> <span class=n >cat_columns</span> <span class=o >+</span> <span class=p >[</span><span class=s2 >"TARGET_LABEL_BAD_1"</span><span class=p >]]</span>
+<span class=n >X</span><span class=p >[</span><span class=s2 >"QUANT_DEPENDANTS"</span><span class=p >]</span> <span class=o >=</span> <span class=n >X</span><span class=p >[</span><span class=s2 >"QUANT_DEPENDANTS"</span><span class=p >]</span><span class=o >.</span><span class=n >cat</span><span class=o >.</span><span class=n >codes</span>
+<span class=c1 ># X["RESIDENCIAL_ZIP_3"] = pd.to_numeric(X["RESIDENCIAL_ZIP_3"], errors="coerce")</span>
+<span class=n >X</span> <span class=o >=</span> <span class=n >X</span><span class=o >.</span><span class=n >dropna</span><span class=p >()</span>
+<span class=n >y</span> <span class=o >=</span> <span class=n >X</span><span class=p >[</span><span class=s2 >"TARGET_LABEL_BAD_1"</span><span class=p >]</span><span class=o >.</span><span class=n >copy</span><span class=p >()</span>
+<span class=n >X</span> <span class=o >=</span> <span class=n >X</span><span class=o >.</span><span class=n >drop</span><span class=p >(</span><span class=n >columns</span><span class=o >=</span><span class=s2 >"TARGET_LABEL_BAD_1"</span><span class=p >)</span>
+<span class=nb >print</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Dropping missing gives sample size of </span><span class=si >{</span><span class=nb >len</span><span class=p >(</span><span class=n >X</span><span class=p >)</span><span class=si >:</span><span class=s2 >,.0f</span><span class=si >}</span><span class=s2 > (from 50,000 possible)"</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+Dropping missing gives sample size of 40,400 (from 50,000 possible)
+</pre></div></div> </div> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[17]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >X</span><span class=p >[</span><span class=s2 >"SEX"</span><span class=p >]</span> <span class=o >=</span> <span class=n >X</span><span class=p >[</span><span class=s2 >"SEX"</span><span class=p >]</span><span class=o >.</span><span class=n >astype</span><span class=p >(</span><span class=s2 >"int"</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[18]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=kn >from</span> <span class=nn >sklearn.model_selection</span> <span class=kn >import</span> <span class=n >train_test_split</span>
+
+<span class=n >X_train</span><span class=p >,</span> <span class=n >X_test</span><span class=p >,</span> <span class=n >y_train</span><span class=p >,</span> <span class=n >y_test</span> <span class=o >=</span> <span class=n >train_test_split</span><span class=p >(</span>
+    <span class=n >X</span><span class=p >,</span> <span class=n >y</span><span class=p >,</span> <span class=n >test_size</span><span class=o >=</span><span class=mf >0.2</span><span class=p >,</span> <span class=n >random_state</span><span class=o >=</span><span class=mi >42</span>
+<span class=p >)</span>
+</pre></div> </div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[19]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=c1 ># This is helpful just to keep track of feature numbers. :)</span>
+<span class=kn >from</span> <span class=nn >pygam</span> <span class=kn >import</span> <span class=n >LogisticGAM</span><span class=p >,</span> <span class=n >s</span><span class=p >,</span> <span class=n >f</span>
+
+<span class=k >for</span> <span class=n >i</span><span class=p >,</span> <span class=n >c</span> <span class=ow >in</span> <span class=nb >enumerate</span><span class=p >(</span><span class=n >X</span><span class=o >.</span><span class=n >columns</span><span class=p >):</span>
+    <span class=nb >print</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"</span><span class=si >{</span><span class=n >i</span><span class=si >}</span><span class=s2 >: </span><span class=si >{</span><span class=n >c</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+0: PERSONAL_MONTHLY_INCOME
+1: AGE
+2: MONTHS_IN_RESIDENCE
+3: QUANT_DEPENDANTS
+4: SEX
+5: QUANT_CARS
+6: MARITAL_STATUS
+7: OCCUPATION_TYPE
+8: RESIDENCE_TYPE
+9: QUANT_BANKING_ACCOUNTS
+</pre></div></div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[20]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >terms</span> <span class=o >=</span> <span class=n >s</span><span class=p >(</span><span class=mi >0</span><span class=p >)</span> <span class=o >+</span> <span class=n >s</span><span class=p >(</span><span class=mi >1</span><span class=p >)</span> <span class=o >+</span> <span class=n >s</span><span class=p >(</span><span class=mi >2</span><span class=p >)</span> <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >3</span><span class=p >)</span> <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >4</span><span class=p >)</span> <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >5</span><span class=p >)</span> <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >6</span><span class=p >)</span> <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >7</span><span class=p >)</span> <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >8</span><span class=p >)</span> <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >9</span><span class=p >)</span>
+
+<span class=n >gam</span> <span class=o >=</span> <span class=n >LogisticGAM</span><span class=p >(</span><span class=n >terms</span><span class=o >=</span><span class=n >terms</span><span class=p >)</span>
+<span class=n >gam</span><span class=o >.</span><span class=n >gridsearch</span><span class=p >(</span><span class=n >X_train</span><span class=o >.</span><span class=n >values</span><span class=p >,</span> <span class=n >y_train</span><span class=o >.</span><span class=n >values</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area stderr docutils container"> <div class=highlight ><pre>
+  0% (0 of 11) |                         | Elapsed Time: 0:00:00 ETA:  --:--:--
+  9% (1 of 11) |##                       | Elapsed Time: 0:00:01 ETA:   0:00:11
+ 18% (2 of 11) |####                     | Elapsed Time: 0:00:02 ETA:   0:00:09
+ 27% (3 of 11) |######                   | Elapsed Time: 0:00:03 ETA:   0:00:08
+ 36% (4 of 11) |#########                | Elapsed Time: 0:00:03 ETA:   0:00:06
+ 45% (5 of 11) |###########              | Elapsed Time: 0:00:04 ETA:   0:00:05
+ 54% (6 of 11) |#############            | Elapsed Time: 0:00:05 ETA:   0:00:04
+ 63% (7 of 11) |###############          | Elapsed Time: 0:00:06 ETA:   0:00:03
+ 72% (8 of 11) |##################       | Elapsed Time: 0:00:06 ETA:   0:00:02
+ 81% (9 of 11) |####################     | Elapsed Time: 0:00:07 ETA:   0:00:01
+ 90% (10 of 11) |#####################   | Elapsed Time: 0:00:08 ETA:   0:00:00
+100% (11 of 11) |########################| Elapsed Time: 0:00:08 Time:  0:00:08
+</pre></div></div> </div> <div class="nboutput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[20]:
+</pre></div> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+LogisticGAM(callbacks=[Deviance(), Diffs(), Accuracy()],
+   fit_intercept=True, max_iter=100,
+   terms=s(0) + s(1) + s(2) + f(3) + f(4) + f(5) + f(6) + f(7) + f(8) + f(9) + intercept,
+   tol=0.0001, verbose=False)
+</pre></div></div> </div> </section> <section id=Exercise-6 > <h3 id=Exercise-6 >Exercise 6<a class=headerlink  href="#Exercise-6" title="Link to this heading">¶</a></h3> <p>Create a (naive) confusion matrix using the predicted values you get with <code class="docutils literal notranslate"><span class=pre >predict()</span></code> on your test data. Our stakeholder cares about two things:</p> <ul class=simple > <li><p>maximizing the number of people to whom they extend credit, and</p> <li><p>the false omission rate (the share of people identified as “safe bets” who aren’t, and who thus default).</p> </ul> <p>How many “good bets” does the model predict (true negatives), and what is the <a class="reference external" href="https://en.wikipedia.org/wiki/False_omission_rate">False Omission Rate</a> (the share of predicted negatives that are false negatives)?</p> <p>Looking at the confusion matrix, how did the model maximize accuracy?</p> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[21]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >confusion_matrix</span> <span class=o >=</span> <span class=n >pd</span><span class=o >.</span><span class=n >crosstab</span><span class=p >(</span>
+    <span class=n >y_test</span><span class=p >,</span>
+    <span class=n >gam</span><span class=o >.</span><span class=n >predict</span><span class=p >(</span><span class=n >X_test</span><span class=p >)</span><span class=o >.</span><span class=n >astype</span><span class=p >(</span><span class=s2 >"int"</span><span class=p >),</span>
+    <span class=n >rownames</span><span class=o >=</span><span class=p >[</span><span class=s2 >"Actually Bad"</span><span class=p >],</span>
+    <span class=n >colnames</span><span class=o >=</span><span class=p >[</span><span class=s2 >"Predicted Bad"</span><span class=p >],</span>
+<span class=p >)</span>
+<span class=n >true_negatives</span> <span class=o >=</span> <span class=n >confusion_matrix</span><span class=o >.</span><span class=n >loc</span><span class=p >[</span><span class=mi >0</span><span class=p >,</span> <span class=mi >0</span><span class=p >]</span>
+<span class=n >false_negatives</span> <span class=o >=</span> <span class=n >confusion_matrix</span><span class=o >.</span><span class=n >loc</span><span class=p >[</span><span class=mi >1</span><span class=p >,</span> <span class=mi >0</span><span class=p >]</span>
+<span class=n >false_omission_rate</span> <span class=o >=</span> <span class=n >false_negatives</span> <span class=o >/</span> <span class=p >(</span><span class=n >false_negatives</span> <span class=o >+</span> <span class=n >true_negatives</span><span class=p >)</span>
+
+<span class=nb >print</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Confusion Matrix: </span><span class=se >\n</span><span class=si >{</span><span class=n >confusion_matrix</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span>
+<span class=nb >print</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Num true negatives is </span><span class=si >{</span><span class=n >true_negatives</span><span class=si >:</span><span class=s2 >,.0f</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span>
+<span class=nb >print</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"False omission rate for </span><span class=si >{</span><span class=n >false_omission_rate</span><span class=si >:</span><span class=s2 >.2%</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+Confusion Matrix:
+Predicted Bad     0  1
+Actually Bad
+0              5978  0
+1              2101  1
+Num true negatives is 5,978
+False omission rate for 26.01%
+</pre></div></div> </div> <blockquote> <div><p>We have high accuracy because it just predicting “everyone’s ok!”. Because the data is pretty imbalanced, that worked! But not really what we want.</p> </div></blockquote> </section> <section id=Exercise-7 > <h3 id=Exercise-7 >Exercise 7<a class=headerlink  href="#Exercise-7" title="Link to this heading">¶</a></h3> <p>Suppose your stakeholder wants to minimize the share of negative predictions that are false negatives. How low of a <a class="reference external" href="https://en.wikipedia.org/wiki/False_omission_rate">False Omission Rate</a> can you get (assuming more than, say, 10 true negatives), and how many “good bets” (true negatives) do they get at that risk level?</p> <p>Hint: use <code class="docutils literal notranslate"><span class=pre >predict_proba()</span></code></p> <p>Note: One <em>can</em> use class weights to shift the emphasis of the original model fitting, but for the moment let’s just play with <code class="docutils literal notranslate"><span class=pre >predict_proba()</span></code> and thresholds.</p> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[22]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=c1 >#########</span>
+<span class=c1 ># I'm gonna do this in two ways.</span>
+<span class=c1 ># First, just kinda by print statement —</span>
+<span class=c1 ># not really ideal, but works.</span>
+<span class=c1 >#</span>
+<span class=c1 ># I'll do the more rigorous way below.</span>
+<span class=c1 >#########</span>
+
+<span class=k >for</span> <span class=n >i</span> <span class=ow >in</span> <span class=n >np</span><span class=o >.</span><span class=n >arange</span><span class=p >(</span><span class=mi >0</span><span class=p >,</span> <span class=mf >0.3</span><span class=p >,</span> <span class=mf >0.025</span><span class=p >):</span>
+    <span class=n >confusion_matrix</span> <span class=o >=</span> <span class=n >pd</span><span class=o >.</span><span class=n >crosstab</span><span class=p >(</span>
+        <span class=n >y_test</span><span class=p >,</span>
+        <span class=p >(</span><span class=n >gam</span><span class=o >.</span><span class=n >predict_proba</span><span class=p >(</span><span class=n >X_test</span><span class=p >)</span> <span class=o >&gt;</span> <span class=n >i</span><span class=p >)</span><span class=o >.</span><span class=n >astype</span><span class=p >(</span><span class=s2 >"int"</span><span class=p >),</span>
+        <span class=n >rownames</span><span class=o >=</span><span class=p >[</span><span class=s2 >"Actually Bad"</span><span class=p >],</span>
+        <span class=n >colnames</span><span class=o >=</span><span class=p >[</span><span class=s2 >"Predicted Bad"</span><span class=p >],</span>
+    <span class=p >)</span>
+
+    <span class=k >if</span> <span class=p >(</span><span class=n >gam</span><span class=o >.</span><span class=n >predict_proba</span><span class=p >(</span><span class=n >X_test</span><span class=p >)</span> <span class=o >&gt;</span> <span class=n >i</span><span class=p >)</span><span class=o >.</span><span class=n >mean</span><span class=p >()</span> <span class=o >!=</span> <span class=mi >1</span><span class=p >:</span>
+        <span class=n >true_negatives</span> <span class=o >=</span> <span class=n >confusion_matrix</span><span class=o >.</span><span class=n >loc</span><span class=p >[</span><span class=mi >0</span><span class=p >,</span> <span class=mi >0</span><span class=p >]</span>
+        <span class=n >false_negatives</span> <span class=o >=</span> <span class=n >confusion_matrix</span><span class=o >.</span><span class=n >loc</span><span class=p >[</span><span class=mi >1</span><span class=p >,</span> <span class=mi >0</span><span class=p >]</span>
+        <span class=n >false_omission_rate</span> <span class=o >=</span> <span class=n >false_negatives</span> <span class=o >/</span> <span class=p >(</span><span class=n >false_negatives</span> <span class=o >+</span> <span class=n >true_negatives</span><span class=p >)</span>
+
+    <span class=nb >print</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"False Omission rate for </span><span class=si >{</span><span class=n >i</span><span class=si >:</span><span class=s2 >.3f</span><span class=si >}</span><span class=s2 > is </span><span class=si >{</span><span class=n >false_omission_rate</span><span class=si >:</span><span class=s2 >.2%</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span>
+    <span class=nb >print</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Number of true negatives at </span><span class=si >{</span><span class=n >i</span><span class=si >:</span><span class=s2 >.2f</span><span class=si >}</span><span class=s2 > is </span><span class=si >{</span><span class=n >true_negatives</span><span class=si >:</span><span class=s2 >,.0f</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span>
+    <span class=nb >print</span><span class=p >()</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+False Omission rate for 0.000 is 26.01%
+Number of true negatives at 0.00 is 5,978
+
+False Omission rate for 0.025 is 26.01%
+Number of true negatives at 0.03 is 5,978
+
+False Omission rate for 0.050 is 26.01%
+Number of true negatives at 0.05 is 5,978
+
+False Omission rate for 0.075 is 26.01%
+Number of true negatives at 0.08 is 5,978
+
+False Omission rate for 0.100 is 26.01%
+Number of true negatives at 0.10 is 5,978
+
+False Omission rate for 0.125 is 26.01%
+Number of true negatives at 0.12 is 5,978
+
+False Omission rate for 0.150 is 15.91%
+Number of true negatives at 0.15 is 37
+
+False Omission rate for 0.175 is 15.89%
+Number of true negatives at 0.18 is 434
+
+False Omission rate for 0.200 is 16.75%
+Number of true negatives at 0.20 is 1,183
+
+False Omission rate for 0.225 is 18.60%
+Number of true negatives at 0.23 is 1,995
+
+False Omission rate for 0.250 is 20.39%
+Number of true negatives at 0.25 is 2,882
+
+False Omission rate for 0.275 is 21.82%
+Number of true negatives at 0.28 is 3,838
+
+</pre></div></div> </div> <blockquote> <div><p>If we use the cutpoint of <code class="docutils literal notranslate"><span class=pre >0.175</span></code>, we have a False Omission Rate of ~16%, and 434 true negatives.</p> </div></blockquote> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[23]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=c1 >###########</span>
+<span class=c1 ># The more rigorous way!</span>
+<span class=c1 >###########</span>
+
+
+<span class=k >def</span> <span class=nf >get_neg_stats</span><span class=p >(</span><span class=n >grid</span><span class=p >,</span> <span class=n >model</span><span class=p >,</span> <span class=n >X</span><span class=p >,</span> <span class=n >y_true</span><span class=p >):</span>
+    <span class=n >negs</span> <span class=o >=</span> <span class=n >pd</span><span class=o >.</span><span class=n >DataFrame</span><span class=p >(</span>
+        <span class=nb >zip</span><span class=p >(</span><span class=o >*</span><span class=nb >map</span><span class=p >(</span><span class=k >lambda</span> <span class=n >i</span><span class=p >:</span> <span class=n >omission_rate</span><span class=p >(</span><span class=n >i</span><span class=p >,</span> <span class=n >model</span><span class=o >.</span><span class=n >predict_proba</span><span class=p >(</span><span class=n >X</span><span class=p >),</span> <span class=n >y_true</span><span class=p >),</span> <span class=n >grid</span><span class=p >))</span>
+    <span class=p >)</span><span class=o >.</span><span class=n >T</span>
+    <span class=n >negs</span><span class=p >[</span><span class=s2 >"prob_cutoff"</span><span class=p >]</span> <span class=o >=</span> <span class=n >grid</span>
+    <span class=n >negs</span> <span class=o >=</span> <span class=n >negs</span><span class=o >.</span><span class=n >rename</span><span class=p >(</span><span class=n >columns</span><span class=o >=</span><span class=p >{</span><span class=mi >0</span><span class=p >:</span> <span class=s2 >"False Omission Rate"</span><span class=p >,</span> <span class=mi >1</span><span class=p >:</span> <span class=s2 >"True Negatives"</span><span class=p >})</span>
+    <span class=k >return</span> <span class=n >negs</span>
+
+
+<span class=k >def</span> <span class=nf >omission_rate</span><span class=p >(</span><span class=n >i</span><span class=p >,</span> <span class=n >predicted</span><span class=p >,</span> <span class=n >y_true</span><span class=p >):</span>
+
+    <span class=n >confusion_matrix</span> <span class=o >=</span> <span class=n >pd</span><span class=o >.</span><span class=n >crosstab</span><span class=p >(</span>
+        <span class=n >y_true</span><span class=p >,</span>
+        <span class=p >(</span><span class=n >predicted</span> <span class=o >&gt;</span> <span class=n >i</span><span class=p >)</span><span class=o >.</span><span class=n >astype</span><span class=p >(</span><span class=s2 >"int"</span><span class=p >),</span>
+        <span class=n >rownames</span><span class=o >=</span><span class=p >[</span><span class=s2 >"Actually Bad"</span><span class=p >],</span>
+        <span class=n >colnames</span><span class=o >=</span><span class=p >[</span><span class=s2 >"Predicted Bad"</span><span class=p >],</span>
+    <span class=p >)</span>
+
+    <span class=k >if</span> <span class=p >(</span><span class=n >predicted</span> <span class=o >&gt;</span> <span class=n >i</span><span class=p >)</span><span class=o >.</span><span class=n >mean</span><span class=p >()</span> <span class=o >!=</span> <span class=mi >1</span><span class=p >:</span>
+        <span class=n >true_negatives</span> <span class=o >=</span> <span class=n >confusion_matrix</span><span class=o >.</span><span class=n >loc</span><span class=p >[</span><span class=mi >0</span><span class=p >,</span> <span class=mi >0</span><span class=p >]</span>
+        <span class=n >false_negatives</span> <span class=o >=</span> <span class=n >confusion_matrix</span><span class=o >.</span><span class=n >loc</span><span class=p >[</span><span class=mi >1</span><span class=p >,</span> <span class=mi >0</span><span class=p >]</span>
+        <span class=n >false_negative_rate</span> <span class=o >=</span> <span class=n >false_negatives</span> <span class=o >/</span> <span class=p >(</span><span class=n >false_negatives</span> <span class=o >+</span> <span class=n >true_negatives</span><span class=p >)</span>
+        <span class=k >return</span> <span class=n >false_negative_rate</span><span class=o >.</span><span class=n >squeeze</span><span class=p >(),</span> <span class=n >true_negatives</span><span class=o >.</span><span class=n >squeeze</span><span class=p >()</span>
+    <span class=k >else</span><span class=p >:</span>
+        <span class=k >return</span> <span class=n >np</span><span class=o >.</span><span class=n >nan</span><span class=p >,</span> <span class=n >np</span><span class=o >.</span><span class=n >nan</span>
+
+
+<span class=c1 ># Go from 0 to 0.5 in 100 equal steps.</span>
+<span class=c1 ># You could also use np.arange.</span>
+<span class=n >grid</span> <span class=o >=</span> <span class=n >np</span><span class=o >.</span><span class=n >linspace</span><span class=p >(</span><span class=mi >0</span><span class=p >,</span> <span class=mf >0.5</span><span class=p >,</span> <span class=n >num</span><span class=o >=</span><span class=mi >100</span><span class=p >)</span>
+<span class=n >basic_gam</span> <span class=o >=</span> <span class=n >get_neg_stats</span><span class=p >(</span><span class=n >grid</span><span class=p >,</span> <span class=n >gam</span><span class=p >,</span> <span class=n >X_test</span><span class=p >,</span> <span class=n >y_test</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[24]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=c1 ># Now plot the results for visualization</span>
+
+<span class=kn >import</span> <span class=nn >seaborn.objects</span> <span class=k >as</span> <span class=nn >so</span>
+<span class=kn >from</span> <span class=nn >matplotlib</span> <span class=kn >import</span> <span class=n >style</span>
+<span class=kn >import</span> <span class=nn >matplotlib.pyplot</span> <span class=k >as</span> <span class=nn >plt</span>
+<span class=kn >import</span> <span class=nn >warnings</span>
+
+<span class=n >warnings</span><span class=o >.</span><span class=n >simplefilter</span><span class=p >(</span><span class=n >action</span><span class=o >=</span><span class=s2 >"ignore"</span><span class=p >,</span> <span class=n >category</span><span class=o >=</span><span class=ne >FutureWarning</span><span class=p >)</span>
+
+<span class=p >(</span>
+    <span class=n >so</span><span class=o >.</span><span class=n >Plot</span><span class=p >(</span>
+        <span class=n >basic_gam</span><span class=p >[</span><span class=n >basic_gam</span><span class=o >.</span><span class=n >prob_cutoff</span> <span class=o >&lt;</span> <span class=mf >0.25</span><span class=p >],</span>
+        <span class=n >x</span><span class=o >=</span><span class=s2 >"prob_cutoff"</span><span class=p >,</span>
+        <span class=n >y</span><span class=o >=</span><span class=s2 >"False Omission Rate"</span><span class=p >,</span>
+    <span class=p >)</span>
+    <span class=o >.</span><span class=n >add</span><span class=p >(</span><span class=n >so</span><span class=o >.</span><span class=n >Line</span><span class=p >())</span>
+    <span class=o >.</span><span class=n >label</span><span class=p >(</span><span class=n >title</span><span class=o >=</span><span class=s2 >"Cutoffs and False Omission Rate"</span><span class=p >)</span>
+    <span class=o >.</span><span class=n >theme</span><span class=p >({</span><span class=o >**</span><span class=n >style</span><span class=o >.</span><span class=n >library</span><span class=p >[</span><span class=s2 >"seaborn-v0_8-whitegrid"</span><span class=p >]})</span>
+<span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[24]:
+</pre></div> </div> <div class="output_area docutils container"> <img alt="../_images/exercises_solutions_interpretable_34_0.png" class=no-scaled-link  src="../_images/exercises_solutions_interpretable_34_0.png" style="width: 509.15px; height: 378.25px;"/> </div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[25]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=p >(</span>
+    <span class=n >so</span><span class=o >.</span><span class=n >Plot</span><span class=p >(</span><span class=n >basic_gam</span><span class=p >,</span> <span class=n >x</span><span class=o >=</span><span class=s2 >"prob_cutoff"</span><span class=p >,</span> <span class=n >y</span><span class=o >=</span><span class=s2 >"True Negatives"</span><span class=p >)</span>
+    <span class=o >.</span><span class=n >add</span><span class=p >(</span><span class=n >so</span><span class=o >.</span><span class=n >Line</span><span class=p >())</span>
+    <span class=o >.</span><span class=n >label</span><span class=p >(</span><span class=n >title</span><span class=o >=</span><span class=s2 >"Cutoffs and Num True Negatives"</span><span class=p >)</span>
+    <span class=o >.</span><span class=n >theme</span><span class=p >({</span><span class=o >**</span><span class=n >style</span><span class=o >.</span><span class=n >library</span><span class=p >[</span><span class=s2 >"seaborn-v0_8-whitegrid"</span><span class=p >]})</span>
+<span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[25]:
+</pre></div> </div> <div class="output_area docutils container"> <img alt="../_images/exercises_solutions_interpretable_35_0.png" class=no-scaled-link  src="../_images/exercises_solutions_interpretable_35_0.png" style="width: 509.15px; height: 378.25px;"/> </div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[26]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=c1 >########</span>
+<span class=c1 ># Finally, query the optimal result from grid search</span>
+<span class=c1 >########</span>
+
+<span class=n >basic_gam_reasonable</span> <span class=o >=</span> <span class=n >basic_gam</span><span class=p >[</span><span class=n >basic_gam</span><span class=p >[</span><span class=s2 >"True Negatives"</span><span class=p >]</span> <span class=o >&gt;</span> <span class=mi >10</span><span class=p >]</span>
+
+<span class=n >min_reasonable</span> <span class=o >=</span> <span class=n >basic_gam_reasonable</span><span class=p >[</span><span class=s2 >"False Omission Rate"</span><span class=p >]</span><span class=o >.</span><span class=n >min</span><span class=p >()</span>
+<span class=n >good_at_min</span> <span class=o >=</span> <span class=n >basic_gam_reasonable</span><span class=o >.</span><span class=n >loc</span><span class=p >[</span>
+    <span class=n >basic_gam_reasonable</span><span class=p >[</span><span class=s2 >"False Omission Rate"</span><span class=p >]</span> <span class=o >==</span> <span class=n >min_reasonable</span><span class=p >,</span> <span class=s2 >"True Negatives"</span>
+<span class=p >]</span><span class=o >.</span><span class=n >mean</span><span class=p >()</span>
+<span class=nb >print</span><span class=p >(</span>
+    <span class=sa >f</span><span class=s2 >"Best False Omission Rate is : </span><span class=si >{</span><span class=n >min_reasonable</span><span class=si >:</span><span class=s2 >.2%</span><span class=si >}</span><span class=s2 >.</span><span class=se >\n</span><span class=s2 >"</span>
+    <span class=sa >f</span><span class=s2 >"At that you get </span><span class=si >{</span><span class=n >good_at_min</span><span class=si >:</span><span class=s2 >,.0f</span><span class=si >}</span><span class=s2 > True Negatives"</span>
+<span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+Best False Omission Rate is : 13.33%.
+At that you get 91 True Negatives
+</pre></div></div> </div> </section> <section id=Exercise-8 > <h3 id=Exercise-8 >Exercise 8<a class=headerlink  href="#Exercise-8" title="Link to this heading">¶</a></h3> <p>If the stakeholder wants to maximize true negatives and can tolerate a false omission rate of 19%, how many true negatives will they be able to enroll?</p> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[27]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=c1 ># Here we see why doing this the rigorous, systematic way is so helpful.</span>
+
+<span class=n >most_true_negs</span> <span class=o >=</span> <span class=n >basic_gam</span><span class=o >.</span><span class=n >loc</span><span class=p >[</span>
+    <span class=n >basic_gam</span><span class=p >[</span><span class=s2 >"False Omission Rate"</span><span class=p >]</span> <span class=o >&lt;</span> <span class=mf >0.19</span><span class=p >,</span> <span class=s2 >"True Negatives"</span>
+<span class=p >]</span><span class=o >.</span><span class=n >max</span><span class=p >()</span>
+
+<span class=nb >print</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Most possible true negatives is: </span><span class=si >{</span><span class=n >most_true_negs</span><span class=si >:</span><span class=s2 >,.0f</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+Most possible true negatives is: 2,246
+</pre></div></div> </div> </section> </section> <section id="Let's-See-This-Interpretability!"> <h2 id="Let's-See-This-Interpretability!">Let’s See This Interpretability!<a class=headerlink  href="#Let's-See-This-Interpretability!" title="Link to this heading">¶</a></h2> <p>We’re using GAMs for their interpretability, so let’s use it!</p> <section id=Exercise-9 > <h3 id=Exercise-9 >Exercise 9<a class=headerlink  href="#Exercise-9" title="Link to this heading">¶</a></h3> <p>Plot the partial dependence plots for all your continuous factors with 95% confidence intervals (I have three, at this stage).</p> <p>If you get an error like this when generating <code class="docutils literal notranslate"><span class=pre >partial_dependence</span></code> errors:</p> <div class="highlight-python notranslate"><div class=highlight ><pre><span></span><span class=o >----&gt;</span> <span class=n >pdep</span><span class=p >,</span> <span class=n >confi</span> <span class=o >=</span> <span class=n >gam</span><span class=o >.</span><span class=n >partial_dependence</span><span class=p >(</span><span class=n >term</span><span class=o >=</span><span class=n >i</span><span class=p >,</span> <span class=n >X</span><span class=o >=</span><span class=n >XX</span><span class=p >,</span> <span class=n >width</span><span class=o >=</span><span class=mf >0.95</span><span class=p >)</span>
+
+<span class=o >...</span>
+<span class=ne >ValueError</span><span class=p >:</span> <span class=n >X</span> <span class=n >data</span> <span class=ow >is</span> <span class=n >out</span> <span class=n >of</span> <span class=n >domain</span> <span class=k >for</span> <span class=n >categorical</span> <span class=n >feature</span> <span class=mf >4.</span> <span class=n >Expected</span> <span class=n >data</span> <span class=n >on</span> <span class=p >[</span><span class=mf >1.0</span><span class=p >,</span> <span class=mf >2.0</span><span class=p >],</span> <span class=n >but</span> <span class=n >found</span> <span class=n >data</span> <span class=n >on</span> <span class=p >[</span><span class=mf >0.0</span><span class=p >,</span> <span class=mf >0.0</span><span class=p >]</span>
+</pre></div> </div> <p>it’s because you have a variable set as a factor that doesn’t have values of <code class="docutils literal notranslate"><span class=pre >0</span></code>. pyGAM is assuming <code class="docutils literal notranslate"><span class=pre >0</span></code> is the excluded category. Just recode the variable to ensure 0 is used to identify one of the categories.</p> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[28]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=k >for</span> <span class=n >i</span><span class=p >,</span> <span class=n >term</span> <span class=ow >in</span> <span class=nb >enumerate</span><span class=p >(</span><span class=n >numeric_columns</span><span class=p >):</span>
+    <span class=nb >print</span><span class=p >(</span><span class=n >i</span><span class=p >)</span>
+    <span class=nb >print</span><span class=p >(</span><span class=n >term</span><span class=p >)</span>
+    <span class=n >XX</span> <span class=o >=</span> <span class=n >gam</span><span class=o >.</span><span class=n >generate_X_grid</span><span class=p >(</span><span class=n >term</span><span class=o >=</span><span class=n >i</span><span class=p >)</span>
+    <span class=n >pdep</span><span class=p >,</span> <span class=n >confi</span> <span class=o >=</span> <span class=n >gam</span><span class=o >.</span><span class=n >partial_dependence</span><span class=p >(</span><span class=n >term</span><span class=o >=</span><span class=n >i</span><span class=p >,</span> <span class=n >width</span><span class=o >=</span><span class=mf >0.95</span><span class=p >)</span>
+
+    <span class=n >plt</span><span class=o >.</span><span class=n >figure</span><span class=p >()</span>
+    <span class=n >plt</span><span class=o >.</span><span class=n >plot</span><span class=p >(</span><span class=n >XX</span><span class=p >[:,</span> <span class=n >i</span><span class=p >],</span> <span class=n >pdep</span><span class=p >)</span>
+    <span class=n >plt</span><span class=o >.</span><span class=n >plot</span><span class=p >(</span><span class=n >XX</span><span class=p >[:,</span> <span class=n >i</span><span class=p >],</span> <span class=n >confi</span><span class=p >,</span> <span class=n >c</span><span class=o >=</span><span class=s2 >"r"</span><span class=p >,</span> <span class=n >ls</span><span class=o >=</span><span class=s2 >"--"</span><span class=p >)</span>
+    <span class=k >if</span> <span class=n >i</span> <span class=o >&lt;</span> <span class=nb >len</span><span class=p >(</span><span class=n >numeric_columns</span><span class=p >):</span>
+        <span class=n >plt</span><span class=o >.</span><span class=n >title</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Distribution of </span><span class=si >{</span><span class=n >numeric_columns</span><span class=p >[</span><span class=n >i</span><span class=p >]</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span>
+    <span class=n >plt</span><span class=o >.</span><span class=n >show</span><span class=p >()</span>
+</pre></div> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+0
+PERSONAL_MONTHLY_INCOME
+</pre></div></div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <img alt="../_images/exercises_solutions_interpretable_41_1.png" src="../_images/exercises_solutions_interpretable_41_1.png"/> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+1
+AGE
+</pre></div></div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <img alt="../_images/exercises_solutions_interpretable_41_3.png" src="../_images/exercises_solutions_interpretable_41_3.png"/> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+2
+MONTHS_IN_RESIDENCE
+</pre></div></div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <img alt="../_images/exercises_solutions_interpretable_41_5.png" src="../_images/exercises_solutions_interpretable_41_5.png"/> </div> </div> </section> <section id=Exercise-10 > <h3 id=Exercise-10 >Exercise 10<a class=headerlink  href="#Exercise-10" title="Link to this heading">¶</a></h3> <p>How does the partial correlation with respect to age look?</p> <blockquote> <div><p>Seems like it’s an inverse-U relationship, but has some weird bumps in there. This probably isn’t the best example of why you’d want to impose functional form constraints, but it seems very unlikely that the wiggles between 20 and 60 represent real changes in risk — they’re just overfitting.</p> <p>Arguably months in residence would be an even better choice for functional form constraints — no reason to think the relationship would go negative then positive between lot 2 and 4.</p> </div></blockquote> </section> <section id=Exercise-11 > <h3 id=Exercise-11 >Exercise 11<a class=headerlink  href="#Exercise-11" title="Link to this heading">¶</a></h3> <p>Refit your model, but this time impose <a class="reference external" href="https://pygam.readthedocs.io/en/latest/notebooks/tour_of_pygam.html#Penalties-/-Constraints">monotonicity or concavity/convexity</a> on the relationship between age and credit risk (which makes more sense to you?). Fit the model and plot the new partial dependence.</p> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[29]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >terms</span> <span class=o >=</span> <span class=p >(</span>
+    <span class=n >s</span><span class=p >(</span><span class=mi >0</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >s</span><span class=p >(</span><span class=mi >1</span><span class=p >,</span> <span class=n >constraints</span><span class=o >=</span><span class=s2 >"convex"</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >s</span><span class=p >(</span><span class=mi >2</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >s</span><span class=p >(</span><span class=mi >3</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >4</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >5</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >6</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >7</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >8</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >9</span><span class=p >)</span>
+<span class=p >)</span>
+<span class=n >gam_convex</span> <span class=o >=</span> <span class=n >LogisticGAM</span><span class=p >(</span><span class=n >terms</span><span class=o >=</span><span class=n >terms</span><span class=p >)</span>
+<span class=n >gam_convex</span><span class=o >.</span><span class=n >gridsearch</span><span class=p >(</span><span class=n >X_train</span><span class=o >.</span><span class=n >values</span><span class=p >,</span> <span class=n >y_train</span><span class=o >.</span><span class=n >values</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area stderr docutils container"> <div class=highlight ><pre>
+  0% (0 of 11) |                         | Elapsed Time: 0:00:00 ETA:  --:--:--
+</pre></div></div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area stderr docutils container"> <div class=highlight ><pre>
+  9% (1 of 11) |##                       | Elapsed Time: 0:00:01 ETA:   0:00:17
+ 18% (2 of 11) |####                     | Elapsed Time: 0:00:02 ETA:   0:00:13
+ 27% (3 of 11) |######                   | Elapsed Time: 0:00:03 ETA:   0:00:10
+ 36% (4 of 11) |#########                | Elapsed Time: 0:00:04 ETA:   0:00:08
+ 45% (5 of 11) |###########              | Elapsed Time: 0:00:05 ETA:   0:00:06
+ 54% (6 of 11) |#############            | Elapsed Time: 0:00:06 ETA:   0:00:05
+ 63% (7 of 11) |###############          | Elapsed Time: 0:00:07 ETA:   0:00:04
+ 72% (8 of 11) |##################       | Elapsed Time: 0:00:09 ETA:   0:00:03
+ 81% (9 of 11) |####################     | Elapsed Time: 0:00:11 ETA:   0:00:02
+ 90% (10 of 11) |#####################   | Elapsed Time: 0:00:13 ETA:   0:00:01
+100% (11 of 11) |########################| Elapsed Time: 0:00:16 Time:  0:00:16
+</pre></div></div> </div> <div class="nboutput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[29]:
+</pre></div> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+LogisticGAM(callbacks=[Deviance(), Diffs(), Accuracy()],
+   fit_intercept=True, max_iter=100,
+   terms=s(0) + s(1) + s(2) + s(3) + f(4) + f(5) + f(6) + f(7) + f(8) + f(9) + intercept,
+   tol=0.0001, verbose=False)
+</pre></div></div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[30]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >i</span> <span class=o >=</span> <span class=mi >1</span>
+<span class=n >term</span> <span class=o >=</span> <span class=s2 >"AGE"</span>
+<span class=n >XX</span> <span class=o >=</span> <span class=n >gam_convex</span><span class=o >.</span><span class=n >generate_X_grid</span><span class=p >(</span><span class=n >term</span><span class=o >=</span><span class=n >i</span><span class=p >)</span>
+<span class=n >pdep</span><span class=p >,</span> <span class=n >confi</span> <span class=o >=</span> <span class=n >gam_convex</span><span class=o >.</span><span class=n >partial_dependence</span><span class=p >(</span><span class=n >term</span><span class=o >=</span><span class=n >i</span><span class=p >,</span> <span class=n >width</span><span class=o >=</span><span class=mf >0.95</span><span class=p >)</span>
+
+<span class=n >plt</span><span class=o >.</span><span class=n >figure</span><span class=p >()</span>
+<span class=n >plt</span><span class=o >.</span><span class=n >plot</span><span class=p >(</span><span class=n >XX</span><span class=p >[:,</span> <span class=n >i</span><span class=p >],</span> <span class=n >pdep</span><span class=p >)</span>
+<span class=n >plt</span><span class=o >.</span><span class=n >plot</span><span class=p >(</span><span class=n >XX</span><span class=p >[:,</span> <span class=n >i</span><span class=p >],</span> <span class=n >confi</span><span class=p >,</span> <span class=n >c</span><span class=o >=</span><span class=s2 >"r"</span><span class=p >,</span> <span class=n >ls</span><span class=o >=</span><span class=s2 >"--"</span><span class=p >)</span>
+<span class=n >plt</span><span class=o >.</span><span class=n >title</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Distribution of AGE"</span><span class=p >)</span>
+<span class=n >plt</span><span class=o >.</span><span class=n >show</span><span class=p >()</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <img alt="../_images/exercises_solutions_interpretable_46_0.png" src="../_images/exercises_solutions_interpretable_46_0.png"/> </div> </div> </section> <section id=Exercise-12 > <h3 id=Exercise-12 >Exercise 12<a class=headerlink  href="#Exercise-12" title="Link to this heading">¶</a></h3> <p>Functional form constraints are often about fairness or meeting regulatory requirements, but they can also prevent overfitting.</p> <p>Does this change the number of “true negatives” you can enroll below a false omission rate of 19%?</p> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[31]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >df_gam_convex</span> <span class=o >=</span> <span class=n >get_neg_stats</span><span class=p >(</span><span class=n >grid</span><span class=p >,</span> <span class=n >gam_convex</span><span class=p >,</span> <span class=n >X_test</span><span class=p >,</span> <span class=n >y_test</span><span class=p >)</span>
+
+<span class=n >most_true_negs_convex</span> <span class=o >=</span> <span class=n >df_gam_convex</span><span class=o >.</span><span class=n >loc</span><span class=p >[</span>
+    <span class=n >df_gam_convex</span><span class=p >[</span><span class=s2 >"False Omission Rate"</span><span class=p >]</span> <span class=o >&lt;</span> <span class=mf >0.19</span><span class=p >,</span> <span class=s2 >"True Negatives"</span>
+<span class=p >]</span><span class=o >.</span><span class=n >max</span><span class=p >()</span>
+
+<span class=nb >print</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Most possible true negatives with convex age is: </span><span class=si >{</span><span class=n >most_true_negs_convex</span><span class=si >:</span><span class=s2 >,.0f</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span>
+<span class=nb >print</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Compared to </span><span class=si >{</span><span class=n >most_true_negs</span><span class=si >:</span><span class=s2 >,.0f</span><span class=si >}</span><span class=s2 > true negatives when unconstrained."</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+Most possible true negatives with convex age is: 2,130
+Compared to 2,246 true negatives when unconstrained.
+</pre></div></div> </div> <blockquote> <div><p>So… a little worse in terms of what you can squeeze out of things.</p> </div></blockquote> </section> <section id=Exercise-13 > <h3 id=Exercise-13 >Exercise 13<a class=headerlink  href="#Exercise-13" title="Link to this heading">¶</a></h3> <p>In the preceding exercises, we allowed pyGAM to choose its own smoothing parameters / coefficient penalties. This makes life easy, but it isn’t always optimal, especially because when it does so, it picks the same smoothing penalty (the <code class="docutils literal notranslate"><span class=pre >lambda</span></code> in <code class="docutils literal notranslate"><span class=pre >.summary()</span></code>) for all terms.</p> <p>(If you haven’t seen them let, penalities are designed to limit overfitting by, basically, “penalizing” big coefficients on different terms. This tends to push models towards smoother fits.)</p> <p><a class="reference external" href="https://pygam.readthedocs.io/en/latest/notebooks/quick_start.html#Automatically-tune-the-model">To get around this, we can do a grid or random search.</a> This is definitely a little slow, but let’s give it a try!</p> <p>Then following the model given in the docs linked above, let’s do a random search. Make sure your initial random points has a shape of <code class="docutils literal notranslate"><span class=pre >100</span> <span class=pre >x</span> <span class=pre >(the</span> <span class=pre >number</span> <span class=pre >of</span> <span class=pre >terms</span> <span class=pre >in</span> <span class=pre >your</span> <span class=pre >model)</span></code>.</p> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[32]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >lams</span> <span class=o >=</span> <span class=n >np</span><span class=o >.</span><span class=n >random</span><span class=o >.</span><span class=n >rand</span><span class=p >(</span><span class=mi >100</span><span class=p >,</span> <span class=mi >10</span><span class=p >)</span>
+<span class=n >lams</span> <span class=o >=</span> <span class=n >lams</span> <span class=o >*</span> <span class=mi >6</span> <span class=o >-</span> <span class=mi >3</span>  <span class=c1 ># shift values to -3, 3</span>
+<span class=n >lams</span> <span class=o >=</span> <span class=mi >10</span><span class=o >**</span><span class=n >lams</span>  <span class=c1 ># transforms values to 1e-3, 1e3</span>
+
+<span class=n >terms</span> <span class=o >=</span> <span class=p >(</span>
+    <span class=n >s</span><span class=p >(</span><span class=mi >0</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >s</span><span class=p >(</span><span class=mi >1</span><span class=p >,</span> <span class=n >constraints</span><span class=o >=</span><span class=s2 >"convex"</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >s</span><span class=p >(</span><span class=mi >2</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >s</span><span class=p >(</span><span class=mi >3</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >4</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >5</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >6</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >7</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >8</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >9</span><span class=p >)</span>
+<span class=p >)</span>
+<span class=n >gam_random_lam</span> <span class=o >=</span> <span class=n >LogisticGAM</span><span class=p >(</span><span class=n >terms</span><span class=o >=</span><span class=n >terms</span><span class=p >)</span>
+<span class=n >gam_random_lam</span><span class=o >.</span><span class=n >gridsearch</span><span class=p >(</span><span class=n >X_train</span><span class=o >.</span><span class=n >values</span><span class=p >,</span> <span class=n >y_train</span><span class=o >.</span><span class=n >values</span><span class=p >,</span> <span class=n >lam</span><span class=o >=</span><span class=n >lams</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area stderr docutils container"> <div class=highlight ><pre>
+  0% (0 of 100) |                        | Elapsed Time: 0:00:00 ETA:  --:--:--
+  1% (1 of 100) |                        | Elapsed Time: 0:00:02 ETA:   0:03:53
+  2% (2 of 100) |                        | Elapsed Time: 0:00:03 ETA:   0:03:12
+  3% (3 of 100) |                        | Elapsed Time: 0:00:06 ETA:   0:03:24
+  4% (4 of 100) |                        | Elapsed Time: 0:00:07 ETA:   0:03:06
+  5% (5 of 100) |#                       | Elapsed Time: 0:00:08 ETA:   0:02:50
+  6% (6 of 100) |#                       | Elapsed Time: 0:00:10 ETA:   0:02:37
+  7% (7 of 100) |#                       | Elapsed Time: 0:00:11 ETA:   0:02:32
+  8% (8 of 100) |#                       | Elapsed Time: 0:00:13 ETA:   0:02:31
+  9% (9 of 100) |##                      | Elapsed Time: 0:00:14 ETA:   0:02:22
+ 10% (10 of 100) |##                     | Elapsed Time: 0:00:15 ETA:   0:02:15
+ 11% (11 of 100) |##                     | Elapsed Time: 0:00:16 ETA:   0:02:09
+ 12% (12 of 100) |##                     | Elapsed Time: 0:00:17 ETA:   0:02:04
+ 13% (13 of 100) |##                     | Elapsed Time: 0:00:18 ETA:   0:02:04
+ 14% (14 of 100) |###                    | Elapsed Time: 0:00:19 ETA:   0:02:00
+ 15% (15 of 100) |###                    | Elapsed Time: 0:00:20 ETA:   0:01:57
+ 16% (16 of 100) |###                    | Elapsed Time: 0:00:22 ETA:   0:01:57
+ 17% (17 of 100) |###                    | Elapsed Time: 0:00:23 ETA:   0:01:55
+ 18% (18 of 100) |####                   | Elapsed Time: 0:00:24 ETA:   0:01:51
+ 19% (19 of 100) |####                   | Elapsed Time: 0:00:25 ETA:   0:01:49
+ 20% (20 of 100) |####                   | Elapsed Time: 0:00:27 ETA:   0:01:49
+ 21% (21 of 100) |####                   | Elapsed Time: 0:00:28 ETA:   0:01:46
+ 22% (22 of 100) |#####                  | Elapsed Time: 0:00:29 ETA:   0:01:43
+ 23% (23 of 100) |#####                  | Elapsed Time: 0:00:30 ETA:   0:01:41
+ 24% (24 of 100) |#####                  | Elapsed Time: 0:00:32 ETA:   0:01:41
+ 25% (25 of 100) |#####                  | Elapsed Time: 0:00:33 ETA:   0:01:39
+ 26% (26 of 100) |#####                  | Elapsed Time: 0:00:34 ETA:   0:01:37
+ 27% (27 of 100) |######                 | Elapsed Time: 0:00:35 ETA:   0:01:35
+ 28% (28 of 100) |######                 | Elapsed Time: 0:00:36 ETA:   0:01:34
+ 29% (29 of 100) |######                 | Elapsed Time: 0:00:37 ETA:   0:01:32
+ 30% (30 of 100) |######                 | Elapsed Time: 0:00:39 ETA:   0:01:32
+ 31% (31 of 100) |#######                | Elapsed Time: 0:00:41 ETA:   0:01:32
+ 32% (32 of 100) |#######                | Elapsed Time: 0:00:42 ETA:   0:01:30
+ 33% (33 of 100) |#######                | Elapsed Time: 0:00:44 ETA:   0:01:29
+ 34% (34 of 100) |#######                | Elapsed Time: 0:00:46 ETA:   0:01:29
+ 35% (35 of 100) |########               | Elapsed Time: 0:00:47 ETA:   0:01:27
+ 36% (36 of 100) |########               | Elapsed Time: 0:00:48 ETA:   0:01:26
+ 37% (37 of 100) |########               | Elapsed Time: 0:00:50 ETA:   0:01:25
+ 38% (38 of 100) |########               | Elapsed Time: 0:00:51 ETA:   0:01:23
+ 39% (39 of 100) |########               | Elapsed Time: 0:00:52 ETA:   0:01:21
+ 40% (40 of 100) |#########              | Elapsed Time: 0:00:53 ETA:   0:01:20
+ 41% (41 of 100) |#########              | Elapsed Time: 0:00:54 ETA:   0:01:19
+ 42% (42 of 100) |#########              | Elapsed Time: 0:00:55 ETA:   0:01:17
+ 43% (43 of 100) |#########              | Elapsed Time: 0:00:57 ETA:   0:01:15
+ 44% (44 of 100) |##########             | Elapsed Time: 0:00:58 ETA:   0:01:14
+ 45% (45 of 100) |##########             | Elapsed Time: 0:00:59 ETA:   0:01:12
+ 46% (46 of 100) |##########             | Elapsed Time: 0:01:00 ETA:   0:01:10
+ 47% (47 of 100) |##########             | Elapsed Time: 0:01:01 ETA:   0:01:09
+ 48% (48 of 100) |###########            | Elapsed Time: 0:01:02 ETA:   0:01:07
+ 49% (49 of 100) |###########            | Elapsed Time: 0:01:04 ETA:   0:01:07
+ 50% (50 of 100) |###########            | Elapsed Time: 0:01:05 ETA:   0:01:05
+ 51% (51 of 100) |###########            | Elapsed Time: 0:01:06 ETA:   0:01:04
+ 52% (52 of 100) |###########            | Elapsed Time: 0:01:07 ETA:   0:01:02
+ 53% (53 of 100) |############           | Elapsed Time: 0:01:09 ETA:   0:01:01
+ 54% (54 of 100) |############           | Elapsed Time: 0:01:10 ETA:   0:00:59
+ 55% (55 of 100) |############           | Elapsed Time: 0:01:10 ETA:   0:00:58
+ 56% (56 of 100) |############           | Elapsed Time: 0:01:12 ETA:   0:00:57
+ 57% (57 of 100) |#############          | Elapsed Time: 0:01:13 ETA:   0:00:55
+ 58% (58 of 100) |#############          | Elapsed Time: 0:01:15 ETA:   0:00:54
+ 59% (59 of 100) |#############          | Elapsed Time: 0:01:16 ETA:   0:00:52
+ 60% (60 of 100) |#############          | Elapsed Time: 0:01:16 ETA:   0:00:51
+ 61% (61 of 100) |##############         | Elapsed Time: 0:01:18 ETA:   0:00:50
+ 62% (62 of 100) |##############         | Elapsed Time: 0:01:19 ETA:   0:00:48
+ 63% (63 of 100) |##############         | Elapsed Time: 0:01:20 ETA:   0:00:47
+ 64% (64 of 100) |##############         | Elapsed Time: 0:01:21 ETA:   0:00:45
+ 65% (65 of 100) |##############         | Elapsed Time: 0:01:23 ETA:   0:00:44
+ 66% (66 of 100) |###############        | Elapsed Time: 0:01:24 ETA:   0:00:43
+ 67% (67 of 100) |###############        | Elapsed Time: 0:01:25 ETA:   0:00:42
+ 68% (68 of 100) |###############        | Elapsed Time: 0:01:26 ETA:   0:00:40
+ 69% (69 of 100) |###############        | Elapsed Time: 0:01:27 ETA:   0:00:39
+ 70% (70 of 100) |################       | Elapsed Time: 0:01:29 ETA:   0:00:38
+ 71% (71 of 100) |################       | Elapsed Time: 0:01:30 ETA:   0:00:36
+ 72% (72 of 100) |################       | Elapsed Time: 0:01:31 ETA:   0:00:35
+ 73% (73 of 100) |################       | Elapsed Time: 0:01:33 ETA:   0:00:34
+ 74% (74 of 100) |#################      | Elapsed Time: 0:01:34 ETA:   0:00:33
+ 75% (75 of 100) |#################      | Elapsed Time: 0:01:36 ETA:   0:00:32
+ 76% (76 of 100) |#################      | Elapsed Time: 0:01:36 ETA:   0:00:30
+ 77% (77 of 100) |#################      | Elapsed Time: 0:01:38 ETA:   0:00:29
+ 78% (78 of 100) |#################      | Elapsed Time: 0:01:39 ETA:   0:00:28
+ 79% (79 of 100) |##################     | Elapsed Time: 0:01:40 ETA:   0:00:26
+ 80% (80 of 100) |##################     | Elapsed Time: 0:01:42 ETA:   0:00:25
+ 81% (81 of 100) |##################     | Elapsed Time: 0:01:43 ETA:   0:00:24
+ 82% (82 of 100) |##################     | Elapsed Time: 0:01:44 ETA:   0:00:22
+ 83% (83 of 100) |###################    | Elapsed Time: 0:01:46 ETA:   0:00:21
+ 84% (84 of 100) |###################    | Elapsed Time: 0:01:47 ETA:   0:00:20
+ 85% (85 of 100) |###################    | Elapsed Time: 0:01:48 ETA:   0:00:19
+ 86% (86 of 100) |###################    | Elapsed Time: 0:01:50 ETA:   0:00:17
+ 87% (87 of 100) |####################   | Elapsed Time: 0:01:51 ETA:   0:00:16
+ 88% (88 of 100) |####################   | Elapsed Time: 0:01:53 ETA:   0:00:15
+ 89% (89 of 100) |####################   | Elapsed Time: 0:01:54 ETA:   0:00:14
+ 90% (90 of 100) |####################   | Elapsed Time: 0:01:55 ETA:   0:00:12
+ 91% (91 of 100) |####################   | Elapsed Time: 0:01:56 ETA:   0:00:11
+ 92% (92 of 100) |#####################  | Elapsed Time: 0:01:58 ETA:   0:00:10
+ 93% (93 of 100) |#####################  | Elapsed Time: 0:01:59 ETA:   0:00:08
+ 94% (94 of 100) |#####################  | Elapsed Time: 0:02:00 ETA:   0:00:07
+ 95% (95 of 100) |#####################  | Elapsed Time: 0:02:01 ETA:   0:00:06
+ 96% (96 of 100) |###################### | Elapsed Time: 0:02:03 ETA:   0:00:05
+ 97% (97 of 100) |###################### | Elapsed Time: 0:02:04 ETA:   0:00:03
+ 98% (98 of 100) |###################### | Elapsed Time: 0:02:05 ETA:   0:00:02
+ 99% (99 of 100) |###################### | Elapsed Time: 0:02:07 ETA:   0:00:01
+100% (100 of 100) |######################| Elapsed Time: 0:02:08 Time:  0:02:08
+</pre></div></div> </div> <div class="nboutput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[32]:
+</pre></div> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+LogisticGAM(callbacks=[Deviance(), Diffs(), Accuracy()],
+   fit_intercept=True, max_iter=100,
+   terms=s(0) + s(1) + s(2) + s(3) + f(4) + f(5) + f(6) + f(7) + f(8) + f(9) + intercept,
+   tol=0.0001, verbose=False)
+</pre></div></div> </div> </section> <section id=Exercise-14 > <h3 id=Exercise-14 >Exercise 14<a class=headerlink  href="#Exercise-14" title="Link to this heading">¶</a></h3> <p>How many true negatives can you get now at a less than 19% False Omission Rate?</p> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[33]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >df_gam_random_lam</span> <span class=o >=</span> <span class=n >get_neg_stats</span><span class=p >(</span><span class=n >grid</span><span class=p >,</span> <span class=n >gam_random_lam</span><span class=p >,</span> <span class=n >X_test</span><span class=p >,</span> <span class=n >y_test</span><span class=p >)</span>
+
+<span class=n >most_true_negs_lam</span> <span class=o >=</span> <span class=n >df_gam_random_lam</span><span class=o >.</span><span class=n >loc</span><span class=p >[</span>
+    <span class=n >df_gam_random_lam</span><span class=p >[</span><span class=s2 >"False Omission Rate"</span><span class=p >]</span> <span class=o >&lt;</span> <span class=mf >0.19</span><span class=p >,</span> <span class=s2 >"True Negatives"</span>
+<span class=p >]</span><span class=o >.</span><span class=n >max</span><span class=p >()</span>
+
+<span class=nb >print</span><span class=p >(</span>
+    <span class=sa >f</span><span class=s2 >"Most possible true negatives with grid search of regularization weights is: </span><span class=si >{</span><span class=n >most_true_negs_lam</span><span class=si >:</span><span class=s2 >,.0f</span><span class=si >}</span><span class=s2 >"</span>
+<span class=p >)</span>
+<span class=nb >print</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Compared to </span><span class=si >{</span><span class=n >most_true_negs</span><span class=si >:</span><span class=s2 >,.0f</span><span class=si >}</span><span class=s2 > true negatives when unconstrained."</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+Most possible true negatives with grid search of regularization weights is: 2,307
+Compared to 2,246 true negatives when unconstrained.
+</pre></div></div> </div> </section> <section id=Exercise-15 > <h3 id=Exercise-15 >Exercise 15<a class=headerlink  href="#Exercise-15" title="Link to this heading">¶</a></h3> <p>Add an interaction term between age and personal income.</p> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[34]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=kn >from</span> <span class=nn >pygam</span> <span class=kn >import</span> <span class=n >te</span>
+
+<span class=n >terms</span> <span class=o >=</span> <span class=p >(</span>
+    <span class=n >s</span><span class=p >(</span><span class=mi >0</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >s</span><span class=p >(</span><span class=mi >1</span><span class=p >,</span> <span class=n >constraints</span><span class=o >=</span><span class=s2 >"convex"</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >s</span><span class=p >(</span><span class=mi >2</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >s</span><span class=p >(</span><span class=mi >3</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >4</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >5</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >6</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >7</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >8</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >f</span><span class=p >(</span><span class=mi >9</span><span class=p >)</span>
+    <span class=o >+</span> <span class=n >te</span><span class=p >(</span><span class=mi >0</span><span class=p >,</span> <span class=mi >1</span><span class=p >)</span>
+<span class=p >)</span>
+<span class=n >gam_interact</span> <span class=o >=</span> <span class=n >LogisticGAM</span><span class=p >(</span><span class=n >terms</span><span class=o >=</span><span class=n >terms</span><span class=p >)</span>
+<span class=n >gam_interact</span><span class=o >.</span><span class=n >gridsearch</span><span class=p >(</span><span class=n >X_train</span><span class=o >.</span><span class=n >values</span><span class=p >,</span> <span class=n >y_train</span><span class=o >.</span><span class=n >values</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area stderr docutils container"> <div class=highlight ><pre>
+  0% (0 of 11) |                         | Elapsed Time: 0:00:00 ETA:  --:--:--
+  9% (1 of 11) |##                       | Elapsed Time: 0:00:05 ETA:   0:00:59
+ 18% (2 of 11) |####                     | Elapsed Time: 0:00:10 ETA:   0:00:45
+ 27% (3 of 11) |######                   | Elapsed Time: 0:00:14 ETA:   0:00:38
+ 36% (4 of 11) |#########                | Elapsed Time: 0:00:18 ETA:   0:00:31
+ 45% (5 of 11) |###########              | Elapsed Time: 0:00:21 ETA:   0:00:25
+ 54% (6 of 11) |#############            | Elapsed Time: 0:00:25 ETA:   0:00:20
+ 63% (7 of 11) |###############          | Elapsed Time: 0:00:28 ETA:   0:00:16
+ 72% (8 of 11) |##################       | Elapsed Time: 0:00:31 ETA:   0:00:11
+ 81% (9 of 11) |####################     | Elapsed Time: 0:00:34 ETA:   0:00:07
+ 90% (10 of 11) |#####################   | Elapsed Time: 0:00:40 ETA:   0:00:04
+100% (11 of 11) |########################| Elapsed Time: 0:00:42 Time:  0:00:42
+</pre></div></div> </div> <div class="nboutput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[34]:
+</pre></div> </div> <div class="output_area docutils container"> <div class=highlight ><pre>
+LogisticGAM(callbacks=[Deviance(), Diffs(), Accuracy()],
+   fit_intercept=True, max_iter=100,
+   terms=s(0) + s(1) + s(2) + s(3) + f(4) + f(5) + f(6) + f(7) + f(8) + f(9) + te(0, 1) + intercept,
+   tol=0.0001, verbose=False)
+</pre></div></div> </div> </section> <section id=Exercise-16 > <h3 id=Exercise-16 >Exercise 16<a class=headerlink  href="#Exercise-16" title="Link to this heading">¶</a></h3> <p>Now visualize the <a class="reference external" href="https://pygam.readthedocs.io/en/latest/notebooks/tour_of_pygam.html#Terms-and-Interactions">partial dependence interaction term.</a></p> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[35]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=kn >import</span> <span class=nn >matplotlib.pyplot</span> <span class=k >as</span> <span class=nn >plt</span>
+<span class=kn >from</span> <span class=nn >mpl_toolkits</span> <span class=kn >import</span> <span class=n >mplot3d</span>
+</pre></div> </div> </div> <div class="nbinput nblast docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[36]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >XX</span> <span class=o >=</span> <span class=n >gam_interact</span><span class=o >.</span><span class=n >generate_X_grid</span><span class=p >(</span><span class=n >term</span><span class=o >=</span><span class=mi >10</span><span class=p >,</span> <span class=n >meshgrid</span><span class=o >=</span><span class=kc >True</span><span class=p >)</span>
+<span class=n >Z</span> <span class=o >=</span> <span class=n >gam_interact</span><span class=o >.</span><span class=n >partial_dependence</span><span class=p >(</span><span class=n >term</span><span class=o >=</span><span class=mi >10</span><span class=p >,</span> <span class=n >X</span><span class=o >=</span><span class=n >XX</span><span class=p >,</span> <span class=n >meshgrid</span><span class=o >=</span><span class=kc >True</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[37]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >ax</span> <span class=o >=</span> <span class=n >plt</span><span class=o >.</span><span class=n >axes</span><span class=p >(</span><span class=n >projection</span><span class=o >=</span><span class=s2 >"3d"</span><span class=p >)</span>
+<span class=n >Z</span> <span class=o >=</span> <span class=n >Z</span><span class=o >.</span><span class=n >reshape</span><span class=p >(</span><span class=n >XX</span><span class=p >[</span><span class=mi >0</span><span class=p >]</span><span class=o >.</span><span class=n >shape</span><span class=p >)</span>
+<span class=n >ax</span><span class=o >.</span><span class=n >plot_surface</span><span class=p >(</span><span class=n >XX</span><span class=p >[</span><span class=mi >0</span><span class=p >],</span> <span class=n >XX</span><span class=p >[</span><span class=mi >1</span><span class=p >],</span> <span class=n >Z</span><span class=p >,</span> <span class=n >cmap</span><span class=o >=</span><span class=s2 >"viridis"</span><span class=p >,</span> <span class=n >edgecolor</span><span class=o >=</span><span class=s2 >"none"</span><span class=p >)</span>
+<span class=n >ax</span><span class=o >.</span><span class=n >set_title</span><span class=p >(</span><span class=s2 >"Partial Dependence for Interaction Term"</span><span class=p >)</span>
+<span class=n >plt</span><span class=o >.</span><span class=n >show</span><span class=p >()</span>
+</pre></div> </div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area docutils container"> <img alt="../_images/exercises_solutions_interpretable_59_0.png" src="../_images/exercises_solutions_interpretable_59_0.png"/> </div> </div> </section> <section id=Exercise-17 > <h3 id=Exercise-17 >Exercise 17<a class=headerlink  href="#Exercise-17" title="Link to this heading">¶</a></h3> <p>Finally, another popular interpretable model is the <code class="docutils literal notranslate"><span class=pre >ExplainableBoostingClassifier</span></code>. You can learn more <a class="reference external" href="https://interpret.ml/docs/ebm.html">about it here</a>, though how much sense it will make to you may be limited if you aren’t familiar with gradient boosting yet. Still, at least one of your classmates prefers it to pyGAM, so give it a try using this code:</p> <div class="highlight-python notranslate"><div class=highlight ><pre><span></span><span class=kn >from</span> <span class=nn >interpret.glassbox</span> <span class=kn >import</span> <span class=n >ExplainableBoostingClassifier</span>
+<span class=kn >from</span> <span class=nn >interpret</span> <span class=kn >import</span> <span class=n >show</span>
+<span class=kn >import</span> <span class=nn >warnings</span>
+
+<span class=n >ebm</span> <span class=o >=</span> <span class=n >ExplainableBoostingClassifier</span><span class=p >()</span>
+<span class=n >ebm</span><span class=o >.</span><span class=n >fit</span><span class=p >(</span><span class=n >X_train</span><span class=p >,</span> <span class=n >y_train</span><span class=p >)</span>
+
+<span class=k >with</span> <span class=n >warnings</span><span class=o >.</span><span class=n >catch_warnings</span><span class=p >():</span>
+   <span class=n >warnings</span><span class=o >.</span><span class=n >simplefilter</span><span class=p >(</span><span class=s2 >"ignore"</span><span class=p >)</span>
+
+   <span class=n >ebm_global</span> <span class=o >=</span> <span class=n >ebm</span><span class=o >.</span><span class=n >explain_global</span><span class=p >()</span>
+   <span class=n >show</span><span class=p >(</span><span class=n >ebm_global</span><span class=p >)</span>
+
+   <span class=n >ebm_local</span> <span class=o >=</span> <span class=n >ebm</span><span class=o >.</span><span class=n >explain_local</span><span class=p >(</span><span class=n >X_train</span><span class=p >,</span> <span class=n >y_train</span><span class=p >)</span>
+   <span class=n >show</span><span class=p >(</span><span class=n >ebm_local</span><span class=p >)</span>
+</pre></div> </div> <div class="nbinput docutils container"> <div class="prompt highlight-none notranslate"><div class=highlight ><pre><span></span>[38]:
+</pre></div> </div> <div class="input_area highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=kn >from</span> <span class=nn >interpret.glassbox</span> <span class=kn >import</span> <span class=n >ExplainableBoostingClassifier</span>
+<span class=kn >from</span> <span class=nn >interpret</span> <span class=kn >import</span> <span class=n >show</span>
+<span class=kn >import</span> <span class=nn >warnings</span>
+
+<span class=n >ebm</span> <span class=o >=</span> <span class=n >ExplainableBoostingClassifier</span><span class=p >()</span>
+<span class=n >ebm</span><span class=o >.</span><span class=n >fit</span><span class=p >(</span><span class=n >X_train</span><span class=p >,</span> <span class=n >y_train</span><span class=p >)</span>
+
+<span class=k >with</span> <span class=n >warnings</span><span class=o >.</span><span class=n >catch_warnings</span><span class=p >():</span>
+    <span class=n >warnings</span><span class=o >.</span><span class=n >simplefilter</span><span class=p >(</span><span class=s2 >"ignore"</span><span class=p >)</span>
+
+    <span class=n >ebm_global</span> <span class=o >=</span> <span class=n >ebm</span><span class=o >.</span><span class=n >explain_global</span><span class=p >()</span>
+    <span class=n >show</span><span class=p >(</span><span class=n >ebm_global</span><span class=p >)</span>
+
+    <span class=n >ebm_local</span> <span class=o >=</span> <span class=n >ebm</span><span class=o >.</span><span class=n >explain_local</span><span class=p >(</span><span class=n >X_train</span><span class=p >,</span> <span class=n >y_train</span><span class=p >)</span>
+    <span class=n >show</span><span class=p >(</span><span class=n >ebm_local</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="nboutput docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area rendered_html docutils container"> <iframe frameborder=0  height=800  src="http://127.0.0.1:7001/10995886160/" width="100%"></iframe></div> </div> <div class="nboutput nblast docutils container"> <div class="prompt empty docutils container"> </div> <div class="output_area rendered_html docutils container"> <iframe frameborder=0  height=800  src="http://127.0.0.1:7001/12105305680/" width="100%"></iframe></div> </div> </section> </section> </section> </article> </div> </div> </main> </div> <footer class=md-footer > <div class=md-footer-nav > <nav class="md-footer-nav__inner md-grid"> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright > <div class=md-footer-copyright__highlight > &#169; Copyright 2022, Nick Eubank. </div> Created using <a href="http://www.sphinx-doc.org/">Sphinx</a> 7.2.6. and <a href="https://github.com/bashtage/sphinx-material/">Material for Sphinx</a> </div> </div> </div> </footer> <script src="../_static/javascripts/application.js"></script> <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>

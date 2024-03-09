@@ -1,0 +1,1574 @@
+{
+ "cells": [
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Resume Experiment Analysis\n",
+    "\n",
+    "How much harder is it to get a job in the United States if you are Black than if you are White? Or, expressed differently, what is the *effect* of race on the difficulty of getting a job in the US?\n",
+    "\n",
+    "In this exercise, we will be analyzing data from a real world experiment designed to help answer this question. Namely, we will be analyzing data from a randomized experiment in which 4,870 ficticious resumes were sent out to employers in response to job adverts in Boston and Chicago in 2001. The resumes differ in various attributes including the names of the applicants, and different resumes were randomly allocated to job openings. \n",
+    "\n",
+    "The \"experiment\" part of the experiment is that resumes were randomly assigned Black- or White-sounding names, and then watched to see whether employers called the \"applicants\" with Black-sounding names at the same rate as the applicants with the White-sounding names.\n",
+    "\n",
+    "(Which names constituted \"Black-sounding names\" and \"White-sounding names\" was determined by analyzing names on Massachusetts birth certificates to determine which names were most associated with Black and White children, and then surveys were used to validate that the names were perceived as being associated with individuals of one racial category or the other. Also, please note I subscribe to the logic of [Kwame Anthony Appiah](https://www.theatlantic.com/ideas/archive/2020/06/time-to-capitalize-blackand-white/613159/) and chose to capitalize both the B in Black and the W in White). \n",
+    "\n",
+    "You can get access to original article [here](https://www.aeaweb.org/articles?id=10.1257/0002828042002561). \n",
+    "\n",
+    "**Note to Duke students:** if you are on the Duke campus network, you'll be able to access almost any academic journal articles directly; if you are off campus and want access, you can just go to the [Duke Library](https://library.duke.edu/) website and search for the article title. Once you find it, you'll be asked to log in, after which you'll have full access to the article. You will also find this pattern holds true at nearly any major University in the US.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "\n",
+    "## Gradescope Autograding\n",
+    "\n",
+    "Please follow [all standard guidance](https://www.practicaldatascience.org/html/autograder_guidelines.html) for submitting this assignment to the Gradescope autograder, including storing your solutions in a dictionary called `results` and ensuring your notebook runs from the start to completion without any errors.\n",
+    "\n",
+    "For this assignment, please name your file `exercise_resume_experiment.ipynb` before uploading.\n",
+    "\n",
+    "You can check that you have answers for all questions in your `results` dictionary with this code:\n",
+    "\n",
+    "```python\n",
+    "assert set(results.keys()) == {\n",
+    "    \"ex2_pvalue_computerskills\",\n",
+    "    \"ex2_pvalue_female\",\n",
+    "    \"ex2_pvalue_yearsexp\",\n",
+    "    \"ex3_pvalue_education\",\n",
+    "    \"ex4_validity\",\n",
+    "    \"ex5_pvalue\",\n",
+    "    \"ex5_white_advantage_percent\",\n",
+    "    \"ex5_white_advantage_percentage_points\",\n",
+    "    \"ex6_black_pvalue\",\n",
+    "    \"ex8_black_college\",\n",
+    "    \"ex8_black_nocollege\",\n",
+    "    \"ex8_college_heterogeneity\",\n",
+    "    \"ex9_gender_and_discrimination\",\n",
+    "    \"ex10_experiment_v_us\",\n",
+    "}\n",
+    "```\n",
+    "\n",
+    "\n",
+    "### Submission Limits\n",
+    "\n",
+    "Please remember that you are **only allowed FOUR submissions to the autograder.** Your last submission (if you submit 4 or fewer times), or your third submission (if you submit more than 4 times) will determine your grade Submissions that error out will **not** count against this total.\n",
+    "\n",
+    "That's one more than usual in case there are issues with exercise clarity."
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Checking for Balance\n",
+    "\n",
+    "The first step in analyzing any experiment is to check whether you have *balance* across your treatment arms—that is to say, do the people who were randomly assigned to the treatment group look like the people who were randomly assigned to the control group. Or in this case, do the resumes that ended up with Black-sounding names look like the resumes with White-sounding names. \n",
+    "\n",
+    "Checking for balance is critical for two reasons. First, it's always possible that random assignment will create profoundly different groups—the *Large of Large Numbers* is only a \"law\" in the limit. So we want to make sure we have reasonably similar groups from the outset. And second, it's also always possible that the randomization wasn't actually implemented correctly—you would be amazed at the number of ways that \"random assignment\" can go wrong! So if you ever do find you're getting unbalanced data, you should worry not only about whether the groups have baseline differences, but also whether the \"random assignment\" was actually random!\n",
+    "\n",
+    "### Exercise 1\n",
+    "\n",
+    "Download the data set from this experiment (`resume_experiment.dta`) from [github](https://github.com/nickeubank/MIDS_Data/tree/master/resume_experiment). To aid the autograder, please load the data directly from a URL.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "\n",
+    "### Exercise 2\n",
+    "\n",
+    "- `black` is the treatment variable in the data set (whether the resume has a \"Black-sounding\" name).\n",
+    "- `call` is the dependent variable of interest (did the employer call the fictitious applicant for an interview)\n",
+    "\n",
+    "In addition, the data include a number of variables to describe the other features in each fictitious resume, including applicants education level (`education`), years of experience (`yearsexp`), gender (`female`), computer skills (`computerskills`), and number of previous jobs (`ofjobs`). Each resume has a random selection of these attributes, so on average the Black-named fictitious applicant resumes have the same qualifications as the White-named applicant resumes. \n",
+    "\n",
+    "Check for balance in terms of the average values of applicant gender (`female`), computer skills (`computerskills`), and years of experience (`yearsexp`) across the two arms of the experiment (i.e. by `black`). Calculate both the differences in means across treatment arms *and* test for statistical significance of these differences. Does gender, computer skills, and yearsexp look balanced across race groups in terms of both statistical significance and magnitude of difference?\n",
+    "\n",
+    "Store the p-values associated with your t-test of these variables in `ex2_pvalue_female`, `ex2_pvalue_computerskills`, and `ex2_pvalue_yearsexp`. **Round your values to 2 decimal places.**\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "\n",
+    "pd.set_option(\"mode.copy_on_write\", True)\n",
+    "\n",
+    "from scipy import stats\n",
+    "import statsmodels.api as sm\n",
+    "\n",
+    "resumes = pd.read_stata(\n",
+    "    \"https://github.com/nickeubank/MIDS_Data/blob/master/resume_experiment/\"\n",
+    "    \"resume_experiment.dta?raw=true\"\n",
+    ")\n",
+    "results = {}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>education</th>\n",
+       "      <th>ofjobs</th>\n",
+       "      <th>yearsexp</th>\n",
+       "      <th>computerskills</th>\n",
+       "      <th>call</th>\n",
+       "      <th>female</th>\n",
+       "      <th>black</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>4</td>\n",
+       "      <td>2</td>\n",
+       "      <td>6</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>0.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>3</td>\n",
+       "      <td>3</td>\n",
+       "      <td>6</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>0.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>4</td>\n",
+       "      <td>1</td>\n",
+       "      <td>6</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>1.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>3</td>\n",
+       "      <td>4</td>\n",
+       "      <td>6</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>1.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>3</td>\n",
+       "      <td>3</td>\n",
+       "      <td>22</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>0.0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   education  ofjobs  yearsexp  computerskills  call  female  black\n",
+       "0          4       2         6               1   0.0     1.0    0.0\n",
+       "1          3       3         6               1   0.0     1.0    0.0\n",
+       "2          4       1         6               1   0.0     1.0    1.0\n",
+       "3          3       4         6               1   0.0     1.0    1.0\n",
+       "4          3       3        22               1   0.0     1.0    0.0"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "resumes.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "For female, the mean for Black applicants is 0.77,\n",
+      "            the mean for White applicants is 0.76,\n",
+      "and the p-value for this difference is 0.38\n",
+      "\n",
+      "\n",
+      "For computerskills, the mean for Black applicants is 0.83,\n",
+      "            the mean for White applicants is 0.81,\n",
+      "and the p-value for this difference is 0.03\n",
+      "\n",
+      "\n",
+      "For yearsexp, the mean for Black applicants is 7.83,\n",
+      "            the mean for White applicants is 7.86,\n",
+      "and the p-value for this difference is 0.85\n",
+      "\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "covariates = [\"female\", \"computerskills\", \"yearsexp\"]\n",
+    "for i in covariates:\n",
+    "    black = resumes.loc[resumes.black == 1, i].mean()\n",
+    "    white = resumes.loc[resumes.black == 0, i].mean()\n",
+    "    pvalue = stats.ttest_ind(\n",
+    "        resumes.loc[resumes.black == 1, i].values,\n",
+    "        resumes.loc[resumes.black == 0, i].values,\n",
+    "    ).pvalue\n",
+    "    results[f\"ex2_pvalue_{i}\"] = np.round(pvalue, 2)\n",
+    "    print(f\"For {i}, the mean for Black applicants is {black:.2f},\")\n",
+    "    print(f\"            the mean for White applicants is {white:.2f},\")\n",
+    "    print(f\"and the p-value for this difference is {results[f'ex2_pvalue_{i}']:.2f}\")\n",
+    "    print(\"\\n\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> Yes, gender and experience are roughly balanced across race groups. Black shows a statistically significantly higher level of computer skills than White, but the magnitude isn't too worrying. Provided other things seem balanced, this is hopefully spurious. Later we will add computer skills as a control to see if it makes a difference."
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 3\n",
+    "\n",
+    "Do a similar tabulation for education (`education`). Education is a categorical variable coded as follows:\n",
+    "\n",
+    "- 0: Education not reported\n",
+    "- 1: High school dropout\n",
+    "- 2: High school graduate\n",
+    "- 3: Some college\n",
+    "- 4: College graduate or higher\n",
+    "\n",
+    "Because these are categorical, you shouldn't just calculate and compare means—you should compare share or count of observations with each value (e.g., a chi-squared contingency table). You may also find the `pd.crosstab` function useful.\n",
+    "\n",
+    "Does education look balanced across racial groups?\n",
+    "\n",
+    "Store the p-value from your chi squared test in results under the key `ex3_pvalue_education`. **Please round to 2 decimal places.**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th>black</th>\n",
+       "      <th>0.0</th>\n",
+       "      <th>1.0</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>education</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>18</td>\n",
+       "      <td>28</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>18</td>\n",
+       "      <td>22</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>142</td>\n",
+       "      <td>132</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>513</td>\n",
+       "      <td>493</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>1744</td>\n",
+       "      <td>1760</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "black       0.0   1.0\n",
+       "education            \n",
+       "0            18    28\n",
+       "1            18    22\n",
+       "2           142   132\n",
+       "3           513   493\n",
+       "4          1744  1760"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Quick and dirty:\n",
+    "ctab = pd.crosstab(resumes[\"education\"], resumes[\"black\"])\n",
+    "ctab"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The p-value of the chi-squared test of education levels is 0.49.\n"
+     ]
+    }
+   ],
+   "source": [
+    "import scipy.stats\n",
+    "\n",
+    "chi2, p, dof, expected = scipy.stats.chi2_contingency(ctab.values)\n",
+    "\n",
+    "results[\"ex3_pvalue_education\"] = np.round(p, 2)\n",
+    "print(\n",
+    "    f\"The p-value of the chi-squared test of education levels is {results['ex3_pvalue_education']:.2f}.\"\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# So not statistically different. Pretty darn similar!"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 4\n",
+    "\n",
+    "What do you make of the overall results on resume characteristics? Why do we care about whether these variables look similar across the race groups? And if they didn't look similar, would that be a threat to internal or external validity? \n",
+    "\n",
+    "Answer in markdown, then also store your answer to the question of whether imbalances are a threat to internal or external validity in `\"ex4_validity\"` as the string `\"internal\"` or `\"external\"`.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> Checking on the balance across groups on a number of key variables ensures that the resumes sent out are the same or almost the same, which allows us to confidently isolate the independent variable, the \"Black-ness\" or \"White-ness\" of the name."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "results[\"ex4_validity\"] = \"internal\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Estimating Effect of Race"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 5\n",
+    "\n",
+    "The variable of interest in the data set is the variable `call`, which indicates a call back for an interview. Perform a two-sample t-test comparing applicants with black sounding names and white sounding names.\n",
+    "\n",
+    "Interpret your results—in both percentage *and* in percentage points, what is the effect of having a Black-sounding name (as opposed to a White-sounding name) on your resume?\n",
+    "\n",
+    "Store how much more likely a White applicant is to receive a call back than a Black respondent in percentage and percentage points in `\"ex5_white_advantage_percent\"`and `\"ex5_white_advantage_percentage_points\"`. Please scale percentages so 1 is 1% and percentage points so a value of `1` corresponds to 1 percentage point. **Please round these answers to 2 decimal places.**\n",
+    "\n",
+    "Store the p-value of the difference in `\"ex5_pvalue\"` **Please round your p-value to 5 decimal places.**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The mean callback rates are:\n",
+      "6.448% for Black applicants, and\n",
+      "9.651% for White applicants.\n",
+      "White applicants are more likely to get a call back by  3.20 percentage points, an advantage of 49.68%.\n",
+      "This difference has a p-value of 0.00004\n"
+     ]
+    }
+   ],
+   "source": [
+    "black = resumes[resumes.black == 1][\"call\"]\n",
+    "white = resumes[resumes.black == 0][\"call\"]\n",
+    "t2, p2 = stats.ttest_ind(black, white)\n",
+    "\n",
+    "print(f\"The mean callback rates are:\")\n",
+    "print(f\"{black.mean():.3%} for Black applicants, and\")\n",
+    "print(f\"{white.mean():.3%} for White applicants.\")\n",
+    "results[\"ex5_white_advantage_percent\"] = np.round(\n",
+    "    float((white.mean() - black.mean()) / black.mean()) * 100, 2\n",
+    ")\n",
+    "results[\"ex5_white_advantage_percentage_points\"] = np.round(\n",
+    "    float((white.mean() - black.mean()) * 100), 2\n",
+    ")\n",
+    "\n",
+    "print(\n",
+    "    f\"White applicants are more likely to get a call back by {results['ex5_white_advantage_percentage_points']: .2f} percentage points, \"\n",
+    "    f\"an advantage of {results['ex5_white_advantage_percent'] :.2f}%.\"\n",
+    ")\n",
+    "results[\"ex5_pvalue\"] = np.round(p2, 5)\n",
+    "print(f\"This difference has a p-value of {results['ex5_pvalue']:.5f}\")"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 6\n",
+    "\n",
+    "Now, use a linear probability model (a linear regression with a 0/1 dependent variable!) to estimate the differential likelihood of being called back by applicant race (i.e. the racial discrimination by employers). Please use [statsmodels](https://www.statsmodels.org/stable/index.html).\n",
+    "\n",
+    "Since we have a limited dependent variable, be sure to use [heteroskedastic robust standard errors.](https://www.statsmodels.org/stable/generated/statsmodels.regression.linear_model.OLSResults.get_robustcov_results.html) Personally, I prefer the `HC3` implementation, as it tends to do better with smaller samples than other implementations.\n",
+    "\n",
+    "Interpret these results—what is the *effect* of having a Black-sounding name (as opposed to a White-sounding name) on your resume in terms of the likelihood you'll be called back? \n",
+    "\n",
+    "How does this compare to the estimate you got above in exercise 5?\n",
+    "\n",
+    "Store the p-value associated with `black` in `\"ex6_black_pvalue\"`. **Please round your pvalue to 5 decimal places.**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<table class=\"simpletable\">\n",
+       "<caption>OLS Regression Results</caption>\n",
+       "<tr>\n",
+       "  <th>Dep. Variable:</th>          <td>call</td>       <th>  R-squared:         </th> <td>   0.003</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.003</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   16.92</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Date:</th>             <td>Sun, 03 Mar 2024</td> <th>  Prob (F-statistic):</th> <td>3.96e-05</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Time:</th>                 <td>10:32:17</td>     <th>  Log-Likelihood:    </th> <td> -562.24</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>No. Observations:</th>      <td>  4870</td>      <th>  AIC:               </th> <td>   1128.</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Df Residuals:</th>          <td>  4868</td>      <th>  BIC:               </th> <td>   1141.</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>   \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>   \n",
+       "</tr>\n",
+       "</table>\n",
+       "<table class=\"simpletable\">\n",
+       "<tr>\n",
+       "      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Intercept</th> <td>    0.0965</td> <td>    0.006</td> <td>   16.121</td> <td> 0.000</td> <td>    0.085</td> <td>    0.108</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>black</th>     <td>   -0.0320</td> <td>    0.008</td> <td>   -4.114</td> <td> 0.000</td> <td>   -0.047</td> <td>   -0.017</td>\n",
+       "</tr>\n",
+       "</table>\n",
+       "<table class=\"simpletable\">\n",
+       "<tr>\n",
+       "  <th>Omnibus:</th>       <td>2969.205</td> <th>  Durbin-Watson:     </th> <td>   1.440</td> \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>18927.068</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Skew:</th>           <td> 3.068</td>  <th>  Prob(JB):          </th> <td>    0.00</td> \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Kurtosis:</th>       <td>10.458</td>  <th>  Cond. No.          </th> <td>    2.62</td> \n",
+       "</tr>\n",
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
+      ],
+      "text/latex": [
+       "\\begin{center}\n",
+       "\\begin{tabular}{lclc}\n",
+       "\\toprule\n",
+       "\\textbf{Dep. Variable:}    &       call       & \\textbf{  R-squared:         } &     0.003   \\\\\n",
+       "\\textbf{Model:}            &       OLS        & \\textbf{  Adj. R-squared:    } &     0.003   \\\\\n",
+       "\\textbf{Method:}           &  Least Squares   & \\textbf{  F-statistic:       } &     16.92   \\\\\n",
+       "\\textbf{Date:}             & Sun, 03 Mar 2024 & \\textbf{  Prob (F-statistic):} &  3.96e-05   \\\\\n",
+       "\\textbf{Time:}             &     10:32:17     & \\textbf{  Log-Likelihood:    } &   -562.24   \\\\\n",
+       "\\textbf{No. Observations:} &        4870      & \\textbf{  AIC:               } &     1128.   \\\\\n",
+       "\\textbf{Df Residuals:}     &        4868      & \\textbf{  BIC:               } &     1141.   \\\\\n",
+       "\\textbf{Df Model:}         &           1      & \\textbf{                     } &             \\\\\n",
+       "\\textbf{Covariance Type:}  &       HC3        & \\textbf{                     } &             \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "\\begin{tabular}{lcccccc}\n",
+       "                   & \\textbf{coef} & \\textbf{std err} & \\textbf{t} & \\textbf{P$> |$t$|$} & \\textbf{[0.025} & \\textbf{0.975]}  \\\\\n",
+       "\\midrule\n",
+       "\\textbf{Intercept} &       0.0965  &        0.006     &    16.121  &         0.000        &        0.085    &        0.108     \\\\\n",
+       "\\textbf{black}     &      -0.0320  &        0.008     &    -4.114  &         0.000        &       -0.047    &       -0.017     \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "\\begin{tabular}{lclc}\n",
+       "\\textbf{Omnibus:}       & 2969.205 & \\textbf{  Durbin-Watson:     } &     1.440  \\\\\n",
+       "\\textbf{Prob(Omnibus):} &   0.000  & \\textbf{  Jarque-Bera (JB):  } & 18927.068  \\\\\n",
+       "\\textbf{Skew:}          &   3.068  & \\textbf{  Prob(JB):          } &      0.00  \\\\\n",
+       "\\textbf{Kurtosis:}      &  10.458  & \\textbf{  Cond. No.          } &      2.62  \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "%\\caption{OLS Regression Results}\n",
+       "\\end{center}\n",
+       "\n",
+       "Notes: \\newline\n",
+       " [1] Standard Errors are heteroscedasticity robust (HC3)"
+      ],
+      "text/plain": [
+       "<class 'statsmodels.iolib.summary.Summary'>\n",
+       "\"\"\"\n",
+       "                            OLS Regression Results                            \n",
+       "==============================================================================\n",
+       "Dep. Variable:                   call   R-squared:                       0.003\n",
+       "Model:                            OLS   Adj. R-squared:                  0.003\n",
+       "Method:                 Least Squares   F-statistic:                     16.92\n",
+       "Date:                Sun, 03 Mar 2024   Prob (F-statistic):           3.96e-05\n",
+       "Time:                        10:32:17   Log-Likelihood:                -562.24\n",
+       "No. Observations:                4870   AIC:                             1128.\n",
+       "Df Residuals:                    4868   BIC:                             1141.\n",
+       "Df Model:                           1                                         \n",
+       "Covariance Type:                  HC3                                         \n",
+       "==============================================================================\n",
+       "                 coef    std err          t      P>|t|      [0.025      0.975]\n",
+       "------------------------------------------------------------------------------\n",
+       "Intercept      0.0965      0.006     16.121      0.000       0.085       0.108\n",
+       "black         -0.0320      0.008     -4.114      0.000      -0.047      -0.017\n",
+       "==============================================================================\n",
+       "Omnibus:                     2969.205   Durbin-Watson:                   1.440\n",
+       "Prob(Omnibus):                  0.000   Jarque-Bera (JB):            18927.068\n",
+       "Skew:                           3.068   Prob(JB):                         0.00\n",
+       "Kurtosis:                      10.458   Cond. No.                         2.62\n",
+       "==============================================================================\n",
+       "\n",
+       "Notes:\n",
+       "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
+       "\"\"\""
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import statsmodels.formula.api as smf\n",
+    "\n",
+    "model = smf.ols(\"call ~ black\", resumes).fit()\n",
+    "model.get_robustcov_results(cov_type=\"HC3\").summary()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The p-value associated with `black` is 0.000040\n"
+     ]
+    }
+   ],
+   "source": [
+    "results[\"ex6_black_pvalue\"] = np.round(model.pvalues[\"black\"], 5)\n",
+    "print(f'The p-value associated with `black` is {results[\"ex6_black_pvalue\"]:.6f}')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> Black respondents are 3.2 percentage points less likely to get a call back than White respondents. Exact same estimate as from t-test (because this kind of regression is precisely equivalent!)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 7\n",
+    "\n",
+    "Even when doing a randomized experiment, adding control variables to your regression *can* improve the statistical efficiency of your estimates of the treatment effect (the upside is the potential to explain residual variation; the downside is more parameters to be estimated). Adding controls can be particularly useful when randomization left some imbalances in covariates (which you may have seen above). \n",
+    "\n",
+    "Now let's see if we can improve our estimates by adding in other variables as controls. Add in `education`, `yearsexp`, `female`, and `computerskills`—be sure to treat education as a categorical variable!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<table class=\"simpletable\">\n",
+       "<caption>OLS Regression Results</caption>\n",
+       "<tr>\n",
+       "  <th>Dep. Variable:</th>          <td>call</td>       <th>  R-squared:         </th> <td>   0.008</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.006</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   4.350</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Date:</th>             <td>Sun, 03 Mar 2024</td> <th>  Prob (F-statistic):</th> <td>3.04e-05</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Time:</th>                 <td>10:32:17</td>     <th>  Log-Likelihood:    </th> <td> -551.02</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>No. Observations:</th>      <td>  4870</td>      <th>  AIC:               </th> <td>   1120.</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Df Residuals:</th>          <td>  4861</td>      <th>  BIC:               </th> <td>   1178.</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Df Model:</th>              <td>     8</td>      <th>                     </th>     <td> </td>   \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>   \n",
+       "</tr>\n",
+       "</table>\n",
+       "<table class=\"simpletable\">\n",
+       "<tr>\n",
+       "          <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Intercept</th>         <td>    0.0821</td> <td>    0.040</td> <td>    2.053</td> <td> 0.040</td> <td>    0.004</td> <td>    0.160</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(education)[T.1]</th> <td>   -0.0017</td> <td>    0.057</td> <td>   -0.030</td> <td> 0.976</td> <td>   -0.113</td> <td>    0.110</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(education)[T.2]</th> <td>-8.953e-05</td> <td>    0.042</td> <td>   -0.002</td> <td> 0.998</td> <td>   -0.082</td> <td>    0.082</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(education)[T.3]</th> <td>   -0.0025</td> <td>    0.039</td> <td>   -0.065</td> <td> 0.948</td> <td>   -0.079</td> <td>    0.074</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(education)[T.4]</th> <td>   -0.0047</td> <td>    0.038</td> <td>   -0.124</td> <td> 0.901</td> <td>   -0.080</td> <td>    0.070</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>black</th>             <td>   -0.0316</td> <td>    0.008</td> <td>   -4.076</td> <td> 0.000</td> <td>   -0.047</td> <td>   -0.016</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>yearsexp</th>          <td>    0.0032</td> <td>    0.001</td> <td>    3.665</td> <td> 0.000</td> <td>    0.001</td> <td>    0.005</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>computerskills</th>    <td>   -0.0186</td> <td>    0.011</td> <td>   -1.616</td> <td> 0.106</td> <td>   -0.041</td> <td>    0.004</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>female</th>            <td>    0.0112</td> <td>    0.010</td> <td>    1.165</td> <td> 0.244</td> <td>   -0.008</td> <td>    0.030</td>\n",
+       "</tr>\n",
+       "</table>\n",
+       "<table class=\"simpletable\">\n",
+       "<tr>\n",
+       "  <th>Omnibus:</th>       <td>2950.646</td> <th>  Durbin-Watson:     </th> <td>   1.448</td> \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>18631.250</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Skew:</th>           <td> 3.047</td>  <th>  Prob(JB):          </th> <td>    0.00</td> \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Kurtosis:</th>       <td>10.395</td>  <th>  Cond. No.          </th> <td>    225.</td> \n",
+       "</tr>\n",
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
+      ],
+      "text/latex": [
+       "\\begin{center}\n",
+       "\\begin{tabular}{lclc}\n",
+       "\\toprule\n",
+       "\\textbf{Dep. Variable:}    &       call       & \\textbf{  R-squared:         } &     0.008   \\\\\n",
+       "\\textbf{Model:}            &       OLS        & \\textbf{  Adj. R-squared:    } &     0.006   \\\\\n",
+       "\\textbf{Method:}           &  Least Squares   & \\textbf{  F-statistic:       } &     4.350   \\\\\n",
+       "\\textbf{Date:}             & Sun, 03 Mar 2024 & \\textbf{  Prob (F-statistic):} &  3.04e-05   \\\\\n",
+       "\\textbf{Time:}             &     10:32:17     & \\textbf{  Log-Likelihood:    } &   -551.02   \\\\\n",
+       "\\textbf{No. Observations:} &        4870      & \\textbf{  AIC:               } &     1120.   \\\\\n",
+       "\\textbf{Df Residuals:}     &        4861      & \\textbf{  BIC:               } &     1178.   \\\\\n",
+       "\\textbf{Df Model:}         &           8      & \\textbf{                     } &             \\\\\n",
+       "\\textbf{Covariance Type:}  &       HC3        & \\textbf{                     } &             \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "\\begin{tabular}{lcccccc}\n",
+       "                           & \\textbf{coef} & \\textbf{std err} & \\textbf{t} & \\textbf{P$> |$t$|$} & \\textbf{[0.025} & \\textbf{0.975]}  \\\\\n",
+       "\\midrule\n",
+       "\\textbf{Intercept}         &       0.0821  &        0.040     &     2.053  &         0.040        &        0.004    &        0.160     \\\\\n",
+       "\\textbf{C(education)[T.1]} &      -0.0017  &        0.057     &    -0.030  &         0.976        &       -0.113    &        0.110     \\\\\n",
+       "\\textbf{C(education)[T.2]} &   -8.953e-05  &        0.042     &    -0.002  &         0.998        &       -0.082    &        0.082     \\\\\n",
+       "\\textbf{C(education)[T.3]} &      -0.0025  &        0.039     &    -0.065  &         0.948        &       -0.079    &        0.074     \\\\\n",
+       "\\textbf{C(education)[T.4]} &      -0.0047  &        0.038     &    -0.124  &         0.901        &       -0.080    &        0.070     \\\\\n",
+       "\\textbf{black}             &      -0.0316  &        0.008     &    -4.076  &         0.000        &       -0.047    &       -0.016     \\\\\n",
+       "\\textbf{yearsexp}          &       0.0032  &        0.001     &     3.665  &         0.000        &        0.001    &        0.005     \\\\\n",
+       "\\textbf{computerskills}    &      -0.0186  &        0.011     &    -1.616  &         0.106        &       -0.041    &        0.004     \\\\\n",
+       "\\textbf{female}            &       0.0112  &        0.010     &     1.165  &         0.244        &       -0.008    &        0.030     \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "\\begin{tabular}{lclc}\n",
+       "\\textbf{Omnibus:}       & 2950.646 & \\textbf{  Durbin-Watson:     } &     1.448  \\\\\n",
+       "\\textbf{Prob(Omnibus):} &   0.000  & \\textbf{  Jarque-Bera (JB):  } & 18631.250  \\\\\n",
+       "\\textbf{Skew:}          &   3.047  & \\textbf{  Prob(JB):          } &      0.00  \\\\\n",
+       "\\textbf{Kurtosis:}      &  10.395  & \\textbf{  Cond. No.          } &      225.  \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "%\\caption{OLS Regression Results}\n",
+       "\\end{center}\n",
+       "\n",
+       "Notes: \\newline\n",
+       " [1] Standard Errors are heteroscedasticity robust (HC3)"
+      ],
+      "text/plain": [
+       "<class 'statsmodels.iolib.summary.Summary'>\n",
+       "\"\"\"\n",
+       "                            OLS Regression Results                            \n",
+       "==============================================================================\n",
+       "Dep. Variable:                   call   R-squared:                       0.008\n",
+       "Model:                            OLS   Adj. R-squared:                  0.006\n",
+       "Method:                 Least Squares   F-statistic:                     4.350\n",
+       "Date:                Sun, 03 Mar 2024   Prob (F-statistic):           3.04e-05\n",
+       "Time:                        10:32:17   Log-Likelihood:                -551.02\n",
+       "No. Observations:                4870   AIC:                             1120.\n",
+       "Df Residuals:                    4861   BIC:                             1178.\n",
+       "Df Model:                           8                                         \n",
+       "Covariance Type:                  HC3                                         \n",
+       "=====================================================================================\n",
+       "                        coef    std err          t      P>|t|      [0.025      0.975]\n",
+       "-------------------------------------------------------------------------------------\n",
+       "Intercept             0.0821      0.040      2.053      0.040       0.004       0.160\n",
+       "C(education)[T.1]    -0.0017      0.057     -0.030      0.976      -0.113       0.110\n",
+       "C(education)[T.2] -8.953e-05      0.042     -0.002      0.998      -0.082       0.082\n",
+       "C(education)[T.3]    -0.0025      0.039     -0.065      0.948      -0.079       0.074\n",
+       "C(education)[T.4]    -0.0047      0.038     -0.124      0.901      -0.080       0.070\n",
+       "black                -0.0316      0.008     -4.076      0.000      -0.047      -0.016\n",
+       "yearsexp              0.0032      0.001      3.665      0.000       0.001       0.005\n",
+       "computerskills       -0.0186      0.011     -1.616      0.106      -0.041       0.004\n",
+       "female                0.0112      0.010      1.165      0.244      -0.008       0.030\n",
+       "==============================================================================\n",
+       "Omnibus:                     2950.646   Durbin-Watson:                   1.448\n",
+       "Prob(Omnibus):                  0.000   Jarque-Bera (JB):            18631.250\n",
+       "Skew:                           3.047   Prob(JB):                         0.00\n",
+       "Kurtosis:                      10.395   Cond. No.                         225.\n",
+       "==============================================================================\n",
+       "\n",
+       "Notes:\n",
+       "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
+       "\"\"\""
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import statsmodels.formula.api as smf\n",
+    "\n",
+    "model = smf.ols(\n",
+    "    \"call ~ black + C(education) + yearsexp + computerskills + female\", resumes\n",
+    ").fit()\n",
+    "model.get_robustcov_results(cov_type=\"HC3\").summary()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> Basically no change in estimate or statistical power. Though given the sample size and balance, that isn't super surprising."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Estimating Heterogeneous Effects"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 8\n",
+    "\n",
+    "As you may recall from some past readings (such as this one on the [migraine medication Aimovig](https://ds4humans.com/30_questions/15_answering_exploratory_questions.html#faithful-representations)), our focus on estimating *Average Treatment Effects* runs the risk of papering over variation in how individuals respond. In the case of Aimovig, for example, nearly no patients actually experienced the Average Treatment Effect of the medication; around half of patients experienced no benefit, while the other half experienced a benefit of about twice the average treatment effect.\n",
+    "\n",
+    "So far in this analysis we've been focusing on the *average* effect of having a Black-sounding name (as compared to a White-sounding name). But we can actually use our regression framework to look for evidence of *heterogeneous treatment effects*—effects that are different for different types of people in our data. We accomplish this by *interacting* a variable we think may be related to experiencing a differential treatment effect with our treatment variable. For example, if we think that applicants with Black-sounding names who have a college degree are likely to experience less discrimination, we can interact `black` with an indicator for having a college degree. If having a college degree reduces discrimination, we could expect the interaction term to be positive. \n",
+    "\n",
+    "Is there more or less racial discrimination (the absolute magnitude difference in call back rates between Black and White applicants) among applicants who have a college degree? Store your answer as the string `\"more discrimination\"` or `\"less discrimination\"` under the key `\"ex8_college_heterogeneity\"`.\n",
+    "\n",
+    "Please still include `education`, `yearsexp`, `female`, and `computerskills` as controls.\n",
+    "\n",
+    "**Note:** it's relatively safe to assume that someone hiring employees who sees a resume that does *not* report education levels will assume the applicant does not have a college degree. So treat \"No education reported\" as \"not having a college degree.\"\n",
+    "\n",
+    "In percentage points, what is the difference in call back rates:\n",
+    "\n",
+    "- between White applicants without a college degree and Black applicants without a college degree (`ex8_black_nocollege`).\n",
+    "- between White applicants with a college degree and Black applicants with a college degree (`ex8_black_college`).\n",
+    "\n",
+    "Use negative values to denote a lower probability for Black applicants to get a call back. **Scale so a value of `1` is a one percentage point difference. Please round your answer to 2 percentage points.**\n",
+    "\n",
+    "Focus on the coefficient values, even if the significance is low."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/Users/nce8/opt/miniconda3/lib/python3.11/site-packages/statsmodels/base/model.py:1896: ValueWarning: covariance of constraints does not have full rank. The number of constraints is 10, but rank is 9\n",
+      "  warnings.warn('covariance of constraints does not have full '\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<table class=\"simpletable\">\n",
+       "<caption>OLS Regression Results</caption>\n",
+       "<tr>\n",
+       "  <th>Dep. Variable:</th>          <td>call</td>       <th>  R-squared:         </th> <td>   0.008</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.006</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   3.952</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Date:</th>             <td>Sun, 03 Mar 2024</td> <th>  Prob (F-statistic):</th> <td>4.93e-05</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Time:</th>                 <td>10:32:17</td>     <th>  Log-Likelihood:    </th> <td> -550.76</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>No. Observations:</th>      <td>  4870</td>      <th>  AIC:               </th> <td>   1122.</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Df Residuals:</th>          <td>  4860</td>      <th>  BIC:               </th> <td>   1186.</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Df Model:</th>              <td>     9</td>      <th>                     </th>     <td> </td>   \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>   \n",
+       "</tr>\n",
+       "</table>\n",
+       "<table class=\"simpletable\">\n",
+       "<tr>\n",
+       "                <td></td>                  <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Intercept</th>                    <td>    0.0875</td> <td>    0.040</td> <td>    2.176</td> <td> 0.030</td> <td>    0.009</td> <td>    0.166</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>college_degree[T.True]</th>       <td>   -0.0060</td> <td>    0.019</td> <td>   -0.307</td> <td> 0.759</td> <td>   -0.044</td> <td>    0.032</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(education)[T.1]</th>            <td>   -0.0023</td> <td>    0.057</td> <td>   -0.040</td> <td> 0.968</td> <td>   -0.114</td> <td>    0.110</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(education)[T.2]</th>            <td>   -0.0012</td> <td>    0.042</td> <td>   -0.030</td> <td> 0.976</td> <td>   -0.083</td> <td>    0.081</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(education)[T.3]</th>            <td>   -0.0036</td> <td>    0.039</td> <td>   -0.092</td> <td> 0.927</td> <td>   -0.080</td> <td>    0.073</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(education)[T.4]</th>            <td>   -0.0060</td> <td>    0.019</td> <td>   -0.307</td> <td> 0.759</td> <td>   -0.044</td> <td>    0.032</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>black</th>                        <td>   -0.0405</td> <td>    0.015</td> <td>   -2.736</td> <td> 0.006</td> <td>   -0.070</td> <td>   -0.011</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>black:college_degree[T.True]</th> <td>    0.0123</td> <td>    0.017</td> <td>    0.710</td> <td> 0.478</td> <td>   -0.022</td> <td>    0.046</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>yearsexp</th>                     <td>    0.0032</td> <td>    0.001</td> <td>    3.672</td> <td> 0.000</td> <td>    0.001</td> <td>    0.005</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>computerskills</th>               <td>   -0.0186</td> <td>    0.011</td> <td>   -1.618</td> <td> 0.106</td> <td>   -0.041</td> <td>    0.004</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>female</th>                       <td>    0.0112</td> <td>    0.010</td> <td>    1.157</td> <td> 0.247</td> <td>   -0.008</td> <td>    0.030</td>\n",
+       "</tr>\n",
+       "</table>\n",
+       "<table class=\"simpletable\">\n",
+       "<tr>\n",
+       "  <th>Omnibus:</th>       <td>2950.182</td> <th>  Durbin-Watson:     </th> <td>   1.448</td> \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>18623.859</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Skew:</th>           <td> 3.046</td>  <th>  Prob(JB):          </th> <td>    0.00</td> \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Kurtosis:</th>       <td>10.393</td>  <th>  Cond. No.          </th> <td>2.85e+15</td> \n",
+       "</tr>\n",
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)<br/>[2] The smallest eigenvalue is 5.38e-26. This might indicate that there are<br/>strong multicollinearity problems or that the design matrix is singular."
+      ],
+      "text/latex": [
+       "\\begin{center}\n",
+       "\\begin{tabular}{lclc}\n",
+       "\\toprule\n",
+       "\\textbf{Dep. Variable:}                &       call       & \\textbf{  R-squared:         } &     0.008   \\\\\n",
+       "\\textbf{Model:}                        &       OLS        & \\textbf{  Adj. R-squared:    } &     0.006   \\\\\n",
+       "\\textbf{Method:}                       &  Least Squares   & \\textbf{  F-statistic:       } &     3.952   \\\\\n",
+       "\\textbf{Date:}                         & Sun, 03 Mar 2024 & \\textbf{  Prob (F-statistic):} &  4.93e-05   \\\\\n",
+       "\\textbf{Time:}                         &     10:32:17     & \\textbf{  Log-Likelihood:    } &   -550.76   \\\\\n",
+       "\\textbf{No. Observations:}             &        4870      & \\textbf{  AIC:               } &     1122.   \\\\\n",
+       "\\textbf{Df Residuals:}                 &        4860      & \\textbf{  BIC:               } &     1186.   \\\\\n",
+       "\\textbf{Df Model:}                     &           9      & \\textbf{                     } &             \\\\\n",
+       "\\textbf{Covariance Type:}              &       HC3        & \\textbf{                     } &             \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "\\begin{tabular}{lcccccc}\n",
+       "                                       & \\textbf{coef} & \\textbf{std err} & \\textbf{t} & \\textbf{P$> |$t$|$} & \\textbf{[0.025} & \\textbf{0.975]}  \\\\\n",
+       "\\midrule\n",
+       "\\textbf{Intercept}                     &       0.0875  &        0.040     &     2.176  &         0.030        &        0.009    &        0.166     \\\\\n",
+       "\\textbf{college\\_degree[T.True]}       &      -0.0060  &        0.019     &    -0.307  &         0.759        &       -0.044    &        0.032     \\\\\n",
+       "\\textbf{C(education)[T.1]}             &      -0.0023  &        0.057     &    -0.040  &         0.968        &       -0.114    &        0.110     \\\\\n",
+       "\\textbf{C(education)[T.2]}             &      -0.0012  &        0.042     &    -0.030  &         0.976        &       -0.083    &        0.081     \\\\\n",
+       "\\textbf{C(education)[T.3]}             &      -0.0036  &        0.039     &    -0.092  &         0.927        &       -0.080    &        0.073     \\\\\n",
+       "\\textbf{C(education)[T.4]}             &      -0.0060  &        0.019     &    -0.307  &         0.759        &       -0.044    &        0.032     \\\\\n",
+       "\\textbf{black}                         &      -0.0405  &        0.015     &    -2.736  &         0.006        &       -0.070    &       -0.011     \\\\\n",
+       "\\textbf{black:college\\_degree[T.True]} &       0.0123  &        0.017     &     0.710  &         0.478        &       -0.022    &        0.046     \\\\\n",
+       "\\textbf{yearsexp}                      &       0.0032  &        0.001     &     3.672  &         0.000        &        0.001    &        0.005     \\\\\n",
+       "\\textbf{computerskills}                &      -0.0186  &        0.011     &    -1.618  &         0.106        &       -0.041    &        0.004     \\\\\n",
+       "\\textbf{female}                        &       0.0112  &        0.010     &     1.157  &         0.247        &       -0.008    &        0.030     \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "\\begin{tabular}{lclc}\n",
+       "\\textbf{Omnibus:}       & 2950.182 & \\textbf{  Durbin-Watson:     } &     1.448  \\\\\n",
+       "\\textbf{Prob(Omnibus):} &   0.000  & \\textbf{  Jarque-Bera (JB):  } & 18623.859  \\\\\n",
+       "\\textbf{Skew:}          &   3.046  & \\textbf{  Prob(JB):          } &      0.00  \\\\\n",
+       "\\textbf{Kurtosis:}      &  10.393  & \\textbf{  Cond. No.          } &  2.85e+15  \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "%\\caption{OLS Regression Results}\n",
+       "\\end{center}\n",
+       "\n",
+       "Notes: \\newline\n",
+       " [1] Standard Errors are heteroscedasticity robust (HC3) \\newline\n",
+       " [2] The smallest eigenvalue is 5.38e-26. This might indicate that there are \\newline\n",
+       " strong multicollinearity problems or that the design matrix is singular."
+      ],
+      "text/plain": [
+       "<class 'statsmodels.iolib.summary.Summary'>\n",
+       "\"\"\"\n",
+       "                            OLS Regression Results                            \n",
+       "==============================================================================\n",
+       "Dep. Variable:                   call   R-squared:                       0.008\n",
+       "Model:                            OLS   Adj. R-squared:                  0.006\n",
+       "Method:                 Least Squares   F-statistic:                     3.952\n",
+       "Date:                Sun, 03 Mar 2024   Prob (F-statistic):           4.93e-05\n",
+       "Time:                        10:32:17   Log-Likelihood:                -550.76\n",
+       "No. Observations:                4870   AIC:                             1122.\n",
+       "Df Residuals:                    4860   BIC:                             1186.\n",
+       "Df Model:                           9                                         \n",
+       "Covariance Type:                  HC3                                         \n",
+       "================================================================================================\n",
+       "                                   coef    std err          t      P>|t|      [0.025      0.975]\n",
+       "------------------------------------------------------------------------------------------------\n",
+       "Intercept                        0.0875      0.040      2.176      0.030       0.009       0.166\n",
+       "college_degree[T.True]          -0.0060      0.019     -0.307      0.759      -0.044       0.032\n",
+       "C(education)[T.1]               -0.0023      0.057     -0.040      0.968      -0.114       0.110\n",
+       "C(education)[T.2]               -0.0012      0.042     -0.030      0.976      -0.083       0.081\n",
+       "C(education)[T.3]               -0.0036      0.039     -0.092      0.927      -0.080       0.073\n",
+       "C(education)[T.4]               -0.0060      0.019     -0.307      0.759      -0.044       0.032\n",
+       "black                           -0.0405      0.015     -2.736      0.006      -0.070      -0.011\n",
+       "black:college_degree[T.True]     0.0123      0.017      0.710      0.478      -0.022       0.046\n",
+       "yearsexp                         0.0032      0.001      3.672      0.000       0.001       0.005\n",
+       "computerskills                  -0.0186      0.011     -1.618      0.106      -0.041       0.004\n",
+       "female                           0.0112      0.010      1.157      0.247      -0.008       0.030\n",
+       "==============================================================================\n",
+       "Omnibus:                     2950.182   Durbin-Watson:                   1.448\n",
+       "Prob(Omnibus):                  0.000   Jarque-Bera (JB):            18623.859\n",
+       "Skew:                           3.046   Prob(JB):                         0.00\n",
+       "Kurtosis:                      10.393   Cond. No.                     2.85e+15\n",
+       "==============================================================================\n",
+       "\n",
+       "Notes:\n",
+       "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
+       "[2] The smallest eigenvalue is 5.38e-26. This might indicate that there are\n",
+       "strong multicollinearity problems or that the design matrix is singular.\n",
+       "\"\"\""
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "resumes[\"college_degree\"] = resumes.education == 4\n",
+    "model = smf.ols(\n",
+    "    \"call ~ black*college_degree + C(education) + yearsexp + computerskills + female\",\n",
+    "    resumes,\n",
+    ").fit()\n",
+    "fit_model = model.get_robustcov_results(cov_type=\"HC3\")\n",
+    "fit_model.summary()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Black respondents without a college degree are -4.05 percentage points less likely to get a call back than White applicant.\n",
+      "Black respondents with a college degree are -2.82 percentage points less likely to get a call back than White applicant\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/var/folders/fs/h_8_rwsn5hvg9mhp0txgc_s9v6191b/T/ipykernel_18376/838979874.py:1: DeprecationWarning: Conversion of an array with ndim > 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)\n",
+      "  results[\"ex8_black_nocollege\"] = 100 * float(\n",
+      "/var/folders/fs/h_8_rwsn5hvg9mhp0txgc_s9v6191b/T/ipykernel_18376/838979874.py:7: DeprecationWarning: Conversion of an array with ndim > 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)\n",
+      "  results[\"ex8_black_college\"] = 100 * float(\n"
+     ]
+    }
+   ],
+   "source": [
+    "results[\"ex8_black_nocollege\"] = 100 * float(\n",
+    "    fit_model.params[np.array(fit_model.model.exog_names) == \"black\"]\n",
+    ")\n",
+    "\n",
+    "results[\"ex8_black_nocollege\"] = np.round(results[\"ex8_black_nocollege\"], 2)\n",
+    "\n",
+    "results[\"ex8_black_college\"] = 100 * float(\n",
+    "    fit_model.params[np.array(fit_model.model.exog_names) == \"black\"]\n",
+    "    + fit_model.params[\n",
+    "        np.array(fit_model.model.exog_names) == \"black:college_degree[T.True]\"\n",
+    "    ]\n",
+    ")\n",
+    "\n",
+    "results[\"ex8_black_college\"] = np.round(results[\"ex8_black_college\"], 2)\n",
+    "\n",
+    "print(\n",
+    "    f'Black respondents without a college degree are {results[\"ex8_black_nocollege\"]:.2f} '\n",
+    "    \"percentage points less likely to get a call back than White applicant.\"\n",
+    ")\n",
+    "print(\n",
+    "    f'Black respondents with a college degree are {results[\"ex8_black_college\"]:.2f} '\n",
+    "    \"percentage points less likely to get a call back than White applicant\"\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "results[\"ex8_college_heterogeneity\"] = \"less discrimination\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> But with that said, the difference is far from statistically significant, so it should be taken with a few grains of salt, but also not ignored.\n",
+    "\n",
+    "> One thing to bear in mind is that this is a situation where our standard errors are relatively large with respect to the statistical quantities of interest, suggesting that this is just a little bit underpowered for analyzing our subpopulations, not a situation where we can't reject the null hypothesis of no effect because we had a very precisely estimated estimate of zero effect."
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 9\n",
+    "\n",
+    "Now let's compare men and women—is the penalty for having a Black-sounding name greater for Black men or Black women? Store your answer as `\"greater discrimination for men\"` or `\"greater discrimination for women\"` in `\"ex9_gender_and_discrimination\"`.\n",
+    "\n",
+    "Focus on the coefficient values, even if the significance is low.\n",
+    "\n",
+    "Again, please still include `education`, `yearsexp`, `female`, and `computerskills` as controls."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<table class=\"simpletable\">\n",
+       "<caption>OLS Regression Results</caption>\n",
+       "<tr>\n",
+       "  <th>Dep. Variable:</th>          <td>call</td>       <th>  R-squared:         </th> <td>   0.008</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.006</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   3.866</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Date:</th>             <td>Sun, 03 Mar 2024</td> <th>  Prob (F-statistic):</th> <td>6.76e-05</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Time:</th>                 <td>10:32:17</td>     <th>  Log-Likelihood:    </th> <td> -551.00</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>No. Observations:</th>      <td>  4870</td>      <th>  AIC:               </th> <td>   1122.</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Df Residuals:</th>          <td>  4860</td>      <th>  BIC:               </th> <td>   1187.</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Df Model:</th>              <td>     9</td>      <th>                     </th>     <td> </td>   \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Covariance Type:</th>         <td>HC3</td>       <th>                     </th>     <td> </td>   \n",
+       "</tr>\n",
+       "</table>\n",
+       "<table class=\"simpletable\">\n",
+       "<tr>\n",
+       "          <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Intercept</th>         <td>    0.0807</td> <td>    0.040</td> <td>    1.996</td> <td> 0.046</td> <td>    0.001</td> <td>    0.160</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(education)[T.1]</th> <td>   -0.0021</td> <td>    0.057</td> <td>   -0.037</td> <td> 0.971</td> <td>   -0.114</td> <td>    0.110</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(education)[T.2]</th> <td>   -0.0001</td> <td>    0.042</td> <td>   -0.003</td> <td> 0.998</td> <td>   -0.082</td> <td>    0.082</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(education)[T.3]</th> <td>   -0.0026</td> <td>    0.039</td> <td>   -0.066</td> <td> 0.947</td> <td>   -0.079</td> <td>    0.074</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(education)[T.4]</th> <td>   -0.0048</td> <td>    0.038</td> <td>   -0.125</td> <td> 0.900</td> <td>   -0.080</td> <td>    0.070</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>black</th>             <td>   -0.0287</td> <td>    0.016</td> <td>   -1.840</td> <td> 0.066</td> <td>   -0.059</td> <td>    0.002</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>female</th>            <td>    0.0131</td> <td>    0.014</td> <td>    0.919</td> <td> 0.358</td> <td>   -0.015</td> <td>    0.041</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>black:female</th>      <td>   -0.0038</td> <td>    0.018</td> <td>   -0.213</td> <td> 0.831</td> <td>   -0.039</td> <td>    0.031</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>yearsexp</th>          <td>    0.0032</td> <td>    0.001</td> <td>    3.668</td> <td> 0.000</td> <td>    0.001</td> <td>    0.005</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>computerskills</th>    <td>   -0.0186</td> <td>    0.011</td> <td>   -1.618</td> <td> 0.106</td> <td>   -0.041</td> <td>    0.004</td>\n",
+       "</tr>\n",
+       "</table>\n",
+       "<table class=\"simpletable\">\n",
+       "<tr>\n",
+       "  <th>Omnibus:</th>       <td>2950.616</td> <th>  Durbin-Watson:     </th> <td>   1.448</td> \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>18630.964</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Skew:</th>           <td> 3.047</td>  <th>  Prob(JB):          </th> <td>    0.00</td> \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Kurtosis:</th>       <td>10.395</td>  <th>  Cond. No.          </th> <td>    226.</td> \n",
+       "</tr>\n",
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC3)"
+      ],
+      "text/latex": [
+       "\\begin{center}\n",
+       "\\begin{tabular}{lclc}\n",
+       "\\toprule\n",
+       "\\textbf{Dep. Variable:}    &       call       & \\textbf{  R-squared:         } &     0.008   \\\\\n",
+       "\\textbf{Model:}            &       OLS        & \\textbf{  Adj. R-squared:    } &     0.006   \\\\\n",
+       "\\textbf{Method:}           &  Least Squares   & \\textbf{  F-statistic:       } &     3.866   \\\\\n",
+       "\\textbf{Date:}             & Sun, 03 Mar 2024 & \\textbf{  Prob (F-statistic):} &  6.76e-05   \\\\\n",
+       "\\textbf{Time:}             &     10:32:17     & \\textbf{  Log-Likelihood:    } &   -551.00   \\\\\n",
+       "\\textbf{No. Observations:} &        4870      & \\textbf{  AIC:               } &     1122.   \\\\\n",
+       "\\textbf{Df Residuals:}     &        4860      & \\textbf{  BIC:               } &     1187.   \\\\\n",
+       "\\textbf{Df Model:}         &           9      & \\textbf{                     } &             \\\\\n",
+       "\\textbf{Covariance Type:}  &       HC3        & \\textbf{                     } &             \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "\\begin{tabular}{lcccccc}\n",
+       "                           & \\textbf{coef} & \\textbf{std err} & \\textbf{t} & \\textbf{P$> |$t$|$} & \\textbf{[0.025} & \\textbf{0.975]}  \\\\\n",
+       "\\midrule\n",
+       "\\textbf{Intercept}         &       0.0807  &        0.040     &     1.996  &         0.046        &        0.001    &        0.160     \\\\\n",
+       "\\textbf{C(education)[T.1]} &      -0.0021  &        0.057     &    -0.037  &         0.971        &       -0.114    &        0.110     \\\\\n",
+       "\\textbf{C(education)[T.2]} &      -0.0001  &        0.042     &    -0.003  &         0.998        &       -0.082    &        0.082     \\\\\n",
+       "\\textbf{C(education)[T.3]} &      -0.0026  &        0.039     &    -0.066  &         0.947        &       -0.079    &        0.074     \\\\\n",
+       "\\textbf{C(education)[T.4]} &      -0.0048  &        0.038     &    -0.125  &         0.900        &       -0.080    &        0.070     \\\\\n",
+       "\\textbf{black}             &      -0.0287  &        0.016     &    -1.840  &         0.066        &       -0.059    &        0.002     \\\\\n",
+       "\\textbf{female}            &       0.0131  &        0.014     &     0.919  &         0.358        &       -0.015    &        0.041     \\\\\n",
+       "\\textbf{black:female}      &      -0.0038  &        0.018     &    -0.213  &         0.831        &       -0.039    &        0.031     \\\\\n",
+       "\\textbf{yearsexp}          &       0.0032  &        0.001     &     3.668  &         0.000        &        0.001    &        0.005     \\\\\n",
+       "\\textbf{computerskills}    &      -0.0186  &        0.011     &    -1.618  &         0.106        &       -0.041    &        0.004     \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "\\begin{tabular}{lclc}\n",
+       "\\textbf{Omnibus:}       & 2950.616 & \\textbf{  Durbin-Watson:     } &     1.448  \\\\\n",
+       "\\textbf{Prob(Omnibus):} &   0.000  & \\textbf{  Jarque-Bera (JB):  } & 18630.964  \\\\\n",
+       "\\textbf{Skew:}          &   3.047  & \\textbf{  Prob(JB):          } &      0.00  \\\\\n",
+       "\\textbf{Kurtosis:}      &  10.395  & \\textbf{  Cond. No.          } &      226.  \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "%\\caption{OLS Regression Results}\n",
+       "\\end{center}\n",
+       "\n",
+       "Notes: \\newline\n",
+       " [1] Standard Errors are heteroscedasticity robust (HC3)"
+      ],
+      "text/plain": [
+       "<class 'statsmodels.iolib.summary.Summary'>\n",
+       "\"\"\"\n",
+       "                            OLS Regression Results                            \n",
+       "==============================================================================\n",
+       "Dep. Variable:                   call   R-squared:                       0.008\n",
+       "Model:                            OLS   Adj. R-squared:                  0.006\n",
+       "Method:                 Least Squares   F-statistic:                     3.866\n",
+       "Date:                Sun, 03 Mar 2024   Prob (F-statistic):           6.76e-05\n",
+       "Time:                        10:32:17   Log-Likelihood:                -551.00\n",
+       "No. Observations:                4870   AIC:                             1122.\n",
+       "Df Residuals:                    4860   BIC:                             1187.\n",
+       "Df Model:                           9                                         \n",
+       "Covariance Type:                  HC3                                         \n",
+       "=====================================================================================\n",
+       "                        coef    std err          t      P>|t|      [0.025      0.975]\n",
+       "-------------------------------------------------------------------------------------\n",
+       "Intercept             0.0807      0.040      1.996      0.046       0.001       0.160\n",
+       "C(education)[T.1]    -0.0021      0.057     -0.037      0.971      -0.114       0.110\n",
+       "C(education)[T.2]    -0.0001      0.042     -0.003      0.998      -0.082       0.082\n",
+       "C(education)[T.3]    -0.0026      0.039     -0.066      0.947      -0.079       0.074\n",
+       "C(education)[T.4]    -0.0048      0.038     -0.125      0.900      -0.080       0.070\n",
+       "black                -0.0287      0.016     -1.840      0.066      -0.059       0.002\n",
+       "female                0.0131      0.014      0.919      0.358      -0.015       0.041\n",
+       "black:female         -0.0038      0.018     -0.213      0.831      -0.039       0.031\n",
+       "yearsexp              0.0032      0.001      3.668      0.000       0.001       0.005\n",
+       "computerskills       -0.0186      0.011     -1.618      0.106      -0.041       0.004\n",
+       "==============================================================================\n",
+       "Omnibus:                     2950.616   Durbin-Watson:                   1.448\n",
+       "Prob(Omnibus):                  0.000   Jarque-Bera (JB):            18630.964\n",
+       "Skew:                           3.047   Prob(JB):                         0.00\n",
+       "Kurtosis:                      10.395   Cond. No.                         226.\n",
+       "==============================================================================\n",
+       "\n",
+       "Notes:\n",
+       "[1] Standard Errors are heteroscedasticity robust (HC3)\n",
+       "\"\"\""
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# As interaction\n",
+    "model = smf.ols(\n",
+    "    \"call ~ black*female + yearsexp + computerskills + C(education)\", resumes\n",
+    ").fit()\n",
+    "model.get_robustcov_results(cov_type=\"HC3\").summary()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "results[\"ex9_gender_and_discrimination\"] = \"greater discrimination for women\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> A little bit more discrimination for women maybe, but not only is it extremely insignificant statistically, but the point estimate is also very small (unlike above)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 10\n",
+    "\n",
+    "Calculate and/or lookup the following online:\n",
+    "\n",
+    "- What is the share of applicants in our dataset with college degrees?\n",
+    "- What share of Black adult Americans have college degrees (i.e. have completed a bachelors degree)?\n",
+    "\n",
+    "Is the share of Black applicants with college degrees in this data `\"greater\"`, or `\"less\"` than in the US? Store your answer as one of those strings in `\"ex10_experiment_v_us\"`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "72.0% of applicants have a college degree in the experimental data\n"
+     ]
+    }
+   ],
+   "source": [
+    "# In our data:\n",
+    "print(\n",
+    "    f\"{ (resumes['education'] == 4).mean():.1%} of \"\n",
+    "    \"applicants have a college degree in the experimental data\"\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> In the US, about 16% of Black adults have a college degree.\n",
+    "\n",
+    "> So the applicants are significantly more educated than the average American. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "results[\"ex10_experiment_v_us\"] = \"greater\""
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 11\n",
+    "\n",
+    "Bearing in mind your answers to Exercise 8 and to Exercise 10, how do you think the Average Treatment Effect you estimated in Exercises 5 and 6 might generalize to the experience of the average Black American (i.e., how do you think the ATE for the average Black American would compare to the ATE estimated from this experiment)?\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> With the obvious caveat that the statistical significance of the difference is low, but where we also acknowledge that is probably because our test is underpowered, given that discrimination seems higher for less educated job applicants and the resume experiment over-represented people with college degrees, real workplace discrimination is likely higher than suggested by the ATE estimated in Exercise 6."
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 12\n",
+    "\n",
+    "What does your answer to Exercise 10 imply about the study's *internal* validity?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> Nothing! It's unrelated to internal validity."
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 13\n",
+    "\n",
+    "What does your answer to Exercise 10 imply about the study's *external* validity?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> It implies that the study may not have external validity with respect to the broader US population, though we can easily use this as a *lower bound* on call back discrimination."
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## What Did We Just Measure?\n",
+    "\n",
+    "It's worth pausing for a moment to think about exactly what we've measured in this experiment. Was it the effect of race on hiring? Or the difference in the experience of the average White job applicant from the average Black job applicant?\n",
+    "\n",
+    "Well... no. What we have measured in this experiment is **just** the effect of having a Black-sounding name (as opposed to a White-sounding name) on your resume on the likelihood of getting a followup call from someone hiring in Boston or Chicago given identical resumes. In that sense, what we've measured is a small *piece* of the difference in the experience of Black and White Americans when seeking employment. As anyone looking for a job knows, getting a call-back is obviously a crucial step in getting a job, so this difference—even if it's just one part of the overall difference—is remarkable."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "assert set(results.keys()) == {\n",
+    "    \"ex2_pvalue_computerskills\",\n",
+    "    \"ex2_pvalue_female\",\n",
+    "    \"ex2_pvalue_yearsexp\",\n",
+    "    \"ex3_pvalue_education\",\n",
+    "    \"ex4_validity\",\n",
+    "    \"ex5_pvalue\",\n",
+    "    \"ex5_white_advantage_percent\",\n",
+    "    \"ex5_white_advantage_percentage_points\",\n",
+    "    \"ex6_black_pvalue\",\n",
+    "    \"ex8_black_college\",\n",
+    "    \"ex8_black_nocollege\",\n",
+    "    \"ex8_college_heterogeneity\",\n",
+    "    \"ex9_gender_and_discrimination\",\n",
+    "    \"ex10_experiment_v_us\",\n",
+    "}"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "base",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.8"
+  },
+  "vscode": {
+   "interpreter": {
+    "hash": "718fed28bf9f8c7851519acf2fb923cd655120b36de3b67253eeb0428bd33d2d"
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

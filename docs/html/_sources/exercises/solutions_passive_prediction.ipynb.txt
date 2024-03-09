@@ -1,0 +1,1946 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Predicting Mortgage Delinquency Risk\n",
+    "\n",
+    "**Note: this is a new exercise, so if you find something weird, please bring it to my attention.**\n",
+    "\n",
+    "You have been hired by a mortgage servicing firm (a company that buys mortgages and then collects mortgage payments from homeowners) to build a model to answer the question: \n",
+    "\n",
+    "**Given all available information about a newly issued mortgage, what is the likelihood that the mortgage will enter delinquency (the homeowner will be at least 30 days late on a mortgage payment) during the first two years of the mortgage?**\n",
+    "\n",
+    "The servicer's hope, obviously, is to differentiate between mortgages to try and purchase (those that will be consistently paid) and mortgages they wish to avoid.\n",
+    "\n",
+    "For this task, you have been given [REAL data on a sample of all US Standard single family home mortgages purchased or insured by Freddie Mac](https://www.freddiemac.com/research/datasets/sf-loanlevel-dataset) in a single calendar year along with payment data from that and two subsequent years."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "\n",
+    "## Gradescope Autograding\n",
+    "\n",
+    "Please follow [all standard guidance](https://www.practicaldatascience.org/html/autograder_guidelines.html) for submitting this assignment to the Gradescope autograder, including storing your solutions in a dictionary called `results` and ensuring your notebook runs from the start to completion without any errors.\n",
+    "\n",
+    "For this assignment, please name your file `exercise_passive_prediction.ipynb` before uploading.\n",
+    "\n",
+    "You can check that you have answers for all questions in your `results` dictionary with this code:\n",
+    "\n",
+    "```python\n",
+    "assert set(results.keys()) == {\n",
+    "    \"ex2_merge_type\",\n",
+    "    \"ex4_num_mortgages\",\n",
+    "    \"ex5_num_obs\",\n",
+    "    \"ex7_num_mortgages\",\n",
+    "    \"ex7_share_delinquent\",\n",
+    "    \"ex10_num_obs\",\n",
+    "    \"ex12_roc_auc\",\n",
+    "    \"ex14_false_omission_rate\",\n",
+    "    \"ex16_num_obs\",\n",
+    "    \"ex16_share_delinquent\",\n",
+    "    \"ex17_false_omission_rate\",\n",
+    "}\n",
+    "```\n",
+    "\n",
+    "\n",
+    "### Submission Limits\n",
+    "\n",
+    "Please remember that you are **only allowed FOUR submissions to the autograder.** Your last submission (if you submit 4 or fewer times), or your third submission (if you submit more than 4 times) will determine your grade Submissions that error out will **not** count against this total.\n",
+    "\n",
+    "That's one more than usual in case there are issues with exercise clarity."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Data Cleaning and Organization\n",
+    "\n",
+    "Data for this exercise can be [found here](https://github.com/nickeubank/MIDS_Data/tree/master/mortgages/2004). This folder includes both the data to be used and documentation, though you can find [supplemental documentation here](https://www.freddiemac.com/research/datasets/sf-loanlevel-dataset).\n",
+    "\n",
+    "The only difference between this data and the original Freddie Mac sampled data is that I've limited the scope of service data to three calendar years."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 1\n",
+    "\n",
+    "Begin by loading both: \n",
+    "\n",
+    "- the mortgage origination file (`sample_orig_2004.txt`). This *should* contain information on all mortgages issued in 2004, along with non-time varying features of these mortgages (the initial amount, the credit score of the applicant, etc.), and \n",
+    "- the servicing data (`sample_svcg_2004orig_3years.txt`). This contains monthly records of all recorded payments (or non-payments) for all mortgages issued in 2004 during the calendar years of 2004, 2005, and 2006.\n",
+    "\n",
+    "So the autograder can see the data, be sure to load it directly from a URL (don't download and load from your own system).\n",
+    "\n",
+    "Load the data AND ensure your data has column names. You will likely need to reference the documentation to figure out how to do so."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "\n",
+    "pd.set_option(\"mode.copy_on_write\", True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "origination_colnames = [\n",
+    "    \"Credit Score\",\n",
+    "    \"First Payment Date\",\n",
+    "    \"First Time Homebuyer Flag\",\n",
+    "    \"Maturity Date\",\n",
+    "    \"Metropolitan Statistical Area (MSA) Or Metropolitan Division\",\n",
+    "    \"Mortgage Insurance Percentage (MI %)\",\n",
+    "    \"Number of Units\",\n",
+    "    \"Occupancy Status\",\n",
+    "    \"Original Combined Loan-to-Value (CLTV)\",\n",
+    "    \"Original Debt-to-Income (DTI) Ratio\",\n",
+    "    \"Original UPB\",\n",
+    "    \"Original Loan-to-Value (LTV)\",\n",
+    "    \"Original Interest Rate\",\n",
+    "    \"Channel\",\n",
+    "    \"Prepayment Penalty Mortgage (PPM) Flag\",\n",
+    "    \"Amortization Type (Formerly Product Type)\",\n",
+    "    \"Property State\",\n",
+    "    \"Property Type\",\n",
+    "    \"Postal Code\",\n",
+    "    \"Loan Sequence Number\",\n",
+    "    \"Loan Purpose\",\n",
+    "    \"Original Loan Term\",\n",
+    "    \"Number of Borrowers\",\n",
+    "    \"Seller Name\",\n",
+    "    \"Servicer Name\",\n",
+    "    \"Super Conforming Flag\",\n",
+    "    \"Pre-HARP Loan Sequence Number\",\n",
+    "    \"Program Indicator\",\n",
+    "    \"HARP Indicator\",\n",
+    "    \"Property Valuation Method\",\n",
+    "    \"Interest Only (I/O) Indicator\",\n",
+    "    \"Mortgage Insurance Cancellation Indicator\",\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "service_colnames = [\n",
+    "    \"Loan Sequence Number\",\n",
+    "    \"Monthly Reporting Period\",\n",
+    "    \"Current Actual UPB\",\n",
+    "    \"Current Loan Delinquency Status\",\n",
+    "    \"Loan Age\",\n",
+    "    \"Remaining Months to Legal Maturity\",\n",
+    "    \"Defect Settlement Date\",\n",
+    "    \"Modification Flag\",\n",
+    "    \"Zero Balance Code\",\n",
+    "    \"Zero Balance Effective Date\",\n",
+    "    \"Current Interest Rate\",\n",
+    "    \"Current Deferred UPB\",\n",
+    "    \"Due Date of Last Paid Installment (DDLPI)\",\n",
+    "    \"MI Recoveries\",\n",
+    "    \"Net Sales Proceeds\",\n",
+    "    \"Non MI Recoveries\",\n",
+    "    \"Expenses\",\n",
+    "    \"Legal Costs\",\n",
+    "    \"Maintenance and Preservation Costs\",\n",
+    "    \"Taxes and Insurance\",\n",
+    "    \"Miscellaneous Expenses\",\n",
+    "    \"Actual Loss Calculation\",\n",
+    "    \"Modification Cost\",\n",
+    "    \"Step Modification Flag\",\n",
+    "    \"Deferred Payment Plan\",\n",
+    "    \"Estimated Loan-to-Value (ELTV)\",\n",
+    "    \"Zero Balance Removal UPB\",\n",
+    "    \"Delinquent Accrued Interest\",\n",
+    "    \"Delinquency Due to Disaster\",\n",
+    "    \"Borrower Assistance Status Code\",\n",
+    "    \"Current Month Modification Cost\",\n",
+    "    \"Interest Bearing UPB\",\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "2004 data has 50,000 new mortgages\n",
+      "2004 data has 1,287,161 servicing records\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/var/folders/fs/h_8_rwsn5hvg9mhp0txgc_s9v6191b/T/ipykernel_20548/3651092739.py:6: DtypeWarning: Columns (4,8,24) have mixed types. Specify dtype option on import or set low_memory=False.\n",
+      "  servicing = pd.read_csv(\n"
+     ]
+    }
+   ],
+   "source": [
+    "mortgages = pd.read_csv(\n",
+    "    \"https://github.com/nickeubank/MIDS_Data/raw/master/mortgages/2004/sample_orig_2004.txt\",\n",
+    "    sep=\"|\",\n",
+    "    names=origination_colnames,\n",
+    ")\n",
+    "servicing = pd.read_csv(\n",
+    "    \"https://github.com/nickeubank/MIDS_Data/raw/master/mortgages/2004/sample_svcg_2004orig_3years.txt\",\n",
+    "    sep=\"|\",\n",
+    "    names=service_colnames,\n",
+    ")\n",
+    "\n",
+    "print(f\"2004 data has {len(mortgages):,.0f} new mortgages\")\n",
+    "print(f\"2004 data has {len(servicing):,.0f} servicing records\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Life becomes way easier if I add this here,\n",
+    "# though you may not realize it till\n",
+    "# around exercise 7\n",
+    "servicing = servicing[\n",
+    "    [\n",
+    "        \"Monthly Reporting Period\",\n",
+    "        \"Current Loan Delinquency Status\",\n",
+    "        \"Loan Sequence Number\",\n",
+    "    ]\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 2\n",
+    "\n",
+    "What is the unit of observation in `sample_orig_2004.txt` and in `sample_svcg_2004orig_3years.txt`?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 3\n",
+    "\n",
+    "Merge your two datasets. Be sure to use the `validate` keyword argument in `merge`.\n",
+    "\n",
+    "You will find some records in the origination files not in the servicing file. We need data from both files, so just do an `inner` join.\n",
+    "\n",
+    "Assuming that you list the data associated with `sample_orig_2004.txt` first and `sample_svcg_2004orig_3years.txt` second, what keyword are you passing to `validate`? Store your answer as a string (use one of: `\"1:1\"`, `\"m:1\"`, `\"1:m\"`, `\"m:m\"`) in a dictionary called `results` under the key `ex2_merge_type`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "results = {}\n",
+    "results[\"ex2_merge_type\"] = \"1:m\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "combined = pd.merge(\n",
+    "    mortgages,\n",
+    "    servicing,\n",
+    "    on=\"Loan Sequence Number\",\n",
+    "    how=\"inner\",\n",
+    "    validate=\"1:m\",\n",
+    "    indicator=True,\n",
+    ")\n",
+    "combined._merge.value_counts()\n",
+    "assert (combined._merge != \"right_only\").all()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>163509</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>Credit Score</th>\n",
+       "      <td>711</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>First Payment Date</th>\n",
+       "      <td>200404</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>First Time Homebuyer Flag</th>\n",
+       "      <td>N</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Maturity Date</th>\n",
+       "      <td>201903</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Metropolitan Statistical Area (MSA) Or Metropolitan Division</th>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Mortgage Insurance Percentage (MI %)</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Number of Units</th>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Occupancy Status</th>\n",
+       "      <td>P</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Original Combined Loan-to-Value (CLTV)</th>\n",
+       "      <td>67</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Original Debt-to-Income (DTI) Ratio</th>\n",
+       "      <td>21</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Original UPB</th>\n",
+       "      <td>93000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Original Loan-to-Value (LTV)</th>\n",
+       "      <td>67</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Original Interest Rate</th>\n",
+       "      <td>5.375</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Channel</th>\n",
+       "      <td>T</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Prepayment Penalty Mortgage (PPM) Flag</th>\n",
+       "      <td>N</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Amortization Type (Formerly Product Type)</th>\n",
+       "      <td>FRM</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Property State</th>\n",
+       "      <td>MO</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Property Type</th>\n",
+       "      <td>SF</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Postal Code</th>\n",
+       "      <td>63300</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Loan Sequence Number</th>\n",
+       "      <td>F04Q10238951</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Loan Purpose</th>\n",
+       "      <td>N</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Original Loan Term</th>\n",
+       "      <td>180</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Number of Borrowers</th>\n",
+       "      <td>2</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Seller Name</th>\n",
+       "      <td>ABN AMRO MORTGAGE GROUP, INC.</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Servicer Name</th>\n",
+       "      <td>CITIMORTGAGE, INC.</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Super Conforming Flag</th>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Pre-HARP Loan Sequence Number</th>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Program Indicator</th>\n",
+       "      <td>9</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>HARP Indicator</th>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Property Valuation Method</th>\n",
+       "      <td>9</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Interest Only (I/O) Indicator</th>\n",
+       "      <td>N</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Mortgage Insurance Cancellation Indicator</th>\n",
+       "      <td>9</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Monthly Reporting Period</th>\n",
+       "      <td>200509</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Current Loan Delinquency Status</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>_merge</th>\n",
+       "      <td>both</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                                                           163509\n",
+       "Credit Score                                                                  711\n",
+       "First Payment Date                                                         200404\n",
+       "First Time Homebuyer Flag                                                       N\n",
+       "Maturity Date                                                              201903\n",
+       "Metropolitan Statistical Area (MSA) Or Metropol...                            NaN\n",
+       "Mortgage Insurance Percentage (MI %)                                            0\n",
+       "Number of Units                                                                 1\n",
+       "Occupancy Status                                                                P\n",
+       "Original Combined Loan-to-Value (CLTV)                                         67\n",
+       "Original Debt-to-Income (DTI) Ratio                                            21\n",
+       "Original UPB                                                                93000\n",
+       "Original Loan-to-Value (LTV)                                                   67\n",
+       "Original Interest Rate                                                      5.375\n",
+       "Channel                                                                         T\n",
+       "Prepayment Penalty Mortgage (PPM) Flag                                          N\n",
+       "Amortization Type (Formerly Product Type)                                     FRM\n",
+       "Property State                                                                 MO\n",
+       "Property Type                                                                  SF\n",
+       "Postal Code                                                                 63300\n",
+       "Loan Sequence Number                                                 F04Q10238951\n",
+       "Loan Purpose                                                                    N\n",
+       "Original Loan Term                                                            180\n",
+       "Number of Borrowers                                                             2\n",
+       "Seller Name                                         ABN AMRO MORTGAGE GROUP, INC.\n",
+       "Servicer Name                                                  CITIMORTGAGE, INC.\n",
+       "Super Conforming Flag                                                         NaN\n",
+       "Pre-HARP Loan Sequence Number                                                 NaN\n",
+       "Program Indicator                                                               9\n",
+       "HARP Indicator                                                                NaN\n",
+       "Property Valuation Method                                                       9\n",
+       "Interest Only (I/O) Indicator                                                   N\n",
+       "Mortgage Insurance Cancellation Indicator                                       9\n",
+       "Monthly Reporting Period                                                   200509\n",
+       "Current Loan Delinquency Status                                                 0\n",
+       "_merge                                                                       both"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "combined.sample().T"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 4\n",
+    "\n",
+    "Mortgages come in many shapes and flavors, however your servicer is only interested in predicting default for the more standard form of mortgage. Subset your data to only include:\n",
+    "\n",
+    "- Mortgages taken out for purchase of a property,\n",
+    "- With first payments due in the quarter of origination or the first quarter after origination.\n",
+    "\n",
+    "(In a perfect world we would just limit our analysis to mortgages where the first payment is due the month after origination. Unfortunately we only know the *quarter* of origination, so the only way to subset for relatively vanilla mortgages is to look for mortgages where the first payment was due in the same quarter or the quarter after origination.)\n",
+    "\n",
+    "Subset for these mortgages. How many unique mortgages remain in the data? \n",
+    "\n",
+    "Hint: You may need to read the documentation for the `Loan Sequence Number` variable.\n",
+    "\n",
+    "Store the resulting number of unique mortgages in `results` under the key `ex4_num_mortgages`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "After subsetting there are 17,504 unique mortgages\n"
+     ]
+    }
+   ],
+   "source": [
+    "# For purchase\n",
+    "combined = combined[combined[\"Loan Purpose\"] == \"P\"]\n",
+    "\n",
+    "# First payment\n",
+    "combined[\"year_first\"] = combined[\"First Payment Date\"] // 100\n",
+    "combined[\"month_first\"] = combined[\"First Payment Date\"] % 100\n",
+    "combined[\"quarter_first\"] = ((combined[\"month_first\"] - 1) // 3) + 1\n",
+    "assert combined[\"quarter_first\"].isin(range(1, 5)).all()\n",
+    "\n",
+    "combined[\"year_decimal_first\"] = (\n",
+    "    combined[\"year_first\"] + (combined[\"month_first\"] - 1) / 12\n",
+    ")\n",
+    "\n",
+    "# Origination. Get from loan sequence number.\n",
+    "combined[\"year_orig\"] = combined[\"Loan Sequence Number\"].str.get(2).astype(\"int\") + 2000\n",
+    "assert (combined[\"year_orig\"] == 2004).all()\n",
+    "combined[\"quarter_orig\"] = combined[\"Loan Sequence Number\"].str.get(4).astype(\"int\")\n",
+    "assert combined[\"quarter_orig\"].isin(range(1, 5)).all()\n",
+    "\n",
+    "\n",
+    "# Keep only if same or following quarter\n",
+    "same_quarter = (combined[\"year_first\"] == combined[\"year_orig\"]) & (\n",
+    "    combined[\"quarter_first\"] == combined[\"quarter_orig\"]\n",
+    ")\n",
+    "next_quarter_same_year = (combined[\"year_first\"] == combined[\"year_orig\"]) & (\n",
+    "    combined[\"quarter_first\"] == (combined[\"quarter_orig\"] + 1)\n",
+    ")\n",
+    "next_quarter_next_year = (\n",
+    "    (combined[\"year_first\"] == (combined[\"year_orig\"] + 1))\n",
+    "    & (combined[\"quarter_first\"] == 1)\n",
+    "    & (combined[\"quarter_orig\"] == 4)\n",
+    ")\n",
+    "combined = combined[same_quarter | next_quarter_same_year | next_quarter_next_year]\n",
+    "\n",
+    "results[\"ex4_num_mortgages\"] = combined[\"Loan Sequence Number\"].nunique()\n",
+    "print(\n",
+    "    f\"After subsetting there are {results['ex4_num_mortgages']:,.0f} unique mortgages\"\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 5\n",
+    "\n",
+    "The servicer wants to predict delinquency during the first 24 payment due dates (you may assume payments are due every month starting with the month the first payment is due). Subset the data to these first 24 (possible) payment due dates.\n",
+    "\n",
+    "Note that not all loans will have 24 records in the servicing file in the first 24 months as a result of data merging issues on behalf of Freddie Mac. As noted in the Freddie Mac documentation:\n",
+    "\n",
+    "> For a given loan, each monthly reporting period in the monthly performance data file combines data elements from multiple reporting cycles and systems at Freddie Mac. As such, perceived data anomalies may be a result of timing mismatches between default/delinquency reporting cycles and investor reporting cycles. Examples of some commonly occurring anomalies in the data are included throughout this section. In all cases, the best information available at the time the Dataset is generated, subject to operational constraints, is used.\n",
+    "\n",
+    "So subset for the first two years of (possible) payments, resulting in *up to* 24 observations per mortgage (but potentially less given the data cleanliness issues).\n",
+    "\n",
+    "After this subsetting, store the number of remaining observations (not mortgages, observation) in `results` under the key `\"ex5_num_obs\"`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "age\n",
+       "-0.0833    14436\n",
+       " 0.0000    16613\n",
+       " 0.0833    16970\n",
+       " 0.1667    17088\n",
+       " 0.2500    17051\n",
+       " 0.3333    16975\n",
+       " 0.4167    16899\n",
+       " 0.5000    16788\n",
+       " 0.5833    16629\n",
+       " 0.6667    16494\n",
+       " 0.7500    16342\n",
+       " 0.8333    16203\n",
+       " 0.9167    16038\n",
+       " 1.0000    15861\n",
+       " 1.0833    15683\n",
+       " 1.1667    15535\n",
+       " 1.2500    15370\n",
+       " 1.3333    15192\n",
+       " 1.4167    15052\n",
+       " 1.5000    14940\n",
+       " 1.5833    14823\n",
+       " 1.6667    14704\n",
+       " 1.7500    14586\n",
+       " 1.8333    14466\n",
+       " 1.9167    13159\n",
+       " 2.0000    11743\n",
+       " 2.0833    10369\n",
+       " 2.1667     8766\n",
+       " 2.2500     7129\n",
+       " 2.3333     5561\n",
+       " 2.4167     4474\n",
+       " 2.5000     3416\n",
+       " 2.5833     2342\n",
+       " 2.6667     1397\n",
+       " 2.7500      600\n",
+       " 2.8333       16\n",
+       "Name: count, dtype: int64"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "combined[\"year_reporting\"] = combined[\"Monthly Reporting Period\"] // 100\n",
+    "combined[\"month_reporting\"] = combined[\"Monthly Reporting Period\"] % 100\n",
+    "combined[\"year_decimal_reporting\"] = (\n",
+    "    combined[\"year_reporting\"] + (combined[\"month_reporting\"] - 1) / 12\n",
+    ")\n",
+    "\n",
+    "combined[\"age\"] = np.round(\n",
+    "    (combined[\"year_decimal_reporting\"] - combined[\"year_decimal_first\"]), 4\n",
+    ")\n",
+    "combined[\"age\"].value_counts().sort_index()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "two_years = combined[(0 <= combined[\"age\"]) & (combined[\"age\"] < 2)]\n",
+    "\n",
+    "# Make sure I don't have an off-by-one problem.\n",
+    "assert len(two_years[\"age\"].value_counts()) == 24"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Number of obs is 379,461\n"
+     ]
+    }
+   ],
+   "source": [
+    "results[\"ex5_num_obs\"] = len(two_years)\n",
+    "print(f\"Number of obs is {results['ex5_num_obs']:,.0f}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 6\n",
+    "\n",
+    "For each unique mortgage in your dataset, create an indicator variable that takes on a value of 1 if, at any time during this period, the mortgage has been delinquent.\n",
+    "\n",
+    "Delinquency status is stored in the variable `CURRENT LOAN DELINQUENCY STATUS`, and is coded as:\n",
+    "\n",
+    "> CURRENT LOAN DELINQUENCY STATUS – A value corresponding to the number of days the borrower is delinquent, based on the due date of last paid installment (“DDLPI”) reported by servicers to Freddie Mac, and is calculated under the Mortgage Bankers Association (MBA) method.\n",
+    "If a loan has been acquired by REO, then the Current Loan Delinquency Status will reflect the value corresponding to that status (instead of the value corresponding to the number of days the borrower is delinquent).\n",
+    ">\n",
+    "> 0 = Current, or less than 30 days delinquent\n",
+    "> \n",
+    "> 1 = 30-59 days delinquent\n",
+    "> \n",
+    "> 2=60–89days delinquent\n",
+    "> \n",
+    "> 3=90–119days delinquent\n",
+    "> \n",
+    "> And so on...\n",
+    "> \n",
+    "> RA = REO Acquisition\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Current Loan Delinquency Status\n",
+    "two_years[\"Current Loan Delinquency Status\"] = (\n",
+    "    two_years[\"Current Loan Delinquency Status\"].replace(\"RA\", 99).astype(\"int\")\n",
+    ")\n",
+    "\n",
+    "two_years[\"ever_delinquent\"] = (\n",
+    "    two_years.groupby(\"Loan Sequence Number\")[\n",
+    "        \"Current Loan Delinquency Status\"\n",
+    "    ].transform(\"max\")\n",
+    "    > 0\n",
+    ").astype(\"int\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 7\n",
+    "\n",
+    "At this point, you should be able to drop all servicing variables reported on a monthly basis and just keep information about the original mortgage issuance (and still keep an indicator for whether the mortgage has ever been delinquent).\n",
+    "\n",
+    "Store the final number of mortgages in your data under `ex7_num_mortgages` and the share (between 0 and 1) of mortgages that have been delinquent under `ex7_share_delinquent`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['Credit Score', 'First Payment Date', 'First Time Homebuyer Flag',\n",
+       "       'Maturity Date',\n",
+       "       'Metropolitan Statistical Area (MSA) Or Metropolitan Division',\n",
+       "       'Mortgage Insurance Percentage (MI %)', 'Number of Units',\n",
+       "       'Occupancy Status', 'Original Combined Loan-to-Value (CLTV)',\n",
+       "       'Original Debt-to-Income (DTI) Ratio', 'Original UPB',\n",
+       "       'Original Loan-to-Value (LTV)', 'Original Interest Rate', 'Channel',\n",
+       "       'Prepayment Penalty Mortgage (PPM) Flag',\n",
+       "       'Amortization Type (Formerly Product Type)', 'Property State',\n",
+       "       'Property Type', 'Postal Code', 'Loan Sequence Number', 'Loan Purpose',\n",
+       "       'Original Loan Term', 'Number of Borrowers', 'Seller Name',\n",
+       "       'Servicer Name', 'Super Conforming Flag',\n",
+       "       'Pre-HARP Loan Sequence Number', 'Program Indicator', 'HARP Indicator',\n",
+       "       'Property Valuation Method', 'Interest Only (I/O) Indicator',\n",
+       "       'Mortgage Insurance Cancellation Indicator', 'Monthly Reporting Period',\n",
+       "       'Current Loan Delinquency Status', '_merge', 'year_first',\n",
+       "       'month_first', 'quarter_first', 'year_decimal_first', 'year_orig',\n",
+       "       'quarter_orig', 'year_reporting', 'month_reporting',\n",
+       "       'year_decimal_reporting', 'age', 'ever_delinquent'],\n",
+       "      dtype='object')"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "two_years.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "There are now 17,471 unique mortgages in the data.\n",
+      "During the period studied, 7.1% of loans are delinquent at some point.\n"
+     ]
+    }
+   ],
+   "source": [
+    "# This is made easier by drops earlier.\n",
+    "two_years = two_years.drop(\n",
+    "    columns=[\n",
+    "        \"Current Loan Delinquency Status\",\n",
+    "        \"Monthly Reporting Period\",\n",
+    "        \"month_reporting\",\n",
+    "        \"year_reporting\",\n",
+    "        \"year_decimal_reporting\",\n",
+    "        \"age\",\n",
+    "        \"_merge\",\n",
+    "    ]\n",
+    ")\n",
+    "two_years = two_years.drop_duplicates()\n",
+    "assert two_years[\"Loan Sequence Number\"].is_unique\n",
+    "results[\"ex7_share_delinquent\"] = two_years.ever_delinquent.mean()\n",
+    "results[\"ex7_num_mortgages\"] = len(two_years)\n",
+    "\n",
+    "print(\n",
+    "    f\"There are now {results['ex7_num_mortgages']:,.0f} unique mortgages in the data.\"\n",
+    ")\n",
+    "print(\n",
+    "    f\"During the period studied, {results['ex7_share_delinquent']:.1%}\"\n",
+    "    \" of loans are delinquent at some point.\"\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Modelling Delinquency Risk\n",
+    "\n",
+    "Your data should now be relatively [tidy](https://vita.had.co.nz/papers/tidy-data.pdf), in the technical sense of the term. And that means it should be relatively straightforward for you to build a model that answers the question \"Given the features of a newly originated mortgage, how likely is the mortgage holder to fall into delinquency within the first two years after origination?\"\n",
+    "\n",
+    "### Exercise 8\n",
+    "\n",
+    "First, we need to identify the target for our model useful predictors from the data and do feature engineering.\n",
+    "\n",
+    "Let's begin with identifying some features that probably *aren't* going to be useful. For example, `\"Metropolitan Statistical Area (MSA) Or Metropolitan Division\"` is probably *not* an appropriate feature to include in this analysis. Can you figure out why? Make sure to show (quantitatively) why not. \n",
+    "\n",
+    "Hint: should be more than the missing rate.\n",
+    "\n",
+    "Hint 2: how many observations for a given city do you think you'd need to determine if that city had especially high mortgage delinquency rates?\n",
+    "\n",
+    "Hint 3: if not all possible values of a variable are present in your training data, what problem might that cause during testing and deployment?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "MSA Missing for 27.6% of observations.\n"
+     ]
+    }
+   ],
+   "source": [
+    "missing = (\n",
+    "    two_years[\"Metropolitan Statistical Area (MSA) Or Metropolitan Division\"]\n",
+    "    .isna()\n",
+    "    .mean()\n",
+    ")\n",
+    "print(f\"MSA Missing for {missing:.1%} of observations.\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Another 10.0% of observations in MSA with zero delinquencies and 39.1% have less than 4 delinquencies.\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/var/folders/fs/h_8_rwsn5hvg9mhp0txgc_s9v6191b/T/ipykernel_20548/2479956568.py:6: FutureWarning: The provided callable <function sum at 0x104c5a480> is currently using SeriesGroupBy.sum. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"sum\" instead.\n",
+      "  )[\"ever_delinquent\"].transform(np.sum)\n"
+     ]
+    }
+   ],
+   "source": [
+    "has_msa = two_years[\n",
+    "    two_years[\"Metropolitan Statistical Area (MSA) Or Metropolitan Division\"].notnull()\n",
+    "]\n",
+    "has_msa[\"msa_has_delinquent\"] = has_msa.groupby(\n",
+    "    \"Metropolitan Statistical Area (MSA) Or Metropolitan Division\"\n",
+    ")[\"ever_delinquent\"].transform(np.sum)\n",
+    "\n",
+    "no_delinquents = (has_msa[\"msa_has_delinquent\"] == 0).mean()\n",
+    "few_delinquents = (has_msa[\"msa_has_delinquent\"] < 4).mean()\n",
+    "\n",
+    "print(\n",
+    "    f\"Another {no_delinquents:.1%} of observations in MSA with zero delinquencies \"\n",
+    "    f\"and {few_delinquents:.1%} have less than 4 delinquencies.\"\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> It's missing for about 27% of the mortgages in the data, there are zero delinquencies in another 10% of observations, and 39% have 3 or fewer. That's just too sparse — when coefficients are being estimated for those categories, they're bound to over-fit. \n",
+    ">\n",
+    "> Put differently: would you be comfortable estimating the delinquency rate for, say, the city of Denver, CO with three or fewer observations? Of course not, but when you try and predict values to new data, that's precisely what you're doing — applying an estimate of delinquency from a few observations to any new observations in that MSA."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 9\n",
+    "\n",
+    "For your analysis, include the following variables: \n",
+    "\n",
+    "```\n",
+    "Credit Score\n",
+    "First Time Homebuyer Flag\n",
+    "Number of Units\n",
+    "Mortgage Insurance Percentage (MI %)\n",
+    "Occupancy Status\n",
+    "Original Debt-to-Income (DTI) Ratio\n",
+    "Original UPB\n",
+    "Original Loan-to-Value (LTV)\n",
+    "Original Interest Rate\n",
+    "Channel\n",
+    "Prepayment Penalty Mortgage (PPM) Flag\n",
+    "Amortization Type (Formerly Product Type)\n",
+    "Property State\n",
+    "Property Type\n",
+    "Original Loan Term\n",
+    "Number of Borrowers\n",
+    "Interest Only (I/O) Indicator\n",
+    "```\n",
+    "\n",
+    "Be sure to clean these variables. When doing so, please treat missing data as missing (e.g., `np.nan`, not as a distinct category)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Clean up!\n",
+    "for i in [\n",
+    "    \"Channel\",\n",
+    "    \"Property Valuation Method\",\n",
+    "    \"First Time Homebuyer Flag\",\n",
+    "    \"Occupancy Status\",\n",
+    "]:\n",
+    "    two_years[i] = two_years[i].replace(9, np.nan)\n",
+    "    two_years[i] = two_years[i].replace(\"9\", np.nan)\n",
+    "\n",
+    "for i in [\"Number of Units\", \"Property Type\", \"Number of Borrowers\"]:\n",
+    "    two_years[i] = two_years[i].replace(99, np.nan)\n",
+    "    two_years[i] = two_years[i].replace(\"99\", np.nan)\n",
+    "\n",
+    "\n",
+    "for i in [\n",
+    "    \"Mortgage Insurance Percentage (MI %)\",\n",
+    "    \"Original Debt-to-Income (DTI) Ratio\",\n",
+    "    \"Original Loan-to-Value (LTV)\",\n",
+    "]:\n",
+    "    two_years[i] = two_years[i].replace(999, np.nan)\n",
+    "    two_years[i] = two_years[i].replace(\"999\", np.nan)\n",
+    "\n",
+    "two_years[\"Credit Score\"] = two_years[\"Credit Score\"].replace(9999, np.nan)\n",
+    "two_years[\"Credit Score\"] = two_years[\"Credit Score\"].replace(\"9999\", np.nan)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for_ml = two_years[\n",
+    "    [\n",
+    "        \"Credit Score\",\n",
+    "        \"First Time Homebuyer Flag\",\n",
+    "        \"Number of Units\",\n",
+    "        \"Mortgage Insurance Percentage (MI %)\",\n",
+    "        \"Occupancy Status\",\n",
+    "        \"Original Debt-to-Income (DTI) Ratio\",\n",
+    "        \"Original UPB\",\n",
+    "        \"Original Loan-to-Value (LTV)\",\n",
+    "        \"Original Interest Rate\",\n",
+    "        \"Channel\",\n",
+    "        \"Prepayment Penalty Mortgage (PPM) Flag\",\n",
+    "        \"Amortization Type (Formerly Product Type)\",\n",
+    "        \"Property State\",\n",
+    "        \"Property Type\",\n",
+    "        \"Original Loan Term\",\n",
+    "        \"Number of Borrowers\",\n",
+    "        \"Interest Only (I/O) Indicator\",\n",
+    "        \"ever_delinquent\",\n",
+    "        \"Loan Sequence Number\",\n",
+    "    ]\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 10\n",
+    "\n",
+    "The next step in our analysis is to convert our categorical variables to one-hot-encodings and use `train_test_split` to split our data.\n",
+    "\n",
+    "To ensure replicability, **before** you `train_test_split` your data, please sort your data by `Loan Sequence Number`. This will ensure when we split the data with a random seed below, everyone will get the same split and the autograder will function.\n",
+    "\n",
+    "You may create your one-hot-encodings however you wish, but I'm a fan of the [patsy library's](https://patsy.readthedocs.io/en/latest/overview.html) `dmatrices` function.\n",
+    "\n",
+    "Hint: You should end up with 8 categorical variables, including some binary flags and `Number_of_Borrowers`, `Number_of_Units` (which you could argue should be continuous, but I think are better treated as categorical).\n",
+    "\n",
+    "Store the number of observations in your final dataset in `ex10_num_obs`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['Credit_Score', 'First_Time_Homebuyer_Flag', 'Number_of_Units',\n",
+       "       'Mortgage_Insurance_Percentage_MI_', 'Occupancy_Status',\n",
+       "       'Original_DebttoIncome_DTI_Ratio', 'Original_UPB',\n",
+       "       'Original_LoantoValue_LTV', 'Original_Interest_Rate', 'Channel',\n",
+       "       'Prepayment_Penalty_Mortgage_PPM_Flag',\n",
+       "       'Amortization_Type_Formerly_Product_Type', 'Property_State',\n",
+       "       'Property_Type', 'Original_Loan_Term', 'Number_of_Borrowers',\n",
+       "       'Interest_Only_IO_Indicator', 'ever_delinquent',\n",
+       "       'Loan_Sequence_Number'],\n",
+       "      dtype='object')"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "for_ml = for_ml.sort_values(\"Loan Sequence Number\")\n",
+    "\n",
+    "import patsy\n",
+    "import re\n",
+    "\n",
+    "# Patsy can't handle this type of punctuation in formulas\n",
+    "for_ml.columns = [re.sub(\" \", \"_\", c) for c in for_ml.columns]\n",
+    "for_ml.columns = [re.sub(\"%\", \"\", c) for c in for_ml.columns]\n",
+    "for_ml.columns = [re.sub(\"/\", \"\", c) for c in for_ml.columns]\n",
+    "for_ml.columns = [re.sub(\"\\(\", \"\", c) for c in for_ml.columns]\n",
+    "for_ml.columns = [re.sub(\"\\)\", \"\", c) for c in for_ml.columns]\n",
+    "for_ml.columns = [re.sub(\"-\", \"\", c) for c in for_ml.columns]\n",
+    "\n",
+    "for_ml.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Property_Type\n",
+       "SF    12117\n",
+       "PU     3224\n",
+       "CO     1741\n",
+       "MH      264\n",
+       "CP      120\n",
+       "Name: count, dtype: int64"
+      ]
+     },
+     "execution_count": 21,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "for_ml[\"Property_Type\"].value_counts()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "y, X = patsy.dmatrices(\n",
+    "    \"ever_delinquent ~ Credit_Score\"\n",
+    "    \"+ First_Time_Homebuyer_Flag\"\n",
+    "    \"+ C(Number_of_Units)\"\n",
+    "    \"+ Mortgage_Insurance_Percentage_MI_\"\n",
+    "    \"+ Occupancy_Status\"\n",
+    "    \"+ Original_DebttoIncome_DTI_Ratio\"\n",
+    "    \"+ Original_UPB\"\n",
+    "    \"+ Original_LoantoValue_LTV\"\n",
+    "    \"+ Original_Interest_Rate\"\n",
+    "    \"+ Channel\"\n",
+    "    \"+ Prepayment_Penalty_Mortgage_PPM_Flag\"\n",
+    "    \"+ Amortization_Type_Formerly_Product_Type\"\n",
+    "    \"+ Property_State\"\n",
+    "    \"+ Property_Type\"\n",
+    "    \"+ Original_Loan_Term\"\n",
+    "    \"+ C(Number_of_Borrowers)\"\n",
+    "    \"+ Interest_Only_IO_Indicator\",\n",
+    "    for_ml,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "DesignMatrix with shape (17052, 76)\n",
+       "  Columns:\n",
+       "    ['Intercept',\n",
+       "     'First_Time_Homebuyer_Flag[T.Y]',\n",
+       "     'C(Number_of_Units)[T.2.0]',\n",
+       "     'C(Number_of_Units)[T.3.0]',\n",
+       "     'C(Number_of_Units)[T.4.0]',\n",
+       "     'Occupancy_Status[T.P]',\n",
+       "     'Occupancy_Status[T.S]',\n",
+       "     'Channel[T.C]',\n",
+       "     'Channel[T.R]',\n",
+       "     'Channel[T.T]',\n",
+       "     'Prepayment_Penalty_Mortgage_PPM_Flag[T.Y]',\n",
+       "     'Property_State[T.AL]',\n",
+       "     'Property_State[T.AR]',\n",
+       "     'Property_State[T.AZ]',\n",
+       "     'Property_State[T.CA]',\n",
+       "     'Property_State[T.CO]',\n",
+       "     'Property_State[T.CT]',\n",
+       "     'Property_State[T.DC]',\n",
+       "     'Property_State[T.DE]',\n",
+       "     'Property_State[T.FL]',\n",
+       "     'Property_State[T.GA]',\n",
+       "     'Property_State[T.GU]',\n",
+       "     'Property_State[T.HI]',\n",
+       "     'Property_State[T.IA]',\n",
+       "     'Property_State[T.ID]',\n",
+       "     'Property_State[T.IL]',\n",
+       "     'Property_State[T.IN]',\n",
+       "     'Property_State[T.KS]',\n",
+       "     'Property_State[T.KY]',\n",
+       "     'Property_State[T.LA]',\n",
+       "     'Property_State[T.MA]',\n",
+       "     'Property_State[T.MD]',\n",
+       "     'Property_State[T.ME]',\n",
+       "     'Property_State[T.MI]',\n",
+       "     'Property_State[T.MN]',\n",
+       "     'Property_State[T.MO]',\n",
+       "     'Property_State[T.MS]',\n",
+       "     'Property_State[T.MT]',\n",
+       "     'Property_State[T.NC]',\n",
+       "     'Property_State[T.ND]',\n",
+       "     'Property_State[T.NE]',\n",
+       "     'Property_State[T.NH]',\n",
+       "     'Property_State[T.NJ]',\n",
+       "     'Property_State[T.NM]',\n",
+       "     'Property_State[T.NV]',\n",
+       "     'Property_State[T.NY]',\n",
+       "     'Property_State[T.OH]',\n",
+       "     'Property_State[T.OK]',\n",
+       "     'Property_State[T.OR]',\n",
+       "     'Property_State[T.PA]',\n",
+       "     'Property_State[T.PR]',\n",
+       "     'Property_State[T.RI]',\n",
+       "     'Property_State[T.SC]',\n",
+       "     'Property_State[T.SD]',\n",
+       "     'Property_State[T.TN]',\n",
+       "     'Property_State[T.TX]',\n",
+       "     'Property_State[T.UT]',\n",
+       "     'Property_State[T.VA]',\n",
+       "     'Property_State[T.VI]',\n",
+       "     'Property_State[T.VT]',\n",
+       "     'Property_State[T.WA]',\n",
+       "     'Property_State[T.WI]',\n",
+       "     'Property_State[T.WV]',\n",
+       "     'Property_State[T.WY]',\n",
+       "     'Property_Type[T.CP]',\n",
+       "     'Property_Type[T.MH]',\n",
+       "     'Property_Type[T.PU]',\n",
+       "     'Property_Type[T.SF]',\n",
+       "     'C(Number_of_Borrowers)[T.2.0]',\n",
+       "     'Credit_Score',\n",
+       "     'Mortgage_Insurance_Percentage_MI_',\n",
+       "     'Original_DebttoIncome_DTI_Ratio',\n",
+       "     'Original_UPB',\n",
+       "     'Original_LoantoValue_LTV',\n",
+       "     'Original_Interest_Rate',\n",
+       "     'Original_Loan_Term']\n",
+       "  Terms:\n",
+       "    'Intercept' (column 0)\n",
+       "    'First_Time_Homebuyer_Flag' (column 1)\n",
+       "    'C(Number_of_Units)' (columns 2:5)\n",
+       "    'Occupancy_Status' (columns 5:7)\n",
+       "    'Channel' (columns 7:10)\n",
+       "    'Prepayment_Penalty_Mortgage_PPM_Flag' (column 10)\n",
+       "    'Amortization_Type_Formerly_Product_Type' (columns 11:11)\n",
+       "    'Property_State' (columns 11:64)\n",
+       "    'Property_Type' (columns 64:68)\n",
+       "    'C(Number_of_Borrowers)' (column 68)\n",
+       "    'Interest_Only_IO_Indicator' (columns 69:69)\n",
+       "    'Credit_Score' (column 69)\n",
+       "    'Mortgage_Insurance_Percentage_MI_' (column 70)\n",
+       "    'Original_DebttoIncome_DTI_Ratio' (column 71)\n",
+       "    'Original_UPB' (column 72)\n",
+       "    'Original_LoantoValue_LTV' (column 73)\n",
+       "    'Original_Interest_Rate' (column 74)\n",
+       "    'Original_Loan_Term' (column 75)\n",
+       "  (to view full data, use np.asarray(this_obj))"
+      ]
+     },
+     "execution_count": 23,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Eyeball check result\n",
+    "X"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The final dataset has 17,052 observations\n"
+     ]
+    }
+   ],
+   "source": [
+    "results[\"ex10_num_obs\"] = X.shape[0]\n",
+    "print(f\"The final dataset has {results['ex10_num_obs']:,.0f} observations\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 11\n",
+    "\n",
+    "Use `train_test_split` from `sklearn.model_selection` to split the data. \n",
+    "\n",
+    "Before you do, Use `0.2` as the `test_size` and use `random_state=42`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.model_selection import train_test_split\n",
+    "\n",
+    "X_train, X_test, y_train, y_test = train_test_split(\n",
+    "    X, y, test_size=0.2, random_state=42\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 12\n",
+    "\n",
+    "Now fit a `GradientBoostingClassifier` to the data (from `sklearn.ensemble`). Set `random_state=42`. using `roc_auc_score`, get your ROC AUC score against the test data. \n",
+    "\n",
+    "**Please round your answer to two decimal places** - sometimes sklearn models have very small instabilities even after setting a random seed. \n",
+    "\n",
+    "Store in `results` under the key `\"ex12_roc_auc\"`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/Users/nce8/opt/miniconda3/lib/python3.11/site-packages/sklearn/preprocessing/_label.py:114: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples, ), for example using ravel().\n",
+      "  y = column_or_1d(y, warn=True)\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "My ROC AUC score rounded to 2 places is 0.71\n"
+     ]
+    }
+   ],
+   "source": [
+    "from sklearn.ensemble import GradientBoostingClassifier\n",
+    "from sklearn.metrics import roc_auc_score, confusion_matrix\n",
+    "import matplotlib.pyplot as plt\n",
+    "\n",
+    "\n",
+    "gb = GradientBoostingClassifier(random_state=42)\n",
+    "gb.fit(X_train, y_train)\n",
+    "\n",
+    "# Predicts\n",
+    "y_pred = gb.predict(X_test)\n",
+    "y_pred_proba = gb.predict_proba(X_test)[:, 1]\n",
+    "\n",
+    "# Score ane matrix\n",
+    "auc_score = roc_auc_score(y_test, y_pred_proba)\n",
+    "conf_matrix = confusion_matrix(y_test, y_pred)\n",
+    "\n",
+    "results[\"ex12_roc_auc\"] = np.round(auc_score, 2)\n",
+    "print(f\"My ROC AUC score rounded to 2 places is {results['ex12_roc_auc']:.2f}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 13\n",
+    "\n",
+    "Use the `predict` method to generate a confusion matrix. What problem do you see with the result?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Confusion matrix:\n",
+      "[[3146    9]\n",
+      " [ 252    4]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"Confusion matrix:\\n{conf_matrix}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> It's just getting accuracy by almost always saying \"no delinquency\" (the dominant class), a canonical issue with unbalanced data."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 14\n",
+    "\n",
+    "To address the problem from Exercise 13, use `.predict_proba()` to set your own threshold for classification. Your stakeholder is mostly concerned with False Negatives (mortgages classified as safe that actually are not), so use an 8% probability threshold to get a good balance of a low [False Omission Rate](https://en.wikipedia.org/wiki/False_omission_rate) (the share of predicted negatives that are false negatives) with a reasonable amount of mortgages still being considered \"viable.\"\n",
+    "\n",
+    "In other words, treat a mortgage as risky (`1`) if the predicted probability is greater than 0.08. Be sure to use \"greater than\" rather than \"greater than or equal to\". \n",
+    "\n",
+    "What is the False Omission Rate at an 8% classification threshold from the model above?\n",
+    "\n",
+    "Store the result under the key `\"ex14_false_omission_rate\"`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Confusion matrix with 0.08 cutoff:\n",
+      "[[2387  768]\n",
+      " [ 123  133]]\n",
+      "The False Omission Rate at 0.08 is:\n",
+      "4.90%\n"
+     ]
+    }
+   ],
+   "source": [
+    "CUTOFF = 0.08\n",
+    "conf_matrix = confusion_matrix(y_test, (y_pred_proba > CUTOFF))\n",
+    "print(f\"Confusion matrix with {CUTOFF} cutoff:\\n{conf_matrix}\")\n",
+    "\n",
+    "results[\"ex14_false_omission_rate\"] = float(\n",
+    "    conf_matrix[1, 0] / np.sum(conf_matrix[:, 0])\n",
+    ")\n",
+    "print(\n",
+    "    f\"The False Omission Rate at {CUTOFF} is:\\n{results['ex14_false_omission_rate']:.2%}\"\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "pd_confusion_matrix = pd.crosstab(\n",
+    "    y_test.squeeze(),\n",
+    "    (y_pred_proba > CUTOFF).astype(\"int\"),\n",
+    "    rownames=[\"Actual\"],\n",
+    "    colnames=[\"Predicted\"],\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th>Predicted</th>\n",
+       "      <th>0</th>\n",
+       "      <th>1</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Actual</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0.0</th>\n",
+       "      <td>2387</td>\n",
+       "      <td>768</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1.0</th>\n",
+       "      <td>123</td>\n",
+       "      <td>133</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "Predicted     0    1\n",
+       "Actual              \n",
+       "0.0        2387  768\n",
+       "1.0         123  133"
+      ]
+     },
+     "execution_count": 30,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "pd_confusion_matrix"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 15\n",
+    "\n",
+    "Your stakeholder wants to by as many mortgages as it can while maintaining a delinquency rate of purchased mortgages below 5%. Based on your answer above, do you feel like your model can provide that level of performance?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> Well, the result above says yes (4.9%), but how confident should we be in that number?? We'll see!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Now To The Future\n",
+    "\n",
+    "The preceding analysis is precisely the type of analysis you would do if, in late 2006, you'd been asked to evaluate mortgage performance in the last two years for use going forward. So let's see how your model performs now!\n",
+    "\n",
+    "In this [folder](https://github.com/nickeubank/MIDS_Data/tree/master/mortgages/2007) you will find data on mortgages originated in 2007 along with servicing data from 2007, 2008, and 2009.\n",
+    "\n",
+    "### Exercise 16\n",
+    "\n",
+    "Please load this data (again, from a URL to help the autograder) and clean it in the same manner as before. As a sanity check, how many observations do you have in the final dataset (after you've removed observations with missing values to allow you to generate predicted delinquency rates)? \n",
+    "\n",
+    "Store the final number of observations in `\"ex16_num_obs\"` and the share of those mortgages that are delinquent in `\"ex16_share_delinquent\"`\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "2007 data has 50,000 new mortgages\n",
+      "2007 data has 1,277,771 servicing records\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/var/folders/fs/h_8_rwsn5hvg9mhp0txgc_s9v6191b/T/ipykernel_20548/507551674.py:10: DtypeWarning: Columns (8,24) have mixed types. Specify dtype option on import or set low_memory=False.\n",
+      "  servicing_2007 = pd.read_csv(\n"
+     ]
+    }
+   ],
+   "source": [
+    "###########\n",
+    "# Load\n",
+    "###########\n",
+    "\n",
+    "mortgages_2007 = pd.read_csv(\n",
+    "    \"https://github.com/nickeubank/MIDS_Data/raw/master/mortgages/2007/sample_orig_2007.txt\",\n",
+    "    sep=\"|\",\n",
+    "    names=origination_colnames,\n",
+    ")\n",
+    "servicing_2007 = pd.read_csv(\n",
+    "    \"https://github.com/nickeubank/MIDS_Data/raw/master/mortgages/2007/sample_svcg_2007orig_3years.txt\",\n",
+    "    sep=\"|\",\n",
+    "    names=service_colnames,\n",
+    ")\n",
+    "\n",
+    "print(f\"2007 data has {len(mortgages_2007):,.0f} new mortgages\")\n",
+    "print(f\"2007 data has {len(servicing_2007):,.0f} servicing records\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['Credit_Score', 'First_Time_Homebuyer_Flag', 'Number_of_Units',\n",
+       "       'Mortgage_Insurance_Percentage_MI_', 'Occupancy_Status',\n",
+       "       'Original_DebttoIncome_DTI_Ratio', 'Original_UPB',\n",
+       "       'Original_LoantoValue_LTV', 'Original_Interest_Rate', 'Channel',\n",
+       "       'Prepayment_Penalty_Mortgage_PPM_Flag',\n",
+       "       'Amortization_Type_Formerly_Product_Type', 'Property_State',\n",
+       "       'Property_Type', 'Original_Loan_Term', 'Number_of_Borrowers',\n",
+       "       'Interest_Only_IO_Indicator', 'ever_delinquent',\n",
+       "       'Loan_Sequence_Number'],\n",
+       "      dtype='object')"
+      ]
+     },
+     "execution_count": 32,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "########\n",
+    "# NOTE: In any serious real workflow,\n",
+    "# the way to do this would be to write a .py script\n",
+    "# and parameterize it, not copy-paste the code.\n",
+    "# This kind of duplication invites problems if, for\n",
+    "# example, you change code above and forget to change it\n",
+    "# down here as well.\n",
+    "########\n",
+    "\n",
+    "# Life becomes way easier if I add this here,\n",
+    "servicing_2007 = servicing_2007[\n",
+    "    [\n",
+    "        \"Monthly Reporting Period\",\n",
+    "        \"Current Loan Delinquency Status\",\n",
+    "        \"Loan Sequence Number\",\n",
+    "    ]\n",
+    "]\n",
+    "\n",
+    "combined_2007 = pd.merge(\n",
+    "    mortgages_2007,\n",
+    "    servicing_2007,\n",
+    "    on=\"Loan Sequence Number\",\n",
+    "    how=\"inner\",\n",
+    "    validate=\"1:m\",\n",
+    "    indicator=True,\n",
+    ")\n",
+    "combined_2007._merge.value_counts()\n",
+    "assert (combined_2007._merge != \"right_only\").all()\n",
+    "\n",
+    "# For purchase\n",
+    "combined_2007 = combined_2007[combined_2007[\"Loan Purpose\"] == \"P\"]\n",
+    "\n",
+    "# First payment\n",
+    "combined_2007[\"year_first\"] = combined_2007[\"First Payment Date\"] // 100\n",
+    "combined_2007[\"month_first\"] = combined_2007[\"First Payment Date\"] % 100\n",
+    "combined_2007[\"quarter_first\"] = ((combined_2007[\"month_first\"] - 1) // 3) + 1\n",
+    "assert combined_2007[\"quarter_first\"].isin(range(1, 5)).all()\n",
+    "\n",
+    "combined_2007[\"year_decimal_first\"] = (\n",
+    "    combined_2007[\"year_first\"] + (combined_2007[\"month_first\"] - 1) / 12\n",
+    ")\n",
+    "\n",
+    "# Origination. Get from loan sequence number.\n",
+    "combined_2007[\"year_orig\"] = (\n",
+    "    combined_2007[\"Loan Sequence Number\"].str.get(2).astype(\"int\") + 2000\n",
+    ")\n",
+    "assert (combined_2007[\"year_orig\"] == 2007).all()\n",
+    "combined_2007[\"quarter_orig\"] = (\n",
+    "    combined_2007[\"Loan Sequence Number\"].str.get(4).astype(\"int\")\n",
+    ")\n",
+    "assert combined_2007[\"quarter_orig\"].isin(range(1, 5)).all()\n",
+    "\n",
+    "\n",
+    "# Keep only if same or following quarter\n",
+    "same_quarter_2007 = (combined_2007[\"year_first\"] == combined_2007[\"year_orig\"]) & (\n",
+    "    combined_2007[\"quarter_first\"] == combined_2007[\"quarter_orig\"]\n",
+    ")\n",
+    "next_quarter_same_year_2007 = (\n",
+    "    combined_2007[\"year_first\"] == combined_2007[\"year_orig\"]\n",
+    ") & (combined_2007[\"quarter_first\"] == (combined_2007[\"quarter_orig\"] + 1))\n",
+    "next_quarter_next_year_2007 = (\n",
+    "    (combined_2007[\"year_first\"] == (combined_2007[\"year_orig\"] + 1))\n",
+    "    & (combined_2007[\"quarter_first\"] == 1)\n",
+    "    & (combined_2007[\"quarter_orig\"] == 4)\n",
+    ")\n",
+    "combined_2007 = combined_2007[\n",
+    "    same_quarter_2007 | next_quarter_same_year_2007 | next_quarter_next_year_2007\n",
+    "]\n",
+    "\n",
+    "combined_2007[\"year_reporting\"] = combined_2007[\"Monthly Reporting Period\"] // 100\n",
+    "combined_2007[\"month_reporting\"] = combined_2007[\"Monthly Reporting Period\"] % 100\n",
+    "combined_2007[\"year_decimal_reporting\"] = (\n",
+    "    combined_2007[\"year_reporting\"] + (combined_2007[\"month_reporting\"] - 1) / 12\n",
+    ")\n",
+    "\n",
+    "combined_2007[\"age\"] = np.round(\n",
+    "    (combined_2007[\"year_decimal_reporting\"] - combined_2007[\"year_decimal_first\"]), 4\n",
+    ")\n",
+    "combined_2007[\"age\"].value_counts().sort_index()\n",
+    "\n",
+    "two_years_2007 = combined_2007[(0 <= combined_2007[\"age\"]) & (combined_2007[\"age\"] < 2)]\n",
+    "assert len(two_years_2007[\"age\"].value_counts()) == 24\n",
+    "\n",
+    "# Current Loan Delinquency Status\n",
+    "two_years_2007[\"Current Loan Delinquency Status\"] = (\n",
+    "    two_years_2007[\"Current Loan Delinquency Status\"].replace(\"RA\", 99).astype(\"int\")\n",
+    ")\n",
+    "\n",
+    "two_years_2007[\"ever_delinquent\"] = (\n",
+    "    two_years_2007.groupby(\"Loan Sequence Number\")[\n",
+    "        \"Current Loan Delinquency Status\"\n",
+    "    ].transform(\"max\")\n",
+    "    > 0\n",
+    ").astype(\"int\")\n",
+    "\n",
+    "# This is made easier by drops earlier.\n",
+    "two_years_2007 = two_years_2007.drop(\n",
+    "    columns=[\n",
+    "        \"Current Loan Delinquency Status\",\n",
+    "        \"Monthly Reporting Period\",\n",
+    "        \"month_reporting\",\n",
+    "        \"year_reporting\",\n",
+    "        \"year_decimal_reporting\",\n",
+    "        \"age\",\n",
+    "        \"_merge\",\n",
+    "    ]\n",
+    ")\n",
+    "two_years_2007 = two_years_2007.drop_duplicates()\n",
+    "assert two_years_2007[\"Loan Sequence Number\"].is_unique\n",
+    "\n",
+    "###########\n",
+    "# Clean up missing values\n",
+    "###########\n",
+    "\n",
+    "for i in [\n",
+    "    \"Channel\",\n",
+    "    \"Property Valuation Method\",\n",
+    "    \"First Time Homebuyer Flag\",\n",
+    "    \"Occupancy Status\",\n",
+    "]:\n",
+    "    two_years_2007[i] = two_years_2007[i].replace(9, np.nan)\n",
+    "    two_years_2007[i] = two_years_2007[i].replace(\"9\", np.nan)\n",
+    "\n",
+    "for i in [\"Number of Units\", \"Property Type\", \"Number of Borrowers\"]:\n",
+    "    two_years_2007[i] = two_years_2007[i].replace(99, np.nan)\n",
+    "    two_years_2007[i] = two_years_2007[i].replace(\"99\", np.nan)\n",
+    "\n",
+    "for i in [\n",
+    "    \"Mortgage Insurance Percentage (MI %)\",\n",
+    "    \"Original Debt-to-Income (DTI) Ratio\",\n",
+    "    \"Original Loan-to-Value (LTV)\",\n",
+    "]:\n",
+    "    two_years_2007[i] = two_years_2007[i].replace(999, np.nan)\n",
+    "    two_years_2007[i] = two_years_2007[i].replace(\"999\", np.nan)\n",
+    "\n",
+    "two_years_2007[\"Credit Score\"] = two_years_2007[\"Credit Score\"].replace(9999, np.nan)\n",
+    "two_years_2007[\"Credit Score\"] = two_years_2007[\"Credit Score\"].replace(\"9999\", np.nan)\n",
+    "\n",
+    "for_ml_2007 = two_years_2007[\n",
+    "    [\n",
+    "        \"Credit Score\",\n",
+    "        \"First Time Homebuyer Flag\",\n",
+    "        \"Number of Units\",\n",
+    "        \"Mortgage Insurance Percentage (MI %)\",\n",
+    "        \"Occupancy Status\",\n",
+    "        \"Original Debt-to-Income (DTI) Ratio\",\n",
+    "        \"Original UPB\",\n",
+    "        \"Original Loan-to-Value (LTV)\",\n",
+    "        \"Original Interest Rate\",\n",
+    "        \"Channel\",\n",
+    "        \"Prepayment Penalty Mortgage (PPM) Flag\",\n",
+    "        \"Amortization Type (Formerly Product Type)\",\n",
+    "        \"Property State\",\n",
+    "        \"Property Type\",\n",
+    "        \"Original Loan Term\",\n",
+    "        \"Number of Borrowers\",\n",
+    "        \"Interest Only (I/O) Indicator\",\n",
+    "        \"ever_delinquent\",\n",
+    "        \"Loan Sequence Number\",\n",
+    "    ]\n",
+    "]\n",
+    "\n",
+    "for_ml_2007 = for_ml_2007.sort_values(\"Loan Sequence Number\")\n",
+    "\n",
+    "for_ml_2007.columns = [re.sub(\" \", \"_\", c) for c in for_ml_2007.columns]\n",
+    "for_ml_2007.columns = [re.sub(\"%\", \"\", c) for c in for_ml_2007.columns]\n",
+    "for_ml_2007.columns = [re.sub(\"/\", \"\", c) for c in for_ml_2007.columns]\n",
+    "for_ml_2007.columns = [re.sub(\"\\(\", \"\", c) for c in for_ml_2007.columns]\n",
+    "for_ml_2007.columns = [re.sub(\"\\)\", \"\", c) for c in for_ml_2007.columns]\n",
+    "for_ml_2007.columns = [re.sub(\"-\", \"\", c) for c in for_ml_2007.columns]\n",
+    "\n",
+    "for_ml_2007.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "y_2007, X_2007 = patsy.dmatrices(\n",
+    "    \"ever_delinquent ~ Credit_Score\"\n",
+    "    \"+ First_Time_Homebuyer_Flag\"\n",
+    "    \"+ C(Number_of_Units)\"\n",
+    "    \"+ Mortgage_Insurance_Percentage_MI_\"\n",
+    "    \"+ Occupancy_Status\"\n",
+    "    \"+ Original_DebttoIncome_DTI_Ratio\"\n",
+    "    \"+ Original_UPB\"\n",
+    "    \"+ Original_LoantoValue_LTV\"\n",
+    "    \"+ Original_Interest_Rate\"\n",
+    "    \"+ Channel\"\n",
+    "    \"+ Prepayment_Penalty_Mortgage_PPM_Flag\"\n",
+    "    \"+ Amortization_Type_Formerly_Product_Type\"\n",
+    "    \"+ Property_State\"\n",
+    "    \"+ Property_Type\"\n",
+    "    \"+ Original_Loan_Term\"\n",
+    "    \"+ C(Number_of_Borrowers)\"\n",
+    "    \"+ Interest_Only_IO_Indicator\",\n",
+    "    for_ml_2007,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Num obs in the 2007 data is 21,972\n",
+      "share of these 2007 morgages that are delinquent is 10.96%\n"
+     ]
+    }
+   ],
+   "source": [
+    "results[\"ex16_num_obs\"] = X_2007.shape[0]\n",
+    "results[\"ex16_share_delinquent\"] = float(y_2007.mean())\n",
+    "print(f\"Num obs in the 2007 data is {results['ex16_num_obs']:,.0f}\")\n",
+    "print(\n",
+    "    f\"share of these 2007 morgages that are delinquent is {results['ex16_share_delinquent']:.2%}\"\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 17\n",
+    "\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Had your stakeholder purchased mortgages using your model (with the 8% cutoff), what would the resulting False Omission Rate (share of predicted negatives that are false negatives) rate have been? (e.g., compare the predicted values for mortgages using the model trained above with realized outcomes). \n",
+    "\n",
+    "Store your result under the key `\"ex17_false_omission_rate\"`. Round your answer to **4 decimal places.**\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Confusion matrix with 0.08 cutoff:\n",
+      "[[14487  5076]\n",
+      " [  847  1562]]\n",
+      "The False Omission Rate at 0.08 for 2007 data is:\n",
+      "5.52%\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Predicts\n",
+    "y_2007_pred_proba = gb.predict_proba(X_2007)[:, 1]\n",
+    "conf_matrix_2007 = confusion_matrix(y_2007, (y_2007_pred_proba > CUTOFF))\n",
+    "print(f\"Confusion matrix with {CUTOFF} cutoff:\\n{conf_matrix_2007}\")\n",
+    "\n",
+    "# false_rate = float(conf_matrix_2007[1, 0] / np.sum(conf_matrix_2007[:, 0]))\n",
+    "\n",
+    "# results[\"ex17_false_omission_rate\"] = np.round(false_rate, 4)\n",
+    "\n",
+    "\n",
+    "results[\"ex17_false_omission_rate\"] = float(\n",
+    "    conf_matrix_2007[1, 0] / np.sum(conf_matrix_2007[:, 0])\n",
+    ")\n",
+    "\n",
+    "print(\n",
+    "    f\"The False Omission Rate at {CUTOFF} for 2007 data is:\"\n",
+    "    f\"\\n{results['ex17_false_omission_rate']:.2%}\"\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 18\n",
+    "\n",
+    "How did the retrospective performance of your model compare to its actual performance moving forward? Why? Did you stay below the 5% target for mortgages that were predicted to be safe but in the end were not set by the stakeholder?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> Nope. \n",
+    "> split-train-test only tells you about accuracy you can expect *internally*; it doesn't account for *external validity* induced uncertainty. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "assert set(results.keys()) == {\n",
+    "    \"ex2_merge_type\",\n",
+    "    \"ex4_num_mortgages\",\n",
+    "    \"ex5_num_obs\",\n",
+    "    \"ex7_num_mortgages\",\n",
+    "    \"ex7_share_delinquent\",\n",
+    "    \"ex10_num_obs\",\n",
+    "    \"ex12_roc_auc\",\n",
+    "    \"ex14_false_omission_rate\",\n",
+    "    \"ex16_num_obs\",\n",
+    "    \"ex16_share_delinquent\",\n",
+    "    \"ex17_false_omission_rate\",\n",
+    "}"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "dask_env",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.8"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
