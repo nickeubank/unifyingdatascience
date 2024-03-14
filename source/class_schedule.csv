@@ -66,20 +66,21 @@ Experiments: External Validity (In Practice):
 
  
 ",
-"Thrs, Mar 21",Causal Questions: Experiments,Decision Theory (maybe Bayesian AB Testing)?,
-"Tues, Mar 26",Review Day,REVIEW DAY,
+"Thrs, Mar 21",Review Day,AB Testing Review,
+"Tues, Mar 26",Causal Questions: Experiments,Decision Making Under Uncertainty,
 "Thrs, Mar 28",**MIDTERM**,**MIDTERM**,
-"Tues, Apr 2",Causal Questions: Indicators and Fixed Effects,,
-"Thrs, Apr 4",Causal Questions: Matching,,
-"Tues, Apr 9",Causal Questions: Differences and Differences / Panels,"- Angrist and Piscke (MM), Chapter 5 (pp 178-208) 
- - `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_
+"Tues, Apr 2",Causal Questions: Regression,- Causal Beyond Experiments,
+"Thrs, Apr 4",Causal Questions: Indicators and Fixed Effects,"- `Fixed Effects (through comparison with hierarchical) <https://ds4humans.com/35_causal/50_fixed_effects_and_causal_inference.html>`_
+- `Review Indicator Vars if Needed <https://ds4humans.com/35_causal/30_interpreting_indicator_vars.html>`_",
+"Tues, Apr 9",Causal Questions: Matching,"- Cunningham, Chpt 5, pp 175 (""Matching and Subclassification"") - 206 (Stop before ""Propensity Score Matching"")",
+"Thrs, Apr 11",Causal Questions: Differences and Differences / Panels,"- Cunningham, Chpt 9 pp 406 (Difference in Differences) - pp 433 (Stop at ""Importance of Placebos in Diff-in-Diff"")
+- `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_
  
  Optional but encouraged:
  (dont need to follow everything, but here's a real diff-in-diff)
  
  - `Enfranchisement and Incarceration <https://www.cambridge.org/core/journals/american-political-science-review/article/enfranchisement-and-incarceration-after-the-1965-voting-rights-act/C68FA7BB8CA313BDD8D9A39BA666A21D>`_",
-"Thrs, Apr 11",Ethics,"- Mayson: `Bias In, Bias Out <https://www.yalelawjournal.org/article/bias-in-bias-out>`_ up to 2281",
-"Tues, Apr 16",,,
+"Tues, Apr 16",Ethics,"- Mayson: `Bias In, Bias Out <https://www.yalelawjournal.org/article/bias-in-bias-out>`_ up to 2281",
 "Tues, Apr 18",,,
 EXTRAS,Stuff that didn't make it to class,"- `AI Safety / Misalignment <https://www.youtube.com/watch?v=pYXy-A4siMw&t=539s>`_
  - Adversarial Users:
