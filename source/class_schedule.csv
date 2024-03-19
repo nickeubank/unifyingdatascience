@@ -65,7 +65,7 @@ Experiments: External Validity (In Practice):
 - `Don't stop experiments early! <endogenous_stopping.ipynb>`_
 
  
-",
+",- `Power Ex <exercise/exercise_power_calculations.ipynb>`_
 "Thrs, Mar 21",Review Day,AB Testing Review,
 "Tues, Mar 26",Causal Questions: Experiments,Decision Making Under Uncertainty,
 "Thrs, Mar 28",**MIDTERM**,**MIDTERM**,
