@@ -65,9 +65,11 @@ Experiments: External Validity (In Practice):
 - `Don't stop experiments early! <endogenous_stopping.ipynb>`_
 
  
-",- `Power Ex <exercises/exercise_power_calculations.ipynb>`_
+",`Power Ex <exercises/exercise_power_calculations.ipynb>`_
 "Thrs, Mar 21",Review Day,AB Testing Review,
-"Tues, Mar 26",Causal Questions: Experiments,Decision Making Under Uncertainty,
+"Tues, Mar 26",Causal Questions: Experiments,"- Statistical Decision Theory (on Canvas). 550-556
+
+(This is same as IDS 705 Lecture 8 Reading)",
 "Thrs, Mar 28",**MIDTERM**,**MIDTERM**,
 "Tues, Apr 2",Causal Questions: Regression,- Causal Beyond Experiments,
 "Thrs, Apr 4",Causal Questions: Indicators and Fixed Effects,"- `Fixed Effects (through comparison with hierarchical) <https://ds4humans.com/35_causal/50_fixed_effects_and_causal_inference.html>`_
