@@ -14,7 +14,9 @@
    "source": [
     "- [Passive Prediction and Mortgages](exercises/solutions_passive_prediction.ipynb)\n",
     "- [pyGAM and Credit Risk](exercises/solutions_interpretable.ipynb)\n",
-    "- [Resume Experiment](exercises/solutions_resume_experiment.ipynb)\n"
+    "- [Resume Experiment](exercises/solutions_resume_experiment.ipynb)\n",
+    "- [AB Testing](exercises/solutions_abtesting.ipynb)\n",
+    "- [Power Calcs](exercises/solutions_power_calculations.ipynb)\n"
    ]
   }
  ],

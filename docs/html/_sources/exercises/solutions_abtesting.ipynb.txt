@@ -38,6 +38,42 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
+    "\n",
+    "## Gradescope Autograding\n",
+    "\n",
+    "Please follow [all standard guidance](https://www.practicaldatascience.org/html/autograder_guidelines.html) for submitting this assignment to the Gradescope autograder, including storing your solutions in a dictionary called `results` and ensuring your notebook runs from the start to completion without any errors.\n",
+    "\n",
+    "For this assignment, please name your file `exercise_abtesting.ipynb` before uploading.\n",
+    "\n",
+    "You can check that you have answers for all questions in your `results` dictionary with this code:\n",
+    "\n",
+    "```python\n",
+    "assert set(results.keys()) == {\n",
+    "    \"ex4_avg_oec\",\n",
+    "    \"ex5_avg_guardrail\",\n",
+    "    \"ex7_ttest_pvalue\",\n",
+    "    \"ex9_ttest_pvalue_clicks\",\n",
+    "    \"ex10_num_obs\",\n",
+    "    \"ex11_guard_ate\",\n",
+    "    \"ex11_guard_pvalue\",\n",
+    "    \"ex11_oec_ate\",\n",
+    "    \"ex11_oec_pvalue\",\n",
+    "    \"ex14_se_treatment\",\n",
+    "}\n",
+    "```\n",
+    "\n",
+    "\n",
+    "### Submission Limits\n",
+    "\n",
+    "Please remember that you are **only allowed FOUR submissions to the autograder.** Your last submission (if you submit 4 or fewer times), or your third submission (if you submit more than 4 times) will determine your grade Submissions that error out will **not** count against this total.\n",
+    "\n",
+    "That's one more than usual in case there are issues with exercise clarity."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "## Import the Data"
    ]
   },
@@ -47,7 +83,11 @@
    "source": [
     "### Exercise 1\n",
     "\n",
-    "Begin by importing Udacity's data on user behavior by going to http://www.github/nickeubank/MIDS_Data/ and using the `udacity_AB_testing`folder, or by clicking [here.](https://github.com/nickeubank/MIDS_Data/tree/master/udacity_AB_testing) Note that there are TWO datasets for this test -- one for the control data (users who saw the original design), and one for treatment data (users who saw the experimental design). Udacity decided to show their test site to 1/2 of visitors, so there are roughly the same number of users appearing in each dataset (though this is not a requirement of AB tests)."
+    "Begin by importing Udacity's data on user behavior [here.](https://github.com/nickeubank/MIDS_Data/tree/master/udacity_AB_testing) \n",
+    "\n",
+    "There are TWO datasets for this test — one for the control data (users who saw the original design), and one for treatment data (users who saw the experimental design). Udacity decided to show their test site to 1/2 of visitors, so there are roughly the same number of users appearing in each dataset (though this is not a requirement of AB tests).\n",
+    "\n",
+    "Please rmeember to load the data directly from github to assist the autograder."
    ]
   },
   {
@@ -56,8 +96,10 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "# First, load pandas\n",
-    "import pandas as pd\n"
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "\n",
+    "pd.set_option(\"mode.copy_on_write\", True)"
    ]
   },
   {
@@ -73,7 +115,7 @@
     "treat = pd.read_csv(\n",
     "    \"https://media.githubusercontent.com/media/nickeubank/\"\n",
     "    \"MIDS_Data/master/udacity_AB_testing/experiment_data.csv\"\n",
-    ")\n"
+    ")"
    ]
   },
   {
@@ -82,20 +124,27 @@
    "source": [
     "### Exercise 2\n",
     "\n",
-    "Explore the data. Can you identify the unit of observation of the data (e.g. what is represented by each row)?"
+    "Explore the data. Can you identify the unit of observation of the data (e.g. what is represented by each row)?\n",
+    "\n",
+    "To be clear, the columns represent stages in a user funnel:\n",
+    "\n",
+    "- Some number of users arrive at the website and are counted as Pageviews,\n",
+    "- Some portion of those users then click to enroll (and are counted as clicks),\n",
+    "- Some portion of those users then actually enroll in the free trial (after seeing an informational popup, in the case of treatment individuals),\n",
+    "- Finally some portion of those users end up paying at the end of the free trial period.\n",
+    "\n",
+    "(Note this is not the only way that A/B test data can be collected and/or reported — this is just what Udacity provided, presumably to help address privacy concerns.)"
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": 3,
+   "cell_type": "markdown",
    "metadata": {},
-   "outputs": [],
    "source": [
-    "# Each row is the behavior of all of the users who arrived at the website\n",
-    "# on a given day and were assigned to a given treatment arm.\n"
+    "> Each row is the behavior of all of the users who arrived at the website on a given day and were assigned to a given treatment arm."
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
@@ -120,7 +169,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 3,
    "metadata": {},
    "outputs": [
     {
@@ -211,7 +260,7 @@
        "4  Wed, Oct 15      10014     837        163.0      64.0          0"
       ]
      },
-     "execution_count": 4,
+     "execution_count": 3,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -220,12 +269,12 @@
     "control[\"treatment\"] = 0\n",
     "treat[\"treatment\"] = 1\n",
     "users = pd.concat([control, treat])\n",
-    "users.head()\n"
+    "users.head()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 4,
    "metadata": {},
    "outputs": [
     {
@@ -316,65 +365,123 @@
        "36  Sun, Nov 16       8988     710          NaN       NaN          1"
       ]
      },
-     "execution_count": 5,
+     "execution_count": 4,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "users.tail()\n"
+    "users.tail()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 5,
    "metadata": {},
    "outputs": [],
    "source": [
     "# Make sure it worked well!\n",
-    "assert len(users) == len(control) + len(treat)\n"
+    "assert len(users) == len(control) + len(treat)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 4\n",
+    "\n",
+    "Given Udacity's goals, what outcome are they hoping will be impacted by their manipulation?\n",
+    "\n",
+    "Or, to ask the same question in the language of the Potential Outcomes Framework, what is their $Y$?\n",
+    "\n",
+    "Or to ask the same question in the language of Kohavi, Tang and Xu, what is their *Overall Evaluation Criterion (OEC)*?\n",
+    "\n",
+    "(I'm only asking one question, I'm just trying to phrase it using different terminologies we've encountered to help you see how they all fit together)\n",
+    "\n",
+    "When you feel like you have your answer, please compute it. Store the average value of the variable in `results` under the key `ex4_avg_oec`. **Please round your answer to 4 decimal places.**\n",
+    "\n",
+    "NOTE: You'll probably notice you have two choices to make when it comes to actually computing the OEC. \n",
+    "\n",
+    "- You could probably imagine either computing a ratio or a difference of two things — please calculate the difference.\n",
+    "- You may also be unsure whether to normalize by `Clicks`. Normalizing by clicks will help account for variation that comes from day-to-day variation in users, so it's a good thing to do. With infinite data, you'd expect to get the same results without normalizing by `Clicks` (since on average the same share of users are in each arm of the experiment), but for finite data it's a good strategy. Note that this is only ok because users make the choice to click or not *before* they see different versions of the website (it is \"pre-treatment\").\n",
+    "\n",
+    "Just to make sure you're on track, your measure should have an average value of *about* 9%."
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Exercise 4\n",
+    "> Udacity wants a decline in the number of people who enroll in a trial but don't end up continuing (paying) at the end of the trial. So first we want the number of enrollments that end in non-payment per person who sees trial page.\n",
+    ">\n",
+    "> Note that because \"clicks\" is pre-treatment and we have the same number of people in both treatment arms, on average we have the same number of clicks in both groups so you don't technically have to normalize.\n",
+    ">\n",
+    "> It's also ok to just look at the share of Enrollments that end up as payments.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Mean value of our OEC is 0.0941\n"
+     ]
+    }
+   ],
+   "source": [
+    "users[\"enroll_but_nopayment_per_click\"] = (\n",
+    "    users[\"Enrollments\"] - users[\"Payments\"]\n",
+    ") / users[\"Clicks\"]\n",
     "\n",
-    "Given the outcomes of interest to Udacity, what outcomes do you want to measure? (In the language of the Potential Outcomes Framework, what are your $Y$ variables?). Add these to your data."
+    "results = {}\n",
+    "results[\"ex4_avg_oec\"] = np.round(users[\"enroll_but_nopayment_per_click\"].mean(), 4)\n",
+    "print(f\"Mean value of our OEC is {results['ex4_avg_oec']:.4f}\")"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 5\n",
+    "\n",
+    "Given Udacity's goals, what outcome are they hoping will *not* be impacted by their manipulation? In other words, what do they want to measure to ensure their treatment doesn't have unintended negative consequences that might be really costly to their operation?\n",
+    "\n",
+    "Note that while this isn't how Kohavi, Tang, and Xu use the term \"guardrail metrics\" — they usually use the term to refer to things we measure to ensure the experiment is working the way it should — some people would also use the term \"guardrail metrics\" for something that could be impacted even if the experiment is working correctly, but which the organization wants to track to ensure they aren't impacted because they are deemed really important.\n",
+    "\n",
+    "Again, please normalize by `Clicks`. Store the average value of this guardrail metric as `ex5_avg_guardrail` and **round your answer to 4 decimal places.**"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 7,
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Mean value of our guardrail metric (payments per click) is 0.1158\n"
+     ]
+    }
+   ],
    "source": [
-    "# Udacity wants a decline in the number of people\n",
-    "# who enroll in a trial but don't\n",
-    "# end up continuing (paying) at the end of the trial.\n",
-    "# So first we want the number of enrollments that end in\n",
-    "# non-payment per person who sees trial page.\n",
-    "\n",
-    "# Note that because \"clicks\" is pre-treatment\n",
-    "# and we have the same number of people in both\n",
-    "# treatment arms, on average we have the\n",
-    "# same number of clicks in both groups\n",
-    "# so you don't technically have to normalize.\n",
-    "\n",
-    "# It's also ok to just look at the share of Enrollments\n",
-    "# that end up as payments.\n",
-    "\n",
-    "users[\"enroll_but_nopayment_per_click\"] = (\n",
-    "    users[\"Enrollments\"] - users[\"Payments\"]\n",
-    ") / users[\"Clicks\"]\n",
-    "\n",
-    "# Second, they don't want to see a decline in payments, so we also want to measure\n",
+    "# Udacity doesn't want to see a decline in payments, so we also want to measure\n",
     "# the conversion rate from clicks to payments. Ideally, this won't change.\n",
     "\n",
     "# Again, dividing by clicks is optional.\n",
     "\n",
-    "users[\"payments_per_click\"] = users[\"Payments\"] / users[\"Clicks\"]\n"
+    "users[\"payments_per_click\"] = users[\"Payments\"] / users[\"Clicks\"]\n",
+    "\n",
+    "results[\"ex5_avg_guardrail\"] = np.round(users[\"payments_per_click\"].mean(), 4)\n",
+    "print(\n",
+    "    f\"Mean value of our guardrail metric (payments per click) is {results['ex5_avg_guardrail']:.4f}\"\n",
+    ")"
    ]
   },
   {
@@ -385,18 +492,19 @@
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Exercise 5\n",
+    "### Exercise 6\n",
     "\n",
-    "Whenever you are working with experimental data, the first thing you want to do is verify that users actually were randomly sorted into the two arms of the experiment. In this data, half of users were supposed to be shown the old version of the site and half were supposed to see the new version. \n",
+    "Whenever you are working with experimental data, the first thing you want to do is verify that users actually were randomly sorted into the two arms of the experiment. In this data, half of users were supposed to be shown the old version of the site and half were supposed to see the new version.\n",
     "\n",
-    "`Pageviews` tells you how many unique users visited the welcome site we are experimenting on. `Pageviews` is what is sometimes called an \"invariant\" variable, meaning that it shouldn't vary across treatment arms -- after all, people have to visit the site before they get a chance to see the treatment, so there's no way that being assigned to treatment or control should affect the number of pageviews assigned to each group. \n",
+    "`Pageviews` tells you how many unique users visited the welcome site we are experimenting on. `Pageviews` is what is sometimes called an \"invariant\" or \"guardrail\" variable, meaning that it shouldn't vary across treatment arms—after all, people have to visit the site before they get a chance to see the treatment, so there's no way that being assigned to treatment or control should affect the number of pageviews assigned to each group.\n",
     "\n",
-    "\"Invariant\" variables are also an example of what are known as a \"pre-treatment\" variable, because pageviews are determined before users are manipulated in any way. That makes it analogous to gender or age in experiments where you have demographic data -- a person's age and gender are determined before they experience any manipulations, so the value of any pre-treatment attributes should be the same across the two arms of our experiment. This is what is called \"checking for balance.\" If pre-treatment attributes aren't balanced, then we know our attempt to randomly assign people to different groups failed.\n",
+    "\"Invariant\" variables are also an example of what are known as a \"pre-treatment\" variable, because pageviews are determined before users are manipulated in any way. That makes it analogous to gender or age in experiments where you have demographic data—a person's age and gender are determined before they experience any manipulations, so the value of any pre-treatment attributes should be the same across the two arms of our experiment. This is what we've previously called \"checking for balance,\" If pre-treatment attributes aren't balanced, then we may worry our attempt to randomly assign people to different groups failed.  Kohavi, Tang and Xu call this a \"trust-based guardrail metric\" because it helps us determine if we should trust our data.\n",
     "\n",
-    "To test the quality of the randomization, calculate the average number of pageviews for the treated group and for the control group. Do they look similar? "
+    "To test the quality of the randomization, calculate the average number of pageviews for the treated group and for the control group. Do they look similar?\n"
    ]
   },
   {
@@ -416,7 +524,7 @@
     "print(\n",
     "    f\"Avg num pageviews for treated users per day was: \"\n",
     "    f\"{users.loc[users['treatment'] == 1, 'Pageviews'].mean():.1f}\"\n",
-    ")\n"
+    ")"
    ]
   },
   {
@@ -436,24 +544,23 @@
     "print(\n",
     "    f\"Avg num pageviews for untreated users per day was:\"\n",
     "    f\" {users.loc[users['treatment'] == 0, 'Pageviews'].mean():.1f}\"\n",
-    ")\n"
+    ")"
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Exercise 6\n",
+    "### Exercise 7\n",
     "\n",
     "\"Similar\" is a tricky concept -- obviously, we expect *some* differences across groups since users were *randomly* divided across treatment arms. The question is whether the differences between groups are larger than we'd expect to emerge given our random assignment process. To evaluate this, let's use a `ttest` to test the statistical significance of the differences we see. \n",
     "\n",
-    "If you're using R, you can just use the `t.test` function. \n",
+    "**Note**: Remember that scipy functions don't accept `pandas` objects, so you use a scipy function, you have to pass the numpy vectors underlying your data with the `.values` operator (e.g. `df.my_column.values`). \n",
     "\n",
-    "If you're using Python, you can use the `ttest` function from scipy, which you can import as `from scipy.stats import ttest_ind`. \n",
+    "Does the difference in `pageviews` look statistically significant?\n",
     "\n",
-    "**Note**: Remember that scipy functions don't accept `pandas` objects, so you have to pass the numpy vectors underlying your data with the `.values` operator (e.g. `df.my_column.values`). \n",
-    "\n",
-    "Does the difference in `pageviews` look statistically significant?"
+    "Store the resulting p-value in `ex7_ttest_pvalue` **rounded to four decimal places.**"
    ]
   },
   {
@@ -462,23 +569,26 @@
    "metadata": {},
    "outputs": [
     {
-     "data": {
-      "text/plain": [
-       "Ttest_indResult(statistic=-0.1417118298287496, pvalue=0.8877034068650902)"
-      ]
-     },
-     "execution_count": 10,
-     "metadata": {},
-     "output_type": "execute_result"
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "the p-value of the difference is 0.8877, so not at all significant\n"
+     ]
     }
    ],
    "source": [
     "from scipy.stats import ttest_ind\n",
     "\n",
-    "ttest_ind(\n",
+    "ttest_result = ttest_ind(\n",
     "    users.loc[users[\"treatment\"] == 1, \"Pageviews\"].values,\n",
     "    users.loc[users[\"treatment\"] == 0, \"Pageviews\"].values,\n",
-    ")\n"
+    ")\n",
+    "\n",
+    "results[\"ex7_ttest_pvalue\"] = np.round(ttest_result.pvalue, 4)\n",
+    "print(\n",
+    "    f\"the p-value of the difference is {results['ex7_ttest_pvalue']:.4f},\"\n",
+    "    \" so not at all significant\"\n",
+    ")"
    ]
   },
   {
@@ -487,16 +597,17 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "# p-value of 0.8877 -- nope! Not statistically different at all.\n"
+    "# p-value of 0.8877 -- nope! Not statistically different at all."
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Exercise 7\n",
+    "### Exercise 8\n",
     "\n",
-    "`Pageviews` is not the only pre-treatment variable in this data. What other measure is pre-treatment? Review the description of the experiment if you're not sure. "
+    "`Pageviews` is not the only \"pre-treatment\" variable in this data we can use to evaluate balance/use as a guardrail metric. What other measure is pre-treatment? Review the description of the experiment if you're not sure."
    ]
   },
   {
@@ -506,16 +617,17 @@
    "outputs": [],
    "source": [
     "# Clicks. The experiment only changes what happens\n",
-    "# AFTER people click on \"free trial\", so clicks are \"pre-treatment\",\n"
+    "# AFTER people click on \"free trial\", so clicks are \"pre-treatment\","
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Exercise 8\n",
+    "### Exercise 9\n",
     "\n",
-    "Check if the other pre-treatment variable is also balanced.  "
+    "Check if the other pre-treatment variable is also balanced. Store the p-value of your test of difference in `results` under the key `\"ex9_ttest_pvalue_clicks\"` **rounded to four decimal places.**"
    ]
   },
   {
@@ -524,77 +636,95 @@
    "metadata": {},
    "outputs": [
     {
-     "data": {
-      "text/plain": [
-       "Ttest_indResult(statistic=-0.09270642968639531, pvalue=0.9263942642482703)"
-      ]
-     },
-     "execution_count": 13,
-     "metadata": {},
-     "output_type": "execute_result"
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "the p-value of the difference in clicks is 0.9264, so not at all significant\n"
+     ]
     }
    ],
    "source": [
-    "ttest_ind(\n",
+    "ttest_result_clicks = ttest_ind(\n",
     "    users.loc[users[\"treatment\"] == 1, \"Clicks\"].values,\n",
     "    users.loc[users[\"treatment\"] == 0, \"Clicks\"].values,\n",
-    ")\n"
+    ")\n",
+    "\n",
+    "results[\"ex9_ttest_pvalue_clicks\"] = np.round(ttest_result_clicks.pvalue, 4)\n",
+    "print(\n",
+    "    f\"the p-value of the difference in clicks is {results['ex9_ttest_pvalue_clicks']:.4f},\"\n",
+    "    \" so not at all significant\"\n",
+    ")"
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": 14,
+   "attachments": {},
+   "cell_type": "markdown",
    "metadata": {},
-   "outputs": [],
    "source": [
-    "# Yup, good balance! Difference has a p-value of only 0.93!\n"
+    "## Estimating the Effect of Experiment\n",
+    "\n",
+    "### Exercise 10\n",
+    "\n",
+    "Now that we've validated our randomization, our next task is to estimate our treatment effect. First, though, there's an issue with your data you've been able to largely ignore until now, but which you should get a grip on before estimating your treatment effect — can you tell what it is and what you should do about it?\n",
+    "\n",
+    "Store the number of observations in your data *after* you've addressed this in `ex10_num_obs` (this is mostly meant as a way to sanity check your answer with autograder)."
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Estimating the Effect of Experiment\n",
-    "\n",
-    "### Exercise 9\n",
-    "\n",
-    "Now that we've established we have good balance (meaning we think randomization was likely successful), we can evaluate the effects of the experiment. Test whether the two metrics you picked have different average values in the control group and treatment group. Because we've randomized, this is a consistent estimate of the Average Treatment Effect of Udacity's website change. \n",
-    "\n",
-    "Did Udacity achieve their goal?\n",
-    "\n",
-    "**Note:** You may discover some issues with your data. Can you figure out what's going on, and adjust?"
+    "> Because trials last 2 weeks, you don't get payment stats from the last two weeks of data. So we drop them.\n"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# Because trials last 2 weeks, you don't get payment\n",
-    "# stats from the last two weeks of data.\n",
-    "# So we drop them.\n",
-    "\n",
-    "users = users[pd.notnull(users.Enrollments)]\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 16,
+   "execution_count": 14,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "change from orig to experiment in enroll_but_nopayment_per_click is  -1.6 percentage points\n",
-      "a change of -15.6%\n",
+      "There are 46 observations.\n"
+     ]
+    }
+   ],
+   "source": [
+    "users = users[pd.notnull(users.Enrollments)]\n",
+    "results[\"ex10_num_obs\"] = len(users)\n",
+    "print(f\"There are {results['ex10_num_obs']:,.0f} observations.\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "\n",
+    "### Exercise 11\n",
+    "\n",
+    "Now that we've established we have good balance (meaning we think randomization was likely successful), we can evaluate the effects of the experiment. Test whether the OEC and the metric you *don't* want affected have different average values in the control group and treatment group. \n",
+    "\n",
+    "Because we've randomized, this is a consistent estimate of the Average Treatment Effect of Udacity's website change.\n",
+    "\n",
+    "Calculate the difference in means in your OEC and guardrail metrics using a simple t-test. Store the resulting effect estimates in `ex11_oec_ate` and `ex11_guard_ate` and p-values in `ex11_oec_pvalue` and `ex11_guard_pvalue`. **Please round all answers to 4 decimal places.** Report your ATE in *percentage points*, where `1` denotes 1 percentage point.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "change from orig to experiment in enroll_but_nopayment_per_click is  1.5888 percentage points\n",
       "Two-tailed p-value (default) of difference is 0.132\n",
       "So one-tailed p-value (appropriate here) of difference is 0.066\n",
       "\n",
       "\n",
-      "change from orig to experiment in payments_per_click is  -0.5 percentage points\n",
-      "a change of -4.1%\n",
+      "change from orig to experiment in payments_per_click is  0.4897 percentage points\n",
       "Two-tailed p-value (default) of difference is 0.593\n",
       "So one-tailed p-value (appropriate here) of difference is 0.296\n",
       "\n",
@@ -603,6 +733,11 @@
     }
    ],
    "source": [
+    "keys = {\n",
+    "    \"enroll_but_nopayment_per_click\": \"ex11_oec_\",\n",
+    "    \"payments_per_click\": \"ex11_guard_\",\n",
+    "}\n",
+    "\n",
     "for i in [\"enroll_but_nopayment_per_click\", \"payments_per_click\"]:\n",
     "    wo_change = users.loc[users[\"treatment\"] == 0, i].mean()\n",
     "    w_change = users.loc[users[\"treatment\"] == 1, i].mean()\n",
@@ -611,19 +746,33 @@
     "        users.loc[users[\"treatment\"] == 0, i].values,\n",
     "    ).pvalue\n",
     "\n",
+    "    results[keys[i] + \"pvalue\"] = np.round(pvalue, 4)\n",
+    "\n",
+    "    results[keys[i] + \"ate\"] = np.round((wo_change - w_change) * 100, 4)\n",
+    "\n",
     "    print(\n",
     "        f\"change from orig to experiment in {i} is \"\n",
-    "        f\" {(w_change - wo_change) * 100:.1f} percentage points\"\n",
+    "        f\" {results[keys[i]+ 'ate']:.4f} percentage points\"\n",
     "    )\n",
-    "    print(f\"a change of {(w_change - wo_change) / wo_change:.1%}\")\n",
     "    print(f\"Two-tailed p-value (default) of difference is {pvalue:.3f}\")\n",
     "    print(f\"So one-tailed p-value (appropriate here) of difference is {pvalue / 2:.3f}\")\n",
-    "    print(\"\\n\")\n"
+    "    print(\"\\n\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 12\n",
+    "\n",
+    "Do you feel that Udacity achieved their goal? Did their intervention cause them any problems? If they asked you \"What would happen if we rolled this out to everyone?\" what would you say?\n",
+    "\n",
+    "As you answer this question, a small additional question: up until this point you've (presumably) been reporting the default p-values from the tools you are using. These, as you may recall from stats 101, are two-tailed p-values. Do those seem appropriate for your OEC?"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 17,
+   "execution_count": 16,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -634,18 +783,177 @@
     "# But we don't see a significant decline in share of people who\n",
     "# click who end up enrolling after trial,\n",
     "# so the change was basically successful in only filtering out\n",
-    "# people who weren't really interested.\n"
+    "# people who weren't really interested.\n",
+    "\n",
+    "# It seems like everything is going in the expected direction. However\n",
+    "# before rolling out something that affects something as important\n",
+    "# as on-boarding, I would run a longer trial to get a little greater\n",
+    "# statistical significance..."
    ]
   },
   {
+   "attachments": {},
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Exercise 10\n",
+    "### Exercise 13\n",
     "\n",
     "One of the magic things about experiments is that all you have to do is compare averages to get an average treatment effect. However, you *can* do other things to try and increase the statistical power of your experiments, like add controls in a linear regression model. \n",
     "\n",
-    "As you likely know, a bivariate regression is exactly equivalent to a t-test, so let's start by re-estimating the effect of treatment on payments-per-click using a linear regression. Can you replicate the results from your t-test? They shouldn't just be close -- they should be numerically equivalent (i.e. exactly the same to the limits of floating point number precision). "
+    "As you likely know, a bivariate regression is exactly equivalent to a t-test, so let's start by re-estimating the effect of treatment on your OEC using a linear regression. Can you replicate the results from your t-test? They shouldn't just be close—they should be numerically equivalent (i.e. exactly the same to the limits of floating point number precision). "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<table class=\"simpletable\">\n",
+       "<caption>OLS Regression Results</caption>\n",
+       "<tr>\n",
+       "  <th>Dep. Variable:</th>    <td>enroll_but_nopayment_per_click</td> <th>  R-squared:         </th> <td>   0.051</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Model:</th>                          <td>OLS</td>              <th>  Adj. R-squared:    </th> <td>   0.029</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Method:</th>                    <td>Least Squares</td>         <th>  F-statistic:       </th> <td>   2.356</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Date:</th>                    <td>Sat, 02 Mar 2024</td>        <th>  Prob (F-statistic):</th>  <td> 0.132</td> \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Time:</th>                        <td>19:10:08</td>            <th>  Log-Likelihood:    </th> <td>  89.832</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>No. Observations:</th>             <td>    46</td>             <th>  AIC:               </th> <td>  -175.7</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Df Residuals:</th>                 <td>    44</td>             <th>  BIC:               </th> <td>  -172.0</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Df Model:</th>                     <td>     1</td>             <th>                     </th>     <td> </td>   \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Covariance Type:</th>             <td>nonrobust</td>           <th>                     </th>     <td> </td>   \n",
+       "</tr>\n",
+       "</table>\n",
+       "<table class=\"simpletable\">\n",
+       "<tr>\n",
+       "      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Intercept</th> <td>    0.1021</td> <td>    0.007</td> <td>   13.948</td> <td> 0.000</td> <td>    0.087</td> <td>    0.117</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>treatment</th> <td>   -0.0159</td> <td>    0.010</td> <td>   -1.535</td> <td> 0.132</td> <td>   -0.037</td> <td>    0.005</td>\n",
+       "</tr>\n",
+       "</table>\n",
+       "<table class=\"simpletable\">\n",
+       "<tr>\n",
+       "  <th>Omnibus:</th>       <td>14.160</td> <th>  Durbin-Watson:     </th> <td>   1.908</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Prob(Omnibus):</th> <td> 0.001</td> <th>  Jarque-Bera (JB):  </th> <td>  15.205</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Skew:</th>          <td> 1.227</td> <th>  Prob(JB):          </th> <td>0.000499</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Kurtosis:</th>      <td> 4.383</td> <th>  Cond. No.          </th> <td>    2.62</td>\n",
+       "</tr>\n",
+       "</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+      ],
+      "text/latex": [
+       "\\begin{center}\n",
+       "\\begin{tabular}{lclc}\n",
+       "\\toprule\n",
+       "\\textbf{Dep. Variable:}    & enroll\\_but\\_nopayment\\_per\\_click & \\textbf{  R-squared:         } &     0.051   \\\\\n",
+       "\\textbf{Model:}            &                OLS                 & \\textbf{  Adj. R-squared:    } &     0.029   \\\\\n",
+       "\\textbf{Method:}           &           Least Squares            & \\textbf{  F-statistic:       } &     2.356   \\\\\n",
+       "\\textbf{Date:}             &          Sat, 02 Mar 2024          & \\textbf{  Prob (F-statistic):} &    0.132    \\\\\n",
+       "\\textbf{Time:}             &              19:10:08              & \\textbf{  Log-Likelihood:    } &    89.832   \\\\\n",
+       "\\textbf{No. Observations:} &                   46               & \\textbf{  AIC:               } &    -175.7   \\\\\n",
+       "\\textbf{Df Residuals:}     &                   44               & \\textbf{  BIC:               } &    -172.0   \\\\\n",
+       "\\textbf{Df Model:}         &                    1               & \\textbf{                     } &             \\\\\n",
+       "\\textbf{Covariance Type:}  &             nonrobust              & \\textbf{                     } &             \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "\\begin{tabular}{lcccccc}\n",
+       "                   & \\textbf{coef} & \\textbf{std err} & \\textbf{t} & \\textbf{P$> |$t$|$} & \\textbf{[0.025} & \\textbf{0.975]}  \\\\\n",
+       "\\midrule\n",
+       "\\textbf{Intercept} &       0.1021  &        0.007     &    13.948  &         0.000        &        0.087    &        0.117     \\\\\n",
+       "\\textbf{treatment} &      -0.0159  &        0.010     &    -1.535  &         0.132        &       -0.037    &        0.005     \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "\\begin{tabular}{lclc}\n",
+       "\\textbf{Omnibus:}       & 14.160 & \\textbf{  Durbin-Watson:     } &    1.908  \\\\\n",
+       "\\textbf{Prob(Omnibus):} &  0.001 & \\textbf{  Jarque-Bera (JB):  } &   15.205  \\\\\n",
+       "\\textbf{Skew:}          &  1.227 & \\textbf{  Prob(JB):          } & 0.000499  \\\\\n",
+       "\\textbf{Kurtosis:}      &  4.383 & \\textbf{  Cond. No.          } &     2.62  \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "%\\caption{OLS Regression Results}\n",
+       "\\end{center}\n",
+       "\n",
+       "Notes: \\newline\n",
+       " [1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+      ],
+      "text/plain": [
+       "<class 'statsmodels.iolib.summary.Summary'>\n",
+       "\"\"\"\n",
+       "                                  OLS Regression Results                                  \n",
+       "==========================================================================================\n",
+       "Dep. Variable:     enroll_but_nopayment_per_click   R-squared:                       0.051\n",
+       "Model:                                        OLS   Adj. R-squared:                  0.029\n",
+       "Method:                             Least Squares   F-statistic:                     2.356\n",
+       "Date:                            Sat, 02 Mar 2024   Prob (F-statistic):              0.132\n",
+       "Time:                                    19:10:08   Log-Likelihood:                 89.832\n",
+       "No. Observations:                              46   AIC:                            -175.7\n",
+       "Df Residuals:                                  44   BIC:                            -172.0\n",
+       "Df Model:                                       1                                         \n",
+       "Covariance Type:                        nonrobust                                         \n",
+       "==============================================================================\n",
+       "                 coef    std err          t      P>|t|      [0.025      0.975]\n",
+       "------------------------------------------------------------------------------\n",
+       "Intercept      0.1021      0.007     13.948      0.000       0.087       0.117\n",
+       "treatment     -0.0159      0.010     -1.535      0.132      -0.037       0.005\n",
+       "==============================================================================\n",
+       "Omnibus:                       14.160   Durbin-Watson:                   1.908\n",
+       "Prob(Omnibus):                  0.001   Jarque-Bera (JB):               15.205\n",
+       "Skew:                           1.227   Prob(JB):                     0.000499\n",
+       "Kurtosis:                       4.383   Cond. No.                         2.62\n",
+       "==============================================================================\n",
+       "\n",
+       "Notes:\n",
+       "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
+       "\"\"\""
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import statsmodels.formula.api as smf\n",
+    "\n",
+    "smf.ols(\"enroll_but_nopayment_per_click ~ treatment\", users).fit().summary()"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 14\n",
+    "\n",
+    "Now add indicator variables for the date of each observation. Do the standard errors on your `treatment` variable change? If so, in what direction?\n",
+    "\n",
+    "Store your new standard error in `ex14_se_treatment`. Round your answer to 4 decimal places."
    ]
   },
   {
@@ -659,83 +967,228 @@
        "<table class=\"simpletable\">\n",
        "<caption>OLS Regression Results</caption>\n",
        "<tr>\n",
-       "  <th>Dep. Variable:</th>    <td>payments_per_click</td> <th>  R-squared:         </th> <td>   0.007</td>\n",
+       "  <th>Dep. Variable:</th>    <td>enroll_but_nopayment_per_click</td> <th>  R-squared:         </th> <td>   0.806</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Model:</th>                    <td>OLS</td>        <th>  Adj. R-squared:    </th> <td>  -0.016</td>\n",
+       "  <th>Model:</th>                          <td>OLS</td>              <th>  Adj. R-squared:    </th> <td>   0.602</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Method:</th>              <td>Least Squares</td>   <th>  F-statistic:       </th> <td>  0.2903</td>\n",
+       "  <th>Method:</th>                    <td>Least Squares</td>         <th>  F-statistic:       </th> <td>   3.962</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>              <td>Mon, 07 Feb 2022</td>  <th>  Prob (F-statistic):</th>  <td> 0.593</td> \n",
+       "  <th>Date:</th>                    <td>Sat, 02 Mar 2024</td>        <th>  Prob (F-statistic):</th> <td>0.000978</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                  <td>13:42:55</td>      <th>  Log-Likelihood:    </th> <td>  95.810</td>\n",
+       "  <th>Time:</th>                        <td>19:10:08</td>            <th>  Log-Likelihood:    </th> <td>  126.29</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>No. Observations:</th>       <td>    46</td>       <th>  AIC:               </th> <td>  -187.6</td>\n",
+       "  <th>No. Observations:</th>             <td>    46</td>             <th>  AIC:               </th> <td>  -204.6</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Df Residuals:</th>           <td>    44</td>       <th>  BIC:               </th> <td>  -184.0</td>\n",
+       "  <th>Df Residuals:</th>                 <td>    22</td>             <th>  BIC:               </th> <td>  -160.7</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Df Model:</th>               <td>     1</td>       <th>                     </th>     <td> </td>   \n",
+       "  <th>Df Model:</th>                     <td>    23</td>             <th>                     </th>     <td> </td>   \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Covariance Type:</th>       <td>nonrobust</td>     <th>                     </th>     <td> </td>   \n",
-       "</tr>\n",
-       "</table>\n",
-       "<table class=\"simpletable\">\n",
-       "<tr>\n",
-       "      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Intercept</th> <td>    0.1183</td> <td>    0.006</td> <td>   18.403</td> <td> 0.000</td> <td>    0.105</td> <td>    0.131</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>treatment</th> <td>   -0.0049</td> <td>    0.009</td> <td>   -0.539</td> <td> 0.593</td> <td>   -0.023</td> <td>    0.013</td>\n",
+       "  <th>Covariance Type:</th>             <td>nonrobust</td>           <th>                     </th>     <td> </td>   \n",
        "</tr>\n",
        "</table>\n",
        "<table class=\"simpletable\">\n",
        "<tr>\n",
-       "  <th>Omnibus:</th>       <td> 0.968</td> <th>  Durbin-Watson:     </th> <td>   1.092</td>\n",
+       "             <td></td>               <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Prob(Omnibus):</th> <td> 0.616</td> <th>  Jarque-Bera (JB):  </th> <td>   0.985</td>\n",
+       "  <th>Intercept</th>              <td>    0.1079</td> <td>    0.016</td> <td>    6.651</td> <td> 0.000</td> <td>    0.074</td> <td>    0.142</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Skew:</th>          <td> 0.316</td> <th>  Prob(JB):          </th> <td>   0.611</td>\n",
+       "  <th>C(Date)[T.Fri, Oct 24]</th> <td>    0.0445</td> <td>    0.022</td> <td>    1.983</td> <td> 0.060</td> <td>   -0.002</td> <td>    0.091</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Kurtosis:</th>      <td> 2.662</td> <th>  Cond. No.          </th> <td>    2.62</td>\n",
+       "  <th>C(Date)[T.Fri, Oct 31]</th> <td>   -0.0074</td> <td>    0.022</td> <td>   -0.331</td> <td> 0.744</td> <td>   -0.054</td> <td>    0.039</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Mon, Oct 13]</th> <td>   -0.0231</td> <td>    0.022</td> <td>   -1.026</td> <td> 0.316</td> <td>   -0.070</td> <td>    0.024</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Mon, Oct 20]</th> <td>   -0.0285</td> <td>    0.022</td> <td>   -1.270</td> <td> 0.217</td> <td>   -0.075</td> <td>    0.018</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Mon, Oct 27]</th> <td>    0.0328</td> <td>    0.022</td> <td>    1.458</td> <td> 0.159</td> <td>   -0.014</td> <td>    0.079</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Sat, Nov 1]</th>  <td>   -0.0235</td> <td>    0.022</td> <td>   -1.047</td> <td> 0.306</td> <td>   -0.070</td> <td>    0.023</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Sat, Oct 11]</th> <td>   -0.0017</td> <td>    0.022</td> <td>   -0.074</td> <td> 0.941</td> <td>   -0.048</td> <td>    0.045</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Sat, Oct 18]</th> <td>   -0.0438</td> <td>    0.022</td> <td>   -1.950</td> <td> 0.064</td> <td>   -0.090</td> <td>    0.003</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Sat, Oct 25]</th> <td>   -0.0309</td> <td>    0.022</td> <td>   -1.375</td> <td> 0.183</td> <td>   -0.077</td> <td>    0.016</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Sun, Nov 2]</th>  <td>    0.0549</td> <td>    0.022</td> <td>    2.441</td> <td> 0.023</td> <td>    0.008</td> <td>    0.101</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Sun, Oct 12]</th> <td>   -0.0347</td> <td>    0.022</td> <td>   -1.542</td> <td> 0.137</td> <td>   -0.081</td> <td>    0.012</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Sun, Oct 19]</th> <td>   -0.0178</td> <td>    0.022</td> <td>   -0.791</td> <td> 0.437</td> <td>   -0.064</td> <td>    0.029</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Sun, Oct 26]</th> <td>   -0.0222</td> <td>    0.022</td> <td>   -0.989</td> <td> 0.333</td> <td>   -0.069</td> <td>    0.024</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Thu, Oct 16]</th> <td>   -0.0228</td> <td>    0.022</td> <td>   -1.016</td> <td> 0.321</td> <td>   -0.069</td> <td>    0.024</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Thu, Oct 23]</th> <td>   -0.0046</td> <td>    0.022</td> <td>   -0.203</td> <td> 0.841</td> <td>   -0.051</td> <td>    0.042</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Thu, Oct 30]</th> <td>    0.0588</td> <td>    0.022</td> <td>    2.618</td> <td> 0.016</td> <td>    0.012</td> <td>    0.105</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Tue, Oct 14]</th> <td>   -0.0417</td> <td>    0.022</td> <td>   -1.855</td> <td> 0.077</td> <td>   -0.088</td> <td>    0.005</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Tue, Oct 21]</th> <td>   -0.0059</td> <td>    0.022</td> <td>   -0.260</td> <td> 0.797</td> <td>   -0.052</td> <td>    0.041</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Tue, Oct 28]</th> <td>   -0.0287</td> <td>    0.022</td> <td>   -1.276</td> <td> 0.215</td> <td>   -0.075</td> <td>    0.018</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Wed, Oct 15]</th> <td>   -0.0132</td> <td>    0.022</td> <td>   -0.588</td> <td> 0.562</td> <td>   -0.060</td> <td>    0.033</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Wed, Oct 22]</th> <td>   -0.0220</td> <td>    0.022</td> <td>   -0.980</td> <td> 0.338</td> <td>   -0.069</td> <td>    0.025</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>C(Date)[T.Wed, Oct 29]</th> <td>    0.0466</td> <td>    0.022</td> <td>    2.076</td> <td> 0.050</td> <td> 4.77e-05</td> <td>    0.093</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>treatment</th>              <td>   -0.0159</td> <td>    0.007</td> <td>   -2.398</td> <td> 0.025</td> <td>   -0.030</td> <td>   -0.002</td>\n",
+       "</tr>\n",
+       "</table>\n",
+       "<table class=\"simpletable\">\n",
+       "<tr>\n",
+       "  <th>Omnibus:</th>       <td> 3.871</td> <th>  Durbin-Watson:     </th> <td>   1.863</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Prob(Omnibus):</th> <td> 0.144</td> <th>  Jarque-Bera (JB):  </th> <td>   3.826</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Skew:</th>          <td>-0.000</td> <th>  Prob(JB):          </th> <td>   0.148</td>\n",
+       "</tr>\n",
+       "<tr>\n",
+       "  <th>Kurtosis:</th>      <td> 4.413</td> <th>  Cond. No.          </th> <td>    27.3</td>\n",
        "</tr>\n",
        "</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+      ],
+      "text/latex": [
+       "\\begin{center}\n",
+       "\\begin{tabular}{lclc}\n",
+       "\\toprule\n",
+       "\\textbf{Dep. Variable:}         & enroll\\_but\\_nopayment\\_per\\_click & \\textbf{  R-squared:         } &     0.806   \\\\\n",
+       "\\textbf{Model:}                 &                OLS                 & \\textbf{  Adj. R-squared:    } &     0.602   \\\\\n",
+       "\\textbf{Method:}                &           Least Squares            & \\textbf{  F-statistic:       } &     3.962   \\\\\n",
+       "\\textbf{Date:}                  &          Sat, 02 Mar 2024          & \\textbf{  Prob (F-statistic):} &  0.000978   \\\\\n",
+       "\\textbf{Time:}                  &              19:10:08              & \\textbf{  Log-Likelihood:    } &    126.29   \\\\\n",
+       "\\textbf{No. Observations:}      &                   46               & \\textbf{  AIC:               } &    -204.6   \\\\\n",
+       "\\textbf{Df Residuals:}          &                   22               & \\textbf{  BIC:               } &    -160.7   \\\\\n",
+       "\\textbf{Df Model:}              &                   23               & \\textbf{                     } &             \\\\\n",
+       "\\textbf{Covariance Type:}       &             nonrobust              & \\textbf{                     } &             \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "\\begin{tabular}{lcccccc}\n",
+       "                                & \\textbf{coef} & \\textbf{std err} & \\textbf{t} & \\textbf{P$> |$t$|$} & \\textbf{[0.025} & \\textbf{0.975]}  \\\\\n",
+       "\\midrule\n",
+       "\\textbf{Intercept}              &       0.1079  &        0.016     &     6.651  &         0.000        &        0.074    &        0.142     \\\\\n",
+       "\\textbf{C(Date)[T.Fri, Oct 24]} &       0.0445  &        0.022     &     1.983  &         0.060        &       -0.002    &        0.091     \\\\\n",
+       "\\textbf{C(Date)[T.Fri, Oct 31]} &      -0.0074  &        0.022     &    -0.331  &         0.744        &       -0.054    &        0.039     \\\\\n",
+       "\\textbf{C(Date)[T.Mon, Oct 13]} &      -0.0231  &        0.022     &    -1.026  &         0.316        &       -0.070    &        0.024     \\\\\n",
+       "\\textbf{C(Date)[T.Mon, Oct 20]} &      -0.0285  &        0.022     &    -1.270  &         0.217        &       -0.075    &        0.018     \\\\\n",
+       "\\textbf{C(Date)[T.Mon, Oct 27]} &       0.0328  &        0.022     &     1.458  &         0.159        &       -0.014    &        0.079     \\\\\n",
+       "\\textbf{C(Date)[T.Sat, Nov 1]}  &      -0.0235  &        0.022     &    -1.047  &         0.306        &       -0.070    &        0.023     \\\\\n",
+       "\\textbf{C(Date)[T.Sat, Oct 11]} &      -0.0017  &        0.022     &    -0.074  &         0.941        &       -0.048    &        0.045     \\\\\n",
+       "\\textbf{C(Date)[T.Sat, Oct 18]} &      -0.0438  &        0.022     &    -1.950  &         0.064        &       -0.090    &        0.003     \\\\\n",
+       "\\textbf{C(Date)[T.Sat, Oct 25]} &      -0.0309  &        0.022     &    -1.375  &         0.183        &       -0.077    &        0.016     \\\\\n",
+       "\\textbf{C(Date)[T.Sun, Nov 2]}  &       0.0549  &        0.022     &     2.441  &         0.023        &        0.008    &        0.101     \\\\\n",
+       "\\textbf{C(Date)[T.Sun, Oct 12]} &      -0.0347  &        0.022     &    -1.542  &         0.137        &       -0.081    &        0.012     \\\\\n",
+       "\\textbf{C(Date)[T.Sun, Oct 19]} &      -0.0178  &        0.022     &    -0.791  &         0.437        &       -0.064    &        0.029     \\\\\n",
+       "\\textbf{C(Date)[T.Sun, Oct 26]} &      -0.0222  &        0.022     &    -0.989  &         0.333        &       -0.069    &        0.024     \\\\\n",
+       "\\textbf{C(Date)[T.Thu, Oct 16]} &      -0.0228  &        0.022     &    -1.016  &         0.321        &       -0.069    &        0.024     \\\\\n",
+       "\\textbf{C(Date)[T.Thu, Oct 23]} &      -0.0046  &        0.022     &    -0.203  &         0.841        &       -0.051    &        0.042     \\\\\n",
+       "\\textbf{C(Date)[T.Thu, Oct 30]} &       0.0588  &        0.022     &     2.618  &         0.016        &        0.012    &        0.105     \\\\\n",
+       "\\textbf{C(Date)[T.Tue, Oct 14]} &      -0.0417  &        0.022     &    -1.855  &         0.077        &       -0.088    &        0.005     \\\\\n",
+       "\\textbf{C(Date)[T.Tue, Oct 21]} &      -0.0059  &        0.022     &    -0.260  &         0.797        &       -0.052    &        0.041     \\\\\n",
+       "\\textbf{C(Date)[T.Tue, Oct 28]} &      -0.0287  &        0.022     &    -1.276  &         0.215        &       -0.075    &        0.018     \\\\\n",
+       "\\textbf{C(Date)[T.Wed, Oct 15]} &      -0.0132  &        0.022     &    -0.588  &         0.562        &       -0.060    &        0.033     \\\\\n",
+       "\\textbf{C(Date)[T.Wed, Oct 22]} &      -0.0220  &        0.022     &    -0.980  &         0.338        &       -0.069    &        0.025     \\\\\n",
+       "\\textbf{C(Date)[T.Wed, Oct 29]} &       0.0466  &        0.022     &     2.076  &         0.050        &     4.77e-05    &        0.093     \\\\\n",
+       "\\textbf{treatment}              &      -0.0159  &        0.007     &    -2.398  &         0.025        &       -0.030    &       -0.002     \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "\\begin{tabular}{lclc}\n",
+       "\\textbf{Omnibus:}       &  3.871 & \\textbf{  Durbin-Watson:     } &    1.863  \\\\\n",
+       "\\textbf{Prob(Omnibus):} &  0.144 & \\textbf{  Jarque-Bera (JB):  } &    3.826  \\\\\n",
+       "\\textbf{Skew:}          & -0.000 & \\textbf{  Prob(JB):          } &    0.148  \\\\\n",
+       "\\textbf{Kurtosis:}      &  4.413 & \\textbf{  Cond. No.          } &     27.3  \\\\\n",
+       "\\bottomrule\n",
+       "\\end{tabular}\n",
+       "%\\caption{OLS Regression Results}\n",
+       "\\end{center}\n",
+       "\n",
+       "Notes: \\newline\n",
+       " [1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
       ],
       "text/plain": [
        "<class 'statsmodels.iolib.summary.Summary'>\n",
        "\"\"\"\n",
-       "                            OLS Regression Results                            \n",
+       "                                  OLS Regression Results                                  \n",
+       "==========================================================================================\n",
+       "Dep. Variable:     enroll_but_nopayment_per_click   R-squared:                       0.806\n",
+       "Model:                                        OLS   Adj. R-squared:                  0.602\n",
+       "Method:                             Least Squares   F-statistic:                     3.962\n",
+       "Date:                            Sat, 02 Mar 2024   Prob (F-statistic):           0.000978\n",
+       "Time:                                    19:10:08   Log-Likelihood:                 126.29\n",
+       "No. Observations:                              46   AIC:                            -204.6\n",
+       "Df Residuals:                                  22   BIC:                            -160.7\n",
+       "Df Model:                                      23                                         \n",
+       "Covariance Type:                        nonrobust                                         \n",
+       "==========================================================================================\n",
+       "                             coef    std err          t      P>|t|      [0.025      0.975]\n",
+       "------------------------------------------------------------------------------------------\n",
+       "Intercept                  0.1079      0.016      6.651      0.000       0.074       0.142\n",
+       "C(Date)[T.Fri, Oct 24]     0.0445      0.022      1.983      0.060      -0.002       0.091\n",
+       "C(Date)[T.Fri, Oct 31]    -0.0074      0.022     -0.331      0.744      -0.054       0.039\n",
+       "C(Date)[T.Mon, Oct 13]    -0.0231      0.022     -1.026      0.316      -0.070       0.024\n",
+       "C(Date)[T.Mon, Oct 20]    -0.0285      0.022     -1.270      0.217      -0.075       0.018\n",
+       "C(Date)[T.Mon, Oct 27]     0.0328      0.022      1.458      0.159      -0.014       0.079\n",
+       "C(Date)[T.Sat, Nov 1]     -0.0235      0.022     -1.047      0.306      -0.070       0.023\n",
+       "C(Date)[T.Sat, Oct 11]    -0.0017      0.022     -0.074      0.941      -0.048       0.045\n",
+       "C(Date)[T.Sat, Oct 18]    -0.0438      0.022     -1.950      0.064      -0.090       0.003\n",
+       "C(Date)[T.Sat, Oct 25]    -0.0309      0.022     -1.375      0.183      -0.077       0.016\n",
+       "C(Date)[T.Sun, Nov 2]      0.0549      0.022      2.441      0.023       0.008       0.101\n",
+       "C(Date)[T.Sun, Oct 12]    -0.0347      0.022     -1.542      0.137      -0.081       0.012\n",
+       "C(Date)[T.Sun, Oct 19]    -0.0178      0.022     -0.791      0.437      -0.064       0.029\n",
+       "C(Date)[T.Sun, Oct 26]    -0.0222      0.022     -0.989      0.333      -0.069       0.024\n",
+       "C(Date)[T.Thu, Oct 16]    -0.0228      0.022     -1.016      0.321      -0.069       0.024\n",
+       "C(Date)[T.Thu, Oct 23]    -0.0046      0.022     -0.203      0.841      -0.051       0.042\n",
+       "C(Date)[T.Thu, Oct 30]     0.0588      0.022      2.618      0.016       0.012       0.105\n",
+       "C(Date)[T.Tue, Oct 14]    -0.0417      0.022     -1.855      0.077      -0.088       0.005\n",
+       "C(Date)[T.Tue, Oct 21]    -0.0059      0.022     -0.260      0.797      -0.052       0.041\n",
+       "C(Date)[T.Tue, Oct 28]    -0.0287      0.022     -1.276      0.215      -0.075       0.018\n",
+       "C(Date)[T.Wed, Oct 15]    -0.0132      0.022     -0.588      0.562      -0.060       0.033\n",
+       "C(Date)[T.Wed, Oct 22]    -0.0220      0.022     -0.980      0.338      -0.069       0.025\n",
+       "C(Date)[T.Wed, Oct 29]     0.0466      0.022      2.076      0.050    4.77e-05       0.093\n",
+       "treatment                 -0.0159      0.007     -2.398      0.025      -0.030      -0.002\n",
        "==============================================================================\n",
-       "Dep. Variable:     payments_per_click   R-squared:                       0.007\n",
-       "Model:                            OLS   Adj. R-squared:                 -0.016\n",
-       "Method:                 Least Squares   F-statistic:                    0.2903\n",
-       "Date:                Mon, 07 Feb 2022   Prob (F-statistic):              0.593\n",
-       "Time:                        13:42:55   Log-Likelihood:                 95.810\n",
-       "No. Observations:                  46   AIC:                            -187.6\n",
-       "Df Residuals:                      44   BIC:                            -184.0\n",
-       "Df Model:                           1                                         \n",
-       "Covariance Type:            nonrobust                                         \n",
-       "==============================================================================\n",
-       "                 coef    std err          t      P>|t|      [0.025      0.975]\n",
-       "------------------------------------------------------------------------------\n",
-       "Intercept      0.1183      0.006     18.403      0.000       0.105       0.131\n",
-       "treatment     -0.0049      0.009     -0.539      0.593      -0.023       0.013\n",
-       "==============================================================================\n",
-       "Omnibus:                        0.968   Durbin-Watson:                   1.092\n",
-       "Prob(Omnibus):                  0.616   Jarque-Bera (JB):                0.985\n",
-       "Skew:                           0.316   Prob(JB):                        0.611\n",
-       "Kurtosis:                       2.662   Cond. No.                         2.62\n",
+       "Omnibus:                        3.871   Durbin-Watson:                   1.863\n",
+       "Prob(Omnibus):                  0.144   Jarque-Bera (JB):                3.826\n",
+       "Skew:                          -0.000   Prob(JB):                        0.148\n",
+       "Kurtosis:                       4.413   Cond. No.                         27.3\n",
        "==============================================================================\n",
        "\n",
        "Notes:\n",
@@ -751,16 +1204,8 @@
    "source": [
     "import statsmodels.formula.api as smf\n",
     "\n",
-    "smf.ols(\"payments_per_click ~ treatment\", users).fit().summary()\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "### Exercise 11\n",
-    "\n",
-    "Now add indicator variables for the day of each observation. Do the standard errors on your `treatment` variable change? If so, in what direction?"
+    "reg_fit = smf.ols(\"enroll_but_nopayment_per_click ~ treatment + C(Date)\", users).fit()\n",
+    "reg_fit.summary()"
    ]
   },
   {
@@ -769,241 +1214,92 @@
    "metadata": {},
    "outputs": [
     {
-     "data": {
-      "text/html": [
-       "<table class=\"simpletable\">\n",
-       "<caption>OLS Regression Results</caption>\n",
-       "<tr>\n",
-       "  <th>Dep. Variable:</th>    <td>payments_per_click</td> <th>  R-squared:         </th> <td>   0.743</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Model:</th>                    <td>OLS</td>        <th>  Adj. R-squared:    </th> <td>   0.475</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Method:</th>              <td>Least Squares</td>   <th>  F-statistic:       </th> <td>   2.770</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Date:</th>              <td>Mon, 07 Feb 2022</td>  <th>  Prob (F-statistic):</th>  <td>0.00991</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Time:</th>                  <td>13:42:55</td>      <th>  Log-Likelihood:    </th> <td>  126.94</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>No. Observations:</th>       <td>    46</td>       <th>  AIC:               </th> <td>  -205.9</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Df Residuals:</th>           <td>    22</td>       <th>  BIC:               </th> <td>  -162.0</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Df Model:</th>               <td>    23</td>       <th>                     </th>     <td> </td>   \n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Covariance Type:</th>       <td>nonrobust</td>     <th>                     </th>     <td> </td>   \n",
-       "</tr>\n",
-       "</table>\n",
-       "<table class=\"simpletable\">\n",
-       "<tr>\n",
-       "             <td></td>               <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Intercept</th>              <td>    0.0815</td> <td>    0.016</td> <td>    5.090</td> <td> 0.000</td> <td>    0.048</td> <td>    0.115</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Fri, Oct 24]</th> <td>    0.0791</td> <td>    0.022</td> <td>    3.569</td> <td> 0.002</td> <td>    0.033</td> <td>    0.125</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Fri, Oct 31]</th> <td>    0.0777</td> <td>    0.022</td> <td>    3.507</td> <td> 0.002</td> <td>    0.032</td> <td>    0.124</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Mon, Oct 13]</th> <td>    0.0179</td> <td>    0.022</td> <td>    0.809</td> <td> 0.427</td> <td>   -0.028</td> <td>    0.064</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Mon, Oct 20]</th> <td>    0.0343</td> <td>    0.022</td> <td>    1.548</td> <td> 0.136</td> <td>   -0.012</td> <td>    0.080</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Mon, Oct 27]</th> <td>    0.0799</td> <td>    0.022</td> <td>    3.604</td> <td> 0.002</td> <td>    0.034</td> <td>    0.126</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Sat, Nov 1]</th>  <td>    0.0612</td> <td>    0.022</td> <td>    2.763</td> <td> 0.011</td> <td>    0.015</td> <td>    0.107</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Sat, Oct 11]</th> <td>   -0.0033</td> <td>    0.022</td> <td>   -0.148</td> <td> 0.884</td> <td>   -0.049</td> <td>    0.043</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Sat, Oct 18]</th> <td>    0.0239</td> <td>    0.022</td> <td>    1.080</td> <td> 0.292</td> <td>   -0.022</td> <td>    0.070</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Sat, Oct 25]</th> <td>    0.0742</td> <td>    0.022</td> <td>    3.347</td> <td> 0.003</td> <td>    0.028</td> <td>    0.120</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Sun, Nov 2]</th>  <td>    0.0405</td> <td>    0.022</td> <td>    1.826</td> <td> 0.081</td> <td>   -0.005</td> <td>    0.086</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Sun, Oct 12]</th> <td>    0.0239</td> <td>    0.022</td> <td>    1.078</td> <td> 0.293</td> <td>   -0.022</td> <td>    0.070</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Sun, Oct 19]</th> <td>    0.0196</td> <td>    0.022</td> <td>    0.887</td> <td> 0.385</td> <td>   -0.026</td> <td>    0.066</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Sun, Oct 26]</th> <td>    0.0673</td> <td>    0.022</td> <td>    3.038</td> <td> 0.006</td> <td>    0.021</td> <td>    0.113</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Thu, Oct 16]</th> <td>    0.0095</td> <td>    0.022</td> <td>    0.430</td> <td> 0.672</td> <td>   -0.036</td> <td>    0.055</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Thu, Oct 23]</th> <td>    0.0161</td> <td>    0.022</td> <td>    0.725</td> <td> 0.476</td> <td>   -0.030</td> <td>    0.062</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Thu, Oct 30]</th> <td>    0.0181</td> <td>    0.022</td> <td>    0.817</td> <td> 0.423</td> <td>   -0.028</td> <td>    0.064</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Tue, Oct 14]</th> <td>    0.0394</td> <td>    0.022</td> <td>    1.779</td> <td> 0.089</td> <td>   -0.007</td> <td>    0.085</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Tue, Oct 21]</th> <td>    0.0226</td> <td>    0.022</td> <td>    1.022</td> <td> 0.318</td> <td>   -0.023</td> <td>    0.069</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Tue, Oct 28]</th> <td>    0.0643</td> <td>    0.022</td> <td>    2.904</td> <td> 0.008</td> <td>    0.018</td> <td>    0.110</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Wed, Oct 15]</th> <td>    0.0157</td> <td>    0.022</td> <td>    0.709</td> <td> 0.486</td> <td>   -0.030</td> <td>    0.062</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Wed, Oct 22]</th> <td>    0.0196</td> <td>    0.022</td> <td>    0.884</td> <td> 0.386</td> <td>   -0.026</td> <td>    0.066</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(Date)[T.Wed, Oct 29]</th> <td>    0.0452</td> <td>    0.022</td> <td>    2.040</td> <td> 0.054</td> <td>   -0.001</td> <td>    0.091</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>treatment</th>              <td>   -0.0049</td> <td>    0.007</td> <td>   -0.750</td> <td> 0.461</td> <td>   -0.018</td> <td>    0.009</td>\n",
-       "</tr>\n",
-       "</table>\n",
-       "<table class=\"simpletable\">\n",
-       "<tr>\n",
-       "  <th>Omnibus:</th>       <td> 4.114</td> <th>  Durbin-Watson:     </th> <td>   1.713</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Prob(Omnibus):</th> <td> 0.128</td> <th>  Jarque-Bera (JB):  </th> <td>   1.796</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Skew:</th>          <td> 0.000</td> <th>  Prob(JB):          </th> <td>   0.407</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Kurtosis:</th>      <td> 2.032</td> <th>  Cond. No.          </th> <td>    27.3</td>\n",
-       "</tr>\n",
-       "</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
-      ],
-      "text/plain": [
-       "<class 'statsmodels.iolib.summary.Summary'>\n",
-       "\"\"\"\n",
-       "                            OLS Regression Results                            \n",
-       "==============================================================================\n",
-       "Dep. Variable:     payments_per_click   R-squared:                       0.743\n",
-       "Model:                            OLS   Adj. R-squared:                  0.475\n",
-       "Method:                 Least Squares   F-statistic:                     2.770\n",
-       "Date:                Mon, 07 Feb 2022   Prob (F-statistic):            0.00991\n",
-       "Time:                        13:42:55   Log-Likelihood:                 126.94\n",
-       "No. Observations:                  46   AIC:                            -205.9\n",
-       "Df Residuals:                      22   BIC:                            -162.0\n",
-       "Df Model:                          23                                         \n",
-       "Covariance Type:            nonrobust                                         \n",
-       "==========================================================================================\n",
-       "                             coef    std err          t      P>|t|      [0.025      0.975]\n",
-       "------------------------------------------------------------------------------------------\n",
-       "Intercept                  0.0815      0.016      5.090      0.000       0.048       0.115\n",
-       "C(Date)[T.Fri, Oct 24]     0.0791      0.022      3.569      0.002       0.033       0.125\n",
-       "C(Date)[T.Fri, Oct 31]     0.0777      0.022      3.507      0.002       0.032       0.124\n",
-       "C(Date)[T.Mon, Oct 13]     0.0179      0.022      0.809      0.427      -0.028       0.064\n",
-       "C(Date)[T.Mon, Oct 20]     0.0343      0.022      1.548      0.136      -0.012       0.080\n",
-       "C(Date)[T.Mon, Oct 27]     0.0799      0.022      3.604      0.002       0.034       0.126\n",
-       "C(Date)[T.Sat, Nov 1]      0.0612      0.022      2.763      0.011       0.015       0.107\n",
-       "C(Date)[T.Sat, Oct 11]    -0.0033      0.022     -0.148      0.884      -0.049       0.043\n",
-       "C(Date)[T.Sat, Oct 18]     0.0239      0.022      1.080      0.292      -0.022       0.070\n",
-       "C(Date)[T.Sat, Oct 25]     0.0742      0.022      3.347      0.003       0.028       0.120\n",
-       "C(Date)[T.Sun, Nov 2]      0.0405      0.022      1.826      0.081      -0.005       0.086\n",
-       "C(Date)[T.Sun, Oct 12]     0.0239      0.022      1.078      0.293      -0.022       0.070\n",
-       "C(Date)[T.Sun, Oct 19]     0.0196      0.022      0.887      0.385      -0.026       0.066\n",
-       "C(Date)[T.Sun, Oct 26]     0.0673      0.022      3.038      0.006       0.021       0.113\n",
-       "C(Date)[T.Thu, Oct 16]     0.0095      0.022      0.430      0.672      -0.036       0.055\n",
-       "C(Date)[T.Thu, Oct 23]     0.0161      0.022      0.725      0.476      -0.030       0.062\n",
-       "C(Date)[T.Thu, Oct 30]     0.0181      0.022      0.817      0.423      -0.028       0.064\n",
-       "C(Date)[T.Tue, Oct 14]     0.0394      0.022      1.779      0.089      -0.007       0.085\n",
-       "C(Date)[T.Tue, Oct 21]     0.0226      0.022      1.022      0.318      -0.023       0.069\n",
-       "C(Date)[T.Tue, Oct 28]     0.0643      0.022      2.904      0.008       0.018       0.110\n",
-       "C(Date)[T.Wed, Oct 15]     0.0157      0.022      0.709      0.486      -0.030       0.062\n",
-       "C(Date)[T.Wed, Oct 22]     0.0196      0.022      0.884      0.386      -0.026       0.066\n",
-       "C(Date)[T.Wed, Oct 29]     0.0452      0.022      2.040      0.054      -0.001       0.091\n",
-       "treatment                 -0.0049      0.007     -0.750      0.461      -0.018       0.009\n",
-       "==============================================================================\n",
-       "Omnibus:                        4.114   Durbin-Watson:                   1.713\n",
-       "Prob(Omnibus):                  0.128   Jarque-Bera (JB):                1.796\n",
-       "Skew:                           0.000   Prob(JB):                        0.407\n",
-       "Kurtosis:                       2.032   Cond. No.                         27.3\n",
-       "==============================================================================\n",
-       "\n",
-       "Notes:\n",
-       "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
-       "\"\"\""
-      ]
-     },
-     "execution_count": 19,
-     "metadata": {},
-     "output_type": "execute_result"
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The standard error is 0.0066\n"
+     ]
     }
    ],
    "source": [
-    "import statsmodels.formula.api as smf\n",
+    "results[\"ex14_se_treatment\"] = np.round(reg_fit.bse[\"treatment\"], 4)\n",
+    "print(f\"The standard error is {results['ex14_se_treatment']:.4f}\")"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You should have found that your standard errors decreased by about 30\\%—this is why, although just comparing means *works*, if you have additional variables adding them to your analysis can be helpful (all the usual rules for model specification apply — for example, you still want to be careful about overfitting, which one could argue is maybe part of what's happening here). \n",
     "\n",
-    "smf.ols(\"payments_per_click ~ treatment + C(Date)\", users).fit().summary()\n"
+    "In many other cases, the effect of adding controls is likely to be larger — the date indicators we added to our data are perfectly balanced between treatment and control, so we aren't adding a lot of data to the model by adding them as variables. They're accounting for some day-to-day variation (presumably in the types of people coming to the site), but they aren't controlling for any residual baseline differences the way a control like \"gender\" or \"age\" might (since those kind of individual-level attributes will never be perfectly balanced across treatment and control). "
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 15\n",
+    "\n",
+    "Does this result have any impact on the recommendations you would offer Udacity?"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "You should have found that your standard errors decreased by about 20\\% -- this is why, although just comparing means *works*, if you have additional variables you should add them as covariates in your analysis. Moreover, in other settings you may find this effect is even larger -- the date indicators we added to our data are perfectly balanced between treatment and control, so we aren't adding a lot of data to the model by adding them as variables. As we'll see in later exercises, adding variables like \"gender\" or \"age\" (which will never be perfectly balanced across treatment and control) will help even more. \n"
+    "> Makes for a stronger case that it's ok to roll this out!"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 20,
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['ex10_num_obs',\n",
+       " 'ex11_guard_ate',\n",
+       " 'ex11_guard_pvalue',\n",
+       " 'ex11_oec_ate',\n",
+       " 'ex11_oec_pvalue',\n",
+       " 'ex14_se_treatment',\n",
+       " 'ex4_avg_oec',\n",
+       " 'ex5_avg_guardrail',\n",
+       " 'ex7_ttest_pvalue',\n",
+       " 'ex9_ttest_pvalue_clicks']"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
    "source": [
-    "# Yup! my standard error moved from 0.009 to 0.007."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "\n",
-    "### Exercise 12\n",
-    "\n",
-    "Given your results, what would you tell Udacity about their trial?"
+    "sorted(set(results.keys()))"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 21,
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "10"
+      ]
+     },
+     "execution_count": 21,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
    "source": [
-    "# It seems like everything is going in the expected direction. However\n",
-    "# before rolling out something that affects something as important\n",
-    "# as on-boarding, I would run a longer trial to get a little greater\n",
-    "# statistical significance...\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "### Exercise 13\n",
-    "\n",
-    "As a last exercise, instead of adding indicators for each date, add indicators for *day of the week* (e.g. Monday, Tuesday, etc.). \n",
-    "\n",
-    "(This is just for data manipulation practice!)"
+    "len(results.keys())"
    ]
   },
   {
@@ -1012,144 +1308,18 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "users[\"day_of_week\"] = users.Date.str.split(\",\", expand=True)[0]\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 23,
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<table class=\"simpletable\">\n",
-       "<caption>OLS Regression Results</caption>\n",
-       "<tr>\n",
-       "  <th>Dep. Variable:</th>    <td>payments_per_click</td> <th>  R-squared:         </th> <td>   0.138</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Model:</th>                    <td>OLS</td>        <th>  Adj. R-squared:    </th> <td>  -0.021</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Method:</th>              <td>Least Squares</td>   <th>  F-statistic:       </th> <td>  0.8687</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Date:</th>              <td>Mon, 07 Feb 2022</td>  <th>  Prob (F-statistic):</th>  <td> 0.540</td> \n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Time:</th>                  <td>13:42:55</td>      <th>  Log-Likelihood:    </th> <td>  99.073</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>No. Observations:</th>       <td>    46</td>       <th>  AIC:               </th> <td>  -182.1</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Df Residuals:</th>           <td>    38</td>       <th>  BIC:               </th> <td>  -167.5</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Df Model:</th>               <td>     7</td>       <th>                     </th>     <td> </td>   \n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Covariance Type:</th>       <td>nonrobust</td>     <th>                     </th>     <td> </td>   \n",
-       "</tr>\n",
-       "</table>\n",
-       "<table class=\"simpletable\">\n",
-       "<tr>\n",
-       "            <td></td>               <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  \n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Intercept</th>             <td>    0.1337</td> <td>    0.013</td> <td>    9.971</td> <td> 0.000</td> <td>    0.107</td> <td>    0.161</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(day_of_week)[T.Mon]</th> <td>   -0.0082</td> <td>    0.018</td> <td>   -0.461</td> <td> 0.647</td> <td>   -0.044</td> <td>    0.028</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(day_of_week)[T.Sat]</th> <td>   -0.0133</td> <td>    0.017</td> <td>   -0.794</td> <td> 0.432</td> <td>   -0.047</td> <td>    0.021</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(day_of_week)[T.Sun]</th> <td>   -0.0144</td> <td>    0.017</td> <td>   -0.865</td> <td> 0.393</td> <td>   -0.048</td> <td>    0.019</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(day_of_week)[T.Thu]</th> <td>   -0.0377</td> <td>    0.018</td> <td>   -2.113</td> <td> 0.041</td> <td>   -0.074</td> <td>   -0.002</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(day_of_week)[T.Tue]</th> <td>   -0.0101</td> <td>    0.018</td> <td>   -0.568</td> <td> 0.574</td> <td>   -0.046</td> <td>    0.026</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>C(day_of_week)[T.Wed]</th> <td>   -0.0254</td> <td>    0.018</td> <td>   -1.425</td> <td> 0.162</td> <td>   -0.062</td> <td>    0.011</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>treatment</th>             <td>   -0.0049</td> <td>    0.009</td> <td>   -0.538</td> <td> 0.594</td> <td>   -0.023</td> <td>    0.014</td>\n",
-       "</tr>\n",
-       "</table>\n",
-       "<table class=\"simpletable\">\n",
-       "<tr>\n",
-       "  <th>Omnibus:</th>       <td> 0.703</td> <th>  Durbin-Watson:     </th> <td>   0.986</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Prob(Omnibus):</th> <td> 0.704</td> <th>  Jarque-Bera (JB):  </th> <td>   0.237</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Skew:</th>          <td>-0.155</td> <th>  Prob(JB):          </th> <td>   0.888</td>\n",
-       "</tr>\n",
-       "<tr>\n",
-       "  <th>Kurtosis:</th>      <td> 3.168</td> <th>  Cond. No.          </th> <td>    9.27</td>\n",
-       "</tr>\n",
-       "</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
-      ],
-      "text/plain": [
-       "<class 'statsmodels.iolib.summary.Summary'>\n",
-       "\"\"\"\n",
-       "                            OLS Regression Results                            \n",
-       "==============================================================================\n",
-       "Dep. Variable:     payments_per_click   R-squared:                       0.138\n",
-       "Model:                            OLS   Adj. R-squared:                 -0.021\n",
-       "Method:                 Least Squares   F-statistic:                    0.8687\n",
-       "Date:                Mon, 07 Feb 2022   Prob (F-statistic):              0.540\n",
-       "Time:                        13:42:55   Log-Likelihood:                 99.073\n",
-       "No. Observations:                  46   AIC:                            -182.1\n",
-       "Df Residuals:                      38   BIC:                            -167.5\n",
-       "Df Model:                           7                                         \n",
-       "Covariance Type:            nonrobust                                         \n",
-       "=========================================================================================\n",
-       "                            coef    std err          t      P>|t|      [0.025      0.975]\n",
-       "-----------------------------------------------------------------------------------------\n",
-       "Intercept                 0.1337      0.013      9.971      0.000       0.107       0.161\n",
-       "C(day_of_week)[T.Mon]    -0.0082      0.018     -0.461      0.647      -0.044       0.028\n",
-       "C(day_of_week)[T.Sat]    -0.0133      0.017     -0.794      0.432      -0.047       0.021\n",
-       "C(day_of_week)[T.Sun]    -0.0144      0.017     -0.865      0.393      -0.048       0.019\n",
-       "C(day_of_week)[T.Thu]    -0.0377      0.018     -2.113      0.041      -0.074      -0.002\n",
-       "C(day_of_week)[T.Tue]    -0.0101      0.018     -0.568      0.574      -0.046       0.026\n",
-       "C(day_of_week)[T.Wed]    -0.0254      0.018     -1.425      0.162      -0.062       0.011\n",
-       "treatment                -0.0049      0.009     -0.538      0.594      -0.023       0.014\n",
-       "==============================================================================\n",
-       "Omnibus:                        0.703   Durbin-Watson:                   0.986\n",
-       "Prob(Omnibus):                  0.704   Jarque-Bera (JB):                0.237\n",
-       "Skew:                          -0.155   Prob(JB):                        0.888\n",
-       "Kurtosis:                       3.168   Cond. No.                         9.27\n",
-       "==============================================================================\n",
-       "\n",
-       "Notes:\n",
-       "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n",
-       "\"\"\""
-      ]
-     },
-     "execution_count": 23,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "smf.ols(\"payments_per_click ~ treatment + C(day_of_week)\", users).fit().summary()\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 24,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# But doesn't seem to have any effect on our standard errors."
+    "assert set(results.keys()) == {\n",
+    "    \"ex4_avg_oec\",\n",
+    "    \"ex5_avg_guardrail\",\n",
+    "    \"ex7_ttest_pvalue\",\n",
+    "    \"ex9_ttest_pvalue_clicks\",\n",
+    "    \"ex10_num_obs\",\n",
+    "    \"ex11_guard_ate\",\n",
+    "    \"ex11_guard_pvalue\",\n",
+    "    \"ex11_oec_ate\",\n",
+    "    \"ex11_oec_pvalue\",\n",
+    "    \"ex14_se_treatment\",\n",
+    "}"
    ]
   }
  ],
@@ -1169,7 +1339,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.9.7"
+   "version": "3.11.8"
   }
  },
  "nbformat": 4,
