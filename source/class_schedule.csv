@@ -71,7 +71,7 @@ Experiments: External Validity (In Practice):
 
 (This is same as IDS 705 Lecture 8 Reading)",
 "Thrs, Mar 28",**MIDTERM**,**MIDTERM**,
-"Tues, Apr 2",Causal Questions: Regression,- `Causal Beyond Experiments <https://ds4humans.com/35_causal/40_causal_inference_beyond_ab_testing.html>`_,
+"Tues, Apr 2",Causal Questions: Regression,- `Causal Beyond Experiments <https://ds4humans.com/35_causal/40_causal_inference_beyond_ab_testing.html>`_,- `Link <exercises/exercise_regressions_incomeineq.ipynb>`_
 "Thrs, Apr 4",Exploratory Questions Feedback,- Bring comments on other teams' report,
 "Tues, Apr 9",Causal Questions: Matching,"- Cunningham, Chpt 5, pp 175 (""Matching and Subclassification"") - 206 (Stop before ""Propensity Score Matching"")",
 "Thrs, Apr 11",Causal Questions: Differences and Differences / Panels,"- Cunningham, Chpt 9 pp 406 (Difference in Differences) - pp 433 (Stop at ""Importance of Placebos in Diff-in-Diff"")
