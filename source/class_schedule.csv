@@ -79,12 +79,13 @@ Experiments: External Validity (In Practice):
 
 *Watch the video above from about 15 minutes in (where link starts) till at least 45 minutes in, keep going if you want to learn about propensity score matching problems.*",- `Exercise <exercises/exercise_matching.ipynb>`_
 "Thrs, Apr 11",Causal Questions: Differences and Differences / Panels,"- Cunningham, Chpt 9 pp 406 (Difference in Differences) - pp 433 (Stop at ""Importance of Placebos in Diff-in-Diff"")
-- `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_
+ -(Book page numbers at bottom of PDF on canvas. Full chapter is in PDF, more than you need to read.)
  
  Optional but encouraged:
  (dont need to follow everything, but here's a real diff-in-diff)
  
- - `Enfranchisement and Incarceration <https://www.cambridge.org/core/journals/american-political-science-review/article/enfranchisement-and-incarceration-after-the-1965-voting-rights-act/C68FA7BB8CA313BDD8D9A39BA666A21D>`_",
+ - `Enfranchisement and Incarceration <https://www.cambridge.org/core/journals/american-political-science-review/article/enfranchisement-and-incarceration-after-the-1965-voting-rights-act/C68FA7BB8CA313BDD8D9A39BA666A21D>`_
+ - `Diff-in-Diffs at Netflix <https://netflixtechblog.com/key-challenges-with-quasi-experiments-at-netflix-89b4f234b852>`_",
 "Tues, Apr 16",Interpretation of Results,- **Revised Exploratory Due along with Causal Proposal**,
 "Thurs, Apr 18",AI Bias,"- Mayson: `Bias In, Bias Out <https://www.yalelawjournal.org/article/bias-in-bias-out>`_ up to 2281",
 "Wed, April 24",,- **Optional Due Date for Causal Rough Draft (11pm)**,
