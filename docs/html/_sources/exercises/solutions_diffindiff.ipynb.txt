@@ -43,7 +43,7 @@
     "arrests = pd.read_csv(\n",
     "    \"https://media.githubusercontent.com/media/\"\n",
     "    \"nickeubank/MIDS_Data/master/UDS_arrest_data.csv\"\n",
-    ")\n"
+    ")"
    ]
   },
   {
@@ -139,7 +139,7 @@
     }
    ],
    "source": [
-    "arrests.head()\n"
+    "arrests.head()"
    ]
   },
   {
@@ -163,7 +163,7 @@
    "outputs": [],
    "source": [
     "arrests[\"drug_rate\"] = arrests.F_DRUGOFF / (arrests.total_population / 100_000)\n",
-    "arrests[\"violent_rate\"] = arrests.VIOLENT / (arrests.total_population / 100_000)\n"
+    "arrests[\"violent_rate\"] = arrests.VIOLENT / (arrests.total_population / 100_000)"
    ]
   },
   {
@@ -244,7 +244,7 @@
    "source": [
     "small = arrests[arrests.YEAR.isin([2007, 2008, 2009])]\n",
     "avgs = small.groupby(\"COUNTY\").drug_rate.mean()\n",
-    "avgs\n"
+    "avgs"
    ]
   },
   {
@@ -264,7 +264,7 @@
     }
    ],
    "source": [
-    "avgs.median()\n"
+    "avgs.median()"
    ]
   },
   {
@@ -292,7 +292,7 @@
    "source": [
     "high = (avgs > avgs.median()).astype(\"int\")\n",
     "high.name = \"treated\"\n",
-    "high.head()\n"
+    "high.head()"
    ]
   },
   {
@@ -424,7 +424,7 @@
     ")\n",
     "assert (arrests._merge == \"both\").all()\n",
     "arrests = arrests.drop(\"_merge\", axis=\"columns\")\n",
-    "arrests.head()\n"
+    "arrests.head()"
    ]
   },
   {
@@ -442,7 +442,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "# See above, already did!\n"
+    "# See above, already did!"
    ]
   },
   {
@@ -525,7 +525,7 @@
     }
    ],
    "source": [
-    "y_t1_post - y_t1_pre\n"
+    "y_t1_post - y_t1_pre"
    ]
   },
   {
@@ -581,10 +581,10 @@
        "  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   11.00</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Sun, 12 Mar 2023</td> <th>  Prob (F-statistic):</th> <td>8.45e-06</td>\n",
+       "  <th>Date:</th>             <td>Mon, 06 Mar 2023</td> <th>  Prob (F-statistic):</th> <td>8.45e-06</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>14:57:47</td>     <th>  Log-Likelihood:    </th> <td> -2094.1</td>\n",
+       "  <th>Time:</th>                 <td>14:04:39</td>     <th>  Log-Likelihood:    </th> <td> -2094.1</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>No. Observations:</th>      <td>   348</td>      <th>  AIC:               </th> <td>   4196.</td>\n",
@@ -639,8 +639,8 @@
        "Dep. Variable:           violent_rate   R-squared:                       0.221\n",
        "Model:                            OLS   Adj. R-squared:                  0.214\n",
        "Method:                 Least Squares   F-statistic:                     11.00\n",
-       "Date:                Sun, 12 Mar 2023   Prob (F-statistic):           8.45e-06\n",
-       "Time:                        14:57:47   Log-Likelihood:                -2094.1\n",
+       "Date:                Mon, 06 Mar 2023   Prob (F-statistic):           8.45e-06\n",
+       "Time:                        14:04:39   Log-Likelihood:                -2094.1\n",
        "No. Observations:                 348   AIC:                             4196.\n",
        "Df Residuals:                     344   BIC:                             4212.\n",
        "Df Model:                           3                                         \n",
@@ -673,7 +673,7 @@
     "import statsmodels.formula.api as smf\n",
     "\n",
     "m = smf.ols(\"violent_rate ~ post_2010 * treated\", arrests_sub).fit()\n",
-    "m.get_robustcov_results(cov_type=\"cluster\", groups=arrests_sub.COUNTY).summary()\n"
+    "m.get_robustcov_results(cov_type=\"cluster\", groups=arrests_sub.COUNTY).summary()"
    ]
   },
   {
@@ -712,13 +712,13 @@
      "data": {
       "text/html": [
        "\n",
-       "<div id=\"altair-viz-baa28b5ad19d4e94a99db8cb57338689\"></div>\n",
+       "<div id=\"altair-viz-185900feb344489dab44faf38c511a02\"></div>\n",
        "<script type=\"text/javascript\">\n",
        "  var VEGA_DEBUG = (typeof VEGA_DEBUG == \"undefined\") ? {} : VEGA_DEBUG;\n",
        "  (function(spec, embedOpt){\n",
        "    let outputDiv = document.currentScript.previousElementSibling;\n",
-       "    if (outputDiv.id !== \"altair-viz-baa28b5ad19d4e94a99db8cb57338689\") {\n",
-       "      outputDiv = document.getElementById(\"altair-viz-baa28b5ad19d4e94a99db8cb57338689\");\n",
+       "    if (outputDiv.id !== \"altair-viz-185900feb344489dab44faf38c511a02\") {\n",
+       "      outputDiv = document.getElementById(\"altair-viz-185900feb344489dab44faf38c511a02\");\n",
        "    }\n",
        "    const paths = {\n",
        "      \"vega\": \"https://cdn.jsdelivr.net/npm//vega@5?noext\",\n",
@@ -764,7 +764,7 @@
        "        .catch(showError)\n",
        "        .then(() => displayChart(vegaEmbed));\n",
        "    }\n",
-       "  })({\"config\": {\"view\": {\"continuousWidth\": 400, \"continuousHeight\": 300}}, \"data\": {\"url\": \"http://localhost:63137/1e82e4581f044a6c0550835669830573.json\"}, \"mark\": \"point\", \"encoding\": {\"color\": {\"field\": \"treated\", \"type\": \"nominal\"}, \"x\": {\"field\": \"YEAR\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}, \"y\": {\"field\": \"violent_rate\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}, \"$schema\": \"https://vega.github.io/schema/vega-lite/v4.17.0.json\"}, {\"mode\": \"vega-lite\"});\n",
+       "  })({\"config\": {\"view\": {\"continuousWidth\": 400, \"continuousHeight\": 300}}, \"data\": {\"url\": \"http://localhost:62182/1e82e4581f044a6c0550835669830573.json\"}, \"mark\": \"point\", \"encoding\": {\"color\": {\"field\": \"treated\", \"type\": \"nominal\"}, \"x\": {\"field\": \"YEAR\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}, \"y\": {\"field\": \"violent_rate\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}, \"$schema\": \"https://vega.github.io/schema/vega-lite/v4.17.0.json\"}, {\"mode\": \"vega-lite\"});\n",
        "</script>"
       ],
       "text/plain": [
@@ -802,13 +802,13 @@
      "data": {
       "text/html": [
        "\n",
-       "<div id=\"altair-viz-3d953ffbdd9440c59e5c9c01a2474715\"></div>\n",
+       "<div id=\"altair-viz-c369fc7406c54bb7bf4cb1ae36ddadfe\"></div>\n",
        "<script type=\"text/javascript\">\n",
        "  var VEGA_DEBUG = (typeof VEGA_DEBUG == \"undefined\") ? {} : VEGA_DEBUG;\n",
        "  (function(spec, embedOpt){\n",
        "    let outputDiv = document.currentScript.previousElementSibling;\n",
-       "    if (outputDiv.id !== \"altair-viz-3d953ffbdd9440c59e5c9c01a2474715\") {\n",
-       "      outputDiv = document.getElementById(\"altair-viz-3d953ffbdd9440c59e5c9c01a2474715\");\n",
+       "    if (outputDiv.id !== \"altair-viz-c369fc7406c54bb7bf4cb1ae36ddadfe\") {\n",
+       "      outputDiv = document.getElementById(\"altair-viz-c369fc7406c54bb7bf4cb1ae36ddadfe\");\n",
        "    }\n",
        "    const paths = {\n",
        "      \"vega\": \"https://cdn.jsdelivr.net/npm//vega@5?noext\",\n",
@@ -854,7 +854,7 @@
        "        .catch(showError)\n",
        "        .then(() => displayChart(vegaEmbed));\n",
        "    }\n",
-       "  })({\"config\": {\"view\": {\"continuousWidth\": 400, \"continuousHeight\": 300}}, \"layer\": [{\"data\": {\"url\": \"http://localhost:63137/4a5ed51513d647e2e27d8814836ed87d.json\"}, \"mark\": {\"type\": \"line\", \"color\": \"lightblue\"}, \"encoding\": {\"x\": {\"field\": \"YEAR\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}, \"y\": {\"field\": \"violent_rate\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}, \"transform\": [{\"on\": \"YEAR\", \"regression\": \"violent_rate\"}]}, {\"data\": {\"url\": \"http://localhost:63137/18bb5a69222cf20b71ce422f17741d27.json\"}, \"mark\": {\"type\": \"line\", \"color\": \"lightblue\"}, \"encoding\": {\"x\": {\"field\": \"YEAR\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}, \"y\": {\"field\": \"violent_rate\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}, \"transform\": [{\"on\": \"YEAR\", \"regression\": \"violent_rate\"}]}, {\"data\": {\"url\": \"http://localhost:63137/117af43bf268d464e45845294578bf6b.json\"}, \"mark\": {\"type\": \"line\", \"color\": \"orange\"}, \"encoding\": {\"x\": {\"field\": \"YEAR\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}, \"y\": {\"field\": \"violent_rate\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}, \"transform\": [{\"on\": \"YEAR\", \"regression\": \"violent_rate\"}]}, {\"data\": {\"url\": \"http://localhost:63137/27e0975219185b6584716a7f0321fcb7.json\"}, \"mark\": {\"type\": \"line\", \"color\": \"orange\"}, \"encoding\": {\"x\": {\"field\": \"YEAR\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}, \"y\": {\"field\": \"violent_rate\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}, \"transform\": [{\"on\": \"YEAR\", \"regression\": \"violent_rate\"}]}, {\"data\": {\"url\": \"http://localhost:63137/1e82e4581f044a6c0550835669830573.json\"}, \"mark\": \"point\", \"encoding\": {\"color\": {\"field\": \"treated\", \"type\": \"nominal\"}, \"x\": {\"field\": \"YEAR\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}, \"y\": {\"field\": \"violent_rate\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}}], \"$schema\": \"https://vega.github.io/schema/vega-lite/v4.17.0.json\"}, {\"mode\": \"vega-lite\"});\n",
+       "  })({\"config\": {\"view\": {\"continuousWidth\": 400, \"continuousHeight\": 300}}, \"layer\": [{\"data\": {\"url\": \"http://localhost:62182/4a5ed51513d647e2e27d8814836ed87d.json\"}, \"mark\": {\"type\": \"line\", \"color\": \"lightblue\"}, \"encoding\": {\"x\": {\"field\": \"YEAR\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}, \"y\": {\"field\": \"violent_rate\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}, \"transform\": [{\"on\": \"YEAR\", \"regression\": \"violent_rate\"}]}, {\"data\": {\"url\": \"http://localhost:62182/18bb5a69222cf20b71ce422f17741d27.json\"}, \"mark\": {\"type\": \"line\", \"color\": \"lightblue\"}, \"encoding\": {\"x\": {\"field\": \"YEAR\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}, \"y\": {\"field\": \"violent_rate\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}, \"transform\": [{\"on\": \"YEAR\", \"regression\": \"violent_rate\"}]}, {\"data\": {\"url\": \"http://localhost:62182/117af43bf268d464e45845294578bf6b.json\"}, \"mark\": {\"type\": \"line\", \"color\": \"orange\"}, \"encoding\": {\"x\": {\"field\": \"YEAR\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}, \"y\": {\"field\": \"violent_rate\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}, \"transform\": [{\"on\": \"YEAR\", \"regression\": \"violent_rate\"}]}, {\"data\": {\"url\": \"http://localhost:62182/27e0975219185b6584716a7f0321fcb7.json\"}, \"mark\": {\"type\": \"line\", \"color\": \"orange\"}, \"encoding\": {\"x\": {\"field\": \"YEAR\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}, \"y\": {\"field\": \"violent_rate\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}, \"transform\": [{\"on\": \"YEAR\", \"regression\": \"violent_rate\"}]}, {\"data\": {\"url\": \"http://localhost:62182/1e82e4581f044a6c0550835669830573.json\"}, \"mark\": \"point\", \"encoding\": {\"color\": {\"field\": \"treated\", \"type\": \"nominal\"}, \"x\": {\"field\": \"YEAR\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}, \"y\": {\"field\": \"violent_rate\", \"scale\": {\"zero\": false}, \"type\": \"quantitative\"}}}], \"$schema\": \"https://vega.github.io/schema/vega-lite/v4.17.0.json\"}, {\"mode\": \"vega-lite\"});\n",
        "</script>"
       ],
       "text/plain": [
@@ -937,7 +937,7 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "/var/folders/fs/h_8_rwsn5hvg9mhp0txgc_s9v6191b/T/ipykernel_84356/3310218310.py:1: AbsorbingEffectWarning: \n",
+      "/var/folders/fs/h_8_rwsn5hvg9mhp0txgc_s9v6191b/T/ipykernel_96849/3310218310.py:1: AbsorbingEffectWarning: \n",
       "Variables have been fully absorbed and have removed from the regression:\n",
       "\n",
       "post_2010, treated\n",
@@ -960,10 +960,10 @@
        "  <th>No. Observations:</th>        <td>348</td>       <th>  R-squared (Within):</th>    <td>0.0155</td> \n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Date:</th>             <td>Sun, Mar 12 2023</td> <th>  R-squared (Overall):</th>   <td>-0.0104</td>\n",
+       "  <th>Date:</th>             <td>Mon, Mar 06 2023</td> <th>  R-squared (Overall):</th>   <td>-0.0104</td>\n",
        "</tr>\n",
        "<tr>\n",
-       "  <th>Time:</th>                 <td>14:57:47</td>     <th>  Log-likelihood     </th>    <td>-1858.7</td>\n",
+       "  <th>Time:</th>                 <td>14:04:40</td>     <th>  Log-likelihood     </th>    <td>-1858.7</td>\n",
        "</tr>\n",
        "<tr>\n",
        "  <th>Cov. Estimator:</th>       <td>Clustered</td>    <th>                     </th>       <td></td>    \n",
@@ -1020,8 +1020,8 @@
        "Dep. Variable:           violent_rate   R-squared:                        0.0013\n",
        "Estimator:                   PanelOLS   R-squared (Between):             -0.0109\n",
        "No. Observations:                 348   R-squared (Within):               0.0155\n",
-       "Date:                Sun, Mar 12 2023   R-squared (Overall):             -0.0104\n",
-       "Time:                        14:57:47   Log-likelihood                   -1858.7\n",
+       "Date:                Mon, Mar 06 2023   R-squared (Overall):             -0.0104\n",
+       "Time:                        14:04:40   Log-likelihood                   -1858.7\n",
        "Cov. Estimator:             Clustered                                           \n",
        "                                        F-statistic:                      0.3829\n",
        "Entities:                          58   P-value                           0.5366\n",
@@ -1060,7 +1060,7 @@
     "    data=arrests_for_panelols,\n",
     "    drop_absorbed=True,\n",
     ").fit(cov_type=\"clustered\", cluster_entity=True, cluster_time=True)\n",
-    "mod.summary\n"
+    "mod.summary"
    ]
   },
   {
@@ -1095,7 +1095,7 @@
    "source": [
     "# With longer data:\n",
     "arrests_for_panelols = arrests_long.set_index([\"COUNTY\", \"YEAR\"])\n",
-    "arrests_long.YEAR.value_counts()\n"
+    "arrests_long.YEAR.value_counts()"
    ]
   },
   {
@@ -1112,8 +1112,8 @@
       "Dep. Variable:           violent_rate   R-squared:                        0.0097\n",
       "Estimator:                   PanelOLS   R-squared (Between):             -0.0168\n",
       "No. Observations:                 754   R-squared (Within):               0.0588\n",
-      "Date:                Sun, Mar 12 2023   R-squared (Overall):             -0.0150\n",
-      "Time:                        14:57:48   Log-likelihood                   -4108.4\n",
+      "Date:                Mon, Mar 06 2023   R-squared (Overall):             -0.0150\n",
+      "Time:                        14:04:40   Log-likelihood                   -4108.4\n",
       "Cov. Estimator:             Clustered                                           \n",
       "                                        F-statistic:                      6.6568\n",
       "Entities:                          58   P-value                           0.0101\n",
@@ -1144,7 +1144,7 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "/var/folders/fs/h_8_rwsn5hvg9mhp0txgc_s9v6191b/T/ipykernel_84356/3654453326.py:7: AbsorbingEffectWarning: \n",
+      "/var/folders/fs/h_8_rwsn5hvg9mhp0txgc_s9v6191b/T/ipykernel_96849/3654453326.py:7: AbsorbingEffectWarning: \n",
       "Variables have been fully absorbed and have removed from the regression:\n",
       "\n",
       "post_2010, treated\n",
@@ -1160,7 +1160,7 @@
     "    data=arrests_for_panelols,\n",
     "    drop_absorbed=True,\n",
     ")\n",
-    "print(mod.fit(cov_type=\"clustered\", cluster_entity=True, cluster_time=True))\n"
+    "print(mod.fit(cov_type=\"clustered\", cluster_entity=True, cluster_time=True))"
    ]
   }
  ],

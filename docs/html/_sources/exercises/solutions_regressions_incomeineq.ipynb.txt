@@ -35,7 +35,7 @@
     "cps = pd.read_stata(\n",
     "    \"https://github.com/nickeubank/MIDS_Data/\"\n",
     "    \"blob/master/Current_Population_Survey/morg18.dta?raw=true\"\n",
-    ")\n"
+    ")"
    ]
   },
   {
@@ -279,7 +279,7 @@
    "source": [
     "cps = cps[cps.lfsr94 == \"Employed-At Work\"]\n",
     "cps = cps[cps.uhourse >= 35]\n",
-    "cps.head()\n"
+    "cps.head()"
    ]
   },
   {
@@ -306,7 +306,7 @@
     "cps[\"implied_hourly_wages\"] = cps[\"earnwke\"] / cps[\"uhourse\"]\n",
     "mean_female = cps[cps.female == 1].earnwke.mean()\n",
     "mean_male = cps[cps.female == 0].earnwke.mean()\n",
-    "avg = cps.earnwke.mean()\n"
+    "avg = cps.earnwke.mean()"
    ]
   },
   {
@@ -329,7 +329,7 @@
     "print(f\"avg weekly wage for women is {mean_female:.2f}\")\n",
     "print(f\"avg weekly wage for men is {mean_male:.2f}\")\n",
     "print(f\"weekly gender wage gap is {mean_male - mean_female:.2f} dollars,\")\n",
-    "print(f\"a difference of {(mean_male - mean_female)/avg:.1%}\")\n"
+    "print(f\"a difference of {(mean_male - mean_female)/avg:.1%}\")"
    ]
   },
   {
@@ -370,7 +370,7 @@
     "cps[\"annual_earnings\"] = cps[\"earnwke\"] * 48\n",
     "mean_female = cps[cps.female == 1].annual_earnings.mean()\n",
     "mean_male = cps[cps.female == 0].annual_earnings.mean()\n",
-    "avg = cps.annual_earnings.mean()\n"
+    "avg = cps.annual_earnings.mean()"
    ]
   },
   {
@@ -393,7 +393,7 @@
     "print(f\"On average men who work full time earn {mean_male:,.2f} dollars a year\")\n",
     "print(f\"On average women who work full time earn {mean_female:,.2f} dollars a year\")\n",
     "print(f\"annual gender wage gap is {mean_male - mean_female:,.2f} dollars,\")\n",
-    "print(f\"a difference of {(mean_male - mean_female) / avg:.2%}\")\n"
+    "print(f\"a difference of {(mean_male - mean_female) / avg:.2%}\")"
    ]
   },
   {
@@ -417,7 +417,7 @@
     "\n",
     "# This doesn't work if, for example, men have higher educations,\n",
     "# or if the men in the sample are older (and thus have more work)\n",
-    "# experience.\n"
+    "# experience."
    ]
   },
   {
@@ -699,8 +699,10 @@
    "source": [
     "cps[\"has_highschool\"] = cps.grade92 >= 39\n",
     "cps[\"has_ba\"] = cps.grade92 >= 43\n",
-    "m_educ = smf.ols(\"annual_earnings ~ female + age + age_squared + has_highschool + has_ba\", cps).fit()\n",
-    "m_educ.summary()\n"
+    "m_educ = smf.ols(\n",
+    "    \"annual_earnings ~ female + age + age_squared + has_highschool + has_ba\", cps\n",
+    ").fit()\n",
+    "m_educ.summary()"
    ]
   },
   {
@@ -740,7 +742,7 @@
     "# if controlling for education results in the female penalty increasing,\n",
     "# that implies that women have higher educations.\n",
     "# As a result, if we *don't* control for education,\n",
-    "# their wages look more fair than they should be.\n"
+    "# their wages look more fair than they should be."
    ]
   },
   {
@@ -760,7 +762,7 @@
    "source": [
     "# They were substantially different!\n",
     "# In particular, looks like women in the work force had greater educational\n",
-    "# levels, and so had higher wages in all states of the world.\n"
+    "# levels, and so had higher wages in all states of the world."
    ]
   },
   {
@@ -1937,9 +1939,10 @@
    ],
    "source": [
     "m_industry = smf.ols(\n",
-    "    \"annual_earnings ~ female + age + age_squared + has_highschool + has_ba + C(ind02)\", cps\n",
+    "    \"annual_earnings ~ female + age + age_squared + has_highschool + has_ba + C(ind02)\",\n",
+    "    cps,\n",
     ").fit()\n",
-    "m_industry.summary()\n"
+    "m_industry.summary()"
    ]
   },
   {
@@ -1958,7 +1961,7 @@
    "outputs": [],
    "source": [
     "# Men and women of the same age and education\n",
-    "# WITHIN THE SAME INDUSTRY\n"
+    "# WITHIN THE SAME INDUSTRY"
    ]
   },
   {
@@ -1998,7 +2001,7 @@
     "          {m_industry.params['female'] - m_educ.params['female']:.2f} dollars. \n",
     "          So about {np.abs((m_industry.params['female'] - m_educ.params['female'])/m_educ.params['female']):.1%}\n",
     "          of gender wage inequality is due to industry sorting.\"\"\"\n",
-    ")\n"
+    ")"
    ]
   },
   {
